@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -21,8 +24,10 @@ const double _dragStep = 16;
 ///
 /// Each segment is a tab stop. Digits type into it and move on once it is
 /// complete; an impossible digit is ignored, so typing 2 then 5 in a
-/// 24-hour hour keeps 02. Up and Down step with wrapping, Left and Right
-/// move between segments, Backspace and Delete clear one, A and P set the
+/// 24-hour hour keeps 02. Arabic-Indic and Persian digits type as 0 to 9 in
+/// every locale. The paste shortcut takes a whole time, such as `09:30`, or
+/// types the pasted characters from the focused segment. Up and Down step
+/// with wrapping, Left and Right move between segments, Backspace and Delete clear one, A and P set the
 /// period, a tap on the period toggles it, and a vertical drag on a
 /// segment steps it. Escape puts back the last finished value and is
 /// consumed only when it undid something, so an enclosing dialog still
@@ -296,6 +301,20 @@ class _TimeFieldState extends State<TimeField>
     return result.handled ? KeyEventResult.handled : KeyEventResult.ignored;
   }
 
+  Future<void> _paste() async {
+    final segment = _nodes.entries
+        .where((entry) => entry.value.hasFocus)
+        .firstOrNull
+        ?.key;
+    if (segment == null) return;
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final text = data?.text;
+    if (!mounted || !widget.enabled || text == null) return;
+    TimeSegment? next;
+    _run((editor) => next = editor.paste(segment, text));
+    if (next case final next?) _node(next).requestFocus();
+  }
+
   void _focusChanged(bool focused) {
     setState(() => _focused = focused);
     // Moving between segments is editing; focus leaving the field ends it.
@@ -367,22 +386,34 @@ class _TimeFieldState extends State<TimeField>
             required: widget.required,
             enabled: widget.enabled,
             explicitChildNodes: true,
-            child: Focus(
-              canRequestFocus: false,
-              skipTraversal: true,
-              onFocusChange: _focusChanged,
-              child: FieldBox(
-                enabled: widget.enabled,
-                invalid: invalid,
-                focused: _focused,
-                child: Directionality(
-                  // Times read left to right in every script.
-                  textDirection: TextDirection.ltr,
-                  // A narrow column at a large text scale wraps the
-                  // segments rather than cutting them off.
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: row,
+            // The segments are no text inputs, so the field maps the paste
+            // shortcut itself, inside an app or out of one.
+            child: Shortcuts(
+              shortcuts: _pasteShortcuts,
+              child: Actions(
+                actions: {
+                  PasteTextIntent: CallbackAction<PasteTextIntent>(
+                    onInvoke: (_) => unawaited(_paste()),
+                  ),
+                },
+                child: Focus(
+                  canRequestFocus: false,
+                  skipTraversal: true,
+                  onFocusChange: _focusChanged,
+                  child: FieldBox(
+                    enabled: widget.enabled,
+                    invalid: invalid,
+                    focused: _focused,
+                    child: Directionality(
+                      // Times read left to right in every script.
+                      textDirection: TextDirection.ltr,
+                      // A narrow column at a large text scale wraps the
+                      // segments rather than cutting them off.
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: row,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -504,4 +535,15 @@ class _TimeFieldState extends State<TimeField>
       ),
     );
   }
+}
+
+/// The platform's paste shortcut.
+Map<ShortcutActivator, Intent> get _pasteShortcuts {
+  final apple =
+      defaultTargetPlatform == TargetPlatform.macOS ||
+      defaultTargetPlatform == TargetPlatform.iOS;
+  return {
+    SingleActivator(LogicalKeyboardKey.keyV, meta: apple, control: !apple):
+        const PasteTextIntent(SelectionChangedCause.keyboard),
+  };
 }

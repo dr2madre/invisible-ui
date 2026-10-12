@@ -49,6 +49,8 @@ sequences also answer the shared vectors in
 | --- | --- | --- |
 | Digits type; a complete segment moves on; an impossible digit is ignored, focus stays | matched | `digits type with auto-advance; an impossible digit is ignored; each change reports once`; the key sequence vectors |
 | A lone 0 in a 12-hour hour waits for a second digit | matched | the key sequence vectors |
+| Arabic-Indic and Persian digits type as 0 to 9 in every locale; the value is an ASCII time | adapted | the core takes only `\d`, so the web ignores them: `Arabic-Indic and Persian digits, and paste typed Arabic-Indic and Persian digits fill the segments and report an ASCII time, ltr` and `, rtl` |
+| The paste shortcut on a segment takes a whole `HH:mm` or `HH:mm:ss` time in any digits, or types the pasted characters from that segment | adapted | the web segments take a paste through `beforeinput`, one digit at a time; Flutter segments are no text inputs, so the field maps the platform paste shortcut itself (Control+V, Command+V on Apple platforms): `the paste shortcut takes a whole time in any digits`, `on Apple platforms the paste shortcut uses Command`, `a pasted 24-hour time sets the period of a 12-hour field`, `other pasted text types from the focused segment`, `a disabled field ignores the paste shortcut`, `the editor reads a whole time or types the characters` |
 | Up and Down step with wrapping; Left and Right move between segments; Backspace and Delete clear | matched | `Up and Down step with wrapping; Left and Right move; Backspace clears and reports null` |
 | A and P set the period; a tap on the period toggles it | matched | `12 hours from the locale: …` |
 | Escape puts back the last finished value, consumed only when it undid something | matched | `Escape puts back the last finished value and is consumed only when it undid something` |
@@ -75,7 +77,7 @@ sequences also answer the shared vectors in
 | An empty segment reads the catalog's `timeField.empty` | matched | `an empty segment reads as empty` |
 | Separators are decorative | matched | excluded from semantics |
 | Labeled targets and contrast | matched | `a named group of segments, …` |
-| Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+| Screen reader output on macOS, Windows, Linux | not yet verified | Assistive technology: not tested; a manual session, none is recorded |
 
 ## Look and layout
 

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
+import 'package:invisible_ui/src/internal/glyphs.dart';
 
 import 'harness.dart';
 
@@ -25,6 +26,7 @@ Widget _price({
   ValueChanged<(double, double)>? onChanged,
   ValueChanged<(double, double)>? onChangeEnd,
   bool enabled = true,
+  String? error,
 }) => RangeSlider.uncontrolled(
   label: 'Price',
   thumbLabels: ('Minimum price', 'Maximum price'),
@@ -34,6 +36,7 @@ Widget _price({
   onChanged: onChanged,
   onChangeEnd: onChangeEnd,
   enabled: enabled,
+  error: error,
 );
 
 void main() {
@@ -262,5 +265,92 @@ void main() {
     await tester.pump();
     expect(find.text('20 – 80'), findsOneWidget);
     expect(changes, [(0, 80)]);
+  });
+
+  group('error', () {
+    testWidgets('a validator message shows with the hazard glyph, marks both '
+        'thumbs invalid and is announced; a form reset clears it and '
+        'restores the default pair without a report', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final form = GlobalKey<FormState>();
+      final changes = <(double, double)>[];
+      const message = 'Choose a range of at least 50';
+      await tester.pumpWidget(
+        harness(
+          Form(
+            key: form,
+            child: RangeSlider.uncontrolled(
+              label: 'Price',
+              thumbLabels: const ('Minimum', 'Maximum'),
+              initialValue: (20, 80),
+              onChanged: changes.add,
+              validator: (v) => v!.$2 - v.$1 < 50 ? message : null,
+            ),
+          ),
+        ),
+      );
+      await focusOn(tester, _thumbs.last);
+      await tester.sendKeyEvent(LogicalKeyboardKey.home);
+      await tester.pump();
+      expect(form.currentState!.validate(), isFalse);
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsOneWidget);
+      for (final (index, name) in [(0, 'Minimum'), (1, 'Maximum')]) {
+        expect(
+          tester.getSemantics(_thumbs.at(index)),
+          semanticsWith(
+            label: name,
+            hint: message,
+            isSlider: true,
+            validationResult: SemanticsValidationResult.invalid,
+          ),
+        );
+      }
+      expect(
+        tester.getSemantics(find.bySemanticsLabel(message)),
+        semanticsWith(label: message, isLiveRegion: true),
+      );
+
+      form.currentState!.reset();
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsNothing);
+      expect(
+        tester.getSemantics(_thumbs.first),
+        semanticsWith(label: 'Minimum', isSlider: true),
+      );
+      expect(changes, [(20, 20)], reason: 'the reset reports nothing');
+      expect(form.currentState!.validate(), isTrue, reason: 'back to 20-80');
+      semantics.dispose();
+    });
+
+    for (final direction in TextDirection.values) {
+      testWidgets('an error keeps both thumbs operable at text scale 2.0 in '
+          'a narrow column, ${direction.name}', (tester) async {
+        final semantics = tester.ensureSemantics();
+        final changes = <(double, double)>[];
+        await tester.pumpWidget(
+          harness(
+            SizedBox(
+              width: 180,
+              child: _price(
+                onChanged: changes.add,
+                error: 'The range is too narrow',
+              ),
+            ),
+            direction: direction,
+            textScale: 2,
+          ),
+        );
+        expect(tester.takeException(), isNull);
+        expect(find.byType(HazardGlyph), findsOneWidget);
+        await focusOn(tester, _thumbs.first);
+        await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+        await tester.pump();
+        expect(changes, [direction == TextDirection.ltr ? (21, 80) : (19, 80)]);
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(targetGuideline24));
+        semantics.dispose();
+      });
+    }
   });
 }

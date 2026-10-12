@@ -30,6 +30,7 @@ handler.
 | `enabled: false` | `disabled` | `disabled` |
 | `length`, `invalid`, `success`, `label` | the same names | as on the web |
 | `autofocus`, `onSaved` | none | the first cell's focus; the form saver |
+| `error`, `validator`, `autovalidateMode` | none | the error message and the form validator every Flutter value control carries |
 | `name` | `name` | out of scope: Flutter forms submit no strings |
 
 ## Value and callbacks (ADR 0011)
@@ -41,8 +42,9 @@ handler.
 | A typed character replaces the cell's character | matched | `a typed character replaces the one in the cell`: the web selects the cell on focus and holds one character |
 | Backspace clears the cell, or the previous one when empty, moving there | matched | `Backspace clears the cell, then the previous one, moving back; arrows, Home and End move; mirrored right to left` |
 | Arrows move between cells; Home and End to the ends | matched | same test |
-| Right to left mirrors the arrows | adapted | the web's arrows keep their physical direction while the cells follow `dir`, so the left arrow moves right there; ADR 0017 has arrows follow `Directionality`: same test |
+| Right to left mirrors the arrows | adapted | the web's arrows keep their physical direction while the cells follow `dir`, so the left arrow moves right there; the arrows follow the reading direction (`Directionality`): same test, left moves forward and right moves back in RTL |
 | A paste spreads over the cells from the focused one, keeping allowed characters | matched | `a pasted or autofilled code spreads over the cells from the focused one`: the keyboard paste reads the clipboard; a code typed or filled in at once spreads the same way |
+| Arabic-Indic (U+0660 to U+0669) and Persian (U+06F0 to U+06F9) digits are taken in every locale, typed or pasted, and land in the cell as ASCII; the code reported is ASCII | adapted | the shared vector `sanitize` refuses `٣`, and Flutter keeps that rule for the raw character; the widget folds the digits before the rule, so the cell shows the code that is reported: `Arabic-Indic and Persian digits typed, they land in the cells as ASCII and report ASCII, ltr` and `, rtl`; `a typed digit replaces the one in the cell`; `pasted with the paste shortcut or filled in by the platform, they spread as ASCII`; `alphanumeric cells take them as ASCII too` |
 | Reflection never reports | matched | `controlled: a changed value is shown, never reported` |
 | Disabled: no focus, no input | matched | `disabled: no focus and no input` |
 | The code is never logged | matched | no log or diagnostics write it; obscured cells keep it out of semantics |
@@ -57,7 +59,7 @@ handler.
 | `inputmode="numeric"` | matched | a number keyboard for `numeric`, text otherwise |
 | `aria-invalid` with `invalid` | matched | same test: each cell's validation result |
 | `type="password"` with `mask` | matched | same test: obscured |
-| Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+| Screen reader output on macOS, Windows, Linux | not yet verified | Assistive technology: not tested; a manual session, none is recorded |
 
 ## Look, motion and focus
 
@@ -67,6 +69,19 @@ handler.
 | Focus: focus-colour border and ring | matched | `_Cell` |
 | Invalid: danger borders and ring; success: success borders and ring | matched | `_Cell`; `invalid` wins, as on the web |
 | Disabled cells dimmed | matched | opacity 0.5 |
+
+## Error message (Flutter)
+
+The web control has no error message of its own; the Flutter control has
+one, as the other Flutter value controls do (`error`, `validator` and
+`autovalidateMode` through `FormField`).
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| `error` or the validator's message shows under the cells after the hazard glyph, so the state never relies on the danger border alone | adapted | `error a validator message shows with the hazard glyph, marks the group and every cell invalid and is announced; a form reset clears it and restores the default without a report` |
+| The group reads the message with its name and every cell is invalid; the message is a live region, so a new one is announced | adapted | same test. Assistive technology: not tested |
+| A form reset clears the validator's message and restores the current default without a report | adapted | same test |
+| With an error at text scale 2.0 in a narrow column, LTR and RTL, the cells wrap, the message follows them, and targets stay 44 | adapted | `error an error at text scale 2.0 in a narrow column, ltr: the cells wrap and keep 44 targets` and `rtl` |
 
 ## Form reset (ADR 0012)
 

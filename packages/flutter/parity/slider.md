@@ -30,6 +30,7 @@ shared vectors in `core/src/slider/__vectors__`, read by
 | `min`, `max`, `step`, `orientation`, `showValue`, `showRange`, `ticks`, `format`, `icon` | the same names | as on the web |
 | `locale` | none | the digits of the default value text |
 | `onSaved` | none | the form saver every Flutter value control carries |
+| `error`, `validator`, `autovalidateMode` | none | the error message and the form validator every Flutter value control carries |
 | `name` | `name` | out of scope: Flutter forms submit no strings |
 
 The name collides with Material's `Slider`: an app importing both hides one
@@ -59,7 +60,7 @@ or imports this package with a prefix.
 | The value is read as a number | adapted | Flutter semantics carry text, so the value is `format`'s text, or the number in the locale's digits: `the value text follows the locale digits without format` |
 | `aria-orientation` | adapted | Flutter semantics have no orientation; the keys work in both |
 | The shown value, the range and the ticks are hidden from assistive technology | matched | the value is the slider's own; they are excluded from semantics |
-| Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+| Screen reader output on macOS, Windows, Linux | not yet verified | Assistive technology: not tested; a manual session, none is recorded |
 
 ## Look, motion and focus
 
@@ -70,6 +71,20 @@ or imports this package with a prefix.
 | Ticks sit at a share of the input's width | adapted | the native thumb travels inset half a thumb, so web ticks drift from the thumb near the ends; Flutter places them on the thumb centres |
 | Focus ring around the thumb on keyboard focus | matched | `the focus ring shows around the thumb on keyboard focus` |
 | Forced colours borders | adapted | Flutter has no forced colours mode; under high contrast the focus ring is drawn alone, as for every control |
+
+## Error message (Flutter)
+
+The web control has no error message of its own; the Flutter control has
+one, as the other Flutter value controls do (`error`, `validator` and
+`autovalidateMode` through `FormField`).
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| `error` or the validator's message shows under the track after the hazard glyph, so the state never relies on colour | adapted | `error a validator message shows with the hazard glyph, is read after the value and announced; a form reset clears it and restores the default without a report` |
+| The slider node is invalid and reads the message after its value; the message is a live region, so a new one is announced | adapted | same test. Assistive technology: not tested |
+| A form reset clears the validator's message and restores the current default without a report | adapted | same test |
+| The slider stays operable with an error at text scale 2.0 in a narrow column, LTR and RTL; targets meet the guidelines | adapted | `error an error keeps the slider operable at text scale 2.0 in a narrow column, ltr` and `, rtl` |
+| A vertical slider in an open width shows its error | adapted | `error a vertical slider in an open width shows its error` |
 
 ## Form reset (ADR 0012)
 

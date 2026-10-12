@@ -786,4 +786,122 @@ void main() {
       expect(tester.getSize(_field).width, 280);
     });
   });
+
+  group('digits and grouping', () {
+    void mockClipboard(WidgetTester tester, String text) {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        (call) async => call.method == 'Clipboard.getData'
+            ? <String, dynamic>{'text': text}
+            : null,
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          SystemChannels.platform,
+          null,
+        ),
+      );
+    }
+
+    Future<void> paste(WidgetTester tester, String text) async {
+      mockClipboard(tester, text);
+      await focusEditable(tester, _field);
+      // The text's own paste action, as the platform shortcut reaches it.
+      Actions.invoke(
+        primaryFocus!.context!,
+        const PasteTextIntent(SelectionChangedCause.keyboard),
+      );
+      await tester.pump();
+      await tester.pump();
+    }
+
+    for (final direction in TextDirection.values) {
+      testWidgets('Arabic-Indic and Persian digits type in an English field '
+          'and report the number, ${direction.name}', (tester) async {
+        final reports = _Reports();
+        await tester.pumpWidget(
+          harness(
+            _uncontrolled(reports, step: 0.5, locale: const Locale('en')),
+            direction: direction,
+          ),
+        );
+        await tester.enterText(_editable, '١٢.٥');
+        await tester.pump();
+        expect(reports.changes, [12.5]);
+        await tester.enterText(_editable, '۴۲');
+        await tester.pump();
+        expect(reports.changes, [12.5, 42]);
+        await _blur(tester);
+        expect(reports.commits, [42]);
+        expect(_shown(tester), '42', reason: 'the commit shows locale digits');
+      });
+    }
+
+    testWidgets('pasted Arabic-Indic digits are read in any locale', (
+      tester,
+    ) async {
+      final reports = _Reports();
+      await tester.pumpWidget(
+        harness(_uncontrolled(reports, locale: const Locale('it', 'IT'))),
+      );
+      await paste(tester, '١٢٣٤');
+      expect(reports.changes, [1234]);
+      await _blur(tester);
+      expect(_shown(tester), '1234');
+    });
+
+    testWidgets('de-CH: a pasted straight apostrophe groups, the display '
+        'uses the typographic one', (tester) async {
+      final reports = _Reports();
+      await tester.pumpWidget(
+        harness(
+          _uncontrolled(reports, step: 0.5, locale: const Locale('de', 'CH')),
+        ),
+      );
+      await paste(tester, "1'234.5");
+      expect(reports.changes, [1234.5]);
+      await _blur(tester);
+      expect(_shown(tester), '1’234.5');
+      await tester.enterText(_editable, '12’345');
+      await tester.pump();
+      expect(reports.changes, [1234.5, 12345]);
+      await tester.enterText(_editable, "1'234,5");
+      await tester.pump();
+      expect(_state(tester).validationError, NumberFieldError.parse);
+    });
+
+    testWidgets('an apostrophe is refused where the locale groups otherwise', (
+      tester,
+    ) async {
+      final reports = _Reports();
+      await tester.pumpWidget(harness(_uncontrolled(reports)));
+      await tester.enterText(_editable, "1'234");
+      await tester.pump();
+      expect(_state(tester).validationError, NumberFieldError.parse);
+      expect(find.text('Enter a number.'), findsOneWidget);
+    });
+
+    testWidgets('text scale 2.0, right to left: the field meets the target '
+        'guidelines while it reads Arabic-Indic digits', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final reports = _Reports();
+      await tester.pumpWidget(
+        harness(
+          SizedBox(
+            width: 280,
+            child: _uncontrolled(reports, locale: const Locale('ar')),
+          ),
+          direction: TextDirection.rtl,
+          textScale: 2,
+        ),
+      );
+      await tester.enterText(_editable, '٢٠');
+      await tester.pump();
+      expect(reports.changes, [20]);
+      expect(tester.takeException(), isNull);
+      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+      await expectLater(tester, meetsGuideline(targetGuideline24));
+      semantics.dispose();
+    });
+  });
 }

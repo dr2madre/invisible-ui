@@ -31,6 +31,7 @@ and by the core tests.
 | `enabled: false` | `disabled` | `disabled` |
 | `min`, `max`, `step`, `minDistance`, `orientation`, `showValue`, `showRange`, `ticks`, `format`, `icon`, `label` | the same names | as on the web |
 | `locale`, `onSaved` | none | the digits of the default text; the form saver |
+| `error`, `validator`, `autovalidateMode` | none | the error message and the form validator every Flutter value control carries |
 | `name` | `name` | out of scope: Flutter forms submit no strings |
 
 ## Value and callbacks (ADR 0011)
@@ -55,7 +56,7 @@ and by the core tests.
 | `aria-valuemin` and `aria-valuemax` narrowed to the other thumb | adapted | Flutter semantics have no bounds; the value text names the bound, as the web's `aria-valuetext` does |
 | Increment and decrement by a step | matched | same test, the decrease action |
 | The fill and the ticks are hidden from assistive technology | matched | painted only |
-| Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+| Screen reader output on macOS, Windows, Linux | not yet verified | Assistive technology: not tested; a manual session, none is recorded |
 
 ## Look, motion and focus
 
@@ -65,6 +66,19 @@ and by the core tests.
 | Ticks as dots on the track, one per reachable grid point, up to 20 | matched | `sliderTicks(whole: true)` |
 | The raised thumb (z-order) | out of scope | a web hit-testing workaround: Flutter picks the thumb from the press position |
 | Focus ring around the focused thumb | matched | `FocusRingPainter` on each thumb |
+
+## Error message (Flutter)
+
+The web control has no error message of its own; the Flutter control has
+one, as the other Flutter value controls do (`error`, `validator` and
+`autovalidateMode` through `FormField`).
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| `error` or the validator's message shows under the track after the hazard glyph, so the state never relies on colour | adapted | `error a validator message shows with the hazard glyph, marks both thumbs invalid and is announced; a form reset clears it and restores the default pair without a report` |
+| Both thumbs are invalid and read the message after their value; the message is a live region, so a new one is announced | adapted | same test. Assistive technology: not tested |
+| A form reset clears the validator's message and restores the current default pair without a report | adapted | same test |
+| Both thumbs stay operable with an error at text scale 2.0 in a narrow column, LTR and RTL; targets meet the guidelines | adapted | `error an error keeps both thumbs operable at text scale 2.0 in a narrow column, ltr` and `, rtl` |
 
 ## Form reset (ADR 0012)
 

@@ -4,9 +4,11 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../field/field.dart';
 import '../i18n/messages.dart';
 import '../internal/focus_ring.dart';
 import '../internal/value_control.dart';
+import '../number_field/number_format.dart';
 import '../theme/theme.dart';
 
 // Sizes the web PinInput sets in its own stylesheet.
@@ -14,6 +16,8 @@ const double _cell = 44;
 const double _gap = 8;
 const double _fontSize = 20;
 const double _disabledOpacity = 0.5;
+// The gap a field leaves above its error.
+const double _errorGap = 6;
 
 /// The characters a [PinInput] takes.
 enum PinInputType {
@@ -77,16 +81,24 @@ String sanitizeChar(String char, PinInputType type) {
 /// between the cells, following the reading direction, and Home and End go
 /// to the ends. Pasted text, or a code the platform fills in from a message
 /// (the first cell carries the one-time code autofill hint), is spread over
-/// the cells from the focused one. With [obscureText] the characters are
-/// hidden, as in a password field.
+/// the cells from the focused one. Arabic-Indic and Persian digits, typed
+/// or pasted, land in the cells as the ASCII digits 0 to 9 in every locale,
+/// so the cells show the code that is reported. With [obscureText] the
+/// characters are hidden, as in a password field.
 ///
 /// [onChanged] reports the code, the cells' characters joined, after each
 /// change; [onCompleted] reports it each time a change leaves every cell
 /// filled. Controlled, [PinInput] shows [value] and a changed [value] is
 /// shown without a report; [PinInput.uncontrolled] keeps its own code from
-/// [initialValue]. Inside a [Form] it saves with [onSaved], and a form reset
-/// restores the current default silently. The widget never writes the code
-/// to the log or to its diagnostics.
+/// [initialValue]. Inside a [Form] it validates with [validator] and saves
+/// with [onSaved]; a form reset clears the validator's message and restores
+/// the current default silently. The widget never writes the code to the
+/// log or to its diagnostics.
+///
+/// An [error], or the [validator]'s message, shows under the cells after a
+/// hazard glyph, marks the group and every cell invalid, and is read with
+/// the group's name; a new one is announced. [invalid] marks the cells
+/// without a message.
 class PinInput extends StatefulWidget {
   /// A PIN input that shows [value], controlled by the parent.
   const PinInput({
@@ -102,7 +114,10 @@ class PinInput extends StatefulWidget {
     this.invalid = false,
     this.success = false,
     this.autofocus = false,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : initialValue = '',
        _controlled = true;
 
@@ -120,7 +135,10 @@ class PinInput extends StatefulWidget {
     this.invalid = false,
     this.success = false,
     this.autofocus = false,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : value = null,
        _controlled = false;
 
@@ -162,8 +180,18 @@ class PinInput extends StatefulWidget {
   /// Whether the first cell takes focus when it first appears.
   final bool autofocus;
 
+  /// An error message. A non-empty one marks the code invalid; it shows
+  /// with a hazard glyph and is announced. It wins over the [validator]'s.
+  final String? error;
+
+  /// Checks the code when the enclosing [Form] validates.
+  final FormFieldValidator<String>? validator;
+
   /// Called with the code when the enclosing [Form] saves.
   final FormFieldSetter<String>? onSaved;
+
+  /// When the [validator] runs on its own.
+  final AutovalidateMode? autovalidateMode;
 
   final bool _controlled;
 
@@ -287,7 +315,8 @@ class _PinInputState extends State<PinInput>
 
   /// Text the platform put in cell [index]: a typed character, a deletion,
   /// or a whole code from a paste or autofill.
-  void _edited(int index, String text) {
+  void _edited(int index, String input) {
+    final text = asciiDigits(input);
     final old = _cells[index];
     if (text.isEmpty) {
       _commit([..._cells]..[index] = '');
@@ -322,7 +351,8 @@ class _PinInputState extends State<PinInput>
   Future<void> _paste(int index) async {
     final data = await Clipboard.getData(Clipboard.kTextPlain);
     if (!mounted || !widget.enabled) return;
-    final pasted = pasteInto(_cells, index, data?.text ?? '', widget.type);
+    final text = asciiDigits(data?.text ?? '');
+    final pasted = pasteInto(_cells, index, text, widget.type);
     if (pasted == null) return;
     _commit(pasted.values);
     _focus(pasted.focus);
@@ -370,7 +400,7 @@ class _PinInputState extends State<PinInput>
       node.canRequestFocus = enabled;
     }
 
-    final cells = [
+    List<Widget> cells(bool invalid) => [
       for (var i = 0; i < widget.length; i++)
         _Cell(
           key: ValueKey(i),
@@ -382,7 +412,7 @@ class _PinInputState extends State<PinInput>
           controller: _controllers[i],
           focusNode: _nodes[i],
           enabled: enabled,
-          invalid: widget.invalid,
+          invalid: invalid,
           success: widget.success,
           obscureText: widget.obscureText,
           numeric: widget.type == PinInputType.numeric,
@@ -396,16 +426,35 @@ class _PinInputState extends State<PinInput>
 
     return buildFormField(
       enabled: enabled,
+      validator: widget.validator,
       onSaved: widget.onSaved,
-      builder: (_) => Semantics(
-        container: true,
-        explicitChildNodes: true,
-        label: widget.label,
-        child: Opacity(
-          opacity: enabled ? 1 : _disabledOpacity,
-          child: Wrap(spacing: _gap, runSpacing: _gap, children: cells),
-        ),
-      ),
+      autovalidateMode: widget.autovalidateMode,
+      builder: (errorText) {
+        final error = widget.error ?? errorText;
+        final hasError = error != null && error.isNotEmpty;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: _errorGap,
+          children: [
+            FieldSemantics(
+              label: widget.label,
+              error: error,
+              enabled: enabled,
+              explicitChildNodes: true,
+              child: Opacity(
+                opacity: enabled ? 1 : _disabledOpacity,
+                child: Wrap(
+                  spacing: _gap,
+                  runSpacing: _gap,
+                  children: cells(widget.invalid || hasError),
+                ),
+              ),
+            ),
+            if (hasError) ControlError(error),
+          ],
+        );
+      },
     );
   }
 }

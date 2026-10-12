@@ -35,6 +35,64 @@ Widget valuesRightToLeft() => const Directionality(
 Widget valuesTouch() =>
     const PreviewSheet(density: InvisibleDensity.touch, child: _Values());
 
+/// The error message of Slider, RangeSlider, RatingGroup and PinInput: text
+/// after the hazard glyph under each control.
+@Preview(group: 'Values', name: 'Error messages, light')
+@Preview(
+  group: 'Values',
+  name: 'Error messages, dark',
+  brightness: Brightness.dark,
+)
+Widget valueErrors() => const PreviewSheet(child: _Errors());
+
+/// The error messages right to left at text scale 2.0 in a narrow column.
+@Preview(
+  group: 'Values',
+  name: 'Error messages, right to left, text scale 2.0',
+  textScaleFactor: 2,
+  size: Size(360, 1600),
+)
+Widget valueErrorsRightToLeft() => const Directionality(
+  textDirection: TextDirection.rtl,
+  child: PreviewSheet(child: _Errors()),
+);
+
+class _Errors extends StatelessWidget {
+  const _Errors();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 24,
+        children: [
+          Slider.uncontrolled(
+            label: 'Volume',
+            initialValue: 95,
+            showValue: true,
+            error: 'Keep the volume at 80 or less.',
+          ),
+          RangeSlider.uncontrolled(
+            label: 'Price',
+            thumbLabels: ('Minimum price', 'Maximum price'),
+            initialValue: (40, 50),
+            showValue: true,
+            error: 'Choose a range of at least 20.',
+          ),
+          RatingGroup.uncontrolled(label: 'Rating', error: 'Choose a rating.'),
+          PinInput.uncontrolled(
+            label: 'Verification code',
+            initialValue: '1234',
+            error: 'This code has expired. Ask for a new one.',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _Values extends StatelessWidget {
   const _Values();
 

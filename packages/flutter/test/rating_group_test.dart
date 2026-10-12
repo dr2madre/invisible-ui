@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
+import 'package:invisible_ui/src/internal/glyphs.dart';
 
 import 'harness.dart';
 
@@ -210,5 +212,113 @@ void main() {
     );
     expect(reports, [5]);
     semantics.dispose();
+  });
+
+  group('error', () {
+    testWidgets('a required rating: the validator message shows with the '
+        'hazard glyph, marks the group invalid and is announced; a form reset '
+        'clears it and restores the default without a report', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final form = GlobalKey<FormState>();
+      final reports = <int>[];
+      const message = 'Choose a rating';
+      await tester.pumpWidget(
+        harness(
+          Form(
+            key: form,
+            child: RatingGroup.uncontrolled(
+              label: 'Rating',
+              onChanged: reports.add,
+              validator: (v) => v == null ? message : null,
+            ),
+          ),
+        ),
+      );
+      expect(form.currentState!.validate(), isFalse);
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsOneWidget);
+      expect(
+        tester.getSemantics(find.bySemanticsLabel('Rating')),
+        semanticsWith(
+          label: 'Rating',
+          hint: message,
+          validationResult: SemanticsValidationResult.invalid,
+        ),
+      );
+      expect(
+        tester.getSemantics(find.bySemanticsLabel(message)),
+        semanticsWith(label: message, isLiveRegion: true),
+      );
+
+      await tester.tap(_star('4 stars'));
+      await tester.pump();
+      expect(form.currentState!.validate(), isTrue);
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsNothing);
+
+      expect(form.currentState!.validate(), isTrue);
+      form.currentState!.reset();
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsNothing);
+      expect(
+        tester.getSemantics(_star('4 stars')),
+        semanticsWith(isChecked: false),
+      );
+      expect(reports, [4], reason: 'the reset reports nothing');
+      semantics.dispose();
+    });
+
+    testWidgets('a form reset clears a message still showing', (tester) async {
+      final form = GlobalKey<FormState>();
+      await tester.pumpWidget(
+        harness(
+          Form(
+            key: form,
+            child: RatingGroup.uncontrolled(
+              label: 'Rating',
+              validator: (v) => v == null ? 'Choose a rating' : null,
+            ),
+          ),
+        ),
+      );
+      form.currentState!.validate();
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsOneWidget);
+      form.currentState!.reset();
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsNothing);
+    });
+
+    for (final direction in TextDirection.values) {
+      testWidgets('an error keeps the arrows working at text scale 2.0, '
+          '${direction.name}', (tester) async {
+        final semantics = tester.ensureSemantics();
+        final reports = <int>[];
+        await tester.pumpWidget(
+          harness(
+            SizedBox(
+              width: 200,
+              child: RatingGroup.uncontrolled(
+                label: 'Rating',
+                initialValue: 3,
+                error: 'Tell us why you chose 3 stars',
+                onChanged: reports.add,
+              ),
+            ),
+            direction: direction,
+            textScale: 2,
+          ),
+        );
+        expect(tester.takeException(), isNull);
+        expect(find.byType(HazardGlyph), findsOneWidget);
+        await focusOn(tester, _paint(3));
+        await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+        await tester.pump();
+        expect(reports, [direction == TextDirection.ltr ? 4 : 2]);
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(targetGuideline24));
+        semantics.dispose();
+      });
+    }
   });
 }

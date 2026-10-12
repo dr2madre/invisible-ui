@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import '../internal/open_width.dart';
 import '../internal/roving.dart';
+import '../internal/value_control.dart';
 import '../number_field/number_format.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
@@ -20,6 +21,8 @@ const double _rangeSize = 12;
 const double _iconEm = 1.2;
 const int _maxTicks = 20;
 const double _disabledOpacity = 0.5;
+// The gap a field leaves above its error.
+const double _errorGap = 6;
 
 /// The keys a slider thumb takes: the roving keys and Page Up and Down.
 const Map<ShortcutActivator, Intent> sliderShortcuts = {
@@ -83,6 +86,7 @@ class SliderFrame extends StatelessWidget {
     this.valueText,
     this.minText,
     this.maxText,
+    this.error,
   });
 
   /// The direction the thumbs travel.
@@ -108,6 +112,10 @@ class SliderFrame extends StatelessWidget {
 
   /// The maximum shown under the end of the track.
   final String? maxText;
+
+  /// The error shown under the slider; [control] carries it in its
+  /// semantics.
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +188,21 @@ class SliderFrame extends StatelessWidget {
         ],
       ),
     );
-    return horizontal ? OpenWidth(width: _length, child: body) : body;
+    final error = this.error;
+    // The error stays out of the disabled dimming, and the column is there
+    // with or without it, so the control keeps its place and its focus.
+    final framed = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: horizontal
+          ? CrossAxisAlignment.stretch
+          : CrossAxisAlignment.start,
+      spacing: _errorGap,
+      children: [
+        body,
+        if (error != null && error.isNotEmpty) ControlError(error),
+      ],
+    );
+    return horizontal ? OpenWidth(width: _length, child: framed) : framed;
   }
 }
 

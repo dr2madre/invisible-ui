@@ -3,6 +3,7 @@ import 'dart:ui' show SemanticsRole;
 import 'package:flutter/widgets.dart';
 
 import '../choice/choice_item.dart';
+import '../field/field.dart';
 import '../internal/single_choice.dart';
 import '../internal/toggle_tile.dart';
 import '../internal/value_control.dart';
@@ -28,8 +29,13 @@ const double _ringRadius = 2;
 /// Controlled, [RatingGroup] shows [value] (1 to [max], or null) and reports
 /// each choice through [onChanged]; [RatingGroup.uncontrolled] keeps its own
 /// value. A changed [value] is shown without a report. Inside a [Form] it
-/// saves with [onSaved], and a form reset restores the current default
-/// silently. The star names come from [InvisibleMessages.ratingStars].
+/// validates with [validator] and saves with [onSaved]; a form reset clears
+/// the validator's message and restores the current default silently. The
+/// star names come from [InvisibleMessages.ratingStars].
+///
+/// An [error], or the [validator]'s message, shows under the stars after a
+/// hazard glyph, marks the group invalid, and is read with its name; a new
+/// one is announced.
 class RatingGroup extends StatefulWidget {
   /// A rating that shows [value], controlled by the parent.
   const RatingGroup({
@@ -39,7 +45,10 @@ class RatingGroup extends StatefulWidget {
     this.onChanged,
     this.max = 5,
     this.enabled = true,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : initialValue = null,
        _controlled = true;
 
@@ -51,7 +60,10 @@ class RatingGroup extends StatefulWidget {
     this.onChanged,
     this.max = 5,
     this.enabled = true,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : value = null,
        _controlled = false;
 
@@ -74,8 +86,19 @@ class RatingGroup extends StatefulWidget {
   /// Whether the stars take focus and change.
   final bool enabled;
 
+  /// An error message. A non-empty one marks the group invalid; it shows
+  /// with a hazard glyph and is announced. It wins over the [validator]'s.
+  final String? error;
+
+  /// Checks the rating when the enclosing [Form] validates, such as a
+  /// rating that is required.
+  final FormFieldValidator<int?>? validator;
+
   /// Called with the rating when the enclosing [Form] saves.
   final FormFieldSetter<int?>? onSaved;
+
+  /// When the [validator] runs on its own.
+  final AutovalidateMode? autovalidateMode;
 
   final bool _controlled;
 
@@ -121,9 +144,11 @@ class _RatingGroupState extends State<RatingGroup>
 
     final stars = MouseRegion(
       onExit: (_) => setState(() => _hovered = 0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      // A narrow column at a large text scale wraps the stars rather than
+      // cutting them off.
+      child: Wrap(
         spacing: _gap,
+        runSpacing: _gap,
         children: [
           for (final item in items)
             MouseRegion(
@@ -153,40 +178,46 @@ class _RatingGroupState extends State<RatingGroup>
 
     return buildFormField(
       enabled: enabled,
+      validator: widget.validator,
       onSaved: widget.onSaved,
-      builder: (_) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: _labelGap,
-        children: [
-          ExcludeSemantics(
-            child: GestureDetector(
-              onTap: _focus.focusTabStop,
-              child: Text(
-                widget.label,
-                style: theme.textStyle.copyWith(
-                  fontSize: _labelSize,
-                  fontWeight: FontWeight.w600,
-                  color: colors.text,
+      autovalidateMode: widget.autovalidateMode,
+      builder: (errorText) {
+        final error = widget.error ?? errorText;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: _labelGap,
+          children: [
+            ExcludeSemantics(
+              child: GestureDetector(
+                onTap: _focus.focusTabStop,
+                child: Text(
+                  widget.label,
+                  style: theme.textStyle.copyWith(
+                    fontSize: _labelSize,
+                    fontWeight: FontWeight.w600,
+                    color: colors.text,
+                  ),
                 ),
               ),
             ),
-          ),
-          Semantics(
-            container: true,
-            explicitChildNodes: true,
-            role: SemanticsRole.radioGroup,
-            label: widget.label,
-            enabled: enabled ? null : false,
-            child: SingleChoiceKeys<int>(
-              focus: _focus,
-              items: items,
-              onMove: _choose,
-              child: stars,
+            FieldSemantics(
+              label: widget.label,
+              error: error,
+              enabled: enabled,
+              role: SemanticsRole.radioGroup,
+              explicitChildNodes: true,
+              child: SingleChoiceKeys<int>(
+                focus: _focus,
+                items: items,
+                onMove: _choose,
+                child: stars,
+              ),
             ),
-          ),
-        ],
-      ),
+            if (error != null && error.isNotEmpty) ControlError(error),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -27,8 +28,13 @@ const double _thumbBorder = 2;
 /// the value once a gesture ends (a drag released, a tap, a key) when it
 /// moved. Controlled, [Slider] shows [value], snapped to the grid, and a
 /// changed [value] is shown without a report; [Slider.uncontrolled] keeps
-/// its own value from [initialValue]. Inside a [Form] it saves with
-/// [onSaved], and a form reset restores the current default silently.
+/// its own value from [initialValue]. Inside a [Form] it validates with
+/// [validator] and saves with [onSaved]; a form reset clears the
+/// validator's message and restores the current default silently.
+///
+/// An [error], or the [validator]'s message, shows under the track after a
+/// hazard glyph, marks the slider invalid, and is read after its value; a
+/// new one is announced.
 ///
 /// [label] names the slider for assistive technology; it is not shown, as
 /// on the web. The value is announced as text: [format]'s, or the number in
@@ -59,7 +65,10 @@ class Slider extends StatefulWidget {
     this.icon,
     this.focusNode,
     this.autofocus = false,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : initialValue = null,
        _controlled = true;
 
@@ -84,7 +93,10 @@ class Slider extends StatefulWidget {
     this.icon,
     this.focusNode,
     this.autofocus = false,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : value = null,
        _controlled = false;
 
@@ -144,8 +156,18 @@ class Slider extends StatefulWidget {
   /// Whether the slider takes focus when it first appears.
   final bool autofocus;
 
+  /// An error message. A non-empty one marks the slider invalid; it shows
+  /// with a hazard glyph and is announced. It wins over the [validator]'s.
+  final String? error;
+
+  /// Checks the value when the enclosing [Form] validates.
+  final FormFieldValidator<double>? validator;
+
   /// Called with the value when the enclosing [Form] saves.
   final FormFieldSetter<double>? onSaved;
+
+  /// When the [validator] runs on its own.
+  final AutovalidateMode? autovalidateMode;
 
   final bool _controlled;
 
@@ -295,52 +317,65 @@ class _SliderState extends State<Slider> with ValueControl<double, Slider> {
       ),
     );
 
-    final control = Semantics(
-      container: true,
-      slider: true,
-      label: widget.label,
-      value: text(value),
-      increasedValue: text(increased),
-      decreasedValue: text(decreased),
-      enabled: enabled,
-      focusable: enabled,
-      focused: _focused,
-      onIncrease: enabled && increased != value
-          ? () => _key(const RovingKeyIntent(LogicalKeyboardKey.arrowUp))
-          : null,
-      onDecrease: enabled && decreased != value
-          ? () => _key(const RovingKeyIntent(LogicalKeyboardKey.arrowDown))
-          : null,
-      // The node above carries the focus state; the detector's own would
-      // split the slider into two nodes.
-      child: ExcludeSemantics(
-        child: FocusableActionDetector(
-          enabled: enabled,
-          focusNode: _node,
-          autofocus: widget.autofocus,
-          shortcuts: sliderShortcuts,
-          actions: _actions,
-          onFocusChange: (focused) => setState(() => _focused = focused),
-          onShowFocusHighlight: (visible) =>
-              setState(() => _focusVisible = visible),
-          child: track,
+    Widget control(String? error) {
+      final invalid = error != null && error.isNotEmpty;
+      return Semantics(
+        container: true,
+        slider: true,
+        label: widget.label,
+        value: text(value),
+        increasedValue: text(increased),
+        decreasedValue: text(decreased),
+        hint: invalid ? error : null,
+        validationResult: invalid
+            ? SemanticsValidationResult.invalid
+            : SemanticsValidationResult.none,
+        enabled: enabled,
+        focusable: enabled,
+        focused: _focused,
+        onIncrease: enabled && increased != value
+            ? () => _key(const RovingKeyIntent(LogicalKeyboardKey.arrowUp))
+            : null,
+        onDecrease: enabled && decreased != value
+            ? () => _key(const RovingKeyIntent(LogicalKeyboardKey.arrowDown))
+            : null,
+        // The node above carries the focus state; the detector's own would
+        // split the slider into two nodes.
+        child: ExcludeSemantics(
+          child: FocusableActionDetector(
+            enabled: enabled,
+            focusNode: _node,
+            autofocus: widget.autofocus,
+            shortcuts: sliderShortcuts,
+            actions: _actions,
+            onFocusChange: (focused) => setState(() => _focused = focused),
+            onShowFocusHighlight: (visible) =>
+                setState(() => _focusVisible = visible),
+            child: track,
+          ),
         ),
-      ),
-    );
+      );
+    }
 
     return buildFormField(
       enabled: enabled,
+      validator: widget.validator,
       onSaved: widget.onSaved,
-      builder: (_) => SliderFrame(
-        axis: widget.orientation,
-        verticalLength: _length,
-        enabled: enabled,
-        control: control,
-        icon: widget.icon,
-        valueText: widget.showValue ? text(value) : null,
-        minText: widget.showRange ? text(widget.min) : null,
-        maxText: widget.showRange ? text(widget.max) : null,
-      ),
+      autovalidateMode: widget.autovalidateMode,
+      builder: (errorText) {
+        final error = widget.error ?? errorText;
+        return SliderFrame(
+          axis: widget.orientation,
+          verticalLength: _length,
+          enabled: enabled,
+          control: control(error),
+          icon: widget.icon,
+          valueText: widget.showValue ? text(value) : null,
+          minText: widget.showRange ? text(widget.min) : null,
+          maxText: widget.showRange ? text(widget.max) : null,
+          error: error,
+        );
+      },
     );
   }
 }

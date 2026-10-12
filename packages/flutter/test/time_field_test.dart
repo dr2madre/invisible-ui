@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
 import 'package:invisible_ui/src/field/field.dart';
+import 'package:invisible_ui/src/number_field/number_format.dart';
+import 'package:invisible_ui/src/time_field/time_logic.dart';
 
 import 'harness.dart';
 
@@ -377,6 +380,170 @@ void main() {
       final hour = tester.getSize(_segment('hour'));
       expect(hour.width, greaterThanOrEqualTo(44));
       expect(hour.height, greaterThanOrEqualTo(44));
+    });
+  });
+
+  group('Arabic-Indic and Persian digits, and paste', () {
+    void mockClipboard(WidgetTester tester, String text) {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        (call) async => call.method == 'Clipboard.getData'
+            ? <String, dynamic>{'text': text}
+            : null,
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          SystemChannels.platform,
+          null,
+        ),
+      );
+    }
+
+    /// The platform's paste shortcut, as a user presses it.
+    Future<void> pasteShortcut(WidgetTester tester) async {
+      final apple =
+          defaultTargetPlatform == TargetPlatform.macOS ||
+          defaultTargetPlatform == TargetPlatform.iOS;
+      final modifier = apple
+          ? LogicalKeyboardKey.metaLeft
+          : LogicalKeyboardKey.controlLeft;
+      await tester.sendKeyDownEvent(modifier);
+      await tester.sendKeyEvent(LogicalKeyboardKey.keyV);
+      await tester.sendKeyUpEvent(modifier);
+      await pumpFocus(tester);
+    }
+
+    Future<void> typeChar(WidgetTester tester, String char) async {
+      final ascii = int.parse(asciiDigits(char));
+      await tester.sendKeyEvent(
+        LogicalKeyboardKey(LogicalKeyboardKey.digit0.keyId + ascii),
+        character: char,
+      );
+      await pumpFocus(tester);
+    }
+
+    for (final direction in TextDirection.values) {
+      testWidgets('typed Arabic-Indic and Persian digits fill the segments '
+          'and report an ASCII time, ${direction.name}', (tester) async {
+        final reports = <String?>[];
+        await tester.pumpWidget(
+          harness(
+            TimeField.uncontrolled(hourCycle: 24, onChanged: reports.add),
+            direction: direction,
+          ),
+        );
+        await _focus(tester, 'hour');
+        await typeChar(tester, '٠');
+        await typeChar(tester, '٩');
+        expect(_node(tester, 'minute').hasFocus, isTrue);
+        await typeChar(tester, '۴');
+        await typeChar(tester, '۵');
+        expect(reports.last, '09:45');
+        expect(find.text('09'), findsOneWidget);
+        expect(find.text('45'), findsOneWidget);
+      });
+    }
+
+    testWidgets(
+      'the paste shortcut takes a whole time in any digits',
+      (tester) async {
+        final reports = <String?>[];
+        await tester.pumpWidget(
+          harness(
+            TimeField.uncontrolled(hourCycle: 24, onChanged: reports.add),
+          ),
+        );
+        await _focus(tester, 'minute');
+        mockClipboard(tester, ' ١٤:۳۰ ');
+        await pasteShortcut(tester);
+        expect(reports, ['14:30']);
+        expect(_node(tester, 'minute').hasFocus, isTrue);
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.android),
+    );
+
+    testWidgets(
+      'on Apple platforms the paste shortcut uses Command',
+      (tester) async {
+        final reports = <String?>[];
+        await tester.pumpWidget(
+          harness(
+            TimeField.uncontrolled(hourCycle: 24, onChanged: reports.add),
+          ),
+        );
+        await _focus(tester, 'hour');
+        mockClipboard(tester, '08:15');
+        await pasteShortcut(tester);
+        expect(reports, ['08:15']);
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.macOS),
+    );
+
+    testWidgets('a pasted 24-hour time sets the period of a 12-hour field', (
+      tester,
+    ) async {
+      final reports = <String?>[];
+      await tester.pumpWidget(
+        harness(TimeField.uncontrolled(hourCycle: 12, onChanged: reports.add)),
+      );
+      await _focus(tester, 'hour');
+      mockClipboard(tester, '٢١:٣٠');
+      await pasteShortcut(tester);
+      expect(reports, ['21:30']);
+      expect(find.text('PM'), findsOneWidget);
+    });
+
+    testWidgets('other pasted text types from the focused segment', (
+      tester,
+    ) async {
+      final reports = <String?>[];
+      await tester.pumpWidget(
+        harness(
+          TimeField.uncontrolled(
+            hourCycle: 24,
+            withSeconds: true,
+            onChanged: reports.add,
+          ),
+        ),
+      );
+      await _focus(tester, 'hour');
+      mockClipboard(tester, '۰۷۰۵');
+      await pasteShortcut(tester);
+      expect(reports, isEmpty, reason: 'the seconds are still empty');
+      expect(find.text('07'), findsOneWidget);
+      expect(find.text('05'), findsOneWidget);
+      expect(_node(tester, 'second').hasFocus, isTrue);
+      mockClipboard(tester, 'no time');
+      await pasteShortcut(tester);
+      expect(find.text('ss'), findsOneWidget, reason: 'nothing to type');
+    });
+
+    testWidgets('a disabled field ignores the paste shortcut', (tester) async {
+      final reports = <String?>[];
+      await tester.pumpWidget(
+        harness(
+          TimeField.uncontrolled(
+            hourCycle: 24,
+            enabled: false,
+            onChanged: reports.add,
+          ),
+        ),
+      );
+      mockClipboard(tester, '10:00');
+      _node(tester, 'hour').requestFocus();
+      await pumpFocus(tester);
+      await pasteShortcut(tester);
+      expect(reports, isEmpty);
+    });
+
+    test('the editor reads a whole time or types the characters', () {
+      final editor = TimeEditor(value: null, hourCycle: 24, withSeconds: false);
+      expect(editor.paste(TimeSegment.hour, '٠٩:٣٠'), null);
+      expect(editor.value, '09:30');
+      expect(editor.paste(TimeSegment.hour, '۱۸'), TimeSegment.minute);
+      expect(editor.value, '18:30');
+      expect(editor.paste(TimeSegment.minute, ''), null);
+      expect(editor.value, '18:30');
     });
   });
 }

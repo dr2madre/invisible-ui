@@ -29,6 +29,9 @@ Both answer the language-neutral cases in
 | Grammar: empty, incomplete (lone sign, lone separator, trailing separator), valid, invalid | matched | vectors `parse` |
 | Group separators anywhere; plain, no-break, narrow and thin spaces for space-grouping locales | matched | vectors `parse` (fr-FR, sv) |
 | Locale digits folded (Arabic-Indic, Persian), direction marks ignored, typographic minus | matched | vectors `parse` (ar-EG, ar, fa, sv) |
+| Arabic-Indic and Persian digits parse in every locale, typed or pasted; the value is a number | adapted | the core folds only the locale's own digits, so the web refuses `١٢` in `en`; Flutter takes them everywhere: `Arabic-Indic and Persian digits parse in every locale of the table`, `mix with the locale separators and signs`; widget tests `digits and grouping Arabic-Indic and Persian digits type in an English field and report the number, ltr` and `, rtl`, `pasted Arabic-Indic digits are read in any locale`, `text scale 2.0, right to left: the field meets the target guidelines while it reads Arabic-Indic digits` |
+| A locale that groups with an apostrophe (de-CH) takes both `’` (U+2019) and `'` (U+0027); the display uses `’` | adapted | the core takes only `’`, so the web refuses `1'234.5` in de-CH: `apostrophe grouping de-CH takes the typographic and the straight apostrophe`, `display uses the typographic apostrophe`; widget test `de-CH: a pasted straight apostrophe groups, the display uses the typographic one` |
+| An apostrophe is no separator in a locale that groups otherwise; a malformed number is refused | matched | `apostrophe grouping an apostrophe is no separator where the locale groups otherwise`, `a malformed number is still refused`; widget test `an apostrophe is refused where the locale groups otherwise` |
 | `-0` is 0; numbers beyond the double range do not parse | matched | vectors `parse` |
 | Range and step validity with float tolerance, grid from `min` | matched | vectors `validate` |
 | Step on scaled integers, off-grid snap in the pressed direction, clamp, empty to the nearest bound to zero | matched | vectors `snap` |
@@ -108,7 +111,7 @@ them to the web names and to the ADR 0011 vocabulary.
 | Invalid with the message (`aria-invalid`, `aria-describedby`) | matched | `text that does not parse stays, never commits, and says why` |
 | Validity as data | matched | `NumberFieldState.validationError` in the tests above |
 | Labeled targets | matched | `meets the labeled tap target guideline` |
-| Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+| Screen reader output on macOS, Windows, Linux | not yet verified | Assistive technology: not tested; a manual session, none is recorded |
 
 ## Form reset (ADR 0012)
 

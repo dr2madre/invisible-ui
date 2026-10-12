@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
+import '../theme/theme.dart';
 import 'form_binding.dart';
+import 'glyphs.dart';
 
 /// The value of a control that is controlled or uncontrolled (ADR 0011) and
 /// joins the enclosing [Form] (ADR 0012).
@@ -92,6 +94,51 @@ mixin ValueControl<T, W extends StatefulWidget> on State<W> {
       autovalidateMode: autovalidateMode,
       enabled: enabled,
       builder: (field) => builder(field.errorText),
+    );
+  }
+}
+
+/// The error line under a value control that lays out its own label and
+/// semantics, such as a slider or a PIN input: [message] after the hazard
+/// glyph, so the invalid state never relies on colour alone, in a live
+/// region, so a new error is announced. It matches the error line of a
+/// field.
+class ControlError extends StatelessWidget {
+  /// Shows [message].
+  const ControlError(this.message, {super.key});
+
+  /// The error message.
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = InvisibleTheme.of(context);
+    final style = theme.textStyle.copyWith(color: theme.colors.dangerBodyText);
+    // One text with the glyph inline: it wraps in a bounded width and takes
+    // its own width in an open one, where a flexible row cannot lay out.
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      child: IconTheme(
+        data: IconThemeData(
+          color: theme.colors.dangerBodyText,
+          size: style.fontSize,
+          applyTextScaling: true,
+        ),
+        child: Text.rich(
+          TextSpan(
+            children: [
+              const WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child: ExcludeSemantics(child: HazardGlyph()),
+              ),
+              TextSpan(text: '\u00a0$message'),
+            ],
+          ),
+          style: style,
+          semanticsLabel: message,
+        ),
+      ),
     );
   }
 }

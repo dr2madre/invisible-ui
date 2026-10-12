@@ -1,3 +1,4 @@
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -31,8 +32,13 @@ const double _thumbBorder = 2;
 /// shows [value], made legal (on the grid, inside the bounds, in order and
 /// apart), and a changed [value] is shown without a report;
 /// [RangeSlider.uncontrolled] keeps its own pair from [initialValue].
-/// Inside a [Form] it saves with [onSaved], and a form reset restores the
-/// current default silently.
+/// Inside a [Form] it validates with [validator] and saves with [onSaved];
+/// a form reset clears the validator's message and restores the current
+/// default silently.
+///
+/// An [error], or the [validator]'s message, shows under the track after a
+/// hazard glyph, marks both thumbs invalid, and is read after each thumb's
+/// value; a new one is announced.
 ///
 /// [label] names the pair and [thumbLabels] each thumb; neither is shown,
 /// as on the web.
@@ -57,7 +63,10 @@ class RangeSlider extends StatefulWidget {
     this.format,
     this.locale,
     this.icon,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : initialValue = null,
        _controlled = true;
 
@@ -82,7 +91,10 @@ class RangeSlider extends StatefulWidget {
     this.format,
     this.locale,
     this.icon,
+    this.error,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : value = null,
        _controlled = false;
 
@@ -142,8 +154,18 @@ class RangeSlider extends StatefulWidget {
   /// A decorative icon before the track.
   final Widget? icon;
 
+  /// An error message. A non-empty one marks the thumbs invalid; it shows
+  /// with a hazard glyph and is announced. It wins over the [validator]'s.
+  final String? error;
+
+  /// Checks the pair when the enclosing [Form] validates.
+  final FormFieldValidator<(double, double)>? validator;
+
   /// Called with the pair when the enclosing [Form] saves.
   final FormFieldSetter<(double, double)>? onSaved;
+
+  /// When the [validator] runs on its own.
+  final AutovalidateMode? autovalidateMode;
 
   final bool _controlled;
 
@@ -268,7 +290,7 @@ class _RangeSliderState extends State<RangeSlider>
     }
   }
 
-  Widget _buildThumb(int index, double side) {
+  Widget _buildThumb(int index, double side, String? error) {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final messages = theme.messages;
@@ -311,6 +333,7 @@ class _RangeSliderState extends State<RangeSlider>
       b.distance,
     );
 
+    final invalid = error != null && error.isNotEmpty;
     return Semantics(
       container: true,
       slider: true,
@@ -318,6 +341,10 @@ class _RangeSliderState extends State<RangeSlider>
       value: valueText(value),
       increasedValue: valueText(increased),
       decreasedValue: valueText(decreased),
+      hint: invalid ? error : null,
+      validationResult: invalid
+          ? SemanticsValidationResult.invalid
+          : SemanticsValidationResult.none,
       enabled: enabled,
       focusable: enabled,
       focused: _focused[index],
@@ -374,47 +401,55 @@ class _RangeSliderState extends State<RangeSlider>
     String text(double v) =>
         sliderText(context, v, widget.format, widget.locale);
 
-    final track = SliderTrack(
-      axis: widget.orientation,
-      thickness: _thickness,
-      thumbSize: _thumb,
-      fill: colors.primary,
-      fillFrom: lower,
-      fillTo: upper,
-      thumbs: [lower, upper],
-      ticks: widget.ticks
-          ? sliderTicks(b.min, b.max, b.step, whole: true)
-          : const [],
-      tickStyle: TickStyle.dot,
-      enabled: enabled,
-      onStart: _startGesture,
-      onUpdate: _updateGesture,
-      onEnd: _endGesture,
-      thumbBuilder: _buildThumb,
-    );
+    Widget control(String? error) {
+      final track = SliderTrack(
+        axis: widget.orientation,
+        thickness: _thickness,
+        thumbSize: _thumb,
+        fill: colors.primary,
+        fillFrom: lower,
+        fillTo: upper,
+        thumbs: [lower, upper],
+        ticks: widget.ticks
+            ? sliderTicks(b.min, b.max, b.step, whole: true)
+            : const [],
+        tickStyle: TickStyle.dot,
+        enabled: enabled,
+        onStart: _startGesture,
+        onUpdate: _updateGesture,
+        onEnd: _endGesture,
+        thumbBuilder: (index, side) => _buildThumb(index, side, error),
+      );
 
-    final group = Semantics(
-      container: true,
-      explicitChildNodes: true,
-      label: widget.label,
-      child: track,
-    );
+      return Semantics(
+        container: true,
+        explicitChildNodes: true,
+        label: widget.label,
+        child: track,
+      );
+    }
 
     return buildFormField(
       enabled: enabled,
+      validator: widget.validator,
       onSaved: widget.onSaved,
-      builder: (_) => SliderFrame(
-        axis: widget.orientation,
-        verticalLength: _verticalLength,
-        enabled: enabled,
-        control: group,
-        icon: widget.icon,
-        valueText: widget.showValue
-            ? '${text(value.$1)} – ${text(value.$2)}'
-            : null,
-        minText: widget.showRange ? text(b.min) : null,
-        maxText: widget.showRange ? text(b.max) : null,
-      ),
+      autovalidateMode: widget.autovalidateMode,
+      builder: (errorText) {
+        final error = widget.error ?? errorText;
+        return SliderFrame(
+          axis: widget.orientation,
+          verticalLength: _verticalLength,
+          enabled: enabled,
+          control: control(error),
+          icon: widget.icon,
+          valueText: widget.showValue
+              ? '${text(value.$1)} – ${text(value.$2)}'
+              : null,
+          minText: widget.showRange ? text(b.min) : null,
+          maxText: widget.showRange ? text(b.max) : null,
+          error: error,
+        );
+      },
     );
   }
 }

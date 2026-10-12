@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
+import 'package:invisible_ui/src/internal/glyphs.dart';
 
 import 'harness.dart';
 
@@ -346,5 +347,125 @@ void main() {
     await tester.pump();
     expect(find.text('40'), findsOneWidget);
     expect(changes, [100]);
+  });
+
+  group('error', () {
+    testWidgets('a validator message shows with the hazard glyph, is read '
+        'after the value and announced; a form reset clears it and restores '
+        'the default without a report', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final form = GlobalKey<FormState>();
+      final changes = <double>[];
+      await tester.pumpWidget(
+        harness(
+          Form(
+            key: form,
+            child: Slider.uncontrolled(
+              label: 'Volume',
+              initialValue: 40,
+              onChanged: changes.add,
+              validator: (v) =>
+                  v! > 80 ? 'Keep the volume at 80 or less' : null,
+            ),
+          ),
+        ),
+      );
+      await _focus(tester);
+      await tester.sendKeyEvent(LogicalKeyboardKey.end);
+      await tester.pump();
+      expect(form.currentState!.validate(), isFalse);
+      await tester.pump();
+      const message = 'Keep the volume at 80 or less';
+      expect(find.byType(HazardGlyph), findsOneWidget);
+      expect(
+        tester.getSemantics(_thumb),
+        semanticsWith(
+          label: 'Volume',
+          value: '100',
+          hint: message,
+          isSlider: true,
+          validationResult: SemanticsValidationResult.invalid,
+        ),
+      );
+      expect(
+        tester.getSemantics(find.bySemanticsLabel(message)),
+        semanticsWith(label: message, isLiveRegion: true),
+      );
+
+      form.currentState!.reset();
+      await tester.pump();
+      expect(find.byType(HazardGlyph), findsNothing);
+      expect(find.bySemanticsLabel(message), findsNothing);
+      expect(
+        tester.getSemantics(_thumb),
+        semanticsWith(label: 'Volume', value: '40', isSlider: true),
+      );
+      expect(changes, [100], reason: 'the reset reports nothing');
+      semantics.dispose();
+    });
+
+    for (final direction in TextDirection.values) {
+      testWidgets('an error keeps the slider operable at text scale 2.0 in a '
+          'narrow column, ${direction.name}', (tester) async {
+        final semantics = tester.ensureSemantics();
+        final changes = <double>[];
+        await tester.pumpWidget(
+          harness(
+            SizedBox(
+              width: 160,
+              child: Slider.uncontrolled(
+                label: 'Volume',
+                initialValue: 50,
+                error: 'Volume is above the safe level',
+                onChanged: changes.add,
+              ),
+            ),
+            direction: direction,
+            textScale: 2,
+          ),
+        );
+        expect(tester.takeException(), isNull);
+        expect(
+          find.textContaining(
+            'Volume is above the safe level',
+            findRichText: true,
+          ),
+          findsOneWidget,
+        );
+        expect(
+          tester.getBottomLeft(find.byType(HazardGlyph)).dy,
+          greaterThan(tester.getBottomLeft(_thumb).dy),
+          reason: 'the message sits under the track',
+        );
+        await _focus(tester);
+        await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+        await tester.pump();
+        expect(changes, [direction == TextDirection.ltr ? 51 : 49]);
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(targetGuideline24));
+        semantics.dispose();
+      });
+    }
+
+    testWidgets('a vertical slider in an open width shows its error', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(
+          const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Slider.uncontrolled(
+                label: 'Level',
+                orientation: Axis.vertical,
+                error: 'Required',
+              ),
+            ],
+          ),
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      expect(find.byType(HazardGlyph), findsOneWidget);
+    });
   });
 }
