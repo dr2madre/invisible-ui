@@ -38,7 +38,7 @@ dependencies:
       ref: <commit>
 ```
 
-It needs Dart 3.8 (Flutter 3.32) or later. The generated token file is
+It needs Dart 3.9 (Flutter 3.35) or later. The generated token file is
 committed, so a checkout needs no build step.
 
 ## Use it
@@ -479,7 +479,7 @@ flutter pub get
 dart format --set-exit-if-changed .
 flutter analyze
 flutter test
-flutter widget-preview start   # previews in preview/, Flutter 3.35 or later
+flutter widget-preview start   # previews in preview/, on the current stable release
 ```
 
 Screen reader behaviour on macOS, Windows and Linux is a manual check and is

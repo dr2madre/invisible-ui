@@ -8,10 +8,11 @@ repository: https://github.com/dr2madre/invisible-ui/tree/main/packages/flutter
 publish_to: none
 
 environment:
-  # Flutter 3.32 ships Dart 3.8. Raise both only for an API a later release
-  # adds, and name that API in the change.
-  sdk: ^3.8.0
-  flutter: ">=3.32.0"
+  # Flutter 3.35 ships Dart 3.9 and adds RadioGroup and RawRadio, which the
+  # radios use. Raise both only for an API a later release adds, and name
+  # that API in the change.
+  sdk: ^3.9.0
+  flutter: ">=3.35.0"
 
 dependencies:
   flutter:

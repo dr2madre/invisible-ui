@@ -1,7 +1,3 @@
-// semantics.dart exports SemanticsRole from Flutter 3.35 on.
-// ignore: unnecessary_import
-import 'dart:ui' show SemanticsRole;
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';

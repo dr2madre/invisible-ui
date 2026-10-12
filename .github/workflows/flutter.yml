@@ -4,9 +4,9 @@ name: Flutter
 # scripts/gate.test.mjs holds to one job; the token staleness check stays in
 # the gate, since it needs no Flutter.
 #
-# Two Flutter versions: the package's lower bound (Flutter 3.32, Dart 3.8) and
-# the current stable. The widget previews need Flutter 3.35, so the lower-bound
-# job analyzes lib/ and test/ only.
+# Two Flutter versions: the package's lower bound (Flutter 3.35, Dart 3.9) and
+# the current stable. The widget previews use preview groups, which arrived
+# after Flutter 3.35, so the lower-bound job analyzes lib/ and test/ only.
 
 on:
   pull_request:
@@ -267,7 +267,7 @@ jobs:
         include:
           - name: lower bound
             channel: stable
-            version: 3.32.8
+            version: 3.35.7
             analyze: lib test
           - name: stable
             channel: stable
@@ -286,7 +286,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Formatting follows the package's language version (3.8), so both
+      # Formatting follows the package's language version (3.9), so both
       # versions agree; it runs once.
       - name: Format
         if: matrix.name == 'lower bound'

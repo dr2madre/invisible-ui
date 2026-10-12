@@ -48,7 +48,7 @@ that holds it.
 | A polite status named by the label, read when it appears | matched | `a polite live region named by the catalog label, three dots` (`liveRegion`, ADR 0017 §3) |
 | The catalog's `loading.label` as the default name | matched | `InvisibleMessages.loadingLabel`; `test/messages_test.dart` |
 | A status message is announced in full on each change | matched | `a status message names the region and changes with it`: the message is the live region's label |
-| A determinate bar is a progress bar with its value | adapted | Flutter 3.32 cannot give a node a minimum and maximum value, which the progress bar role needs; the bar is a named node whose value is the percentage, or `detail`, or `status`, and it is not a live region: `a determinate bar reports its value and is not live` |
+| A determinate bar is a progress bar with its value | adapted | Flutter 3.35 cannot give a node a minimum and maximum value, which the progress bar role needs; the bar is a named node whose value is the percentage, or `detail`, or `status`, and it is not a live region: `a determinate bar reports its value and is not live` |
 | The visible texts are hidden from assistive technology | matched | `visible label, percentage and detail stay out of semantics` |
 | `decorative` hides it | matched | `decorative hides it from assistive technology` |
 | Still under reduced motion, still visible | matched | `still under reduced motion, visible`; and the dots pulse in turn otherwise: `the dots pulse in turn while motion is allowed` |

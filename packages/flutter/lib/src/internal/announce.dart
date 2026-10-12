@@ -13,8 +13,8 @@ String noticeMessage(String title, String? text) =>
 /// politely or, when [assertive], interrupting.
 ///
 /// It sends the message `SemanticsService.sendAnnouncement` sends.
-/// `sendAnnouncement` arrived in Flutter 3.35, after the package's lower
-/// bound, and the older `announce` cannot name the window; the message itself
+/// `sendAnnouncement` arrived after Flutter 3.35, the package's lower bound,
+/// and the older `announce` cannot name the window; the message itself
 /// is the same on both, and an engine without multiple windows ignores the
 /// view id.
 void announce(BuildContext context, String message, {bool assertive = false}) {

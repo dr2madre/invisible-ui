@@ -33,7 +33,7 @@ vectors in `core/src/meter/__vectors__` (`test/navigation_vectors_test.dart`).
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | `role="meter"` named by the label | adapted | Flutter has no meter role; a node named by the label: `semantics: named by the label, the level read as a percentage of the range` |
-| `aria-valuenow` with `aria-valuemin` and `aria-valuemax` | adapted | Flutter 3.32 semantics carry a value string, not a range; the value is the percentage of the range: same test |
+| `aria-valuenow` with `aria-valuemin` and `aria-valuemax` | adapted | Flutter 3.35 semantics carry a value string, not a range; the value is the percentage of the range: same test |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
 
 ## Look and layout

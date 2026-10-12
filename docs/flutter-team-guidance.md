@@ -35,6 +35,8 @@ Use Flutter primitives and platform APIs directly where appropriate, for example
 
 The goal is to keep Invisible UI visually independent while still using Flutter-native interaction and accessibility mechanisms.
 
+The package supports Flutter 3.35 (Dart 3.9) and later ([ADR 0017](./adr/0017-flutter-adapter.md), decision 7). Prefer a widgets-layer API that meets the requirement, such as `Icon`, `AspectRatio`, `RadioGroup` and `RawRadio`; a custom implementation states the requirement the native one does not meet.
+
 ## 3. Tokens
 
 The shared source of truth is:
@@ -90,6 +92,15 @@ Use the names Flutter's own widgets use, for example:
 - `onPressed` for buttons.
 
 Do not reproduce web prop names or DOM-specific patterns simply to make APIs look identical across frameworks. Each component's parity checklist maps its Flutter names to the ADR 0011 names, so the behavior stays comparable.
+
+Some names match widgets in Flutter or Material (`Slider`, `Switch`, `Dialog`). They are not renamed. Apps and examples import the package with a prefix, and every example in the README, the dartdoc and this document does the same:
+
+```dart
+import 'package:flutter/widgets.dart';
+import 'package:invisible_ui/invisible_ui.dart' as iu;
+
+final save = iu.Button(onPressed: () {}, child: const Text('Save'));
+```
 
 Cross-framework parity should be checked against:
 

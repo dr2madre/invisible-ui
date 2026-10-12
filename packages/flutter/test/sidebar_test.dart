@@ -1,7 +1,3 @@
-// semantics.dart exports SemanticsRole only in releases after Flutter 3.32.
-// ignore: unnecessary_import
-import 'dart:ui' show SemanticsRole;
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
@@ -143,9 +139,7 @@ void main() {
     final home = tester.getSemantics(find.text('Home'));
     expect(home, semanticsWith(label: 'Home', value: 'current page'));
     expect(home.getSemanticsData().linkUrl, Uri.parse('/home'));
-    // The flag API Flutter 3.32 has; later releases add flagsCollection.
-    // ignore: deprecated_member_use
-    expect(home.getSemanticsData().hasFlag(SemanticsFlag.isLink), isTrue);
+    expect(home.getSemanticsData().flagsCollection.isLink, isTrue);
     final inbox = tester.getSemantics(find.text('Inbox'));
     expect(inbox, semanticsWith(label: 'Inbox', isButton: true));
     expect(inbox.value, isEmpty);

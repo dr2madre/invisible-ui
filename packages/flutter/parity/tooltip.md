@@ -42,7 +42,7 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| `role="tooltip"` linked by `aria-describedby` | adapted | Flutter 3.32 has no checked tooltip role (`SemanticsRole.tooltip` fails the framework's debug role check there). The message is the trigger's `tooltip` semantics property, merged into the trigger's node, which screen readers read after its name: `the message is the trigger tooltip, never its name` |
+| `role="tooltip"` linked by `aria-describedby` | adapted | Flutter 3.35 has no checked tooltip role (`SemanticsRole.tooltip` fails the framework's debug role check there). The message is the trigger's `tooltip` semantics property, merged into the trigger's node, which screen readers read after its name: `the message is the trigger tooltip, never its name` |
 | Never the accessible name | matched | same test: an icon-only button keeps its `semanticLabel` |
 | The bubble is not read twice | matched | same test |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |

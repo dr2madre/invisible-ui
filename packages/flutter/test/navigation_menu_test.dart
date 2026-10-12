@@ -1,7 +1,3 @@
-// semantics.dart exports SemanticsRole only in releases after Flutter 3.32.
-// ignore: unnecessary_import
-import 'dart:ui' show SemanticsRole;
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
@@ -68,8 +64,8 @@ Widget _menu({
   disableAnimations: disableAnimations,
 );
 
-/// The nearest ancestor with a role. Flutter 3.44 adds a node without one
-/// between an overlay portal and its child; 3.32 does not.
+/// The nearest ancestor with a role, past any node without one that the
+/// framework puts between an overlay portal and its child.
 SemanticsNode _withRole(SemanticsNode node) {
   var parent = node.parent!;
   while (parent.getSemanticsData().role == SemanticsRole.none) {
@@ -335,9 +331,7 @@ void main() {
     );
     final pricing = tester.getSemantics(find.text('Pricing'));
     expect(pricing.getSemanticsData().linkUrl, Uri.parse('/pricing'));
-    // The flag API Flutter 3.32 has; later releases add flagsCollection.
-    // ignore: deprecated_member_use
-    expect(pricing.getSemanticsData().hasFlag(SemanticsFlag.isLink), isTrue);
+    expect(pricing.getSemanticsData().flagsCollection.isLink, isTrue);
 
     await tester.tap(_products);
     await tester.pump();
@@ -351,8 +345,7 @@ void main() {
       semanticsWith(label: 'Analytics', hint: 'Understand your traffic'),
     );
     expect(analytics.getSemanticsData().linkUrl, Uri.parse('/analytics'));
-    // ignore: deprecated_member_use
-    expect(analytics.getSemanticsData().hasFlag(SemanticsFlag.isLink), isTrue);
+    expect(analytics.getSemanticsData().flagsCollection.isLink, isTrue);
     final panel = _withRole(_withRole(analytics));
     expect(panel.label, 'Products');
     expect(panel.getSemanticsData().role, SemanticsRole.list);

@@ -1,8 +1,7 @@
 import 'dart:async';
-// semantics.dart exports SemanticsRole only in releases after Flutter 3.32.
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
 // ignore: unnecessary_import
-import 'dart:ui' show SemanticsRole;
-
+import 'package:flutter/semantics.dart' show SemanticsRole;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
