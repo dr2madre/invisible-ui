@@ -260,6 +260,9 @@ class _MultiSelectState<T> extends State<MultiSelect<T>>
     }
   }
 
+  @override
+  void didReplaceValue() => _pruneRemoveNodes();
+
   // A form reset also empties the text, silently.
   @override
   void restoreValue() {
@@ -352,6 +355,7 @@ class _MultiSelectState<T> extends State<MultiSelect<T>>
     final next = removeValue(before, target);
     if (identical(next, before)) return;
     commitValue(next);
+    _pruneRemoveNodes();
     widget.onChanged?.call(next);
     _announce(_messages.multiSelectRemoved, target);
     if (fromButton) _focusAfterRemoval(next, index);
@@ -441,7 +445,6 @@ class _MultiSelectState<T> extends State<MultiSelect<T>>
   }
 
   Widget _tags(InvisibleMessages messages) {
-    _pruneRemoveNodes();
     return Semantics(
       container: true,
       explicitChildNodes: true,

@@ -588,7 +588,7 @@ class _RailToggle extends StatelessWidget {
 /// for example through a `ValueListenableBuilder`.
 ///
 /// ```dart
-/// iu.Button.icon(
+/// iu.Button(
 ///   onPressed: () => iu.showSidebarDrawer<String>(
 ///     context: context,
 ///     builder: (context) => iu.Sidebar<String>(
@@ -597,8 +597,7 @@ class _RailToggle extends StatelessWidget {
 ///       onSelected: navigate,
 ///     ),
 ///   ),
-///   icon: const MenuIcon(),
-///   semanticLabel: iu.InvisibleTheme.of(context).messages.sidebarOpen,
+///   child: Text(iu.InvisibleTheme.of(context).messages.sidebarOpen),
 /// )
 /// ```
 Future<void> showSidebarDrawer<T>({
