@@ -1,3 +1,4 @@
+import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart';
 
 import '../internal/ambient.dart';
@@ -16,6 +17,8 @@ const double _checkStroke = 2.5;
 const double _onTint = 0.1;
 const double _onBorder = 0.35;
 const double _disabledOpacity = 0.5;
+const double _errorGap = 6;
+const double _errorGlyphGap = 5.6;
 
 /// Marks the toggle buttons of a joined [ToggleGroup]: they drop their own
 /// border and corners, which the group draws once around them.
@@ -32,13 +35,14 @@ class ToggleJoin extends InheritedWidget {
 }
 
 /// An on and off control that looks like a button, such as Bold in a
-/// toolbar. As on the web, where it is a native checkbox styled as a
-/// button, it is announced as checked or not checked.
+/// toolbar: a button with a toggled state, the WAI-ARIA button pattern with
+/// `aria-pressed`.
 ///
-/// A tap or Space flips it; Enter does not, as on a checkbox. When on, the
-/// surface takes a tint of the selection colour and a matching border, and
-/// with [check] a leading tick, so the state never relies on colour alone.
-/// Use [Switch] for a setting.
+/// A tap, Enter or Space flips it. Its accessible name stays the same in
+/// both states; only the toggled state changes. When on, the surface takes a
+/// tint of the selection colour and a matching border, and with [check] a
+/// leading tick, so the state never relies on colour alone. Use [Switch] for
+/// a setting that applies at once.
 ///
 /// The [child] is the content, a [Text] or an icon. An icon-only toggle
 /// needs [semanticLabel], its accessible name.
@@ -46,8 +50,17 @@ class ToggleJoin extends InheritedWidget {
 /// Controlled, [ToggleButton] shows [value] and reports each change through
 /// [onChanged]; [ToggleButton.uncontrolled] keeps its own value from
 /// [initialValue]. A changed [value] is shown without calling [onChanged].
-/// Inside a [Form] it saves with [onSaved], and a form reset restores the
-/// current default silently.
+/// Inside a [Form] it validates with [validator] and saves with [onSaved]; a
+/// form reset clears the validator's message and restores the current
+/// default without calling [onChanged].
+///
+/// ```dart
+/// iu.ToggleButton.uncontrolled(
+///   semanticLabel: 'Bold',
+///   onChanged: (on) => setState(() => bold = on),
+///   child: const Text('B'),
+/// )
+/// ```
 class ToggleButton extends StatefulWidget {
   /// A toggle button that shows [value], controlled by the parent.
   const ToggleButton({
@@ -58,8 +71,11 @@ class ToggleButton extends StatefulWidget {
     this.semanticLabel,
     this.check = false,
     this.enabled = true,
+    this.error,
     this.focusNode,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : initialValue = null;
 
   /// A toggle button that keeps its own value, starting from [initialValue].
@@ -71,8 +87,11 @@ class ToggleButton extends StatefulWidget {
     this.semanticLabel,
     this.check = false,
     this.enabled = true,
+    this.error,
     this.focusNode,
+    this.validator,
     this.onSaved,
+    this.autovalidateMode,
   }) : value = null;
 
   /// Whether it is on, when the parent controls it.
@@ -99,11 +118,22 @@ class ToggleButton extends StatefulWidget {
   /// order.
   final bool enabled;
 
+  /// An error message. A non-empty one marks the toggle invalid; it shows
+  /// under the toggle with a hazard glyph and is announced. It takes
+  /// precedence over the [validator]'s message.
+  final String? error;
+
   /// The focus node.
   final FocusNode? focusNode;
 
+  /// Checks the value when the enclosing [Form] validates.
+  final FormFieldValidator<bool>? validator;
+
   /// Called with the value when the enclosing [Form] saves.
   final FormFieldSetter<bool>? onSaved;
+
+  /// When the [validator] runs on its own.
+  final AutovalidateMode? autovalidateMode;
 
   @override
   State<ToggleButton> createState() => _ToggleButtonState();
@@ -119,6 +149,8 @@ class _ToggleButtonState extends State<ToggleButton>
 
   @override
   bool get initialValueOfWidget => widget.initialValue ?? false;
+
+  final GlobalKey _toggleKey = GlobalKey();
 
   void _toggle() {
     final next = !value;
@@ -165,49 +197,113 @@ class _ToggleButtonState extends State<ToggleButton>
       ),
     );
 
+    final toggle = Pressable(
+      onPressed: enabled ? _toggle : null,
+      focusNode: widget.focusNode,
+      builder: (context, states) => Opacity(
+        opacity: enabled ? 1 : _disabledOpacity,
+        child: FocusRingPainter(
+          visible: states.focusVisible,
+          ring: theme.focusRing,
+          radius: radius,
+          // A joined group clips its toggles, so the ring goes inside.
+          inside: joined,
+          child: AnimatedContainer(
+            duration: duration,
+            curve: Curves.ease,
+            constraints: BoxConstraints(minWidth: side, minHeight: side),
+            padding: const EdgeInsets.symmetric(horizontal: _paddingX),
+            decoration: BoxDecoration(
+              color: on
+                  ? colors.selected.withValues(alpha: _onTint)
+                  : colors.background,
+              border: joined
+                  ? null
+                  : Border.all(
+                      color: on
+                          ? colors.selected.withValues(alpha: _onBorder)
+                          : colors.controlBorder,
+                    ),
+              borderRadius: BorderRadius.circular(radius),
+            ),
+            child: Center(widthFactor: 1, heightFactor: 1, child: content),
+          ),
+        ),
+      ),
+    );
+
     return buildFormField(
       enabled: enabled,
+      validator: widget.validator,
       onSaved: widget.onSaved,
-      builder: (_) => Semantics(
-        container: true,
-        checked: on,
-        enabled: enabled,
-        label: widget.semanticLabel,
-        onTap: enabled ? _toggle : null,
-        child: Pressable(
-          onPressed: enabled ? _toggle : null,
-          keys: PressKeys.space,
-          focusNode: widget.focusNode,
-          builder: (context, states) => Opacity(
-            opacity: enabled ? 1 : _disabledOpacity,
-            child: FocusRingPainter(
-              visible: states.focusVisible,
-              ring: theme.focusRing,
-              radius: radius,
-              // A joined group clips its toggles, so the ring goes inside.
-              inside: joined,
-              child: AnimatedContainer(
-                duration: duration,
-                curve: Curves.ease,
-                constraints: BoxConstraints(minWidth: side, minHeight: side),
-                padding: const EdgeInsets.symmetric(horizontal: _paddingX),
-                decoration: BoxDecoration(
-                  color: on
-                      ? colors.selected.withValues(alpha: _onTint)
-                      : colors.background,
-                  border: joined
-                      ? null
-                      : Border.all(
-                          color: on
-                              ? colors.selected.withValues(alpha: _onBorder)
-                              : colors.controlBorder,
-                        ),
-                  borderRadius: BorderRadius.circular(radius),
-                ),
-                child: Center(widthFactor: 1, heightFactor: 1, child: content),
+      autovalidateMode: widget.autovalidateMode,
+      builder: (errorText) {
+        final error = widget.error ?? errorText;
+        final invalid = error != null && error.isNotEmpty;
+        final button = KeyedSubtree(
+          // Keeps the toggle's state, and its focus, when an error shows or
+          // clears around it.
+          key: _toggleKey,
+          child: Semantics(
+            container: true,
+            button: true,
+            toggled: on,
+            enabled: enabled,
+            label: widget.semanticLabel,
+            hint: invalid ? error : null,
+            validationResult: invalid
+                ? SemanticsValidationResult.invalid
+                : SemanticsValidationResult.none,
+            onTap: enabled ? _toggle : null,
+            child: toggle,
+          ),
+        );
+        if (!invalid) return button;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: _errorGap,
+          children: [button, _ErrorText(error)],
+        );
+      },
+    );
+  }
+}
+
+/// The error under a toggle: a hazard glyph and the message, so the invalid
+/// state never relies on colour alone, in a live region, so a new error is
+/// announced.
+class _ErrorText extends StatelessWidget {
+  const _ErrorText(this.message);
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = InvisibleTheme.of(context);
+    final color = theme.colors.dangerBodyText;
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      child: IconTheme(
+        data: IconThemeData(
+          color: color,
+          size: theme.textStyle.fontSize,
+          applyTextScaling: true,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: _errorGlyphGap,
+          children: [
+            const HazardGlyph(),
+            Flexible(
+              child: Text(
+                message,
+                style: theme.textStyle.copyWith(color: color),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
