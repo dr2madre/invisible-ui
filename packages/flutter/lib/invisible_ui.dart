@@ -15,6 +15,8 @@ export 'src/calendar/calendar_date.dart' show DateRange;
 export 'src/calendar/date_symbols.dart' show DateSymbols;
 export 'src/calendar/week_start.dart' show weekStartForLocale;
 export 'src/card/card.dart' show Card, CardOrientation, CardTrend;
+export 'src/carousel/carousel.dart'
+    show Carousel, CarouselItemBuilder, CarouselSlide, CarouselVariant;
 export 'src/checkbox/checkbox.dart' show Checkbox, CheckboxGroup;
 export 'src/choice/choice_item.dart';
 export 'src/code/code.dart' show Code;
