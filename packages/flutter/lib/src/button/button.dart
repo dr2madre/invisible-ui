@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import '../internal/ambient.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
+import '../internal/grouped_corners.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
 
@@ -183,6 +184,8 @@ class _ButtonState extends State<Button> {
     );
 
     final radius = theme.controlRadius;
+    // Inside an attached ButtonGroup the group owns the outer corners.
+    final grouped = GroupedCorners.maybeOf(context);
     final duration = reducedMotion(context)
         ? Duration.zero
         : const Duration(milliseconds: 120);
@@ -192,6 +195,8 @@ class _ButtonState extends State<Button> {
       visible: _focusVisible,
       ring: theme.focusRing,
       radius: radius,
+      corners: grouped,
+      inside: grouped != null,
       child: AnimatedContainer(
         duration: duration,
         curve: Curves.ease,
@@ -207,7 +212,7 @@ class _ButtonState extends State<Button> {
         decoration: BoxDecoration(
           color: paint.background,
           border: Border.all(color: paint.border, width: _borderWidth),
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: grouped ?? BorderRadius.circular(radius),
         ),
         child: Center(
           widthFactor: 1,

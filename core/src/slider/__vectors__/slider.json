@@ -1,0 +1,156 @@
+{
+  "description": "Slider values, language-neutral: snap(value, min, max, step), percentage(state) of a state holding { value, min, max } as given, and valueFromFraction(state, fraction) for a state holding { min, max, step }, in core/src/slider/state.ts. Numbers compare to within 1e-9. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "snap": [
+    {
+      "name": "A value on the grid stays",
+      "value": 40,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 40
+    },
+    {
+      "name": "Rounds to the nearest step",
+      "value": 7,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "expect": 5
+    },
+    {
+      "name": "Half a step rounds up",
+      "value": 7.5,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "expect": 10
+    },
+    {
+      "name": "Below the minimum clamps to it",
+      "value": -5,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 0
+    },
+    {
+      "name": "Above the maximum clamps to it",
+      "value": 999,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 100
+    },
+    {
+      "name": "A fractional step leaves no drift",
+      "value": 0.27,
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "expect": 0.3
+    },
+    {
+      "name": "The grid is anchored at the minimum",
+      "value": 12,
+      "min": 3,
+      "max": 30,
+      "step": 4,
+      "expect": 11
+    },
+    {
+      "name": "A maximum the grid does not reach stays reachable",
+      "value": 99,
+      "min": 0,
+      "max": 95,
+      "step": 10,
+      "expect": 95
+    },
+    {
+      "name": "A negative range",
+      "value": -2.5,
+      "min": -10,
+      "max": 0,
+      "step": 5,
+      "expect": 0
+    },
+    {
+      "name": "No step: only the clamp applies",
+      "value": 33.3,
+      "min": 0,
+      "max": 100,
+      "step": 0,
+      "expect": 33.3
+    }
+  ],
+  "percentage": [
+    {
+      "name": "A quarter",
+      "value": 25,
+      "min": 0,
+      "max": 100,
+      "expect": 25
+    },
+    {
+      "name": "Half of a small range",
+      "value": 4,
+      "min": 0,
+      "max": 8,
+      "expect": 50
+    },
+    {
+      "name": "A range that does not start at zero",
+      "value": 75,
+      "min": 50,
+      "max": 150,
+      "expect": 25
+    },
+    {
+      "name": "An empty range reads as 0",
+      "value": 5,
+      "min": 5,
+      "max": 5,
+      "expect": 0
+    },
+    {
+      "name": "Reversed bounds read as 0",
+      "value": 5,
+      "min": 10,
+      "max": 0,
+      "expect": 0
+    }
+  ],
+  "fraction": [
+    {
+      "name": "Snaps to the step",
+      "fraction": 0.44,
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "expect": 40
+    },
+    {
+      "name": "The end of the track",
+      "fraction": 1,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 100
+    },
+    {
+      "name": "The start of the track",
+      "fraction": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 0
+    },
+    {
+      "name": "A fractional step",
+      "fraction": 0.333,
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "expect": 0.35
+    }
+  ]
+}

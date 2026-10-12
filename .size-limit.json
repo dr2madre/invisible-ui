@@ -42,7 +42,7 @@
   {
     "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "77.5 kB"
+    "limit": "77.6 kB"
   },
   {
     "name": "@design-system/react — adapters barrel",

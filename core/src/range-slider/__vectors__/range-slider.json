@@ -1,0 +1,348 @@
+{
+  "description": "Range slider values, language-neutral: snap, effectiveMinDistance, clampPair, normalizePair and orderBounds in core/src/range-slider/state.ts, and nearerThumb and pointerFraction in geometry.ts, the pointer cases on the box { left: 10, top: 0, width: 200, height: 100 }. Numbers compare to within 1e-9. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "snap": [
+    {
+      "name": "A value on the grid stays",
+      "value": 40,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 40
+    },
+    {
+      "name": "Rounds to the nearest step",
+      "value": 7,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "expect": 5
+    },
+    {
+      "name": "Past a maximum the grid does not reach, steps down",
+      "value": 99,
+      "min": 0,
+      "max": 95,
+      "step": 10,
+      "expect": 90
+    },
+    {
+      "name": "Below the minimum clamps to it",
+      "value": -3,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 0
+    },
+    {
+      "name": "A fractional step leaves no drift",
+      "value": 0.6000000000000001,
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "expect": 0.6
+    },
+    {
+      "name": "No step: only the clamp applies",
+      "value": 101,
+      "min": 0,
+      "max": 100,
+      "step": 0,
+      "expect": 100
+    }
+  ],
+  "minDistance": [
+    {
+      "name": "No distance",
+      "minDistance": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 0
+    },
+    {
+      "name": "Rounds up to the grid",
+      "minDistance": 10,
+      "min": 0,
+      "max": 100,
+      "step": 3,
+      "expect": 12
+    },
+    {
+      "name": "Capped at the span the grid holds",
+      "minDistance": 500,
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "expect": 100
+    },
+    {
+      "name": "A negative distance is none",
+      "minDistance": -4,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "expect": 0
+    },
+    {
+      "name": "No step: capped at the span",
+      "minDistance": 150,
+      "min": 0,
+      "max": 100,
+      "step": 0,
+      "expect": 100
+    },
+    {
+      "name": "A fractional step",
+      "minDistance": 0.25,
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "expect": 0.3
+    }
+  ],
+  "clampPair": [
+    {
+      "name": "The lower thumb moves",
+      "value": [20, 80],
+      "moved": 0,
+      "raw": 30,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 0,
+      "expect": [30, 80]
+    },
+    {
+      "name": "The lower thumb stops at the upper one",
+      "value": [20, 80],
+      "moved": 0,
+      "raw": 95,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 0,
+      "expect": [80, 80]
+    },
+    {
+      "name": "The lower thumb keeps the distance",
+      "value": [20, 80],
+      "moved": 0,
+      "raw": 75,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 10,
+      "expect": [70, 80]
+    },
+    {
+      "name": "The upper thumb stops at the lower one",
+      "value": [20, 80],
+      "moved": 1,
+      "raw": 5,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 0,
+      "expect": [20, 20]
+    },
+    {
+      "name": "The upper thumb keeps the distance",
+      "value": [20, 80],
+      "moved": 1,
+      "raw": 25,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 10,
+      "expect": [20, 30]
+    },
+    {
+      "name": "A request snaps first",
+      "value": [20, 80],
+      "moved": 1,
+      "raw": 63,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "minDistance": 0,
+      "expect": [20, 65]
+    },
+    {
+      "name": "The upper thumb stays inside the maximum",
+      "value": [20, 80],
+      "moved": 1,
+      "raw": 200,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 0,
+      "expect": [20, 100]
+    },
+    {
+      "name": "A fractional step keeps the pair on the grid",
+      "value": [0.3, 0.9],
+      "moved": 0,
+      "raw": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "minDistance": 0.3,
+      "expect": [0.6, 0.9]
+    }
+  ],
+  "normalizePair": [
+    {
+      "name": "A legal pair stays",
+      "value": [20, 80],
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 0,
+      "expect": [20, 80]
+    },
+    {
+      "name": "Snaps both values",
+      "value": [7, 93],
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "minDistance": 0,
+      "expect": [5, 95]
+    },
+    {
+      "name": "Clamps into the bounds",
+      "value": [-5, 999],
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 0,
+      "expect": [0, 100]
+    },
+    {
+      "name": "Lower is kept and upper makes room",
+      "value": [50, 52],
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 10,
+      "expect": [50, 60]
+    },
+    {
+      "name": "No room above: the pair slides down",
+      "value": [95, 96],
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 10,
+      "expect": [90, 100]
+    },
+    {
+      "name": "Crossed values meet",
+      "value": [70, 30],
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "minDistance": 0,
+      "expect": [70, 70]
+    }
+  ],
+  "orderBounds": [
+    {
+      "name": "In order",
+      "min": 0,
+      "max": 100,
+      "expect": [0, 100]
+    },
+    {
+      "name": "Reversed",
+      "min": 100,
+      "max": 0,
+      "expect": [0, 100]
+    }
+  ],
+  "nearerThumb": [
+    {
+      "name": "Nearer the lower thumb",
+      "pointer": 0.2,
+      "lower": 0.25,
+      "upper": 0.75,
+      "expect": 0
+    },
+    {
+      "name": "Nearer the upper thumb",
+      "pointer": 0.7,
+      "lower": 0.25,
+      "upper": 0.75,
+      "expect": 1
+    },
+    {
+      "name": "Midway reaches the lower thumb",
+      "pointer": 0.5,
+      "lower": 0.25,
+      "upper": 0.75,
+      "expect": 0
+    },
+    {
+      "name": "Stacked, pointer above",
+      "pointer": 0.6,
+      "lower": 0.5,
+      "upper": 0.5,
+      "expect": 1
+    },
+    {
+      "name": "Stacked, pointer below",
+      "pointer": 0.4,
+      "lower": 0.5,
+      "upper": 0.5,
+      "expect": 0
+    },
+    {
+      "name": "Stacked dead on, mid track",
+      "pointer": 0.5,
+      "lower": 0.5,
+      "upper": 0.5,
+      "expect": 1
+    },
+    {
+      "name": "Stacked dead on at the top",
+      "pointer": 1,
+      "lower": 1,
+      "upper": 1,
+      "expect": 0
+    }
+  ],
+  "pointerFraction": [
+    {
+      "name": "Left to right",
+      "orientation": "horizontal",
+      "rtl": false,
+      "x": 60,
+      "y": 0,
+      "expect": 0.25
+    },
+    {
+      "name": "Right to left",
+      "orientation": "horizontal",
+      "rtl": true,
+      "x": 60,
+      "y": 0,
+      "expect": 0.75
+    },
+    {
+      "name": "Vertical, min at the bottom",
+      "orientation": "vertical",
+      "rtl": true,
+      "x": 0,
+      "y": 25,
+      "expect": 0.75
+    },
+    {
+      "name": "Past the end clamps",
+      "orientation": "horizontal",
+      "rtl": false,
+      "x": 500,
+      "y": 0,
+      "expect": 1
+    }
+  ]
+}
