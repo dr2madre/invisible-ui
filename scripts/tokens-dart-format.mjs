@@ -154,18 +154,6 @@ export function dartTokensFormat({ dictionary }) {
     })),
   );
 
-  // Component tier: one constant per token and theme, `overlay.dark` as
-  // `overlayDark`. The theme picks the one for its brightness.
-  constantsClass(
-    "InvisibleDialogTokens",
-    source.dialog.$description,
-    leaves(tree.dialog).map(({ path, token }) => ({
-      field: camel(path.join("-")),
-      type: "Color",
-      value: dartColor(token.$value),
-    })),
-  );
-
   constantsClass(
     "InvisibleTypographyTokens",
     source.typography.$description + " Font sizes in logical pixels.",

@@ -109,7 +109,7 @@
     "purpose": "The edge that goes with the quiet neutral fill."
   },
   "--ds-dialog-overlay": {
-    "purpose": "The scrim behind a modal dialog, per theme (dialog.overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement."
+    "purpose": "The scrim behind a modal dialog, per theme (role.light.dialog-overlay and role.dark.dialog-overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement."
   },
   "--ds-min-target-size-touch": {
     "purpose": "The side of the smallest square hit area a control keeps under a coarse pointer: 44 by 44 (density.touch.min-target-size). Visual density never reduces it."

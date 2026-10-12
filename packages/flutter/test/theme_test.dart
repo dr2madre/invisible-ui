@@ -31,20 +31,20 @@ void main() {
       expect(light.offset, InvisibleFocusTokens.ringOffset);
     });
 
-    test('the dialog overlay follows the brightness unless set', () {
+    test('the dialog overlay follows the colour roles unless set', () {
       expect(
         InvisibleThemeData.light().dialogOverlay,
-        InvisibleDialogTokens.overlayLight,
+        InvisibleColors.light.dialogOverlay,
       );
       expect(
         InvisibleThemeData.dark().dialogOverlay,
-        InvisibleDialogTokens.overlayDark,
+        InvisibleColors.dark.dialogOverlay,
       );
       expect(
         InvisibleThemeData.light()
-            .copyWith(brightness: Brightness.dark)
+            .copyWith(colors: InvisibleColors.dark)
             .dialogOverlay,
-        InvisibleDialogTokens.overlayDark,
+        InvisibleColors.dark.dialogOverlay,
       );
       const custom = Color(0x40000000);
       final set = InvisibleThemeData.light().copyWith(dialogOverlay: custom);

@@ -29,9 +29,9 @@ void main() {
       expect(mix.mixWith, InvisiblePalette.grey0);
     });
 
-    test('the dialog overlay has a value per theme', () {
-      expect(InvisibleDialogTokens.overlayLight, const Color(0x801C1915));
-      expect(InvisibleDialogTokens.overlayDark, const Color(0x99000000));
+    test('the dialog overlay is a role with a value per theme', () {
+      expect(InvisibleColors.light.dialogOverlay, const Color(0x801C1915));
+      expect(InvisibleColors.dark.dialogOverlay, const Color(0x99000000));
     });
 
     test('the touch target is 44 at least', () {

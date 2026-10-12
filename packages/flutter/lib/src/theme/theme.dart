@@ -200,17 +200,12 @@ class InvisibleThemeData {
 
   final Color? _dialogOverlay;
 
-  /// The scrim behind a modal dialog: the `dialog.overlay` token of the
-  /// theme's brightness, unless a colour was passed to the theme.
+  /// The scrim behind a modal dialog: the `dialog-overlay` role of [colors],
+  /// unless a colour was passed to the theme.
   ///
   /// How far it sets the dialog apart from the screen is a theme choice, not
   /// an accessibility requirement.
-  Color get dialogOverlay =>
-      _dialogOverlay ??
-      switch (brightness) {
-        Brightness.dark => InvisibleDialogTokens.overlayDark,
-        Brightness.light => InvisibleDialogTokens.overlayLight,
-      };
+  Color get dialogOverlay => _dialogOverlay ?? colors.dialogOverlay;
 
   /// The font family of every component text. Null uses the platform font.
   final String? fontFamily;

@@ -141,7 +141,6 @@ const MIX = "com.invisible-ui.mix";
 const NOT_IN_ROLE_TIER = new Set([
   "--ds-focus-ring-shadow", // built from the focus tokens below
   "--ds-elevation-overlay", // a shadow, not a colour role
-  "--ds-dialog-overlay", // component tier: dialog.overlay
   "--ds-focus-ring-width", // focus.*
   "--ds-focus-ring-offset",
   "--ds-focus-halo-width",
@@ -174,11 +173,29 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
     expect(walk("style")).not.toHaveProperty("focus");
   });
 
-  it.each(["light", "dark"] as const)("dialog.overlay.%s matches --ds-dialog-overlay", (mode) => {
-    const expected = color(mode, lookup(mode, "--ds-dialog-overlay")!);
-    const actual = tokenColor(`dialog.overlay.${mode}`);
-    expect(hexOf(actual.c)).toBe(hexOf(expected.c));
-    expect(actual.a).toBe(expected.a);
+  it("no token name describes an appearance; light and dark name themes only (ADR 0002)", () => {
+    const appearance = /\b(muted|soft|subtle|light|dark|tint|raised)\b|on-?dark|on-?light/i;
+    const names: string[] = [];
+    const collect = (node: TokenNode, path: string[]) => {
+      for (const [key, child] of Object.entries(node)) {
+        if (key.startsWith("$") || !child || typeof child !== "object") continue;
+        const next = [...path, key];
+        if ("$value" in child) names.push(next.join("."));
+        else collect(child as TokenNode, next);
+      }
+    };
+    collect(tokens, []);
+    expect(names.length).toBeGreaterThan(0);
+    for (const name of names) {
+      // role.light and role.dark are the theme groups, not part of the name.
+      const own = name.replace(/^role\.(light|dark)\./, "role.");
+      expect(own, name).not.toMatch(appearance);
+    }
+    // The dialog scrim is a role of each theme, --ds-dialog-overlay in both.
+    expect(lookup("light", "--ds-dialog-overlay")).toBeDefined();
+    expect(lookup("dark", "--ds-dialog-overlay")).toBeDefined();
+    expect(keysOf("role.light")).toContain("dialog-overlay");
+    expect(keysOf("role.dark")).toContain("dialog-overlay");
   });
 
   it("palette.grey.* matches the --ds-neutral-* ramp", () => {

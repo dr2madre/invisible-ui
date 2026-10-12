@@ -75,7 +75,9 @@ themes, not semantic tokens: `light` and `dark` there name the theme a role
 belongs to, as `[data-theme="dark"]` does in the stylesheet. The constraint
 is unchanged: a token name never says how its colour looks. So the dark
 focus ring is `role.dark.color-focus-ring`, the same role as the light one,
-and no token carries a name such as `onDark`.
+and no token carries a name such as `onDark`. The dialog scrim follows the
+same rule: `role.light.dialog-overlay` and `role.dark.dialog-overlay`, one
+role in two themes, never a token named `overlay.light` or `overlay.dark`.
 
 ## References
 

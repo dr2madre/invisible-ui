@@ -49,7 +49,8 @@ Future<T?> showInvisibleDialog<T>({
 ///
 /// It is a [PopupRoute] over a translucent barrier, with no motion, as the
 /// web dialogs have none. The barrier is [barrierColor], the light theme's
-/// `dialog.overlay` unless given; [showInvisibleDialog] passes the theme's.
+/// `dialog-overlay` role unless given; [showInvisibleDialog] passes the
+/// theme's.
 /// It remembers the element that had focus when it
 /// was created, or [returnFocus] when given, and gives focus back to it
 /// after it is popped, when that element is still there; otherwise the
@@ -59,13 +60,14 @@ class InvisibleDialogRoute<T> extends RawDialogRoute<T> {
   InvisibleDialogRoute({
     required WidgetBuilder builder,
     super.barrierDismissible,
-    super.barrierColor = InvisibleDialogTokens.overlayLight,
+    Color? barrierColor,
     super.barrierLabel,
     super.settings,
     FocusNode? returnFocus,
   }) : _returnFocus = returnFocus ?? FocusManager.instance.primaryFocus,
        super(
          pageBuilder: (context, _, _) => builder(context),
+         barrierColor: barrierColor ?? InvisibleColors.light.dialogOverlay,
          transitionDuration: Duration.zero,
          // Tab wraps inside the dialog, never out to the screen below.
          traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,

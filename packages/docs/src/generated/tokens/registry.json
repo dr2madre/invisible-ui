@@ -2383,7 +2383,7 @@
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 303,
-        "dtcg": "dialog.overlay.light"
+        "dtcg": "role.light.dialog-overlay"
       },
       "expressions": {
         "light": "rgb(28 25 21 / 0.5)",
@@ -2404,8 +2404,8 @@
         "dark": "#000000 at 60% alpha"
       },
       "hasAlpha": true,
-      "purpose": "The scrim behind a modal dialog, per theme (dialog.overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement.",
-      "group": "The scrim behind a modal dialog (dialog.overlay). How far it sets the dialog apart from the page is a theme choice: docs/tokens.md.",
+      "purpose": "The scrim behind a modal dialog, per theme (role.light.dialog-overlay and role.dark.dialog-overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement.",
+      "group": "The scrim behind a modal dialog (the dialog-overlay role). How far it sets the dialog apart from the page is a theme choice: docs/tokens.md.",
       "stability": "alpha",
       "replacedBy": null
     },

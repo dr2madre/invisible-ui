@@ -257,8 +257,8 @@ const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other
  * `style.danger.default` becomes `--ds-feedback-danger`. The role, focus,
  * typography and regular density tiers name the property itself:
  * `role.dark.color-text` is `--ds-color-text`, `focus.ring-width` is
- * `--ds-focus-ring-width`. The touch target is `--ds-min-target-size-touch`;
- * a component token per theme, `dialog.overlay.dark`, is `--ds-dialog-overlay`.
+ * `--ds-focus-ring-width`, `role.dark.dialog-overlay` is `--ds-dialog-overlay`.
+ * The touch target is `--ds-min-target-size-touch`.
  */
 function cssNameForDtcg(path) {
   const parts = path.split(".");
@@ -269,7 +269,6 @@ function cssNameForDtcg(path) {
     return `--ds-${parts[2]}`;
   }
   if (path === "density.touch.min-target-size") return "--ds-min-target-size-touch";
-  if (parts[0] === "dialog" && parts.length === 3) return `--ds-dialog-${parts[1]}`;
   if (parts[0] === "palette") {
     const hue = parts[1] === "grey" ? "neutral" : parts[1];
     return `--ds-${hue}-${parts[2]}`;

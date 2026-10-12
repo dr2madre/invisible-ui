@@ -28,8 +28,7 @@ gets the same theme from the same file:
 | Group | Holds | Becomes in `tokens.css` |
 | --- | --- | --- |
 | `radius` | Corner radii by shape role. | `radius.control` is `--ds-radius-control` |
-| `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection. | `role.dark.color-text` is `--ds-color-text` in the dark theme |
-| `dialog` | Component tier: the dialog family, per theme. | `dialog.overlay.light` and `dialog.overlay.dark` are `--ds-dialog-overlay` in each theme |
+| `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection, the dialog overlay. | `role.dark.color-text` is `--ds-color-text` in the dark theme, `role.dark.dialog-overlay` is `--ds-dialog-overlay` |
 | `focus` | Focus ring width, offset and halo width. | `focus.ring-width` is `--ds-focus-ring-width` |
 | `typography` | Line heights, heading weight, heading sizes. | `typography.font-size-h1` is `--ds-font-size-h1` |
 | `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size`, `density.touch.min-target-size` is `--ds-min-target-size-touch` |
@@ -118,8 +117,10 @@ the status.
 
 ## Dialog overlay
 
-`dialog.overlay` is the scrim between a modal dialog and the page below,
-`--ds-dialog-overlay` in the stylesheet, which every dialog sheet reads for
+`dialog-overlay` is the scrim between a modal dialog and the page below. It
+is a role of each theme, `role.light.dialog-overlay` and
+`role.dark.dialog-overlay`, as `light` and `dark` name themes, never tokens
+(ADR 0002). It is `--ds-dialog-overlay` in the stylesheet, which every dialog sheet reads for
 its `::backdrop`, and `InvisibleThemeData.dialogOverlay` in Flutter.
 
 | Theme | Overlay | Dimmed page | Dialog surface against the dimmed page | Dialog border against the dimmed page |

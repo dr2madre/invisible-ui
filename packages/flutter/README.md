@@ -305,8 +305,8 @@ if (delete == true) removeHours();
 - **Modal.** The barrier blocks the screen below, Tab stays inside, Escape
   closes the innermost dialog, and focus returns to the element that had it
   when the dialog opened, also when a dialog opens on top of another. The
-  barrier colour is the theme's `dialogOverlay`, the `dialog.overlay` token
-  for its brightness; `copyWith(dialogOverlay: ...)` replaces it.
+  barrier colour is the theme's `dialogOverlay`, the `dialog-overlay` role of
+  its colours; `copyWith(dialogOverlay: ...)` replaces it.
 - **Status area.** Messages about the dialog's own task go in the dialog
   (ADR 0016): `iu.Dialog.of(context).notify(title: 'Upload failed', ...)`
   from the content, or an `iu.DialogController` passed as `controller` from

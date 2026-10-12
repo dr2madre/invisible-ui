@@ -61,14 +61,6 @@ abstract final class InvisibleFocusTokens {
   static const double haloWidth = 3.0;
 }
 
-/// Component tier: the dialog family. overlay is the scrim behind a modal
-/// dialog, per theme. How far it sets the dialog apart from the page is a theme
-/// choice, not an accessibility requirement.
-abstract final class InvisibleDialogTokens {
-  static const Color overlayLight = Color(0x801C1915);
-  static const Color overlayDark = Color(0x99000000);
-}
-
 /// Line heights, heading weight and heading sizes, from a 100% root font size.
 /// Font sizes in logical pixels.
 abstract final class InvisibleTypographyTokens {
@@ -206,6 +198,7 @@ final class InvisibleColors {
     required this.emphasisBorder,
     required this.selected,
     required this.onSelected,
+    required this.dialogOverlay,
   });
 
   static const InvisibleColors light = InvisibleColors(
@@ -265,6 +258,7 @@ final class InvisibleColors {
     emphasisBorder: Color(0xFF413C36),
     selected: Color(0xFF7A52CC),
     onSelected: Color(0xFFFFFFFF),
+    dialogOverlay: Color(0x801C1915),
   );
 
   static const InvisibleColors dark = InvisibleColors(
@@ -324,6 +318,7 @@ final class InvisibleColors {
     emphasisBorder: Color(0xFFA8A297),
     selected: Color(0xFF7A52CC),
     onSelected: Color(0xFFFFFFFF),
+    dialogOverlay: Color(0x99000000),
   );
 
   /// `color-background`.
@@ -494,6 +489,9 @@ final class InvisibleColors {
   /// `color-on-selected`.
   final Color onSelected;
 
+  /// `dialog-overlay`.
+  final Color dialogOverlay;
+
   /// A copy with the given roles replaced.
   InvisibleColors copyWith({
     Color? background,
@@ -552,6 +550,7 @@ final class InvisibleColors {
     Color? emphasisBorder,
     Color? selected,
     Color? onSelected,
+    Color? dialogOverlay,
   }) {
     return InvisibleColors(
       background: background ?? this.background,
@@ -610,6 +609,7 @@ final class InvisibleColors {
       emphasisBorder: emphasisBorder ?? this.emphasisBorder,
       selected: selected ?? this.selected,
       onSelected: onSelected ?? this.onSelected,
+      dialogOverlay: dialogOverlay ?? this.dialogOverlay,
     );
   }
 
@@ -670,6 +670,7 @@ final class InvisibleColors {
     emphasisBorder,
     selected,
     onSelected,
+    dialogOverlay,
   ];
 
   @override

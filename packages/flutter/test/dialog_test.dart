@@ -246,8 +246,8 @@ void main() {
       Color? barrier() =>
           tester.widgetList<ModalBarrier>(find.byType(ModalBarrier)).last.color;
       for (final (theme, expected) in [
-        (InvisibleThemeData.light(), InvisibleDialogTokens.overlayLight),
-        (InvisibleThemeData.dark(), InvisibleDialogTokens.overlayDark),
+        (InvisibleThemeData.light(), InvisibleColors.light.dialogOverlay),
+        (InvisibleThemeData.dark(), InvisibleColors.dark.dialogOverlay),
         (
           InvisibleThemeData.light().copyWith(
             dialogOverlay: const Color(0x40000000),
