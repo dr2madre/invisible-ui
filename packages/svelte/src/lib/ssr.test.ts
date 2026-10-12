@@ -6,6 +6,7 @@ import Calendar from "./calendar/Calendar.svelte";
 import Combobox from "./combobox/Combobox.svelte";
 import Meter from "./meter/Meter.svelte";
 import PinInput from "./pin-input/PinInput.svelte";
+import RatingGroup from "./rating-group/RatingGroup.svelte";
 import Progress from "./progress/Progress.svelte";
 import RangeSlider from "./range-slider/RangeSlider.svelte";
 import SearchField from "./search-field/SearchField.svelte";
@@ -15,6 +16,7 @@ import Slider from "./slider/Slider.svelte";
 import Switch from "./switch/Switch.svelte";
 import TextField from "./text-field/TextField.svelte";
 import Textarea from "./text-field/Textarea.svelte";
+import ToggleButton from "./toggle-button/ToggleButton.svelte";
 
 // SSR guarantee: every component (via its fixture, which supplies valid props)
 // must server-render to an HTML string without touching the DOM. Overlays and
@@ -128,4 +130,29 @@ describe("SSR — the markup carries the form-reset defaults", () => {
     expect(body).toMatch(/<option value="pear"[^>]*selected/);
     expect(body).not.toMatch(/<option value="apple"[^>]*selected/);
   });
+});
+
+// A value control's error message is in the markup, tied to its controls,
+// before any script runs.
+describe("SSR — the markup carries the error message and its wiring", () => {
+  const error = "Pick a value first.";
+  const cases: Array<[string, unknown, Record<string, unknown>]> = [
+    ["Slider", Slider, { label: "Volume" }],
+    ["RangeSlider", RangeSlider, { label: "Price", thumbLabels: ["Min", "Max"] }],
+    ["PinInput", PinInput, { label: "Code", length: 4 }],
+    ["RatingGroup", RatingGroup, { label: "Rating" }],
+    ["ToggleButton", ToggleButton, { label: "Bold" }],
+  ];
+
+  for (const [name, Component, props] of cases) {
+    it(name, () => {
+      const { body } = render(Component as Component<Record<string, unknown>>, {
+        props: { ...props, error },
+      });
+      const id = body.match(/<p id="([^"]+-error)"[^>]*role="alert"/)?.[1];
+      expect(id).toBeTruthy();
+      expect(body).toContain(error);
+      expect(body).toContain(`aria-describedby="${id}"`);
+    });
+  }
 });

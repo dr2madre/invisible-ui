@@ -101,3 +101,41 @@ describe("Vue ToggleButton (styled)", () => {
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue ToggleButton error", () => {
+  it("shows the error after the button as an alert that describes it, without aria-invalid", async () => {
+    const { rerender } = render(ToggleButton, {
+      props: { label: "Bold", error: "Bold is unavailable" },
+      slots: { default: "B" },
+    });
+    const alert = screen.getByRole("alert");
+    expect(alert).toHaveTextContent("Bold is unavailable");
+    expect(bold().closest("label")!.nextElementSibling).toBe(alert);
+    expect(bold()).toHaveAttribute("aria-describedby", alert.id);
+    expect(bold()).toHaveAccessibleDescription("Bold is unavailable");
+    expect(bold()).not.toHaveAttribute("aria-invalid");
+
+    await rerender({ error: "" });
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(bold()).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("keeps its attributes on the label beside the message", () => {
+    render(ToggleButton, {
+      props: { label: "Bold", error: "Bold is unavailable" },
+      attrs: { class: "extra", "data-test": "toggle" },
+      slots: { default: "B" },
+    });
+    const label = bold().closest("label")!;
+    expect(label).toHaveClass("toggle", "extra");
+    expect(label).toHaveAttribute("data-test", "toggle");
+  });
+
+  it("has no accessibility violations with an error", async () => {
+    const { container } = render(ToggleButton, {
+      props: { label: "Bold", error: "Bold is unavailable" },
+      slots: { default: "B" },
+    });
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+});

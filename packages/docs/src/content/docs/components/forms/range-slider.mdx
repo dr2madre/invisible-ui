@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import RangeSliderDemo from "../../../../demos/RangeSliderDemo.svelte";
+import RangeSliderErrorDemo from "../../../../demos/RangeSliderErrorDemo.svelte";
 
 <Preview>
   <RangeSliderDemo client:visible />
@@ -70,6 +71,29 @@ with the complete pair in `detail.value`:
   the lower one can move; the other thumb is reached by moving the top one
   off it first.
 
+### Error message
+
+<Preview>
+  <RangeSliderErrorDemo client:visible />
+</Preview>
+
+A non-empty `error` shows the message under the control with a hazard icon and
+announces it as an alert. Both inputs point at it through `aria-describedby` and
+take `aria-invalid="true"`. The group around them takes neither. The message is
+plain text.
+
+```svelte
+<RangeSlider
+  label="Ticket price"
+  thumbLabels={["Lowest ticket price", "Highest ticket price"]}
+  bind:value={ticketPrice}
+  error={ticketPrice[1] > 80 ? "The highest ticket price is 80." : ""}
+/>
+```
+
+The app owns the message and clears it: a form reset leaves it in place.
+In Flutter, the validator's message clears on form reset.
+
 ### Accessibility
 
 - Two native `<input type="range">` elements: the browser provides each thumb's
@@ -93,6 +117,8 @@ with the complete pair in `detail.value`:
   (A1).
 - The thumb is 24 × 24 CSS pixels by default, the smallest pointer target
   WCAG 2.2 accepts.
+- A non-empty `error` adds `aria-invalid="true"` and an `aria-describedby`
+  link to the message on both inputs.
 
 ### Forms
 

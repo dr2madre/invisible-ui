@@ -21,6 +21,8 @@
   import { nearestThumb } from "./nearest-thumb";
   import { formReset } from "../internal/form-reset";
   import { controllable } from "../internal/controllable.svelte";
+  import { stableId } from "../internal/stable-id";
+  import FieldError from "../internal/FieldError.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { rangeSlider as core } from "@design-system/core";
 
@@ -39,6 +41,12 @@
     label: string;
     /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */
     thumbLabels: readonly [string, string];
+    /**
+     * Error message, shown under the track and announced. Both inputs point
+     * at it through `aria-describedby` and take `aria-invalid`. The app
+     * owns it: a form reset leaves it in place, so the app clears it.
+     */
+    error?: string;
     /** Form field name — both thumbs submit under it, in order:
      * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */
     name?: string;
@@ -66,6 +74,7 @@
     disabled = false,
     label,
     thumbLabels,
+    error,
     name,
     showValue = false,
     showRange = false,
@@ -150,6 +159,8 @@
     syncValue(pair);
   };
 
+  const errorId = `${stableId("ds-range-slider")}-error`;
+
   function onInput(index: 0 | 1) {
     return (event: Event) => {
       const input = event.currentTarget as HTMLInputElement;
@@ -228,6 +239,8 @@
           {name}
           aria-label={thumbLabels[0]}
           aria-valuetext={lowerAriaText}
+          aria-describedby={error ? errorId : undefined}
+          aria-invalid={error ? "true" : undefined}
           value={$pairValue[0]}
           defaultValue={defaultValue[0]}
           oninput={onInput(0)}
@@ -240,6 +253,8 @@
           {name}
           aria-label={thumbLabels[1]}
           aria-valuetext={upperAriaText}
+          aria-describedby={error ? errorId : undefined}
+          aria-invalid={error ? "true" : undefined}
           value={$pairValue[1]}
           defaultValue={defaultValue[1]}
           oninput={onInput(1)}
@@ -258,6 +273,7 @@
       <span>{format(max)}</span>
     </div>
   {/if}
+  <FieldError id={errorId} {error} />
 </div>
 
 <style>

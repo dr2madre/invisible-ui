@@ -5,10 +5,17 @@
    position outside any clipping and widen the page. */
   position: relative;
   display: inline-flex;
+  flex-wrap: wrap;
   cursor: pointer;
 }
 .toggle--disabled {
   cursor: not-allowed;
+}
+/* The custom element renders its error message inside the `.toggle` box:
+   it wraps onto a row of its own, under the button. */
+.toggle > .field__message {
+  flex-basis: 100%;
+  cursor: auto;
 }
 
 /* The native checkbox is the accessible, focusable control; visually hidden,

@@ -4,9 +4,11 @@ import {
   boolAttr,
   emit,
   HTMLElementBase,
+  nextId,
   numberAttr,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 
 export type SliderOrientation = core.Orientation;
@@ -34,7 +36,8 @@ const MAX_TICKS = 20;
  * Attributes: `label` (required: the accessible name), `value` (0 by default),
  * `min` (0 by default), `max` (100 by default), `step` (1 by default),
  * `orientation` (horizontal|vertical), `disabled`, `name`, `show-value`,
- * `show-range`, `ticks`.
+ * `show-range`, `ticks`, `error` (a message under the slider that also marks
+ * it invalid; the page owns it, so a form reset leaves it in place).
  * Properties: `value` (number), `format` (`(value: number) => string`).
  * Emits: bubbling `change` CustomEvent with `detail.value` whenever the user
  * moves the thumb.
@@ -52,6 +55,7 @@ export class DsSlider extends HTMLElementBase {
     "show-value",
     "show-range",
     "ticks",
+    "error",
   ];
 
   #field: HTMLDivElement | null = null;
@@ -59,6 +63,7 @@ export class DsSlider extends HTMLElementBase {
   #track: HTMLSpanElement | null = null;
   #input: HTMLInputElement | null = null;
   #warnedLabel = false;
+  #messages = new FieldMessages(nextId("ds-slider"));
   #icon: Element | null = null;
   /** The value the control shows, snapped onto the current grid. */
   #value = 0;
@@ -228,6 +233,7 @@ export class DsSlider extends HTMLElementBase {
 
     this.#syncTicks(api);
     this.#syncReadouts(api);
+    this.#messages.sync(this, field, [input], { description: false });
   }
 
   #syncTicks(api: core.SliderApi) {

@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useFieldError } from "../internal/field-error";
 import { usePinInput, type PinInputType } from "./use-pin-input";
 
 export interface PinInputProps {
@@ -12,6 +13,12 @@ export interface PinInputProps {
   disabled?: boolean;
   /** Validation state; colors the cells (red ring) and signals errors. */
   invalid?: boolean;
+  /**
+   * An error message shown under the cells as an alert. It describes each
+   * cell and marks the input invalid, like `invalid`. The app owns it: a form
+   * reset leaves it in place, so the app clears it.
+   */
+  error?: string;
   /** Validation success; colors the cells green (e.g. a verified code). */
   success?: boolean;
   /** Form field name; the combined code is submitted under it. */
@@ -39,7 +46,8 @@ export function PinInput({
   type = "numeric",
   mask = false,
   disabled = false,
-  invalid = false,
+  invalid: invalidProp = false,
+  error,
   success = false,
   name,
   label,
@@ -47,6 +55,8 @@ export function PinInput({
   onComplete,
 }: PinInputProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [errorId, message] = useFieldError(error);
+  const invalid = invalidProp || !!error;
   const api = usePinInput({
     value,
     length,
@@ -59,26 +69,30 @@ export function PinInput({
   });
 
   return (
-    <div
-      {...api.rootProps}
-      ref={rootRef}
-      className="pin-input"
-      aria-label={label}
-      data-invalid={invalid ? "" : undefined}
-      data-success={!invalid && success ? "" : undefined}
-    >
-      {name ? (
-        <input type="hidden" name={name} value={api.value} disabled={disabled || undefined} />
-      ) : null}
-      {api.values.map((_, index) => (
-        <input
-          key={index}
-          {...api.getInputProps(index)}
-          className="pin-input__cell"
-          type={mask ? "password" : "text"}
-          aria-invalid={invalid ? "true" : undefined}
-        />
-      ))}
-    </div>
+    <>
+      <div
+        {...api.rootProps}
+        ref={rootRef}
+        className="pin-input"
+        aria-label={label}
+        data-invalid={invalid ? "" : undefined}
+        data-success={!invalid && success ? "" : undefined}
+      >
+        {name ? (
+          <input type="hidden" name={name} value={api.value} disabled={disabled || undefined} />
+        ) : null}
+        {api.values.map((_, index) => (
+          <input
+            key={index}
+            {...api.getInputProps(index)}
+            className="pin-input__cell"
+            type={mask ? "password" : "text"}
+            aria-invalid={invalid ? "true" : undefined}
+            aria-describedby={errorId}
+          />
+        ))}
+      </div>
+      {message}
+    </>
   );
 }

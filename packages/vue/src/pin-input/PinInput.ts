@@ -1,6 +1,7 @@
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, mergeProps, ref, watch, type PropType } from "vue";
 import { usePinInput, type PinInputType } from "./use-pin-input";
 import { useFormReset } from "../internal/form-reset";
+import { useFieldError } from "../internal/field-error";
 
 export interface PinInputProps {
   /** `v-model` value; takes precedence over `value` when bound. */
@@ -16,6 +17,12 @@ export interface PinInputProps {
   invalid?: boolean;
   /** Validation success; colors the cells green (e.g. a verified code). */
   success?: boolean;
+  /**
+   * Error message. When non-empty it shows after the cells as an alert,
+   * describes each cell and marks the cells invalid. The application owns it:
+   * a form reset leaves it in place, and the application clears it.
+   */
+  error?: string;
   /** Form field name; the combined code is submitted under it. */
   name?: string;
   /** Accessible name for the group of cells (required). */
@@ -40,6 +47,9 @@ export interface PinInputProps {
  */
 export const PinInput = defineComponent({
   name: "PinInput",
+  // The message renders beside the group, so the root is a fragment and the
+  // attributes go on the group by hand.
+  inheritAttrs: false,
   props: {
     modelValue: { type: String, default: undefined },
     value: { type: String, default: "" },
@@ -49,6 +59,7 @@ export const PinInput = defineComponent({
     disabled: { type: Boolean, default: false },
     invalid: { type: Boolean, default: false },
     success: { type: Boolean, default: false },
+    error: { type: String, default: undefined },
     name: { type: String, default: undefined },
     label: { type: String, required: true },
     onValueChange: { type: Function as PropType<(value: string) => void>, default: undefined },
@@ -57,7 +68,7 @@ export const PinInput = defineComponent({
   emits: {
     "update:modelValue": (value: string) => typeof value === "string",
   },
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const given = () => props.modelValue ?? props.value;
     // The reset default follows the prop, except a give-back of what the
     // control itself reported (ADR 0012).
@@ -98,37 +109,49 @@ export const PinInput = defineComponent({
       },
     );
 
-    return () =>
-      h(
-        "div",
-        {
-          ...api.value.rootProps,
-          ref: rootRef,
-          class: "pin-input",
-          "aria-label": props.label,
-          "data-invalid": props.invalid ? "" : undefined,
-          "data-success": !props.invalid && props.success ? "" : undefined,
-        },
-        [
-          props.name
-            ? h("input", {
-                type: "hidden",
-                name: props.name,
-                value: value.value,
-                disabled: props.disabled || undefined,
-              })
-            : null,
-          ...values.value.map((cell, index) =>
-            h("input", {
-              ...api.value.getInputProps(index),
-              key: index,
-              class: "pin-input__cell",
-              type: props.mask ? "password" : "text",
-              value: cell,
-              "aria-invalid": props.invalid ? "true" : undefined,
-            }),
+    const fieldError = useFieldError("ds-pin-input", () => props.error);
+
+    return () => {
+      const [errorId, message] = fieldError();
+      const invalid = props.invalid || !!errorId;
+      return [
+        h(
+          "div",
+          mergeProps(
+            {
+              ...api.value.rootProps,
+              ref: rootRef,
+              class: "pin-input",
+              "aria-label": props.label,
+              "data-invalid": invalid ? "" : undefined,
+              "data-success": !invalid && props.success ? "" : undefined,
+            },
+            attrs,
           ),
-        ],
-      );
+          [
+            props.name
+              ? h("input", {
+                  type: "hidden",
+                  name: props.name,
+                  value: value.value,
+                  disabled: props.disabled || undefined,
+                })
+              : null,
+            ...values.value.map((cell, index) =>
+              h("input", {
+                ...api.value.getInputProps(index),
+                key: index,
+                class: "pin-input__cell",
+                type: props.mask ? "password" : "text",
+                value: cell,
+                "aria-invalid": invalid ? "true" : undefined,
+                "aria-describedby": errorId,
+              }),
+            ),
+          ],
+        ),
+        message,
+      ];
+    };
   },
 });

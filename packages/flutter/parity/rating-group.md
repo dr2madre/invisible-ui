@@ -25,7 +25,7 @@ vectors in `core/src/select/__vectors__`.
 | `enabled: false` | `disabled` | `disabled` |
 | `label`, `max` | the same names | as on the web |
 | `onSaved` | none | the form saver |
-| `error`, `validator`, `autovalidateMode` | none | the error message and the form validator every Flutter value control carries |
+| `error`, `validator`, `autovalidateMode` | `error` (the app passes and clears it; no validator) | the error message and the form validator every Flutter value control carries |
 | `name` | `name` | out of scope: Flutter forms submit no strings |
 
 ## Value and callbacks (ADR 0011)
@@ -57,9 +57,12 @@ vectors in `core/src/select/__vectors__`.
 
 ## Error message (Flutter)
 
-The web control has no error message of its own; the Flutter control has
-one, as the other Flutter value controls do (`error`, `validator` and
-`autovalidateMode` through `FormField`).
+The web control takes an `error` message the app passes and clears: an
+alert after the control, with the hazard glyph, that the control names in
+`aria-describedby`. The Flutter control takes it the Flutter way, as the
+other Flutter value controls do (`error`, `validator` and
+`autovalidateMode` through `FormField`), and a form reset clears the
+validator's message.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |

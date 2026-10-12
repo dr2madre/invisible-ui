@@ -87,6 +87,30 @@ describe("Vue adapter SSR", () => {
   }
 });
 
+describe("Vue adapter SSR: value control errors", () => {
+  for (const name of ["Slider", "RangeSlider", "PinInput", "RatingGroup", "ToggleButton"]) {
+    it(`server-renders ${name}'s error as an alert that describes the control`, async () => {
+      const component = (adapter as unknown as Record<string, Component>)[name]!;
+      const html = await renderToString(
+        createSSRApp({
+          render: () =>
+            h(
+              component as DefineComponent<Record<string, unknown>>,
+              { ...requiredProps[name], error: "Check this" },
+              { default: () => name },
+            ),
+        }),
+      );
+      const id = /<p id="([^"]+-error)" class="field__error field__message" role="alert">/.exec(
+        html,
+      )?.[1];
+      expect(id).toBeTruthy();
+      expect(html).toContain("Check this</p>");
+      expect(html).toContain(`aria-describedby="${id}"`);
+    });
+  }
+});
+
 describe("Vue adapter SSR — i18n determinism", () => {
   it("renders two concurrent locale scopes independently of the host locale", async () => {
     const { renderToString } = await import("@vue/server-renderer");

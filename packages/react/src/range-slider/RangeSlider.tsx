@@ -2,6 +2,7 @@ import { rangeSlider as core } from "@design-system/core";
 import { useEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { useI18n } from "../i18n/i18n";
 import { cx } from "../internal/cx";
+import { useFieldError } from "../internal/field-error";
 import { SliderField } from "../slider/SliderField";
 import { useRangeSlider, type RangeSliderOrientation, type RangeValue } from "./use-range-slider";
 
@@ -15,6 +16,12 @@ export interface RangeSliderProps {
   minDistance?: number;
   orientation?: RangeSliderOrientation;
   disabled?: boolean;
+  /**
+   * An error message shown under the control as an alert. It describes the
+   * control and marks it invalid. The app owns it: a form reset leaves it in
+   * place, so the app clears it.
+   */
+  error?: string;
   /** Accessible name for the group (required). */
   label: string;
   /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */
@@ -145,7 +152,9 @@ export function RangeSlider({
   format = String,
   onValueChange,
   icon,
+  error,
 }: RangeSliderProps) {
+  const [errorId, message] = useFieldError(error);
   const { t } = useI18n();
   const track = useRef<HTMLDivElement>(null);
   const lower = useRef<HTMLInputElement>(null);
@@ -181,6 +190,8 @@ export function RangeSlider({
         className="range-slider__input"
         name={name}
         aria-label={thumbLabels[index]}
+        aria-describedby={errorId}
+        aria-invalid={errorId ? true : undefined}
         aria-valuetext={t(index === 0 ? "rangeSlider.lowerText" : "rangeSlider.upperText", {
           value: format(api.value[index]),
           bound: format(Number(props[index === 0 ? "aria-valuemax" : "aria-valuemin"])),
@@ -199,6 +210,7 @@ export function RangeSlider({
       icon={icon}
       valueText={showValue ? `${format(api.value[0])} – ${format(api.value[1])}` : undefined}
       range={showRange ? [format(api.min), format(api.max)] : undefined}
+      message={message}
     >
       <div
         className={cx("range-slider", disabled && "range-slider--disabled")}

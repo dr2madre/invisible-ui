@@ -1,5 +1,6 @@
 import { useRef, type ReactNode } from "react";
 import { cx } from "../internal/cx";
+import { useFieldError } from "../internal/field-error";
 import { useToggleButton } from "./use-toggle-button";
 
 export interface ToggleButtonProps {
@@ -9,6 +10,12 @@ export interface ToggleButtonProps {
    */
   pressed?: boolean;
   disabled?: boolean;
+  /**
+   * An error message shown under the control as an alert. It describes the
+   * control. The app owns it: a form reset leaves it in place, so the app
+   * clears it.
+   */
+  error?: string;
   /**
    * Show a leading checkmark when pressed (the filter-chip look). The check
    * reveals the selected state explicitly, the way a checkbox does.
@@ -60,25 +67,31 @@ export function ToggleButton({
   value = "on",
   onPressedChange,
   children,
+  error,
 }: ToggleButtonProps) {
+  const [errorId, message] = useFieldError(error);
   const ref = useRef<HTMLInputElement>(null);
   const api = useToggleButton({ pressed, disabled, onPressedChange, controlRef: ref });
 
   return (
-    <label className={cx("toggle", disabled && "toggle--disabled")}>
-      <input
-        {...api.rootProps}
-        ref={ref}
-        className="toggle__input"
-        checked={api.pressed}
-        name={name}
-        value={value}
-        aria-label={label}
-      />
-      <span className="toggle__surface">
-        {check && api.pressed ? CHECK : null}
-        {children}
-      </span>
-    </label>
+    <>
+      <label className={cx("toggle", disabled && "toggle--disabled")}>
+        <input
+          {...api.rootProps}
+          ref={ref}
+          className="toggle__input"
+          checked={api.pressed}
+          name={name}
+          value={value}
+          aria-label={label}
+          aria-describedby={errorId}
+        />
+        <span className="toggle__surface">
+          {check && api.pressed ? CHECK : null}
+          {children}
+        </span>
+      </label>
+      {message}
+    </>
   );
 }

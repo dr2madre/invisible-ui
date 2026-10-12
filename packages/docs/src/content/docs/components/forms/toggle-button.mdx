@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import ToggleButtonDemo from "../../../../demos/ToggleButtonDemo.svelte";
+import ToggleButtonErrorDemo from "../../../../demos/ToggleButtonErrorDemo.svelte";
 
 <Preview>
   <ToggleButtonDemo client:visible />
@@ -30,6 +31,25 @@ event with `detail.pressed`:
 
 <PropsTable component="toggle-button" />
 
+### Error message
+
+<Preview>
+  <ToggleButtonErrorDemo client:visible />
+</Preview>
+
+A non-empty `error` shows the message under the control with a hazard icon and
+announces it as an alert. The button points at it through `aria-describedby`.
+The button takes no `aria-invalid`. The message is plain text.
+
+```svelte
+<ToggleButton check bind:pressed error={pressed ? "" : "Turn on email updates to get the code."}>
+  Email updates
+</ToggleButton>
+```
+
+The app owns the message and clears it: a form reset leaves it in place.
+In Flutter, the validator's message clears on form reset.
+
 ### Accessibility
 
 - A native checkbox: the browser owns the role, Space activation, focus and
@@ -37,6 +57,8 @@ event with `detail.pressed`:
 - Provide `label` when the slot content is icon-only so the control still has an accessible name.
 - Pass `name` (and optional `value`) to submit the pressed state with a form.
 - Distinct from `Switch`: a toggle button is an action, a switch is a setting.
+- A non-empty `error` links the button to the message through
+  `aria-describedby`.
 
 ### Example
 

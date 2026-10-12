@@ -1,6 +1,7 @@
-import { defineComponent, h, ref, type PropType } from "vue";
+import { defineComponent, h, mergeProps, ref, type PropType } from "vue";
 import { useToggleButton } from "./use-toggle-button";
 import { useLiveDom, useResettableValue } from "../internal/form-reset";
+import { useFieldError } from "../internal/field-error";
 
 export interface ToggleButtonProps {
   /**
@@ -21,6 +22,12 @@ export interface ToggleButtonProps {
   name?: string;
   /** Value submitted under `name` when pressed. */
   value?: string;
+  /**
+   * Error message. When non-empty it shows after the control as an alert and
+   * describes the control. The application owns it: a form reset leaves it in
+   * place, and the application clears it.
+   */
+  error?: string;
   /** Called whenever the pressed value changes. */
   onPressedChange?: (pressed: boolean) => void;
 }
@@ -46,6 +53,9 @@ export interface ToggleButtonProps {
  */
 export const ToggleButton = defineComponent({
   name: "ToggleButton",
+  // The message renders beside the label, so the root is a fragment and the
+  // attributes go on the label by hand.
+  inheritAttrs: false,
   props: {
     modelValue: { type: Boolean, default: undefined },
     pressed: { type: Boolean, default: false },
@@ -54,12 +64,13 @@ export const ToggleButton = defineComponent({
     label: { type: String, default: undefined },
     name: { type: String, default: undefined },
     value: { type: String, default: "on" },
+    error: { type: String, default: undefined },
     onPressedChange: { type: Function as PropType<(pressed: boolean) => void>, default: undefined },
   },
   emits: {
     "update:modelValue": (pressed: boolean) => typeof pressed === "boolean",
   },
-  setup(props, { emit, slots }) {
+  setup(props, { emit, slots, attrs }) {
     const input = ref<HTMLInputElement | null>(null);
     const given = () => props.modelValue ?? props.pressed;
     const { told, fallback } = useResettableValue(
@@ -82,38 +93,50 @@ export const ToggleButton = defineComponent({
     // render both have one; the property carries what the user sees.
     useLiveDom(input, () => ({ checked: api.value.pressed }));
 
-    return () =>
-      h("label", { class: ["toggle", { "toggle--disabled": props.disabled }] }, [
-        h("input", {
-          ...api.value.rootProps,
-          ref: input,
-          class: "toggle__input",
-          "^checked": fallback.value ? "" : undefined,
-          name: props.name,
-          value: props.value,
-          "aria-label": props.label,
-        }),
-        h("span", { class: "toggle__surface" }, [
-          // Leading checkmark, shown only when pressed: the explicit
-          // selected-state mark of a checkbox, in the chip.
-          props.check && api.value.pressed
-            ? h(
-                "svg",
-                {
-                  class: "toggle__check",
-                  viewBox: "0 0 24 24",
-                  fill: "none",
-                  stroke: "currentColor",
-                  "stroke-width": "2.5",
-                  "stroke-linecap": "round",
-                  "stroke-linejoin": "round",
-                  "aria-hidden": "true",
-                },
-                [h("path", { d: "M20 6 9 17l-5-5" })],
-              )
-            : null,
-          slots.default?.(),
-        ]),
-      ]);
+    const fieldError = useFieldError("ds-toggle", () => props.error);
+
+    return () => {
+      const [errorId, message] = fieldError();
+      return [
+        h(
+          "label",
+          mergeProps({ class: ["toggle", { "toggle--disabled": props.disabled }] }, attrs),
+          [
+            h("input", {
+              ...api.value.rootProps,
+              ref: input,
+              class: "toggle__input",
+              "^checked": fallback.value ? "" : undefined,
+              name: props.name,
+              value: props.value,
+              "aria-label": props.label,
+              "aria-describedby": errorId,
+            }),
+            h("span", { class: "toggle__surface" }, [
+              // Leading checkmark, shown only when pressed: the explicit
+              // selected-state mark of a checkbox, in the chip.
+              props.check && api.value.pressed
+                ? h(
+                    "svg",
+                    {
+                      class: "toggle__check",
+                      viewBox: "0 0 24 24",
+                      fill: "none",
+                      stroke: "currentColor",
+                      "stroke-width": "2.5",
+                      "stroke-linecap": "round",
+                      "stroke-linejoin": "round",
+                      "aria-hidden": "true",
+                    },
+                    [h("path", { d: "M20 6 9 17l-5-5" })],
+                  )
+                : null,
+              slots.default?.(),
+            ]),
+          ],
+        ),
+        message,
+      ];
+    };
   },
 });

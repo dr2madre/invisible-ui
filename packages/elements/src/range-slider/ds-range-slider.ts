@@ -4,9 +4,11 @@ import {
   boolAttr,
   emit,
   HTMLElementBase,
+  nextId,
   numberAttr,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { onLocaleChange, t } from "../internal/i18n";
 
@@ -49,7 +51,9 @@ const isSamePair = (a: RangeSliderValue, b: RangeSliderValue) => a[0] === b[0] &
  * `lower,upper`; the whole range by default), `min` (0 by default), `max`
  * (100 by default), `step` (1 by default), `min-distance` (the gap the
  * thumbs may not close; 0 by default), `orientation` (horizontal|vertical),
- * `disabled`, `name`, `show-value`, `show-range`, `ticks`.
+ * `disabled`, `name`, `show-value`, `show-range`, `ticks`, `error` (a message
+ * under the track that also marks both thumbs invalid; the page owns it, so a
+ * form reset leaves it in place).
  * Properties: `value` (`[lower, upper]`), `format`
  * (`(value: number) => string`).
  * Emits: bubbling `change` CustomEvent with `detail.value`, the complete pair,
@@ -71,12 +75,14 @@ export class DsRangeSlider extends HTMLElementBase {
     "show-value",
     "show-range",
     "ticks",
+    "error",
   ];
 
   #field: HTMLDivElement | null = null;
   #row: HTMLDivElement | null = null;
   #root: HTMLDivElement | null = null;
   #warnedLabel = false;
+  #messages = new FieldMessages(nextId("ds-range-slider"));
   #track: HTMLDivElement | null = null;
   #range: HTMLSpanElement | null = null;
   #inputs: [HTMLInputElement, HTMLInputElement] | null = null;
@@ -341,6 +347,7 @@ export class DsRangeSlider extends HTMLElementBase {
 
     this.#syncTicks(min, max, step);
     this.#syncReadouts(api);
+    this.#messages.sync(this, field, this.#inputs!, { description: false });
     if (!this.#hovering) this.#rest();
   }
 

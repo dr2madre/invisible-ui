@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import SliderDemo from "../../../../demos/SliderDemo.svelte";
+import SliderErrorDemo from "../../../../demos/SliderErrorDemo.svelte";
 
 <Preview>
   <SliderDemo client:visible />
@@ -30,11 +31,30 @@ sends a bubbling `change` event with `detail.value`:
 
 <PropsTable component="slider" />
 
+### Error message
+
+<Preview>
+  <SliderErrorDemo client:visible />
+</Preview>
+
+A non-empty `error` shows the message under the control with a hazard icon and
+announces it as an alert. The input points at it through `aria-describedby` and
+takes `aria-invalid="true"`. The message is plain text.
+
+```svelte
+<Slider label="Volume" bind:value error={value === 0 ? "Choose a volume above zero." : ""} />
+```
+
+The app owns the message and clears it: a form reset leaves it in place.
+In Flutter, the validator's message clears on form reset.
+
 ### Accessibility
 
 - Native `<input type="range">`: the browser provides the slider role, ARIA
   value, Arrow/Home/End/PageUp-Down control, pointer dragging and form
   submission.
+- A non-empty `error` adds `aria-invalid="true"` and an `aria-describedby`
+  link to the message on the input.
 
 ### Example
 

@@ -21,6 +21,8 @@
   import { createToggleButton } from "./create-toggle-button";
   import { formReset } from "../internal/form-reset";
   import { controllable } from "../internal/controllable.svelte";
+  import { stableId } from "../internal/stable-id";
+  import FieldError from "../internal/FieldError.svelte";
 
   interface Props {
     /**
@@ -42,6 +44,12 @@
     name?: string;
     /** Value submitted under `name` when pressed. */
     value?: string;
+    /**
+     * Error message, shown after the button and announced. The button points
+     * at it through `aria-describedby`. The app owns it: a form reset leaves
+     * it in place, so the app clears it.
+     */
+    error?: string;
     /** Called whenever the pressed value changes. */
     onPressedChange?: (p: boolean) => void;
     /** The button's content. */
@@ -55,6 +63,7 @@
     label,
     name,
     value = "on",
+    error,
     onPressedChange,
     children,
   }: Props = $props();
@@ -86,6 +95,8 @@
     reflect: syncPressed,
     isGiveBack: (next) => next === $tbState.pressed,
   });
+
+  const errorId = `${stableId("ds-toggle-button")}-error`;
 </script>
 
 <label class={["toggle", disabled && "toggle--disabled"]}>
@@ -98,6 +109,7 @@
     {name}
     {value}
     aria-label={label}
+    aria-describedby={error ? errorId : undefined}
   />
   <span class="toggle__surface">
     {#if check && $tbState.pressed}
@@ -119,6 +131,7 @@
     {@render children?.()}
   </span>
 </label>
+<FieldError id={errorId} {error} />
 
 <style>
   .toggle {

@@ -1,6 +1,7 @@
 import { defineComponent, h, ref, type PropType } from "vue";
 import { useSlider, type SliderOrientation } from "./use-slider";
 import { useLiveDom, useResettableValue } from "../internal/form-reset";
+import { useFieldError } from "../internal/field-error";
 
 export interface SliderProps {
   /** `v-model` value; takes precedence over `value` when bound. */
@@ -23,6 +24,12 @@ export interface SliderProps {
   ticks?: boolean;
   /** Format the displayed value/range (e.g. add a unit). */
   format?: (value: number) => string;
+  /**
+   * Error message. When non-empty it shows after the control as an alert and
+   * describes the control. The application owns it: a form reset leaves it in
+   * place, and the application clears it.
+   */
+  error?: string;
   /** Called whenever the value changes. */
   onValueChange?: (value: number) => void;
 }
@@ -62,6 +69,7 @@ export const Slider = defineComponent({
       type: Function as PropType<(value: number) => string>,
       default: (value: number) => String(value),
     },
+    error: { type: String, default: undefined },
     onValueChange: { type: Function as PropType<(value: number) => void>, default: undefined },
   },
   emits: {
@@ -93,9 +101,11 @@ export const Slider = defineComponent({
     // The attribute carries the default, so a native reset and a no-script
     // render both have one; the property carries what the user sees.
     useLiveDom(input, () => ({ value: String(api.value.value) }));
+    const fieldError = useFieldError("ds-slider", () => props.error);
 
     return () => {
       const { value, min, max, step, percentage } = api.value;
+      const [errorId, message] = fieldError();
       const tickCount = step > 0 ? Math.round((max - min) / step) : 0;
       const tickPositions =
         props.ticks && tickCount > 0 && tickCount <= MAX_TICKS
@@ -121,6 +131,8 @@ export const Slider = defineComponent({
                 class: "slider__input",
                 name: props.name,
                 "aria-label": props.label,
+                "aria-describedby": errorId,
+                "aria-invalid": errorId && "true",
                 // The attribute is the default; `useLiveDom` writes the
                 // property the user drags.
                 "^value": fallback.value,
@@ -150,6 +162,7 @@ export const Slider = defineComponent({
               h("span", props.format(max)),
             ])
           : null,
+        message,
       ]);
     };
   },

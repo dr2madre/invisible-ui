@@ -358,3 +358,31 @@ describe("Vue RangeSlider (styled)", () => {
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue RangeSlider error", () => {
+  const props = { label: "Price", thumbLabels: ["Minimum price", "Maximum price"] as const };
+
+  it("shows the error as an alert that describes both thumbs and marks them invalid", async () => {
+    const { rerender } = render(RangeSlider, { props: { ...props, error: "Range too wide" } });
+    const alert = screen.getByRole("alert");
+    expect(alert).toHaveTextContent("Range too wide");
+    for (const thumb of [lower(), upper()]) {
+      expect(thumb).toHaveAttribute("aria-describedby", alert.id);
+      expect(thumb).toHaveAccessibleDescription("Range too wide");
+      expect(thumb).toHaveAttribute("aria-invalid", "true");
+    }
+    expect(screen.getByRole("group", { name: "Price" })).not.toHaveAttribute("aria-invalid");
+
+    await rerender({ error: undefined });
+    expect(screen.queryByRole("alert")).toBeNull();
+    for (const thumb of [lower(), upper()]) {
+      expect(thumb).not.toHaveAttribute("aria-describedby");
+      expect(thumb).not.toHaveAttribute("aria-invalid");
+    }
+  });
+
+  it("has no accessibility violations with an error", async () => {
+    const { container } = render(RangeSlider, { props: { ...props, error: "Range too wide" } });
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+});

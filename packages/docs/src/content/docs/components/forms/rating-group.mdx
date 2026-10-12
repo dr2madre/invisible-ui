@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import RatingGroupDemo from "../../../../demos/RatingGroupDemo.svelte";
+import RatingGroupErrorDemo from "../../../../demos/RatingGroupErrorDemo.svelte";
 
 <Preview>
   <RatingGroupDemo client:visible />
@@ -30,10 +31,30 @@ star sends a bubbling `change` event with the rating as a number in
 
 <PropsTable component="rating-group" />
 
+### Error message
+
+<Preview>
+  <RatingGroupErrorDemo client:visible />
+</Preview>
+
+A non-empty `error` shows the message under the control with a hazard icon and
+announces it as an alert. Every star points at it through `aria-describedby`.
+Neither the stars nor the radio group takes `aria-invalid`. The message is plain
+text.
+
+```svelte
+<RatingGroup label="Rating" bind:value error={value === null ? "Choose a rating." : ""} />
+```
+
+The app owns the message and clears it: a form reset leaves it in place.
+In Flutter, the validator's message clears on form reset.
+
 ### Accessibility
 
 - A labelled `role="radiogroup"` of native radio stars; the browser handles
   arrow-key move/select and form submission.
+- A non-empty `error` links every star to the message through
+  `aria-describedby`.
 
 ### Example
 

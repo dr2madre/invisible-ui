@@ -290,4 +290,23 @@ describe("<ds-range-slider>", () => {
     expect(lower()).toBeInTheDocument();
     warn.mockRestore();
   });
+
+  it("shows an error that describes both thumbs and marks them invalid, kept on reset", async () => {
+    const { host, form } = mount(`description="Ignored" error="Pick a narrower range"`);
+    expect(screen.getByRole("alert")).toHaveTextContent("Pick a narrower range");
+    expect(screen.getByRole("group")).not.toHaveAttribute("aria-invalid");
+    for (const thumb of [lower(), upper()]) {
+      expect(thumb).toHaveAccessibleDescription("Pick a narrower range");
+      expect(thumb).toHaveAttribute("aria-invalid", "true");
+    }
+    form.reset();
+    await settled();
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    host.removeAttribute("error");
+    expect(screen.queryByRole("alert")).toBeNull();
+    for (const thumb of [lower(), upper()]) {
+      expect(thumb).not.toHaveAttribute("aria-describedby");
+      expect(thumb).not.toHaveAttribute("aria-invalid");
+    }
+  });
 });

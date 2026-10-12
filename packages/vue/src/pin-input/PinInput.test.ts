@@ -213,3 +213,83 @@ describe("Vue PinInput (styled)", () => {
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue PinInput reading direction and digits", () => {
+  it("moves to the next cell with ArrowLeft and back with ArrowRight in a right-to-left layout", async () => {
+    const user = userEvent.setup();
+    render({
+      render: () =>
+        h("div", { dir: "rtl" }, [h(PinInput, { length: 4, label: "Verification code" })]),
+    });
+    await user.click(cells()[1]!);
+    await user.keyboard("{ArrowLeft}");
+    expect(cells()[2]).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(cells()[1]).toHaveFocus();
+  });
+
+  it("fills ASCII digits from typed Arabic-Indic and Persian digits", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(PinInput, { props: { length: 4, label: "Verification code", onValueChange } });
+    await user.click(cells()[0]!);
+    await user.keyboard("١۲");
+    expect(cells()[0]).toHaveValue("1");
+    expect(cells()[1]).toHaveValue("2");
+    expect(onValueChange).toHaveBeenLastCalledWith("12");
+  });
+
+  it("fills ASCII digits from a pasted Arabic-Indic and Persian code", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(PinInput, { props: { length: 4, label: "Verification code", onValueChange } });
+    await user.click(cells()[0]!);
+    await user.paste("١٢۳۴");
+    expect(cells().map((cell) => cell.value)).toEqual(["1", "2", "3", "4"]);
+    expect(onValueChange).toHaveBeenLastCalledWith("1234");
+  });
+});
+
+describe("Vue PinInput error", () => {
+  it("shows the error as an alert that describes every cell and marks it invalid", async () => {
+    const { rerender } = render(PinInput, {
+      props: { length: 4, label: "Verification code", error: "Wrong code" },
+    });
+    const alert = screen.getByRole("alert");
+    const group = screen.getByRole("group", { name: "Verification code" });
+    expect(alert).toHaveTextContent("Wrong code");
+    expect(group.nextElementSibling).toBe(alert);
+    expect(group).toHaveAttribute("data-invalid");
+    expect(group).not.toHaveAttribute("aria-invalid");
+    for (const cell of cells()) {
+      expect(cell).toHaveAttribute("aria-describedby", alert.id);
+      expect(cell).toHaveAccessibleDescription("Wrong code");
+      expect(cell).toHaveAttribute("aria-invalid", "true");
+    }
+
+    await rerender({ error: "" });
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(group).not.toHaveAttribute("data-invalid");
+    for (const cell of cells()) {
+      expect(cell).not.toHaveAttribute("aria-describedby");
+      expect(cell).not.toHaveAttribute("aria-invalid");
+    }
+  });
+
+  it("keeps its attributes on the group beside the message", () => {
+    render(PinInput, {
+      props: { length: 4, label: "Verification code", error: "Wrong code" },
+      attrs: { class: "extra", "data-test": "pin" },
+    });
+    const group = screen.getByRole("group", { name: "Verification code" });
+    expect(group).toHaveClass("pin-input", "extra");
+    expect(group).toHaveAttribute("data-test", "pin");
+  });
+
+  it("has no accessibility violations with an error", async () => {
+    const { container } = render(PinInput, {
+      props: { length: 4, label: "Verification code", error: "Wrong code" },
+    });
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+});
