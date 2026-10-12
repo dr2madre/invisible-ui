@@ -8,9 +8,11 @@ import 'package:flutter/widgets.dart';
 /// [hold] while it is open.
 ///
 /// ```dart
-/// final modals = ModalObserver();
+/// import 'package:invisible_ui/invisible_ui.dart' as iu;
+///
+/// final modals = iu.ModalObserver();
 /// WidgetsApp(navigatorObservers: [modals], ...);
-/// NotificationRegion(controller: notices, modals: modals, child: ...);
+/// iu.NotificationRegion(controller: notices, modals: modals, child: ...);
 /// ```
 class ModalObserver extends NavigatorObserver with ChangeNotifier {
   final Set<Route<dynamic>> _routes = {};

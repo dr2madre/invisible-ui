@@ -148,9 +148,19 @@ class _Values extends StatelessWidget {
             semanticLabel: 'Formatting',
             variant: ToggleGroupVariant.segmented,
             children: [
-              ToggleButton.uncontrolled(initialValue: true, child: Text('B')),
-              ToggleButton.uncontrolled(child: Text('I')),
-              ToggleButton.uncontrolled(child: Text('U')),
+              ToggleButton.uncontrolled(
+                initialValue: true,
+                semanticLabel: 'Bold',
+                child: Text('B'),
+              ),
+              ToggleButton.uncontrolled(
+                semanticLabel: 'Italic',
+                child: Text('I'),
+              ),
+              ToggleButton.uncontrolled(
+                semanticLabel: 'Underline',
+                child: Text('U'),
+              ),
             ],
           ),
           gap,

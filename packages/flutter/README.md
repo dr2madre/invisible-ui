@@ -25,6 +25,14 @@ ButtonGroup, Stepper, Separator). Names and APIs can still change. It is not pub
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
 
+Some names match widgets in Flutter or Material (`Slider`, `Switch`,
+`Dialog`, `TextField`). The package keeps them: import it with a prefix, as
+every example below does.
+
+```dart
+import 'package:invisible_ui/invisible_ui.dart' as iu;
+```
+
 ## Depend on it
 
 Depend on the package by git, pinned to a commit:
@@ -45,7 +53,7 @@ committed, so a checkout needs no build step.
 
 ```dart
 import 'package:flutter/widgets.dart';
-import 'package:invisible_ui/invisible_ui.dart';
+import 'package:invisible_ui/invisible_ui.dart' as iu;
 
 class Editor extends StatelessWidget {
   const Editor({super.key});
@@ -53,18 +61,18 @@ class Editor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = MediaQuery.platformBrightnessOf(context) == Brightness.dark;
-    return InvisibleTheme(
+    return iu.InvisibleTheme(
       data: dark
-          ? InvisibleThemeData.dark(fontFamily: 'Inter')
-          : InvisibleThemeData.light(fontFamily: 'Inter'),
+          ? iu.InvisibleThemeData.dark(fontFamily: 'Inter')
+          : iu.InvisibleThemeData.light(fontFamily: 'Inter'),
       child: Row(
         children: [
-          Button(
+          iu.Button(
             onPressed: () {},
-            variant: ButtonVariant.primary,
+            variant: iu.ButtonVariant.primary,
             child: const Text('Save'),
           ),
-          Button.icon(
+          iu.Button.icon(
             onPressed: () {},
             icon: const Icon(IconData(0xe145, fontFamily: 'AppIcons')),
             semanticLabel: 'Add',
@@ -83,19 +91,24 @@ class Editor extends StatelessWidget {
 - **Overrides.** `copyWith` replaces parts of a theme;
   `InvisibleTheme.merge` does it for a subtree.
 - **Density and target size.** `density` is `compact`, `regular` (the
-  default) or `touch`. The minimum hit area is a separate setting,
-  `minTargetSize`: 24 by 24 by default, 44 by 44 under `touch`, and
-  `Size(44, 44)` gives 44 by 44 at any density. The tokens define control
+  default) or `touch`. The minimum hit area comes from the density's
+  `min-target-size` token: 24 by 24 by default, 44 by 44 under `touch`.
+  `minTargetSize: Size(44, 44)` gives 44 by 44 at any density; a smaller
+  size never goes below the token. The tokens define control
   padding for `regular` only today, so `compact` and `touch` use the regular
   padding until the tokens define theirs.
 - **Messages.** `InvisibleMessages` holds the text the components announce,
   English by default. Pass translated text through the theme's `messages`.
 - **Direction.** Components follow the ambient `Directionality`.
+- **Icons.** `iu.InvisibleTheme` sets an `IconTheme` from the tokens (the
+  text colour and the base text size, scaled with the text), so Flutter's
+  own `Icon` matches the text around it. An icon without `semanticLabel` is
+  decorative; an icon-only control takes a required name.
 
 ### Fields
 
 ```dart
-NumberField(
+iu.NumberField(
   label: 'Hours',
   value: hours, // null is empty, distinct from 0
   min: 0,
@@ -106,8 +119,9 @@ NumberField(
 )
 ```
 
-- **Controlled and uncontrolled.** `TextField(value:, onChanged:)` shows the
-  parent's value; `TextField.uncontrolled(initialValue:)` keeps its own.
+- **Controlled and uncontrolled.** `iu.TextField(value:, onChanged:)` shows
+  the parent's value; `iu.TextField.uncontrolled(initialValue:)` keeps its
+  own.
   The same pair exists for `Textarea` and `NumberField`. A changed `value`
   never calls `onChanged`.
 - **Forms.** Inside a `Form`, each field validates with `validator`, saves
@@ -119,12 +133,13 @@ NumberField(
   holds the CLDR symbols of 23 locales; pass `symbols:` for any other. Text
   that is not a number, or a number out of range or off the step grid, is
   reported, never corrected: the field shows why, and
-  `NumberFieldState.validationError` says it as data.
+  `NumberFieldState.validationError` says it as data. Arabic-Indic and
+  Persian digits are read in every locale; in de-CH both `’` and `'` group
+  thousands, and the field displays `’`.
 - **Field.** `Field` gives any other control a label, a description and an
   error, as part of the control's semantics.
-- **Material.** The name `TextField` is also Material's. An app that imports
-  both hides one (`import 'package:flutter/material.dart' hide TextField;`)
-  or imports this package with a prefix.
+- **Material.** The name `TextField` is also Material's. With the prefixed
+  import, `iu.TextField` and Material's `TextField` live side by side.
 
 ## Components
 
@@ -223,15 +238,17 @@ and the PIN input the value, progress and cell vectors in
 The overlays (Tooltip, Dropdown Menu, Context Menu, Menubar, Popover, the
 lists of Select and Combobox) need an `Overlay` above them, as
 `WidgetsApp` provides. The notification region wraps the app's navigator
-and waits while a modal is open:
+and waits while a modal is open: new notifications show when the last
+modal closes, and the ones already shown stay visible under a modal route's
+barrier, inert, with their countdowns held (ADR 0016):
 
 ```dart
-final notices = NotificationController();
-final modals = ModalObserver();
+final notices = iu.NotificationController();
+final modals = iu.ModalObserver();
 
 WidgetsApp(
   navigatorObservers: [modals],
-  builder: (context, child) => NotificationRegion(
+  builder: (context, child) => iu.NotificationRegion(
     controller: notices,
     modals: modals,
     child: child!,
@@ -248,14 +265,14 @@ A dialog opens as a route, with `showInvisibleDialog`, and completes with
 the value it closes with:
 
 ```dart
-final delete = await showInvisibleDialog<bool>(
+final delete = await iu.showInvisibleDialog<bool>(
   context: context,
-  builder: (context) => const ConfirmDialog(
+  builder: (context) => const iu.ConfirmDialog(
     title: 'Delete 6 hours?',
     description: 'The hours logged on Monday are removed from the report.',
     confirmLabel: 'Delete',
     cancelLabel: 'Keep hours',
-    confirmVariant: ButtonVariant.danger,
+    confirmVariant: iu.ButtonVariant.danger,
   ),
 );
 if (delete == true) removeHours();
@@ -265,8 +282,9 @@ if (delete == true) removeHours();
   closes the innermost dialog, and focus returns to the element that had it
   when the dialog opened, also when a dialog opens on top of another.
 - **Status area.** Messages about the dialog's own task go in the dialog
-  (ADR 0016): `Dialog.of(context).notify(title: 'Upload failed', ...)` from
-  the content, or a `DialogController` passed as `controller` from outside.
+  (ADR 0016): `iu.Dialog.of(context).notify(title: 'Upload failed', ...)`
+  from the content, or an `iu.DialogController` passed as `controller` from
+  outside.
   The `ModalObserver` above counts these dialogs, so the notification
   region holds its toasts while one is open.
 
@@ -279,10 +297,10 @@ saver, silent reset to the current default) and takes its options as
 `ChoiceItem`s:
 
 ```dart
-Combobox<String>(
+iu.Combobox<String>(
   label: 'Client',
   description: 'Optional.',
-  items: [for (final c in clients) ChoiceItem(value: c.id, label: c.name)],
+  items: [for (final c in clients) iu.ChoiceItem(value: c.id, label: c.name)],
   value: clientId,
   onChanged: (id) => setState(() => clientId = id), // null when cleared
 )
@@ -297,22 +315,22 @@ Combobox<String>(
 - **Popover** holds anything, such as a search field and a list: focus
   moves in when it opens, Escape closes it and returns focus, and inside a
   dialog Escape closes the popover first.
-- **RadioButtonGroup** is the web's RadioGroup: the widgets library has a
-  `RadioGroup` of its own.
+- **RadioButtonGroup** is the web's RadioGroup, built on the widgets
+  library's `RadioGroup` (which keeps that name) and `iu.Radio`.
 
 ### Dates
 
 ```dart
-DatePicker(
+iu.DatePicker(
   label: 'Day',
   value: day, // a DateTime; only its year, month and day count
   min: DateTime(2026),
-  weekStartsOn: DateTime.monday,
+  weekStartsOn: DateTime.monday, // null: the locale's first day, from CLDR
   clearable: true,
   onChanged: (next) => setState(() => day = next), // local midnight, or null
 )
 
-TimeField(
+iu.TimeField(
   label: 'Start',
   value: start, // '09:30', 24-hour, whatever the display
   onChanged: (next) => setState(() => start = next), // null while incomplete
@@ -331,37 +349,41 @@ TimeField(
   Gregorian calendar, checked against `Intl` by the core tests through the
   shared vectors. Pass `symbols:` for any other locale. Names come from the
   calendar day, so the device's time zone never shifts them.
-- **Calendar.** `Calendar` shows one month or two (`CalendarView`); the week
-  and agenda views of the web calendar are not carried.
+- **Calendar.** `iu.Calendar` shows one month or two (`CalendarView`); the
+  week and agenda views of the web calendar are not carried. Without
+  `weekStartsOn`, a week starts on the locale's first day from CLDR
+  (`iu.weekStartForLocale`): Sunday for `en-US`, Monday for `en-GB`.
 - **Time field.** Digits type with auto-advance, Escape puts back the last
   finished value, and a time outside `min` and `max` is reported, never
-  clamped. On touch, a vertical drag on a segment steps it.
+  clamped. On touch, a vertical drag on a segment steps it. Arabic-Indic and
+  Persian digits type as 0 to 9; the paste shortcut takes a whole time such
+  as `09:30`, or types the pasted characters from the focused segment.
 
 ### Navigation
 
 ```dart
-Tabs<String>(
+iu.Tabs<String>(
   label: 'Project',
   value: section,
-  activationMode: TabActivationMode.manual, // arrows move, Enter selects
+  activationMode: iu.TabActivationMode.manual, // arrows move, Enter selects
   items: const [
-    TabItem(value: 'hours', label: 'Hours', count: 12, child: HoursView()),
-    TabItem(value: 'people', label: 'People', child: PeopleView()),
+    iu.TabItem(value: 'hours', label: 'Hours', count: 12, child: HoursView()),
+    iu.TabItem(value: 'people', label: 'People', child: PeopleView()),
   ],
   onChanged: (next) => setState(() => section = next),
 )
 
-Breadcrumb(
+iu.Breadcrumb(
   items: [
-    BreadcrumbItem(label: 'Home', home: true, onPressed: () => go('/')),
-    BreadcrumbItem(label: 'Projects', onPressed: () => go('/projects')),
-    const BreadcrumbItem(label: 'Timelog'), // the current page
+    iu.BreadcrumbItem(label: 'Home', home: true, onPressed: () => go('/')),
+    iu.BreadcrumbItem(label: 'Projects', onPressed: () => go('/projects')),
+    const iu.BreadcrumbItem(label: 'Timelog'), // the current page
   ],
 )
 ```
 
-- **Disclosures.** `Collapsible(expanded:, onExpansionChanged:)` shows and
-  hides one region; `Accordion(value:, onChanged:)` stacks sections, one
+- **Disclosures.** `iu.Collapsible(expanded:, onExpansionChanged:)` shows and
+  hides one region; `iu.Accordion(value:, onChanged:)` stacks sections, one
   open at a time unless `multiple`. Hidden content keeps its state.
 - **Links.** `Link` and the breadcrumb steps open through `onPressed`, so
   the app decides how a destination opens (a route, or a URL it launches)
@@ -371,35 +393,44 @@ Breadcrumb(
   `ContextMenu` opens on its child at the pointer: a secondary click, a long
   press on touch, Shift+F10 or the context menu key.
 - **Navigation Menu.** A bar where some items open a panel of links: hover
-  opens after 150 ms, a tap, Enter or Space toggles, ArrowDown moves into
-  the panel, Escape returns to the trigger.
+  opens after 150 ms while the pointer stays; a tap, a click, Enter or Space
+  opens a panel and keeps it open, the next press closes it; ArrowDown moves
+  into the panel, Escape returns to the trigger. A link closes the panel
+  before its callback runs. Mark the page on screen with
+  `iu.NavigationMenuLink(current: true, ...)`: that link is read as the
+  current page and its trigger is marked on screen.
 - **Sidebar.** The app's side navigation, with collapsible sections and an
   icon rail. Every destination reports `onSelected`; the app navigates and
   decides where the sidebar shows, as on the web. The drawer mode waits for
   Sheet Dialog.
-- **Tree View.** The tree keyboard of the APG, typeahead and `*` included,
-  single selection and children loaded on demand (`onLoadChildren`).
-- **Pagination.** `Pagination(page:, pageCount:, onPageChanged:)` shows the
+- **Tree View.** The tree keyboard of the APG with typeahead, which moves
+  focus only. Single selection. Children load on demand
+  (`onLoadChildren`). For assistive technology, a closed parent offers an
+  Expand action, an open one a Collapse action, and an open parent whose
+  load failed a Retry action.
+- **Pagination.** `iu.Pagination(page:, pageCount:, onPageChanged:)` shows the
   boundary pages, the siblings of the current page and the gaps.
 - **Progress and Meter.** `Progress` is determinate, as on the web: work of
-  unknown length is waiting, which `Loading(variant: LoadingVariant.bar)`
+  unknown length is waiting, which `iu.Loading(variant: iu.LoadingVariant.bar)`
   shows. `Meter` colours its fill by how good the value is, given
   `optimum`.
 
 ### Display
 
 ```dart
-Tag(
-  status: TagStatus.selected,
+iu.Tag(
+  status: iu.TagStatus.selected,
   onRemoved: () => removeFilter('design'), // shows the remove button
   removeLabel: 'Remove Design',
   child: const Text('Design'),
 )
 
-CodeBlock(code: snippet, language: 'Dart') // a copy button, announced
+iu.CodeBlock(code: snippet, language: 'Dart') // a copy button, announced
+
+iu.Button(onPressed: () {}, copy: link, child: const Text('Copy link'))
 ```
 
-- **Avatars.** `Avatar(name:, image:)` shows the photo, or the initials
+- **Avatars.** `iu.Avatar(name:, image:)` shows the photo, or the initials
   while it loads and when it fails; the whole avatar is one image named
   `name`. `AvatarGroup` folds the people past `max` into a "+N" chip, named
   by `InvisibleMessages.avatarGroupMore`, a function of the count, so a
@@ -409,18 +440,21 @@ CodeBlock(code: snippet, language: 'Dart') // a copy button, announced
   adds to the text and never replaces it.
 - **Code.** `Code` and `CodeBlock` show their text as text, in
   `InvisibleThemeData.monoFontFamily` or the web's monospace stack.
-  `CodeBlock` copies through Flutter's `Clipboard`.
+  `CodeBlock` copies through Flutter's `Clipboard`. A `Button` with `copy`
+  copies too, and shows "Copied" beside itself for two seconds, announced,
+  keeping its name and focus.
 - **Skeleton.** Hidden from assistive technology unless it has a
   `semanticLabel`; still under reduced motion.
 - **ScrollArea.** A focusable viewport with the theme's scroll bars; the
-  keyboard scrolls it while it has focus.
+  keyboard scrolls it while it has focus. With `semanticLabel` it is a named
+  region.
 - **AspectRatio** is the widgets library's own; see
   [parity/aspect-ratio.md](parity/aspect-ratio.md).
 
 ### Values
 
 ```dart
-Slider(
+iu.Slider(
   label: 'Volume',
   value: volume,
   step: 5,
@@ -429,7 +463,7 @@ Slider(
   onChangeEnd: save, // once per drag, tap or key
 )
 
-PinInput(
+iu.PinInput(
   label: 'Verification code',
   value: code,
   onChanged: (next) => setState(() => code = next),
@@ -438,32 +472,46 @@ PinInput(
 ```
 
 - **Forms.** Each has a controlled constructor and an `.uncontrolled` one,
-  and joins an enclosing `Form` with `onSaved` and a silent reset. As on the
-  web, they show no error message of their own: the app shows one beside
-  them. `Radio` holds no value; `RadioButtonGroup` does.
+  and joins an enclosing `Form` with `onSaved` and a silent reset.
+  `iu.Slider`, `iu.RangeSlider`, `iu.RatingGroup`, `iu.PinInput` and
+  `iu.ToggleButton` take `error`, or a `validator` with `autovalidateMode`:
+  the message shows under the control after a hazard glyph, marks it
+  invalid and is announced, and a form reset clears it. For example
+  `iu.RatingGroup.uncontrolled(label: 'Rating', validator: (v) => v == null
+  ? 'Choose a rating.' : null)`. `iu.Radio` holds no value;
+  `iu.RadioButtonGroup` does, and shows its own error the same way.
 - **Sliders.** `Slider` and `RangeSlider` take the keys of a native range
   input: arrows, Page Up and Page Down, Home and End, mirrored right to
   left. A `RangeSlider` value is a `(double, double)` pair whose thumbs
   never cross and keep `minDistance`; each thumb announces the bound it may
   not pass. `label` and `thumbLabels` name them without showing.
-- **Choices.** `RatingGroup` is a radio group of stars. `Radio` is one
-  radio button for a group the app lays out: radios with the same `name`
-  form a group with one tab stop and arrow keys, the parent holding
-  `groupValue`. `ToggleButton` is an on and off button, announced as
-  checked, as on the web; `ToggleGroup` lays out toggles, separate or
-  joined, and keeps no state.
+- **Choices.** `iu.RatingGroup` is a radio group of stars. `iu.Radio` is
+  one radio button built on `RawRadio`: inside a `RadioGroup` it joins it,
+  as Flutter's own radios do (`RadioGroup<String>(groupValue: plan,
+  onChanged: ..., child: Column(children: [iu.Radio(value: 'free', label:
+  'Free'), ...]))`); outside one, radios with the same `name` form a group
+  with one tab stop and arrow keys, the parent holding `groupValue`.
+  `iu.ToggleButton` is an on and off button, announced as a toggle button;
+  its name stays the same in both states, and a tap, Enter or Space flips
+  it. `iu.ToggleGroup` lays out independent toggles, separate or joined,
+  and keeps no state: with three or more toggles it is one tab stop with
+  arrow keys and Home and End, mirrored right to left; with one or two each
+  toggle is its own tab stop; inside an `iu.Toolbar` the toolbar's keys
+  apply. For one choice among several, use `iu.SegmentedControl`.
 - **PinInput.** One cell per character, moving on as the user types; a
   paste or a code the platform fills in spreads over the cells, and the
   first cell carries the one-time code autofill hint. `obscureText` hides
-  the characters; the widget never logs the code.
+  the characters; the widget never logs the code. Arabic-Indic and Persian
+  digits, typed or pasted, land in the cells as 0 to 9 and the code is
+  reported in ASCII.
 - **Groups and steps.** `ButtonGroup` names a set of action buttons and
   joins them into one bar when `attached`. `Stepper` shows the steps of a
   task; in linear mode only the current and completed steps can be chosen,
   and a narrow stepper stacks its steps.
 - **Icon** is the widgets library's own; see [parity/icon.md](parity/icon.md).
 
-An app that also imports Material hides its widgets of the same name:
-`import 'package:flutter/material.dart' hide AlertDialog, Card, Checkbox, Dialog, DropdownMenu, Radio, RangeSlider, Slider, Stepper, Switch, TextField, Tooltip;`.
+An app that also imports Material keeps both sets of names apart with the
+prefixed import: `iu.Slider` is this package's, `Slider` is Material's.
 
 ## Tokens
 
@@ -482,8 +530,8 @@ flutter test
 flutter widget-preview start   # previews in preview/, on the current stable release
 ```
 
-Screen reader behaviour on macOS, Windows and Linux is a manual check and is
-not yet verified.
+Screen reader behaviour (VoiceOver, TalkBack, NVDA and the others) is a
+manual check. Assistive technology: not tested.
 
 ## License
 
