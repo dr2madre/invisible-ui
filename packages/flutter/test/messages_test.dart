@@ -30,6 +30,7 @@ void main() {
     () {
       const messages = InvisibleMessages();
       expect(messages.loadingLabel, _english('loading.label'));
+      expect(messages.buttonCopied, _english('button.copied'));
       expect(messages.submenuHint, _english('menu.submenu'));
       expect(messages.contextMenuLabel, _english('contextMenu.label'));
       expect(messages.closeLabel, _english('inlineNotification.close'));
@@ -126,8 +127,15 @@ void main() {
       expect(messages.sidebarCollapse, _english('sidebar.collapse'));
       expect(messages.sidebarExpand, _english('sidebar.expand'));
       expect(messages.sidebarCurrent, _english('sidebar.current'));
+      expect(
+        messages.navigationMenuCurrent,
+        _english('navigationMenu.current'),
+      );
       expect(messages.treeLoading, _english('tree.loading'));
       expect(messages.treeLoadError, _english('tree.loadError'));
+      expect(messages.treeExpand, _english('tree.expand'));
+      expect(messages.treeCollapse, _english('tree.collapse'));
+      expect(messages.treeRetry, _english('tree.retry'));
       expect(
         messages.avatarGroupMore(1),
         InvisibleMessages.fill(_plural('avatarGroup.more', 'one')!, {

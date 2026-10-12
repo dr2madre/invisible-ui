@@ -141,6 +141,9 @@ export const en = {
   // Read with the current destination on a platform whose semantics have no
   // aria-current (the Flutter adapter).
   "sidebar.current": "current page",
+  // Read with the navigation menu's current link on a platform whose
+  // semantics have no aria-current (the Flutter adapter).
+  "navigationMenu.current": "current page",
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",
@@ -149,6 +152,12 @@ export const en = {
   "stepper.current": "current step",
   "tree.loading": "Loading {name}…",
   "tree.loadError": "Could not load {name}. Press Right Arrow to retry.",
+  // The custom actions a tree branch offers on a platform whose semantics
+  // have no expanded-state actions of their own (the Flutter adapter).
+  "tree.expand": "Expand",
+  "tree.collapse": "Collapse",
+  // The custom action that reloads a branch whose children failed to load.
+  "tree.retry": "Retry",
   "carousel.previous": "Previous slide",
   "carousel.next": "Next slide",
   "carousel.choose": "Choose slide",

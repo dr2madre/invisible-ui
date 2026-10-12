@@ -138,10 +138,18 @@ describe("i18n — translate", () => {
     ).toBe("passo corrente");
   });
 
+  it("carries the tree branch actions for platforms with no expanded-state actions", () => {
+    expect(translate(catalog, {}, "en", "tree.expand")).toBe("Expand");
+    expect(translate(catalog, {}, "en", "tree.collapse")).toBe("Collapse");
+    expect(translate(catalog, {}, "en", "tree.retry")).toBe("Retry");
+    expect(translate(catalog, { "tree.retry": "Riprova" }, "it", "tree.retry")).toBe("Riprova");
+  });
+
   it("carries the current page marker for platforms with no aria-current", () => {
     expect(translate(catalog, {}, "en", "pagination.current")).toBe("current page");
     expect(translate(catalog, {}, "en", "breadcrumb.current")).toBe("current page");
     expect(translate(catalog, {}, "en", "sidebar.current")).toBe("current page");
+    expect(translate(catalog, {}, "en", "navigationMenu.current")).toBe("current page");
     expect(
       translate(catalog, { "breadcrumb.current": "pagina corrente" }, "it", "breadcrumb.current"),
     ).toBe("pagina corrente");

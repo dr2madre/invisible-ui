@@ -18,6 +18,7 @@ class InvisibleMessages {
   /// Creates a message set, English unless a field is given.
   const InvisibleMessages({
     this.loadingLabel = 'Loading…',
+    this.buttonCopied = 'Copied',
     this.submenuHint = 'submenu',
     this.contextMenuLabel = 'Context menu',
     this.closeLabel = 'Close',
@@ -78,8 +79,12 @@ class InvisibleMessages {
     this.sidebarCollapse = 'Collapse the navigation',
     this.sidebarExpand = 'Expand the navigation',
     this.sidebarCurrent = 'current page',
+    this.navigationMenuCurrent = 'current page',
     this.treeLoading = 'Loading {name}…',
     this.treeLoadError = 'Could not load {name}. Press Right Arrow to retry.',
+    this.treeExpand = 'Expand',
+    this.treeCollapse = 'Collapse',
+    this.treeRetry = 'Retry',
     this.avatarGroupMore = _avatarGroupMore,
     this.tagRemove = 'Remove',
     this.codeBlockLabel = 'Code',
@@ -101,6 +106,10 @@ class InvisibleMessages {
 
   /// Announced while a control is busy. Catalog key `loading.label`.
   final String loadingLabel;
+
+  /// Shown beside a button after it copied its text, and announced.
+  /// Catalog key `button.copied`.
+  final String buttonCopied;
 
   /// The hint of a menu item that opens a submenu. Catalog key
   /// `menu.submenu`.
@@ -338,6 +347,10 @@ class InvisibleMessages {
   /// `sidebar.current`.
   final String sidebarCurrent;
 
+  /// Read with a navigation menu's current link. Catalog key
+  /// `navigationMenu.current`.
+  final String navigationMenuCurrent;
+
   /// Read while a tree item's children load, with `{name}`. Catalog key
   /// `tree.loading`.
   final String treeLoading;
@@ -345,6 +358,18 @@ class InvisibleMessages {
   /// Read when a tree item's children failed to load, with `{name}`.
   /// Catalog key `tree.loadError`.
   final String treeLoadError;
+
+  /// The custom action that expands a tree branch. Catalog key
+  /// `tree.expand`.
+  final String treeExpand;
+
+  /// The custom action that collapses a tree branch. Catalog key
+  /// `tree.collapse`.
+  final String treeCollapse;
+
+  /// The custom action that loads a branch's children again after they
+  /// failed to load. Catalog key `tree.retry`.
+  final String treeRetry;
 
   /// The name of an avatar group's "+N" chip, from the number of avatars
   /// left out. Catalog key `avatarGroup.more`, a plural message: a
@@ -420,6 +445,7 @@ class InvisibleMessages {
   /// A copy with the given messages replaced.
   InvisibleMessages copyWith({
     String? loadingLabel,
+    String? buttonCopied,
     String? submenuHint,
     String? contextMenuLabel,
     String? closeLabel,
@@ -480,8 +506,12 @@ class InvisibleMessages {
     String? sidebarCollapse,
     String? sidebarExpand,
     String? sidebarCurrent,
+    String? navigationMenuCurrent,
     String? treeLoading,
     String? treeLoadError,
+    String? treeExpand,
+    String? treeCollapse,
+    String? treeRetry,
     String Function(int count)? avatarGroupMore,
     String? tagRemove,
     String? codeBlockLabel,
@@ -502,6 +532,7 @@ class InvisibleMessages {
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
+      buttonCopied: buttonCopied ?? this.buttonCopied,
       submenuHint: submenuHint ?? this.submenuHint,
       contextMenuLabel: contextMenuLabel ?? this.contextMenuLabel,
       closeLabel: closeLabel ?? this.closeLabel,
@@ -574,8 +605,13 @@ class InvisibleMessages {
       sidebarCollapse: sidebarCollapse ?? this.sidebarCollapse,
       sidebarExpand: sidebarExpand ?? this.sidebarExpand,
       sidebarCurrent: sidebarCurrent ?? this.sidebarCurrent,
+      navigationMenuCurrent:
+          navigationMenuCurrent ?? this.navigationMenuCurrent,
       treeLoading: treeLoading ?? this.treeLoading,
       treeLoadError: treeLoadError ?? this.treeLoadError,
+      treeExpand: treeExpand ?? this.treeExpand,
+      treeCollapse: treeCollapse ?? this.treeCollapse,
+      treeRetry: treeRetry ?? this.treeRetry,
       avatarGroupMore: avatarGroupMore ?? this.avatarGroupMore,
       tagRemove: tagRemove ?? this.tagRemove,
       codeBlockLabel: codeBlockLabel ?? this.codeBlockLabel,
@@ -602,6 +638,7 @@ class InvisibleMessages {
   bool operator ==(Object other) =>
       other is InvisibleMessages &&
       other.loadingLabel == loadingLabel &&
+      other.buttonCopied == buttonCopied &&
       other.submenuHint == submenuHint &&
       other.contextMenuLabel == contextMenuLabel &&
       other.closeLabel == closeLabel &&
@@ -662,8 +699,12 @@ class InvisibleMessages {
       other.sidebarCollapse == sidebarCollapse &&
       other.sidebarExpand == sidebarExpand &&
       other.sidebarCurrent == sidebarCurrent &&
+      other.navigationMenuCurrent == navigationMenuCurrent &&
       other.treeLoading == treeLoading &&
       other.treeLoadError == treeLoadError &&
+      other.treeExpand == treeExpand &&
+      other.treeCollapse == treeCollapse &&
+      other.treeRetry == treeRetry &&
       other.avatarGroupMore == avatarGroupMore &&
       other.tagRemove == tagRemove &&
       other.codeBlockLabel == codeBlockLabel &&
@@ -685,6 +726,7 @@ class InvisibleMessages {
   @override
   int get hashCode => Object.hashAll([
     loadingLabel,
+    buttonCopied,
     submenuHint,
     contextMenuLabel,
     closeLabel,
@@ -745,8 +787,12 @@ class InvisibleMessages {
     sidebarCollapse,
     sidebarExpand,
     sidebarCurrent,
+    navigationMenuCurrent,
     treeLoading,
     treeLoadError,
+    treeExpand,
+    treeCollapse,
+    treeRetry,
     avatarGroupMore,
     tagRemove,
     codeBlockLabel,
