@@ -58,7 +58,7 @@ export const ToggleGroup = defineComponent({
   },
   setup(props, { slots }) {
     const root = ref<HTMLElement | null>(null);
-    const handlers = useToggleGroup({ root, orientation: () => props.orientation });
+    useToggleGroup({ root, orientation: () => props.orientation });
 
     return () =>
       h(
@@ -73,7 +73,6 @@ export const ToggleGroup = defineComponent({
           role: "group",
           "aria-label": props.label,
           "data-orientation": props.orientation,
-          ...handlers,
         },
         slots.default?.(),
       );

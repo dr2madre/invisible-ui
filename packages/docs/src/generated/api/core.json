@@ -2681,9 +2681,19 @@
       "signature": "namespace toggleGroup"
     },
     {
+      "name": "toggleGroup.ManageOptions",
+      "kind": "type",
+      "signature": "toggleGroup.ManageOptions = interface ManageOptions { /** * The group's layout axis, read each time a key arrives, so a change needs * no new call. Defaults to horizontal. */ orientation?: () => ToolbarOrientation; /** Which descendants are toggles. Defaults to `button.toggle`. */ selector?: string; }"
+    },
+    {
       "name": "toggleGroup.ROVING_MINIMUM",
       "kind": "const",
       "signature": "toggleGroup_ROVING_MINIMUM: typeof ROVING_MINIMUM"
+    },
+    {
+      "name": "toggleGroup.manage",
+      "kind": "const",
+      "signature": "toggleGroup_manage: typeof manage"
     },
     {
       "name": "toggleGroup.move",

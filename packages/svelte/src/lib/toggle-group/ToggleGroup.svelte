@@ -63,134 +63,13 @@
     children,
   }: Props = $props();
 
-  // The group element, set once it is in the page.
-  let root: HTMLElement | undefined;
-  // The toggle focused last and its index: where focus returns when it is
-  // removed, and which toggle keeps the tab stop.
-  let lastFocused: HTMLButtonElement | null = null;
-  let lastIndex = -1;
-  // Whether focus is still in the group, as far as it can tell: a toggle
-  // removed while focused takes focus with it and fires nothing reliable.
-  let holdsFocus = false;
-  // Toggles whose tabindex this group wrote, so it only removes its own. A
-  // plain array: nothing renders from it.
-  let managed: HTMLElement[] = [];
-
-  /** The toggles inside the group, in DOM order. */
-  function toggles(): HTMLButtonElement[] {
-    if (!root) return [];
-    return Array.from(root.querySelectorAll<HTMLButtonElement>("button.toggle"));
-  }
-
-  /** A toolbar around the group owns the keys and the tab stop. */
-  function inToolbar(): boolean {
-    return root?.parentElement?.closest('[role="toolbar"]') != null;
-  }
-
-  function roving(list: HTMLButtonElement[]): boolean {
-    return core.roves({ count: list.length, inToolbar: inToolbar() });
-  }
-
-  function setTabStop(list: HTMLButtonElement[], stop: number) {
-    list.forEach((el, i) => {
-      el.tabIndex = i === stop ? 0 : -1;
-      if (!managed.includes(el)) managed.push(el);
-    });
-  }
-
-  /** Give each toggle its own tab stop back. */
-  function release() {
-    for (const el of managed) el.removeAttribute("tabindex");
-    managed = [];
-  }
-
-  // Children can be added, removed, or toggle disabled after mount: the count
-  // decides whether the group is one tab stop, and focus is never lost.
-  function reconcile() {
-    if (inToolbar()) {
-      managed = [];
-      return;
-    }
-    // Removed toggles are dropped, so they are not held on to.
-    managed = managed.filter((el) => el.isConnected);
-    const list = toggles();
-    const active = document.activeElement;
-    const lost = !active || active === document.body;
-    if (holdsFocus && lastFocused && !lastFocused.isConnected && lost) {
-      const target = list[core.refocusIndex({ lastIndex, count: list.length })];
-      lastFocused = null;
-      holdsFocus = false;
-      target?.focus();
-    } else if (lastFocused?.isConnected) {
-      lastIndex = list.indexOf(lastFocused);
-    }
-
-    if (!roving(list)) {
-      release();
-      return;
-    }
-    setTabStop(
-      list,
-      core.tabStop({
-        disabled: list.map((el) => el.disabled),
-        focused: list.indexOf(document.activeElement as HTMLButtonElement),
-        last: lastIndex,
-      }),
-    );
-  }
-
-  function onKeyDown(event: KeyboardEvent) {
-    const list = toggles();
-    if (!roving(list)) return;
-    const index = list.indexOf(event.target as HTMLButtonElement);
-    if (index === -1) return;
-    const next = core.move({
-      key: event.key,
-      index,
-      disabled: list.map((el) => el.disabled),
-      orientation,
-      direction: root && getComputedStyle(root).direction === "rtl" ? "rtl" : "ltr",
-    });
-    if (next === null) return;
-    event.preventDefault();
-    setTabStop(list, next);
-    list[next]!.focus();
-  }
-
-  function onFocusIn(event: FocusEvent) {
-    const list = toggles();
-    const index = list.indexOf(event.target as HTMLButtonElement);
-    if (index === -1) return;
-    lastFocused = list[index]!;
-    lastIndex = index;
-    holdsFocus = true;
-    if (roving(list)) setTabStop(list, index);
-  }
-
-  // Focus left for somewhere else, unless the toggle left with it: a toggle
-  // still in the page means the user moved on, so a later removal must not
-  // pull focus back.
-  function onFocusOut(event: FocusEvent) {
-    const target = event.target as Element;
-    queueMicrotask(() => {
-      if (target.isConnected && !root?.contains(document.activeElement)) holdsFocus = false;
-    });
-  }
-
-  // An attachment keeps this client-only: on the server every toggle is its
-  // own tab stop until the group mounts.
-  const manageFocus: Attachment<HTMLElement> = (node) => {
-    root = node;
-    reconcile();
-    const observer = new MutationObserver(reconcile);
-    observer.observe(node, { childList: true, subtree: true, attributeFilter: ["disabled"] });
-    return () => observer.disconnect();
-  };
+  // Applies the keyboard rule once the group is in the page, so on the server
+  // every toggle is its own tab stop. The axis is read when a key arrives,
+  // so changing it does not re-run the attachment.
+  const manageFocus: Attachment<HTMLElement> = (node) =>
+    core.manage(node, { orientation: () => orientation });
 </script>
 
-<!-- The keys move focus between the toggles; the group itself never takes
-     focus. -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
   class={[
     "toggle-group",
@@ -201,9 +80,6 @@
   aria-label={label}
   data-orientation={orientation}
   {@attach manageFocus}
-  onkeydown={onKeyDown}
-  onfocusin={onFocusIn}
-  onfocusout={onFocusOut}
 >
   {@render children?.()}
 </div>

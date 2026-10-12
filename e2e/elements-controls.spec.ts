@@ -197,6 +197,16 @@ test.describe("Elements toggle button and toggle group", () => {
       await expect(page.getByRole("button", { name: "Archived" })).toBeFocused();
     }
   });
+
+  test("removing the focused toggle moves focus to the one now at its place", async ({ page }) => {
+    const group = page.getByRole("group", { name: "Formatting" });
+    await group.getByRole("button", { name: "Bold" }).focus();
+    await page.locator("ds-toggle-button[name='bold']").evaluate((host) => host.remove());
+    const italic = group.getByRole("button", { name: "Italic" });
+    await expect(italic).toBeFocused();
+    // Two toggles left: each is its own tab stop again.
+    await expect(group.locator("[tabindex]")).toHaveCount(0);
+  });
 });
 
 test.describe("Elements upload drop area", () => {
