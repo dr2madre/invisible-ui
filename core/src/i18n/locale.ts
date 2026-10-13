@@ -4,8 +4,13 @@
  * server and client render the same output.
  */
 
-/** The documented library default locale. */
-export const DEFAULT_LOCALE = "en";
+/**
+ * The locale used when the app gives none and the page declares no language:
+ * the catalog's language (English) with the international conventions of
+ * CLDR's world region (`001`) and ISO 8601. Weeks start on Monday, time uses
+ * the 24-hour cycle (`-u-hc-h23`), and numeric dates read year-month-day.
+ */
+export const DEFAULT_LOCALE = "en-001-u-hc-h23";
 
 export type Dir = "ltr" | "rtl";
 
@@ -112,4 +117,69 @@ export function localeHourCycle(locale: string): 12 | 24 | null {
   } catch {
     return null;
   }
+}
+
+/** The language and direction a page declares, each `null` when absent. */
+export interface PageLocale {
+  locale: string | null;
+  dir: Dir | null;
+}
+
+const DIR = '[dir="ltr" i], [dir="rtl" i]';
+
+/**
+ * The language and direction the page declares around `start`: the closest
+ * `lang` and `dir` attributes, then those of the document element. Without a
+ * document (server rendering) both are `null`.
+ */
+export function pageLocale(start?: Element | null): PageLocale {
+  if (typeof document === "undefined") return { locale: null, dir: null };
+  const root = document.documentElement;
+  const lang = start?.closest("[lang]")?.getAttribute("lang") ?? root.getAttribute("lang");
+  const dir = (start?.closest(DIR) ?? root.closest(DIR))?.getAttribute("dir")?.toLowerCase();
+  return {
+    locale: lang?.trim() || null,
+    dir: dir === "ltr" || dir === "rtl" ? dir : null,
+  };
+}
+
+const pageListeners = new Set<() => void>();
+let pageObserver: MutationObserver | undefined;
+
+/**
+ * Call `listener` when the document element's `lang` or `dir` changes, for
+ * an app that switches the page language at runtime. Returns the function
+ * that stops it. Without a document it does nothing. One observer serves
+ * every listener.
+ */
+export function subscribePageLocale(listener: () => void): () => void {
+  if (typeof document === "undefined" || typeof MutationObserver === "undefined") {
+    return () => {};
+  }
+  pageListeners.add(listener);
+  if (!pageObserver) {
+    pageObserver = new MutationObserver(() => {
+      for (const notify of Array.from(pageListeners)) notify();
+    });
+    pageObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang", "dir"],
+    });
+  }
+  return () => {
+    pageListeners.delete(listener);
+    if (pageListeners.size === 0) {
+      pageObserver?.disconnect();
+      pageObserver = undefined;
+    }
+  };
+}
+
+/**
+ * The locale a component uses, by one rule for every adapter: the app's
+ * locale (a provider or a prop), then the page's language, then
+ * {@link DEFAULT_LOCALE}.
+ */
+export function resolveLocale(app?: string | null, page?: string | null): string {
+  return canonicalLocale(app || page);
 }

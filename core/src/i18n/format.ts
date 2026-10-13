@@ -1,4 +1,4 @@
-import { canonicalLocale } from "./locale";
+import { canonicalLocale, DEFAULT_LOCALE } from "./locale";
 
 /**
  * Cached, deterministic `Intl` factories shared by every adapter. Every call
@@ -38,7 +38,65 @@ export function dateTimeFormat(
   const tag = canonicalLocale(locale);
   const merged: Intl.DateTimeFormatOptions = { calendar: "gregory", ...options };
   const key = `${tag}|${JSON.stringify(merged)}`;
-  return cached(dateTimeCache, key, () => new Intl.DateTimeFormat(tag, merged));
+  return cached(dateTimeCache, key, () =>
+    tag === DEFAULT_LOCALE && merged.dateStyle === "short" && !merged.timeStyle
+      ? isoDateFormat(tag, merged)
+      : new Intl.DateTimeFormat(tag, merged),
+  );
+}
+
+/**
+ * The default locale's numeric date in ISO 8601 order, `2026-01-05`. CLDR's
+ * world English writes `05/01/2026`, and no language-neutral locale data
+ * carries the ISO pattern, so the parts are put in order here.
+ */
+function isoDateFormat(
+  tag: string,
+  { dateStyle: _style, ...options }: Intl.DateTimeFormatOptions,
+): Intl.DateTimeFormat {
+  const base = new Intl.DateTimeFormat(tag, {
+    ...options,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const formatToParts = (date?: Date | number): Intl.DateTimeFormatPart[] => {
+    const part: Record<string, string> = {};
+    for (const { type, value } of base.formatToParts(date)) part[type] = value;
+    return [
+      { type: "year", value: part.year!.padStart(4, "0") },
+      { type: "literal", value: "-" },
+      { type: "month", value: part.month! },
+      { type: "literal", value: "-" },
+      { type: "day", value: part.day! },
+    ];
+  };
+  const format = (date?: Date | number) =>
+    formatToParts(date)
+      .map((p) => p.value)
+      .join("");
+  const formatRange = (start: Date | number, end: Date | number) => {
+    const from = format(start);
+    const to = format(end);
+    return from === to ? from : `${from} – ${to}`;
+  };
+  return {
+    format,
+    formatToParts,
+    formatRange,
+    resolvedOptions: () => base.resolvedOptions(),
+  } as unknown as Intl.DateTimeFormat;
+}
+
+/**
+ * The hour cycle a locale uses, 12 or 24: the default of every time field.
+ * Read from a formatter's resolved options, which every runtime answers, so
+ * the server and the browser render the same segments; 24, the ISO 8601
+ * cycle, if a runtime leaves it out.
+ */
+export function hourCycleOf(locale: string): 12 | 24 {
+  const cycle = dateTimeFormat(locale, { hour: "numeric" }).resolvedOptions().hourCycle;
+  return cycle === "h11" || cycle === "h12" ? 12 : 24;
 }
 
 /** A number formatter for the resolved locale. */

@@ -5,11 +5,14 @@ import {
   DEFAULT_LOCALE,
   en,
   foldDigits,
+  hourCycleOf,
   localeDirection,
   localeHourCycle,
   localeWeekStart,
   numberFormat,
   numberSymbols,
+  pageLocale,
+  resolveLocale,
   translate,
 } from "./index";
 
@@ -62,8 +65,48 @@ describe("i18n — locale resolution", () => {
     // An invalid tag resolves to the deterministic default locale first.
     const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const fallback = localeWeekStart("not a tag");
-    expect(fallback === 7 || fallback === null).toBe(true);
+    expect(fallback === 1 || fallback === null).toBe(true);
     spy.mockRestore();
+  });
+});
+
+describe("i18n — default locale", () => {
+  it("uses English with the world conventions: Monday first, 24-hour time", () => {
+    expect(DEFAULT_LOCALE).toBe("en-001-u-hc-h23");
+    expect(hourCycleOf(DEFAULT_LOCALE)).toBe(24);
+    const week = localeWeekStart(DEFAULT_LOCALE);
+    expect(week === 1 || week === null).toBe(true);
+    expect(translate(en, {}, DEFAULT_LOCALE, "dialog.close")).toBe("Close");
+  });
+
+  it("writes numeric dates in ISO 8601 order and keeps named dates", () => {
+    const date = new Date(2026, 0, 5);
+    const short = dateTimeFormat(DEFAULT_LOCALE, { dateStyle: "short" });
+    expect(short.format(date)).toBe("2026-01-05");
+    expect(short.formatToParts(date).map((p) => p.type)).toEqual([
+      "year",
+      "literal",
+      "month",
+      "literal",
+      "day",
+    ]);
+    expect(short.formatRange(date, new Date(2026, 0, 9))).toBe("2026-01-05 – 2026-01-09");
+    expect(short.formatRange(date, date)).toBe("2026-01-05");
+    expect(short.resolvedOptions().locale).toBe(DEFAULT_LOCALE);
+    expect(dateTimeFormat(DEFAULT_LOCALE, { dateStyle: "medium" }).format(date)).toBe("5 Jan 2026");
+    // Another locale keeps its own numeric order.
+    expect(dateTimeFormat("en-US", { dateStyle: "short" }).format(date)).toBe("1/5/26");
+  });
+
+  it("resolves the app's locale, then the page's, then the default", () => {
+    expect(resolveLocale("it-IT", "en-US")).toBe("it-IT");
+    expect(resolveLocale(undefined, "EN-us")).toBe("en-US");
+    expect(resolveLocale(null, null)).toBe(DEFAULT_LOCALE);
+    expect(resolveLocale("", "")).toBe(DEFAULT_LOCALE);
+  });
+
+  it("reads no page without a document, as on the server", () => {
+    expect(pageLocale()).toEqual({ locale: null, dir: null });
   });
 });
 

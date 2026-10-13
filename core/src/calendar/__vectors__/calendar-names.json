@@ -1,5 +1,5 @@
 {
-  "description": "Calendar names, language-neutral: weekday and month names, the digits, the hour cycle and three date patterns (day: a day's full accessible name; title: a month's title; medium: a picker field's text) per locale, Gregorian calendar. A pattern's tokens are {EEEE} the long weekday, {d} and {dd} the day, {M} and {MM} the month number, {MMMM} the month name from that pattern's own list, and {y} the year, each written in the locale's digits; everything else is literal. A locale missing from the table falls back to its language, then to English. The core tests check the table against the runtime's Intl data; the Flutter adapter carries the same table, and its tests render the same cases.",
+  "description": "Calendar names, language-neutral: weekday and month names, the digits, the hour cycle and three date patterns (day: a day's full accessible name; title: a month's title; medium: a picker field's text) per locale, Gregorian calendar. A pattern's tokens are {EEEE} the long weekday, {d} and {dd} the day, {M} and {MM} the month number, {MMMM} the month name from that pattern's own list, and {y} the year, each written in the locale's digits; everything else is literal. A locale missing from the table falls back to its language, then to English. \"en-001-u-hc-h23\" is the default when the app and its context give no locale. The core tests check the table against the runtime's Intl data; the Flutter adapter carries the same table, and its tests render the same cases.",
   "locales": {
     "en": {
       "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
@@ -1186,6 +1186,64 @@
       },
       "patterns": {
         "day": "{EEEE} {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "en-001-u-hc-h23": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "short": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        "narrow": ["S", "M", "T", "W", "T", "F", "S"]
+      },
+      "months": {
+        "day": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "title": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "medium": [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sept",
+          "Oct",
+          "Nov",
+          "Dec"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} {MMMM} {y}",
         "title": "{MMMM} {y}",
         "medium": "{d} {MMMM} {y}"
       }
@@ -2847,6 +2905,24 @@
       "style": "medium",
       "date": "1999-09-09",
       "expect": "۹ سپتامبر ۱۹۹۹"
+    },
+    {
+      "locale": "en-001-u-hc-h23",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "Monday, 1 June 2026"
+    },
+    {
+      "locale": "en-001-u-hc-h23",
+      "style": "title",
+      "date": "2026-09-01",
+      "expect": "September 2026"
+    },
+    {
+      "locale": "en-001-u-hc-h23",
+      "style": "medium",
+      "date": "2026-09-05",
+      "expect": "5 Sept 2026"
     }
   ]
 }
