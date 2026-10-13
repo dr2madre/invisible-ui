@@ -2,7 +2,7 @@
   {
     "name": "@design-system/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "25.4 kB"
+    "limit": "25.7 kB"
   },
   {
     "name": "@design-system/core — one primitive, tree-shaken (label)",
@@ -37,17 +37,17 @@
   {
     "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "54 kB"
+    "limit": "54.1 kB"
   },
   {
     "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "83.2 kB"
+    "limit": "83.5 kB"
   },
   {
     "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "76 kB"
+    "limit": "76.2 kB"
   },
   {
     "name": "@design-system/react — text field only, tree-shaken",
@@ -177,7 +177,7 @@
     "name": "@design-system/elements — breadcrumb only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsBreadcrumb }",
-    "limit": "4.1 kB"
+    "limit": "4.2 kB"
   },
   {
     "name": "@design-system/elements — button group only, tree-shaken",
@@ -321,7 +321,7 @@
     "name": "@design-system/elements — sidebar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSidebar }",
-    "limit": "13.5 kB"
+    "limit": "14.4 kB"
   },
   {
     "name": "@design-system/elements — slider only, tree-shaken",
@@ -417,7 +417,7 @@
     "name": "@design-system/elements — context menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsContextMenu }",
-    "limit": "12.9 kB"
+    "limit": "13 kB"
   },
   {
     "name": "@design-system/elements — menubar only, tree-shaken",

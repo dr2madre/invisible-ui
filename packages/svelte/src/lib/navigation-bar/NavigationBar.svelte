@@ -30,12 +30,12 @@
    *   <NavigationBar {destinations} value={section} onSelect={go} />
    */
   import type { Snippet } from "svelte";
-  import type { Attachment } from "svelte/attachments";
-  import { navigationBar as core, type ElementProps } from "@design-system/core";
+  import { navigationBar as core } from "@design-system/core";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
-  import { hasOpenModal, onModalChange } from "../internal/modal-stack";
+  import { BadgeAnnouncements } from "../internal/badge-announcements.svelte";
   import { stableId } from "../internal/stable-id";
+  import { toSvelte } from "../internal/svelte-props";
 
   const { t } = getI18n();
 
@@ -67,51 +67,14 @@
     }),
   );
 
-  /** Svelte names DOM events in lower case: `onClick` becomes `onclick`. */
-  const toSvelte = (props: ElementProps) =>
-    Object.fromEntries(
-      Object.entries(props)
-        .filter(([, prop]) => prop !== undefined)
-        .map(([key, prop]) => [/^on[A-Z]/.test(key) ? key.toLowerCase() : key, prop]),
-    );
-
-  // The badges as they were last seen, and the announcements waiting for the
-  // last modal dialog to close. Neither is shown, so neither is state.
-  let seen: core.NavigationTarget[] | null = null;
-  let held: core.BadgeAnnouncement[] = [];
-  // What the live region says now.
-  let spoken = $state.raw<core.BadgeAnnouncement[]>([]);
-  let live: HTMLElement | undefined;
-
   // A badge that appears or changes is announced once; nothing on mount.
-  $effect(() => {
-    const next = destinations.map(({ value, label, badge }) => ({
-      value,
-      label,
-      badge: badge && { ...badge },
-    }));
-    const announcements = core.badgeAnnouncements(seen, next, { translate: $t });
-    seen = next;
-    if (announcements.length === 0) return;
-    if (live && hasOpenModal(live.ownerDocument)) {
-      held = core.holdAnnouncements(held, announcements);
-    } else {
-      spoken = announcements;
-    }
-  });
-
-  // What waited while a modal dialog was open is made once the last one closes.
-  const followModals: Attachment<HTMLElement> = (node) => {
-    const doc = node.ownerDocument;
-    return onModalChange(doc, () => {
-      if (held.length === 0 || hasOpenModal(doc)) return;
-      spoken = held;
-      held = [];
-    });
-  };
+  const announcements = new BadgeAnnouncements(
+    () => destinations,
+    () => $t,
+  );
 </script>
 
-<nav class="navigation-bar" {...toSvelte(api.getRootProps())} {@attach followModals}>
+<nav class="navigation-bar" {...toSvelte(api.getRootProps())}>
   <ul class="navigation-bar__list" {...toSvelte(api.getListProps())}>
     {#each destinations as destination (destination.value)}
       <li class="navigation-bar__item">
@@ -159,8 +122,9 @@
       </li>
     {/each}
   </ul>
-  <div class="navigation-bar__live" aria-live="polite" bind:this={live}>
-    {#each spoken as announcement (announcement.value)}<span>{announcement.text}</span>{/each}
+  <div class="navigation-bar__live" aria-live="polite" {@attach announcements.attach}>
+    {#each announcements.spoken as announcement (announcement.value)}<span>{announcement.text}</span
+      >{/each}
   </div>
 </nav>
 

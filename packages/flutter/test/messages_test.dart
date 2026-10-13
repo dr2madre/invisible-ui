@@ -226,6 +226,10 @@ void main() {
       expect(messages.sidebarExpand, _english('sidebar.expand'));
       expect(messages.sidebarCurrent, _english('sidebar.current'));
       expect(
+        messages.sidebarUnavailableTooltip,
+        _english('sidebar.unavailableTooltip'),
+      );
+      expect(
         messages.navigationMenuCurrent,
         _english('navigationMenu.current'),
       );

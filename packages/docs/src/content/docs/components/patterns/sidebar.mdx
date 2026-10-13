@@ -72,6 +72,51 @@ A section becomes a disclosure with `collapsible: true`, a `label` and an
 a label, and sharing a name would mean sharing an open state. A missing or
 repeated id is an error in development.
 
+### Badges and unavailable destinations
+
+Items take the same destinations as the
+[Navigation Bar](/invisible-ui/components/patterns/navigation-bar/), so one
+list serves both: pass `[{ items: destinations }]`. In Flutter,
+`SidebarItem.fromDestination` maps each one.
+
+- **`badge`** shows its `content` (a short count) or, without it, a dot. Its
+  `label` is required: it is part of the item's name ("Alerts, 3 unread"), and
+  when it appears or changes the sidebar announces it once, politely ("Alerts:
+  3 unread"). Nothing is announced on the first render or when a badge goes
+  away. Set `announce: false` for a count that changes often. While a modal
+  dialog outside the sidebar is open the announcement waits, and the latest one
+  per item is made after the last one closes (ADR 0016). A sidebar inside its
+  own drawer is on screen, so it announces.
+- **`unavailable: { reason }`** keeps the item visible and focusable, shows a
+  lock and the reason under the label, and reads the reason as the item's
+  description. Activating it does nothing: no `onSelect`, no link followed, no
+  drawer closed. To hide a destination instead, leave it out of the list. Which
+  of the two fits is your product's choice; neither is the default.
+
+On the rail the badge sits on the icon and its text stays in the name; the lock
+sits at the icon's lower corner, and the tooltip reads "Billing: Ask an
+administrator for access" (`sidebar.unavailableTooltip`).
+
+```svelte
+<Sidebar
+  value={current}
+  onSelect={go}
+  sections={[
+    {
+      items: [
+        { value: "inbox", label: "Inbox", icon: Inbox, badge: { label: "3 unread", content: "3" } },
+        {
+          value: "billing",
+          label: "Billing",
+          icon: Card,
+          unavailable: { reason: "Ask an administrator for access" },
+        },
+      ],
+    },
+  ]}
+/>
+```
+
 ### The rail needs an icon on every destination
 
 Collapsing hides the labels, so a destination with no icon would be a control
@@ -100,6 +145,15 @@ rendered, `collapsed` keeps the labels, and development says why.
 - The rail toggle is `aria-pressed`, because collapsing hides names from sight
   and not from a screen reader: every destination keeps its accessible name,
   and a tooltip shows it on hover or focus.
+- The current destination is never marked by colour alone: its label is bold,
+  and on the rail a bar marks it at the inline start. A badge is a count or a
+  dot shape with its text in the name; under forced colors it keeps a border.
+- An unavailable item carries `aria-disabled="true"` and its reason through
+  `aria-describedby`; it stays in the tab order so the reason can be heard.
+- Badge changes are announced through one `aria-live="polite"` region inside
+  the landmark.
+- Assistive technology: not tested. What VoiceOver, NVDA and TalkBack say for
+  the badge, its announcement and the reason has no dated session yet.
 - As a drawer the navigation is a modal sheet: focus moves in and is trapped,
   and Escape closes it. Focus returns to the trigger, or, when the button
   belongs to your page, to whatever `returnFocusTo` names.
@@ -108,8 +162,10 @@ rendered, `collapsed` keeps the labels, and development says why.
 
 The root carries `data-mode` (`inline` or `drawer`), `data-side`, and
 `data-collapsed` while the rail is closed. Each destination carries
-`data-current` when it is the current one, and each collapsible section carries
-`data-state` (`open` or `closed`).
+`data-current` when it is the current one and `data-unavailable` when it cannot
+open, and each collapsible section carries `data-state` (`open` or `closed`).
+The badge reads `--ds-sidebar-badge-surface` and `--ds-sidebar-badge-text`,
+which fall back to the danger and on-status roles.
 
 ### Sections that open themselves
 

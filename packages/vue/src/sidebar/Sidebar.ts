@@ -1,7 +1,11 @@
+import { navigationBar } from "@design-system/core";
 import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { fail } from "../internal/dev";
+import { useBadgeAnnouncements } from "../internal/use-badge-announcements";
+import { useStableId } from "../internal/use-stable-id";
+import { normalizeProps } from "../normalize";
 import { canRail, resolveSections } from "./identity";
 import { SidebarGroup } from "./SidebarGroup";
 import type { SidebarItem, SidebarSection } from "./types";
@@ -42,6 +46,14 @@ export interface SidebarProps {
  * An optional logo, labelled sections of items (icon plus label), and a footer.
  * Items with an `href` render as links, the rest as buttons that report
  * `onSelect(value)`. The current destination carries `aria-current="page"`.
+ *
+ * Items take the Navigation Bar's destinations as they are. A `badge` shows
+ * a count or a dot, its text is part of the item's name, and when it appears
+ * or changes it is announced politely once (`announce: false` silences it);
+ * while a modal dialog outside the sidebar is open the announcement waits for
+ * it to close (ADR 0016). An `unavailable` item stays visible and focusable
+ * with its reason shown and read as its description, and activating it does
+ * nothing. To hide a destination, leave it out.
  *
  * Three things stay with the application: the routing, which destination is
  * current, and which viewport gets which presentation. This component reads no
@@ -203,48 +215,90 @@ export const Sidebar = defineComponent({
       props.onOpenChange?.(false);
     };
 
-    const item = (entry: SidebarItem) => {
+    const id = useStableId("ds-sidebar");
+    // A badge that appears or changes is announced once; nothing on mount.
+    const { spoken, live } = useBadgeAnnouncements(
+      () => props.sections.flatMap((section) => section.items),
+      () => i18n.value.t,
+    );
+
+    const lock = () =>
+      h(Icon, { size: "1em" }, () => [
+        h("rect", { x: 5, y: 11, width: 14, height: 10, rx: 2 }),
+        h("path", { d: "M8 11V7a4 4 0 0 1 8 0v4" }),
+      ]);
+
+    const item = (entry: SidebarItem, reasonId: string) => {
       const current = entry.value === props.value;
+      const { badge, unavailable } = entry;
       const label = h(
         "span",
         { class: isRail.value ? "sidebar__label--hidden" : "sidebar__label" },
-        entry.label,
+        [
+          entry.label,
+          badge ? h("span", { class: "sidebar__label--hidden" }, `, ${badge.label}`) : null,
+          unavailable
+            ? h(
+                "span",
+                { class: "sidebar__reason", id: reasonId, "aria-hidden": "true" },
+                unavailable.reason,
+              )
+            : null,
+        ],
       );
       const content = [
         entry.icon ? h("span", { class: "sidebar__icon" }, [h(entry.icon)]) : null,
         label,
-      ];
-      const shared = {
-        class: ["sidebar__item", { "sidebar__item--active": current }],
-        "aria-current": current ? "page" : undefined,
-        "data-current": current ? "" : undefined,
-      };
-      const node = entry.href
-        ? h("a", { ...shared, href: entry.href, onClick: () => closeDrawer() }, content)
-        : h(
-            "button",
-            {
-              ...shared,
-              type: "button",
-              onClick: () => {
-                props.onSelect?.(entry.value);
-                closeDrawer();
+        unavailable
+          ? h("span", { class: "sidebar__status", "aria-hidden": "true" }, [lock()])
+          : null,
+        badge
+          ? h(
+              "span",
+              {
+                class: ["sidebar__badge", { "sidebar__badge--dot": badge.content === undefined }],
+                "aria-hidden": "true",
               },
-            },
-            content,
-          );
+              badge.content ?? "",
+            )
+          : null,
+      ];
+      const node = h(
+        entry.href === undefined ? "button" : "a",
+        {
+          class: ["sidebar__item", { "sidebar__item--active": current }],
+          ...normalizeProps(
+            navigationBar.destinationProps({
+              destination: entry,
+              current,
+              reasonId,
+              // Read at activation time, so a replaced callback is the one called.
+              onSelect: (value) => props.onSelect?.(value),
+              onNavigate: closeDrawer,
+            }),
+          ),
+        },
+        content,
+      );
       // The rail hides names from sight, never from a screen reader, and the
       // tooltip gives them back to whoever is looking.
-      return isRail.value
-        ? h(Tooltip, { text: entry.label, placement: "right" }, { default: () => node })
-        : node;
+      if (!isRail.value) return node;
+      const text = unavailable
+        ? i18n.value.t("sidebar.unavailableTooltip", {
+            label: entry.label,
+            reason: unavailable.reason,
+          })
+        : entry.label;
+      return h(Tooltip, { text, placement: "right" }, { default: () => node });
     };
 
-    const list = (section: SidebarSection) =>
+    const list = (section: SidebarSection, sectionIndex: number) =>
       h(
         "ul",
         { class: ["sidebar__list", { "sidebar__list--collapsed": isRail.value }] },
-        section.items.map((entry) => h("li", { key: entry.value }, [item(entry)])),
+        section.items.map((entry, index) =>
+          h("li", { key: entry.value }, [item(entry, `${id}-reason-${sectionIndex}-${index}`)]),
+        ),
       );
 
     const nav = (mode: "inline" | "drawer") => {
@@ -292,7 +346,7 @@ export const Sidebar = defineComponent({
             : null,
           // Keyed by the name the section answers to, which the resolver
           // makes unique: two sections may share a label, never an identity.
-          ...entries.value.map(({ section, id }) => {
+          ...entries.value.map(({ section, id }, sectionIndex) => {
             return section.collapsible && section.label
               ? h(
                   SidebarGroup,
@@ -303,7 +357,7 @@ export const Sidebar = defineComponent({
                     collapsed: railed,
                     onToggle: () => pressGroup(id),
                   },
-                  { default: () => [list(section)] },
+                  { default: () => [list(section, sectionIndex)] },
                 )
               : h("div", { class: "sidebar__section", key: id }, [
                   section.label
@@ -315,10 +369,17 @@ export const Sidebar = defineComponent({
                         section.label,
                       )
                     : null,
-                  list(section),
+                  list(section, sectionIndex),
                 ]);
           }),
           slots.footer ? h("div", { class: "sidebar__footer" }, slots.footer()) : null,
+          h(
+            "div",
+            { class: "sidebar__live", "aria-live": "polite", ref: live },
+            spoken.value.map((announcement) =>
+              h("span", { key: announcement.value }, announcement.text),
+            ),
+          ),
         ],
       );
     };

@@ -87,7 +87,16 @@ const fixtures: Record<string, ReactElement> = {
   Sidebar: (
     <adapter.Sidebar
       value="home"
-      sections={[{ label: "Main", items: [{ value: "home", label: "Home", href: "/" }] }]}
+      sections={[
+        {
+          label: "Main",
+          items: [
+            { value: "home", label: "Home", href: "/" },
+            { value: "inbox", label: "Inbox", badge: { label: "3 unread", content: "3" } },
+            { value: "reports", label: "Reports", unavailable: { reason: "Offline" } },
+          ],
+        },
+      ]}
     />
   ),
   NavigationBar: (

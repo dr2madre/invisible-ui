@@ -71,8 +71,8 @@ typedef BadgeAnnouncement<T> = ({T value, String text});
 /// nothing when a badge goes away. A destination is matched by value; one
 /// not passed before counts as having no badge.
 List<BadgeAnnouncement<T>> badgeAnnouncements<T>(
-  List<NavigationDestination<T>>? previous,
-  List<NavigationDestination<T>> next, {
+  List<NavigationTarget<T>>? previous,
+  List<NavigationTarget<T>> next, {
   InvisibleMessages messages = const InvisibleMessages(),
 }) {
   if (previous == null) return const [];

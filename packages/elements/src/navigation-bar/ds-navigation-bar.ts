@@ -9,7 +9,7 @@ import {
 } from "../internal/base";
 import { localized, onLocaleChange, t } from "../internal/i18n";
 import { pathIcon } from "../internal/icons";
-import { hasOpenModal, onModalChange } from "../internal/modal-stack";
+import { BadgeLive } from "../internal/badge-live";
 
 export type NavigationBadge = core.NavigationBadge;
 
@@ -32,10 +32,6 @@ const glyph = (d: string) => {
   svg.setAttribute("height", "1em");
   return svg;
 };
-
-/** The badges as the announcements compare them, detached from the property. */
-const snapshot = (destinations: NavigationDestination[]): core.NavigationTarget[] =>
-  destinations.map(({ value, label, badge }) => ({ value, label, badge: badge && { ...badge } }));
 
 /**
  * `<ds-navigation-bar>` — primary navigation between a few top-level
@@ -65,11 +61,8 @@ export class DsNavigationBar extends HTMLElementBase {
   #destinations: NavigationDestination[] = [];
   #nav: HTMLElement | null = null;
   #list: HTMLUListElement | null = null;
-  #live: HTMLDivElement | null = null;
+  #live: BadgeLive | null = null;
   #id = nextId("ds-navigation-bar");
-  #seen: core.NavigationTarget[] | null = null;
-  #held: core.BadgeAnnouncement[] = [];
-  #stopModals: (() => void) | null = null;
 
   constructor() {
     super();
@@ -85,26 +78,19 @@ export class DsNavigationBar extends HTMLElementBase {
       this.#nav.className = "navigation-bar";
       this.#list = document.createElement("ul");
       this.#list.className = "navigation-bar__list";
-      this.#live = document.createElement("div");
-      this.#live.className = "navigation-bar__live";
-      this.#live.setAttribute("aria-live", "polite");
-      this.#nav.append(this.#list, this.#live);
+      this.#live = new BadgeLive("navigation-bar__live");
+      this.#nav.append(this.#list, this.#live.node);
       this.appendChild(this.#nav);
     }
-    this.#stopModals = onModalChange(document, () => {
-      if (this.#held.length === 0 || hasOpenModal(document)) return;
-      this.#speak(this.#held);
-      this.#held = [];
-    });
+    this.#live!.connect();
     this.#render();
     // The first destinations given, before or after the element connects,
     // are the first render: nothing is announced for them.
-    this.#seen = this.#destinations.length > 0 ? snapshot(this.#destinations) : null;
+    this.#live!.reset(this.#destinations);
   }
 
   disconnectedCallback() {
-    this.#stopModals?.();
-    this.#stopModals = null;
+    this.#live?.disconnect();
   }
 
   attributeChangedCallback() {
@@ -118,7 +104,8 @@ export class DsNavigationBar extends HTMLElementBase {
     this.#destinations = Array.isArray(value) ? value : [];
     if (!this.#nav) return;
     this.#render();
-    this.#announce();
+    // A badge that appears or changes is announced once.
+    this.#live!.update(this.#destinations, (key, vars) => t(this, key, vars));
   }
 
   get value(): string | null {
@@ -127,22 +114,6 @@ export class DsNavigationBar extends HTMLElementBase {
   set value(next: string | null) {
     if (next == null) this.removeAttribute("value");
     else this.setAttribute("value", next);
-  }
-
-  /** A badge that appears or changes is announced once; nothing on first render. */
-  #announce() {
-    const next = snapshot(this.#destinations);
-    const announcements = core.badgeAnnouncements(this.#seen, next, {
-      translate: (key, vars) => t(this, key, vars),
-    });
-    this.#seen = next;
-    if (announcements.length === 0) return;
-    if (hasOpenModal(document)) this.#held = core.holdAnnouncements(this.#held, announcements);
-    else this.#speak(announcements);
-  }
-
-  #speak(announcements: core.BadgeAnnouncement[]) {
-    this.#live!.replaceChildren(...announcements.map(({ text }) => span("", text)));
   }
 
   #destination(api: core.NavigationBarApi, destination: NavigationDestination) {

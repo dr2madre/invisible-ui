@@ -1,7 +1,14 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { checkDestinations, connect, LONG_PRESS_MS, type ConnectOptions } from "./connect";
-import { badgeAnnouncements, holdAnnouncements } from "./text";
+import {
+  checkDestinations,
+  connect,
+  destinationProps,
+  LONG_PRESS_MS,
+  type ConnectOptions,
+  type DestinationOptions,
+} from "./connect";
+import { badgeAnnouncements, createBadgeAnnouncer, holdAnnouncements } from "./text";
 import type { NavigationTarget } from "./types";
 
 const destinations: NavigationTarget[] = [
@@ -278,5 +285,90 @@ describe("navigation bar text through an adapter's translator", () => {
         { translate },
       ),
     ).toEqual([{ value: "p", text: "Da verificare (Profilo)" }]);
+  });
+});
+
+describe("destination props shared with the Sidebar", () => {
+  const props = (destination: NavigationTarget, extra: Partial<DestinationOptions> = {}) =>
+    destinationProps({ destination, current: false, reasonId: "r", ...extra });
+
+  it("reports a button, then the navigation, once per activation", () => {
+    const calls: string[] = [];
+    const onSelect = (value: string) => calls.push(`select ${value}`);
+    const onNavigate = () => calls.push("navigate");
+    handler(
+      props({ value: "a", label: "A" }, { onSelect, onNavigate }),
+      "onClick",
+    )(new Event("click"));
+    handler(
+      props({ value: "b", label: "B", href: "/b" }, { onSelect, onNavigate }),
+      "onClick",
+    )(new Event("click"));
+    expect(calls).toEqual(["select a", "navigate", "navigate"]);
+  });
+
+  it("does nothing for an unavailable destination and links its reason", () => {
+    const onSelect = vi.fn();
+    const onNavigate = vi.fn();
+    const unavailable = props(
+      { value: "a", label: "A", href: "/a", unavailable: { reason: "Offline" } },
+      { onSelect, onNavigate, current: true },
+    );
+    const event = new Event("click", { cancelable: true });
+    handler(unavailable, "onClick")(event);
+    expect(event.defaultPrevented).toBe(true);
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(onNavigate).not.toHaveBeenCalled();
+    expect(unavailable).toMatchObject({
+      "aria-current": "page",
+      "aria-disabled": "true",
+      "aria-describedby": "r",
+    });
+  });
+});
+
+describe("badge announcer", () => {
+  const inbox = (badge?: string, announce?: boolean): NavigationTarget[] => [
+    { value: "inbox", label: "Inbox", badge: badge ? { label: badge, announce } : undefined },
+  ];
+  const open = () => true;
+  const closed = () => false;
+
+  it("records the first render and announces each later change once", () => {
+    const announcer = createBadgeAnnouncer();
+    const isModalOpen = vi.fn(closed);
+    expect(announcer.update(inbox("1 unread"), isModalOpen)).toEqual([]);
+    expect(isModalOpen).not.toHaveBeenCalled();
+    expect(announcer.update(inbox("1 unread"), isModalOpen)).toEqual([]);
+    expect(announcer.update(inbox("2 unread"), isModalOpen)).toEqual([
+      { value: "inbox", text: "Inbox: 2 unread" },
+    ]);
+    expect(announcer.update(inbox(), isModalOpen)).toEqual([]);
+    expect(announcer.update(inbox("3 unread", false), isModalOpen)).toEqual([]);
+  });
+
+  it("compares with a copy, so a badge changed in place is still announced", () => {
+    const announcer = createBadgeAnnouncer();
+    const destinations = inbox("1 unread");
+    announcer.update(destinations, closed);
+    destinations[0]!.badge!.label = "2 unread";
+    expect(announcer.update(destinations, closed)).toHaveLength(1);
+  });
+
+  it("holds announcements behind a modal and releases the latest once it closes", () => {
+    const announcer = createBadgeAnnouncer();
+    announcer.update(inbox(), open);
+    expect(announcer.update(inbox("1 unread"), open)).toEqual([]);
+    expect(announcer.update(inbox("2 unread"), open)).toEqual([]);
+    expect(announcer.release(true)).toEqual([]);
+    expect(announcer.release(false)).toEqual([{ value: "inbox", text: "Inbox: 2 unread" }]);
+    expect(announcer.release(false)).toEqual([]);
+  });
+
+  it("starts over after a reset", () => {
+    const announcer = createBadgeAnnouncer();
+    announcer.update(inbox(), closed);
+    announcer.reset();
+    expect(announcer.update(inbox("1 unread"), closed)).toEqual([]);
   });
 });

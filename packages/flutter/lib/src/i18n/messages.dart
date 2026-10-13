@@ -142,6 +142,7 @@ class InvisibleMessages {
     this.sidebarCollapse = 'Collapse the navigation',
     this.sidebarExpand = 'Expand the navigation',
     this.sidebarCurrent = 'current page',
+    this.sidebarUnavailableTooltip = '{label}: {reason}',
     this.navigationMenuCurrent = 'current page',
     this.navigationBarLabel = 'Main',
     this.navigationBarPosition = 'Tab {index} of {count}',
@@ -630,6 +631,10 @@ class InvisibleMessages {
   /// `sidebar.current`.
   final String sidebarCurrent;
 
+  /// The rail's tooltip on an unavailable destination, with `{label}` and
+  /// `{reason}`. Catalog key `sidebar.unavailableTooltip`.
+  final String sidebarUnavailableTooltip;
+
   /// Read with a navigation menu's current link. Catalog key
   /// `navigationMenu.current`.
   final String navigationMenuCurrent;
@@ -859,6 +864,7 @@ class InvisibleMessages {
     String? sidebarCollapse,
     String? sidebarExpand,
     String? sidebarCurrent,
+    String? sidebarUnavailableTooltip,
     String? navigationMenuCurrent,
     String? navigationBarLabel,
     String? navigationBarPosition,
@@ -1024,6 +1030,8 @@ class InvisibleMessages {
       sidebarCollapse: sidebarCollapse ?? this.sidebarCollapse,
       sidebarExpand: sidebarExpand ?? this.sidebarExpand,
       sidebarCurrent: sidebarCurrent ?? this.sidebarCurrent,
+      sidebarUnavailableTooltip:
+          sidebarUnavailableTooltip ?? this.sidebarUnavailableTooltip,
       navigationMenuCurrent:
           navigationMenuCurrent ?? this.navigationMenuCurrent,
       navigationBarLabel: navigationBarLabel ?? this.navigationBarLabel,
@@ -1178,6 +1186,7 @@ class InvisibleMessages {
       other.sidebarCollapse == sidebarCollapse &&
       other.sidebarExpand == sidebarExpand &&
       other.sidebarCurrent == sidebarCurrent &&
+      other.sidebarUnavailableTooltip == sidebarUnavailableTooltip &&
       other.navigationMenuCurrent == navigationMenuCurrent &&
       other.navigationBarLabel == navigationBarLabel &&
       other.navigationBarPosition == navigationBarPosition &&
@@ -1324,6 +1333,7 @@ class InvisibleMessages {
     sidebarCollapse,
     sidebarExpand,
     sidebarCurrent,
+    sidebarUnavailableTooltip,
     navigationMenuCurrent,
     navigationBarLabel,
     navigationBarPosition,

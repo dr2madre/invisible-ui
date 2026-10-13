@@ -11,13 +11,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../internal/anchored_layout.dart';
-import '../internal/announce.dart';
 import '../internal/elevation.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
 import '../notification/modal_observer.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
+import 'badge_announcer.dart';
 import 'navigation_bar_logic.dart';
 import 'navigation_destination.dart';
 
@@ -155,60 +155,33 @@ class NavigationBar<T> extends StatefulWidget {
 class _NavigationBarState<T> extends State<NavigationBar<T>> {
   final Map<T, FocusNode> _nodes = {};
   final Set<String> _warned = {};
-  List<BadgeAnnouncement<T>> _held = const [];
+  late final BadgeAnnouncer<T> _announcer = BadgeAnnouncer<T>(this);
 
   @override
   void initState() {
     super.initState();
-    widget.modals?.addListener(_modalsChanged);
+    _announcer.modals = widget.modals;
   }
 
   @override
   void didUpdateWidget(NavigationBar<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.modals != widget.modals) {
-      oldWidget.modals?.removeListener(_modalsChanged);
-      widget.modals?.addListener(_modalsChanged);
-      _modalsChanged();
-    }
+    _announcer.modals = widget.modals;
     _releaseNodes();
-    final incoming = badgeAnnouncements(
+    _announcer.changed(
       oldWidget.destinations,
       widget.destinations,
-      messages: InvisibleTheme.of(context).messages,
+      InvisibleTheme.of(context).messages,
     );
-    if (incoming.isEmpty) return;
-    // After the frame, so the bar on screen already shows the badge.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _announce(incoming));
   }
 
   @override
   void dispose() {
-    widget.modals?.removeListener(_modalsChanged);
+    _announcer.dispose();
     for (final node in _nodes.values) {
       node.dispose();
     }
     super.dispose();
-  }
-
-  bool get _modalOpen => widget.modals?.hasModal ?? false;
-
-  void _announce(List<BadgeAnnouncement<T>> incoming) {
-    if (!mounted) return;
-    if (_modalOpen) {
-      _held = holdAnnouncements(_held, incoming);
-      return;
-    }
-    for (final entry in incoming) {
-      announce(context, entry.text);
-    }
-  }
-
-  void _modalsChanged() {
-    if (_modalOpen || _held.isEmpty) return;
-    final held = _held;
-    _held = const [];
-    _announce(held);
   }
 
   FocusNode _nodeFor(T value) => _nodes.putIfAbsent(

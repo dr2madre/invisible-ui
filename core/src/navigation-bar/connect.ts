@@ -74,6 +74,56 @@ export function checkDestinations(
   console.warn(`[ds] The navigation bar value "${value}" names no destination; none is current.`);
 }
 
+export interface DestinationOptions {
+  destination: NavigationTarget;
+  /** Whether this destination is the current one. */
+  current: boolean;
+  /** Id of the element that holds the unavailable reason. */
+  reasonId: string;
+  /** Called with a button destination's value on every activation. */
+  onSelect?: (value: string) => void;
+  /** Called after every activation of an available destination, link or button. */
+  onNavigate?: () => void;
+}
+
+/**
+ * The props every navigation destination carries, in the Navigation Bar and in
+ * the Sidebar: `href` for a link or `type="button"`, `aria-current="page"` on
+ * the current one, and on an unavailable one `aria-disabled` and the reason as
+ * its description. An unavailable destination stays focusable and its
+ * activation does nothing: no report, no link followed, no new tab. Returns
+ * raw props; the caller normalizes them.
+ */
+export function destinationProps({
+  destination,
+  current,
+  reasonId,
+  onSelect,
+  onNavigate,
+}: DestinationOptions): ElementProps {
+  const unavailable = destination.unavailable !== undefined;
+  const href = destination.href;
+  return {
+    href,
+    type: href === undefined ? "button" : undefined,
+    "aria-current": current ? "page" : undefined,
+    "aria-disabled": unavailable ? "true" : undefined,
+    "aria-describedby": unavailable ? reasonId : undefined,
+    "data-current": current ? "" : undefined,
+    "data-unavailable": unavailable ? "" : undefined,
+    onClick: (event: Event) => {
+      if (unavailable) {
+        event.preventDefault();
+        return;
+      }
+      if (href === undefined) onSelect?.(destination.value);
+      onNavigate?.();
+    },
+    // A middle click would open an unavailable link in a new tab.
+    onAuxClick: unavailable ? (event: Event) => event.preventDefault() : undefined,
+  };
+}
+
 /** The public, framework-agnostic API for a connected navigation bar. */
 export interface NavigationBarApi {
   /** The current destination's value, or `null` when `value` names none. */
@@ -204,27 +254,16 @@ export function connect({
     getDestinationProps: (v: string) => {
       const index = indexOf(v);
       const destination = destinations[index];
-      const isCurrent = current === v;
       const unavailable = destination?.unavailable !== undefined;
-      const href = destination?.href;
       return normalize({
         [DESTINATION_ATTRIBUTE]: "",
-        href,
-        type: href === undefined ? "button" : undefined,
-        "aria-current": isCurrent ? "page" : undefined,
-        "aria-disabled": unavailable ? "true" : undefined,
-        "aria-describedby": unavailable ? reasonId(id, index) : undefined,
-        "data-current": isCurrent ? "" : undefined,
-        "data-unavailable": unavailable ? "" : undefined,
-        onClick: (event: Event) => {
-          if (unavailable) {
-            event.preventDefault();
-            return;
-          }
-          if (href === undefined) select(v);
-        },
-        // A middle click would open an unavailable link in a new tab.
-        onAuxClick: unavailable ? (event: Event) => event.preventDefault() : undefined,
+        ...(destination &&
+          destinationProps({
+            destination,
+            current: current === v,
+            reasonId: reasonId(id, index),
+            onSelect,
+          })),
         onKeyDown: onDestinationKeyDown,
         onPointerDown: unavailable
           ? (event: Event) => {

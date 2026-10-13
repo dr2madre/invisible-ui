@@ -85,6 +85,75 @@ test.describe("Sidebar (docs demo)", () => {
     await expect(sidebar.getByRole("button", { name: "Collapse the navigation" })).toBeVisible();
   });
 
+  test("reads a badge in the name, and keeps an unavailable item focusable and inert", async ({
+    page,
+  }) => {
+    const sidebar = demo(page);
+    // Chromium reads a space before the visually hidden badge text.
+    const alerts = sidebar.getByRole("button", { name: /^Alerts\s?, 3 unread$/ });
+    await expect(alerts.locator(".sidebar__badge")).toHaveText("3");
+    await expect(alerts.locator(".sidebar__badge")).toBeVisible();
+
+    const billing = sidebar.getByRole("button", { name: "Billing" });
+    const reason = "Ask an administrator for access";
+    await expect(billing).toHaveAttribute("aria-disabled", "true");
+    await expect(billing).toHaveAccessibleDescription(reason);
+    await expect(sidebar.getByText(reason)).toBeVisible();
+    await billing.focus();
+    await expect(billing, "an unavailable item stays in the tab order").toBeFocused();
+    // Forced: Playwright refuses to click an element it reads as disabled.
+    await billing.click({ force: true });
+    await page.keyboard.press("Enter");
+    await expect(billing).not.toHaveAttribute("aria-current", "page");
+    await expect(sidebar.getByRole("button", { name: "Home" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+  });
+
+  test("puts the badge on the icon in the rail and marks the current item by shape", async ({
+    page,
+  }) => {
+    const sidebar = demo(page);
+    await sidebar.getByRole("button", { name: "Collapse the navigation" }).click();
+    const alerts = sidebar.getByRole("button", { name: /^Alerts\s?, 3 unread$/ });
+    const placed = await alerts.evaluate((item) => {
+      const icon = item.querySelector(".sidebar__icon")!.getBoundingClientRect();
+      const badge = item.querySelector(".sidebar__badge")!.getBoundingClientRect();
+      return {
+        visible: badge.width > 0 && badge.height > 0,
+        endSide: badge.left > icon.left + icon.width / 2,
+        topHalf: badge.top < icon.top + icon.height / 2,
+        inside: badge.right <= item.closest("nav")!.getBoundingClientRect().right,
+      };
+    });
+    expect(placed).toEqual({ visible: true, endSide: true, topHalf: true, inside: true });
+    const mark = await sidebar
+      .getByRole("button", { name: "Home" })
+      .evaluate((item) => getComputedStyle(item, "::before").borderInlineStartWidth);
+    expect(mark, "the current item in the rail has a mark besides its colour").toBe("3px");
+  });
+
+  test("wraps the labels and the reason at twice the text size in 320 pixels", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
+    const sidebar = demo(page);
+    await expect(sidebar).toBeVisible();
+    const measured = await sidebar.evaluate((nav) => {
+      const reason = nav.querySelector<HTMLElement>(".sidebar__reason")!;
+      const labels = [...nav.querySelectorAll<HTMLElement>(".sidebar__label")];
+      return {
+        clipped: labels
+          .filter((label) => label.scrollWidth > label.clientWidth + 1)
+          .map((label) => label.textContent),
+        reasonWraps:
+          reason.getBoundingClientRect().height > parseFloat(getComputedStyle(reason).fontSize) * 2,
+      };
+    });
+    expect(measured.clipped, "a label is cut").toEqual([]);
+    expect(measured.reasonWraps, "the reason wraps onto more lines").toBe(true);
+  });
+
   test("fits a 320px viewport without scrolling the page sideways", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 900 });
     await expect(demo(page)).toBeVisible();

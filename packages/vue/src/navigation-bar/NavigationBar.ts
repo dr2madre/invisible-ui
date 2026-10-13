@@ -1,18 +1,8 @@
 import { navigationBar as core } from "@design-system/core";
-import {
-  computed,
-  defineComponent,
-  h,
-  onBeforeUnmount,
-  onMounted,
-  shallowRef,
-  watch,
-  type Component,
-  type PropType,
-} from "vue";
+import { computed, defineComponent, h, type Component, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";
-import { hasOpenModal, onModalChange } from "../internal/modal-stack";
+import { useBadgeAnnouncements } from "../internal/use-badge-announcements";
 import { useStableId } from "../internal/use-stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -35,10 +25,6 @@ export interface NavigationBarProps {
   /** Called with a button destination's value on every activation. */
   onSelect?: (value: string) => void;
 }
-
-/** The badges as the announcements compare them, detached from the props. */
-const snapshot = (destinations: NavigationDestination[]): core.NavigationTarget[] =>
-  destinations.map(({ value, label, badge }) => ({ value, label, badge: badge && { ...badge } }));
 
 /**
  * NavigationBar: primary navigation between a few top-level sections, ported
@@ -84,33 +70,11 @@ export const NavigationBar = defineComponent({
       }),
     );
 
-    // What the live region says now, and what waits for the last modal
-    // dialog to close.
-    const spoken = shallowRef<core.BadgeAnnouncement[]>([]);
-    let held: core.BadgeAnnouncement[] = [];
-
     // A badge that appears or changes is announced once; nothing on mount.
-    watch(
-      () => snapshot(props.destinations),
-      (next, previous) => {
-        const announcements = core.badgeAnnouncements(previous, next, {
-          translate: i18n.value.t,
-        });
-        if (announcements.length === 0) return;
-        if (hasOpenModal(document)) held = core.holdAnnouncements(held, announcements);
-        else spoken.value = announcements;
-      },
+    const { spoken, live } = useBadgeAnnouncements(
+      () => props.destinations,
+      () => i18n.value.t,
     );
-
-    let stop: (() => void) | undefined;
-    onMounted(() => {
-      stop = onModalChange(document, () => {
-        if (held.length === 0 || hasOpenModal(document)) return;
-        spoken.value = held;
-        held = [];
-      });
-    });
-    onBeforeUnmount(() => stop?.());
 
     const lock = () =>
       h(Icon, { size: "1em" }, () => [
@@ -177,7 +141,7 @@ export const NavigationBar = defineComponent({
         ),
         h(
           "div",
-          { class: "navigation-bar__live", "aria-live": "polite" },
+          { class: "navigation-bar__live", "aria-live": "polite", ref: live },
           spoken.value.map((announcement) =>
             h("span", { key: announcement.value }, announcement.text),
           ),

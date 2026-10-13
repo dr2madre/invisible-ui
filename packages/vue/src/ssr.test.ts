@@ -28,7 +28,16 @@ const requiredProps: Record<string, Props> = {
   InlineNotification: { title: "Notice", description: "Notification description" },
   Menubar: { label: "Application", menus: [] },
   MultiSelect: { label: "Skills", items: [] },
-  Sidebar: { sections: [] },
+  Sidebar: {
+    sections: [
+      {
+        items: [
+          { value: "inbox", label: "Inbox", badge: { label: "3 unread", content: "3" } },
+          { value: "reports", label: "Reports", unavailable: { reason: "Offline" } },
+        ],
+      },
+    ],
+  },
   NavigationBar: { destinations: [] },
   Meter: { label: "Storage" },
   NavigationMenu: { label: "Primary", items: [] },
@@ -86,6 +95,28 @@ describe("Vue adapter SSR", () => {
       expect(html.length).toBeGreaterThan(0);
     });
   }
+});
+
+describe("Vue adapter SSR: Sidebar badges and unavailable destinations", () => {
+  it("carries the badge text, the reason link and the live region before hydration", async () => {
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(adapter.Sidebar, {
+            sections: requiredProps.Sidebar!.sections as adapter.SidebarSection[],
+          }),
+      }),
+    );
+    expect(html).toMatch(/<span class="sidebar__label--hidden">, 3 unread<\/span>/);
+    const reason = /<span class="sidebar__reason" id="([^"]+)" aria-hidden="true">Offline/.exec(
+      html,
+    )?.[1];
+    expect(reason).toBeTruthy();
+    expect(html).toMatch(
+      new RegExp(`<button[^>]+aria-disabled="true"[^>]+aria-describedby="${reason}"`),
+    );
+    expect(html).toMatch(/<div class="sidebar__live" aria-live="polite">/);
+  });
 });
 
 describe("Vue adapter SSR: value control errors", () => {

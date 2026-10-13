@@ -1,20 +1,53 @@
 import 'package:flutter/widgets.dart';
 
+import '../navigation_bar/navigation_destination.dart';
+
 /// One destination of a [Sidebar].
+///
+/// A [badge] shows a count or a dot, its label is read with the destination
+/// and announced when it appears or changes. With [unavailableReason] the
+/// destination stays visible and focusable, shows a lock and the reason, reads
+/// the reason as its hint, and pressing it does nothing. To hide a
+/// destination, leave it out.
+///
+/// A `NavigationBar`'s destinations serve the sidebar as well, through
+/// [SidebarItem.fromDestination]:
+///
+/// ```dart
+/// import 'package:invisible_ui/invisible_ui.dart' as iu;
+///
+/// iu.SidebarSection(
+///   items: [for (final d in destinations) iu.SidebarItem.fromDestination(d)],
+/// )
+/// ```
 @immutable
-class SidebarItem<T> {
+class SidebarItem<T> implements NavigationTarget<T> {
   /// Creates a destination named [label].
   const SidebarItem({
     required this.value,
     required this.label,
     this.icon,
     this.uri,
+    this.badge,
+    this.unavailableReason,
   });
 
+  /// The same destination as a `NavigationBar` shows it: its value, label,
+  /// icon, address, badge and unavailable reason.
+  SidebarItem.fromDestination(NavigationDestination<T> destination)
+    : value = destination.value,
+      label = destination.label,
+      icon = destination.icon,
+      uri = destination.uri,
+      badge = destination.badge,
+      unavailableReason = destination.unavailableReason;
+
   /// Identifies the destination; the sidebar's `value` names the current one.
+  @override
   final T value;
 
   /// The visible label and accessible name.
+  @override
   final String label;
 
   /// The leading icon. The rail is offered only when every destination has
@@ -25,6 +58,18 @@ class SidebarItem<T> {
   /// this address and Enter presses it; without it, the item is a button
   /// that Enter and Space press.
   final Uri? uri;
+
+  /// A notification on the section.
+  @override
+  final NavigationBadge? badge;
+
+  /// Why the section cannot open now. Non-null makes the destination
+  /// unavailable.
+  @override
+  final String? unavailableReason;
+
+  /// Whether the destination cannot open now.
+  bool get unavailable => unavailableReason != null;
 }
 
 /// A group of [SidebarItem]s.

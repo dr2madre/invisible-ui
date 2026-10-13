@@ -1,12 +1,15 @@
+import type { navigationBar } from "@design-system/core";
 import type { ReactNode } from "react";
 import { fail } from "../internal/dev";
 
-/** One destination in the sidebar. */
-export interface SidebarItem {
-  value: string;
-  label: string;
-  /** Renders the item as a link. Without it the item reports `onSelect`. */
-  href?: string;
+/**
+ * One destination in the sidebar: the Navigation Bar's destination with an
+ * optional icon, so the same list serves both. `href` renders a link; without
+ * it the item reports `onSelect`. A `badge` adds its text to the name and is
+ * announced when it appears or changes; `unavailable` keeps the item visible
+ * and focusable with its reason, and activation does nothing.
+ */
+export interface SidebarItem extends navigationBar.NavigationTarget {
   /**
    * Optional leading icon, decorative. The rail is only offered when every
    * destination has one: an icon is the whole of what a destination shows

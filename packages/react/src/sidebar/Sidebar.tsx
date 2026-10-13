@@ -1,10 +1,11 @@
-import { collapsible } from "@design-system/core";
-import { useId, useState, type ReactNode } from "react";
+import { collapsible, navigationBar } from "@design-system/core";
+import { useId, useMemo, useState, type ReactNode } from "react";
 import { useI18n } from "../i18n/i18n";
 import { ChevronEndGlyph, ChevronStartGlyph, Icon } from "../icon/Icon";
 import { useControllable } from "../internal/controllable";
 import { cx } from "../internal/cx";
 import { fail } from "../internal/dev";
+import { useBadgeAnnouncements } from "../internal/use-badge-announcements";
 import { normalizeProps } from "../normalize";
 import { SheetDialog } from "../sheet-dialog/SheetDialog";
 import { Tooltip } from "../tooltip/Tooltip";
@@ -74,19 +75,49 @@ interface ItemsProps {
   onNavigate?: () => void;
 }
 
+const lock = (
+  <Icon>
+    <rect x="5" y="11" width="14" height="10" rx="2" />
+    <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+  </Icon>
+);
+
 /**
  * The items of one section. An item with an `href` is a link, one without is
  * a button that reports its value. On the rail the name leaves the page but
  * stays in the accessibility tree, and a tooltip gives it back to whoever is
  * looking.
+ *
+ * A badge shows its count or a dot after the label, or on the icon in the
+ * rail, and its text is part of the name. An unavailable item stays
+ * focusable, shows a lock and its reason under the label (in the rail's
+ * tooltip once the labels are hidden), reads the reason as its description,
+ * and does nothing when activated. The state and the activation come from the
+ * headless navigation bar, shared with the Navigation Bar.
  */
 function SidebarItems({ items, value, collapsed, onSelect, onNavigate }: ItemsProps) {
+  const { t } = useI18n();
+  const id = `ds-sidebar-items-${useId()}`;
   return (
     <ul className={cx("sidebar__list", collapsed && "sidebar__list--collapsed")}>
-      {items.map((item) => {
+      {items.map((item, index) => {
         const current = item.value === value;
-        const content = (
-          <>
+        const { badge, unavailable } = item;
+        const reasonId = `${id}-reason-${index}`;
+        const Element = item.href === undefined ? "button" : "a";
+        const control = (
+          <Element
+            className={cx("sidebar__item", current && "sidebar__item--active")}
+            {...normalizeProps(
+              navigationBar.destinationProps({
+                destination: item,
+                current,
+                reasonId,
+                onSelect,
+                onNavigate,
+              }),
+            )}
+          >
             {item.icon != null ? (
               <span className="sidebar__icon" aria-hidden="true">
                 {item.icon}
@@ -94,34 +125,45 @@ function SidebarItems({ items, value, collapsed, onSelect, onNavigate }: ItemsPr
             ) : null}
             <span className={collapsed ? "sidebar__label--hidden" : "sidebar__label"}>
               {item.label}
+              {badge ? <span className="sidebar__label--hidden">, {badge.label}</span> : null}
+              {unavailable ? (
+                <span className="sidebar__reason" id={reasonId} aria-hidden="true">
+                  {unavailable.reason}
+                </span>
+              ) : null}
             </span>
-          </>
-        );
-        const shared = {
-          className: cx("sidebar__item", current && "sidebar__item--active"),
-          "aria-current": current ? ("page" as const) : undefined,
-          "data-current": current ? "" : undefined,
-        };
-        const control = item.href ? (
-          <a {...shared} href={item.href} onClick={() => onNavigate?.()}>
-            {content}
-          </a>
-        ) : (
-          <button
-            {...shared}
-            type="button"
-            onClick={() => {
-              onSelect?.(item.value);
-              onNavigate?.();
-            }}
-          >
-            {content}
-          </button>
+            {unavailable ? (
+              <span className="sidebar__status" aria-hidden="true">
+                {lock}
+              </span>
+            ) : null}
+            {badge ? (
+              <span
+                className={cx(
+                  "sidebar__badge",
+                  badge.content === undefined && "sidebar__badge--dot",
+                )}
+                aria-hidden="true"
+              >
+                {badge.content ?? ""}
+              </span>
+            ) : null}
+          </Element>
         );
         return (
           <li key={item.value}>
             {collapsed ? (
-              <Tooltip text={item.label} placement="right">
+              <Tooltip
+                text={
+                  unavailable
+                    ? t("sidebar.unavailableTooltip", {
+                        label: item.label,
+                        reason: unavailable.reason,
+                      })
+                    : item.label
+                }
+                placement="right"
+              >
                 {control}
               </Tooltip>
             ) : (
@@ -211,6 +253,10 @@ function SidebarNav({
   logo,
   footer,
 }: NavProps) {
+  const { t } = useI18n();
+  const targets = useMemo(() => entries.flatMap(({ section }) => section.items), [entries]);
+  // A badge that appears or changes is announced once; nothing on mount.
+  const [spoken, live] = useBadgeAnnouncements(targets, t);
   return (
     <nav
       className={cx("sidebar", collapsed && "sidebar--collapsed")}
@@ -275,6 +321,12 @@ function SidebarNav({
       )}
 
       {footer != null ? <div className="sidebar__footer">{footer}</div> : null}
+
+      <div className="sidebar__live" aria-live="polite" ref={live}>
+        {spoken.map((announcement) => (
+          <span key={announcement.value}>{announcement.text}</span>
+        ))}
+      </div>
     </nav>
   );
 }
@@ -292,6 +344,14 @@ const initialGroups = (entries: ResolvedSection[], value: string | null) =>
  * sections of items (icon and label), and a footer. Items are links when given
  * an `href`, otherwise buttons that report `onSelect`. The current destination
  * is marked with `aria-current="page"`.
+ *
+ * Items take the Navigation Bar's destinations as they are. A `badge` shows a
+ * count or a dot, its text is part of the item's name, and when it appears or
+ * changes it is announced politely once (`announce: false` silences it); while
+ * a modal dialog outside the sidebar is open the announcement waits for it to
+ * close (ADR 0016). An `unavailable` item stays visible and focusable with its
+ * reason shown and read as its description, and activating it does nothing.
+ * To hide a destination, leave it out.
  *
  * Three things stay with the application: the routing, which destination is
  * current, and which viewport gets which presentation. This component reads no
@@ -326,9 +386,10 @@ export function Sidebar({
   const [collapsed, setCollapsed] = useControllable(collapsedProp, onCollapsedChange);
   const [open, setOpen] = useControllable(openProp, onOpenChange);
 
-  // Resolved on every render: a collapsible section answers to its own id, and
-  // a mistake there is loud in development and deterministic in production.
-  const entries = resolveSections(sections);
+  // Resolved once per set of sections: a collapsible section answers to its
+  // own id, and a mistake there is loud in development and deterministic in
+  // production.
+  const entries = useMemo(() => resolveSections(sections), [sections]);
 
   // The rail is only offered when every destination shows something without
   // its label. Otherwise it would hide the name and leave an empty control.

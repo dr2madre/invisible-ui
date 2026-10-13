@@ -1,13 +1,17 @@
 # Sidebar parity checklist
 
-Reference commit: `71ede6af6037f9dc1aa5ade2c426bd21abb37943`
+Reference commit: `49db2e6b2d02f290504d70f8aec41d995a1a8ad4`
 
-Reference paths: `core/src/collapsible` `packages/svelte/src/lib/sidebar` `docs/sidebar-spec.md` `packages/svelte/src/lib/sheet-dialog`
+Reference paths: `core/src/collapsible` `core/src/navigation-bar` `packages/svelte/src/lib/sidebar` `docs/sidebar-spec.md` `packages/svelte/src/lib/sheet-dialog`
 
 The Flutter `Sidebar` checked against the Svelte `Sidebar`
 (`packages/svelte/src/lib/sidebar`: `Sidebar.svelte`, `SidebarNav.svelte`,
 `SidebarGroup.svelte`, `SidebarItems.svelte`, `identity.ts`), the headless
-collapsible its sections use, the design record in
+collapsible its sections use, the headless navigation bar its destinations
+share (`destinationProps`, `badgeAnnouncements`, `holdAnnouncements`), the
+"Relation to Sidebar" section of
+[`docs/navigation-bar-spec.md`](https://github.com/dr2madre/invisible-ui/blob/main/docs/navigation-bar-spec.md),
+the design record in
 [`docs/sidebar-spec.md`](https://github.com/dr2madre/invisible-ui/blob/main/docs/sidebar-spec.md)
 and [ADR 0013](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0013-sidebar-and-the-menu-name.md).
 Docs page: [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/).
@@ -15,7 +19,8 @@ Docs page: [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns
 Each line is **matched**, **adapted** (with the platform reason), **out of
 scope** or **not yet verified**. Every matched line names the widget test in
 `test/sidebar_test.dart` that holds it, or, for the drawer,
-`test/sidebar_drawer_test.dart`.
+`test/sidebar_drawer_test.dart`, or, for badges and unavailable
+destinations, `test/sidebar_status_test.dart`.
 
 ## Names
 
@@ -26,6 +31,9 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | `SidebarSection(label:, items:)` | `{ label, items }` | a plain section |
 | `SidebarSection.collapsible(id:, label:, items:, initiallyExpanded:)` | `{ collapsible: true, id, label, items, defaultOpen }` | a section with a disclosure heading; `initiallyExpanded` is the Flutter name for the default |
 | `SidebarItem(value:, label:, icon:, uri:)` | `{ value, label, icon, href }` | a destination; `uri` is its announced address, `icon` a widget |
+| `SidebarItem(badge:, unavailableReason:)` | `{ badge, unavailable: { reason } }` | a notification on the section; why it cannot open now. Flutter names the reason directly, as `NavigationDestination` does |
+| `SidebarItem.fromDestination(destination)` | the same `NavigationDestination` object | the Navigation Bar's destination list serves the sidebar; Dart types differ, so a constructor maps one to the other |
+| `modals` | none | the `ModalObserver` that says when badge announcements wait; the web reads the open dialogs from the page |
 | `value` | `value` | the current destination, owned by the app |
 | `label` | `label` | the navigation's name, defaulting to the catalog's `sidebar.label` |
 | `onSelected` | `onSelect` | reports the pressed destination's value |
@@ -44,6 +52,27 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | The current destination: tinted, bold, read as the current page | adapted | Flutter semantics have no current-item property: the item's value is `sidebar.current` ("current page"), a catalog key added for this, as Breadcrumb and Pagination do: `semantics: a container named from the catalog; sections are lists; the current destination is read as the current page; links carry their address` |
 | Plain Tab order, no roving focus | matched | `Tab moves through the destinations in order, with no roving` |
 | `data-current` | out of scope | a styling hook for the web stylesheet; Flutter has no attribute selectors |
+
+## Badges and unavailable destinations
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| The badge text is part of the destination's name, after the label | matched | `the badge text is part of the name`; composed by the shared `describeDestination` port |
+| A count shows its content, a dot shows without it; the glyph is hidden from assistive technology | matched | `a count, a dot, a lock and the reason under the label` |
+| In the rail the badge sits on the icon and its text stays in the name | matched | `the rail keeps the badge in the name and the reason in the hint`, `the rail shows the badge on the icon and marks the current destination with a bar, not by colour alone` |
+| A badge that appears or changes is announced once, politely; nothing on first build; nothing with `announce: false` | matched | `once per change, none on first build, none with announce false`; the shared `badgeAnnouncements` port |
+| Announcements wait while a modal is open; the latest per destination is made after it closes (ADR 0016, case 2) | matched | `held while a modal is open, made after it closes`; the web reads the open dialogs, Flutter the `modals` observer, as Navigation Bar does |
+| A sidebar inside its own drawer announces, since that modal is on screen | matched | `a sidebar in its own drawer announces: that modal is on screen`; the web counts only modals that do not contain the sidebar, Flutter only routes other than the current popup route the sidebar shows in |
+| An unavailable destination stays focusable, is read as disabled with its reason, and a press, Enter or Space does nothing | matched | `an unavailable destination is focusable, disabled, and reads its reason as the hint`, `a tap, Enter or Space on an unavailable destination does nothing; Tab still reaches it` |
+| An unavailable link is not followed and the drawer stays open | adapted | Flutter has no `href`: nothing is reported, so the drawer has nothing to close for: same test |
+| The reason shows under the label; a lock follows the label; label and icon take `text-disabled` | matched | `a count, a dot, a lock and the reason under the label` |
+| In the rail the lock sits at the icon's bottom corner and the tooltip reads "label: reason" from `sidebar.unavailableTooltip` | matched | `the rail tooltip gives back the name and the reason`; a catalog key added for this |
+| The rail marks the current destination with a bar at the inline start, never colour alone | matched | `the rail shows the badge on the icon and marks the current destination with a bar, not by colour alone` |
+| Text scale 2.0 in a narrow column: labels and reasons wrap, nothing overflows | matched | `text scale 2.0 in a narrow column: labels and reasons wrap, nothing overflows` |
+| High contrast borders the badge, as forced colors do on the web | matched | `high contrast borders the badge` |
+| Targets 24 by 24, 44 by 44 under touch, with badges and an unavailable destination | matched | `targets, names and contrast pass the guidelines` |
+| The rail tooltip on an unavailable destination is also read | adapted | the package's Tooltip merges its message into the destination's semantics, so the reason is read in the hint and again in the tooltip; the web tooltip is not referenced by the destination |
+| Screen reader output for the badge, its announcement and the reason | not yet verified | Assistive technology: not tested |
 
 ## Collapsible sections
 

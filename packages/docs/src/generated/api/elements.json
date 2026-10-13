@@ -426,7 +426,7 @@
     {
       "name": "DsSidebar",
       "kind": "class",
-      "signature": "declare class DsSidebar extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get sections(): SidebarSection[]; set sections(value: SidebarSection[]); get value(): string | null; set value(next: string | null); get openGroups(): string[]; set openGroups(value: string[]); }"
+      "signature": "declare class DsSidebar extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get sections(): SidebarSection[]; set sections(value: SidebarSection[]); get value(): string | null; set value(next: string | null); get openGroups(): string[]; set openGroups(value: string[]); }"
     },
     {
       "name": "DsSkeleton",
@@ -716,7 +716,7 @@
     {
       "name": "SidebarItem",
       "kind": "interface",
-      "signature": "interface SidebarItem { value: string; label: string; /** Renders the item as a link. Without it the item emits `select`. */ href?: string; /** Optional leading icon, as SVG path data on a 24 by 24 grid. */ icon?: string; }"
+      "signature": "interface SidebarItem extends navigationBar.NavigationTarget { /** Optional leading icon, as SVG path data on a 24 by 24 grid. */ icon?: string; }"
     },
     {
       "name": "SidebarSection",

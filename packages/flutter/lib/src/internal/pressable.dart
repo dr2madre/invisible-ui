@@ -37,6 +37,7 @@ class Pressable extends StatefulWidget {
     this.focusNode,
     this.onFocusChange,
     this.alignment = Alignment.center,
+    this.mouseCursor,
   });
 
   /// Called on a press. Null disables the area.
@@ -56,6 +57,10 @@ class Pressable extends StatefulWidget {
 
   /// Where the content sits in a hit area larger than itself.
   final AlignmentGeometry alignment;
+
+  /// The pointer's cursor over the area. Null shows a click cursor, or the
+  /// forbidden one when disabled.
+  final MouseCursor? mouseCursor;
 
   @override
   State<Pressable> createState() => _PressableState();
@@ -99,9 +104,9 @@ class _PressableState extends State<Pressable> {
         PressKeys.space => _spaceKeys,
       },
       actions: _actions,
-      mouseCursor: enabled
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.forbidden,
+      mouseCursor:
+          widget.mouseCursor ??
+          (enabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden),
       onFocusChange: widget.onFocusChange,
       onShowFocusHighlight: (value) => setState(() => _focusVisible = value),
       // Hover follows the mouse alone, as CSS :hover does.

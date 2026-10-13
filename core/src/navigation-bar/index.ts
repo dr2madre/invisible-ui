@@ -5,10 +5,13 @@
  *
  * - `connect` gives the landmark, list, destination and reason props, the
  *   arrow keys and `select`.
+ * - `destinationProps` is the state and activation of one destination, which
+ *   the Sidebar shares with the bar.
  * - `move` is the arrow-key rule as a pure function.
  * - `describeDestination` and `badgeAnnouncements` compose the spoken text
  *   from the message catalog; `holdAnnouncements` keeps the latest one per
- *   destination while a modal dialog is open.
+ *   destination while a modal dialog is open; `createBadgeAnnouncer` ties
+ *   both together for an adapter's live region.
  *
  * The shared vectors in `__vectors__/` are read by these tests and by the
  * Flutter adapter.

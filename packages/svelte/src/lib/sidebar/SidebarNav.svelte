@@ -1,10 +1,13 @@
 <script lang="ts">
   /**
    * The navigation landmark itself: the logo, the rail toggle, the sections and
-   * the footer. The Sidebar owns every piece of state; this file places things.
+   * the footer. The Sidebar owns every piece of state; this file places things,
+   * and owns the live region that announces a badge change.
    */
   import type { Snippet } from "svelte";
   import Icon from "../icon/Icon.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+  import { BadgeAnnouncements } from "../internal/badge-announcements.svelte";
   import SidebarGroup from "./SidebarGroup.svelte";
   import SidebarItems from "./SidebarItems.svelte";
   import type { ResolvedSection } from "./identity";
@@ -48,6 +51,14 @@
     logo,
     footer,
   }: Props = $props();
+
+  const { t } = getI18n();
+
+  // A badge that appears or changes is announced once; nothing on mount.
+  const announcements = new BadgeAnnouncements(
+    () => entries.flatMap(({ section }) => section.items),
+    () => $t,
+  );
 </script>
 
 <nav
@@ -104,6 +115,11 @@
   {#if footer}
     <div class="sidebar__footer">{@render footer()}</div>
   {/if}
+
+  <div class="sidebar__live" aria-live="polite" {@attach announcements.attach}>
+    {#each announcements.spoken as announcement (announcement.value)}<span>{announcement.text}</span
+      >{/each}
+  </div>
 </nav>
 
 <style>
@@ -157,7 +173,8 @@
     letter-spacing: 0.05em;
     color: var(--ds-color-text-secondary, #524c44);
   }
-  .sidebar__label--hidden {
+  .sidebar__label--hidden,
+  .sidebar__live {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;

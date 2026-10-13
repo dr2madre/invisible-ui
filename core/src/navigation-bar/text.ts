@@ -99,3 +99,60 @@ export function holdAnnouncements(
   for (const entry of incoming) latest.set(entry.value, entry);
   return [...latest.values()];
 }
+
+/** The badges between renders and the announcements held behind a modal. */
+export interface BadgeAnnouncer {
+  /**
+   * Compare `destinations` with the previous call and return what to announce
+   * now. The first call only records them. While `isModalOpen()` is true the
+   * announcements are held and nothing is returned; it is asked only when
+   * there is something to announce.
+   */
+  update(
+    destinations: readonly NavigationTarget[],
+    isModalOpen: () => boolean,
+    options?: TextOptions,
+  ): BadgeAnnouncement[];
+  /** After a modal closes: the held announcements, once no modal is open. */
+  release(isModalOpen: boolean): BadgeAnnouncement[];
+  /** Forget the recorded badges: the next `update` is a first render again. */
+  reset(): void;
+}
+
+/**
+ * The badge announcements of one navigation, Navigation Bar or Sidebar: a
+ * badge that appears or changes is announced once, politely, never on first
+ * render, and while a modal dialog is open the latest one per destination
+ * waits for it to close (ADR 0016, case 2). The adapters own the live region
+ * and the modal tracking.
+ */
+export function createBadgeAnnouncer(): BadgeAnnouncer {
+  let seen: NavigationTarget[] | null = null;
+  let held: BadgeAnnouncement[] = [];
+  return {
+    update(destinations, isModalOpen, options = {}) {
+      // A copy: the next call compares with what was shown, not with an
+      // object the application has since changed in place.
+      const next = destinations.map(({ value, label, badge }) => ({
+        value,
+        label,
+        badge: badge && { ...badge },
+      }));
+      const announcements = badgeAnnouncements(seen, next, options);
+      seen = next;
+      if (announcements.length === 0) return [];
+      if (!isModalOpen()) return announcements;
+      held = holdAnnouncements(held, announcements);
+      return [];
+    },
+    release(isModalOpen) {
+      if (isModalOpen || held.length === 0) return [];
+      const out = held;
+      held = [];
+      return out;
+    },
+    reset() {
+      seen = null;
+    },
+  };
+}
