@@ -74,8 +74,13 @@ test.describe("Navigation Bar (docs demo)", () => {
   test("announces a badge that appears, politely", async ({ page }) => {
     const live = bar(page).locator(".navigation-bar__live");
     await expect(live).toHaveAttribute("aria-live", "polite");
-    await page.getByLabel("Profile needs attention").uncheck();
-    await page.getByLabel("Profile needs attention").check();
+    // The demo's checkbox: off, then on again, so the badge appears.
+    const toggle = page.getByText("Profile needs attention");
+    const box = page.getByRole("checkbox", { name: "Profile needs attention" });
+    await toggle.click();
+    await expect(box).not.toBeChecked();
+    await toggle.click();
+    await expect(box).toBeChecked();
     await expect(live).toHaveText("Profile: Needs attention");
   });
 

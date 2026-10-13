@@ -1,4 +1,5 @@
 <script>
+  import Checkbox from "@design-system/svelte/Checkbox.svelte";
   import NavigationBar from "@design-system/svelte/NavigationBar.svelte";
   import BellIcon from "./icons/BellIcon.svelte";
   import HomeIcon from "./icons/HomeIcon.svelte";
@@ -35,10 +36,11 @@
 
 <div class="frame">
   <p class="section">Section: {section}</p>
-  <label class="toggle">
-    <input type="checkbox" bind:checked={attention} />
-    Profile needs attention
-  </label>
+  <Checkbox
+    label="Profile needs attention"
+    checked={attention}
+    onCheckedChange={(next) => (attention = next === true)}
+  />
   <!-- The docs site already has a nav named "Main": the demo names its own. -->
   <NavigationBar
     {destinations}
@@ -55,14 +57,8 @@
     inline-size: 24rem;
     max-inline-size: 100%;
   }
-  .section,
-  .toggle {
+  .section {
     margin: 0;
     font-size: 0.875rem;
-  }
-  .toggle {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
   }
 </style>
