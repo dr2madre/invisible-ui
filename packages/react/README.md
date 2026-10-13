@@ -4,7 +4,7 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 
 **Status: full catalog.** The adapter started as the proof of concept that
 showed the core drives a second framework. Like the Svelte, Vue and custom
-elements adapters, it now carries all 80 components: Button, Checkbox, Switch,
+elements adapters, it now carries all 81 components: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
 SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
@@ -13,7 +13,8 @@ RadioGroup, CheckboxGroup, SegmentedControl, ToggleButton, ToggleGroup,
 Slider, RangeSlider, NumberField, PinInput and RatingGroup), the date and
 time family (Calendar, DatePicker, DateRangePicker and TimeField),
 navigation and structure (Tabs, Accordion, Collapsible, Breadcrumb,
-Pagination, Stepper, Sidebar, TreeView, ButtonGroup and Separator), the
+Pagination, Stepper, Sidebar, NavigationBar, TreeView, ButtonGroup and
+Separator), the
 presentational components (Avatar, AvatarGroup, Count, Tag, Kbd, Code,
 CodeBlock, Blockquote, Skeleton, AspectRatio, ScrollArea, Progress, Meter,
 Link, Label, Field and Card), feedback (Loading, LoadingGenerationArea,

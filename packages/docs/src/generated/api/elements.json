@@ -319,6 +319,11 @@
       "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
     },
     {
+      "name": "DsNavigationBar",
+      "kind": "class",
+      "signature": "declare class DsNavigationBar extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get destinations(): NavigationDestination[]; set destinations(value: NavigationDestination[]); get value(): string | null; set value(next: string | null); }"
+    },
+    {
       "name": "DsNavigationMenu",
       "kind": "class",
       "signature": "declare class DsNavigationMenu extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get items(): NavigationMenuItem[]; set items(value: NavigationMenuItem[]); get value(): string | null; set value(next: string | null); }"
@@ -592,6 +597,16 @@
       "name": "MultiSelectItem",
       "kind": "interface",
       "signature": "interface MultiSelectItem { value: string; label?: string; disabled?: boolean; }"
+    },
+    {
+      "name": "NavigationBadge",
+      "kind": "type",
+      "signature": "type NavigationBadge = navigationBar.NavigationBadge;"
+    },
+    {
+      "name": "NavigationDestination",
+      "kind": "type",
+      "signature": "type NavigationDestination = navigationBar.NavigationDestination<string>;"
     },
     {
       "name": "NavigationMenuItem",

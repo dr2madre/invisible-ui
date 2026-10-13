@@ -11,11 +11,17 @@ import SegmentedControlDemo from "../../../../demos/SegmentedControlDemo.svelte"
   <SegmentedControlDemo client:visible />
 </Preview>
 
-The radio-group semantics laid out as a bar of segments. Beyond the default
-text bar it supports `iconOnly` (a compact toolbar), `stacked` (icon over label —
-a mobile **bottom bar**), and `orientation="vertical"` (a **sidebar**); combine
-them for an icon-only or compact sidebar. The demo above shows each variant,
-including a desktop/tablet sidebar with a logo and `Separator` dividers.
+The radio-group semantics laid out as a bar of segments: it chooses a value
+inside a view. Beyond the default text bar it supports `iconOnly` (a compact
+toolbar), `stacked` (icon over label) and `orientation="vertical"` (a column
+of segments). The demo above shows each variant.
+
+A Segmented Control is not navigation. A radio group announces "radio button,
+2 of 5, checked" and moves the selection with the arrow keys, which is the
+wrong contract for moving between the sections of an application. For a bar
+of sections at the bottom of the screen use
+[Navigation Bar](/invisible-ui/components/patterns/navigation-bar/); for side
+navigation use [Sidebar](/invisible-ui/components/patterns/sidebar/).
 
 ### Import
 

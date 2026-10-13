@@ -20,7 +20,7 @@ A **headless, accessible, multi-framework** component library — built from scr
 > may change without notice. Not recommended for production use yet.
 
 > **Status:** The framework-agnostic core and the **Svelte**, **React**,
-> **Vue**, **Web Components** and **Flutter** adapters carry the full component set (80 components
+> **Vue**, **Web Components** and **Flutter** adapters carry the full component set (81 components
 > across overlays, modals, navigation, forms, data and date/time), with
 > headless APIs for behavioral primitives and styled, token-driven components.
 > The repository includes light/dark tokens, `vitest`/`vitest-axe` coverage
@@ -110,7 +110,7 @@ framework-agnostic behavior and accessibility logic; thin per-framework
 adapters expose it idiomatically. **Svelte**, **React**, **Vue**, **Web
 Components** and **Flutter** carry the full catalog. **React** started as the proof of concept
 that confirmed the core needs no changes to drive another framework, and now
-carries all 80 components. **Reflex**
+carries all 81 components. **Reflex**
 wraps the React components so Python apps reuse the same behaviour (ADR 0006) — nothing is re-implemented in Python.
 
 See [`core/README.md`](./core/README.md) for the primitive contract, state

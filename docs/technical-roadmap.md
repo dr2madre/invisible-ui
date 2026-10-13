@@ -103,7 +103,7 @@ Each item ships as its own PR. Checkboxes track progress.
   without losing labels, options or selected state. No virtual-DOM hydration
   step is involved.
 - [x] **13. Custom elements: full catalog** — done. `packages/elements`
-  carries all 80 components in the catalog, like Svelte and Vue. All batches
+  carries all 81 components in the catalog, like Svelte and Vue. All batches
   are merged.
   `ds-locale-provider` carries i18n, the `e2e/elements-*.spec.ts` specs cover
   the elements in real browsers, and every element has its own tree-shaken
@@ -117,7 +117,7 @@ Each item ships as its own PR. Checkboxes track progress.
   value controls (Radio, Slider, Range Slider, Number Field, Pin Input, Rating
   Group, Segmented Control, Toggle Button, Toggle Group), then the date and
   time family, then the presentational rest.
-- [x] **14. React: full catalog** — done. `packages/react` carries all 80
+- [x] **14. React: full catalog** — done. `packages/react` carries all 81
   components in the catalog, like Svelte, Vue and custom elements, plus Icon
   and LocaleProvider. All batches are merged: Button, Checkbox, Switch,
   TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
@@ -152,7 +152,7 @@ Each item ships as its own PR. Checkboxes track progress.
   [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md) and
   the discovery in
   [`docs/proposals/flutter-discovery.md`](./proposals/flutter-discovery.md).
-  `packages/flutter` carries all 80 components of the catalog: the
+  `packages/flutter` carries all 81 components of the catalog: the
   foundation (generated tokens
   checked by `pnpm tokens:check`, `InvisibleTheme` with light and dark,
   density, minimum target size, focus ring and messages), Button, the
@@ -217,9 +217,10 @@ Each item ships as its own PR. Checkboxes track progress.
   `pin-input`, read by the core and the Flutter tests. Every component of the first wave in ADR 0017 is in. Of what
   follows it, Card, Collapsible and Timelog's dialogs, forms, pickers and
   Date Picker are in, and so is the rest of the catalog. The navigation bar
-  of wave 2, a new component that starts from its spec, and the specs for
-  the section header and the colour swatch are outside the catalog and come
-  next.
+  of wave 2 is in, built from its spec on every platform: `core/` runs its
+  keys, spoken names and badge announcements against the shared vectors in
+  `core/src/navigation-bar/__vectors__`, read by the core and the Flutter
+  tests. The specs for the section header and the colour swatch come next.
   The editable grid spec, for every platform, is in
   [`docs/editable-grid-spec.md`](./editable-grid-spec.md).
   The navigation bar spec, for every platform, is in
