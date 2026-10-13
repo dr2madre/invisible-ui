@@ -2,7 +2,7 @@
   {
     "name": "@design-system/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "24.3 kB"
+    "limit": "25.4 kB"
   },
   {
     "name": "@design-system/core — one primitive, tree-shaken (label)",
@@ -20,7 +20,7 @@
     "name": "@design-system/core — i18n only, tree-shaken (catalog included)",
     "path": "core/dist/index.js",
     "import": "{ i18n }",
-    "limit": "3.2 kB"
+    "limit": "3.3 kB"
   },
   {
     "name": "@design-system/core — number field only, tree-shaken (with i18n)",
@@ -37,17 +37,17 @@
   {
     "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "53.9 kB"
+    "limit": "54 kB"
   },
   {
     "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "81.7 kB"
+    "limit": "83.2 kB"
   },
   {
     "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "74.3 kB"
+    "limit": "76 kB"
   },
   {
     "name": "@design-system/react — text field only, tree-shaken",
@@ -159,7 +159,7 @@
     "name": "@design-system/elements — alert dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAlertDialog }",
-    "limit": "7.1 kB"
+    "limit": "7.2 kB"
   },
   {
     "name": "@design-system/elements — avatar only, tree-shaken",
@@ -267,7 +267,7 @@
     "name": "@design-system/elements — pin input only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPinInput }",
-    "limit": "6.3 kB"
+    "limit": "6.4 kB"
   },
   {
     "name": "@design-system/elements — prompt dialog only, tree-shaken",
@@ -285,13 +285,13 @@
     "name": "@design-system/elements — range slider only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRangeSlider }",
-    "limit": "7.3 kB"
+    "limit": "7.4 kB"
   },
   {
     "name": "@design-system/elements — rating group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRatingGroup }",
-    "limit": "5.8 kB"
+    "limit": "5.9 kB"
   },
   {
     "name": "@design-system/elements — scroll area only, tree-shaken",
@@ -303,13 +303,19 @@
     "name": "@design-system/elements — search dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSearchDialog }",
-    "limit": "9.1 kB"
+    "limit": "9.2 kB"
   },
   {
     "name": "@design-system/elements — segmented control only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSegmentedControl }",
     "limit": "2.5 kB"
+  },
+  {
+    "name": "@design-system/elements — navigation bar only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsNavigationBar }",
+    "limit": "7.3 kB"
   },
   {
     "name": "@design-system/elements — sidebar only, tree-shaken",
@@ -351,7 +357,7 @@
     "name": "@design-system/elements — upload drop area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsUploadDropArea }",
-    "limit": "6.3 kB"
+    "limit": "6.4 kB"
   },
   {
     "name": "@design-system/elements — accordion only, tree-shaken",
@@ -363,7 +369,7 @@
     "name": "@design-system/elements — collapsible only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCollapsible }",
-    "limit": "4.6 kB"
+    "limit": "4.7 kB"
   },
   {
     "name": "@design-system/elements — aspect ratio only, tree-shaken",
