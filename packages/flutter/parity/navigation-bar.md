@@ -1,6 +1,6 @@
 # Navigation Bar parity checklist
 
-Reference commit: `0a967829301099f1b0b22c19a5c3f34eb1a35898`
+Reference commit: `49db2e6b2d02f290504d70f8aec41d995a1a8ad4`
 
 Reference paths: `core/src/navigation-bar` `packages/svelte/src/lib/navigation-bar` `docs/navigation-bar-spec.md`
 

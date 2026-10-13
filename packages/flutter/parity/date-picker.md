@@ -1,6 +1,6 @@
 # Date Picker parity checklist
 
-Reference commit: `7a4d645e2f259cd7503a8d4a6aca9143e9871ded`
+Reference commit: `e9cce2f081d9bab90d0a1754a1971d6c567c403c`
 
 Reference paths: `core/src/calendar` `core/src/popover` `packages/svelte/src/lib/date-picker`
 
