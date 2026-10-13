@@ -1,6 +1,6 @@
 # Tabs parity checklist
 
-Reference commit: `27ae41b22e7951ac8b1cbd78fb0f1e70a3c5e7c6`
+Reference commit: `ddcb5bf7b51d6d75d5e1606607c9caa5dcb3a0c1`
 
 Reference paths: `core/src/tabs` `core/src/internal/collection.ts` `packages/svelte/src/lib/tabs`
 

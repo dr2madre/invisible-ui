@@ -1,6 +1,6 @@
 # Table parity checklist
 
-Reference commit: `065c59ab34f5cdef8e55d8014dfbbd3efc52396c`
+Reference commit: `3a72a486d1ee462d04c027cc3511fb4c4dab559e`
 
 Reference paths: `core/src/table` `packages/svelte/src/lib/table` `docs/data-table-spec.md`
 
