@@ -9,8 +9,8 @@ is Timelog's weekly timesheet: projects in rows, days in columns, hours in
 the cells, totals per day and per project
 ([requirements](./proposals/flutter-adapter.md#editable-grid--requirements-for-the-cross-platform-spec)).
 
-Status: proposed, waiting for the maintainer's answers to the
-[open questions](#open-questions). Nothing here is built. The Data Table
+Status: decided; see [Decisions taken](#decisions-taken). Nothing here is
+built yet. The Data Table
 ([`data-table-spec.md`](./data-table-spec.md)) deferred grid semantics and
 editing on purpose; this spec picks up those two deferrals and leaves the
 others (range selection, remote select-all, virtualization) deferred.
@@ -88,10 +88,10 @@ export interface GridCell {
   value: number | null;
   /** Summary cells: visible and announced text, e.g. "2 entries". */
   badge?: string;
-  /** Still editable; shown by style and by the visible `mutedLabel`. */
-  muted?: boolean;
-  /** Required when `muted`: e.g. "Non-working day". */
-  mutedLabel?: string;
+  /** Secondary emphasis: still editable; shown by style and by the visible `secondaryLabel`. */
+  secondary?: boolean;
+  /** Required when `secondary`; the app's own words, e.g. "Non-working day". */
+  secondaryLabel?: string;
   /** Consumer validation message, e.g. "More than 24 hours on this day". */
   error?: string;
 }
@@ -115,12 +115,18 @@ they carry no action (no sorting in the grid).
   ("5 hours", "no hours"). Default: the formatted number, and the catalog's
   "empty" for `null`. `formatValue(value)` gives the visible text; default:
   the Number Field format for the locale.
-- **Muted.** `muted` on a column (`column.muted`, `column.mutedLabel`)
-  applies to every body cell of the column; `muted` on a cell applies to that
-  cell. A muted cell keeps its kind: an editable muted cell stays editable.
-  The muted label is visible text: in the column header for a muted column,
-  inside the cell for a muted cell. The muted style (a tint or a pattern from
-  tokens) adds to the text and never replaces it.
+- **Secondary emphasis.** `secondary` on a column (`column.secondary`,
+  `column.secondaryLabel`) applies to every body cell of the column;
+  `secondary` on a cell applies to that cell. It marks cells that are allowed
+  but outside the usual period, schedule or calendar (Timelog: weekends,
+  holidays, days off). The grid does not know why: the meaning is the app's
+  label, such as "Non-working day". A secondary cell keeps its kind: an
+  editable secondary cell stays editable; it is neither disabled nor
+  read-only. The label is visible text: in the column header for a secondary
+  column, inside the cell for a secondary cell. The secondary style comes
+  from tokens, adds to the text and never replaces it. An app that needs its
+  own variant (for example holidays styled apart from weekends) maps it in
+  its theme onto this emphasis; product meanings stay in the app.
 - **Errors.** Two sources, shown in the same place:
   - the editor's own validity while editing (`parse`, `range-overflow`,
     `range-underflow`, `step-mismatch`, with the Number Field messages);
@@ -265,7 +271,7 @@ The active cell is held as a `{ rowId, columnId }` pair, never as indices.
 | Body cell | `<td role="gridcell">`, `aria-colindex`, `tabindex` 0 on the active cell and -1 on the others | One focusable node per cell, composed label |
 | Read-only and summary | `aria-readonly="true"` | `readOnly: true` |
 | Error | `aria-invalid="true"`, the message in `aria-describedby` | The message in the node's hint or value; `invalid` where the SDK has it |
-| Muted | The muted label in `aria-describedby` | The muted label in the composed label |
+| Secondary | The secondary label in `aria-describedby` | The secondary label in the composed label |
 | Details shortcut | `aria-keyshortcuts` on the cell; the shortcut text in the description | A custom semantics action named "Details"; the shortcut in the hint |
 | Editor | The Number Field input (`role="spinbutton"`) inside the cell, labelled by the column and row headers | The Number Field's semantics, with the cell's composed label |
 | Rows | `aria-rowindex` on every row, 1-based, the header row is 1 | Not applicable |
@@ -287,7 +293,7 @@ The active cell is held as a `{ rowId, columnId }` pair, never as indices.
 
 - **On focus.** The web relies on the roles: a screen reader reads the cell
   text with the row header when the row changes and the column header when
-  the column changes. The cell's description adds muted label, error and the
+  the column changes. The cell's description adds the secondary label, error and the
   details shortcut. Flutter composes one label per cell (below).
 - **On commit.** No announcement for the new value or the totals: the person
   just typed it. An error that appears on commit, on the cell or on a total,
@@ -316,7 +322,7 @@ are added as a bonus:
   2. the row label ("PX-12 Project X");
   3. the value text ("5 hours", or "empty");
   4. the badge, for a summary cell ("2 entries");
-  5. the muted label ("Non-working day");
+  5. the secondary label ("Non-working day");
   6. the error message, prefixed with the catalog's "Error".
 
   Example: "Monday 6 October, PX-12 Project X, 5 hours, Non-working day".
@@ -358,7 +364,7 @@ are added as a bonus:
   cell. Editing mode draws the field border inside the cell and shows the
   caret. The two differ by shape, so colour is never the only signal.
 - **Forced colors.** The focus ring and the editing border use system
-  colours (`Highlight`, `CanvasText`); the error icon and the muted label
+  colours (`Highlight`, `CanvasText`); the error icon and the secondary label
   stay visible because they are glyphs and text. In Flutter, the same rules
   apply under `MediaQuery.highContrastOf`.
 - **Reduced motion.** Scrolling the active cell into view is instant under
@@ -421,7 +427,7 @@ Flutter names, per ADR 0017 §2: `onCellChanged`, `onCellActivated`,
   Scroll padding equals the sticky sizes, so the active cell is never hidden
   under them.
 - **Column widths.** Day columns share one minimum width that fits the
-  widest formatted value, its badge or muted label, and the details button.
+  widest formatted value, its badge or secondary label, and the details button.
   The row header column takes a consumer width, with the name truncating
   visually and the full name in the accessible label and on hover.
 - **Narrow windows.** The card view stays in the application. The grid
@@ -429,9 +435,11 @@ Flutter names, per ADR 0017 §2: `onCellChanged`, `onCellActivated`,
   the pure totals functions, `formatValue` and `valueText`, and the composed
   cell label from `core/src/grid`. The grid has no breakpoint of its own.
 - **Tokens.** The grid reuses the Table's surface, border, header and
-  density tokens; the muted tint and the error colour come from existing
-  role tokens. New tokens, if any, are named by role (`--ds-grid-cell-muted`)
-  and go through `docs/tokens.md`.
+  density tokens; the error colour comes from the existing role tokens. The
+  secondary emphasis gets a role token, `--ds-grid-cell-secondary-surface`,
+  defined in `packages/tokens/tokens.json` for each theme and documented in
+  `docs/tokens.md`. ADR 0002 applies: no token or prop is named after an
+  appearance.
 
 ## Performance
 
@@ -599,7 +607,7 @@ together (ADR 0017 §1).
   nothing.
 - Details: button visible on focus and hover, the shortcut works in both
   modes, the accessible name carries the context.
-- Muted cells stay editable and expose their label; consumer errors appear
+- Secondary cells stay editable and expose their label; consumer errors appear
   and are announced once.
 - Focus returns to the cell after a dialog opened from it closes, after a
   data refresh.
@@ -610,7 +618,7 @@ together (ADR 0017 §1).
 - Sticky headers and totals with the active cell scrolled into view at 320
   pixels wide and at 200% text size.
 - Target size 24 by 24, and 44 by 44 under an emulated coarse pointer.
-- Forced colors: focus ring, editing border, error and muted text visible.
+- Forced colors: focus ring, editing border, error and secondary text visible.
 - Axe over the catalog demo.
 
 ### Flutter widget tests
@@ -627,7 +635,7 @@ together (ADR 0017 §1).
 
 ### Parity checklist lines
 
-For `packages/flutter/parity/data-grid.md`: each cell kind; muted per cell
+For `packages/flutter/parity/data-grid.md`: each cell kind; secondary emphasis per cell
 and per column; each error source; each row of both keyboard tables; RTL
 mirroring; single tab stop; accepted characters per locale; parse and range
 commit rules; Escape consumption; the details button, shortcut and
@@ -636,37 +644,42 @@ rounding; active cell after data changes; focus return after a dialog;
 target size per density; text scale; high contrast; the callback names
 mapped to ADR 0011.
 
-## Open questions
+## Decisions taken
 
-1. **Which component carries the grid?** Recommendation: a new public
-   `DataGrid` in the table family. Table View is internal and built around
-   native table semantics, pagination and the card view; adding grid
-   navigation and editing there changes the semantics of every existing
-   table. A separate component keeps those tables as they are and shares
-   column definitions and styles. ADR 0017 §6 says "the web Data Table
-   gains it"; this reads it as the Data Table family.
-2. **Enter after a commit: stay or move down?** Recommendation: stay on the
-   cell, in navigation mode. It is APG's first option, it keeps Enter
-   symmetric with entering editing mode, and Tab already gives fast entry
-   along a row.
-3. **Tab while editing.** Recommendation: commit and edit the next editable
-   cell in reading order (Shift+Tab the previous), skipping summary and
-   read-only cells; after the last editable cell, commit and leave the grid.
-   This is spreadsheet and AG Grid behaviour, and it fits filling a week.
-   The alternative, commit and leave the grid, is simpler and matches
-   navigation mode.
-4. **Where the row total sits.** Recommendation: a trailing Total column
-   with its own header. It gets a column header, so the total announces as
-   "Total, PX-12 Project X, 36 hours", and the row header name stays short.
-   Timelog's layout shows it inside the row header; the grid can draw it
-   there visually only if the maintainer prefers, at the cost of a longer row
-   header name read on every row change.
-5. **ArrowUp and ArrowDown in the editor.** Recommendation: they step the
-   draft and commit with the rest of the edit, so one edit gives one
-   `onCellChange` and Escape undoes the steps too. This differs from the
-   standalone Number Field, where each step commits, and is recorded as a
-   grid rule in both adapters.
-6. **Undo of committed changes.** Recommendation: out of scope for the
-   component in v1. An application that wants it keeps a history of
-   `onCellChange` reports and offers its own Undo; a grid-level Control+Z
-   can be specified later from that experience.
+Recorded by the maintainer on 2026-10-11:
+
+1. **Component.** A new public `DataGrid` in the table family, following the
+   WAI-ARIA Grid pattern, with distinct navigation and editing modes. Table,
+   Table View and Table Set stay as they are.
+2. **Enter after a commit.** Enter confirms the value and keeps focus on the
+   cell, in navigation mode. The confirmed value is conveyed to assistive
+   technology.
+3. **Tab while editing.** Tab commits and edits the next editable cell,
+   Shift+Tab the previous one. Summary and read-only cells are skipped in the
+   editing sequence but stay reachable in navigation mode. After the last
+   editable cell, Tab moves on to the next control: the grid never traps
+   focus. Escape discards the uncommitted draft.
+4. **Validation.** A draft that does not parse is never committed and stays
+   in editing mode with its error. A number that breaks a rule (out of range,
+   a day over 24 hours) can be committed and keeps its error. Committing a
+   cell is not saving the data: the app decides whether to allow saving while
+   errors exist.
+5. **Row total.** A read-only cell with its own column header. Its position
+   is a grid option (trailing by default, or right after the row header); the
+   grid moves structure, visual order and keyboard navigation together. No
+   CSS-only reordering.
+6. **Arrows in the editor.** They follow the control being edited: in a
+   numeric editor they step the draft; they never block caret movement in a
+   text editor. `onCellChange` runs once, at commit.
+7. **Undo.** The grid delegates Undo to the app and reports
+   `previousValue` so it can be built. The requirement that the product
+   offers a way to undo a committed change is documented for apps; the
+   implementation can come later.
+
+Recorded by the maintainer on 2026-10-13:
+
+8. **No "muted".** "Muted" means switched off (a microphone, a person who
+   is not speaking); it is wrong for these cells and is not used. Cells that
+   are allowed but outside the usual schedule use the secondary emphasis
+   (`secondary`, `secondaryLabel`); product-specific variants such as
+   holidays are mapped by the app.
