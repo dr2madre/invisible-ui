@@ -75,21 +75,23 @@ nav.navigation-bar .navigation-bar__destination:focus-visible {
 }
 
 /* The shape behind the icon: the current mark, never colour alone. It
-   carries the badge and the status glyph at its corners. */
+   carries the badge and the status glyph at its corners. The icon, the shape
+   and the glyphs keep their size when the text grows; the labels and the
+   count grow with it. */
 nav.navigation-bar .navigation-bar__indicator {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: 3.5rem;
+  inline-size: 56px;
   max-inline-size: 100%;
-  block-size: 2rem;
+  block-size: 32px;
   border-radius: var(--ds-radius-pill, 999px);
 }
 
 nav.navigation-bar .navigation-bar__icon {
   display: inline-flex;
-  font-size: 1.5rem;
+  font-size: 24px;
 }
 
 nav.navigation-bar .navigation-bar__destination[data-current] {
@@ -127,14 +129,17 @@ nav.navigation-bar .navigation-bar__destination[data-current] .navigation-bar__l
 nav.navigation-bar .navigation-bar__badge {
   position: absolute;
   inset-block-start: 0;
-  inset-inline-start: calc(50% + 0.375rem);
+  inset-inline-start: calc(50% + 6px);
   box-sizing: border-box;
-  min-inline-size: 1rem;
-  block-size: 1rem;
-  padding-inline: 0.25rem;
+  min-inline-size: 16px;
+  min-block-size: 16px;
+  padding-inline: 4px;
   font-size: 0.6875rem;
   font-weight: 600;
-  line-height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   color: var(--ds-navigation-bar-badge-text, var(--ds-color-on-status, #fff));
   white-space: nowrap;
   background: var(--ds-navigation-bar-badge-surface, var(--ds-color-danger, #be3b50));
@@ -142,10 +147,11 @@ nav.navigation-bar .navigation-bar__badge {
 }
 
 nav.navigation-bar .navigation-bar__badge--dot {
-  inset-block-start: 0.25rem;
+  inset-block-start: 4px;
   min-inline-size: 0;
-  inline-size: 0.5rem;
-  block-size: 0.5rem;
+  min-block-size: 0;
+  inline-size: 8px;
+  block-size: 8px;
   padding: 0;
 }
 
@@ -157,9 +163,9 @@ nav.navigation-bar .navigation-bar__destination[data-unavailable] {
 nav.navigation-bar .navigation-bar__status {
   position: absolute;
   inset-block-end: 0;
-  inset-inline-start: calc(50% + 0.375rem);
+  inset-inline-start: calc(50% + 6px);
   display: inline-flex;
-  font-size: 0.875rem;
+  font-size: 14px;
 }
 
 /* The reason shows on hover, keyboard focus and a long press, and Escape
