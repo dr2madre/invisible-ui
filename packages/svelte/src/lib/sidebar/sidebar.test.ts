@@ -1,8 +1,12 @@
 import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
+import { tick } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { trackModal } from "../internal/modal-stack";
+import Dot from "./sidebar-icon.fixture.svelte";
 import Fixture from "./sidebar.fixture.svelte";
+import type { SidebarSection } from "./types";
 
 const nav = () => screen.getByRole("navigation");
 
@@ -484,5 +488,127 @@ describe("Sidebar when the application stops controlling the set", () => {
       "a section opened that the application had kept closed",
     ).toHaveAttribute("aria-expanded", "false");
     expect(onOpenGroupsChange).not.toHaveBeenCalled();
+  });
+});
+
+describe("Sidebar badges and unavailable destinations", () => {
+  // The Navigation Bar's destinations, passed unchanged.
+  const status = (badge?: string, announce?: boolean): SidebarSection[] => [
+    {
+      items: [
+        { value: "home", label: "Home", icon: Dot },
+        {
+          value: "inbox",
+          label: "Inbox",
+          icon: Dot,
+          badge: badge === undefined ? undefined : { label: badge, content: "3", announce },
+        },
+        { value: "profile", label: "Profile", icon: Dot, badge: { label: "Needs attention" } },
+        {
+          value: "reports",
+          label: "Reports",
+          href: "/reports",
+          icon: Dot,
+          unavailable: { reason: "Ask an administrator for access" },
+        },
+      ],
+    },
+  ];
+  const live = () => document.querySelector(".sidebar__live")!;
+
+  it("reads the badge text inside the name and shows a count or a dot", () => {
+    render(Fixture, { props: { sections: status("3 unread") } });
+    const inbox = screen.getByRole("button", { name: "Inbox, 3 unread" });
+    expect(inbox.querySelector(".sidebar__badge")).toHaveTextContent("3");
+    expect(inbox.querySelector(".sidebar__badge")).toHaveAttribute("aria-hidden", "true");
+    const profile = screen.getByRole("button", { name: "Profile, Needs attention" });
+    expect(profile.querySelector(".sidebar__badge--dot")).not.toBeNull();
+  });
+
+  it("keeps an unavailable destination focusable, with its reason shown and read", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(Fixture, { props: { sections: status(), onSelect } });
+    const reports = screen.getByRole("link", { name: "Reports" });
+    expect(reports).toHaveAttribute("aria-disabled", "true");
+    expect(reports).toHaveAccessibleDescription("Ask an administrator for access");
+    expect(reports.querySelector(".sidebar__status")).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByText("Ask an administrator for access")).toBeVisible();
+    for (let step = 0; step < 4; step += 1) await user.tab();
+    expect(reports).toHaveFocus();
+    const click = new MouseEvent("click", { bubbles: true, cancelable: true });
+    reports.dispatchEvent(click);
+    expect(click.defaultPrevented, "an unavailable link is not followed").toBe(true);
+    expect(onSelect).not.toHaveBeenCalled();
+  });
+
+  it("keeps an unavailable destination from closing the drawer", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    render(Fixture, { props: { sections: status(), mode: "drawer", open: true, onOpenChange } });
+    await user.click(screen.getByRole("link", { name: "Reports" }));
+    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("keeps the badge text in the name and the reason in the description on the rail", () => {
+    render(Fixture, {
+      props: { sections: status("3 unread"), collapsed: true, onCollapsedChange: () => {} },
+    });
+    const inbox = screen.getByRole("button", { name: "Inbox, 3 unread" });
+    expect(inbox.querySelector(".sidebar__badge")).toHaveTextContent("3");
+    expect(screen.getByRole("link", { name: "Reports" })).toHaveAccessibleDescription(
+      "Ask an administrator for access",
+    );
+  });
+
+  it("announces nothing on mount", async () => {
+    render(Fixture, { props: { sections: status("3 unread") } });
+    await tick();
+    expect(live()).toHaveAttribute("aria-live", "polite");
+    expect(live().textContent?.trim()).toBe("");
+  });
+
+  it("announces a badge that appears or changes, once, and not with announce: false", async () => {
+    const { rerender } = render(Fixture, { props: { sections: status() } });
+    await rerender({ sections: status("3 unread") });
+    expect(live().textContent?.trim()).toBe("Inbox: 3 unread");
+    await rerender({ sections: status("4 unread", false) });
+    expect(live().textContent?.trim()).toBe("Inbox: 3 unread");
+  });
+
+  it("holds the latest announcement while a modal dialog is open", async () => {
+    const { rerender } = render(Fixture, { props: { sections: status() } });
+    const dialog = document.createElement("dialog");
+    document.body.append(dialog);
+    dialog.setAttribute("open", "");
+    const release = trackModal(dialog);
+    await rerender({ sections: status("1 unread") });
+    await rerender({ sections: status("2 unread") });
+    expect(live().textContent?.trim()).toBe("");
+    dialog.removeAttribute("open");
+    release();
+    await vi.waitFor(() => expect(live().textContent?.trim()).toBe("Inbox: 2 unread"));
+    dialog.remove();
+  });
+
+  it("announces inside its own drawer, which is the modal on screen", async () => {
+    const { rerender } = render(Fixture, {
+      props: { sections: status(), mode: "drawer", open: true },
+    });
+    await rerender({ sections: status("1 unread"), mode: "drawer", open: true });
+    expect(live().textContent?.trim()).toBe("Inbox: 1 unread");
+  });
+
+  it("has no accessibility violations with a badge and an unavailable destination", async () => {
+    const { container } = render(Fixture, { props: { sections: status("3 unread") } });
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it("has no accessibility violations on the rail", async () => {
+    const { container } = render(Fixture, {
+      props: { sections: status("3 unread"), collapsed: true, onCollapsedChange: () => {} },
+    });
+    expect(await axe(container)).toHaveNoViolations();
   });
 });

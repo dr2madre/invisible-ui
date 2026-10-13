@@ -1461,6 +1461,11 @@
       "signature": "navigationBar.BadgeAnnouncement = interface BadgeAnnouncement { /** The destination whose badge changed. */ value: string; /** The text to announce: \"Profile: Needs attention\". */ text: string; }"
     },
     {
+      "name": "navigationBar.BadgeAnnouncer",
+      "kind": "type",
+      "signature": "navigationBar.BadgeAnnouncer = interface BadgeAnnouncer { /** * Compare `destinations` with the previous call and return what to announce * now. The first call only records them. While `isModalOpen()` is true the * announcements are held and nothing is returned; it is asked only when * there is something to announce. */ update(destinations: readonly NavigationTarget[], isModalOpen: () => boolean, options?: TextOptions): BadgeAnnouncement[]; /** After a modal closes: the held announcements, once no modal is open. */ release(isModalOpen: boolean): BadgeAnnouncement[]; /** Forget the recorded badges: the next `update` is a first render again. */ reset(): void; }"
+    },
+    {
       "name": "navigationBar.ConnectOptions",
       "kind": "interface",
       "signature": "interface ConnectOptions#d074bb38 { destinations: readonly NavigationTarget[]; /** The current destination's value. The application owns it. */ value?: string | null; /** The landmark's accessible name. */ label: string; /** Base id for the reason elements. */ id: string; /** Called with a button destination's value on every activation. */ onSelect?: (value: string) => void; /** Reading direction. Read from the destination's computed style when left out. */ direction?: \"ltr\" | \"rtl\"; normalize?: Normalize; }"
@@ -1474,6 +1479,11 @@
       "name": "navigationBar.DescribeOptions",
       "kind": "type",
       "signature": "navigationBar.DescribeOptions = interface DescribeOptions extends TextOptions { /** Position among the destinations passed, from 1. Given with `count`, the position is read. */ index?: number; /** How many destinations the bar shows. */ count?: number; /** Whether this destination is the current one; read as `navigationBar.current`. */ current?: boolean; }"
+    },
+    {
+      "name": "navigationBar.DestinationOptions",
+      "kind": "type",
+      "signature": "navigationBar.DestinationOptions = interface DestinationOptions { destination: NavigationTarget; /** Whether this destination is the current one. */ current: boolean; /** Id of the element that holds the unavailable reason. */ reasonId: string; /** Called with a button destination's value on every activation. */ onSelect?: (value: string) => void; /** Called after every activation of an available destination, link or button. */ onNavigate?: () => void; }"
     },
     {
       "name": "navigationBar.LONG_PRESS_MS",
@@ -1531,9 +1541,19 @@
       "signature": "declare function connect#aab3dfed({ destinations, value, label, id, onSelect, direction, normalize, }: ConnectOptions#d074bb38): NavigationBarApi;"
     },
     {
+      "name": "navigationBar.createBadgeAnnouncer",
+      "kind": "const",
+      "signature": "navigationBar_createBadgeAnnouncer: typeof createBadgeAnnouncer"
+    },
+    {
       "name": "navigationBar.describeDestination",
       "kind": "const",
       "signature": "navigationBar_describeDestination: typeof describeDestination"
+    },
+    {
+      "name": "navigationBar.destinationProps",
+      "kind": "const",
+      "signature": "navigationBar_destinationProps: typeof destinationProps"
     },
     {
       "name": "navigationBar.holdAnnouncements",

@@ -242,6 +242,15 @@ describe("i18n — translate", () => {
     ).toBe("Profile: Needs attention");
   });
 
+  it("carries the sidebar rail's tooltip for an unavailable destination", () => {
+    expect(
+      translate(catalog, {}, "en", "sidebar.unavailableTooltip", {
+        label: "Reports",
+        reason: "Ask an administrator for access",
+      }),
+    ).toBe("Reports: Ask an administrator for access");
+  });
+
   it("carries the submenu hint for platforms with no popup semantics", () => {
     expect(translate(catalog, {}, "en", "menu.submenu")).toBe("submenu");
     expect(translate(catalog, { "menu.submenu": "sottomenu" }, "it", "menu.submenu")).toBe(

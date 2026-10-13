@@ -32,6 +32,22 @@ class NavigationBadge {
   final bool announce;
 }
 
+/// What the badge announcements and the composed name read of a destination,
+/// in a `NavigationBar` or a `Sidebar`. Package-internal.
+abstract interface class NavigationTarget<T> {
+  /// Identifies the destination.
+  T get value;
+
+  /// The visible label and accessible name.
+  String get label;
+
+  /// A notification on the section.
+  NavigationBadge? get badge;
+
+  /// Why the section cannot open now; non-null makes it unavailable.
+  String? get unavailableReason;
+}
+
 /// One destination of a `NavigationBar`: a section of the app with an icon
 /// and a visible label.
 ///
@@ -42,7 +58,7 @@ class NavigationBadge {
 /// visible and focusable, the reason is read with it and shown on hover,
 /// keyboard focus and long press, and pressing it does nothing.
 @immutable
-class NavigationDestination<T> {
+class NavigationDestination<T> implements NavigationTarget<T> {
   /// Creates a destination named [label].
   const NavigationDestination({
     required this.value,
@@ -54,9 +70,11 @@ class NavigationDestination<T> {
   });
 
   /// Identifies the destination; the bar's `value` names the current one.
+  @override
   final T value;
 
   /// The visible label and accessible name.
+  @override
   final String label;
 
   /// The decorative icon, hidden from assistive technology.
@@ -66,10 +84,12 @@ class NavigationDestination<T> {
   final Uri? uri;
 
   /// A notification on the section.
+  @override
   final NavigationBadge? badge;
 
   /// Why the section cannot open now. Non-null makes the destination
   /// unavailable.
+  @override
   final String? unavailableReason;
 
   /// Whether the destination cannot open now.

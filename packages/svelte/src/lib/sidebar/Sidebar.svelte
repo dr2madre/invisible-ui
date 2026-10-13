@@ -12,6 +12,14 @@
    * given an `href`, otherwise buttons that report `onSelect`. The current
    * destination is marked with `aria-current="page"`.
    *
+   * Items take the Navigation Bar's destinations as they are. A `badge` shows
+   * a count or a dot, its text is part of the item's name, and when it appears
+   * or changes it is announced politely once (`announce: false` silences it);
+   * while a modal dialog outside the sidebar is open the announcement waits
+   * for it to close (ADR 0016). An `unavailable` item stays visible and
+   * focusable with its reason shown and read as its description, and
+   * activating it does nothing. To hide a destination, leave it out.
+   *
    * Three things stay with the application: the routing, which destination is
    * current, and which viewport gets which presentation. This component reads
    * no media query; `mode` says what to render.

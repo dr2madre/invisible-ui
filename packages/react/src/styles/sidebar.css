@@ -91,7 +91,9 @@ nav.sidebar .sidebar__list {
 }
 
 nav.sidebar .sidebar__item {
+  position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.625rem;
   inline-size: 100%;
@@ -121,18 +123,95 @@ nav.sidebar .sidebar__item--active {
   font-weight: 600;
 }
 
+/* The rail shows no label, so its weight cannot mark the current item: a bar
+   at the inline start does, never colour alone. A border, so it stays under
+   forced colors. */
+nav.sidebar .sidebar__list--collapsed .sidebar__item--active::before {
+  content: "";
+  position: absolute;
+  inset-block: 0.5rem;
+  inset-inline-start: 0;
+  border-inline-start: 3px solid currentColor;
+}
+
+nav.sidebar .sidebar__item[data-unavailable] {
+  color: var(--ds-color-text-disabled, #757067);
+  cursor: default;
+}
+
 nav.sidebar .sidebar__icon {
   display: inline-flex;
   font-size: 1.1em;
 }
 
 /* Long names wrap rather than being cut: a destination nobody can read is not
-   navigation. */
+   navigation. When the row is too narrow, the label takes a line of its own
+   before it is squeezed beside the badge. */
 nav.sidebar .sidebar__label {
+  flex: 1 1 4rem;
+  min-inline-size: 0;
   overflow-wrap: break-word;
 }
 
-nav.sidebar .sidebar__label--hidden {
+nav.sidebar .sidebar__reason {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--ds-color-text-secondary, #524c44);
+}
+
+nav.sidebar .sidebar__status {
+  display: inline-flex;
+  font-size: 0.875rem;
+}
+
+/* The count grows with the text; the dot keeps its size. */
+nav.sidebar .sidebar__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-inline-size: 16px;
+  min-block-size: 16px;
+  padding-inline: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ds-sidebar-badge-text, var(--ds-color-on-status, #fff));
+  white-space: nowrap;
+  background: var(--ds-sidebar-badge-surface, var(--ds-color-danger, #be3b50));
+  border-radius: var(--ds-radius-pill, 999px);
+}
+
+nav.sidebar .sidebar__badge--dot {
+  min-inline-size: 0;
+  min-block-size: 0;
+  inline-size: 8px;
+  block-size: 8px;
+  padding: 0;
+}
+
+/* In the rail the badge and the lock sit at the icon's corners. */
+nav.sidebar .sidebar__list--collapsed .sidebar__badge,
+nav.sidebar .sidebar__list--collapsed .sidebar__status {
+  position: absolute;
+  inset-inline-start: calc(50% + 0.25rem);
+}
+
+nav.sidebar .sidebar__list--collapsed .sidebar__badge {
+  inset-block-start: 0.25rem;
+}
+
+nav.sidebar .sidebar__list--collapsed .sidebar__badge--dot {
+  inset-block-start: 0.375rem;
+}
+
+nav.sidebar .sidebar__list--collapsed .sidebar__status {
+  inset-block-end: 0.25rem;
+}
+
+nav.sidebar .sidebar__label--hidden,
+nav.sidebar .sidebar__live {
   position: absolute;
   inline-size: 1px;
   block-size: 1px;
@@ -147,4 +226,12 @@ nav.sidebar .sidebar__footer {
   margin-block-start: auto;
   padding-block-start: 0.5rem;
   border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
+}
+
+/* Forced colors drop backgrounds: the badge keeps a border, so a dot stays
+   visible. */
+@media (forced-colors: active) {
+  nav.sidebar .sidebar__badge {
+    border: 1px solid CanvasText;
+  }
 }

@@ -6,10 +6,14 @@ import 'package:flutter/widgets.dart';
 
 import '../dialog/dialog_route.dart';
 import '../dialog/sheet_dialog.dart';
+import '../i18n/messages.dart';
 import '../internal/disclosure.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
 import '../internal/pressable.dart';
+import '../navigation_bar/badge_announcer.dart';
+import '../navigation_bar/navigation_bar_logic.dart';
+import '../notification/modal_observer.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
 import '../tooltip/tooltip.dart';
@@ -49,6 +53,17 @@ const double _headingSize = 11;
 const double _headingTracking = 0.05 * _headingSize;
 const double _footerSpace = 8;
 const double _activeTint = 0.1;
+// The rail's current mark: a bar at the inline start, never colour alone.
+const double _railMarkWidth = 3;
+const double _railMarkInset = 8;
+const double _reasonSize = 13;
+const double _lockEm = 0.875;
+const double _badgeMin = 16;
+const double _badgeSize = 11;
+const double _badgePaddingX = 4;
+const double _dot = 8;
+// In the rail the badge and the lock start this far past the item's centre.
+const double _railCornerOffset = 4;
 
 /// The application's side navigation: an optional [logo], sections of
 /// destinations and a [footer], in a navigation named [label].
@@ -68,8 +83,19 @@ const double _activeTint = 0.1;
 /// it asks for through [onExpandedSectionsChanged], and nothing else moves
 /// it. Handing back null continues from the set on screen.
 ///
+/// Items take a `NavigationBar`'s destinations as they are, through
+/// [SidebarItem.fromDestination]. A badge shows its count or a dot after the
+/// label, or on the icon in the rail, and its label is read with the
+/// destination. When a badge's label appears or changes, the sidebar
+/// announces it once, politely; while [modals] reports a modal open, the
+/// announcements wait, and the latest per destination is made after the last
+/// modal closes (ADR 0016). A sidebar in its own drawer is on screen and
+/// announces. An unavailable destination stays focusable, shows a lock and
+/// its reason under the label (in the rail's tooltip), reads the reason as
+/// its hint, and pressing it does nothing.
+///
 /// [collapsed] shows the rail: icons only, each named by its label and with
-/// a tooltip. The rail toggle shows when [onCollapsedChanged] is given and
+/// a tooltip. The current destination shows a bar at its inline start. The rail toggle shows when [onCollapsedChanged] is given and
 /// every destination has an icon, and reports the state it asks for. The
 /// app owns [collapsed]. Without an icon on every destination there is no
 /// rail: debug builds fail an assertion, release builds keep the labels.
@@ -94,6 +120,7 @@ class Sidebar<T> extends StatefulWidget {
     this.onExpandedSectionsChanged,
     this.logo,
     this.footer,
+    this.modals,
   });
 
   /// The sections, in order.
@@ -129,6 +156,10 @@ class Sidebar<T> extends StatefulWidget {
   /// The footer at the bottom.
   final Widget? footer;
 
+  /// Tells the sidebar when a modal is open, so badge announcements wait for
+  /// it to close. The same observer a `NotificationRegion` reads.
+  final ModalObserver? modals;
+
   @override
   State<Sidebar<T>> createState() => _SidebarState<T>();
 }
@@ -144,9 +175,16 @@ class _SidebarState<T> extends State<Sidebar<T>> {
   /// The collapsible section that held the current destination last time.
   String? _lastHolder;
 
+  late final BadgeAnnouncer<T> _announcer = BadgeAnnouncer<T>(this);
+
+  List<SidebarItem<T>> _items(List<SidebarSection<T>> sections) => [
+    for (final section in sections) ...section.items,
+  ];
+
   @override
   void initState() {
     super.initState();
+    _announcer.modals = widget.modals;
     _resolve();
     _own = {
       ...(widget.expandedSections ??
@@ -187,8 +225,27 @@ class _SidebarState<T> extends State<Sidebar<T>> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // In its drawer the sidebar is on screen while that modal is open.
+    _announcer.route = ModalRoute.of(context);
+  }
+
+  @override
+  void dispose() {
+    _announcer.dispose();
+    super.dispose();
+  }
+
+  @override
   void didUpdateWidget(Sidebar<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _announcer.modals = widget.modals;
+    _announcer.changed(
+      _items(oldWidget.sections),
+      _items(widget.sections),
+      InvisibleTheme.of(context).messages,
+    );
     _resolve();
     // The holder moves when the current destination moves and when the
     // sections change. Left to itself, the sidebar opens it silently; while
@@ -446,24 +503,111 @@ class _ItemButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
+    final messages = theme.messages;
     final link = item.uri != null;
-    final color = current ? colors.secondaryBodyText : colors.text;
+    final unavailable = item.unavailable;
+    final reason = item.unavailableReason;
+    final badge = item.badge;
+    final color = unavailable
+        ? colors.textDisabled
+        : current
+        ? colors.secondaryBodyText
+        : colors.text;
+    final fontSize = theme.textStyle.fontSize!;
     final icon = item.icon;
     final iconTheme = IconThemeData(
       color: color,
-      size: theme.textStyle.fontSize! * _iconEm,
+      size: fontSize * _iconEm,
       applyTextScaling: true,
     );
+    final lock = IconTheme(
+      data: iconTheme.copyWith(size: fontSize * _lockEm),
+      child: const Glyph(GlyphShape.lock),
+    );
+    final glyph = badge == null ? null : _Badge(content: badge.content);
+
+    final Widget face;
+    if (rail) {
+      // The badge and the lock sit at the icon's corners; the current mark
+      // is a bar at the inline start. The icon's box: its centre is the item's centre.
+      final iconSize = MediaQuery.textScalerOf(
+        context,
+      ).scale(fontSize * _iconEm);
+      final corner = iconSize / 2 + _railCornerOffset;
+      face = Center(
+        heightFactor: 1,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            SizedBox.square(
+              dimension: iconSize,
+              child: Center(child: icon),
+            ),
+            if (glyph != null)
+              PositionedDirectional(
+                start: corner,
+                // A count at the item's top edge, a dot a little lower.
+                top: badge!.content == null ? -2 : -6,
+                child: glyph,
+              ),
+            if (unavailable)
+              PositionedDirectional(start: corner, bottom: -4, child: lock),
+          ],
+        ),
+      );
+    } else {
+      face = Row(
+        spacing: _iconGap,
+        children: [
+          ?icon,
+          // Long labels wrap rather than being cut.
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  item.label,
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: current ? FontWeight.w600 : null,
+                  ),
+                ),
+                if (reason != null)
+                  Text(
+                    reason,
+                    style: TextStyle(
+                      color: colors.textSecondary,
+                      fontSize: _reasonSize,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          if (unavailable) lock,
+          ?glyph,
+        ],
+      );
+    }
+
     final Widget button = Semantics(
       container: true,
       button: !link,
       link: link,
       linkUrl: item.uri,
-      label: item.label,
-      value: current ? theme.messages.sidebarCurrent : null,
-      onTap: onPressed,
+      enabled: !unavailable,
+      label: describeDestination(
+        label: item.label,
+        badge: badge?.label,
+        messages: messages,
+      ),
+      value: current ? messages.sidebarCurrent : null,
+      hint: reason,
+      onTap: unavailable ? null : onPressed,
       child: Pressable(
-        onPressed: onPressed,
+        // Unavailable, it stays in the focus order and a press does nothing.
+        onPressed: unavailable ? () {} : onPressed,
+        mouseCursor: unavailable ? SystemMouseCursors.basic : null,
         keys: link ? PressKeys.link : PressKeys.button,
         alignment: AlignmentDirectional.centerStart,
         builder: (context, states) => FocusRingPainter(
@@ -483,28 +627,11 @@ class _ItemButton<T> extends StatelessWidget {
                   : null,
               borderRadius: BorderRadius.circular(theme.controlRadius),
             ),
+            foregroundDecoration: rail && current
+                ? _RailMark(color: color)
+                : null,
             child: ExcludeSemantics(
-              child: IconTheme(
-                data: iconTheme,
-                child: rail
-                    ? Center(heightFactor: 1, child: icon)
-                    : Row(
-                        spacing: _iconGap,
-                        children: [
-                          ?icon,
-                          // Long labels wrap rather than being cut.
-                          Expanded(
-                            child: Text(
-                              item.label,
-                              style: TextStyle(
-                                color: color,
-                                fontWeight: current ? FontWeight.w600 : null,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
+              child: IconTheme(data: iconTheme, child: face),
             ),
           ),
         ),
@@ -512,9 +639,98 @@ class _ItemButton<T> extends StatelessWidget {
     );
     if (!rail) return button;
     return Tooltip(
-      message: item.label,
+      message: reason == null
+          ? item.label
+          : InvisibleMessages.fill(messages.sidebarUnavailableTooltip, {
+              'label': item.label,
+              'reason': reason,
+            }),
       placement: TooltipPlacement.end,
       child: button,
+    );
+  }
+}
+
+/// The rail's current mark: a bar at the inline start of the item.
+class _RailMark extends Decoration {
+  const _RailMark({required this.color});
+
+  final Color color;
+
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) =>
+      _RailMarkPainter(color);
+}
+
+class _RailMarkPainter extends BoxPainter {
+  _RailMarkPainter(this.color);
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    final size = configuration.size;
+    if (size == null) return;
+    final rtl = configuration.textDirection == TextDirection.rtl;
+    final left = rtl ? offset.dx + size.width - _railMarkWidth : offset.dx;
+    canvas.drawRect(
+      Rect.fromLTWH(
+        left,
+        offset.dy + _railMarkInset,
+        _railMarkWidth,
+        size.height - 2 * _railMarkInset,
+      ),
+      Paint()..color = color,
+    );
+  }
+}
+
+/// A count pill or, without [content], a dot: the Navigation Bar's badge.
+class _Badge extends StatelessWidget {
+  const _Badge({required this.content});
+
+  final String? content;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = InvisibleTheme.of(context);
+    final colors = theme.colors;
+    final highContrast = MediaQuery.maybeHighContrastOf(context) ?? false;
+    final border = highContrast ? Border.all(color: colors.text) : null;
+    final text = content;
+    if (text == null) {
+      return Container(
+        width: _dot,
+        height: _dot,
+        decoration: BoxDecoration(
+          color: colors.danger,
+          shape: BoxShape.circle,
+          border: border,
+        ),
+      );
+    }
+    return Container(
+      constraints: const BoxConstraints(
+        minWidth: _badgeMin,
+        minHeight: _badgeMin,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: _badgePaddingX),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: colors.danger,
+        borderRadius: BorderRadius.circular(_badgeMin),
+        border: border,
+      ),
+      child: Text(
+        text,
+        softWrap: false,
+        style: theme.textStyle.copyWith(
+          fontSize: _badgeSize,
+          height: 1,
+          fontWeight: FontWeight.w600,
+          color: colors.onStatus,
+        ),
+      ),
     );
   }
 }

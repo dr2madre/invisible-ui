@@ -12,7 +12,8 @@ import 'preview_sheet.dart';
 
 /// The site navigation: a Navigation Menu bar whose Products item holds the
 /// current page, over a Sidebar whose current destination sits in a
-/// collapsible section.
+/// collapsible section, with a count on Inbox, a dot on Profile and an
+/// unavailable Billing destination.
 @Preview(
   group: 'Site navigation',
   name: 'Light',
@@ -48,8 +49,9 @@ Widget siteNavigationTouch() => const PreviewSheet(
   child: _SiteNavigation(),
 );
 
-/// The sidebar as a rail: icons only, a tooltip on each, and the toggle
-/// that expands it again.
+/// The sidebar as a rail: icons only, a tooltip on each, the badges on the
+/// icons, a bar on the current destination, and the toggle that expands it
+/// again.
 @Preview(group: 'Site navigation', name: 'Rail', size: Size(360, 640))
 Widget siteNavigationRail() =>
     const PreviewSheet(child: _SiteNavigation(collapsed: true));
@@ -94,7 +96,18 @@ const List<SidebarSection<String>> _sections = [
     label: 'Workspace',
     items: [
       SidebarItem(value: 'home', label: 'Home', icon: _icon),
-      SidebarItem(value: 'inbox', label: 'Inbox', icon: _icon),
+      SidebarItem(
+        value: 'inbox',
+        label: 'Inbox',
+        icon: _icon,
+        badge: NavigationBadge(label: '3 unread', content: '3'),
+      ),
+      SidebarItem(
+        value: 'billing',
+        label: 'Billing',
+        icon: _icon,
+        unavailableReason: 'Ask an administrator for access',
+      ),
     ],
   ),
   SidebarSection.collapsible(
@@ -112,7 +125,14 @@ const List<SidebarSection<String>> _sections = [
   SidebarSection.collapsible(
     id: 'settings',
     label: 'Settings',
-    items: [SidebarItem(value: 'profile', label: 'Profile', icon: _icon)],
+    items: [
+      SidebarItem(
+        value: 'profile',
+        label: 'Profile',
+        icon: _icon,
+        badge: NavigationBadge(label: 'Needs attention'),
+      ),
+    ],
   ),
 ];
 

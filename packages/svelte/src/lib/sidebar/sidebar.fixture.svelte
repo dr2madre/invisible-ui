@@ -26,6 +26,8 @@
     movedIntoGroup?: boolean;
     /** Exactly the shape the former name accepted: no ids, no icons, no groups. */
     legacyShape?: boolean;
+    /** Replaces every other choice of sections. */
+    sections?: SidebarSection[];
   }
 
   let {
@@ -48,6 +50,7 @@
     missingId = false,
     movedIntoGroup = false,
     legacyShape = false,
+    sections: given,
   }: Props = $props();
 
   // Two collapsible sections under one label, told apart by their ids.
@@ -108,7 +111,7 @@
     legacyShape ? legacy : movedIntoGroup ? moved : withoutIcons ? withoutTheIcons : withIcons,
   );
   const chosen = $derived(
-    duplicateIds ? sameIds : missingId ? noId : duplicateLabels ? duplicates : sections,
+    given ?? (duplicateIds ? sameIds : missingId ? noId : duplicateLabels ? duplicates : sections),
   );
 </script>
 

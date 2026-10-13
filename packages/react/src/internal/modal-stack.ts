@@ -17,14 +17,21 @@ export function trackModal(panel: HTMLDialogElement): () => void {
   };
 }
 
-/** Whether any modal dialog is open in the document. */
-export function hasOpenModal(doc: Document = document): boolean {
+/**
+ * Whether any modal dialog is open in the document. Given `node`, a modal
+ * that contains it does not count: what sits inside an open modal, such as a
+ * Sidebar in its drawer, is on screen.
+ */
+export function hasOpenModal(doc: Document = document, node?: Node): boolean {
+  const counts = (panel: Element) => !node || !panel.contains(node);
   for (const panel of shown) {
-    if (panel.open && panel.isConnected && panel.ownerDocument === doc) return true;
+    if (panel.open && panel.isConnected && panel.ownerDocument === doc && counts(panel)) {
+      return true;
+    }
   }
   for (const dialog of doc.querySelectorAll("dialog[open]")) {
     try {
-      if (dialog.matches(":modal")) return true;
+      if (counts(dialog) && dialog.matches(":modal")) return true;
     } catch {
       // A browser without `:modal` relies on the registry alone.
     }

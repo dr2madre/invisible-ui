@@ -14,6 +14,7 @@ import RangeSlider from "./range-slider/RangeSlider.svelte";
 import SearchField from "./search-field/SearchField.svelte";
 import Checkbox from "./checkbox/Checkbox.svelte";
 import Select from "./select/Select.svelte";
+import Sidebar from "./sidebar/Sidebar.svelte";
 import Slider from "./slider/Slider.svelte";
 import Switch from "./switch/Switch.svelte";
 import TextField from "./text-field/TextField.svelte";
@@ -66,6 +67,28 @@ describe("SSR — the markup is valid before hydration", () => {
         /<a[^>]+aria-current="page"/,
         /<button[^>]+aria-disabled="true"/,
         /aria-describedby="ds-navigation-bar-\d+-reason-1"/,
+      ],
+    ],
+    [
+      "Sidebar",
+      Sidebar,
+      {
+        value: "inbox",
+        sections: [
+          {
+            items: [
+              { value: "inbox", label: "Inbox", badge: { label: "3 unread", content: "3" } },
+              { value: "reports", label: "Reports", unavailable: { reason: "Offline" } },
+            ],
+          },
+        ],
+      },
+      [
+        /<button[^>]+aria-current="page"/,
+        /<span class="sidebar__label--hidden[^"]*">, 3 unread<\/span>/,
+        /<button[^>]+aria-disabled="true"/,
+        /aria-describedby="ds-sidebar-items-\d+-reason-1"/,
+        /<div class="sidebar__live[^"]*" aria-live="polite"/,
       ],
     ],
     ["Progress", Progress, { label: "Upload", value: 30 }, [/role="progressbar"/]],

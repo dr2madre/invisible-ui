@@ -197,7 +197,7 @@ iu.NumberField(
 | Link | Matched, with adaptations listed | [parity/link.md](parity/link.md) | [Link](https://dr2madre.github.io/invisible-ui/components/navigation/link/) |
 | Navigation Menu | Matched, with adaptations listed | [parity/navigation-menu.md](parity/navigation-menu.md) | [Navigation Menu](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-menu/) |
 | Navigation Bar | Matched, with the platform semantics profiles and adaptations listed | [parity/navigation-bar.md](parity/navigation-bar.md) | [Navigation Bar](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-bar/) |
-| Sidebar | Matched for the inline sidebar, the rail and the drawer, with adaptations listed | [parity/sidebar.md](parity/sidebar.md) | [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/) |
+| Sidebar | Matched for the inline sidebar, the rail, the drawer, badges and unavailable destinations, with adaptations listed | [parity/sidebar.md](parity/sidebar.md) | [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/) |
 | Tree View | Matched, single selection, with adaptations listed | [parity/tree-view.md](parity/tree-view.md) | [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/) |
 | Table | Matched, with adaptations listed | [parity/table.md](parity/table.md) | [Table](https://dr2madre.github.io/invisible-ui/components/patterns/table/) |
 | TableSet (with the internal Table View) | Matched for spec units 5A to 5C, with adaptations listed | [parity/table-set.md](parity/table-set.md) | [Table Set](https://dr2madre.github.io/invisible-ui/components/patterns/table-set/) |
@@ -455,7 +455,10 @@ iu.Breadcrumb(
   decides where the sidebar shows, as on the web. On a narrow screen
   `iu.showSidebarDrawer(context:, builder:)` shows it in a Sheet Dialog at
   the inline-start edge (ADR 0013); following a destination closes the
-  drawer, then reports.
+  drawer, then reports. Destinations take a badge, read with the name and
+  announced when it changes, and an `unavailableReason`, which keeps them
+  focusable with the reason shown and read; `iu.SidebarItem.fromDestination`
+  reuses a Navigation Bar's destinations.
 - **Navigation Bar.** The app's primary navigation between three to five
   sections: a row of destinations, each with an icon above its label. The
   app owns `value` and navigates on `onSelected`, which also reports a press

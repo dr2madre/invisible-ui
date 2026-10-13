@@ -10,7 +10,12 @@
       items: [
         { icon: Dot, value: "home", label: "Home" },
         { icon: Dot, value: "search", label: "Search" },
-        { icon: Dot, value: "alerts", label: "Alerts" },
+        {
+          icon: Dot,
+          value: "alerts",
+          label: "Alerts",
+          badge: { label: "3 unread", content: "3" },
+        },
       ],
     },
     {
@@ -22,7 +27,18 @@
         { icon: Dot, value: "weekly", label: "Weekly" },
       ],
     },
-    { label: "More", items: [{ icon: Dot, value: "settings", label: "Settings" }] },
+    {
+      label: "More",
+      items: [
+        { icon: Dot, value: "settings", label: "Settings" },
+        {
+          icon: Dot,
+          value: "billing",
+          label: "Billing",
+          unavailable: { reason: "Ask an administrator for access" },
+        },
+      ],
+    },
   ];
 </script>
 

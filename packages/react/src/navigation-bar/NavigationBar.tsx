@@ -1,9 +1,9 @@
 import { navigationBar as core } from "@design-system/core";
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";
 import { cx } from "../internal/cx";
-import { hasOpenModal, onModalChange } from "../internal/modal-stack";
+import { useBadgeAnnouncements } from "../internal/use-badge-announcements";
 import { normalizeProps } from "../normalize";
 
 export type NavigationBadge = core.NavigationBadge;
@@ -23,10 +23,6 @@ export interface NavigationBarProps {
   /** Replaces the lock glyph that marks an unavailable destination. */
   unavailableIcon?: ReactNode;
 }
-
-/** The badges as the announcements compare them, detached from the props. */
-const snapshot = (destinations: NavigationDestination[]): core.NavigationTarget[] =>
-  destinations.map(({ value, label, badge }) => ({ value, label, badge: badge && { ...badge } }));
 
 const lock = (
   <Icon>
@@ -72,31 +68,8 @@ export function NavigationBar({
     normalize: normalizeProps,
   });
 
-  // The badges as they were last seen, and the announcements waiting for the
-  // last modal dialog to close.
-  const seen = useRef<core.NavigationTarget[] | null>(null);
-  const held = useRef<core.BadgeAnnouncement[]>([]);
-  const [spoken, setSpoken] = useState<core.BadgeAnnouncement[]>([]);
-
   // A badge that appears or changes is announced once; nothing on mount.
-  useEffect(() => {
-    const next = snapshot(destinations);
-    const announcements = core.badgeAnnouncements(seen.current, next, { translate: t });
-    seen.current = next;
-    if (announcements.length === 0) return;
-    if (hasOpenModal(document)) held.current = core.holdAnnouncements(held.current, announcements);
-    else setSpoken(announcements);
-  }, [destinations, t]);
-
-  useEffect(
-    () =>
-      onModalChange(document, () => {
-        if (held.current.length === 0 || hasOpenModal(document)) return;
-        setSpoken(held.current);
-        held.current = [];
-      }),
-    [],
-  );
+  const [spoken, live] = useBadgeAnnouncements(destinations, t);
 
   return (
     <nav className="navigation-bar" {...api.getRootProps()}>
@@ -142,7 +115,7 @@ export function NavigationBar({
           );
         })}
       </ul>
-      <div className="navigation-bar__live" aria-live="polite">
+      <div className="navigation-bar__live" aria-live="polite" ref={live}>
         {spoken.map((announcement) => (
           <span key={announcement.value}>{announcement.text}</span>
         ))}

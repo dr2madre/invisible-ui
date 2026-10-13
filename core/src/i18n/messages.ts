@@ -141,6 +141,9 @@ export const en = {
   // Read with the current destination on a platform whose semantics have no
   // aria-current (the Flutter adapter).
   "sidebar.current": "current page",
+  // The rail's tooltip on an unavailable destination: the name the rail hides
+  // from sight, then why the destination cannot open.
+  "sidebar.unavailableTooltip": "{label}: {reason}",
   // Read with the navigation menu's current link on a platform whose
   // semantics have no aria-current (the Flutter adapter).
   "navigationMenu.current": "current page",

@@ -12,9 +12,9 @@ Profile marked when it needs attention
 ([wave 2 row](./proposals/flutter-adapter.md#wave-2--forms-lists-dialogs)).
 
 Status: decided and built in `core/`, the four web adapters and Flutter. The
-maintainer recorded the [decisions](#decisions-taken) on 2026-10-13. The
-badge and unavailable support for Sidebar (see
-[Relation to Sidebar](#relation-to-sidebar)) is not built yet.
+maintainer recorded the [decisions](#decisions-taken) on 2026-10-13. Sidebar
+takes the same destinations, badges and unavailable reasons included, on
+every platform (see [Relation to Sidebar](#relation-to-sidebar)).
 
 ## Pattern
 
@@ -495,6 +495,16 @@ exception to keeping the tab bar visible).
   unchanged. Sidebar gains badge and unavailable support in the same
   change, so a section's notification stays when the app shows Sidebar.
 - **Same landmark label** when both carry the same destinations.
+- **What Sidebar does with them.** A badge shows its count or a dot after the
+  label, or on the icon in the rail, with its text in the name, and is
+  announced as the bar announces it: the same `createBadgeAnnouncer`, held
+  while a modal outside the sidebar is open, so a sidebar in its own drawer
+  still announces. An unavailable destination shares the bar's
+  `destinationProps` (`aria-disabled`, the reason as its description,
+  activation that does nothing) and shows its reason under the label, where
+  the sidebar has room; in the rail the tooltip carries it
+  (`sidebar.unavailableTooltip`). The rail marks the current destination with
+  a bar at the inline start, since the label's weight is out of sight.
 
 ## Headless split
 
