@@ -2,25 +2,31 @@
   /**
    * ToggleButton — the styled, batteries-included toggle button: an independent
    * on/off control (e.g. Bold in a toolbar), built on a native
-   * `<input type="checkbox">` styled to look like a button. The browser owns the
-   * checkbox role, Space activation, focus and form participation; this layer
-   * adds the button surface and the on/off styling.
+   * `<button type="button">` carrying `aria-pressed`. The browser owns the
+   * button role, Enter and Space activation and focus; this layer adds the
+   * surface and the on/off styling. The accessible name never changes with the
+   * state: only `aria-pressed` does.
    *
    * Distinct from a switch: use `Switch` for a settings-style on/off control.
    * The label comes from `children`; provide an explicit `label` when
    * `children` is icon-only so the control still has an accessible name. Pass `name`
-   * (and optional `value`) to submit the pressed state with a form. Colors and
+   * (and optional `value`) to submit the pressed state with a form: a hidden
+   * input sends `name=value` while the button is pressed and enabled. Form
+   * participation is provisional until it is decided; the owning form's reset
+   * restores the default pressed value without reporting a change. Colors and
    * sizing are themeable CSS custom properties (`--ds-toggle-*`).
    *
    * Set `check` for the filter-chip look: a leading checkmark appears when the
-   * button is pressed, making the selection explicit alongside the fill — the
-   * selected-state affordance of a grouped checkbox, in a chip. Pairs naturally
+   * button is pressed, making the selection explicit alongside the fill, as a
+   * filter chip does. Pairs naturally
    * with `ToggleGroup` for a row of multi-select filter chips.
    */
   import { untrack, type Snippet } from "svelte";
   import { createToggleButton } from "./create-toggle-button";
   import { formReset } from "../internal/form-reset";
   import { controllable } from "../internal/controllable.svelte";
+  import { stableId } from "../internal/stable-id";
+  import FieldError from "../internal/FieldError.svelte";
 
   interface Props {
     /**
@@ -33,15 +39,21 @@
     disabled?: boolean;
     /**
      * Show a leading checkmark when pressed (the filter-chip look). The check
-     * reveals the selected state explicitly, the way a checkbox does.
+     * reveals the selected state explicitly, the way a filter chip does.
      */
     check?: boolean;
     /** Accessible name; required when the slot content is icon-only. */
     label?: string;
-    /** Form field name — when checked, submits `value` under it. */
+    /** Form field name: while pressed, submits `value` under it (provisional). */
     name?: string;
     /** Value submitted under `name` when pressed. */
     value?: string;
+    /**
+     * Error message, shown after the button and announced. The button points
+     * at it through `aria-describedby`. The app owns it: a form reset leaves
+     * it in place, so the app clears it.
+     */
+    error?: string;
     /** Called whenever the pressed value changes. */
     onPressedChange?: (p: boolean) => void;
     /** The button's content. */
@@ -55,6 +67,7 @@
     label,
     name,
     value = "on",
+    error,
     onPressedChange,
     children,
   }: Props = $props();
@@ -64,6 +77,7 @@
   // (ADR 0011).
   const {
     state: tbState,
+    api,
     syncPressed,
     setDisabled,
     rootAction,
@@ -86,23 +100,30 @@
     reflect: syncPressed,
     isGiveBack: (next) => next === $tbState.pressed,
   });
+
+  // Provisional form participation: present only while pressed, enabled and
+  // named, so the form data matches what a pressed checkbox used to send.
+  const hiddenInput = $derived($api.getHiddenInputProps({ name, value }));
+
+  const errorId = `${stableId("ds-toggle-button")}-error`;
 </script>
 
-<label class={["toggle", disabled && "toggle--disabled"]}>
-  <input
-    class="toggle__input"
-    use:rootAction
-    checked={$tbState.pressed}
-    defaultChecked={mirror.defaultValue}
-    use:formReset={mirror.restore}
-    {name}
-    {value}
-    aria-label={label}
-  />
+<!-- type, aria-pressed and disabled are written here too, so the server
+     markup is already a correct toggle before the action runs. -->
+<button
+  type="button"
+  class="toggle"
+  use:rootAction
+  use:formReset={mirror.restore}
+  aria-pressed={$tbState.pressed}
+  disabled={$tbState.disabled}
+  aria-label={label}
+  aria-describedby={error ? errorId : undefined}
+>
   <span class="toggle__surface">
     {#if check && $tbState.pressed}
-      <!-- Leading checkmark, shown only when pressed — the explicit
-           selected-state mark of a checkbox, in the chip. -->
+      <!-- Leading checkmark, shown only when pressed: the explicit
+           selected-state mark of a filter chip. -->
       <svg
         class="toggle__check"
         viewBox="0 0 24 24"
@@ -118,34 +139,30 @@
     {/if}
     {@render children?.()}
   </span>
-</label>
+  {#if hiddenInput}
+    <input {...hiddenInput} />
+  {/if}
+</button>
+<FieldError id={errorId} {error} />
 
 <style>
+  /* `.toggle` is the native <button aria-pressed>; `.toggle__surface` inside
+     it is the painted part. */
   .toggle {
-    /* Anchors the hidden input: unanchored, it would sit at its static
-       position outside any clipping and widen the page. */
-    position: relative;
     display: inline-flex;
-    cursor: pointer;
-  }
-  .toggle--disabled {
-    cursor: not-allowed;
-  }
-
-  /* The native checkbox is the accessible, focusable control; visually hidden,
-     with the sibling `.toggle__surface` painted from its :checked /
-     :focus-visible state. */
-  .toggle__input {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    margin: -1px;
+    margin: 0;
     padding: 0;
     border: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .toggle:disabled {
+    cursor: not-allowed;
+  }
+  .toggle:focus-visible {
+    outline: none;
   }
 
   .toggle__surface {
@@ -177,27 +194,25 @@
   .toggle:hover .toggle__surface {
     background: var(--ds-toggle-bg-hover, var(--ds-toggle-bg, var(--ds-color-background, #fff)));
   }
-  .toggle__input:focus-visible + .toggle__surface {
-    outline: none;
+  .toggle:focus-visible .toggle__surface {
     box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-focus-ring-offset, 2px);
   }
-  /* On: a faint selection-colored fill + matching border + selection-color
-     content (mirrors the standalone Checkbox — no weight change, which would
+  /* On: a faint selection-colored fill, matching border and selection-color
+     content (mirrors the standalone Checkbox: no weight change, which would
      shift width). */
-  .toggle__input:checked + .toggle__surface {
+  .toggle[aria-pressed="true"] .toggle__surface {
     background: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent);
     color: var(--ds-color-selected, #7a52cc);
     border-color: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 35%, transparent);
   }
-  .toggle--disabled .toggle__surface {
+  .toggle:disabled .toggle__surface {
     opacity: 0.5;
   }
-  /* Forced colors: the focus sits on the hidden input, so the outline the
-     theme forces there lands on something nobody can see. Draw it on the
-     visible part instead, inside it: the row around it clips. */
+
+  /* Forced colors: the box shadow does not paint, so the ring is an outline
+     on the visible part, inside it: the row around it clips. */
   @media (forced-colors: active) {
-    .toggle__input:focus-visible + .toggle__surface {
+    .toggle:focus-visible .toggle__surface {
       outline: var(--ds-focus-ring-width, 2px) solid Highlight;
       outline-offset: -2px;
     }

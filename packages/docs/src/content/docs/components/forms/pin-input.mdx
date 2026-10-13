@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import PinInputDemo from "../../../../demos/PinInputDemo.svelte";
+import PinInputErrorDemo from "../../../../demos/PinInputErrorDemo.svelte";
 
 <Preview>
   <PinInputDemo client:visible />
@@ -31,10 +32,38 @@ once every cell is filled.
 
 <PropsTable component="pin-input" />
 
+### Digits from other scripts
+
+A numeric PIN input accepts Arabic-Indic (٠–٩) and Persian (۰–۹) digits,
+typed or pasted, in every locale. The cells show ASCII digits, and
+`onValueChange` and `onComplete` report ASCII digits.
+
+### Error message
+
+<Preview>
+  <PinInputErrorDemo client:visible />
+</Preview>
+
+A non-empty `error` shows the message under the control with a hazard icon and
+announces it as an alert. It also marks the cells invalid, as `invalid` does.
+Every cell points at it through `aria-describedby` and takes
+`aria-invalid="true"`; the group takes neither. The message is plain text.
+
+```svelte
+<PinInput label="Verification code" length={6} bind:value error={codeError} />
+```
+
+The app owns the message and clears it: a form reset leaves it in place.
+In Flutter, the validator's message clears on form reset.
+
 ### Accessibility
 
 - A labelled group of single-character inputs; focus auto-advances and paste
   fills across cells.
+- The arrows follow the layout direction. In a right-to-left layout,
+  ArrowLeft moves to the next cell and ArrowRight to the previous one.
+- A non-empty `error` adds `aria-invalid="true"` and an `aria-describedby`
+  link to the message on every cell.
 
 ### Example
 

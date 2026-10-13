@@ -28,7 +28,7 @@ scope**. Every matched line names the widget test in
 | `semanticLabel` | `label` | the accessible name, required when the content is an icon |
 | `enabled: false` | `disabled` | `disabled` |
 | `check` | `check` | the filter-chip tick |
-| `error`, `validator`, `autovalidateMode` | none | the error message every Flutter value control carries, through `FormField` |
+| `error`, `validator`, `autovalidateMode` | `error` (the app passes and clears it; no validator) | the error message every Flutter value control carries, through `FormField` |
 | `focusNode`, `onSaved` | none | focus from code; the form saver |
 | `name`, `value` | the same names | out of scope: Flutter forms submit no strings |
 

@@ -7,11 +7,10 @@ import Fixture from "./toggle-button.fixture.svelte";
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
 describe("Svelte ToggleButton", () => {
-  it("renders an unpressed toggle button (native checkbox)", () => {
+  it("renders an unpressed toggle button (native button)", () => {
     render(Fixture);
-    const toggle = screen.getByRole("checkbox", { name: "Bold" });
-    expect(toggle).toHaveAttribute("type", "checkbox");
-    expect(toggle).not.toBeChecked();
+    const toggle = screen.getByRole("button", { name: "Bold", pressed: false });
+    expect(toggle).toHaveAttribute("type", "button");
     expect(toggle).toHaveAttribute("data-state", "off");
   });
 
@@ -19,23 +18,25 @@ describe("Svelte ToggleButton", () => {
     const user = userEvent.setup();
     const onPressedChange = vi.fn();
     render(Fixture, { props: { onPressedChange } });
-    const toggle = screen.getByRole("checkbox", { name: "Bold" });
+    const toggle = screen.getByRole("button", { name: "Bold" });
 
     await user.click(toggle);
-    expect(toggle).toBeChecked();
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
     expect(toggle).toHaveAttribute("data-state", "on");
     expect(onPressedChange).toHaveBeenCalledWith(true);
 
     toggle.focus();
     await user.keyboard(" ");
-    expect(toggle).not.toBeChecked();
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+    await user.keyboard("{Enter}");
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
   });
 
   it("does not toggle when disabled", async () => {
     const user = userEvent.setup();
     const onPressedChange = vi.fn();
     render(Fixture, { props: { disabled: true, onPressedChange } });
-    const toggle = screen.getByRole("checkbox", { name: "Bold" });
+    const toggle = screen.getByRole("button", { name: "Bold" });
 
     expect(toggle).toBeDisabled();
     await user.click(toggle);

@@ -12,14 +12,19 @@ export interface ToggleButtonApi {
   /** Flip the pressed value (ignored when disabled). */
   toggle(): void;
   /**
-   * Props for a native `<input type="checkbox">`. A toggle button is an
-   * independent on/off control, so it is a checkbox styled to look like a
-   * button: the browser owns the checkbox role, Space activation, focus and
-   * form participation, while `data-state` (`on`/`off`) and `data-disabled`
-   * drive the button styling. The live `checked` value is a DOM *property*, so
-   * adapters bind it directly rather than via these (attribute-shaped) props.
+   * Props for a native `<button type="button">` carrying `aria-pressed`. The
+   * browser owns the button role, focus, and Enter and Space activation; a
+   * click flips the pressed value. `data-state` (`on`/`off`) and
+   * `data-disabled` drive the styling.
    */
   rootProps: ElementProps;
+  /**
+   * Props for an `<input type="hidden">` that submits `value` under `name`
+   * while the button is pressed and enabled, or `null` when nothing is
+   * submitted. Provisional: it keeps the form data a pressed toggle sent as a
+   * checkbox, until form participation is decided.
+   */
+  getHiddenInputProps(field: { name?: string; value?: string }): ElementProps | null;
 }
 
 export interface ConnectOptions {
@@ -32,12 +37,11 @@ export interface ConnectOptions {
 }
 
 /**
- * Connect toggle-button state to props for a **native** `<input
- * type="checkbox">`. A toggle button is an independent on/off control, so it is
- * a checkbox visually styled as a button — not an `aria-pressed` button and not
- * a switch. Accessibility (role, Space activation, focus) and form
- * participation come from the browser; the headless layer only owns the
- * controlled `pressed` (i.e. `checked`) value.
+ * Connect toggle-button state to props for a native `<button>` with
+ * `aria-pressed`, following the WAI-ARIA button pattern
+ * (https://www.w3.org/WAI/ARIA/apg/patterns/button/). The accessible name
+ * never changes with the state: only `aria-pressed` does. It is an
+ * independent on/off control, not a switch and not a checkbox.
  */
 export function connect({
   state,
@@ -60,14 +64,14 @@ export function connect({
     },
     toggle,
     rootProps: normalize({
-      type: "checkbox",
+      type: "button",
+      "aria-pressed": pressed,
       disabled: disabled || undefined,
       "data-state": pressed ? "on" : "off",
       "data-disabled": disabled ? "" : undefined,
-      onChange: (event: Event) => {
-        if (disabled) return;
-        setPressed((event.target as HTMLInputElement).checked);
-      },
+      onClick: toggle,
     }),
+    getHiddenInputProps: ({ name, value = "on" }) =>
+      name && pressed && !disabled ? normalize({ type: "hidden", name, value }) : null,
   };
 }

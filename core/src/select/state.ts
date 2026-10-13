@@ -1,4 +1,5 @@
 import { firstEnabled, lastEnabled, nextEnabled, prevEnabled } from "../internal/collection";
+import { matchNext } from "../internal/typeahead";
 import type { SelectContext, SelectItem, SelectState } from "./types";
 
 export { firstEnabled, lastEnabled, nextEnabled, prevEnabled };
@@ -39,16 +40,10 @@ export function matchOption(
   query: string,
   fromValue: string | null,
 ): string | null {
-  if (!query) return null;
-  const q = query.toLowerCase();
   const enabled = items.filter((item) => !item.disabled);
-  if (enabled.length === 0) return null;
-
-  const start = enabled.findIndex((item) => item.value === fromValue);
-  // Begin the search just after the current item and wrap around.
-  for (let i = 1; i <= enabled.length; i++) {
-    const item = enabled[(start + i + enabled.length) % enabled.length];
-    if (item && labelOf(item).toLowerCase().startsWith(q)) return item.value;
-  }
-  return null;
+  return matchNext(
+    enabled.map((item) => ({ value: item.value, label: labelOf(item) })),
+    query,
+    fromValue,
+  );
 }

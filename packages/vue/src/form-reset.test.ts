@@ -128,19 +128,6 @@ const CONTROLS: Row[] = [
     restored: "on",
   },
   {
-    name: "ToggleButton",
-    adopt: (live) => (live.modelValue = true),
-    adopted: "true",
-    component: ToggleButton,
-    props: { label: "F", name: "f", modelValue: false },
-    wants: "false",
-    domDefault: () =>
-      String((screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).defaultChecked),
-    edit: async (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
-    edited: "on",
-    restored: null,
-  },
-  {
     name: "Slider",
     adopt: (live) => (live.modelValue = 70),
     adopted: "70",
@@ -370,6 +357,17 @@ describe.each([
     },
     edited: "77",
     read: (form: HTMLFormElement) => new FormData(form).get("f") as string | null,
+  },
+  {
+    // A button has no DOM default: the pressed default lives in the adapter.
+    name: "ToggleButton",
+    component: ToggleButton,
+    props: { label: "F", name: "f" },
+    mounted: true,
+    edit: async (user: ReturnType<typeof userEvent.setup>) =>
+      user.click(screen.getByRole("button", { name: "F" })),
+    edited: "false",
+    read: (form: HTMLFormElement) => String(new FormData(form).get("f") === "on"),
   },
 ])("Vue form reset, $name under a v-model parent", (entry) => {
   it("an echoed report is not a new default", async () => {

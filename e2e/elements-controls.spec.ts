@@ -135,43 +135,77 @@ test.describe("Elements toggle button and toggle group", () => {
     );
   });
 
-  test("Space and a press flip the pressed state, which the form submits", async ({ page }) => {
+  test("Enter, Space and a press flip the pressed state, which the form submits", async ({
+    page,
+  }) => {
     const group = page.getByRole("group", { name: "Formatting" });
-    const bold = group.getByRole("checkbox", { name: "Bold" });
-    const italic = group.getByRole("checkbox", { name: "Italic" });
-    const archived = page.getByRole("checkbox", { name: "Archived" });
+    const bold = group.getByRole("button", { name: "Bold" });
+    const italic = group.getByRole("button", { name: "Italic" });
+    const archived = page.getByRole("button", { name: "Archived" });
 
-    await expect(italic).toBeChecked();
-    await expect(group.getByRole("checkbox", { name: "Strikethrough" })).toBeDisabled();
+    await expect(italic).toHaveAttribute("aria-pressed", "true");
+    await expect(group.getByRole("button", { name: "Strikethrough" })).toBeDisabled();
     expect(await formData(page, "format")).toEqual(["italic=on"]);
 
     await bold.focus();
     await page.keyboard.press("Space");
-    await expect(bold).toBeChecked();
+    // The name stays the same: only the pressed state changes.
+    await expect(group.getByRole("button", { name: "Bold", pressed: true })).toBeVisible();
     await expect(page.locator("ds-toggle-button[name='bold']")).toHaveAttribute("pressed", "");
     await expect(bold).toHaveAttribute("data-state", "on");
+    await page.keyboard.press("Enter");
+    await expect(bold).toHaveAttribute("aria-pressed", "false");
+    await page.keyboard.press("Enter");
+    await expect(bold).toHaveAttribute("aria-pressed", "true");
 
     await page.locator("ds-toggle-button[name='italic']").click();
-    await expect(italic).not.toBeChecked();
+    await expect(italic).toHaveAttribute("aria-pressed", "false");
     await expect(page.locator("ds-toggle-button[name='italic']")).not.toHaveAttribute("pressed");
 
     await page.getByText("Archived").click();
-    await expect(archived).toBeChecked();
+    await expect(archived).toHaveAttribute("aria-pressed", "true");
     // The filter-chip check appears while pressed.
     await expect(page.locator("ds-toggle-button[name='archived'] .toggle__check")).toBeVisible();
 
     expect(await formData(page, "format")).toEqual(["bold=on", "archived=yes"]);
   });
 
-  test("each toggle in a group stays its own tab stop", async ({ page, browserName }) => {
-    test.skip(browserName === "webkit", "Safari tabs to checkboxes only with full keyboard access");
+  test("three toggles in a group make one tab stop with arrow keys", async ({
+    page,
+    browserName,
+  }) => {
     const group = page.getByRole("group", { name: "Formatting" });
-    await group.getByRole("checkbox", { name: "Bold" }).focus();
-    await page.keyboard.press("Tab");
-    await expect(group.getByRole("checkbox", { name: "Italic" })).toBeFocused();
-    // The disabled toggle is skipped.
-    await page.keyboard.press("Tab");
-    await expect(page.getByRole("checkbox", { name: "Archived" })).toBeFocused();
+    const bold = group.getByRole("button", { name: "Bold" });
+    const italic = group.getByRole("button", { name: "Italic" });
+    await expect(group.locator("[tabindex='0']")).toHaveCount(1);
+    await bold.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(italic).toBeFocused();
+    // The disabled toggle is skipped, and the arrows wrap.
+    await page.keyboard.press("ArrowRight");
+    await expect(bold).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(italic).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(bold).toBeFocused();
+    // Moving focus changes no toggle.
+    await expect(bold).toHaveAttribute("aria-pressed", "false");
+    await expect(italic).toHaveAttribute("aria-pressed", "true");
+    if (browserName !== "webkit") {
+      // One Tab leaves the group.
+      await page.keyboard.press("Tab");
+      await expect(page.getByRole("button", { name: "Archived" })).toBeFocused();
+    }
+  });
+
+  test("removing the focused toggle moves focus to the one now at its place", async ({ page }) => {
+    const group = page.getByRole("group", { name: "Formatting" });
+    await group.getByRole("button", { name: "Bold" }).focus();
+    await page.locator("ds-toggle-button[name='bold']").evaluate((host) => host.remove());
+    const italic = group.getByRole("button", { name: "Italic" });
+    await expect(italic).toBeFocused();
+    // Two toggles left: each is its own tab stop again.
+    await expect(group.locator("[tabindex]")).toHaveCount(0);
   });
 });
 
@@ -231,6 +265,18 @@ test.describe("Elements upload drop area", () => {
     expect(
       await host.evaluate((element) => (element as HTMLElement & { files: File[] }).files.length),
     ).toBe(0);
+  });
+
+  test("a picked file outside accept stays out of the form and is named", async ({ page }) => {
+    const input = page.locator("ds-upload-drop-area input[type='file']");
+    await input.setInputFiles([
+      { name: "report.pdf", mimeType: "application/pdf", buffer: Buffer.from("%PDF-1.4") },
+      { name: "photo.png", mimeType: "image/png", buffer: Buffer.from("png") },
+    ]);
+    const host = page.locator("ds-upload-drop-area");
+    await expect(host).toHaveAttribute("data-reported", "report.pdf");
+    await expect(host.getByRole("alert")).toHaveText("photo.png is not an accepted file type.");
+    expect(await formData(page, "upload")).toEqual(["title=Report", "attachment=report.pdf"]);
   });
 });
 

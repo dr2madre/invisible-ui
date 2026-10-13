@@ -501,7 +501,7 @@
     {
       "name": "DsToggleGroup",
       "kind": "class",
-      "signature": "declare class DsToggleGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+      "signature": "declare class DsToggleGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
       "name": "DsToolbar",
@@ -596,12 +596,12 @@
     {
       "name": "NavigationMenuItem",
       "kind": "interface",
-      "signature": "interface NavigationMenuItem { value: string; label: string; href?: string; links?: NavigationMenuLink[]; }"
+      "signature": "interface NavigationMenuItem { value: string; label: string; href?: string; links?: NavigationMenuLink[]; /** Whether this plain link points to the page on screen. */ current?: boolean; }"
     },
     {
       "name": "NavigationMenuLink",
       "kind": "interface",
-      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
+      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; /** Whether the link points to the page on screen. */ current?: boolean; }"
     },
     {
       "name": "NotificationAction",
@@ -842,6 +842,11 @@
       "name": "TreeNode",
       "kind": "type",
       "signature": "type TreeNode = treeView.TreeNode;"
+    },
+    {
+      "name": "UploadRejection",
+      "kind": "type",
+      "signature": "type UploadRejection = uploadDropArea.UploadRejection;"
     },
     {
       "name": "WeekStart",

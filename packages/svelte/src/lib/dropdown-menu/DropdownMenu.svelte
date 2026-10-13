@@ -220,6 +220,15 @@
     cursor: not-allowed;
   }
 
+  /* A coarse pointer gets the touch target, density.touch.min-target-size:
+     44 by 44 at least, for every item. */
+  @media (pointer: coarse) {
+    .menu__item {
+      min-block-size: var(--ds-min-target-size-touch, 44px);
+      min-inline-size: var(--ds-min-target-size-touch, 44px);
+    }
+  }
+
   /* Reduced motion: state changes apply at once. */
   @media (prefers-reduced-motion: reduce) {
     .menu__chevron {

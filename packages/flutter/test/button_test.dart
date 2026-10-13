@@ -587,7 +587,9 @@ void main() {
       expect(ring.ring.color, InvisibleColors.light.focusRing);
     });
 
-    testWidgets('uses style.focus.onDark in the dark theme', (tester) async {
+    testWidgets('uses the dark focus ring role in the dark theme', (
+      tester,
+    ) async {
       useKeyboardHighlight();
       final focus = FocusNode();
       addTearDown(focus.dispose);
@@ -605,7 +607,7 @@ void main() {
         find.byType(FocusRingPainter),
       );
       expect(ring.visible, isTrue);
-      expect(ring.ring.color, InvisibleStyleColors.focusOnDark);
+      expect(ring.ring.color, InvisibleColors.dark.focusRing);
     });
   });
 

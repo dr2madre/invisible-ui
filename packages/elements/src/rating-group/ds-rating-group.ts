@@ -8,6 +8,7 @@ import {
   numberAttr,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { radioResetAnchor, syncRadioForm } from "../internal/radio-name";
 import { onLocaleChange, t } from "../internal/i18n";
@@ -31,18 +32,20 @@ import { starIcon } from "../internal/icons";
  * Attributes: `label` (required: the group's accessible name), `max` (the
  * number of stars; 5 by default), `value` (the selected rating, 1 to `max`),
  * `name` (generated when absent, so the stars still form one group),
- * `disabled`.
+ * `disabled`, `error` (a message under the stars; the page owns it, so a form
+ * reset leaves it in place).
  * Properties: `value` (number or null).
  * Emits: bubbling `change` CustomEvent with `detail.value`, the rating as a
  * number.
  */
 export class DsRatingGroup extends HTMLElementBase {
-  static observedAttributes = ["value", "max", "disabled", "label", "name"];
+  static observedAttributes = ["value", "max", "disabled", "label", "name", "error"];
 
   #group: HTMLDivElement | null = null;
   #label: HTMLSpanElement | null = null;
   #stars: { position: number; label: HTMLLabelElement; input: HTMLInputElement }[] = [];
   #labelId = nextId("ds-rating-label");
+  #messages = new FieldMessages(nextId("ds-rating"));
   // Without a shared name the browser treats every star as its own group:
   // arrow keys stop moving between them and more than one can be checked.
   #fallbackName = nextId("ds-rating");
@@ -205,6 +208,12 @@ export class DsRatingGroup extends HTMLElementBase {
       // in markup the script never reaches.
       star.input.defaultChecked = this.#defaultValue === item;
     }
+    this.#messages.sync(
+      this,
+      group.parentElement!,
+      this.#stars.map((star) => star.input),
+      { ariaInvalid: false, description: false },
+    );
     this.#paint();
   }
 }

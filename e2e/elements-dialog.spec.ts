@@ -143,3 +143,16 @@ test("an Elements dialog used as a drawer dismisses only from its backdrop", asy
   await expect(panel).toBeHidden();
   await expect(trigger).toBeFocused();
 });
+
+test("an Elements dialog backdrop paints the theme's dialog overlay", async ({ page }) => {
+  const panel = page.getByTestId("stacking-dialog").locator("dialog");
+  await page.getByRole("button", { name: "Open stacking dialog" }).click();
+  await expect(panel).toBeVisible();
+
+  const backdrop = () =>
+    panel.evaluate((node) => getComputedStyle(node, "::backdrop").backgroundColor);
+  // The dialog-overlay role: the light value, then the dark one under [data-theme].
+  expect(await backdrop()).toBe("rgba(28, 25, 21, 0.5)");
+  await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
+  expect(await backdrop()).toBe("rgba(0, 0, 0, 0.6)");
+});

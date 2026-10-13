@@ -4,6 +4,7 @@ import { useRatingGroup } from "./use-rating-group";
 import { useLiveChecked, useResettableValue } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
 import { useStableId } from "../internal/use-stable-id";
+import { useFieldError } from "../internal/field-error";
 
 export interface RatingGroupProps {
   /** Accessible name for the rating group (required). */
@@ -17,6 +18,12 @@ export interface RatingGroupProps {
   disabled?: boolean;
   /** Form field name; the rating is submitted under it. */
   name?: string;
+  /**
+   * Error message. When non-empty it shows after the control as an alert and
+   * describes each star. The application owns it: a form reset leaves it in
+   * place, and the application clears it.
+   */
+  error?: string;
   /** Called whenever the rating changes. */
   onValueChange?: (value: number) => void;
 }
@@ -43,6 +50,7 @@ export const RatingGroup = defineComponent({
     value: { type: Number as PropType<number | null>, default: null },
     disabled: { type: Boolean, default: false },
     name: { type: String, default: undefined },
+    error: { type: String, default: undefined },
     onValueChange: { type: Function as PropType<(value: number) => void>, default: undefined },
   },
   emits: {
@@ -84,9 +92,11 @@ export const RatingGroup = defineComponent({
 
     const i18n = useI18n();
     const starLabel = (position: number) => i18n.value.t("rating.stars", { count: position });
+    const fieldError = useFieldError("ds-rating", () => props.error);
 
-    return () =>
-      h("div", { class: "rating-field", ref: root }, [
+    return () => {
+      const [errorId, message] = fieldError();
+      return h("div", { class: "rating-field", ref: root }, [
         h("span", { class: "rating__label", id: labelId }, props.label),
         h(
           "div",
@@ -118,6 +128,7 @@ export const RatingGroup = defineComponent({
                   class: "rating__input",
                   "^checked": fallback.value === item.position ? "" : undefined,
                   "aria-label": starLabel(item.position),
+                  "aria-describedby": errorId,
                 }),
                 h(Icon, { size: "var(--ds-rating-size, 1.5rem)" }, () => [
                   h("polygon", { points: STAR_POINTS }),
@@ -126,6 +137,8 @@ export const RatingGroup = defineComponent({
             ),
           ),
         ),
+        message,
       ]);
+    };
   },
 });

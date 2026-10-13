@@ -40,7 +40,7 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createCalendar, localDate, type CalendarView, type WeekStart } from "./create-calendar";
-  import { calendar as core, i18n } from "@design-system/core";
+  import { calendar as core, i18n, weekStart } from "@design-system/core";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -65,6 +65,10 @@
     value?: string | null;
     focusedDate?: string;
     view?: CalendarView;
+    /**
+     * First day of the week, 0 = Sunday … 6 = Saturday. Defaults to the
+     * locale's first day of the week (from `locale`, else the provider's).
+     */
     weekStartsOn?: WeekStart;
     min?: string;
     max?: string;
@@ -107,7 +111,7 @@
     value = $bindable(null),
     focusedDate = $bindable(),
     view = $bindable("month"),
-    weekStartsOn = 1,
+    weekStartsOn,
     min,
     max,
     locale,
@@ -146,6 +150,12 @@
     }
   }
 
+  // The explicit prop wins, then the provider's resolved locale; never the
+  // runtime default, so the server and the client agree.
+  const resolvedLocale = $derived(locale ?? $providerLocale);
+  // Without a prop the week follows the locale, also when it changes.
+  const firstDay = $derived(weekStartsOn ?? weekStart.weekStartsOn(resolvedLocale));
+
   // Seeded once from the first props; the effect and the mirrors below follow
   // later ones.
   const calendar = untrack(() =>
@@ -153,7 +163,7 @@
       value,
       focusedDate,
       view,
-      weekStartsOn,
+      weekStartsOn: firstDay,
       min,
       max,
       onValueChange: handleSelect,
@@ -177,7 +187,7 @@
 
   // Constraints changed after mount reach the machine, and report nothing.
   $effect.pre(() => {
-    syncConfig({ min, max, weekStartsOn });
+    syncConfig({ min, max, weekStartsOn: firstDay });
   });
 
   // Controllable mirrors, compared against the last prop values (ADR 0011): a
@@ -198,9 +208,8 @@
     })),
   );
 
-  // Intl formatters through the shared cached factories: the explicit prop
-  // wins, then the provider's resolved locale; never the runtime default.
-  const resolvedLocale = $derived(locale ?? $providerLocale);
+  // Intl formatters through the shared cached factories, on the locale
+  // resolved above.
   const titleFmt = $derived(
     i18n.dateTimeFormat(resolvedLocale, { month: "long", year: "numeric" }),
   );

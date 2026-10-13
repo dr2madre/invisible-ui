@@ -98,7 +98,7 @@ class InvisibleFocusRing {
 }
 
 /// The values the components read: colour roles, focus ring, density,
-/// target size, type and messages.
+/// target size, dialog overlay, type and messages.
 ///
 /// [InvisibleThemeData.light] and [InvisibleThemeData.dark] come from the
 /// generated tokens. Override parts with [copyWith], or for a subtree with
@@ -117,7 +117,9 @@ class InvisibleThemeData {
     this.monoFontFamily,
     this.controlRadius = InvisibleRadiusTokens.control,
     this.messages = const InvisibleMessages(),
-  }) : _minTargetSize = minTargetSize;
+    Color? dialogOverlay,
+  }) : _minTargetSize = minTargetSize,
+       _dialogOverlay = dialogOverlay;
 
   /// The light theme from the tokens.
   factory InvisibleThemeData.light({
@@ -142,9 +144,8 @@ class InvisibleThemeData {
     );
   }
 
-  /// The dark theme from the tokens. The focus ring uses
-  /// [InvisibleStyleColors.focusOnDark], which keeps its contrast on dark
-  /// surfaces.
+  /// The dark theme from the tokens. The focus ring is the dark theme's own
+  /// `color-focus-ring` role, which keeps its contrast on dark surfaces.
   factory InvisibleThemeData.dark({
     InvisibleDensity density = InvisibleDensity.regular,
     Size? minTargetSize,
@@ -156,7 +157,7 @@ class InvisibleThemeData {
       brightness: Brightness.dark,
       colors: InvisibleColors.dark,
       focusRing: InvisibleFocusRing(
-        color: InvisibleStyleColors.focusOnDark,
+        color: InvisibleColors.dark.focusRing,
         haloColor: InvisibleColors.dark.focusHalo,
       ),
       density: density,
@@ -196,6 +197,15 @@ class InvisibleThemeData {
       size.height < floor ? floor : size.height,
     );
   }
+
+  final Color? _dialogOverlay;
+
+  /// The scrim behind a modal dialog: the `dialog-overlay` role of [colors],
+  /// unless a colour was passed to the theme.
+  ///
+  /// How far it sets the dialog apart from the screen is a theme choice, not
+  /// an accessibility requirement.
+  Color get dialogOverlay => _dialogOverlay ?? colors.dialogOverlay;
 
   /// The font family of every component text. Null uses the platform font.
   final String? fontFamily;
@@ -251,6 +261,7 @@ class InvisibleThemeData {
     String? monoFontFamily,
     double? controlRadius,
     InvisibleMessages? messages,
+    Color? dialogOverlay,
   }) {
     return InvisibleThemeData(
       brightness: brightness ?? this.brightness,
@@ -262,6 +273,7 @@ class InvisibleThemeData {
       monoFontFamily: monoFontFamily ?? this.monoFontFamily,
       controlRadius: controlRadius ?? this.controlRadius,
       messages: messages ?? this.messages,
+      dialogOverlay: dialogOverlay ?? _dialogOverlay,
     );
   }
 
@@ -276,7 +288,8 @@ class InvisibleThemeData {
       other.fontFamily == fontFamily &&
       other.monoFontFamily == monoFontFamily &&
       other.controlRadius == controlRadius &&
-      other.messages == messages;
+      other.messages == messages &&
+      other._dialogOverlay == _dialogOverlay;
 
   @override
   int get hashCode => Object.hash(
@@ -289,6 +302,7 @@ class InvisibleThemeData {
     monoFontFamily,
     controlRadius,
     messages,
+    _dialogOverlay,
   );
 }
 
@@ -319,6 +333,7 @@ class InvisibleTheme extends StatelessWidget {
     String? monoFontFamily,
     double? controlRadius,
     InvisibleMessages? messages,
+    Color? dialogOverlay,
     required Widget child,
   }) {
     return Builder(
@@ -333,6 +348,7 @@ class InvisibleTheme extends StatelessWidget {
           monoFontFamily: monoFontFamily,
           controlRadius: controlRadius,
           messages: messages,
+          dialogOverlay: dialogOverlay,
         ),
         child: child,
       ),

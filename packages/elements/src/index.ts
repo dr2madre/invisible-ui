@@ -112,7 +112,7 @@ export {
 export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
 export { DsToolbar, type ToolbarOrientation } from "./toolbar/ds-toolbar";
-export { DsUploadDropArea } from "./upload-drop-area/ds-upload-drop-area";
+export { DsUploadDropArea, type UploadRejection } from "./upload-drop-area/ds-upload-drop-area";
 export {
   DsLoginForm,
   type LoginFormProvider,

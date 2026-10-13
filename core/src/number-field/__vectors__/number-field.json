@@ -1,5 +1,5 @@
 {
-  "description": "Number field logic, language-neutral: parseNumber(text, symbols), validate(value, min, max, step), snapToStep(current, direction, min, max, step), formatNumber(value, symbols), canonicalString(value) and decimalsOf(value) from core/src/number-field. The symbol table is the project's own, the one the Flutter adapter carries; a locale missing from it falls back to its language, then to English. Expectations never depend on the runtime's CLDR data, which changes between Node and browser releases. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "description": "Number field logic, language-neutral: parseNumber(text, symbols), validate(value, min, max, step), snapToStep(current, direction, min, max, step), formatNumber(value, symbols), canonicalString(value) and decimalsOf(value) from core/src/number-field. parseNumber folds the locale's digits and, in every locale, the Arabic-Indic (U+0660–0669) and Persian (U+06F0–06F9) ones; a locale that groups with an apostrophe (de-CH) takes both U+2019 and U+0027 as its group separator, and no other locale takes either. The symbol table is the project's own, the one the Flutter adapter carries; a locale missing from it falls back to its language, then to English. Expectations never depend on the runtime's CLDR data, which changes between Node and browser releases. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
   "symbols": {
     "en": {
       "decimal": ".",
@@ -634,6 +634,168 @@
         "status": "valid",
         "value": -12.5,
         "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "١٢٣٤.٥",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "۱,۲۳۴",
+      "expect": {
+        "status": "valid",
+        "value": 1234,
+        "error": null
+      }
+    },
+    {
+      "locale": "it",
+      "text": "-٣,٥",
+      "expect": {
+        "status": "valid",
+        "value": -3.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "۱۵",
+      "expect": {
+        "status": "valid",
+        "value": 15,
+        "error": null
+      }
+    },
+    {
+      "locale": "fa",
+      "text": "١٢٣",
+      "expect": {
+        "status": "valid",
+        "value": 123,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "1'234.5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "12'345’678",
+      "expect": {
+        "status": "valid",
+        "value": 12345678,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "-1'234",
+      "expect": {
+        "status": "valid",
+        "value": -1234,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "۱’۲۳۴",
+      "expect": {
+        "status": "valid",
+        "value": 1234,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "1'234,5",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "1'234.5.6",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "1'2a3",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "'",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1'234",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1’234",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "de",
+      "text": "1'234",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "it",
+      "text": "1’234",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "fr",
+      "text": "1'234",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
       }
     }
   ],

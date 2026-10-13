@@ -1,9 +1,9 @@
 <script lang="ts">
   /**
-   * ToggleGroup — a purely **visual** wrapper that arranges a set of independent
-   * `<ToggleButton>` children and gives them a shared look. It carries no
-   * selection state of its own: each ToggleButton inside is a standalone
-   * on/off control (a native checkbox) that owns its own `pressed` state,
+   * ToggleGroup — arranges a set of independent `<ToggleButton>` children and
+   * gives them a shared look and one keyboard rule. It carries no selection
+   * state of its own: each ToggleButton inside is a standalone on/off control
+   * (a native button with `aria-pressed`) that owns its own `pressed` state,
    * label and form field. Insert the toggles as `children`.
    *
    * Styles:
@@ -11,6 +11,15 @@
    *   a gap.
    * - `segmented` — items are joined into one control: their individual borders
    *   are dropped and the group draws a single outer border with thin dividers.
+   *
+   * Keyboard (the shared rule in `@design-system/core`): with three or more
+   * toggles the group is one tab stop, and the arrow keys move focus between
+   * the enabled toggles, wrapping at the ends. Left and Right follow the
+   * reading direction in a horizontal group, Up and Down move in a vertical
+   * one, Home and End jump to the ends. With one or two toggles each toggle is
+   * its own tab stop. Inside a `Toolbar` the toolbar's keys apply and the group
+   * adds none. Moving focus never changes a toggle; when the focused toggle is
+   * removed, focus moves to its neighbour.
    *
    * Accessibility: the group is a `role="group"`. The optional `label` becomes
    * the group's `aria-label` — a *container* name (e.g. "Formatting") that gives
@@ -21,11 +30,16 @@
    * `--ds-toggle-group-*`.
    */
   import type { Snippet } from "svelte";
+  import type { Attachment } from "svelte/attachments";
+  import { toggleGroup as core } from "@design-system/core";
 
   interface Props {
     /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
     variant?: "separate" | "segmented";
-    /** Layout axis. Purely visual — the group has no keyboard navigation of its own. */
+    /**
+     * Layout axis. It also picks the arrow keys when the group is one tab
+     * stop: Left and Right when horizontal, Up and Down when vertical.
+     */
     orientation?: "horizontal" | "vertical";
     /**
      * Let the toggles wrap onto multiple lines when they overflow the available
@@ -48,6 +62,12 @@
     label,
     children,
   }: Props = $props();
+
+  // Applies the keyboard rule once the group is in the page, so on the server
+  // every toggle is its own tab stop. The axis is read when a key arrives,
+  // so changing it does not re-run the attachment.
+  const manageFocus: Attachment<HTMLElement> = (node) =>
+    core.manage(node, { orientation: () => orientation });
 </script>
 
 <div
@@ -59,6 +79,7 @@
   role="group"
   aria-label={label}
   data-orientation={orientation}
+  {@attach manageFocus}
 >
   {@render children?.()}
 </div>
@@ -82,9 +103,9 @@
     flex-wrap: wrap;
   }
 
-  /* segmented: join the toggles into one control — drop their individual
-     borders/radius through the ToggleButton's own custom properties and draw
-     a single outer border with thin dividers. */
+  /* segmented: join the toggles into one control, dropping their individual
+     borders/radius through the ToggleButton's own custom properties and
+     drawing a single outer border with thin dividers. */
   .toggle-group--segmented {
     gap: 0;
     border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
@@ -95,13 +116,14 @@
   }
   /* Divider between adjacent toggles (along the layout axis). It sits on one
      side only and keeps the border color in every state, which the child's
-     custom properties cannot express, so it targets the child's part. */
+     custom properties cannot express, so it targets the child's part. A child
+     is the toggle itself, or an element that holds it. */
   .toggle-group--segmented[data-orientation="horizontal"]
-    :global(.toggle:not(:first-child) .toggle__surface) {
+    > :global(:not(:first-child) .toggle__surface) {
     border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
   }
   .toggle-group--segmented[data-orientation="vertical"]
-    :global(.toggle:not(:first-child) .toggle__surface) {
+    > :global(:not(:first-child) .toggle__surface) {
     border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
   }
 </style>

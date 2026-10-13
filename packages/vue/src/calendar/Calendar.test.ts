@@ -120,7 +120,7 @@ describe("Vue Calendar (month view)", () => {
 
   it("moves a week with ArrowDown/ArrowUp and to the week edges with Home/End", async () => {
     const user = userEvent.setup();
-    renderCalendar();
+    renderCalendar({ weekStartsOn: 1 });
     dayButton("2026-06-15").focus();
 
     await user.keyboard("{ArrowDown}");
@@ -197,7 +197,7 @@ describe("Vue Calendar (two-month view)", () => {
 
 describe("Vue Calendar (agenda views)", () => {
   it("week view shows 7 day columns with their events", () => {
-    renderCalendar({ view: "week" });
+    renderCalendar({ view: "week", weekStartsOn: 1 });
     // Monday-start week containing 2026-06-15 runs 2026-06-15 to 2026-06-21.
     expect(dayButton("2026-06-15")).toBeInTheDocument();
     expect(dayButton("2026-06-21")).toBeInTheDocument();

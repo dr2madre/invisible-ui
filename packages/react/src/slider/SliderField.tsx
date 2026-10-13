@@ -14,6 +14,8 @@ export interface SliderFieldProps {
   range?: readonly [string, string];
   /** The track. */
   children: ReactNode;
+  /** The error message, last in the column. */
+  message?: ReactNode;
 }
 
 /**
@@ -29,6 +31,7 @@ export function SliderField({
   valueText,
   range,
   children,
+  message,
 }: SliderFieldProps) {
   const field = `${block}-field`;
   return (
@@ -50,6 +53,7 @@ export function SliderField({
           <span>{range[1]}</span>
         </div>
       ) : null}
+      {message}
     </div>
   );
 }

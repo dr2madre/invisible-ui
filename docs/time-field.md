@@ -91,7 +91,10 @@ form and should normally run on submit or after a completed field loses focus.
 
 Each segment follows the ARIA spinbutton interaction:
 
-- digits enter a numeric segment
+- digits enter a numeric segment; Arabic-Indic and Persian digits enter as
+  0 to 9 in every locale, from a hardware or a soft keyboard
+- pasting a whole time (`09:30`) sets every segment; other pasted text types
+  its characters from the focused segment, as the keys would
 - `ArrowUp` and `ArrowDown` increment or decrement with wrapping
 - `ArrowLeft` and `ArrowRight` move between adjacent segments
 - `Backspace` and `Delete` clear the active segment

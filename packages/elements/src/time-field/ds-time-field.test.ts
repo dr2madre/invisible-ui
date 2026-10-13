@@ -103,6 +103,27 @@ describe("<ds-time-field>", () => {
     expect(seen.at(-1)).toEqual({ value: "14:00" });
   });
 
+  it("takes Arabic-Indic and Persian digits, typed, from a soft keyboard or pasted, as ASCII", async () => {
+    const host = mount('value="00:00"');
+    const seen = record(host);
+    seg("hour").focus();
+    fireEvent.keyDown(seg("hour"), { key: "١" });
+    fireEvent.keyDown(seg("hour"), { key: "٤" });
+    expect(seg("hour")).toHaveTextContent("14");
+    expect(seen.at(-1)).toEqual({ value: "14:00" });
+    seg("minute").dispatchEvent(
+      new InputEvent("beforeinput", { data: "۴", inputType: "insertText", cancelable: true }),
+    );
+    seg("minute").dispatchEvent(
+      new InputEvent("beforeinput", { data: "۵", inputType: "insertText", cancelable: true }),
+    );
+    expect(seen.at(-1)).toEqual({ value: "14:45" });
+    seg("hour").focus();
+    await userEvent.setup().paste("٠٩:۳۰");
+    expect(seen.at(-1)).toEqual({ value: "09:30" });
+    expect(host.value).toBe("09:30");
+  });
+
   it("does not reinterpret an impossible second digit", () => {
     mount('value="00:00"');
     seg("hour").focus();

@@ -145,4 +145,13 @@
     color: var(--ds-color-text-disabled, #757067);
     cursor: not-allowed;
   }
+
+  /* A coarse pointer gets the touch target, density.touch.min-target-size:
+     44 by 44 at least, for every item. */
+  @media (pointer: coarse) {
+    .context-menu__item {
+      min-block-size: var(--ds-min-target-size-touch, 44px);
+      min-inline-size: var(--ds-min-target-size-touch, 44px);
+    }
+  }
 </style>

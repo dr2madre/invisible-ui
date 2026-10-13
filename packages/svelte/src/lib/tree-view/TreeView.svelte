@@ -1,9 +1,17 @@
 <script lang="ts">
   /**
    * TreeView — the styled, batteries-included tree (WAI-ARIA tree pattern):
-   * single selection, expand/collapse, roving tabindex and full arrow-key
-   * navigation. Behaviour and accessibility come from the headless tree in
+   * expand/collapse, roving tabindex, full arrow-key navigation and typeahead.
+   * Behaviour and accessibility come from the headless tree in
    * `@design-system/core`.
+   *
+   * Selection is single: one node at most is selected, and selecting another
+   * replaces it. Typing a character moves focus to the next row whose label
+   * starts with it (characters typed quickly build one query); typing never
+   * changes selection or expansion. Right expands and Left collapses, mirrored
+   * in right-to-left text. The twistie always expands or collapses its row,
+   * also after a failed load; Right Arrow on an expanded row whose load failed
+   * retries it.
    *
    * Pass a (possibly nested) `nodes` forest. Each node renders a row; parents get
    * a disclosure twistie. Labels default to the node `value`; override per node
@@ -20,7 +28,7 @@
   import { getI18n } from "../i18n/create-i18n";
   import {
     createTreeView,
-    type TreeContext,
+    type CreateTreeViewOptions,
     type TreeLoadRequest,
     type TreeNode,
     type VisibleNode,
@@ -71,7 +79,7 @@
   }: Props = $props();
 
   // Seeded once from the first props; the mirrors below follow later ones.
-  const context: TreeContext = untrack(() => ({
+  const context: CreateTreeViewOptions = untrack(() => ({
     nodes,
     expanded,
     selected,
@@ -82,11 +90,12 @@
     onExpandedChange: (next) => onExpandedChange?.(next),
     onSelectedChange: (next) => onSelectedChange?.(next),
     onLoadChildren: (request) => onLoadChildren?.(request),
+    // Read live, so a `labels` map changed after mount still matches.
+    labelOf: (value: string) => labels?.[value] ?? value,
   }));
 
   const tree = createTreeView(context);
   const {
-    api,
     rootAction,
     itemAction,
     visible,
@@ -129,8 +138,9 @@
           aria-hidden="true"
           onclick={(event) => {
             event.stopPropagation();
-            if (node.loadState === "error") $api.retryLoad(node.value);
-            else tree.toggle(node.value);
+            // Always expand or collapse, also after a failed load: retry
+            // stays on the keyboard (Right Arrow on the expanded row).
+            tree.toggle(node.value);
           }}
         >
           <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">

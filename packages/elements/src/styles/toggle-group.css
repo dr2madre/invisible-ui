@@ -33,10 +33,11 @@
 }
 /* Divider between adjacent toggles (along the layout axis). It sits on one
    side only and keeps the border color in every state, which the child's
-   custom properties cannot express, so it targets the child's part. */
-.toggle-group--segmented[data-orientation="horizontal"] .toggle:not(:first-child) .toggle__surface {
+   custom properties cannot express, so it targets the child's part. A child
+   is the toggle itself, or the custom element that holds it. */
+.toggle-group--segmented[data-orientation="horizontal"] > :not(:first-child) .toggle__surface {
   border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
 }
-.toggle-group--segmented[data-orientation="vertical"] .toggle:not(:first-child) .toggle__surface {
+.toggle-group--segmented[data-orientation="vertical"] > :not(:first-child) .toggle__surface {
   border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
 }

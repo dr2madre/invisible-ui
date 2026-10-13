@@ -3,6 +3,7 @@ import { defineComponent, h, onMounted, ref, watch, type PropType } from "vue";
 import { useRangeSlider, type RangeSliderOrientation } from "./use-range-slider";
 import { useFormReset, useLiveDom } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
+import { useFieldError } from "../internal/field-error";
 
 export interface RangeSliderProps {
   /** `v-model` value; takes precedence over `value` when bound. */
@@ -30,6 +31,12 @@ export interface RangeSliderProps {
   ticks?: boolean;
   /** Format a displayed value (e.g. add a unit). */
   format?: (value: number) => string;
+  /**
+   * Error message. When non-empty it shows after the control as an alert and
+   * describes the control. The application owns it: a form reset leaves it in
+   * place, and the application clears it.
+   */
+  error?: string;
   /** Called with the complete pair whenever it changes. */
   onValueChange?: (value: readonly [number, number]) => void;
 }
@@ -84,6 +91,7 @@ export const RangeSlider = defineComponent({
       type: Function as PropType<(value: number) => string>,
       default: (value: number) => String(value),
     },
+    error: { type: String, default: undefined },
     onValueChange: {
       type: Function as PropType<(value: readonly [number, number]) => void>,
       default: undefined,
@@ -97,6 +105,7 @@ export const RangeSlider = defineComponent({
     const upperInput = ref<HTMLInputElement | null>(null);
     const track = ref<HTMLElement | null>(null);
     const i18n = useI18n();
+    const fieldError = useFieldError("ds-range-slider", () => props.error);
 
     const given = (): readonly [number, number] => props.modelValue ?? props.value;
     // The reset default is normalized the same way a user's own drag would
@@ -240,6 +249,8 @@ export const RangeSlider = defineComponent({
     return () => {
       const { t } = i18n.value;
       const { value, min, max, step, percentages } = api.value;
+      const [errorId, message] = fieldError();
+      const described = { "aria-describedby": errorId, "aria-invalid": errorId && "true" };
       // One tick per grid point the arrows can reach, spaced by the step: a
       // max the grid does not reach has no tick.
       const tickCount = step > 0 ? Math.floor((max - min) / step) : 0;
@@ -304,6 +315,7 @@ export const RangeSlider = defineComponent({
                       ...api.value.getThumbProps(0),
                       ref: lowerInput,
                       class: "range-slider__input",
+                      ...described,
                       name: props.name,
                       "aria-label": props.thumbLabels[0],
                       "aria-valuetext": t("rangeSlider.lowerText", {
@@ -319,6 +331,7 @@ export const RangeSlider = defineComponent({
                       ...api.value.getThumbProps(1),
                       ref: upperInput,
                       class: "range-slider__input",
+                      ...described,
                       name: props.name,
                       "aria-label": props.thumbLabels[1],
                       "aria-valuetext": t("rangeSlider.upperText", {
@@ -346,6 +359,7 @@ export const RangeSlider = defineComponent({
                 h("span", props.format(max)),
               ])
             : null,
+          message,
         ],
       );
     };

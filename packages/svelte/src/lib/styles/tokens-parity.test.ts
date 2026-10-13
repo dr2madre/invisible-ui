@@ -141,7 +141,6 @@ const MIX = "com.invisible-ui.mix";
 const NOT_IN_ROLE_TIER = new Set([
   "--ds-focus-ring-shadow", // built from the focus tokens below
   "--ds-elevation-overlay", // a shadow, not a colour role
-  "--ds-color-focus-ring-on-dark", // style.focus.onDark
   "--ds-focus-ring-width", // focus.*
   "--ds-focus-ring-offset",
   "--ds-focus-halo-width",
@@ -163,13 +162,40 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
     expect(val("style.danger.hover")).toBe(cssVar("feedback-danger-hover"));
   });
 
-  it("style.focus.onDark matches the dark --ds-color-focus-ring mix", () => {
-    // tokens.css mixes it at runtime; the mix recipe test below recomputes it.
-    // The light block also carries it as one fixed value.
+  it("the dark focus ring is a role, with no fixed-value copy (ADR 0002)", () => {
+    // role.dark.color-focus-ring holds the resolved value and the mix; the
+    // mix recipe tests below recompute it against the stylesheet.
     expect(darkDecls.get("--ds-color-focus-ring")).toBe(
       "color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0))",
     );
-    expect(val("style.focus.onDark")).toBe(cssVar("color-focus-ring-on-dark"));
+    expect(tokenColor("role.dark.color-focus-ring").c).toEqual(fromHex("#a286db"));
+    expect(stripped).not.toMatch(/--ds-color-focus-ring-on-dark/);
+    expect(walk("style")).not.toHaveProperty("focus");
+  });
+
+  it("no token name describes an appearance; light and dark name themes only (ADR 0002)", () => {
+    const appearance = /\b(muted|soft|subtle|light|dark|tint|raised)\b|on-?dark|on-?light/i;
+    const names: string[] = [];
+    const collect = (node: TokenNode, path: string[]) => {
+      for (const [key, child] of Object.entries(node)) {
+        if (key.startsWith("$") || !child || typeof child !== "object") continue;
+        const next = [...path, key];
+        if ("$value" in child) names.push(next.join("."));
+        else collect(child as TokenNode, next);
+      }
+    };
+    collect(tokens, []);
+    expect(names.length).toBeGreaterThan(0);
+    for (const name of names) {
+      // role.light and role.dark are the theme groups, not part of the name.
+      const own = name.replace(/^role\.(light|dark)\./, "role.");
+      expect(own, name).not.toMatch(appearance);
+    }
+    // The dialog scrim is a role of each theme, --ds-dialog-overlay in both.
+    expect(lookup("light", "--ds-dialog-overlay")).toBeDefined();
+    expect(lookup("dark", "--ds-dialog-overlay")).toBeDefined();
+    expect(keysOf("role.light")).toContain("dialog-overlay");
+    expect(keysOf("role.dark")).toContain("dialog-overlay");
   });
 
   it("palette.grey.* matches the --ds-neutral-* ramp", () => {
@@ -229,9 +255,11 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
     expect(val("density.regular.min-target-size")).toBe("24px");
     expect(val("density.compact.min-target-size")).toBe("24px");
     expect(val("density.touch.min-target-size")).toBe("44px");
-    // The stylesheet renders the regular level only: one declaration, no
-    // per-density selector.
+    // The touch size is the coarse-pointer target the component sheets read.
+    expect(val("density.touch.min-target-size")).toBe(cssVar("min-target-size-touch"));
+    // One declaration each, no per-density selector.
     expect(stripped.match(/--ds-min-target-size\s*:/g)).toHaveLength(1);
+    expect(stripped.match(/--ds-min-target-size-touch\s*:/g)).toHaveLength(1);
     expect(stripped).not.toMatch(/data-density/);
   });
 
@@ -255,11 +283,7 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
         if (!recipe) continue;
         const at = [...path, key].join(".");
         const mode: Mode = path[1] === "light" ? "light" : "dark";
-        const css =
-          at === "style.focus.onDark"
-            ? darkDecls.get("--ds-color-focus-ring")!
-            : lookup(mode, `--ds-${key}`)!;
-        mixed.push({ path: at, recipe, css, mode });
+        mixed.push({ path: at, recipe, css: lookup(mode, `--ds-${key}`)!, mode });
       }
     };
     collect(tokens, []);
@@ -282,17 +306,13 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
       return `{role.${mode}.${name}}`;
     };
 
-    it("covers every color-mix() role and style.focus.onDark", () => {
+    it("covers every color-mix() role", () => {
       const expected = (["light", "dark"] as const).flatMap((mode) =>
         keysOf(`role.${mode}`)
           .filter((key) => lookup(mode, `--ds-${key}`)?.startsWith("color-mix("))
-          // The dark ring is a reference to style.focus.onDark, which holds the mix.
-          .filter((key) => !String(walk(`role.${mode}.${key}`).$value).startsWith("{"))
           .map((key) => `role.${mode}.${key}`),
       );
-      expect(mixed.map((entry) => entry.path).sort()).toEqual(
-        [...expected, "style.focus.onDark"].sort(),
-      );
+      expect(mixed.map((entry) => entry.path).sort()).toEqual(expected.sort());
     });
 
     it("each recipe is the mix tokens.css writes", () => {

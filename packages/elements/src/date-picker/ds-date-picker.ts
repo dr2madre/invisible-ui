@@ -18,8 +18,8 @@ import { PickerField } from "./picker-field";
  * back the last value set from outside.
  *
  * Attributes: `value` (ISO `YYYY-MM-DD`), `name`, `min`, `max`,
- * `week-starts-on` (0 = Sunday to 6), `locale`, `date-style`
- * (full|long|medium|short), `label`, `placeholder`, `clear-label`,
+ * `week-starts-on` (0 = Sunday to 6; defaults to the locale's first day of
+ * the week), `locale`, `date-style` (full|long|medium|short), `label`, `placeholder`, `clear-label`,
  * `disabled`, `clearable`, `description`, `error`.
  * Properties: `value`, `events`, `prices` (forwarded to the calendar), `open`
  * (read only).

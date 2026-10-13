@@ -31,7 +31,7 @@ and by the core tests.
 | `enabled: false` | `disabled` | `disabled` |
 | `min`, `max`, `step`, `minDistance`, `orientation`, `showValue`, `showRange`, `ticks`, `format`, `icon`, `label` | the same names | as on the web |
 | `locale`, `onSaved` | none | the digits of the default text; the form saver |
-| `error`, `validator`, `autovalidateMode` | none | the error message and the form validator every Flutter value control carries |
+| `error`, `validator`, `autovalidateMode` | `error` (the app passes and clears it; no validator) | the error message and the form validator every Flutter value control carries |
 | `name` | `name` | out of scope: Flutter forms submit no strings |
 
 ## Value and callbacks (ADR 0011)
@@ -69,9 +69,12 @@ and by the core tests.
 
 ## Error message (Flutter)
 
-The web control has no error message of its own; the Flutter control has
-one, as the other Flutter value controls do (`error`, `validator` and
-`autovalidateMode` through `FormField`).
+The web control takes an `error` message the app passes and clears: an
+alert after the control, with the hazard glyph, that the control names in
+`aria-describedby`. The Flutter control takes it the Flutter way, as the
+other Flutter value controls do (`error`, `validator` and
+`autovalidateMode` through `FormField`), and a form reset clears the
+validator's message.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |

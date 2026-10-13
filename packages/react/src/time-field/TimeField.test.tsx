@@ -114,6 +114,27 @@ describe("React TimeField", () => {
     expect(onValueChange.mock.calls).toEqual([["09:59"], ["09:00"]]);
   });
 
+  it("takes Arabic-Indic and Persian digits, typed, from a soft keyboard or pasted, as ASCII", () => {
+    const onValueChange = vi.fn();
+    render(<Fixture value="00:00" onValueChange={onValueChange} />);
+    seg("hour").focus();
+    fireEvent.keyDown(seg("hour"), { key: "١" });
+    fireEvent.keyDown(seg("hour"), { key: "٤" });
+    expect(onValueChange).toHaveBeenLastCalledWith("14:00");
+    for (const data of ["۴", "۵"]) {
+      fireEvent(
+        seg("minute"),
+        new InputEvent("beforeinput", { data, inputType: "insertText", bubbles: true }),
+      );
+    }
+    expect(onValueChange).toHaveBeenLastCalledWith("14:45");
+    fireEvent.paste(seg("hour"), {
+      clipboardData: { getData: () => "٠٩:۳۰" },
+    });
+    expect(onValueChange).toHaveBeenLastCalledWith("09:30");
+    expect(seg("hour")).toHaveTextContent("09");
+  });
+
   it("types digits, moving to the next segment when one is full", () => {
     const onValueChange = vi.fn();
     render(<Fixture value="00:00" onValueChange={onValueChange} />);

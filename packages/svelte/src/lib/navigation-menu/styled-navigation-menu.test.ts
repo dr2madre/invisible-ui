@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./navigation-menu.fixture.svelte";
 import Dynamic from "./navigation-menu-dynamic.fixture.svelte";
+import NavigationMenu from "./NavigationMenu.svelte";
 
 const trigger = (name: string) => screen.getByRole("button", { name });
 
@@ -105,5 +106,167 @@ describe("Svelte NavigationMenu (styled)", () => {
 
     await user.click(trigger("Products"));
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("Svelte NavigationMenu (hover and press)", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  const enter = (el: HTMLElement) => fireEvent.pointerEnter(el, { pointerType: "mouse" });
+  const leave = (el: HTMLElement) => fireEvent.pointerLeave(el, { pointerType: "mouse" });
+
+  it("opens after the hover delay and closes when the pointer leaves", async () => {
+    vi.useFakeTimers();
+    render(Fixture);
+    const products = trigger("Products");
+
+    await enter(products);
+    await vi.advanceTimersByTimeAsync(100);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    await vi.advanceTimersByTimeAsync(50);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+
+    await leave(products);
+    await vi.advanceTimersByTimeAsync(150);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("keeps a hovered panel open after a click, once the pointer leaves", async () => {
+    vi.useFakeTimers();
+    render(Fixture);
+    const products = trigger("Products");
+
+    await enter(products);
+    await vi.advanceTimersByTimeAsync(150);
+    await fireEvent.click(products);
+    await leave(products);
+    await vi.advanceTimersByTimeAsync(300);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+
+    // A second click closes it.
+    await fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("does not let a pending hover undo a click within the delay", async () => {
+    vi.useFakeTimers();
+    render(Fixture);
+    const products = trigger("Products");
+
+    await enter(products);
+    await vi.advanceTimersByTimeAsync(50);
+    await fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    await vi.advanceTimersByTimeAsync(300);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("does not reopen after a click closes it while the pointer stays", async () => {
+    vi.useFakeTimers();
+    render(Fixture);
+    const products = trigger("Products");
+
+    await enter(products);
+    await vi.advanceTimersByTimeAsync(150);
+    await fireEvent.click(products); // keeps it
+    await fireEvent.click(products); // closes it
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("closes on Escape and an outside press, cancelling a pending hover", async () => {
+    vi.useFakeTimers();
+    render(Fixture);
+    const products = trigger("Products");
+
+    await fireEvent.click(products);
+    await enter(trigger("Company"));
+    expect(trigger("Company")).toHaveAttribute("aria-expanded", "true");
+    await fireEvent.keyDown(trigger("Company"), { key: "Escape" });
+    expect(trigger("Company")).toHaveAttribute("aria-expanded", "false");
+    await vi.advanceTimersByTimeAsync(300);
+    expect(trigger("Company")).toHaveAttribute("aria-expanded", "false");
+
+    await fireEvent.click(products);
+    const elsewhere = screen.getByRole("button", { name: "Elsewhere" });
+    elsewhere.focus();
+    await fireEvent.pointerDown(document.body);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    // An outside press moves no focus.
+    expect(elsewhere).toHaveFocus();
+  });
+});
+
+describe("Svelte NavigationMenu (links)", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("closes the panel on a link click without focusing the trigger", async () => {
+    vi.useFakeTimers();
+    render(Fixture);
+    const products = trigger("Products");
+    await fireEvent.click(products);
+    const link = screen.getByRole("link", { name: /Analytics/ });
+    link.focus();
+    // The app moves focus as part of the navigation, as a router does.
+    const elsewhere = screen.getByRole("button", { name: "Elsewhere" });
+    link.addEventListener("click", () => elsewhere.focus());
+
+    await fireEvent.click(link);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("link", { name: /Analytics/ })).not.toBeInTheDocument();
+    await vi.advanceTimersByTimeAsync(0);
+    expect(products).not.toHaveFocus();
+    expect(elsewhere).toHaveFocus();
+  });
+
+  it("focuses the trigger only when focus would be lost", async () => {
+    vi.useFakeTimers();
+    render(Fixture);
+    const products = trigger("Products");
+    await fireEvent.click(products);
+    const link = screen.getByRole("link", { name: /Analytics/ });
+    link.focus();
+
+    await fireEvent.click(link);
+    expect(products).not.toHaveFocus();
+    await vi.advanceTimersByTimeAsync(0);
+    expect(products).toHaveFocus();
+  });
+
+  it("marks only the current link as the page, and its trigger visually", async () => {
+    const user = userEvent.setup();
+    render(Fixture);
+    const products = trigger("Products");
+    expect(products).toHaveAttribute("data-current", "");
+    expect(products).not.toHaveAttribute("aria-current");
+    expect(trigger("Company")).not.toHaveAttribute("data-current");
+    expect(screen.getByRole("link", { name: "Pricing" })).not.toHaveAttribute("aria-current");
+
+    await user.click(products);
+    expect(screen.getByRole("link", { name: /Automation/ })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    expect(screen.getByRole("link", { name: /Analytics/ })).not.toHaveAttribute("aria-current");
+  });
+
+  it("marks a current top-level link as the page", () => {
+    render(NavigationMenu, {
+      props: {
+        label: "Main",
+        items: [
+          { value: "home", label: "Home", href: "#home" },
+          { value: "pricing", label: "Pricing", href: "#pricing", current: true },
+        ],
+      },
+    });
+    const pricing = screen.getByRole("link", { name: "Pricing" });
+    expect(pricing).toHaveAttribute("aria-current", "page");
+    expect(pricing).toHaveAttribute("data-current", "");
+    expect(screen.getByRole("link", { name: "Home" })).not.toHaveAttribute("aria-current");
   });
 });

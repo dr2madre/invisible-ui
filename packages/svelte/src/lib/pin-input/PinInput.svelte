@@ -14,6 +14,7 @@
   import { controllable } from "../internal/controllable.svelte";
   import { get } from "svelte/store";
   import { getI18n } from "../i18n/create-i18n";
+  import FieldError from "../internal/FieldError.svelte";
 
   interface Props {
     value?: string;
@@ -25,6 +26,13 @@
     disabled?: boolean;
     /** Validation state — colors the cells (red ring) and signals errors. */
     invalid?: boolean;
+    /**
+     * Error message, shown under the cells and announced. A non-empty one
+     * marks the cells invalid, like `invalid`, and every cell points at it
+     * through `aria-describedby`. The app owns it: a form reset leaves it in
+     * place, so the app clears it.
+     */
+    error?: string;
     /** Validation success — colors the cells green (e.g. a verified code). */
     success?: boolean;
     /** Form field name — the combined code is submitted under it. */
@@ -44,6 +52,7 @@
     mask = false,
     disabled = false,
     invalid = false,
+    error,
     success = false,
     name,
     label,
@@ -61,7 +70,13 @@
   // Seeded once from the first props, as before: only the value follows later
   // ones. The arrow wrappers read the props at call time, so a callback
   // replaced after mount is the one that gets called.
-  const { rootAction, inputAction, values, syncValue } = untrack(() =>
+  const {
+    state: pinState,
+    rootAction,
+    inputAction,
+    values,
+    syncValue,
+  } = untrack(() =>
     createPinInput({
       value,
       length,
@@ -82,6 +97,9 @@
     isGiveBack: (next) => next === $values.join(""),
   });
 
+  const errorId = `${get(pinState).id}-error`;
+  const isInvalid = $derived(invalid || !!error);
+
   // The cell count is read once, like the machine it matches.
   const cells = untrack(() => Array.from({ length }, (_, i) => i));
 </script>
@@ -94,8 +112,8 @@
   use:rootAction
   use:formReset={mirror.restore}
   aria-label={label}
-  data-invalid={invalid ? "" : undefined}
-  data-success={!invalid && success ? "" : undefined}
+  data-invalid={isInvalid ? "" : undefined}
+  data-success={!isInvalid && success ? "" : undefined}
 >
   {#if name}
     <input type="hidden" {name} value={$values.join("")} disabled={disabled || undefined} />
@@ -106,11 +124,13 @@
       type={mask ? "password" : "text"}
       value={$values[i]}
       aria-label={cellLabel(i, length)}
-      aria-invalid={invalid ? "true" : undefined}
+      aria-invalid={isInvalid ? "true" : undefined}
+      aria-describedby={error ? errorId : undefined}
       use:inputAction={i}
     />
   {/each}
 </div>
+<FieldError id={errorId} {error} />
 
 <style>
   .pin-input {

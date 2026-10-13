@@ -52,14 +52,22 @@ const CheckGlyph = () =>
   ]);
 
 /**
- * TreeView — the styled tree (WAI-ARIA tree pattern): single selection,
- * expand/collapse, roving tabindex and full arrow-key navigation. Ported from
- * the Svelte adapter; behaviour and accessibility come from the headless tree
- * in `@design-system/core`.
+ * TreeView — the styled tree (WAI-ARIA tree pattern): expand/collapse, roving
+ * tabindex and full arrow-key navigation. Ported from the Svelte adapter;
+ * behaviour and accessibility come from the headless tree in
+ * `@design-system/core`.
+ *
+ * Selection is single: one node at most is selected, and selecting another
+ * replaces it. Left and Right follow the reading direction, so in
+ * right-to-left text Left expands and Right collapses. Typing a character, or
+ * a quick sequence of them, moves focus to the next visible row whose text
+ * starts with it; it never changes the selection or expansion.
  *
  * Pass a (possibly nested) `nodes` forest. Each node renders a row; parents get
- * a disclosure twistie. Labels default to the node `value`; override per node
- * via the `label` slot (which receives `{ node }`) or a `labels` map.
+ * a disclosure twistie, which always expands or collapses its row, also after
+ * a failed load (Right Arrow on the open row retries). Labels default to the
+ * node `value`; override per node via the `label` slot (which receives
+ * `{ node }`) or a `labels` map.
  *
  * The tree renders as a flat list of `treeitem`s carrying `aria-level`,
  * `aria-setsize` and `aria-posinset` (a valid alternative to nested `group`s),
@@ -112,6 +120,7 @@ export const TreeView = defineComponent({
         props.onSelectedChange?.(next);
       },
       onLoadChildren: (request: TreeLoadRequest) => props.onLoadChildren?.(request),
+      labelOf: (value: string) => props.labels?.[value] ?? value,
     }));
 
     return () =>
@@ -141,8 +150,7 @@ export const TreeView = defineComponent({
                       "aria-hidden": "true",
                       onClick: (event: Event) => {
                         event.stopPropagation();
-                        if (node.loadState === "error") api.value.retryLoad(node.value);
-                        else api.value.toggle(node.value);
+                        api.value.toggle(node.value);
                       },
                     },
                     [TwistieGlyph()],

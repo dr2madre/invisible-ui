@@ -1,4 +1,4 @@
-import { calendar as core, i18n } from "@design-system/core";
+import { calendar as core, i18n, weekStart } from "@design-system/core";
 import {
   applyProps,
   boolAttr,
@@ -36,10 +36,12 @@ const asView = (value: string | null, fallback: CalendarView): CalendarView =>
 const weekdayName = (fmt: Intl.DateTimeFormat, weekday: number) =>
   fmt.format(core.weekdayDate(weekday));
 
-/** The first day of the week for a locale, as the core counts it (0 = Sunday). */
+/**
+ * The first day of the week for a locale, as the core counts it (0 = Sunday).
+ * It reads CLDR data, not the runtime's `Intl`, so server and browser agree.
+ */
 export function weekStartFor(locale: string): WeekStart {
-  const first = i18n.localeWeekStart(locale);
-  return (first == null ? 1 : first % 7) as WeekStart;
+  return weekStart.weekStartsOn(locale);
 }
 
 /**
@@ -60,7 +62,8 @@ export function weekStartFor(locale: string): WeekStart {
  * otherwise. Labels come from the message catalog; a label attribute wins.
  *
  * Attributes: `value` (ISO `YYYY-MM-DD`), `focused-date`, `view`, `views`
- * (space-separated list for the switcher), `week-starts-on` (0 = Sunday to 6),
+ * (space-separated list for the switcher), `week-starts-on` (0 = Sunday to 6;
+ * defaults to the locale's first day of the week),
  * `min`, `max`, `locale`, `label`, `prev-label`, `next-label`, `today-label`,
  * `views-label`, `show-today` (`"false"` hides it), `mode` (single|range),
  * `range-start`, `range-end`, `max-dots`, `year-columns`.

@@ -8,7 +8,7 @@ const css = readFileSync(resolvePath(process.cwd(), "src/lib/styles/tokens.css")
  * Guards the theme token layer against contrast regressions. Resolves the
  * `--ds-color-*` semantic tokens (through `var()` and `color-mix()`) for both
  * themes and checks the meaningful pairs against WCAG 2 AA:
- * - body / button-label text → 4.5:1 (normal text, SC 1.4.3)
+ * - body, button-label and solid Tag/Count text → 4.5:1 (normal text, SC 1.4.3)
  * - FeedbackIcon glyph on a solid status → 3:1 (graphical object, SC 1.4.11)
  */
 
@@ -121,16 +121,26 @@ describe.each([
     ).toBeGreaterThanOrEqual(4.5);
   });
 
+  // Solid Tag and Count put text on these fills, so the pairs are text pairs.
   it.each([
-    ["info", "--ds-color-on-status"],
-    ["success", "--ds-color-on-status"],
-    // Warning is a light color, so its solid uses a dark glyph, not white.
-    ["warning", "--ds-color-on-warning"],
-    ["danger", "--ds-color-on-status"],
-    ["neutral", "--ds-color-on-status"],
-  ] as const)("status glyph on the %s solid meets 3:1", (status, on) => {
-    expect(contrast(on, `--ds-color-${status}`, vars)).toBeGreaterThanOrEqual(3);
+    ["info", "--ds-color-on-status", "--ds-color-info"],
+    ["success", "--ds-color-on-status", "--ds-color-success"],
+    // Warning has its own label fill: the warning colour gives dark text 3.9:1.
+    ["warning", "--ds-color-on-warning", "--ds-color-warning-label-surface"],
+    ["danger", "--ds-color-on-status", "--ds-color-danger"],
+    ["neutral", "--ds-color-on-status", "--ds-color-neutral"],
+  ] as const)("label text on the %s solid fill meets 4.5:1", (_status, on, fill) => {
+    expect(contrast(on, fill, vars)).toBeGreaterThanOrEqual(4.5);
   });
+
+  it.each(["info", "success", "warning", "danger", "neutral"] as const)(
+    "the solid FeedbackIcon glyph on the %s colour meets 3:1",
+    (status) => {
+      expect(contrast("--ds-color-on-status", `--ds-color-${status}`, vars)).toBeGreaterThanOrEqual(
+        3,
+      );
+    },
+  );
 
   it("primary button label meets 4.5:1", () => {
     expect(contrast("--ds-color-on-primary", "--ds-color-primary", vars)).toBeGreaterThanOrEqual(

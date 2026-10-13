@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
-import { initialState, sanitizeChar, splitValue } from "./state";
+import { initialState, keyTarget, sanitizeChar, splitValue } from "./state";
+import type { Dir } from "../i18n/locale";
 import type { PinInputType } from "./types";
 import vectors from "./__vectors__/pin-input.json";
 
@@ -23,6 +24,22 @@ function paste(values: string[], index: number, text: string, type: PinInputType
   return committed ? { values: committed, focus: focused } : null;
 }
 
+/** Where the keydown handler of `connect` moves the focus for `key`. */
+function press(key: string, index: number, length: number, direction: Dir) {
+  const focus = vi.fn();
+  const preventDefault = vi.fn();
+  const state = initialState({ length, id: "x" });
+  const api = connect({ state, setValues: () => {}, focus, direction });
+  (api.getInputProps(index).onKeyDown as (e: Event) => void)({
+    key,
+    preventDefault,
+  } as unknown as Event);
+  return {
+    focus: focus.mock.calls[0]?.[0] as number | undefined,
+    prevented: preventDefault.mock.calls.length > 0,
+  };
+}
+
 describe("pin input vectors", () => {
   for (const v of vectors.split) {
     it(`split: ${v.name}`, () => {
@@ -37,6 +54,16 @@ describe("pin input vectors", () => {
   for (const v of vectors.paste) {
     it(`paste: ${v.name}`, () => {
       expect(paste(v.values, v.index, v.text, v.type as PinInputType)).toEqual(v.expect);
+    });
+  }
+  for (const v of vectors.keys) {
+    it(`keys: ${v.name}`, () => {
+      const direction = v.direction as Dir;
+      expect(keyTarget(v.key, v.index, v.length, direction)).toBe(v.expect);
+      // The keydown handler moves the focus there.
+      const { focus, prevented } = press(v.key, v.index, v.length, direction);
+      expect(focus).toBe(v.expect ?? undefined);
+      expect(prevented).toBe(v.expect !== null);
     });
   }
 });

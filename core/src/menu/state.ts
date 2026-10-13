@@ -1,4 +1,5 @@
 import { firstEnabled, lastEnabled, nextEnabled, prevEnabled } from "../internal/collection";
+import { matchNext } from "../internal/typeahead";
 import type { MenuContext, MenuEntry, MenuGroup, MenuState, MenuStop, MenuSubmenu } from "./types";
 
 export { firstEnabled, lastEnabled, nextEnabled, prevEnabled };
@@ -84,15 +85,10 @@ export function matchItem(
   query: string,
   fromValue: string | null,
 ): string | null {
-  if (!query) return null;
-  const q = query.toLowerCase();
   const enabled = itemsOf(entries).filter((item) => !isStopDisabled(item));
-  if (enabled.length === 0) return null;
-
-  const start = enabled.findIndex((item) => item.value === fromValue);
-  for (let i = 1; i <= enabled.length; i++) {
-    const item = enabled[(start + i + enabled.length) % enabled.length];
-    if (item && labelOf(item).toLowerCase().startsWith(q)) return item.value;
-  }
-  return null;
+  return matchNext(
+    enabled.map((item) => ({ value: item.value, label: labelOf(item) })),
+    query,
+    fromValue,
+  );
 }

@@ -108,7 +108,7 @@ void main() {
         c.selectedText,
       ),
       (TagStatus.neutral, TagVariant.solid, c.neutral, c.onStatus),
-      (TagStatus.warning, TagVariant.solid, c.warning, c.onWarning),
+      (TagStatus.warning, TagVariant.solid, c.warningLabelSurface, c.onWarning),
       (TagStatus.selected, TagVariant.solid, c.secondary, c.onSecondary),
     ];
     final semantics = tester.ensureSemantics();
@@ -122,12 +122,28 @@ void main() {
         foreground,
         reason: '$status $variant',
       );
-      // The solid warning pair is the web's: 3.9:1 at 13 pixels, short of
-      // 4.5:1, recorded in the parity checklist.
-      if (status != TagStatus.warning || variant != TagVariant.solid) {
-        await expectLater(tester, meetsGuideline(textContrastGuideline));
-      }
+      await expectLater(tester, meetsGuideline(textContrastGuideline));
     }
+    semantics.dispose();
+  });
+
+  testWidgets('the solid warning label reaches 4.5:1 in the dark theme', (
+    tester,
+  ) async {
+    final dark = InvisibleThemeData.dark();
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(
+      harness(
+        const Tag(
+          status: TagStatus.warning,
+          variant: TagVariant.solid,
+          child: Text('x'),
+        ),
+        theme: dark,
+      ),
+    );
+    expect(_decoration(tester).color, dark.colors.warningLabelSurface);
+    await expectLater(tester, meetsGuideline(textContrastGuideline));
     semantics.dispose();
   });
 

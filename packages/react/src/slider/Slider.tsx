@@ -1,5 +1,6 @@
 import { useRef, type CSSProperties, type ReactNode } from "react";
 import { cx } from "../internal/cx";
+import { useFieldError } from "../internal/field-error";
 import { SliderField } from "./SliderField";
 import { useSlider, type SliderOrientation } from "./use-slider";
 
@@ -11,6 +12,12 @@ export interface SliderProps {
   step?: number;
   orientation?: SliderOrientation;
   disabled?: boolean;
+  /**
+   * An error message shown under the control as an alert. It describes the
+   * control and marks it invalid. The app owns it: a form reset leaves it in
+   * place, so the app clears it.
+   */
+  error?: string;
   /** Accessible name for the slider (required). */
   label: string;
   /** Form field name; the value is submitted under it. */
@@ -66,7 +73,9 @@ export function Slider({
   format = String,
   onValueChange,
   icon,
+  error,
 }: SliderProps) {
+  const [errorId, message] = useFieldError(error);
   const ref = useRef<HTMLInputElement>(null);
   const api = useSlider({
     value,
@@ -87,6 +96,7 @@ export function Slider({
       icon={icon}
       valueText={showValue ? format(api.value) : undefined}
       range={showRange ? [format(api.min), format(api.max)] : undefined}
+      message={message}
     >
       <span
         className={cx("slider", disabled && "slider--disabled")}
@@ -99,6 +109,8 @@ export function Slider({
           className="slider__input"
           name={name}
           aria-label={label}
+          aria-describedby={errorId}
+          aria-invalid={errorId ? true : undefined}
           value={api.value}
         />
         {positions.length > 0 ? (

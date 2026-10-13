@@ -34,9 +34,6 @@
   "--ds-code-block-copy-hover": {
     "acceptedLiteral": "Same overlay one step stronger; same candidate role."
   },
-  "--ds-dialog-overlay": {
-    "acceptedLiteral": "The modal scrim: the darkest warm neutral at half alpha, deliberately theme-independent."
-  },
   "--ds-scroll-area-track": {
     "acceptedLiteral": "The track paints nothing; only the thumb is visible."
   },

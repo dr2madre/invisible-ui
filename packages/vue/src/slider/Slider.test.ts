@@ -108,3 +108,39 @@ describe("Vue Slider (styled)", () => {
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue Slider error", () => {
+  it("shows the error as an alert that describes the slider and marks it invalid", async () => {
+    const { rerender } = render(Slider, { props: { label: "Volume", error: "Too loud" } });
+    const alert = screen.getByRole("alert");
+    const slider = screen.getByRole("slider");
+    expect(alert).toHaveTextContent("Too loud");
+    expect(alert).toHaveClass("field__error", "field__message");
+    expect(alert.querySelector(".field__msg-icon")).toHaveAttribute("aria-hidden", "true");
+    expect(slider).toHaveAttribute("aria-describedby", alert.id);
+    expect(slider).toHaveAccessibleDescription("Too loud");
+    expect(slider).toHaveAttribute("aria-invalid", "true");
+
+    await rerender({ error: "" });
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(slider).not.toHaveAttribute("aria-describedby");
+    expect(slider).not.toHaveAttribute("aria-invalid");
+  });
+
+  it("renders the message as text, never as markup", () => {
+    render(Slider, { props: { label: "Volume", error: "<b>Too</b> loud" } });
+    expect(screen.getByRole("alert")).toHaveTextContent("<b>Too</b> loud");
+    expect(screen.getByRole("alert").querySelector("b")).toBeNull();
+  });
+
+  it("keeps the error through a form reset: the application owns it", () => {
+    render({ render: () => h("form", [h(Slider, { label: "Volume", error: "Too loud" })]) });
+    document.querySelector("form")!.reset();
+    expect(screen.getByRole("alert")).toHaveTextContent("Too loud");
+  });
+
+  it("has no accessibility violations with an error", async () => {
+    const { container } = render(Slider, { props: { label: "Volume", error: "Too loud" } });
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+});

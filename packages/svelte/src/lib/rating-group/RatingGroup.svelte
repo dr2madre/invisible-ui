@@ -15,6 +15,7 @@
   import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
   import { stableId } from "../internal/stable-id";
+  import FieldError from "../internal/FieldError.svelte";
 
   interface Props {
     /** Accessible name for the rating group. */
@@ -24,6 +25,12 @@
     /** Selected rating (1..max), or null. */
     value?: number | null;
     disabled?: boolean;
+    /**
+     * Error message, shown under the stars and announced. Every star points
+     * at it through `aria-describedby`. The app owns it: a form reset leaves
+     * it in place, so the app clears it.
+     */
+    error?: string;
     /** Form field name — the rating is submitted under it. */
     name?: string;
     /** Called whenever the rating changes. */
@@ -35,6 +42,7 @@
     max = 5,
     value = $bindable(null),
     disabled = false,
+    error,
     name,
     onValueChange,
   }: Props = $props();
@@ -71,6 +79,7 @@
   let hovered = $state(0);
 
   const labelId = stableId("ds-rating");
+  const errorId = `${labelId}-error`;
   const { t } = getI18n();
   const starLabel = (n: number, translate: typeof $t) => translate("rating.stars", { count: n });
 </script>
@@ -108,6 +117,7 @@
           defaultChecked={mirror.defaultValue === item.position}
           {disabled}
           aria-label={starLabel(item.position, $t)}
+          aria-describedby={error ? errorId : undefined}
           onchange={() => setValue(item.position)}
         />
         <Icon size="var(--ds-rating-size, 1.5rem)">
@@ -118,6 +128,7 @@
       </label>
     {/each}
   </div>
+  <FieldError id={errorId} {error} />
 </div>
 
 <style>

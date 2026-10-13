@@ -47,7 +47,7 @@
           "default": "undefined",
           "required": false,
           "description": "Form field name — when checked, submits `value` under it.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
@@ -55,6 +55,14 @@
           "default": "\"on\"",
           "required": false,
           "description": "Value submitted under `name` when pressed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message, shown after the button and announced. The button points at it through `aria-describedby`. The app owns it: a form reset leaves it in place, so the app clears it.",
           "descriptionFrom": "source"
         },
         {
@@ -120,7 +128,7 @@
           "default": "undefined",
           "required": false,
           "description": "Form field name; when pressed, submits `value` under it.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
@@ -128,6 +136,14 @@
           "default": "\"on\"",
           "required": false,
           "description": "Value submitted under `name` when pressed.",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message. When non-empty it shows after the control as an alert and describes the control. The application owns it: a form reset leaves it in place, and the application clears it.",
           "descriptionFrom": "source"
         },
         {
@@ -174,6 +190,14 @@
           "descriptionFrom": "none"
         },
         {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "An error message shown under the control as an alert. It describes the control. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "check",
           "type": "boolean",
           "default": "false",
@@ -195,7 +219,7 @@
           "default": null,
           "required": false,
           "description": "Form field name; when pressed, submits `value` under it.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
@@ -271,6 +295,13 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "a message after the button; the page owns it, so a form reset leaves it in place",
+          "descriptionFrom": "curated"
         }
       ],
       "notes": [

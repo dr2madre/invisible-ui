@@ -74,8 +74,8 @@ them to the web names and to the ADR 0011 vocabulary.
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Ring shows only in keyboard highlight mode | matched | `shows for keyboard focus only` |
-| Ring colour: the light role, `style.focus.onDark` in dark | matched | `shows for keyboard focus only`, `uses style.focus.onDark in the dark theme` |
-| Ring and halo widths from the focus tokens, on the control's edge | matched | `the focus ring follows the theme; dark uses style.focus.onDark` (theme test) |
+| Ring colour: the theme's `color-focus-ring` role, light or dark | matched | `shows for keyboard focus only`, `uses the dark focus ring role in the dark theme` |
+| Ring and halo widths from the focus tokens, on the control's edge | matched | `the focus ring follows the theme roles` (theme test) |
 | Forced colours: a solid outline at the ring offset | adapted | Flutter has no forced-colours mode; under `MediaQuery.highContrastOf` the ring is drawn alone at `InvisibleFocusRing.offset` |
 | The layout never moves when focus shows | matched | the ring paints outside the control's bounds |
 

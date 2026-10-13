@@ -15,10 +15,10 @@ export interface UseToggleButtonOptions {
 
 /**
  * Connect the headless toggle button to Vue: an independent on/off control
- * rendered as a native `<input type="checkbox">` styled to look like a button
- * (e.g. Bold in a toolbar). The browser owns the checkbox role, Space
- * activation, focus and form participation; the composable owns the resolved
- * pressed value, mirrored by a `watch` like {@link useSwitch}.
+ * rendered as a native `<button type="button">` with `aria-pressed` (e.g. Bold
+ * in a toolbar). The browser owns the button role, focus, and Enter and Space
+ * activation; the composable owns the resolved pressed value, mirrored by a
+ * `watch` like {@link useSwitch}.
  *
  * For a settings-style on/off control use `useSwitch` instead.
  */

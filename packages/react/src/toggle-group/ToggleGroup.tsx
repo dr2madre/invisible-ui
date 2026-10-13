@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { toggleGroup as core } from "@design-system/core";
+import { useEffect, useRef, type ReactNode } from "react";
 import { cx } from "../internal/cx";
 
 export type ToggleGroupVariant = "separate" | "segmented";
@@ -7,7 +8,7 @@ export type ToggleGroupOrientation = "horizontal" | "vertical";
 export interface ToggleGroupProps {
   /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
   variant?: ToggleGroupVariant;
-  /** Layout axis. Purely visual: the group has no keyboard navigation of its own. */
+  /** Layout axis, and the arrow keys that move focus when the group roves. */
   orientation?: ToggleGroupOrientation;
   /**
    * Let the toggles wrap onto multiple lines when they overflow the available
@@ -25,10 +26,18 @@ export interface ToggleGroupProps {
 }
 
 /**
- * ToggleGroup — a visual wrapper that arranges independent `ToggleButton`
- * children and gives them a shared look. It carries no selection state of its
- * own: each ToggleButton inside is a standalone on/off control that owns its
- * `pressed` state, label and form field.
+ * ToggleGroup: arranges independent `ToggleButton` children and gives them a
+ * shared look. It carries no selection state of its own: each ToggleButton
+ * inside is a standalone on/off control that owns its `pressed` state, label
+ * and form field.
+ *
+ * Keyboard: with three or more toggles the group is one tab stop, and the
+ * arrow keys (Left and Right, mirrored in right-to-left text, or Up and Down
+ * when vertical) move focus between the enabled toggles, wrapping, with Home
+ * and End for the ends. With one or two toggles each is its own tab stop.
+ * Inside a `Toolbar` the toolbar's navigation applies and the group adds
+ * none. Moving focus never changes a toggle; when the focused toggle is
+ * removed, focus goes to its neighbour.
  *
  * `separate` (default) keeps each toggle's style, spaced by a gap; `segmented`
  * joins them into one control with a single outer border and thin dividers.
@@ -42,8 +51,25 @@ export function ToggleGroup({
   label,
   children,
 }: ToggleGroupProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  // The axis is read when a key arrives, so a new one needs no new subscription.
+  const orientationRef = useRef(orientation);
+  useEffect(() => {
+    orientationRef.current = orientation;
+  }, [orientation]);
+
+  // The keyboard rule, applied once the group is in the page: toggles added,
+  // removed or disabled later are followed by the core. Client-only: the
+  // server renders no tabindex.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    return core.manage(root, { orientation: () => orientationRef.current });
+  }, []);
+
   return (
     <div
+      ref={rootRef}
       className={cx(
         "toggle-group",
         `toggle-group--${variant}`,

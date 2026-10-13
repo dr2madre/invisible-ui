@@ -19,16 +19,38 @@ void main() {
       expect(light.controlRadius, InvisibleRadiusTokens.control);
     });
 
-    test('the focus ring follows the theme; dark uses style.focus.onDark', () {
+    test('the focus ring follows the theme roles', () {
       final light = InvisibleThemeData.light().focusRing;
       final dark = InvisibleThemeData.dark().focusRing;
       expect(light.color, InvisibleColors.light.focusRing);
       expect(light.haloColor, InvisibleColors.light.focusHalo);
-      expect(dark.color, InvisibleStyleColors.focusOnDark);
+      expect(dark.color, InvisibleColors.dark.focusRing);
       expect(dark.haloColor, InvisibleColors.dark.focusHalo);
       expect(light.width, InvisibleFocusTokens.ringWidth);
       expect(light.haloWidth, InvisibleFocusTokens.haloWidth);
       expect(light.offset, InvisibleFocusTokens.ringOffset);
+    });
+
+    test('the dialog overlay follows the colour roles unless set', () {
+      expect(
+        InvisibleThemeData.light().dialogOverlay,
+        InvisibleColors.light.dialogOverlay,
+      );
+      expect(
+        InvisibleThemeData.dark().dialogOverlay,
+        InvisibleColors.dark.dialogOverlay,
+      );
+      expect(
+        InvisibleThemeData.light()
+            .copyWith(colors: InvisibleColors.dark)
+            .dialogOverlay,
+        InvisibleColors.dark.dialogOverlay,
+      );
+      const custom = Color(0x40000000);
+      final set = InvisibleThemeData.light().copyWith(dialogOverlay: custom);
+      expect(set.dialogOverlay, custom);
+      expect(set.copyWith(brightness: Brightness.dark).dialogOverlay, custom);
+      expect(set, isNot(InvisibleThemeData.light()));
     });
 
     test('the minimum target size is 24 by default and 44 under touch', () {

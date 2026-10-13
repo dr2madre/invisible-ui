@@ -67,7 +67,7 @@ one or imports this package with a prefix.
 | Tab enters the field; a disabled field is skipped | matched | `Tab moves into the field and skips a disabled one` |
 | Text editing keys | adapted | `EditableText` with the app's `DefaultTextEditingShortcuts`, as every Flutter text input |
 | Focus ring whenever focused (`:focus-visible` matches a text input in every mode) | matched | `shows whenever the field has focus, in any mode` |
-| Dark ring colour `style.focus.onDark` | matched | `dark uses style.focus.onDark` |
+| Dark ring colour: the dark theme's `color-focus-ring` role | matched | `dark uses the dark focus ring role` |
 | Text cursor over the field | matched | `a mouse over the field shows the text cursor` |
 | Selection handles and context menu on touch | out of scope | they come from Material or Cupertino controls; desktop selection (drag, double click) works through the widgets layer |
 

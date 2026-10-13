@@ -132,10 +132,6 @@ class _DialogScope extends InheritedWidget {
       controller != oldWidget.controller;
 }
 
-/// The overlay colour of the web dialogs (`--ds-dialog-overlay`), which no
-/// token defines yet.
-const Color dialogBarrierColor = Color(0x801C1915);
-
 /// The spacing between the parts of a panel, and how the parts sit in it.
 @immutable
 class DialogSpacing {

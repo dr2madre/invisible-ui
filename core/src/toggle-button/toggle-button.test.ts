@@ -37,16 +37,40 @@ describe("toggle button state", () => {
 describe("toggle button connect", () => {
   const noop = () => {};
 
-  it("exposes native checkbox props styled as a toggle button", () => {
+  it("exposes native button props with aria-pressed", () => {
     const api = connect({ state: { pressed: true, disabled: false }, setPressed: noop });
-    expect(api.rootProps.type).toBe("checkbox");
-    expect(api.rootProps["aria-pressed"]).toBeUndefined();
+    expect(api.rootProps.type).toBe("button");
+    expect(api.rootProps["aria-pressed"]).toBe(true);
+    expect(api.rootProps.role).toBeUndefined();
     expect(api.rootProps["data-state"]).toBe("on");
   });
 
   it("reflects the off state", () => {
     const api = connect({ state: { pressed: false, disabled: false }, setPressed: noop });
+    expect(api.rootProps["aria-pressed"]).toBe(false);
     expect(api.rootProps["data-state"]).toBe("off");
+  });
+
+  it("flips the pressed value on click", () => {
+    const setPressed = vi.fn();
+    const api = connect({ state: { pressed: true, disabled: false }, setPressed });
+    (api.rootProps.onClick as () => void)();
+    expect(setPressed).toHaveBeenCalledWith(false);
+  });
+
+  it("submits the value under the name only while pressed and enabled", () => {
+    const on = connect({ state: { pressed: true, disabled: false }, setPressed: noop });
+    expect(on.getHiddenInputProps({ name: "bold" })).toEqual({
+      type: "hidden",
+      name: "bold",
+      value: "on",
+    });
+    expect(on.getHiddenInputProps({ name: "bold", value: "1" })?.value).toBe("1");
+    expect(on.getHiddenInputProps({})).toBeNull();
+    const off = connect({ state: { pressed: false, disabled: false }, setPressed: noop });
+    expect(off.getHiddenInputProps({ name: "bold" })).toBeNull();
+    const disabled = connect({ state: { pressed: true, disabled: true }, setPressed: noop });
+    expect(disabled.getHiddenInputProps({ name: "bold" })).toBeNull();
   });
 
   it("requests a pressed change on toggle", () => {
@@ -56,19 +80,13 @@ describe("toggle button connect", () => {
     expect(setPressed).toHaveBeenCalledWith(true);
   });
 
-  it("requests a pressed change from the native change event", () => {
-    const setPressed = vi.fn();
-    const api = connect({ state: { pressed: false, disabled: false }, setPressed });
-    const onChange = api.rootProps.onChange as (e: Event) => void;
-    onChange({ target: { checked: true } } as unknown as Event);
-    expect(setPressed).toHaveBeenCalledWith(true);
-  });
-
-  it("ignores toggle and setPressed when disabled", () => {
+  it("ignores toggle, click and setPressed when disabled", () => {
     const setPressed = vi.fn();
     const api = connect({ state: { pressed: false, disabled: true }, setPressed });
     api.toggle();
     api.setPressed(true);
+    (api.rootProps.onClick as () => void)();
     expect(setPressed).not.toHaveBeenCalled();
+    expect(api.rootProps.disabled).toBe(true);
   });
 });

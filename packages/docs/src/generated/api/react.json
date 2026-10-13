@@ -184,7 +184,7 @@
     {
       "name": "CalendarProps",
       "kind": "interface",
-      "signature": "interface CalendarProps { /** Initial (uncontrolled) or current (controlled) selected date, ISO `YYYY-MM-DD`. */ value?: string | null; /** The date that drives what is shown and where focus sits. */ focusedDate?: string; /** Initial (uncontrolled) or current (controlled) view. */ view?: CalendarView; /** First day of the week, 0 = Sunday to 6. */ weekStartsOn?: WeekStart; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** BCP-47 locale for month and weekday names. Defaults to the provider's locale. */ locale?: string; /** Appointment dots, keyed by their `date`. */ events?: CalendarEvent[]; /** Per-day price label, keyed by ISO date (e.g. `{ \"2026-06-25\": \"€120\" }`). */ prices?: Record<string, string>; /** Maximum dots rendered before a \"+N\" overflow marker (grid views). */ maxDots?: number; /** Year view: how many mini-months per row. */ yearColumns?: number; /** Views offered in the built-in switcher. With one entry no switcher shows. */ views?: CalendarView[]; /** Override the switcher labels per view. */ viewLabels?: Partial<Record<CalendarView, string>>; showToday?: boolean; /** Label of the previous button. Defaults to the catalog's. */ prevLabel?: string; /** Label of the next button. Defaults to the catalog's. */ nextLabel?: string; /** Text of the Today button. Defaults to the catalog's. */ todayLabel?: string; /** Name of the view switcher. Defaults to the catalog's. */ viewsLabel?: string; /** Accessible name for the grid. Defaults to the catalog's. */ label?: string; /** Selection mode: a single date, or a start-to-end `range`. */ mode?: CalendarMode; /** Range start (ISO), used when `mode=\"range\"`. */ rangeStart?: string | null; /** Range end (ISO), used when `mode=\"range\"`. */ rangeEnd?: string | null; /** Called when the user selects a date (single mode). */ onValueChange?: (value: string) => void; /** Called when the user moves the focused date. */ onFocusChange?: (value: string) => void; /** Called when the user changes the view. */ onViewChange?: (view: CalendarView) => void; /** Called after each pick in range mode, with a `null` end while the range is half made. */ onRangeChange?: (start: string | null, end: string | null) => void; /** Custom content of a day in the grid views, replacing the number, dots and price. */ renderDay?: (day: CalendarDayContext) => ReactNode; }"
+      "signature": "interface CalendarProps { /** Initial (uncontrolled) or current (controlled) selected date, ISO `YYYY-MM-DD`. */ value?: string | null; /** The date that drives what is shown and where focus sits. */ focusedDate?: string; /** Initial (uncontrolled) or current (controlled) view. */ view?: CalendarView; /** First day of the week, 0 = Sunday to 6. Defaults to the locale's first day of the week. */ weekStartsOn?: WeekStart; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** BCP-47 locale for month and weekday names. Defaults to the provider's locale. */ locale?: string; /** Appointment dots, keyed by their `date`. */ events?: CalendarEvent[]; /** Per-day price label, keyed by ISO date (e.g. `{ \"2026-06-25\": \"€120\" }`). */ prices?: Record<string, string>; /** Maximum dots rendered before a \"+N\" overflow marker (grid views). */ maxDots?: number; /** Year view: how many mini-months per row. */ yearColumns?: number; /** Views offered in the built-in switcher. With one entry no switcher shows. */ views?: CalendarView[]; /** Override the switcher labels per view. */ viewLabels?: Partial<Record<CalendarView, string>>; showToday?: boolean; /** Label of the previous button. Defaults to the catalog's. */ prevLabel?: string; /** Label of the next button. Defaults to the catalog's. */ nextLabel?: string; /** Text of the Today button. Defaults to the catalog's. */ todayLabel?: string; /** Name of the view switcher. Defaults to the catalog's. */ viewsLabel?: string; /** Accessible name for the grid. Defaults to the catalog's. */ label?: string; /** Selection mode: a single date, or a start-to-end `range`. */ mode?: CalendarMode; /** Range start (ISO), used when `mode=\"range\"`. */ rangeStart?: string | null; /** Range end (ISO), used when `mode=\"range\"`. */ rangeEnd?: string | null; /** Called when the user selects a date (single mode). */ onValueChange?: (value: string) => void; /** Called when the user moves the focused date. */ onFocusChange?: (value: string) => void; /** Called when the user changes the view. */ onViewChange?: (view: CalendarView) => void; /** Called after each pick in range mode, with a `null` end while the range is half made. */ onRangeChange?: (start: string | null, end: string | null) => void; /** Custom content of a day in the grid views, replacing the number, dots and price. */ renderDay?: (day: CalendarDayContext) => ReactNode; }"
     },
     {
       "name": "CalendarView",
@@ -364,7 +364,7 @@
     {
       "name": "DatePickerProps",
       "kind": "interface",
-      "signature": "interface DatePickerProps { /** Initial (uncontrolled) or current (controlled) date, ISO `YYYY-MM-DD`, or `null`. */ value?: string | null; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** First day of the week, 0 = Sunday to 6. */ weekStartsOn?: WeekStart; /** BCP-47 locale for the field and the calendar. Defaults to the provider's locale. */ locale?: string; /** `Intl` date style for the field. */ dateStyle?: DateStyle; /** Accessible label for the field. Defaults to the catalog's. */ label?: string; /** Placeholder while empty. Defaults to the catalog's. */ placeholder?: string; disabled?: boolean; /** Show a clear button when a date is selected. */ clearable?: boolean; /** Appointment dots, forwarded to the calendar. */ events?: CalendarEvent[]; /** Per-day price labels, forwarded to the calendar. */ prices?: Record<string, string>; /** Form field name; the ISO date is submitted under it. */ name?: string; /** Called when the user picks or clears a date. */ onValueChange?: (value: string | null) => void; }"
+      "signature": "interface DatePickerProps { /** Initial (uncontrolled) or current (controlled) date, ISO `YYYY-MM-DD`, or `null`. */ value?: string | null; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** First day of the week, 0 = Sunday to 6. Defaults to the locale's first day of the week. */ weekStartsOn?: WeekStart; /** BCP-47 locale for the field and the calendar. Defaults to the provider's locale. */ locale?: string; /** `Intl` date style for the field. */ dateStyle?: DateStyle; /** Accessible label for the field. Defaults to the catalog's. */ label?: string; /** Placeholder while empty. Defaults to the catalog's. */ placeholder?: string; disabled?: boolean; /** Show a clear button when a date is selected. */ clearable?: boolean; /** Appointment dots, forwarded to the calendar. */ events?: CalendarEvent[]; /** Per-day price labels, forwarded to the calendar. */ prices?: Record<string, string>; /** Form field name; the ISO date is submitted under it. */ name?: string; /** Called when the user picks or clears a date. */ onValueChange?: (value: string | null) => void; }"
     },
     {
       "name": "DateRangePicker",
@@ -374,7 +374,7 @@
     {
       "name": "DateRangePickerProps",
       "kind": "interface",
-      "signature": "interface DateRangePickerProps { /** Initial (uncontrolled) or current (controlled) range start, ISO `YYYY-MM-DD`, or `null`. */ start?: string | null; /** Initial (uncontrolled) or current (controlled) range end, ISO `YYYY-MM-DD`, or `null`. */ end?: string | null; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** First day of the week, 0 = Sunday to 6. */ weekStartsOn?: WeekStart; /** BCP-47 locale for the field and the calendar. Defaults to the provider's locale. */ locale?: string; /** `Intl` date style for the field. */ dateStyle?: DateStyle; /** Calendar view inside the popup. Defaults to two months side by side. */ view?: CalendarView; /** Accessible label for the field. Defaults to the catalog's. */ label?: string; /** Placeholder while empty. Defaults to the catalog's. */ placeholder?: string; disabled?: boolean; /** Show a clear button when a range is started. */ clearable?: boolean; /** Appointment dots, forwarded to the calendar. */ events?: CalendarEvent[]; /** Per-day price labels, forwarded to the calendar. */ prices?: Record<string, string>; /** Form field name for the start date, submitted as an ISO value. */ startName?: string; /** Form field name for the end date, submitted as an ISO value. */ endName?: string; /** Called after each pick and on clear, with a `null` end while the range is half made. */ onChange?: (start: string | null, end: string | null) => void; }"
+      "signature": "interface DateRangePickerProps { /** Initial (uncontrolled) or current (controlled) range start, ISO `YYYY-MM-DD`, or `null`. */ start?: string | null; /** Initial (uncontrolled) or current (controlled) range end, ISO `YYYY-MM-DD`, or `null`. */ end?: string | null; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** First day of the week, 0 = Sunday to 6. Defaults to the locale's first day of the week. */ weekStartsOn?: WeekStart; /** BCP-47 locale for the field and the calendar. Defaults to the provider's locale. */ locale?: string; /** `Intl` date style for the field. */ dateStyle?: DateStyle; /** Calendar view inside the popup. Defaults to two months side by side. */ view?: CalendarView; /** Accessible label for the field. Defaults to the catalog's. */ label?: string; /** Placeholder while empty. Defaults to the catalog's. */ placeholder?: string; disabled?: boolean; /** Show a clear button when a range is started. */ clearable?: boolean; /** Appointment dots, forwarded to the calendar. */ events?: CalendarEvent[]; /** Per-day price labels, forwarded to the calendar. */ prices?: Record<string, string>; /** Form field name for the start date, submitted as an ISO value. */ startName?: string; /** Form field name for the end date, submitted as an ISO value. */ endName?: string; /** Called after each pick and on clear, with a `null` end while the range is half made. */ onChange?: (start: string | null, end: string | null) => void; }"
     },
     {
       "name": "DateStyle",
@@ -714,12 +714,12 @@
     {
       "name": "NavigationMenuItem",
       "kind": "interface",
-      "signature": "interface NavigationMenuItem { value: string; label: string; /** For a plain link item. */ href?: string; /** For a panel item: the links revealed when it opens. */ links?: NavigationMenuLink[]; }"
+      "signature": "interface NavigationMenuItem { value: string; label: string; /** For a plain link item. */ href?: string; /** For a plain link item: whether it leads to the page on screen. */ current?: boolean; /** For a panel item: the links revealed when it opens. */ links?: NavigationMenuLink[]; }"
     },
     {
       "name": "NavigationMenuLink",
       "kind": "interface",
-      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
+      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; /** Whether the link leads to the page on screen. */ current?: boolean; }"
     },
     {
       "name": "NavigationMenuProps",
@@ -819,12 +819,12 @@
     {
       "name": "PinInput",
       "kind": "function",
-      "signature": "declare function PinInput({ value, length, type, mask, disabled, invalid, success, name, label, onValueChange, onComplete, }: PinInputProps): react.JSX.Element;"
+      "signature": "declare function PinInput({ value, length, type, mask, disabled, invalid: invalidProp, error, success, name, label, onValueChange, onComplete, }: PinInputProps): react.JSX.Element;"
     },
     {
       "name": "PinInputProps",
       "kind": "interface",
-      "signature": "interface PinInputProps { /** Initial (uncontrolled) or current (controlled) code. */ value?: string; length?: number; /** Allowed characters. */ type?: PinInputType; /** Render cells masked (like a password). */ mask?: boolean; disabled?: boolean; /** Validation state; colors the cells (red ring) and signals errors. */ invalid?: boolean; /** Validation success; colors the cells green (e.g. a verified code). */ success?: boolean; /** Form field name; the combined code is submitted under it. */ name?: string; /** Accessible name for the group of cells (required). */ label: string; /** Called whenever the combined value changes. */ onValueChange?: (value: string) => void; /** Called once all cells are filled. */ onComplete?: (value: string) => void; }"
+      "signature": "interface PinInputProps { /** Initial (uncontrolled) or current (controlled) code. */ value?: string; length?: number; /** Allowed characters. */ type?: PinInputType; /** Render cells masked (like a password). */ mask?: boolean; disabled?: boolean; /** Validation state; colors the cells (red ring) and signals errors. */ invalid?: boolean; /** * An error message shown under the cells as an alert. It describes each * cell and marks the input invalid, like `invalid`. The app owns it: a form * reset leaves it in place, so the app clears it. */ error?: string; /** Validation success; colors the cells green (e.g. a verified code). */ success?: boolean; /** Form field name; the combined code is submitted under it. */ name?: string; /** Accessible name for the group of cells (required). */ label: string; /** Called whenever the combined value changes. */ onValueChange?: (value: string) => void; /** Called once all cells are filled. */ onComplete?: (value: string) => void; }"
     },
     {
       "name": "PinInputType",
@@ -904,7 +904,7 @@
     {
       "name": "RangeSlider",
       "kind": "function",
-      "signature": "declare function RangeSlider({ value, min, max, step, minDistance, orientation, disabled, label, thumbLabels, name, showValue, showRange, ticks, format, onValueChange, icon, }: RangeSliderProps): react.JSX.Element;"
+      "signature": "declare function RangeSlider({ value, min, max, step, minDistance, orientation, disabled, label, thumbLabels, name, showValue, showRange, ticks, format, onValueChange, icon, error, }: RangeSliderProps): react.JSX.Element;"
     },
     {
       "name": "RangeSliderOrientation",
@@ -914,7 +914,7 @@
     {
       "name": "RangeSliderProps",
       "kind": "interface",
-      "signature": "interface RangeSliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: RangeValue; min?: number; max?: number; step?: number; /** The gap the two thumbs may not close. They may touch; they never cross. */ minDistance?: number; orientation?: RangeSliderOrientation; disabled?: boolean; /** Accessible name for the group (required). */ label: string; /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */ thumbLabels: readonly [string, string]; /** * Form field name. Both thumbs submit under it, in order: * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */ name?: string; /** Show the current values to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (only when the count is reasonable). */ ticks?: boolean; /** Format a displayed value (e.g. add a unit). */ format?: (value: number) => string; /** Called with the complete pair whenever it changes. */ onValueChange?: (value: RangeValue) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
+      "signature": "interface RangeSliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: RangeValue; min?: number; max?: number; step?: number; /** The gap the two thumbs may not close. They may touch; they never cross. */ minDistance?: number; orientation?: RangeSliderOrientation; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control and marks it invalid. The app owns it: a form reset leaves it in * place, so the app clears it. */ error?: string; /** Accessible name for the group (required). */ label: string; /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */ thumbLabels: readonly [string, string]; /** * Form field name. Both thumbs submit under it, in order: * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */ name?: string; /** Show the current values to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (only when the count is reasonable). */ ticks?: boolean; /** Format a displayed value (e.g. add a unit). */ format?: (value: number) => string; /** Called with the complete pair whenever it changes. */ onValueChange?: (value: RangeValue) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
     },
     {
       "name": "RangeValue",
@@ -924,12 +924,12 @@
     {
       "name": "RatingGroup",
       "kind": "function",
-      "signature": "declare function RatingGroup({ label, max, value, disabled, name, onValueChange, }: RatingGroupProps): react.JSX.Element;"
+      "signature": "declare function RatingGroup({ label, max, value, disabled, name, onValueChange, error, }: RatingGroupProps): react.JSX.Element;"
     },
     {
       "name": "RatingGroupProps",
       "kind": "interface",
-      "signature": "interface RatingGroupProps { /** Accessible name for the rating group (required). */ label: string; /** Number of stars. */ max?: number; /** Selected rating (1..max), or null. */ value?: number | null; disabled?: boolean; /** Form field name; the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; }"
+      "signature": "interface RatingGroupProps { /** Accessible name for the rating group (required). */ label: string; /** Number of stars. */ max?: number; /** Selected rating (1..max), or null. */ value?: number | null; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control. The app owns it: a form reset leaves it in place, so the app * clears it. */ error?: string; /** Form field name; the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; }"
     },
     {
       "name": "RatingItem",
@@ -1089,7 +1089,7 @@
     {
       "name": "Slider",
       "kind": "function",
-      "signature": "declare function Slider({ value, min, max, step, orientation, disabled, label, name, showValue, showRange, ticks, format, onValueChange, icon, }: SliderProps): react.JSX.Element;"
+      "signature": "declare function Slider({ value, min, max, step, orientation, disabled, label, name, showValue, showRange, ticks, format, onValueChange, icon, error, }: SliderProps): react.JSX.Element;"
     },
     {
       "name": "SliderOrientation",
@@ -1099,7 +1099,7 @@
     {
       "name": "SliderProps",
       "kind": "interface",
-      "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
+      "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control and marks it invalid. The app owns it: a form reset leaves it in * place, so the app clears it. */ error?: string; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
     },
     {
       "name": "SortDirection",
@@ -1284,12 +1284,12 @@
     {
       "name": "ToggleButton",
       "kind": "function",
-      "signature": "declare function ToggleButton({ pressed, disabled, check, label, name, value, onPressedChange, children, }: ToggleButtonProps): react.JSX.Element;"
+      "signature": "declare function ToggleButton({ pressed, disabled, check, label, name, value, onPressedChange, children, error, }: ToggleButtonProps): react.JSX.Element;"
     },
     {
       "name": "ToggleButtonProps",
       "kind": "interface",
-      "signature": "interface ToggleButtonProps { /** * Whether the button is pressed: the initial value, or the current one when * it changes between renders (e.g. a filter chip driven by a list). */ pressed?: boolean; disabled?: boolean; /** * Show a leading checkmark when pressed (the filter-chip look). The check * reveals the selected state explicitly, the way a checkbox does. */ check?: boolean; /** Accessible name; required when the content is icon-only. */ label?: string; /** Form field name; when pressed, submits `value` under it. */ name?: string; /** Value submitted under `name` when pressed. */ value?: string; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** The button's content. */ children?: ReactNode; }"
+      "signature": "interface ToggleButtonProps { /** * Whether the button is pressed: the initial value, or the current one when * it changes between renders (e.g. a filter chip driven by a list). */ pressed?: boolean; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control. The app owns it: a form reset leaves it in place, so the app * clears it. */ error?: string; /** * Show a leading checkmark when pressed (the filter-chip look). The check * reveals the selected state explicitly, the way a checkbox does. */ check?: boolean; /** Accessible name; required when the content is icon-only. */ label?: string; /** Form field name; while pressed, `value` is submitted under it. */ name?: string; /** Value submitted under `name` when pressed. */ value?: string; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** The button's content. */ children?: ReactNode; }"
     },
     {
       "name": "ToggleGroup",
@@ -1304,7 +1304,7 @@
     {
       "name": "ToggleGroupProps",
       "kind": "interface",
-      "signature": "interface ToggleGroupProps { /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */ variant?: ToggleGroupVariant; /** Layout axis. Purely visual: the group has no keyboard navigation of its own. */ orientation?: ToggleGroupOrientation; /** * Let the toggles wrap onto multiple lines when they overflow the available * width (e.g. a row of filter chips in a narrow panel). Meaningful on a * horizontal `separate` group; ignored when `segmented`, which is one control. */ wrap?: boolean; /** * Optional container name for screen readers (the group's `aria-label`). It * names the container, not the items; omit it when the toggles are unrelated. */ label?: string; /** The `ToggleButton`s. */ children?: ReactNode; }"
+      "signature": "interface ToggleGroupProps { /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */ variant?: ToggleGroupVariant; /** Layout axis, and the arrow keys that move focus when the group roves. */ orientation?: ToggleGroupOrientation; /** * Let the toggles wrap onto multiple lines when they overflow the available * width (e.g. a row of filter chips in a narrow panel). Meaningful on a * horizontal `separate` group; ignored when `segmented`, which is one control. */ wrap?: boolean; /** * Optional container name for screen readers (the group's `aria-label`). It * names the container, not the items; omit it when the toggles are unrelated. */ label?: string; /** The `ToggleButton`s. */ children?: ReactNode; }"
     },
     {
       "name": "ToggleGroupVariant",
@@ -1364,12 +1364,17 @@
     {
       "name": "UploadDropArea",
       "kind": "function",
-      "signature": "declare function UploadDropArea({ accept, multiple, disabled, name, caption, onFiles, children, icon, }: UploadDropAreaProps): react.JSX.Element;"
+      "signature": "declare function UploadDropArea({ accept, multiple, disabled, name, caption, onFiles, onRejected, children, icon, }: UploadDropAreaProps): react.JSX.Element;"
     },
     {
       "name": "UploadDropAreaProps",
       "kind": "interface",
-      "signature": "interface UploadDropAreaProps { /** * Accepted file types (the input's `accept` attribute), e.g. `\"image/*\"` or * `\".pdf,.docx\"`. The picker filters by it, and so does a drop. */ accept?: string; /** Allow selecting or dropping more than one file. */ multiple?: boolean; disabled?: boolean; /** Form field name (the underlying file input). */ name?: string; /** Optional caption under the text, such as the accepted formats or the size limit. */ caption?: string; /** Called with the selected or dropped files. */ onFiles?: (files: File[]) => void; /** Replaces the default prompt text. */ children?: ReactNode; /** Replaces the built-in upload icon. */ icon?: ReactNode; }"
+      "signature": "interface UploadDropAreaProps { /** * Accepted file types (the input's `accept` attribute), e.g. `\"image/*\"` or * `\".pdf,.docx\"`. Picked and dropped files go through the same filter; the * files it leaves out are named in a message under the area and reported * to `onRejected`. The filter is a convenience: the app still validates * the files it receives. */ accept?: string; /** Allow selecting or dropping more than one file. */ multiple?: boolean; disabled?: boolean; /** Form field name (the underlying file input). */ name?: string; /** Optional caption under the text, such as the accepted formats or the size limit. */ caption?: string; /** Called with the selected or dropped files the area takes. */ onFiles?: (files: File[]) => void; /** * Called with the files the area left out: a type `accept` does not name, * or a file beyond the first in an area without `multiple`. */ onRejected?: (rejected: UploadRejection[]) => void; /** Replaces the default prompt text. */ children?: ReactNode; /** Replaces the built-in upload icon. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "UploadRejection",
+      "kind": "type",
+      "signature": "type UploadRejection = uploadDropArea.UploadRejection;"
     },
     {
       "name": "UseAccordionOptions",
@@ -1389,7 +1394,7 @@
     {
       "name": "UseCalendarOptions",
       "kind": "interface",
-      "signature": "interface UseCalendarOptions { /** Selected date (ISO `YYYY-MM-DD`), or `null`. Single mode only. */ value?: string | null; /** The date that drives what is shown and where focus sits. */ focusedDate?: string; /** Layout and period. Defaults to `\"month\"`. */ view?: CalendarView; /** First day of the week, 0 = Sunday to 6. Defaults to `1` (Monday). */ weekStartsOn?: WeekStart; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** Selection mode. Defaults to `\"single\"`. */ mode?: CalendarMode; /** Range start (ISO), used when `mode=\"range\"`. */ rangeStart?: string | null; /** Range end (ISO), used when `mode=\"range\"`. */ rangeEnd?: string | null; /** Explicit base id; a stable one is generated when omitted. */ id?: string; onValueChange?: (value: string) => void; onFocusChange?: (focusedDate: string) => void; onViewChange?: (view: CalendarView) => void; onRangeChange?: (start: string | null, end: string | null) => void; }"
+      "signature": "interface UseCalendarOptions { /** Selected date (ISO `YYYY-MM-DD`), or `null`. Single mode only. */ value?: string | null; /** The date that drives what is shown and where focus sits. */ focusedDate?: string; /** Layout and period. Defaults to `\"month\"`. */ view?: CalendarView; /** First day of the week, 0 = Sunday to 6. Defaults to the locale's first day of the week. */ weekStartsOn?: WeekStart; /** BCP-47 locale whose first day of the week is the default. Defaults to the provider's locale. */ locale?: string; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** Selection mode. Defaults to `\"single\"`. */ mode?: CalendarMode; /** Range start (ISO), used when `mode=\"range\"`. */ rangeStart?: string | null; /** Range end (ISO), used when `mode=\"range\"`. */ rangeEnd?: string | null; /** Explicit base id; a stable one is generated when omitted. */ id?: string; onValueChange?: (value: string) => void; onFocusChange?: (focusedDate: string) => void; onViewChange?: (view: CalendarView) => void; onRangeChange?: (start: string | null, end: string | null) => void; }"
     },
     {
       "name": "UseCarouselOptions",
@@ -1479,7 +1484,7 @@
     {
       "name": "UseNavigationMenu",
       "kind": "interface",
-      "signature": "interface UseNavigationMenu { api: navigationMenu.NavigationMenuApi; /** The open item's value, or `null`. */ value: string | null; setValue: (value: string | null) => void; /** Props for a panel item's trigger: the core's, plus hover and focus movement. */ getTriggerProps: (value: string) => Record<string, unknown>; /** Props for the open panel: the core's, plus the hover hold and Escape's focus return. */ getContentProps: (value: string) => Record<string, unknown>; /** Attach to the open panel. */ contentRef: (node: HTMLElement | null) => void; }"
+      "signature": "interface UseNavigationMenu { api: navigationMenu.NavigationMenuApi; /** The open item's value, or `null`. */ value: string | null; /** Open an item and keep it open, or close with `null`. */ setValue: (value: string | null) => void; /** * Props for a panel item's trigger: the core's, plus hover and focus * movement. `holdsCurrent` marks a trigger whose panel links to the page on * screen. */ getTriggerProps: (value: string, options?: { holdsCurrent?: boolean; }) => Record<string, unknown>; /** Props for the open panel: the core's, plus the hover hold and Escape's focus return. */ getContentProps: (value: string) => Record<string, unknown>; /** * Props for a link. `current` marks the page on screen; `item` is the panel * item the link sits in, left out for a top-level link. */ getLinkProps: (options?: { current?: boolean; item?: string; }) => Record<string, unknown>; /** Attach to the open panel. */ contentRef: (node: HTMLElement | null) => void; }"
     },
     {
       "name": "UseNavigationMenuOptions",
@@ -1614,7 +1619,7 @@
     {
       "name": "UseToggleButtonOptions",
       "kind": "interface",
-      "signature": "interface UseToggleButtonOptions { /** Initial (uncontrolled) or current (controlled) pressed value. */ pressed?: boolean; disabled?: boolean; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). */ controlRef?: RefObject<HTMLInputElement | null>; }"
+      "signature": "interface UseToggleButtonOptions { /** Initial (uncontrolled) or current (controlled) pressed value. */ pressed?: boolean; disabled?: boolean; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** * The native button this state renders on. Given it, the control puts its * default back when its form is reset, silently (ADR 0012). */ controlRef?: RefObject<HTMLButtonElement | null>; }"
     },
     {
       "name": "UseTooltip",
@@ -1634,7 +1639,7 @@
     {
       "name": "UseTreeViewOptions",
       "kind": "interface",
-      "signature": "interface UseTreeViewOptions { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Initial (uncontrolled) or current (controlled) expanded parents. */ expanded?: string[]; /** Initial (uncontrolled) or current (controlled) selected node. */ selected?: string | null; /** Unloaded parents with an active request. */ loading?: string[]; /** Unloaded parents whose latest request failed. */ loadErrors?: string[]; disabled?: boolean; /** Called whenever the user expands or collapses a parent. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the user selects a node. */ onSelectedChange?: (selected: string) => void; /** Requests children from the application; the tree never fetches (ADR 0014). */ onLoadChildren?: (request: TreeLoadRequest) => void; }"
+      "signature": "interface UseTreeViewOptions { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Initial (uncontrolled) or current (controlled) expanded parents. */ expanded?: string[]; /** Initial (uncontrolled) or current (controlled) selected node. */ selected?: string | null; /** Unloaded parents with an active request. */ loading?: string[]; /** Unloaded parents whose latest request failed. */ loadErrors?: string[]; disabled?: boolean; /** Called whenever the user expands or collapses a parent. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the user selects a node. */ onSelectedChange?: (selected: string) => void; /** Requests children from the application; the tree never fetches (ADR 0014). */ onLoadChildren?: (request: TreeLoadRequest) => void; /** Text typeahead matches for a node whose label is not in the page. Defaults to its value. */ labelOf?: (value: string) => string; }"
     },
     {
       "name": "VisibleTreeNode",
@@ -1679,7 +1684,7 @@
     {
       "name": "useCalendar",
       "kind": "function",
-      "signature": "declare function useCalendar({ value: valueProp, focusedDate: focusedProp, view: viewProp, weekStartsOn, min, max, mode, rangeStart: startProp, rangeEnd: endProp, id: idProp, onValueChange, onFocusChange, onViewChange, onRangeChange, }?: UseCalendarOptions): UseCalendar;"
+      "signature": "declare function useCalendar({ value: valueProp, focusedDate: focusedProp, view: viewProp, weekStartsOn: weekStartsOnProp, locale, min, max, mode, rangeStart: startProp, rangeEnd: endProp, id: idProp, onValueChange, onFocusChange, onViewChange, onRangeChange, }?: UseCalendarOptions): UseCalendar;"
     },
     {
       "name": "useCarousel",
@@ -1859,7 +1864,7 @@
     {
       "name": "useTreeView",
       "kind": "function",
-      "signature": "declare function useTreeView({ nodes, expanded: expandedProp, selected: selectedProp, loading: loadingProp, loadErrors: loadErrorsProp, disabled, onExpandedChange, onSelectedChange, onLoadChildren, }: UseTreeViewOptions): UseTreeView;"
+      "signature": "declare function useTreeView({ nodes, expanded: expandedProp, selected: selectedProp, loading: loadingProp, loadErrors: loadErrorsProp, disabled, onExpandedChange, onSelectedChange, onLoadChildren, labelOf, }: UseTreeViewOptions): UseTreeView;"
     }
   ]
 }

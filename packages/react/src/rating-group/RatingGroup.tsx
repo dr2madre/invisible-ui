@@ -2,6 +2,7 @@ import { useId, useRef, useState } from "react";
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";
 import { cx } from "../internal/cx";
+import { useFieldError } from "../internal/field-error";
 import { useRatingGroup } from "./use-rating-group";
 
 export interface RatingGroupProps {
@@ -12,6 +13,12 @@ export interface RatingGroupProps {
   /** Selected rating (1..max), or null. */
   value?: number | null;
   disabled?: boolean;
+  /**
+   * An error message shown under the control as an alert. It describes the
+   * control. The app owns it: a form reset leaves it in place, so the app
+   * clears it.
+   */
+  error?: string;
   /** Form field name; the rating is submitted under it. */
   name?: string;
   /** Called whenever the rating changes. */
@@ -38,7 +45,9 @@ export function RatingGroup({
   disabled = false,
   name,
   onValueChange,
+  error,
 }: RatingGroupProps) {
+  const [errorId, message] = useFieldError(error);
   const labelId = `ds-rating-${useId()}-label`;
   const rootRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
@@ -86,11 +95,13 @@ export function RatingGroup({
               {...api.getItemProps(item.value)}
               className="rating__input"
               aria-label={t("rating.stars", { count: item.position })}
+              aria-describedby={errorId}
             />
             <Icon size="var(--ds-rating-size, 1.5rem)">{STAR}</Icon>
           </label>
         ))}
       </div>
+      {message}
     </div>
   );
 }

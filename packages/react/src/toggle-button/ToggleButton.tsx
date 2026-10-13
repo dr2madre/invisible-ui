@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from "react";
-import { cx } from "../internal/cx";
+import { useFieldError } from "../internal/field-error";
 import { useToggleButton } from "./use-toggle-button";
 
 export interface ToggleButtonProps {
@@ -10,13 +10,19 @@ export interface ToggleButtonProps {
   pressed?: boolean;
   disabled?: boolean;
   /**
+   * An error message shown under the control as an alert. It describes the
+   * control. The app owns it: a form reset leaves it in place, so the app
+   * clears it.
+   */
+  error?: string;
+  /**
    * Show a leading checkmark when pressed (the filter-chip look). The check
    * reveals the selected state explicitly, the way a checkbox does.
    */
   check?: boolean;
   /** Accessible name; required when the content is icon-only. */
   label?: string;
-  /** Form field name; when pressed, submits `value` under it. */
+  /** Form field name; while pressed, `value` is submitted under it. */
   name?: string;
   /** Value submitted under `name` when pressed. */
   value?: string;
@@ -42,10 +48,15 @@ const CHECK = (
 );
 
 /**
- * ToggleButton — an independent on/off control (e.g. Bold in a toolbar), built
- * on a native `<input type="checkbox">` styled to look like a button. The
- * browser owns the checkbox role, Space activation, focus and form
- * participation; this layer adds the button surface and the on/off styling.
+ * ToggleButton: an independent on/off control (e.g. Bold in a toolbar), a
+ * native `<button type="button">` carrying `aria-pressed` (WAI-ARIA button
+ * pattern). The browser owns the button role, focus, and Enter and Space
+ * activation. The accessible name never changes with the state; only
+ * `aria-pressed` does.
+ *
+ * Form participation is provisional: while pressed and enabled, a hidden
+ * input submits `value` under `name`, and a reset of the owning form puts the
+ * default pressed value back without calling `onPressedChange`.
  *
  * Use `Switch` for a settings-style on/off control. Provide `label` when the
  * content is icon-only, so the control keeps an accessible name. Set `check`
@@ -60,25 +71,29 @@ export function ToggleButton({
   value = "on",
   onPressedChange,
   children,
+  error,
 }: ToggleButtonProps) {
-  const ref = useRef<HTMLInputElement>(null);
+  const [errorId, message] = useFieldError(error);
+  const ref = useRef<HTMLButtonElement>(null);
   const api = useToggleButton({ pressed, disabled, onPressedChange, controlRef: ref });
+  const hidden = api.getHiddenInputProps({ name, value });
 
   return (
-    <label className={cx("toggle", disabled && "toggle--disabled")}>
-      <input
+    <>
+      <button
         {...api.rootProps}
         ref={ref}
-        className="toggle__input"
-        checked={api.pressed}
-        name={name}
-        value={value}
+        className="toggle"
         aria-label={label}
-      />
-      <span className="toggle__surface">
-        {check && api.pressed ? CHECK : null}
-        {children}
-      </span>
-    </label>
+        aria-describedby={errorId}
+      >
+        <span className="toggle__surface">
+          {check && api.pressed ? CHECK : null}
+          {children}
+        </span>
+        {hidden ? <input {...hidden} /> : null}
+      </button>
+      {message}
+    </>
   );
 }

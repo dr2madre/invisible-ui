@@ -6,22 +6,35 @@
    * keyboard operation and form participation; the styled area is a `<label>` for
    * that input, so clicking or pressing Enter/Space on it opens the picker. A
    * `dragover` highlight gives drag feedback, and dropped files are forwarded
-   * through the same `onFiles` callback as picked files.
+   * through the same `onFiles` callback as picked files. Both go through the
+   * same `accept` filter; the files it leaves out are named in an alert under
+   * the area and reported to `onRejected`.
    *
    * Themeable via `--ds-upload-drop-area-*`. The default prompt comes from the i18n
    * catalog (`uploadDropArea.prompt` + the styled `uploadDropArea.action` word); pass your
    * own content as the `children` snippet to replace it entirely.
    */
+  import { uploadDropArea } from "@design-system/core";
   import type { Snippet } from "svelte";
   import type { Action } from "svelte/action";
   import { dropArea } from "../drop-area/drop-area";
   import { getI18n } from "../i18n/create-i18n";
+  import Icon from "../icon/Icon.svelte";
+  import { stableId } from "../internal/stable-id";
   import Loading from "../loading/Loading.svelte";
+
+  type UploadRejection = uploadDropArea.UploadRejection;
 
   const { t } = getI18n();
 
   interface Props {
-    /** Accepted file types (the input's `accept` attribute), e.g. "image/*". */
+    /**
+     * Accepted file types (the input's `accept` attribute), e.g. "image/*".
+     * Picked and dropped files go through the same filter; the files it
+     * leaves out are named in a message under the area and reported to
+     * `onRejected`. The filter is a convenience: the app still validates the
+     * files it receives.
+     */
     accept?: string;
     /** Allow selecting/dropping more than one file. */
     multiple?: boolean;
@@ -30,8 +43,13 @@
     name?: string;
     /** Optional grey caption under the text (e.g. accepted formats / max size). */
     caption?: string;
-    /** Called with the selected/dropped files. */
+    /** Called with the selected or dropped files the area takes. */
     onFiles?: (files: File[]) => void;
+    /**
+     * Called with the files the area left out: a type `accept` does not name,
+     * or a file beyond the first in an area without `multiple`.
+     */
+    onRejected?: (rejected: UploadRejection[]) => void;
     /** Replaces the default prompt text. */
     children?: Snippet;
     /** Replaces the built-in upload icon. */
@@ -45,9 +63,14 @@
     name,
     caption,
     onFiles,
+    onRejected,
     children,
     icon,
   }: Props = $props();
+
+  const rejectedId = `${stableId("ds-upload-drop-area")}-rejected`;
+  // Each batch gets its own key, so the same rejection twice is a new alert.
+  let rejection = $state.raw<{ batch: number; files: UploadRejection[] }>({ batch: 0, files: [] });
 
   let input: HTMLInputElement | undefined;
 
@@ -77,30 +100,28 @@
   // picker left open when the area goes away drops its listener here.
   const dropListener: Action = () => ({ destroy: resolveOpen });
 
-  const emit = (list: FileList | null | undefined) => {
-    if (!list || !list.length) return;
-    onFiles?.(Array.from(list));
-  };
-
-  // A dropped file joins the form the way a picked one does: it becomes the
-  // input's file list, so it submits, and a form reset clears it. A single
-  // file input holds one file, so a multi-file drop keeps the first.
-  const adopt = (dropped: FileList) => {
-    if (typeof DataTransfer === "undefined") {
-      onFiles?.(Array.from(dropped));
-      return;
+  // Picked and dropped files go through the same filter. The input holds the
+  // files the area takes, so they submit and a form reset clears them; a drop
+  // with none to take leaves the input as it was.
+  const take = (files: File[], dropped: boolean) => {
+    const { accepted, rejected } = uploadDropArea.splitFiles(files, { accept, multiple });
+    if (input && (dropped ? accepted.length > 0 : rejected.length > 0)) {
+      if (accepted.length === 0) input.value = "";
+      else if (typeof DataTransfer !== "undefined") {
+        const transfer = new DataTransfer();
+        for (const file of accepted) transfer.items.add(file);
+        input.files = transfer.files;
+      }
     }
-    const kept = new DataTransfer();
-    for (const file of Array.from(dropped).slice(0, multiple ? undefined : 1)) {
-      kept.items.add(file);
-    }
-    if (input) input.files = kept.files;
-    emit(kept.files);
+    rejection = { batch: rejection.batch + 1, files: rejected };
+    if (rejected.length > 0) onRejected?.(rejected);
+    if (accepted.length > 0) onFiles?.(accepted);
   };
 
   function onInput(event: Event) {
     resolveOpen();
-    emit((event.currentTarget as HTMLInputElement).files);
+    const files = Array.from((event.currentTarget as HTMLInputElement).files ?? []);
+    if (files.length > 0) take(files, false);
   }
 </script>
 
@@ -114,7 +135,7 @@
     opening && "upload-drop-area--opening",
   ]}
   aria-busy={opening ? "true" : undefined}
-  use:dropArea={{ disabled, onDrop: (data) => adopt(data.files) }}
+  use:dropArea={{ disabled, onDrop: (data) => take(Array.from(data.files), true) }}
 >
   <input
     bind:this={input}
@@ -124,6 +145,7 @@
     {multiple}
     {disabled}
     {name}
+    aria-describedby={rejection.files.length > 0 ? rejectedId : undefined}
     onclick={onOpen}
     oncancel={resolveOpen}
     onchange={onInput}
@@ -168,6 +190,30 @@
     <Loading variant="spinner" overlay veil={false} delay={150} decorative />
   {/if}
 </label>
+{#key rejection.batch}
+  {#if rejection.files.length > 0}
+    <!-- Outside the label, so it never joins the input's name; announced when
+         it appears, with the hazard glyph so it never relies on color. -->
+    <div id={rejectedId} class="upload-drop-area__rejected" role="alert">
+      {#each rejection.files as { file, reason }, index (index)}
+        <p class="field__error field__message">
+          <span class="field__msg-icon" aria-hidden="true">
+            <Icon size="1em">
+              <path
+                d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+              />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12" y2="17" />
+            </Icon>
+          </span>
+          {$t(reason === "type" ? "uploadDropArea.rejectedType" : "uploadDropArea.rejectedCount", {
+            name: file.name,
+          })}
+        </p>
+      {/each}
+    </div>
+  {/if}
+{/key}
 
 <style>
   .upload-drop-area {
@@ -222,6 +268,18 @@
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+  /* The text field's error look: the hazard glyph beside the message. */
+  .field__message {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0.25rem 0 0;
+    color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #be3b50));
+  }
+  .field__msg-icon {
+    display: inline-flex;
+    flex: none;
   }
   .upload-drop-area__caption {
     font-size: 0.8125rem;

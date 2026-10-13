@@ -40,11 +40,35 @@ List<String> splitValue(String value, int length) => [
   for (var i = 0; i < length; i++) i < value.length ? value[i] : '',
 ];
 
-/// [char] when [type] allows it, or an empty string.
+/// [char] when [type] allows it, or an empty string. Arabic-Indic and
+/// Persian digits are allowed and come back as ASCII digits.
 String sanitizeChar(String char, PinInputType type) {
   if (char.isEmpty) return '';
+  final folded = asciiDigits(char);
   final allowed = type == PinInputType.numeric ? _digit : _alphanumeric;
-  return allowed.hasMatch(char) ? char : '';
+  return allowed.hasMatch(folded) ? folded : '';
+}
+
+/// The cell a navigation [key] moves the focus to from cell [index], or null
+/// for any other key. The arrows follow the cells as they are laid out: in a
+/// right-to-left layout the first cell is on the right, so ArrowLeft moves to
+/// the next cell. Home and End go to the first and the last cell; at an end,
+/// an arrow keeps the focus where it is.
+int? keyTarget(
+  LogicalKeyboardKey key,
+  int index,
+  int length, {
+  bool rtl = false,
+}) {
+  if (key == LogicalKeyboardKey.home) return 0;
+  if (key == LogicalKeyboardKey.end) return length - 1;
+  final step = key == LogicalKeyboardKey.arrowRight
+      ? 1
+      : key == LogicalKeyboardKey.arrowLeft
+      ? -1
+      : 0;
+  if (step == 0) return null;
+  return (index + (rtl ? -step : step)).clamp(0, length - 1);
 }
 
 /// [text] spread over the cells from [index]: the characters [type] allows,
@@ -373,18 +397,8 @@ class _PinInputState extends State<PinInput>
       }
       return KeyEventResult.handled;
     }
-    final int? target;
-    if (key == LogicalKeyboardKey.arrowLeft) {
-      target = rtl ? index + 1 : index - 1;
-    } else if (key == LogicalKeyboardKey.arrowRight) {
-      target = rtl ? index - 1 : index + 1;
-    } else if (key == LogicalKeyboardKey.home) {
-      target = 0;
-    } else if (key == LogicalKeyboardKey.end) {
-      target = widget.length - 1;
-    } else {
-      return KeyEventResult.ignored;
-    }
+    final target = keyTarget(key, index, widget.length, rtl: rtl);
+    if (target == null) return KeyEventResult.ignored;
     _focus(target);
     return KeyEventResult.handled;
   }

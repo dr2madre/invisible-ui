@@ -30,7 +30,7 @@ shared vectors in `core/src/slider/__vectors__`, read by
 | `min`, `max`, `step`, `orientation`, `showValue`, `showRange`, `ticks`, `format`, `icon` | the same names | as on the web |
 | `locale` | none | the digits of the default value text |
 | `onSaved` | none | the form saver every Flutter value control carries |
-| `error`, `validator`, `autovalidateMode` | none | the error message and the form validator every Flutter value control carries |
+| `error`, `validator`, `autovalidateMode` | `error` (the app passes and clears it; no validator) | the error message and the form validator every Flutter value control carries |
 | `name` | `name` | out of scope: Flutter forms submit no strings |
 
 The name collides with Material's `Slider`: an app importing both hides one
@@ -74,9 +74,12 @@ or imports this package with a prefix.
 
 ## Error message (Flutter)
 
-The web control has no error message of its own; the Flutter control has
-one, as the other Flutter value controls do (`error`, `validator` and
-`autovalidateMode` through `FormField`).
+The web control takes an `error` message the app passes and clears: an
+alert after the control, with the hazard glyph, that the control names in
+`aria-describedby`. The Flutter control takes it the Flutter way, as the
+other Flutter value controls do (`error`, `validator` and
+`autovalidateMode` through `FormField`), and a form reset clears the
+validator's message.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |

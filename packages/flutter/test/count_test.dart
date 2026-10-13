@@ -79,7 +79,11 @@ void main() {
       (NotificationStatus.neutral, colors.neutral, colors.onStatus),
       (NotificationStatus.info, colors.info, colors.onStatus),
       (NotificationStatus.success, colors.success, colors.onStatus),
-      (NotificationStatus.warning, colors.warning, colors.onWarning),
+      (
+        NotificationStatus.warning,
+        colors.warningLabelSurface,
+        colors.onWarning,
+      ),
     ]) {
       await tester.pumpWidget(harness(Count(count: 5, status: status)));
       expect(_decoration(tester).color, background, reason: '$status');

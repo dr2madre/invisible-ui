@@ -7,6 +7,8 @@ export interface FieldMessageOptions {
    * out its invalid state itself.
    */
   ariaInvalid?: boolean;
+  /** Whether the host's `description` renders. Off for a control that shows only the error. */
+  description?: boolean;
 }
 
 /**
@@ -34,9 +36,9 @@ export class FieldMessages {
     host: Element,
     container: Element,
     controls: Iterable<Element>,
-    { ariaInvalid = true }: FieldMessageOptions = {},
+    { ariaInvalid = true, description: described = true }: FieldMessageOptions = {},
   ): void {
-    const description = host.getAttribute("description");
+    const description = described ? host.getAttribute("description") : null;
     const error = host.getAttribute("error");
 
     this.#description = paragraph(

@@ -160,5 +160,11 @@ glyphs 3:1) by an automated test over `tokens.css`, and the
 and publishes each pair it lists, target by target — including the ones that do
 not reach their target in this alpha. If you change
 the brand or feedback hues, re-verify contrast: white text sits on the
-brand/danger fills and on the status icon boxes, while the light Burnt Orange
-warning uses a **dark** `--ds-color-on-warning`.
+brand/danger fills and on the status icon boxes, while text labels with the
+warning status (solid Tag, Count) sit on `--ds-color-warning-label-surface`, a
+lighter mix of the Burnt Orange, with a **dark** `--ds-color-on-warning` at
+4.5:1 or more.
+
+**Touch target.** Under a coarse pointer, menu items and menubar triggers keep
+a hit area of at least `--ds-min-target-size-touch` (44 by 44). Visual density
+never reduces the touch target.

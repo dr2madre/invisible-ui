@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
+import { createTypeahead } from "../internal/typeahead";
 import {
   firstVisible,
   initialState,
@@ -308,5 +309,61 @@ describe("tree connect", () => {
     const disabled = wire();
     disabled.api.select("readme");
     expect(disabled.setSelected).not.toHaveBeenCalled();
+  });
+  it("typeahead moves focus to the next visible node by character and by sequence", () => {
+    vi.useFakeTimers();
+    try {
+      const setFocused = vi.fn();
+      const setSelected = vi.fn();
+      const focus = vi.fn();
+      const typeahead = createTypeahead();
+      const labels: Record<string, string> = { "package.json": "Package", src: "Sources" };
+      const api = connect({
+        state: make({ expanded: ["src", "lib"] }),
+        setExpanded: vi.fn(),
+        setSelected,
+        setFocused,
+        focus,
+        typeahead,
+        labelOf: (value) => labels[value] ?? value,
+      });
+      const press = (from: string, key: string) =>
+        (api.getItemProps(from).onKeyDown as (e: Event) => void)(keyEvent(key));
+      press("src", "i");
+      expect(focus).toHaveBeenLastCalledWith("index.ts");
+      vi.advanceTimersByTime(600);
+      // "inp" typed quickly is one query: it finds "input.ts", not "index.ts".
+      press("src", "i");
+      press("src", "n");
+      press("src", "p");
+      expect(focus).toHaveBeenLastCalledWith("input.ts");
+      vi.advanceTimersByTime(600);
+      press("index.ts", "P");
+      expect(focus).toHaveBeenLastCalledWith("package.json");
+      // Disabled "readme" never matches.
+      vi.advanceTimersByTime(600);
+      press("src", "r");
+      expect(focus).toHaveBeenLastCalledWith("package.json");
+      expect(setSelected).not.toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("ignores typing without a typeahead and with a modifier", () => {
+    const { api, focus } = wire({ expanded: ["src"] });
+    (api.getItemProps("src").onKeyDown as (e: Event) => void)(keyEvent("i"));
+    expect(focus).not.toHaveBeenCalled();
+    const withTypeahead = connect({
+      state: make({ expanded: ["src"] }),
+      setExpanded: vi.fn(),
+      setSelected: vi.fn(),
+      setFocused: vi.fn(),
+      focus,
+      typeahead: createTypeahead(),
+    });
+    const event = { key: "i", ctrlKey: true, preventDefault: vi.fn() } as unknown as Event;
+    (withTypeahead.getItemProps("src").onKeyDown as (e: Event) => void)(event);
+    expect(focus).not.toHaveBeenCalled();
   });
 });

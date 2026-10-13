@@ -58,12 +58,15 @@ class UploadRejection {
 /// empty or null list accepts every file. A file with no [UploadFile.type]
 /// matches by extension only.
 bool acceptsFile(String? accept, UploadFile file) {
-  if (accept == null || accept.trim().isEmpty) return true;
+  final tokens = [
+    for (final raw in (accept ?? '').split(','))
+      if (raw.trim().toLowerCase() case final token when token.isNotEmpty)
+        token,
+  ];
+  if (tokens.isEmpty) return true;
   final name = file.name.toLowerCase();
   final type = file.type.toLowerCase();
-  for (final raw in accept.split(',')) {
-    final token = raw.trim().toLowerCase();
-    if (token.isEmpty) continue;
+  for (final token in tokens) {
     if (token.startsWith('.')) {
       if (name.endsWith(token)) return true;
     } else if (token.endsWith('/*')) {

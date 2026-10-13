@@ -1,4 +1,5 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, type PropType } from "vue";
+import { useToggleGroup } from "./use-toggle-group";
 
 export type ToggleGroupVariant = "separate" | "segmented";
 export type ToggleGroupOrientation = "horizontal" | "vertical";
@@ -6,7 +7,7 @@ export type ToggleGroupOrientation = "horizontal" | "vertical";
 export interface ToggleGroupProps {
   /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
   variant?: ToggleGroupVariant;
-  /** Layout axis. Purely visual: the group has no keyboard navigation of its own. */
+  /** Layout axis; also picks the arrow keys (Left/Right or Up/Down). */
   orientation?: ToggleGroupOrientation;
   /**
    * Let the toggles wrap onto multiple lines when they overflow the available
@@ -22,17 +23,24 @@ export interface ToggleGroupProps {
 }
 
 /**
- * ToggleGroup — a visual wrapper that arranges a set of independent
- * `ToggleButton` children and gives them a shared look, ported from the Svelte
- * adapter. It carries no selection state of its own: each ToggleButton inside
- * is a standalone on/off control (a native checkbox) that owns its own
- * `pressed` state, label and form field. Insert the toggles via the default
- * slot.
+ * ToggleGroup — arranges a set of independent `ToggleButton` children and
+ * gives them a shared look, ported from the Svelte adapter. It carries no
+ * selection state of its own: each ToggleButton inside is a standalone on/off
+ * button that owns its own `pressed` state, label and form field. Insert the
+ * toggles via the default slot.
  *
  * Styles:
  * - `separate` (default): each toggle keeps its own style, spaced by a gap.
  * - `segmented`: items are joined into one control, their individual borders
  *   dropped and the group drawing a single outer border with thin dividers.
+ *
+ * Keyboard (`core.toggleGroup`): with three or more toggles the group is one
+ * tab stop; the arrow keys move focus between the enabled toggles, wrapping
+ * at the ends (Left/Right follow the reading direction when horizontal,
+ * Up/Down when vertical), and Home/End jump to the ends. With one or two
+ * toggles each one is its own tab stop. Inside a `Toolbar` the toolbar's keys
+ * apply and the group adds none. Moving focus never changes a toggle, and
+ * removing the focused toggle hands focus to its neighbour.
  *
  * Accessibility: the group is a `role="group"`. The optional `label` becomes
  * the group's `aria-label`, a container name (e.g. "Formatting") that gives
@@ -49,10 +57,14 @@ export const ToggleGroup = defineComponent({
     label: { type: String, default: undefined },
   },
   setup(props, { slots }) {
+    const root = ref<HTMLElement | null>(null);
+    useToggleGroup({ root, orientation: () => props.orientation });
+
     return () =>
       h(
         "div",
         {
+          ref: root,
           class: [
             "toggle-group",
             `toggle-group--${props.variant}`,

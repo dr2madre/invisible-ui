@@ -155,7 +155,8 @@
    44 by 44 at least, for every item and submenu trigger. */
 @media (pointer: coarse) {
   .menu__item {
-    min-block-size: 44px;
+    min-block-size: var(--ds-min-target-size-touch, 44px);
+    min-inline-size: var(--ds-min-target-size-touch, 44px);
   }
 }
 

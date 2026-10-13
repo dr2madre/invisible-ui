@@ -9,7 +9,12 @@
       value: "products",
       label: "Products",
       links: [
-        { label: "Analytics", href: "#analytics", description: "Understand your traffic." },
+        {
+          label: "Analytics",
+          href: "#analytics",
+          description: "Understand your traffic.",
+          current: true,
+        },
         { label: "Automation", href: "#automation", description: "Automate your workflow." },
       ],
     },

@@ -7,8 +7,8 @@ export interface CheckedState<T> {
 }
 
 /**
- * The resolved state of a native checkable input, shared by the checkbox, the
- * switch and the toggle button: it mirrors an externally controlled `checked`
+ * The resolved state of a native checkable input, shared by the checkbox and
+ * the switch: it mirrors an externally controlled `checked`
  * without an effect, carries the DOM default a form reset restores, and puts
  * its own state back when its form is reset, silently (ADR 0012).
  */

@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
-import { UploadDropArea, acceptsFile } from "./UploadDropArea";
+import { UploadDropArea } from "./UploadDropArea";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -152,58 +152,80 @@ describe("React UploadDropArea", () => {
   });
 });
 
-// A drop keeps only the files `accept` names, as the picker does: a rejected
-// file never reaches onFiles.
-describe("React UploadDropArea (accept on drop)", () => {
-  it("keeps the files a MIME wildcard names", () => {
+// Picked and dropped files go through the same accept filter (the core's
+// splitFiles): the ones it leaves out never reach onFiles, are reported to
+// onRejected and are named in an alert under the area.
+describe("React UploadDropArea (accept filter)", () => {
+  const pick = (...files: File[]) => {
+    Object.defineProperty(input(), "files", { configurable: true, value: files });
+    fireEvent.change(input());
+  };
+  const alert = () => screen.getByRole("alert");
+
+  it("keeps the dropped files accept names and reports the others", () => {
     const onFiles = vi.fn();
-    render(<UploadDropArea accept="image/*" multiple onFiles={onFiles} />);
-    drop(png, pdf, jpeg);
-    expect(onFiles).toHaveBeenCalledWith([png, jpeg]);
+    const onRejected = vi.fn();
+    render(
+      <UploadDropArea accept="image/*, .pdf" multiple onFiles={onFiles} onRejected={onRejected} />,
+    );
+    drop(png, text, pdf, jpeg);
+    expect(onFiles).toHaveBeenCalledWith([png, pdf, jpeg]);
+    expect(onRejected).toHaveBeenCalledWith([{ file: text, reason: "type" }]);
+    expect(alert()).toHaveTextContent("notes.txt is not an accepted file type.");
+    expect(
+      alert().querySelector(".field__error.field__message .field__msg-icon svg"),
+    ).not.toBeNull();
+    expect(zone()).not.toContainElement(alert());
+    expect(input()).toHaveAttribute("aria-describedby", alert().id);
   });
 
-  it("keeps the files an exact MIME type names", () => {
+  it("filters picked files the same way", () => {
     const onFiles = vi.fn();
-    render(<UploadDropArea accept="application/pdf" multiple onFiles={onFiles} />);
-    drop(png, pdf, text);
+    const onRejected = vi.fn();
+    render(<UploadDropArea accept=".pdf" multiple onFiles={onFiles} onRejected={onRejected} />);
+    pick(pdf, text);
     expect(onFiles).toHaveBeenCalledWith([pdf]);
+    expect(onRejected).toHaveBeenCalledWith([{ file: text, reason: "type" }]);
+    expect(alert()).toHaveTextContent("notes.txt is not an accepted file type.");
   });
 
-  it("keeps the files an extension names, whatever their case", () => {
-    const onFiles = vi.fn();
-    render(<UploadDropArea accept=".pdf, .jpg" multiple onFiles={onFiles} />);
-    drop(png, pdf, jpeg, text);
-    expect(onFiles).toHaveBeenCalledWith([pdf, jpeg]);
-  });
-
-  it("reports nothing when every dropped file is rejected", () => {
+  it("reports nothing to onFiles when every file is left out", () => {
     const onFiles = vi.fn();
     render(<UploadDropArea accept="image/*" multiple onFiles={onFiles} />);
     drop(pdf, text);
+    pick(pdf);
     expect(onFiles).not.toHaveBeenCalled();
+    expect(alert()).toHaveTextContent("report.pdf is not an accepted file type.");
   });
 
-  it("keeps the first accepted file on a single-file area, not the first dropped", () => {
+  it("takes the first accepted file on a single-file area and names the rest", () => {
     const onFiles = vi.fn();
-    render(<UploadDropArea accept="image/*" onFiles={onFiles} />);
+    const onRejected = vi.fn();
+    render(<UploadDropArea accept="image/*" onFiles={onFiles} onRejected={onRejected} />);
     drop(pdf, png, jpeg);
     expect(onFiles).toHaveBeenCalledWith([png]);
+    expect(onRejected).toHaveBeenCalledWith([
+      { file: pdf, reason: "type" },
+      { file: jpeg, reason: "count" },
+    ]);
+    expect(alert()).toHaveTextContent(
+      "report.pdf is not an accepted file type.photo.JPG was not added: only one file is accepted.",
+    );
   });
-});
 
-describe("acceptsFile", () => {
-  it("accepts everything for an empty or missing list", () => {
-    expect(acceptsFile(pdf, undefined)).toBe(true);
-    expect(acceptsFile(pdf, "")).toBe(true);
-    expect(acceptsFile(pdf, " , ")).toBe(true);
+  it("clears the message once a batch is taken whole", () => {
+    render(<UploadDropArea accept="image/*" multiple />);
+    drop(text);
+    expect(alert()).toBeInTheDocument();
+    drop(png);
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(input()).not.toHaveAttribute("aria-describedby");
   });
 
-  it("reads extensions, MIME types and wildcards", () => {
-    expect(acceptsFile(jpeg, ".jpg")).toBe(true);
-    expect(acceptsFile(png, "IMAGE/PNG")).toBe(true);
-    expect(acceptsFile(png, "image/*")).toBe(true);
-    expect(acceptsFile(pdf, "image/*,.docx")).toBe(false);
-    expect(acceptsFile(text, "text/html")).toBe(false);
+  it("has no accessibility violations with the message", async () => {
+    const { container } = render(<UploadDropArea accept="image/*" multiple />);
+    drop(text);
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
 

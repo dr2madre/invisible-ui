@@ -227,7 +227,11 @@ class _TagPaint {
         TagStatus.neutral => _TagPaint(c.neutral, c.onStatus, _clear),
         TagStatus.info => _TagPaint(c.info, c.onStatus, _clear),
         TagStatus.success => _TagPaint(c.success, c.onStatus, _clear),
-        TagStatus.warning => _TagPaint(c.warning, c.onWarning, _clear),
+        TagStatus.warning => _TagPaint(
+          c.warningLabelSurface,
+          c.onWarning,
+          _clear,
+        ),
         TagStatus.danger => _TagPaint(c.danger, c.onStatus, _clear),
         TagStatus.selected => _TagPaint(c.secondary, c.onSecondary, _clear),
       };

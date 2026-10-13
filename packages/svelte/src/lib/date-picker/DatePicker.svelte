@@ -27,6 +27,10 @@
     value?: string | null;
     min?: string;
     max?: string;
+    /**
+     * First day of the week, 0 = Sunday … 6 = Saturday. Defaults to the
+     * locale's first day of the week (from `locale`, else the provider's).
+     */
     weekStartsOn?: WeekStart;
     locale?: string;
     /** Intl date style for the field display. */
@@ -49,7 +53,7 @@
     value = $bindable(null),
     min,
     max,
-    weekStartsOn = 1,
+    weekStartsOn,
     locale,
     dateStyle = "medium",
     label,
