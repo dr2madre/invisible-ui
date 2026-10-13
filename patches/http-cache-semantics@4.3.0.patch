@@ -1,0 +1,50 @@
+diff --git a/index.js b/index.js
+index 56c26025074cbcf218e3ec4d810662da93f8024e..fad3733ade4c95471cbc126abb8adee9da1fda93 100644
+--- a/index.js
++++ b/index.js
+@@ -426,7 +426,12 @@ module.exports = class CachePolicy {
+         if (this.stale()) {
+             // If a value is present, then the client is willing to accept a response that has
+             // exceeded its freshness lifetime by no more than the specified number of seconds
++            // Local patch (GHSA-ch52-4w7c-c8xp): max-stale only stretches a
++            // freshness lifetime that ran out. It must not revive a response
++            // whose lifetime was set to zero on purpose, for example one that
++            // carries another user's cookie.
+             const allowsStaleWithoutRevalidation = 'max-stale' in requestCC &&
++                !this._freshnessZeroedForSecurity() &&
+                 (true === requestCC['max-stale'] || requestCC['max-stale'] > this.age() - this.maxAge());
+ 
+             if (allowsStaleWithoutRevalidation) {
+@@ -462,6 +467,32 @@ module.exports = class CachePolicy {
+         );
+     }
+ 
++    /**
++     * Local patch (GHSA-ch52-4w7c-c8xp): true when maxAge() returns zero
++     * because of a rule that protects privacy or forces a check with the
++     * server, rather than because the response simply expired. These are the
++     * same rules maxAge() applies: the response is not storable (no-store,
++     * private or an Authorization header in a shared cache, and the other
++     * storable() conditions), it says no-cache or must-revalidate, or, in a
++     * shared cache, it sets a cookie without public or immutable, or it says
++     * proxy-revalidate.
++     * @returns {boolean}
++     */
++    _freshnessZeroedForSecurity() {
++        if (!this.storable() || this._rescc['no-cache'] || this._rescc['must-revalidate']) {
++            return true;
++        }
++        if (!this._isShared) {
++            return false;
++        }
++        return !!(
++            (this._resHeaders['set-cookie'] &&
++                !this._rescc.public &&
++                !this._rescc.immutable) ||
++            this._rescc['proxy-revalidate']
++        );
++    }
++
+     /**
+      * Determines whether storing authenticated responses is allowed.
+      * @returns {boolean} `true` if allowed.
