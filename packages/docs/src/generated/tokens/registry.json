@@ -21467,6 +21467,422 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-navigation-bar-badge-surface",
+      "id": "navigation-bar-badge-surface",
+      "component": "navigation-bar",
+      "usedBy": [
+        "navigation-bar"
+      ],
+      "category": "color",
+      "categories": [
+        "color"
+      ],
+      "properties": [
+        "background"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "var(--ds-color-danger, #be3b50)"
+      ],
+      "parents": [
+        "--ds-color-danger"
+      ],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__badge",
+          "property": "background",
+          "fallback": "var(--ds-color-danger, #be3b50)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__badge",
+          "property": "background",
+          "fallback": "var(--ds-color-danger, #be3b50)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__badge",
+          "property": "background",
+          "fallback": "var(--ds-color-danger, #be3b50)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__badge",
+          "property": "background",
+          "fallback": "var(--ds-color-danger, #be3b50)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-navigation-bar-badge-text",
+      "id": "navigation-bar-badge-text",
+      "component": "navigation-bar",
+      "usedBy": [
+        "navigation-bar"
+      ],
+      "category": "color",
+      "categories": [
+        "color"
+      ],
+      "properties": [
+        "color"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "var(--ds-color-on-status, #fff)"
+      ],
+      "parents": [
+        "--ds-color-on-status"
+      ],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__badge",
+          "property": "color",
+          "fallback": "var(--ds-color-on-status, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__badge",
+          "property": "color",
+          "fallback": "var(--ds-color-on-status, #fff)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__badge",
+          "property": "color",
+          "fallback": "var(--ds-color-on-status, #fff)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__badge",
+          "property": "color",
+          "fallback": "var(--ds-color-on-status, #fff)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-navigation-bar-gap",
+      "id": "navigation-bar-gap",
+      "component": "navigation-bar",
+      "usedBy": [
+        "navigation-bar"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "gap"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "0.25rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-navigation-bar-item-current-text",
+      "id": "navigation-bar-item-current-text",
+      "component": "navigation-bar",
+      "usedBy": [
+        "navigation-bar"
+      ],
+      "category": "color",
+      "categories": [
+        "color"
+      ],
+      "properties": [
+        "color"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "var(--ds-color-text, #282420)"
+      ],
+      "parents": [
+        "--ds-color-text"
+      ],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__destination[data-current]",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__destination[data-current]",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__destination[data-current]",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__destination[data-current]",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-navigation-bar-item-padding",
+      "id": "navigation-bar-item-padding",
+      "component": "navigation-bar",
+      "usedBy": [
+        "navigation-bar"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "padding"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "0.5rem 0.25rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__destination",
+          "property": "padding",
+          "fallback": "0.5rem 0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__destination",
+          "property": "padding",
+          "fallback": "0.5rem 0.25rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__destination",
+          "property": "padding",
+          "fallback": "0.5rem 0.25rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__destination",
+          "property": "padding",
+          "fallback": "0.5rem 0.25rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-navigation-bar-item-text",
+      "id": "navigation-bar-item-text",
+      "component": "navigation-bar",
+      "usedBy": [
+        "navigation-bar"
+      ],
+      "category": "color",
+      "categories": [
+        "color"
+      ],
+      "properties": [
+        "color"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "var(--ds-color-text-secondary, #524c44)"
+      ],
+      "parents": [
+        "--ds-color-text-secondary"
+      ],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-navigation-bar-surface",
+      "id": "navigation-bar-surface",
+      "component": "navigation-bar",
+      "usedBy": [
+        "navigation-bar"
+      ],
+      "category": "color",
+      "categories": [
+        "color"
+      ],
+      "properties": [
+        "background"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "var(--ds-color-surface, #e6e0d8)"
+      ],
+      "parents": [
+        "--ds-color-surface"
+      ],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-navmenu-content-padding",
       "id": "navmenu-content-padding",
       "component": "navigation-menu",
@@ -33282,8 +33698,9 @@
     {
       "name": "--ds-tooltip-bg",
       "id": "tooltip-bg",
-      "component": "tooltip",
+      "component": "navigation-bar",
       "usedBy": [
+        "navigation-bar",
         "tooltip"
       ],
       "category": "color",
@@ -33308,8 +33725,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
+          "property": "background",
+          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
+          "property": "background",
+          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "background",
           "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
         },
@@ -33322,8 +33753,22 @@
         },
         {
           "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__reason",
+          "property": "background",
+          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+        },
+        {
+          "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
+          "property": "background",
+          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "background",
           "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
         },
@@ -33342,8 +33787,9 @@
     {
       "name": "--ds-tooltip-color",
       "id": "tooltip-color",
-      "component": "tooltip",
+      "component": "navigation-bar",
       "usedBy": [
+        "navigation-bar",
         "tooltip"
       ],
       "category": "color",
@@ -33368,8 +33814,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "color",
           "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
         },
@@ -33382,8 +33842,22 @@
         },
         {
           "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__reason",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
+        {
+          "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "color",
           "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
         },
@@ -33402,8 +33876,9 @@
     {
       "name": "--ds-tooltip-font-size",
       "id": "tooltip-font-size",
-      "component": "tooltip",
+      "component": "navigation-bar",
       "usedBy": [
+        "navigation-bar",
         "tooltip"
       ],
       "category": "type",
@@ -33426,8 +33901,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
+          "property": "font-size",
+          "fallback": "0.8125rem"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
+          "property": "font-size",
+          "fallback": "0.8125rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "font-size",
           "fallback": "0.8125rem"
         },
@@ -33440,8 +33929,22 @@
         },
         {
           "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__reason",
+          "property": "font-size",
+          "fallback": "0.8125rem"
+        },
+        {
+          "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
+          "property": "font-size",
+          "fallback": "0.8125rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "font-size",
           "fallback": "0.8125rem"
         },
@@ -33518,8 +34021,9 @@
     {
       "name": "--ds-tooltip-padding",
       "id": "tooltip-padding",
-      "component": "tooltip",
+      "component": "navigation-bar",
       "usedBy": [
+        "navigation-bar",
         "tooltip"
       ],
       "category": "size",
@@ -33542,8 +34046,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
+          "property": "padding",
+          "fallback": "0.3rem 0.5rem"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
+          "property": "padding",
+          "fallback": "0.3rem 0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "padding",
           "fallback": "0.3rem 0.5rem"
         },
@@ -33556,8 +34074,22 @@
         },
         {
           "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__reason",
+          "property": "padding",
+          "fallback": "0.3rem 0.5rem"
+        },
+        {
+          "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
+          "property": "padding",
+          "fallback": "0.3rem 0.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "padding",
           "fallback": "0.3rem 0.5rem"
         },
@@ -33576,8 +34108,9 @@
     {
       "name": "--ds-tooltip-radius",
       "id": "tooltip-radius",
-      "component": "tooltip",
+      "component": "navigation-bar",
       "usedBy": [
+        "navigation-bar",
         "tooltip"
       ],
       "category": "radius",
@@ -33602,8 +34135,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
         },
@@ -33616,8 +34163,22 @@
         },
         {
           "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__reason",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
         },
@@ -33636,8 +34197,9 @@
     {
       "name": "--ds-tooltip-z-index",
       "id": "tooltip-z-index",
-      "component": "tooltip",
+      "component": "navigation-bar",
       "usedBy": [
+        "navigation-bar",
         "tooltip"
       ],
       "category": "layer",
@@ -33660,8 +34222,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
+          "property": "z-index",
+          "fallback": "60"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
+          "property": "z-index",
+          "fallback": "60"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "z-index",
           "fallback": "60"
         },
@@ -33674,8 +34250,22 @@
         },
         {
           "adapter": "svelte",
+          "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
+          "selector": ".navigation-bar__reason",
+          "property": "z-index",
+          "fallback": "60"
+        },
+        {
+          "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
+          "property": "z-index",
+          "fallback": "60"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/navigation-bar.css",
+          "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "z-index",
           "fallback": "60"
         },

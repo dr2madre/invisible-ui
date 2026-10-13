@@ -617,7 +617,8 @@ final class InvisibleColors {
       selected: selected ?? this.selected,
       onSelected: onSelected ?? this.onSelected,
       dialogOverlay: dialogOverlay ?? this.dialogOverlay,
-      navigationBarCurrentIndicator: navigationBarCurrentIndicator ?? this.navigationBarCurrentIndicator,
+      navigationBarCurrentIndicator:
+          navigationBarCurrentIndicator ?? this.navigationBarCurrentIndicator,
     );
   }
 
