@@ -1,5 +1,6 @@
 import { render } from "svelte/server";
 import Fixture from "./hydration.fixture.svelte";
+import DefaultLocale from "./i18n/default-locale.fixture.svelte";
 
 /**
  * Two renders from one long-lived module graph, as a production SSR process
@@ -11,4 +12,9 @@ export async function renderTwice(): Promise<{ first: string; second: string }> 
   await Promise.resolve();
   const second = render(Fixture).body;
   return { first, second };
+}
+
+/** The default-locale fixture, with no provider, as a server renders it. */
+export function renderDefaultLocale(): string {
+  return render(DefaultLocale).body;
 }

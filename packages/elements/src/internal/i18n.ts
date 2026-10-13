@@ -3,7 +3,8 @@ import { i18n } from "@design-system/core";
 /**
  * Locale resolution for the elements. An element reads its locale and message
  * overrides from the closest `<ds-locale-provider>`; without one, from the
- * closest `lang` attribute or the document's, falling back to English. A
+ * closest `lang` attribute or the document's, falling back to the
+ * international default (`DEFAULT_LOCALE`: Monday first, 24-hour time). A
  * label attribute the consumer sets still wins over the catalog.
  */
 
@@ -36,10 +37,7 @@ export function localeScope(start: Element | null): LocaleScope {
       messages: asMessages((provider as { messages?: unknown }).messages),
     };
   }
-  const lang =
-    start?.closest("[lang]")?.getAttribute("lang") ??
-    (typeof document === "undefined" ? "" : document.documentElement.lang);
-  return { locale: i18n.canonicalLocale(lang), messages: {} };
+  return { locale: i18n.resolveLocale(null, i18n.pageLocale(start).locale), messages: {} };
 }
 
 /** Translate a catalog key with the locale and overrides that apply to `el`. */

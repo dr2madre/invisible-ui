@@ -31,9 +31,11 @@ strings live in the English catalog (`en`); see `MessageKey` for the keys.
 ### Behavior
 
 - **Precedence**: an explicit component prop (for example Calendar's `locale`)
-  wins over the provider; the provider wins over the library default (`"en"`).
-  The library never formats with the runtime's own locale, so server and
-  client render the same output.
+  wins over the provider; the provider wins over the page's `lang`; the
+  page's `lang` wins over the international default (see
+  [Default locale](#default-locale)). A provider without `locale` takes the
+  locale around it: an outer provider's, else the page's. The library never
+  formats with the browser's own language.
 - **Locale tags** are canonicalized (`IT-it` becomes `it-IT`). A malformed tag
   logs a warning and falls back to the default.
 - **Direction**: pass `dir` to force it; without it, the direction derives
@@ -61,14 +63,53 @@ strings live in the English catalog (`en`); see `MessageKey` for the keys.
 - Changing the locale after mount updates labels and formatting in place: no
   remount, and no loss of focus, drafts, or values.
 
+### Default locale
+
+When the app gives no locale (no provider, or a provider without `locale`),
+the components read the page:
+
+1. **The page's language**: the `lang` attribute of the closest ancestor
+   (Elements) or of the document element (`<html lang>`, Svelte, Vue and
+   React). Without a provider, the direction is the page's `dir` attribute,
+   else `ltr`, the direction the browser renders. A change of `<html lang>`
+   or `<html dir>` at runtime applies in place.
+2. **Otherwise, the international conventions** of ISO 8601 and of CLDR's
+   world region (`001`): the week starts on Monday, time uses the 24-hour
+   clock, and a numeric date (`dateStyle: "short"`) reads year-month-day,
+   `2026-01-05`. The locale tag is `en-001-u-hc-h23` (`DEFAULT_LOCALE` in
+   core). It changes conventions, not language: messages stay in the
+   catalog's English.
+
+Each adapter resolves the locale with the same core functions
+(`resolveLocale`, `pageLocale`), and the shared vectors in
+`core/src/i18n/__vectors__/default-locale.json` hold the cases that Flutter
+answers too.
+
+**Server rendering.** The server cannot read the page, so it renders with the
+international default. To render the page's language on the server, pass the
+same value to the provider's `locale` that the page carries in `<html lang>`;
+server and browser then agree from the first render. Without it, the browser
+renders the first pass with the international default, exactly as the server
+did, so hydration never meets a mismatch; once the component is mounted it
+switches to the page's `lang` and renders again. React reads the page through
+`useSyncExternalStore`, which renders the server value during hydration and
+the page's right after, and reads the page at once in an app without server
+rendering. Svelte and Vue apply the page when each component mounts, with or
+without server rendering. Elements render in the browser only and read the
+page at once.
+
+Installation presets or setup wizards that preselect a country or a skin are
+outside the base design system. They could live in a separate, optional
+preset package.
+
 ### Supported scope
 
 - Dates format on the **Gregorian calendar** in every locale; other calendar
   systems are not supported.
 - Calendar's week start follows the resolved locale's first day of the week
   (CLDR, language and region) unless you set `weekStartsOn`.
-- Time Field's hour cycle keeps its documented default (`24`) unless you set
-  it; the resolved locale does not change it implicitly.
+- Time Field's hour cycle follows the resolved locale unless you set
+  `hourCycle`.
 - The library ships English defaults only: translations are yours via
   `messages`. Component search filters match case-insensitively without
   locale-specific case rules; pass your own `filter` where you need them.
@@ -101,6 +142,6 @@ In Elements:
 `locale` and `dir` are attributes; `messages` is a property. The provider
 writes `lang` and `dir` on itself. An element reads the closest
 `ds-locale-provider`; without one, it reads the closest `lang` attribute, then
-English. Changing `locale`, `dir` or `messages` renders the labels of every
+the international default. Changing `locale`, `dir` or `messages` renders the labels of every
 element inside again. A label attribute on an element, such as `clear-label`,
 still wins over the catalog.

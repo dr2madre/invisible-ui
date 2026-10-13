@@ -317,18 +317,18 @@ void main() {
       expect(
         tester.getSemantics(_day(2026, 6, 4)),
         semanticsWith(
-          label: 'Thursday, June 4, 2026, range start',
+          label: 'Thursday, 4 June 2026, range start',
           isSelected: true,
         ),
       );
       expect(
         tester.getSemantics(_day(2026, 6, 7)),
-        semanticsWith(label: 'Sunday, June 7, 2026', isSelected: true),
+        semanticsWith(label: 'Sunday, 7 June 2026', isSelected: true),
       );
       expect(
         tester.getSemantics(_day(2026, 6, 10)),
         semanticsWith(
-          label: 'Wednesday, June 10, 2026, range end',
+          label: 'Wednesday, 10 June 2026, range end',
           isSelected: true,
         ),
       );
@@ -394,7 +394,7 @@ void main() {
           ),
         ),
       );
-      final name = DateSymbols.english.formatDay(today);
+      final name = DateSymbols.international.formatDay(today);
       expect(
         tester.getSemantics(_day(today.year, today.month, today.day)),
         semanticsWith(

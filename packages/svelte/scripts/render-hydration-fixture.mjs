@@ -17,7 +17,9 @@ const server = await createServer({
 
 try {
   const entry = await server.ssrLoadModule("/src/lib/hydration-ssr-entry.ts");
-  process.stdout.write(JSON.stringify(await entry.renderTwice()));
+  // An export of the entry may be named; the default renders the fixture twice.
+  const name = process.argv[2] ?? "renderTwice";
+  process.stdout.write(JSON.stringify(await entry[name]()));
 } finally {
   await server.close();
 }

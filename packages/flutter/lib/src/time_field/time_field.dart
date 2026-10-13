@@ -37,7 +37,8 @@ const double _dragStep = 16;
 /// The value is the canonical 24-hour string, `HH:mm`, or `HH:mm:ss` with
 /// [withSeconds]; null while a segment is empty. [hourCycle] changes the
 /// display only: 9:30 PM is the value `21:30`. It defaults to the locale's
-/// cycle ([locale], the app's locale from [Localizations], or English). In
+/// cycle ([locale], the app's locale from [Localizations], or 24 hours, the
+/// international default). In
 /// a 12-hour field AM or PM is never assumed.
 ///
 /// Controlled, [TimeField] shows [value] and reports each change through

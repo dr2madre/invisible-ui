@@ -4,11 +4,16 @@ export {
   localeDirection,
   localeHourCycle,
   localeWeekStart,
+  pageLocale,
+  resolveLocale,
+  subscribePageLocale,
   type Dir,
+  type PageLocale,
 } from "./locale";
 export {
   dateTimeFormat,
   foldDigits,
+  hourCycleOf,
   numberFormat,
   numberSymbols,
   pluralRules,

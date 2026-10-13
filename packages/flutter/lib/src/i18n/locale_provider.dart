@@ -40,6 +40,17 @@ TextDirection localeDirection(Locale locale) {
       : TextDirection.ltr;
 }
 
+/// The locale when neither a widget nor the app gives one: English with the
+/// world region (001), whose conventions are those of ISO 8601. Weeks start
+/// on Monday, and `DateSymbols.international` writes its dates and times.
+const Locale defaultLocale = Locale('en', '001');
+
+/// The locale a widget uses: its own [locale], else the app's from
+/// [Localizations] (a [LocaleProvider], or the locale `WidgetsApp` resolved
+/// from the platform), else [defaultLocale].
+Locale resolveLocale(BuildContext context, [Locale? locale]) =>
+    locale ?? Localizations.maybeLocaleOf(context) ?? defaultLocale;
+
 /// Sets the locale, the writing direction and the messages for everything
 /// inside it, as the web's Locale Provider does.
 ///

@@ -11,11 +11,11 @@
       "props": [
         {
           "name": "locale",
-          "type": "string",
-          "default": "\"en\"",
+          "type": "string | undefined",
+          "default": "undefined",
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "BCP-47 locale tag. Defaults to the locale around the provider: an outer provider's, else the page's `lang`, else the international default.",
+          "descriptionFrom": "source"
         },
         {
           "name": "dir",
@@ -53,10 +53,10 @@
         {
           "name": "locale",
           "type": "string",
-          "default": "core.DEFAULT_LOCALE",
+          "default": "undefined",
           "required": false,
           "description": "BCP-47 locale tag. Defaults to `\"en\"`.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "dir",
@@ -91,10 +91,10 @@
         {
           "name": "locale",
           "type": "string",
-          "default": "core.DEFAULT_LOCALE",
+          "default": null,
           "required": false,
           "description": "BCP-47 locale tag. Defaults to `\"en\"`.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "dir",
@@ -134,7 +134,7 @@
           "reactive": true,
           "required": false,
           "description": "BCP-47 tag; without it, the language around the provider, then English",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "dir",

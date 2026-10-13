@@ -604,12 +604,12 @@
     {
       "name": "LocaleProvider",
       "kind": "function",
-      "signature": "declare function LocaleProvider({ locale, dir, messages, children, }: LocaleProviderProps): react.JSX.Element;"
+      "signature": "declare function LocaleProvider({ locale, dir, messages, children }: LocaleProviderProps): react.JSX.Element;"
     },
     {
       "name": "LocaleProviderProps",
       "kind": "interface",
-      "signature": "interface LocaleProviderProps { /** BCP-47 locale tag. Defaults to `\"en\"`. */ locale?: string; /** Explicit writing direction; when omitted it derives from the locale. */ dir?: Dir; /** Message overrides, merged over the English catalog. */ messages?: Messages; children?: ReactNode; }"
+      "signature": "interface LocaleProviderProps { /** * BCP-47 locale tag. Defaults to the locale around the provider: an outer * provider's, else the page's `lang`, else the international default. */ locale?: string; /** Explicit writing direction; when omitted it derives from the locale. */ dir?: Dir; /** Message overrides, merged over the English catalog. */ messages?: Messages; children?: ReactNode; }"
     },
     {
       "name": "LoginForm",

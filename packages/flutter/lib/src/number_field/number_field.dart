@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import '../button/button.dart';
 import '../field/field.dart';
+import '../i18n/locale_provider.dart';
 import '../i18n/messages.dart';
 import '../internal/form_binding.dart';
 import '../internal/glyphs.dart';
@@ -35,7 +36,7 @@ const double _spinGap = 4;
 /// leave focus in the text.
 ///
 /// The locale is [locale], or the app's locale from [Localizations], or
-/// English. [symbols] replaces the locale's symbols.
+/// the international default (English symbols). [symbols] replaces the locale's symbols.
 class NumberField extends StatefulWidget {
   /// A field that shows [value], controlled by the parent. Null is empty.
   const NumberField({
@@ -277,11 +278,7 @@ class NumberFieldState extends State<NumberField> {
   void _syncSymbols() {
     final next =
         widget.symbols ??
-        NumberSymbols.forLocale(
-          widget.locale ??
-              Localizations.maybeLocaleOf(context) ??
-              const Locale('en'),
-        );
+        NumberSymbols.forLocale(resolveLocale(context, widget.locale));
     final previous = _symbols;
     if (next == previous) return;
     _symbols = next;

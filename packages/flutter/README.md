@@ -135,7 +135,8 @@ iu.NumberField(
   last `value` the parent passed, or `initialValue`) without calling
   `onChanged`.
 - **Numbers.** NumberField reads and writes the number in `locale`, or the
-  app's locale from `Localizations`, or English. `NumberSymbols.forLocale`
+  app's locale from `Localizations`, or the international default (English
+  symbols). `NumberSymbols.forLocale`
   holds the CLDR symbols of 23 locales; pass `symbols:` for any other. Text
   that is not a number, or a number out of range or off the step grid, is
   reported, never corrected: the field shows why, and
@@ -394,7 +395,9 @@ iu.TimeField(
 - **Names.** Month and weekday names, the field's date and the hour cycle
   come from `DateSymbols.forLocale`: the CLDR data of 23 locales in the
   Gregorian calendar, checked against `Intl` by the core tests through the
-  shared vectors. Pass `symbols:` for any other locale. Names come from the
+  shared vectors. Pass `symbols:` for any other locale. Without a locale
+  from the widget or the app, `DateSymbols.international` applies: English
+  names, weeks from Monday and a 24-hour clock. Names come from the
   calendar day, so the device's time zone never shifts them.
 - **Calendar.** `iu.Calendar` shows one month or two (`CalendarView`); the
   week and agenda views of the web calendar are not carried. Without

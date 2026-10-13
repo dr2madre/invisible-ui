@@ -26,7 +26,8 @@ const firstCell = () => document.querySelector("[data-date]")?.getAttribute("dat
 
 describe("Vue Calendar week start", () => {
   it.each([
-    [undefined, SUNDAY],
+    // No provider and no page language: the international default.
+    [undefined, MONDAY],
     ["en-US", SUNDAY],
     ["it-IT", MONDAY],
     ["ar-EG", SATURDAY],

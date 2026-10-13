@@ -28,7 +28,7 @@ const double _rangePopupWidth = 640;
 /// [clearable], a clear button empties the field while it holds a date.
 ///
 /// The field shows the date in the locale's medium style ([locale], the
-/// app's locale from [Localizations], or English; [symbols] overrides the
+/// app's locale from [Localizations], or the international default; [symbols] overrides the
 /// names). The value is a [DateTime] whose year, month and day are the
 /// date: the time of day is ignored, and the picker reports local
 /// midnight, as Flutter's own date pickers do. [min], [max] and

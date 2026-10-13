@@ -41,6 +41,13 @@ Locale _locale(String tag) {
   return Locale(parts[0], parts.length > 1 ? parts[1] : null);
 }
 
+// The web's default locale; Flutter writes it with its own symbols.
+const String _defaultTag = 'en-001-u-hc-h23';
+
+DateSymbols _symbols(String tag) => tag == _defaultTag
+    ? DateSymbols.international
+    : DateSymbols.forLocale(_locale(tag));
+
 void main() {
   final skip = _logic.existsSync() ? false : 'core/ is not in this checkout';
   final logic = _read(_logic);
@@ -168,7 +175,7 @@ void main() {
     for (final MapEntry(key: tag, value: json) in locales.entries) {
       test('$tag: the table matches the shared one', () {
         final entry = json as Map<String, dynamic>;
-        final symbols = DateSymbols.forLocale(_locale(tag));
+        final symbols = _symbols(tag);
         final weekdays = entry['weekdays'] as Map<String, dynamic>;
         final months = entry['months'] as Map<String, dynamic>;
         final patterns = entry['patterns'] as Map<String, dynamic>;
@@ -188,7 +195,7 @@ void main() {
     for (final vector in _cases(names['cases'])) {
       final tag = vector['locale'] as String;
       test('$tag ${vector['style']} ${vector['date']}', () {
-        final symbols = DateSymbols.forLocale(_locale(tag));
+        final symbols = _symbols(tag);
         final date = _date(vector['date'])!;
         final text = switch (vector['style']) {
           'day' => symbols.formatDay(date),

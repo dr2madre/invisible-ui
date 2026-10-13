@@ -132,7 +132,7 @@ export class DsTimeField extends HTMLElementBase {
   get #hourCycle(): HourCycle {
     const raw = this.getAttribute("hour-cycle");
     if (raw === "12" || raw === "24") return Number(raw) as HourCycle;
-    return i18n.localeHourCycle(localeScope(this).locale) ?? 24;
+    return i18n.hourCycleOf(localeScope(this).locale);
   }
 
   get #withSeconds(): boolean {

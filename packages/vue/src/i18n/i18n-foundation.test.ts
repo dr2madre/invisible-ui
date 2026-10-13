@@ -88,7 +88,7 @@ describe("Vue i18n foundation", () => {
     expect(wrapper()).toHaveAttribute("lang", "it-IT");
     first.unmount();
     render(Fixture, { props: { locale: "not a tag" } });
-    expect(document.querySelector("div[lang]")).toHaveAttribute("lang", "en");
+    expect(document.querySelector("div[lang]")).toHaveAttribute("lang", "en-001-u-hc-h23");
     spy.mockRestore();
   });
 

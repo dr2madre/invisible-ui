@@ -1341,19 +1341,73 @@ class DateSymbols {
   };
 
   /// The symbols a widget uses: [symbols] when given, else those of
-  /// [locale], else of the app's locale from [Localizations], else English.
+  /// [locale], else of the app's locale from [Localizations], else
+  /// [international].
   static DateSymbols resolve(
     BuildContext context, {
     Locale? locale,
     DateSymbols? symbols,
-  }) =>
-      symbols ??
-      forLocale(
-        locale ?? Localizations.maybeLocaleOf(context) ?? const Locale('en'),
-      );
+  }) {
+    if (symbols != null) return symbols;
+    final resolved = locale ?? Localizations.maybeLocaleOf(context);
+    return resolved == null ? international : forLocale(resolved);
+  }
 
   /// English, the fallback for a locale missing from the table.
   static DateSymbols get english => _table['en']!;
+
+  /// The symbols when neither the widget nor the app gives a locale: English
+  /// names with the international conventions of CLDR's world region (001)
+  /// and ISO 8601, a 24-hour clock included. The web adapters' default
+  /// locale, `en-001-u-hc-h23`, writes the same.
+  static const DateSymbols international = DateSymbols(
+    weekdays: [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ],
+    shortWeekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    narrowWeekdays: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    dayPattern: '{EEEE}, {d} {MMMM} {y}',
+    dayMonths: _longMonths,
+    titlePattern: '{MMMM} {y}',
+    titleMonths: _longMonths,
+    mediumPattern: '{d} {MMMM} {y}',
+    mediumMonths: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sept',
+      'Oct',
+      'Nov',
+      'Dec',
+    ],
+    hourCycle: 24,
+  );
+
+  static const List<String> _longMonths = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
   /// The symbols of [locale]: its language and country, then its language
   /// alone, then English.

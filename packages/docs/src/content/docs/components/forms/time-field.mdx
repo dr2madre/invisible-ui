@@ -60,6 +60,10 @@ In Elements, the hour cycle follows the locale unless `hour-cycle` is set, and `
   text types its characters from the focused segment, as the keys would, so
   `0930` fills the hour and the minute.
 - `hourCycle` and `withSeconds` are construction-time configuration.
+- Without `hourCycle`, every adapter follows the locale's hour cycle: the
+  Locale Provider's, else the page's `lang`, else 24 hours, the international
+  default (see
+  [Default locale](/invisible-ui/components/localization/locale-provider/#default-locale)).
 
 ### Example
 

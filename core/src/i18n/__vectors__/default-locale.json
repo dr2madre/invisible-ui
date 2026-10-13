@@ -1,0 +1,16 @@
+{
+  "description": "Which locale a component uses when the app may give none, language-neutral. Inputs: `app`, the locale the app gives (a locale provider or a prop), and `context`, the locale around the app (on the web the page's `lang`, in Flutter the app's Locale from Localizations); null when absent. The app's locale wins, then the context's, then the default: the catalog's language with the CLDR world (001) and ISO 8601 conventions. Outputs: `source`, the input that decided; `weekStart`, the first day of the week, 1 = Monday ... 7 = Sunday; `hourCycle`, 12 or 24. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "cases": [
+    { "app": null, "context": null, "source": "default", "weekStart": 1, "hourCycle": 24 },
+    { "app": null, "context": "en-US", "source": "context", "weekStart": 7, "hourCycle": 12 },
+    { "app": null, "context": "en", "source": "context", "weekStart": 7, "hourCycle": 12 },
+    { "app": null, "context": "it-IT", "source": "context", "weekStart": 1, "hourCycle": 24 },
+    { "app": null, "context": "de", "source": "context", "weekStart": 1, "hourCycle": 24 },
+    { "app": null, "context": "ar-EG", "source": "context", "weekStart": 6, "hourCycle": 12 },
+    { "app": null, "context": "ja", "source": "context", "weekStart": 7, "hourCycle": 24 },
+    { "app": "it-IT", "context": "en-US", "source": "app", "weekStart": 1, "hourCycle": 24 },
+    { "app": "en-US", "context": "it-IT", "source": "app", "weekStart": 7, "hourCycle": 12 },
+    { "app": "en-US", "context": null, "source": "app", "weekStart": 7, "hourCycle": 12 },
+    { "app": "fr", "context": null, "source": "app", "weekStart": 1, "hourCycle": 24 }
+  ]
+}
