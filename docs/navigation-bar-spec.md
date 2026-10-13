@@ -11,9 +11,8 @@ icon and label, the current section exposed to assistive technology, and
 Profile marked when it needs attention
 ([wave 2 row](./proposals/flutter-adapter.md#wave-2--forms-lists-dialogs)).
 
-Status: proposed. Nothing here is built. The
-[open questions](#open-questions) need the maintainer's decisions before any
-code is written.
+Status: decided. Nothing here is built. The maintainer recorded the
+[decisions](#decisions-taken) on 2026-10-13.
 
 ## Pattern
 
@@ -38,9 +37,9 @@ code is written.
 
 ### What it is
 
-- Primary navigation between three to five top-level sections on a phone,
-  and a similar number in a vertical rail on a tablet. Five is the reference
-  for the mobile pattern; the API sets no upper or lower limit.
+- Primary navigation between three to five top-level sections, as a bar at
+  the bottom of the screen on phone, tablet and web. Five is the reference
+  for the pattern; the API sets no upper or lower limit.
 - Every destination leads to a section. Activating one changes what the
   application shows; it never runs a command on the current view.
 - The section state (scroll position, a half-filled form) is the
@@ -51,7 +50,7 @@ code is written.
 | Component | Why it does not fit primary navigation |
 | --- | --- |
 | Tabs | APG tabs are "layered sections of content, known as tab panels, that display one panel of content at a time" ([APG Tabs](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)). The pattern needs `tabpanel` elements linked to each tab, a single tab stop with roving focus, and content on the same page. A destination is a page or a route, with its own heading and focus target, and on the web it has an address a person can open in a new tab. A tablist of links would announce panels that do not exist. |
-| Sidebar | The right model for desktop: sections, collapsible groups, a rail, a drawer (ADR 0013). Its rail hides the labels and needs a toggle; a phone bar keeps the labels and has no toggle. The desktop layout reuses Sidebar, see [Relation to Sidebar](#relation-to-sidebar). |
+| Sidebar | A side pane: sections, collapsible groups, a rail, a drawer (ADR 0013). Its rail hides the labels and needs a toggle; the bar keeps the labels and has no toggle. The app may use Sidebar wherever it prefers, see [Relation to Sidebar](#relation-to-sidebar). |
 | Segmented Control | A radio group: it chooses a value inside a view and participates in forms. Its docs page presents `stacked` as "a mobile bottom bar" and `orientation="vertical"` as "a sidebar"; a radio group announces "radio button, 2 of 5, checked" and moves selection with the arrow keys, which is the wrong contract for navigation. That wording is updated when Navigation Bar ships. |
 | Navigation Menu | A horizontal site bar with disclosure panels of links and hover timing. No icons, no badges, no mobile layout. |
 | Toolbar | Actions on the current view (Apple: "use a tab bar to support navigation, not to provide actions"). |
@@ -64,17 +63,17 @@ Read on 2026-10-13.
 | --- | --- | --- | --- |
 | Purpose | "Use a tab bar to support navigation, not to provide actions"; it lets people "switch between sections of the view while preserving the current navigation state within each section" | [Apple HIG tab bars](https://developer.apple.com/design/human-interface-guidelines/tab-bars) | Navigation only; section state stays in the app |
 | Number of destinations | "three to five destinations"; `BottomNavigationView` refuses more than five | [Material Components Android, navigation bar](https://github.com/material-components/material-components-android/blob/master/docs/components/BottomNavigation.md) | Five is a reference in the docs, never a limit in the API |
-| Labels | "Include tab labels to help with navigation" | Apple HIG | Labels always visible in the bar and the rail |
+| Labels | "Include tab labels to help with navigation" | Apple HIG | Labels always visible |
 | | `LABEL_VISIBILITY_AUTO` hides labels on unselected items from four items; `labelMaxLines` is 1; labels do not scale with font size by default | Material Components Android | Rejected: labels always shown, scaled with the text |
-| Unavailable sections | "Don't disable or hide tab bar buttons, even when their content is unavailable … If a section is empty, explain why" | Apple HIG | The section explains by default; an `unavailable` state stays focusable and carries its reason ([question 3](#open-questions)) |
+| Unavailable sections | "Don't disable or hide tab bar buttons, even when their content is unavailable … If a section is empty, explain why" | Apple HIG | Both approaches supported: the app hides the destination, or keeps it focusable as unavailable with its reason; the design team chooses ([decision 3](#decisions-taken)) |
 | Badges | "Reserve badges for critical information" | Apple HIG | Badge with required accessible text |
 | | The item's content description becomes "title, badge description"; each badge sets its own TalkBack text | Material Components Android, [BadgeDrawable](https://github.com/material-components/material-components-android/blob/master/docs/components/BadgeDrawable.md) | The badge text is part of the destination's name |
 | Position and selection on Android | Each item reports its column and `selected` in `CollectionItemInfo`, a role description "Tab", and drops the click action while selected | Material Components Android `NavigationBarItemView` source | Flutter mobile composes position and selection, see [Semantics](#semantics-and-announcements) |
 | Flutter Material | `NavigationBar`: `SemanticsRole.tabBar` on the bar, `SemanticsRole.tab` and `selected` on each destination, `button: true`, and outside the web an extra label "Tab 4 of 5" from `MaterialLocalizations.tabLabel`. `NavigationRail`: `selected` and the same "Tab n of m" label | Flutter 3.44.2 source, `material/navigation_bar.dart`, `navigation_rail.dart` | Same information through the widgets layer |
-| Responsive mapping | Navigation bar when width or height is compact, rail otherwise, drawer as an app override at expanded width; the app passes `layoutType` | [Build adaptive navigation](https://developer.android.com/develop/ui/compose/layouts/adaptive/build-adaptive-navigation), [window size classes](https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes): compact below 600 dp, medium to 840, expanded to 1200, large to 1600, extra-large above | A layout helper on these breakpoints; the app decides |
-| Tablet | iPadOS shows the tab bar near the top and can convert it to a sidebar; "aim for a default list of five or fewer" | Apple HIG tab bars, [sidebars](https://developer.apple.com/design/human-interface-guidelines/sidebars) | Rail on tablet, Sidebar as an app choice |
-| Desktop | Left pane by default: expanded at 1008 px and wider, icon-only from 641 to 1007, a menu button at 640 and below; arrow keys move inside the pane | [WinUI NavigationView](https://learn.microsoft.com/en-us/windows/apps/design/controls/navigationview) | Desktop never gets the phone bar automatically |
-| | Sidebars on macOS; "consider automatically hiding and revealing a sidebar when its container window resizes" | Apple HIG sidebars | Sidebar, with its drawer for narrow windows |
+| Responsive mapping | Navigation bar when width or height is compact, rail otherwise, drawer as an app override at expanded width; the app passes `layoutType` | [Build adaptive navigation](https://developer.android.com/develop/ui/compose/layouts/adaptive/build-adaptive-navigation), [window size classes](https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes): compact below 600 dp, medium to 840, expanded to 1200, large to 1600, extra-large above | No layout helper: the component reads no screen size, and the app decides whether and where to show the bar |
+| Tablet | iPadOS shows the tab bar near the top and can convert it to a sidebar; "aim for a default list of five or fewer" | Apple HIG tab bars, [sidebars](https://developer.apple.com/design/human-interface-guidelines/sidebars) | The same bottom bar on tablet; Sidebar as an app choice |
+| Desktop | Left pane by default: expanded at 1008 px and wider, icon-only from 641 to 1007, a menu button at 640 and below; arrow keys move inside the pane | [WinUI NavigationView](https://learn.microsoft.com/en-us/windows/apps/design/controls/navigationview) | The app chooses between the bar and Sidebar; nothing switches automatically |
+| | Sidebars on macOS; "consider automatically hiding and revealing a sidebar when its container window resizes" | Apple HIG sidebars | Sidebar, when the app chooses it |
 | Re-activating the current item | `ItemInvoked` fires "even if it's already selected" | WinUI NavigationView | Reported; the app decides (scroll to top, back to the section root) |
 | Current page on the web | `aria-current` on the active link, plus a visible mark; a toggle button on small screens | [GOV.UK service navigation](https://design-system.service.gov.uk/components/service-navigation/) | `aria-current="page"` and a non-colour mark |
 | | Header links move into a left panel menu on small screens; a skip link comes first | [Carbon UI shell header](https://carbondesignsystem.com/components/UI-shell-header/usage/) | The skip link is the app's; layouts change by the app's policy |
@@ -120,7 +119,7 @@ padding) and fixes the others.
 | Destination | yes | A link (web, with `href`) or a button (no `href`), never both. |
 | Icon | yes | Decorative: hidden from assistive technology. Passed in by the app (component on the web, widget in Flutter). |
 | Label | yes | Visible text, the accessible name. |
-| Current mark | on the current destination | A shape (an indicator behind the icon, or a bar on the block-start edge in the rail), plus a text-weight change, plus `aria-current`. Never colour alone. |
+| Current mark | on the current destination | A shape (an indicator behind the icon), plus a text-weight change, plus `aria-current`. Never colour alone. |
 | Badge | optional | A short visible mark (a count or a dot glyph) plus required accessible text. |
 | Unavailable reason | optional | Text, read with the destination. |
 
@@ -160,7 +159,7 @@ export interface NavigationBadge {
 ```
 
 Bar props: `destinations`, `value` (the current destination, or `null`),
-`label`, `layout` (`"bar" | "rail"`), `onSelect(value)`.
+`label`, `onSelect(value)`.
 
 - **The current destination is `value` on the bar**, as in Sidebar: one
   field, so two destinations can never be current at once, and the
@@ -186,9 +185,9 @@ Bar props: `destinations`, `value` (the current destination, or `null`),
 - **Badge text.** `label` is required. A count shows `content`; a dot shows
   when `content` is absent. The dot is a shape, and the meaning lives in
   `label`.
-- **No limit on the count of destinations.** The docs say three to five for
-  the bar; a development warning names more than five in the `bar` layout,
-  because they stop fitting at 320 px and text scale 2.0.
+- **No limit on the count of destinations.** The docs say three to five; a
+  development warning names more than five, because they stop fitting at
+  320 px and text scale 2.0.
 
 ### Flutter
 
@@ -227,50 +226,27 @@ iu.NavigationBar<Section>(
 
 ## Behaviour per window class
 
-The component exposes layouts. It reads no screen size, no platform and no
-media query. The application chooses the layout, or asks a helper.
+The Navigation Bar is a bar at the bottom of the screen on phone, tablet and
+web. It has no rail. The component reads no screen size, no window class and
+no media query: whether to show the bar, and where, is the application's
+([decision 1](#decisions-taken)).
 
-| Window class | Width | Phone and tablet apps | Desktop apps (macOS, Windows, Linux, desktop web) |
-| --- | --- | --- | --- |
-| Compact | below 600 | `bar` at the block-end edge | Sidebar drawer behind a menu button (ADR 0013) |
-| Medium | 600 to 839 | `rail` at the inline-start edge | `rail`, or Sidebar collapsed |
-| Expanded and wider | 840 and above | `rail`, or Sidebar | Sidebar expanded |
+The behaviour is the same at every width:
 
-- **Mobile (`bar`).** A horizontal row; each destination takes an equal
-  share of the width, icon above label. The app places it (Timelog: a
-  floating pill, maximum width 380) and adds bottom padding to its content
-  equal to the bar's height, so the bar never covers focused content
-  (WCAG 2.4.11). On the web the app sets `scroll-padding-block-end` to the
-  same height.
-- **Tablet (`rail`).** A vertical column at the inline-start edge, icon above
-  label, labels always visible. Destinations sit at the block-start end. It
-  holds the same destinations as the bar, so turning a tablet changes the
-  layout and keeps focus on the same destination.
-- **Desktop.** The desktop model is the Sidebar: sections, room for more
-  destinations, and its drawer for narrow windows. A desktop window that is
-  narrow gets the drawer, never the phone bar: a bottom bar on a desktop
-  window is a phone convention applied where pointer and keyboard users
-  expect a side pane (WinUI's left pane, macOS sidebars).
+- **Layout.** A horizontal row; each destination takes an equal share of the
+  width, icon above label. The app places it (Timelog: a floating pill,
+  maximum width 380) and adds bottom padding to its content equal to the
+  bar's height, so the bar never covers focused content (WCAG 2.4.11). On
+  the web the app sets `scroll-padding-block-end` to the same height.
+- **Labels.** Labels wrap and never truncate; the bar grows taller, see
+  [Text scale and truncation](#text-scale-and-truncation).
+- **Touch targets.** Every destination meets the target size, see
+  [Pointer, touch and focus](#pointer-touch-and-focus).
+- **Focus.** The same tab order, arrow keys and focus ring, see
+  [Keyboard](#keyboard).
 
-### The layout helper
-
-`core/src/navigation-bar` exports a pure function, mirrored in Dart:
-
-```ts
-navigationLayout({ width, formFactor }): "bar" | "rail" | "sidebar" | "sidebar-drawer"
-```
-
-`formFactor` is `"handheld"` or `"desktop"`, and the application passes it:
-in Flutter from `defaultTargetPlatform`, on the web from its own knowledge
-(a responsive web app may treat a coarse pointer as handheld). The helper
-applies the table above. It is a recommendation: the application can ignore
-it, override one class, or use its own breakpoints, as Android's
-`NavigationSuiteScaffold` lets an app pass its own `layoutType`.
-
-**Recommendation:** ship the helper on the window size classes above, which
-are the published numeric breakpoints and sit close to WinUI's 641 and
-1008; keep `formFactor` a required argument so the phone bar never reaches
-a desktop window by accident.
+What changes per platform is the semantics, see
+[Semantics and announcements](#semantics-and-announcements).
 
 ## Keyboard
 
@@ -279,7 +255,7 @@ a desktop window by accident.
 | Tab, Shift+Tab | Next or previous destination, then out of the bar. Every destination is a tab stop. |
 | Enter | Activates a link or a button. |
 | Space | Activates a button; a link ignores Space, as native links do. |
-| Arrow along the bar (inline direction in `bar`, block direction in `rail`) | Next or previous destination. No wrap at the ends. Mirrored under right-to-left. |
+| Left and right arrows | Next or previous destination. No wrap at the ends. Mirrored under right-to-left. |
 | Home, End | Not handled. |
 
 - **One tab stop per destination.** The bar is a list of links in a
@@ -300,18 +276,17 @@ a desktop window by accident.
   heard (see [States](#states)).
 - **Focus after navigation** is the application's: the new section moves
   focus to its heading or main region, or keeps it on the destination. The
-  docs recommend keeping focus on the destination in the `bar` and `rail`
-  layouts (the bar stays on screen, so the person can continue through it)
-  and say so in the example.
+  docs recommend keeping focus on the destination (the bar stays on screen,
+  so the person can continue through it) and say so in the example.
 
 ## Pointer, touch and focus
 
 - **Target size.** Every destination's hit area is at least
   `--ds-min-target-size` (24 by 24) and at least `--ds-min-target-size-touch`
   (44 by 44) under `@media (pointer: coarse)`. In Flutter it follows
-  `minTargetSize`: 44 by 44 under `touch` and Timelog's explicit setting. In
-  the `bar` each destination fills its share of the height and width, so the
-  painted indicator can be smaller than the hit area.
+  `minTargetSize`: 44 by 44 under `touch` and Timelog's explicit setting.
+  Each destination fills its share of the height and width, so the painted
+  indicator can be smaller than the hit area.
 - **Press.** A press activates on release, inside the target. A long press
   on an unavailable destination shows its reason; on any other destination
   it does nothing (the label is already visible).
@@ -325,7 +300,7 @@ a desktop window by accident.
 
 | State | Visible | Web | Flutter |
 | --- | --- | --- | --- |
-| Current | Indicator shape behind the icon (bar) or on the block-start edge (rail), label weight 600 | `aria-current="page"` | `selected: true` plus the position and current text, see below |
+| Current | Indicator shape behind the icon, label weight 600 | `aria-current="page"` | `selected: true` plus the position and current text, see below |
 | Unavailable | A status glyph at the icon's inline-end bottom corner (a lock by default, replaceable by the app), the reason in a tooltip on focus and hover, label and icon in `--ds-color-text-disabled` | `aria-disabled="true"`, focusable, reason in `aria-describedby` | `enabled: false` with the reason in the hint, kept focusable |
 | Badge | Count or dot glyph at the icon's inline-end top edge | Badge text inside the destination's name | Badge text inside the label |
 | Focus | Focus ring | `:focus-visible` | `highlightMode` |
@@ -334,17 +309,28 @@ a desktop window by accident.
   weight, and the badge by a glyph. The indicator meets 3:1 against the
   surface (WCAG 1.4.11). The unavailable state differs by its glyph and its
   reason text; the colour adds to both.
-- **Unavailable.** Apple's guidance is to keep every destination active and
-  let the section explain why it is empty; the docs recommend that first.
-  When the section truly cannot open (no permission, offline only), the
-  `unavailable` state keeps the destination visible and focusable with its
-  reason, and activation does nothing. Hiding destinations is never done by
-  the component.
+- **Unavailable.** Invisible UI leaves this choice to the product teams.
+  Both approaches are supported, and the design team picks one for
+  consistency across the product ([decision 3](#decisions-taken)). Neither
+  is the default.
+  - **Hide the destination** when the section makes no sense at that
+    moment. This keeps the bar minimal and simple. The app does not pass the
+    destination; the component has no hidden state, and the position text
+    counts only the destinations passed.
+  - **Keep it visible as unavailable** when people need to understand why
+    the section cannot open (no permission, offline only). The destination
+    stays visible and focusable, its required `reason` is announced with it,
+    and activation does nothing.
 - **Width stays stable.** The current label's weight change must not
   reflow the bar: each destination reserves the width of its label at
   weight 600 (Timelog avoided bold for this reason).
 
 ## Semantics and announcements
+
+Semantics are native and standard on every platform: each platform's own
+conventions are the reference ([decision 2](#decisions-taken)). Where
+Flutter's platform bridges do not expose a convention natively, the adapter
+composes the information itself and the parity checklist records the gap.
 
 ### Web
 
@@ -400,18 +386,18 @@ not tested.
 
 The desktop bridge (`shell/platform/common/accessibility_bridge.cc`, 3.44)
 builds the native role from flags only (button, link, header, text field,
-check box and similar) and passes `selected`. A rail on desktop is a
-navigation list in platform conventions (a macOS sidebar list, a WinUI
-pane), not a tab bar. So on desktop platforms:
+check box and similar) and passes `selected`. Desktop platforms present
+navigation between sections as a list (a macOS sidebar list, a WinUI pane).
+So on desktop platforms:
 
 | Node | Semantics |
 | --- | --- |
-| Rail | `container`, `role: SemanticsRole.navigation` (present since Flutter 3.35, read only by Flutter web today), named by `label`; a `SemanticsRole.list` inside |
+| Bar | `container`, `role: SemanticsRole.navigation` (present since Flutter 3.35, read only by Flutter web today), named by `label`; a `SemanticsRole.list` inside |
 | Destination | `SemanticsRole.listItem` around a `link: true` node (or `button: true` without `uri`), `selected` on the current one, `value` = the catalog's `navigationBar.current` ("current page"), as Sidebar's `sidebarCurrent` |
 
 The profile is chosen by `defaultTargetPlatform`, with a
 `semanticsProfile` override (`tabBar`, `navigationList`) for an app that
-knows better ([question 2](#open-questions)).
+knows better ([decision 2](#decisions-taken)).
 
 ### Announcements
 
@@ -434,24 +420,20 @@ knows better ([question 2](#open-questions)).
 
 - Labels scale with the text (browser text size, Flutter `textScaler`), and
   the destination grows with them; nothing clips at 200% or text scale 2.0.
-- In the `bar`, a label wraps onto a second line at a word break, and long
-  words break (`overflow-wrap: anywhere`). The bar grows in height. No
-  ellipsis: a cut label loses content (WCAG 1.4.4), and the full name in
-  semantics does not help a sighted reader ([question 5](#open-questions)).
-- In the `rail`, the rail grows in width up to the app's limit, and labels
-  wrap below that.
-- **Icon-only.** Not available in the `bar` or the `rail` in v1: both
-  patterns rely on visible labels (Apple, Material, Timelog). An icon-only
+- A label wraps onto a second line at a word break, and long words break
+  (`overflow-wrap: anywhere`). The bar grows taller. No ellipsis: a cut
+  label loses content (WCAG 1.4.4, 1.4.10), and the full name in semantics
+  does not help a sighted reader ([decision 5](#decisions-taken)).
+- **Icon-only.** Not available in v1: the pattern relies on visible labels
+  (Apple, Material, Timelog). An icon-only
   presentation exists in the Sidebar's collapsed rail, with its tooltip and
   the name kept in semantics. The accessible name is the label in every
   layout.
 
 ## Right to left
 
-- The `bar` orders destinations from the inline-start edge: in
-  right-to-left text the first destination is on the right.
-- The `rail` sits at the inline-start edge; its current mark is on the
-  inline-start side of the destination.
+- The bar orders destinations from the inline-start edge: in right-to-left
+  text the first destination is on the right.
 - The badge sits at the inline-end top corner of the icon.
 - The arrow keys follow the reading direction (`dir` on the web,
   `Directionality` in Flutter).
@@ -502,32 +484,26 @@ exception to keeping the tab bar visible).
 
 ## Relation to Sidebar
 
-- **Desktop reuses Sidebar.** Building a third desktop navigation would
-  repeat Sidebar's sections, drawer and rail. The desktop layout is a
-  Sidebar with the same destinations.
+- **The app chooses.** The app may use Sidebar wherever it prefers, at any
+  width and on any platform. Nothing switches between the two
+  automatically; the component reads no screen size.
 - **One destination list.** `NavigationDestination` is a superset of
   `SidebarItem` (`value`, `label`, `icon`, `href`) with `badge` and
   `unavailable`. The app passes `[{ items: destinations }]` to Sidebar
   unchanged. Sidebar gains badge and unavailable support in the same
-  change, so a section's notification does not disappear when the window
-  widens.
-- **Rail.** Sidebar's collapsed rail hides labels and needs a toggle; the
-  Navigation Bar rail keeps labels under the icons and has no toggle. Both
-  exist because tablets and desktops use them differently
-  ([question 1](#open-questions)).
+  change, so a section's notification stays when the app shows Sidebar.
 - **Same landmark label** when both carry the same destinations.
 
 ## Headless split
 
 ### `core/src/navigation-bar`
 
-- Types: `NavigationDestination`, `NavigationBadge`, layouts.
+- Types: `NavigationDestination`, `NavigationBadge`.
 - `connect(state, options)`: `getRootProps()` (landmark and label),
   `getListProps()`, `getDestinationProps(value)` (`href` or button type,
   `aria-current`, `aria-disabled`, `aria-describedby` for the reason),
   `onDestinationKeyDown` (arrows, mirrored, no wrap; unhandled keys left
   alone), `select(value)` (reports once; does nothing when unavailable).
-- `navigationLayout({ width, formFactor })`.
 - `describeDestination(destination, { index, count, current, locale })`:
   the composed text Flutter uses (label, badge, position, current), from
   the catalog, so the order lives in one place.
@@ -535,8 +511,7 @@ exception to keeping the tab bar visible).
 - Development checks: repeated values, a `value` that names no
   destination, more than five destinations in the `bar`.
 - Shared vectors in `core/src/navigation-bar/__vectors__/`:
-  `layout.json` (width and form factor to layout, at each boundary),
-  `keys.json` (start, key, direction, layout to the new focus),
+  `keys.json` (start, key and direction to the new focus),
   `describe.json` (destination and position to the composed text per
   locale), `badges.json` (previous and next badges to announcements).
 
@@ -545,8 +520,9 @@ exception to keeping the tab bar visible).
 Render the markup, the styles, the live region and the hover tint; map
 props. Svelte first as the reference, then Vue, custom elements and React.
 Flutter renders with `FocusableActionDetector`, `Semantics` per the
-profiles above, `Shortcuts` for the arrows, and the Dart ports of the four
-pure functions running the same vectors.
+profiles above, `Shortcuts` for the arrows, and Dart ports of the key
+handling, `describeDestination` and `badgeAnnouncements` running the same
+vectors.
 
 ## Test plan
 
@@ -554,11 +530,12 @@ pure functions running the same vectors.
 
 - Props: `aria-current` only on `value`; `aria-disabled` and the reason
   link; link versus button by `href`.
-- Keys: each row of the keyboard table, both directions, both layouts, no
-  wrap, unavailable destinations kept in the order.
+- Keys: each row of the keyboard table, both directions, no wrap,
+  unavailable destinations kept in the order.
 - `select`: one report per activation; none for an unavailable
   destination; the current destination reports again.
-- The four pure functions against their vectors.
+- The key handling, `describeDestination` and `badgeAnnouncements` against
+  their vectors; the position counts only the destinations passed.
 - Development checks.
 
 ### Adapter interaction (Svelte, Vue, custom elements, React)
@@ -569,12 +546,11 @@ pure functions running the same vectors.
 - `onSelect` once per press, read live (ADR 0011 live replacement).
 - Badge: one polite announcement when the label changes, none on mount,
   none with `announce: false`, held while a modal dialog is open.
-- axe on the bar in both layouts, with a badge and an unavailable
-  destination.
+- axe on the bar with a badge and an unavailable destination.
 
 ### End-to-end (Playwright, three engines)
 
-- `bar` at 320 px with five destinations, 200% text: no clipping, no
+- The bar at 320 px with five destinations, 200% text: no clipping, no
   horizontal scroll, labels wrap.
 - Coarse pointer: every destination at least 44 by 44
   (`e2e/target-size.spec.ts`).
@@ -603,8 +579,9 @@ button; `value` and `onSelected` mapped to ADR 0011 names; repeated values;
 current state and its two semantic profiles; position text; unavailable
 with reason; badge text and its announcement; held announcement under a
 modal; each keyboard row; right-to-left; target size per density; text
-scale and wrapping; forced colors and high contrast; reduced motion; the
-layout helper; screen reader output (not yet verified).
+scale and wrapping; forced colors and high contrast; reduced motion; each
+platform convention the Flutter bridges do not expose natively; screen
+reader output (not yet verified).
 
 ### Assistive technology session
 
@@ -614,7 +591,7 @@ Each line is "not tested" until a dated session records it.
   position and selected; the badge text is read; an unavailable reason is
   read; a badge change is announced once.
 - VoiceOver on macOS, Narrator and NVDA on Windows, Orca on Linux (Flutter
-  desktop rail): the list, the current destination and its "current page"
+  desktop): the list, the current destination and its "current page"
   value.
 - Web: VoiceOver with Safari, NVDA with Firefox and Chrome, TalkBack with
   Chrome: the landmark in the landmarks list, "current page", list position,
@@ -622,46 +599,30 @@ Each line is "not tested" until a dated session records it.
 - Switch Control or Switch Access on one mobile platform: every destination
   reachable, the current one included.
 
-## Open questions
+## Decisions taken
 
-1. **Tablet rail: Navigation Bar or Sidebar?**
-   - A. Navigation Bar has `bar` and `rail`; desktop uses Sidebar.
-   - B. Navigation Bar has `bar` only; tablets use Sidebar collapsed.
-   - C. One component for bar, rail and side pane.
+The maintainer recorded these decisions on 2026-10-13.
 
-   **Recommendation: A.** The tablet rail keeps visible labels with no
-   toggle, which Sidebar's rail does not do; C repeats Sidebar.
-
-2. **Flutter semantics per platform.**
-   - A. Tab bar profile on iOS and Android (role `tab`, `selected`, "Tab 4
-     of 5"), navigation list profile on desktop ("current page"), chosen by
-     `defaultTargetPlatform` with an override.
-   - B. Tab bar profile everywhere.
-   - C. Navigation list profile everywhere, the same as Sidebar and the web.
-
-   **Recommendation: A.** It matches what each platform's own navigation
-   announces, as the requirement asks; the AT session confirms the wording.
-
-3. **Unavailable destinations.**
-   - A. No such state: the destination always opens and the section explains
-     (Apple).
-   - B. A state that stays visible and focusable, with a required reason;
-     activation does nothing. The docs recommend A first.
-   - C. The app hides the destination.
-
-   **Recommendation: B**, documented as the exception.
-
-4. **Badge announcements by default.**
-   - A. On by default, `announce: false` to silence a badge.
-   - B. Off by default, `announce: true` to enable.
-
-   **Recommendation: A.** A change the person has not seen is a status
-   message (WCAG 4.1.3); counts that change often opt out.
-
-5. **Labels at text scale 2.0.**
-   - A. Wrap to more lines, never truncate; the bar grows.
-   - B. One line with an ellipsis, the full label in semantics and a
-     tooltip.
-
-   **Recommendation: A.** B cuts visible content for the people who
-   enlarged it.
+1. **Layout.** The Navigation Bar is a bar at the bottom of the screen on
+   phone, tablet and web. It has no rail and no layout helper. The
+   component never reads the screen size; whether and where to show it is
+   the application's, and the application may use Sidebar wherever it
+   prefers.
+2. **Semantics.** Native and standard on every platform, with the platform
+   conventions as the reference. The web uses a `<nav>` of links with
+   `aria-current="page"`. Flutter on iOS and Android reads as a tab bar
+   (tab role, selected, "Tab n of m" from the catalog, as Material does).
+   Flutter on desktop reads as a navigation list with "current page". The
+   profile is chosen by platform, with an app override. Anything Flutter's
+   bridges do not expose natively is recorded in the parity checklist.
+3. **Unavailable destinations.** Both approaches are supported, and the
+   design team picks one for consistency: hide the destination when the
+   section makes no sense at that moment (the app does not pass it), or
+   keep it visible and focusable as unavailable, with a required reason
+   that is announced, when people need to understand why. Neither is the
+   default.
+4. **Badge announcements.** Polite announcements when a badge changes, on
+   by default; `announce: false` silences counts that change often. They
+   are held while a modal is open (ADR 0016, case 2).
+5. **Labels at text scale 2.0.** Labels wrap and never truncate; the bar
+   grows taller (WCAG 1.4.4, 1.4.10).
