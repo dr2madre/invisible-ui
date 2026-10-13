@@ -108,7 +108,12 @@ grid. Destinations without an `href` emit `select`.
 ### Flutter
 
 Every destination reports through `onSelected` and your app navigates; an
-optional `uri` is the announced address. Values are any type.
+optional `uri` is the announced address, and `unavailableReason` makes a
+destination unavailable. Values are any type. Pass the app's `ModalObserver`
+as `modals` so badge announcements wait while a modal is open. iOS and
+Android read the bar as a tab bar ("Tab 4 of 5"), macOS, Windows and Linux
+as a navigation list with "current page"; `semanticsProfile` overrides the
+choice.
 
 ```dart
 import 'package:invisible_ui/invisible_ui.dart' as iu;
@@ -116,6 +121,7 @@ import 'package:invisible_ui/invisible_ui.dart' as iu;
 iu.NavigationBar<Section>(
   value: _section,
   onSelected: (section) => setState(() => _section = section),
+  modals: modals,
   destinations: [
     iu.NavigationDestination(
       value: Section.home,
