@@ -225,6 +225,23 @@ describe("i18n — translate", () => {
     ).toBe("pagina corrente");
   });
 
+  it("carries the navigation bar's name, position, current marker and announcement", () => {
+    expect(translate(catalog, {}, "en", "navigationBar.label")).toBe("Main");
+    expect(translate(catalog, {}, "en", "navigationBar.label")).toBe(
+      translate(catalog, {}, "en", "sidebar.label"),
+    );
+    expect(translate(catalog, {}, "en", "navigationBar.position", { index: 4, count: 5 })).toBe(
+      "Tab 4 of 5",
+    );
+    expect(translate(catalog, {}, "en", "navigationBar.current")).toBe("current page");
+    expect(
+      translate(catalog, {}, "en", "navigationBar.announcement", {
+        label: "Profile",
+        badge: "Needs attention",
+      }),
+    ).toBe("Profile: Needs attention");
+  });
+
   it("carries the submenu hint for platforms with no popup semantics", () => {
     expect(translate(catalog, {}, "en", "menu.submenu")).toBe("submenu");
     expect(translate(catalog, { "menu.submenu": "sottomenu" }, "it", "menu.submenu")).toBe(

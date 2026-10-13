@@ -1,0 +1,97 @@
+{
+  "description": "The badge changes a navigation bar announces, language-neutral: badgeAnnouncements(previous, next) from core/src/navigation-bar/text.ts, with the English catalog. previous is null on first render. Each announcement is the destination's value and the text from navigationBar.announcement (\"{label}: {badge}\"), in the order of next. A badge is announced when its label appears or changes, unless announce is false; never when it goes away. A destination not passed before counts as having no badge. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "cases": [
+    {
+      "name": "Nothing on first render",
+      "previous": null,
+      "next": [{ "value": "profile", "label": "Profile", "badge": { "label": "Needs attention" } }],
+      "expect": []
+    },
+    {
+      "name": "A badge that appears",
+      "previous": [{ "value": "profile", "label": "Profile" }],
+      "next": [{ "value": "profile", "label": "Profile", "badge": { "label": "Needs attention" } }],
+      "expect": [{ "value": "profile", "text": "Profile: Needs attention" }]
+    },
+    {
+      "name": "A badge whose label changes",
+      "previous": [
+        { "value": "inbox", "label": "Inbox", "badge": { "content": "2", "label": "2 unread" } }
+      ],
+      "next": [
+        { "value": "inbox", "label": "Inbox", "badge": { "content": "3", "label": "3 unread" } }
+      ],
+      "expect": [{ "value": "inbox", "text": "Inbox: 3 unread" }]
+    },
+    {
+      "name": "A content change with the same label is not announced",
+      "previous": [
+        {
+          "value": "inbox",
+          "label": "Inbox",
+          "badge": { "content": "99+", "label": "Many unread" }
+        }
+      ],
+      "next": [
+        {
+          "value": "inbox",
+          "label": "Inbox",
+          "badge": { "content": "100+", "label": "Many unread" }
+        }
+      ],
+      "expect": []
+    },
+    {
+      "name": "A badge that goes away is not announced",
+      "previous": [
+        { "value": "profile", "label": "Profile", "badge": { "label": "Needs attention" } }
+      ],
+      "next": [{ "value": "profile", "label": "Profile" }],
+      "expect": []
+    },
+    {
+      "name": "A badge with announce false is silent",
+      "previous": [
+        { "value": "inbox", "label": "Inbox", "badge": { "label": "2 unread", "announce": false } }
+      ],
+      "next": [
+        { "value": "inbox", "label": "Inbox", "badge": { "label": "3 unread", "announce": false } }
+      ],
+      "expect": []
+    },
+    {
+      "name": "Several changes in the order of the destinations",
+      "previous": [
+        { "value": "inbox", "label": "Inbox" },
+        { "value": "hours", "label": "Hours" },
+        { "value": "profile", "label": "Profile" }
+      ],
+      "next": [
+        { "value": "inbox", "label": "Inbox", "badge": { "label": "1 unread" } },
+        { "value": "hours", "label": "Hours" },
+        { "value": "profile", "label": "Profile", "badge": { "label": "Needs attention" } }
+      ],
+      "expect": [
+        { "value": "inbox", "text": "Inbox: 1 unread" },
+        { "value": "profile", "text": "Profile: Needs attention" }
+      ]
+    },
+    {
+      "name": "A destination passed again with a badge",
+      "previous": [{ "value": "home", "label": "Home" }],
+      "next": [
+        { "value": "home", "label": "Home" },
+        { "value": "profile", "label": "Profile", "badge": { "label": "Needs attention" } }
+      ],
+      "expect": [{ "value": "profile", "text": "Profile: Needs attention" }]
+    },
+    {
+      "name": "An unchanged badge is not announced again",
+      "previous": [
+        { "value": "profile", "label": "Profile", "badge": { "label": "Needs attention" } }
+      ],
+      "next": [{ "value": "profile", "label": "Profile", "badge": { "label": "Needs attention" } }],
+      "expect": []
+    }
+  ]
+}

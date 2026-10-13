@@ -144,6 +144,17 @@ export const en = {
   // Read with the navigation menu's current link on a platform whose
   // semantics have no aria-current (the Flutter adapter).
   "navigationMenu.current": "current page",
+  // The navigation bar's landmark name: the same text as `sidebar.label`, so
+  // both carry one name when they hold the same destinations.
+  "navigationBar.label": "Main",
+  // Read with each destination on a platform whose bridges expose no tab
+  // position (the Flutter adapter on iOS and Android).
+  "navigationBar.position": "Tab {index} of {count}",
+  // Read with the current destination on a platform whose semantics have no
+  // aria-current (the Flutter adapter on desktop).
+  "navigationBar.current": "current page",
+  // Announced politely when a destination's badge appears or changes.
+  "navigationBar.announcement": "{label}: {badge}",
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",
