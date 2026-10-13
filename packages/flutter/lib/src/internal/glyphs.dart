@@ -84,6 +84,9 @@ enum GlyphShape {
 
   /// An arrow pointing up and away: a link that leaves the app.
   external,
+
+  /// A padlock: a navigation destination that cannot open now.
+  lock,
 }
 
 /// A stroked glyph, sized and coloured by the surrounding [IconTheme]. It has
@@ -266,6 +269,16 @@ class _GlyphPainter extends CustomPainter {
       GlyphShape.external => [
         _line(7, 17, 17, 7),
         _polyline([8, 7, 17, 7, 17, 16]),
+      ],
+      GlyphShape.lock => [
+        Path()..addRRect(
+          RRect.fromRectAndRadius(const Rect.fromLTWH(5, 11, 14, 10), corner),
+        ),
+        Path()
+          ..moveTo(8, 11)
+          ..lineTo(8, 7)
+          ..arcToPoint(const Offset(16, 7), radius: const Radius.circular(4))
+          ..lineTo(16, 11),
       ],
     };
   }
