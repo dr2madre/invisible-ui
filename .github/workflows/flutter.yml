@@ -144,6 +144,9 @@ on:
       - "packages/svelte/src/lib/search-dialog/**"
       - "packages/svelte/src/lib/sheet-dialog/**"
       - "packages/svelte/src/lib/loading-generation-area/**"
+      - "core/src/navigation-bar/**"
+      - "packages/svelte/src/lib/navigation-bar/**"
+      - "docs/navigation-bar-spec.md"
       - ".github/workflows/flutter.yml"
   push:
     branches: [main]
@@ -281,6 +284,9 @@ on:
       - "packages/svelte/src/lib/search-dialog/**"
       - "packages/svelte/src/lib/sheet-dialog/**"
       - "packages/svelte/src/lib/loading-generation-area/**"
+      - "core/src/navigation-bar/**"
+      - "packages/svelte/src/lib/navigation-bar/**"
+      - "docs/navigation-bar-spec.md"
       - ".github/workflows/flutter.yml"
   workflow_dispatch:
 
