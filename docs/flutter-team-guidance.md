@@ -150,6 +150,18 @@ Pay particular attention to:
 
 Text scaling and RTL should be supported from the beginning rather than added after the component library is complete.
 
+### Locale and conventions
+
+A widget resolves its locale in this order, the same rule the web adapters follow:
+
+1. the widget's own `locale`;
+2. the app's locale from `Localizations`: a `LocaleProvider`, or the locale `WidgetsApp` resolved from the platform against `supportedLocales`;
+3. otherwise the international default, `Locale('en', '001')`: English names with the conventions of ISO 8601 and CLDR's world region. The week starts on Monday and time uses the 24-hour clock (`DateSymbols.international`).
+
+Read the locale through the package's `resolveLocale(context, locale)`, never with a hard-coded fallback. `WidgetsApp` defaults `supportedLocales` to `en-US`, so an app that wants another region declares its `supportedLocales` or `locale`. The shared vectors in `core/src/i18n/__vectors__/default-locale.json` hold the cases, and `test/default_locale_test.dart` runs them.
+
+Installation presets or setup wizards that preselect a country or a skin are outside the base design system. They could live in a separate, optional preset package.
+
 ## 8. Recommended first validation set
 
 Before scaling the Flutter library broadly, validate the architecture with a small set of components that cover different interaction problems:

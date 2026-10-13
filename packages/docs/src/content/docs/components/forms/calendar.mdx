@@ -48,10 +48,12 @@ Without `weekStartsOn`, every adapter starts the week on the locale's first
 day from CLDR week data, read from the language and the region: Sunday for
 `en-US`, Monday for `it-IT` and `en-GB`, Saturday for `ar-EG`. The locale is
 the calendar's `locale`, else the
-[Locale Provider](/invisible-ui/components/localization/locale-provider/)'s
-(`en` by default), never the browser's, so a page rendered on the server
-starts on the same day after hydration. Set `weekStartsOn` (0 = Sunday … 6 =
-Saturday) to choose the day yourself.
+[Locale Provider](/invisible-ui/components/localization/locale-provider/)'s,
+else the page's `lang`, else the international default, which starts on
+Monday (see
+[Default locale](/invisible-ui/components/localization/locale-provider/#default-locale)).
+The browser's own language never decides. Set `weekStartsOn` (0 = Sunday … 6
+= Saturday) to choose the day yourself.
 
 ### Example
 
