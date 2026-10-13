@@ -56,6 +56,7 @@ because it is part of the native-first stance (ADR 0003/0005).
 | Login Form | HTML `<form>` | native | native | | Pattern/organism of native inputs. |
 | Menubar | APG Menubar | ARIA | — | | |
 | Meter | ARIA `role="meter"` | ARIA | — | | Native `<meter>` exists — candidate to go native. |
+| Navigation Bar | HTML `<nav>` landmark + list of links, `aria-current="page"` | native | — | ≠ | Primary navigation between a few sections. Material and Apple name it a navigation or tab bar; it is not APG Tabs (`docs/navigation-bar-spec.md`). |
 | Navigation Menu | APG Disclosure Navigation Menu | hybrid | — | | |
 | Notification | ARIA live region (toast) | ARIA | — | ≠ | "Toast" isn't spec; renders through Inline Notification. |
 | Notification Region | ARIA `role="region"` landmark | ARIA | — | | |

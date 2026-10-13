@@ -1,4 +1,6 @@
 <script lang="ts">
+  import NavigationBar from "./navigation-bar/NavigationBar.svelte";
+  import Dot from "./sidebar/sidebar-icon.fixture.svelte";
   import Popover from "./popover/Popover.svelte";
   import Select from "./select/Select.svelte";
   import Tabs from "./tabs/Tabs.svelte";
@@ -11,6 +13,10 @@
   const fruit = [
     { value: "apple", label: "Apple" },
     { value: "pear", label: "Pear" },
+  ];
+  const sections = [
+    { value: "home", label: "Home", href: "/home", icon: Dot },
+    { value: "hours", label: "Hours", icon: Dot, unavailable: { reason: "Available online only" } },
   ];
 </script>
 
@@ -29,4 +35,5 @@
     {#snippet triggerContent()}<span>Open details</span>{/snippet}
     <p>Details panel.</p>
   </Popover>
+  <NavigationBar destinations={sections} value="home" />
 </main>

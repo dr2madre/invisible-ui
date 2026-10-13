@@ -135,6 +135,27 @@ the dialog and the dimmed page. How far the overlay sets the dialog apart is
 a theme choice, not an accessibility requirement: the dialog is modal, and
 its name, focus and inert background do not depend on the overlay.
 
+## Navigation bar current indicator
+
+`navigation-bar-current-indicator` is the shape behind the current
+destination's icon in a Navigation Bar (`docs/navigation-bar-spec.md`). It is
+a role of each theme, `--ds-navigation-bar-current-indicator` in the
+stylesheet and `InvisibleColors.navigationBarCurrentIndicator` in Flutter.
+The icon on it is drawn in `color-text`, so the role has to reach 3:1 against
+both the surface and the text (WCAG 1.4.11): the shape marks the current
+destination, and the icon stays readable on it.
+
+| Theme | Recipe | Value | Against `color-surface` | Against `color-text` |
+| --- | --- | --- | --- | --- |
+| Light | `color-secondary` 90% with `neutral-0` | `#8763d1` | 3.38:1 | 3.47:1 |
+| Dark | `color-secondary` 75% with `neutral-50` | `#997ad5` | 3.17:1 | 3.08:1 |
+
+Without `color-mix()` the light theme falls back to `neutral-400` (3.75:1 and
+3.13:1) and the dark theme to `neutral-300`, which keeps the shape at 4.30:1
+against the surface. The bar's other colours are component tokens that fall
+back to existing roles; width, radius, shadow and position are the
+application's and have no token.
+
 ## Naming grammar
 
 ```

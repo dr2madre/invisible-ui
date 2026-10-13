@@ -1,0 +1,76 @@
+{
+  "description": "The spoken name of a destination, language-neutral: describeDestination(destination, { index, count, current, messages }) from core/src/navigation-bar/text.ts. The parts are the label, the badge's label, the position from navigationBar.position when index and count are given, and navigationBar.current when current is true, joined with \", \". messages holds catalog overrides by key, as a locale would give them; absent, the English catalog applies. The position counts only the destinations passed: a hidden destination is not counted. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "cases": [
+    {
+      "name": "A label alone",
+      "destination": { "value": "home", "label": "Home" },
+      "expect": "Home"
+    },
+    {
+      "name": "A position on a mobile tab bar",
+      "destination": { "value": "hours", "label": "Hours" },
+      "index": 4,
+      "count": 5,
+      "expect": "Hours, Tab 4 of 5"
+    },
+    {
+      "name": "A badge comes before the position",
+      "destination": {
+        "value": "profile",
+        "label": "Profile",
+        "badge": { "label": "Needs attention" }
+      },
+      "index": 5,
+      "count": 5,
+      "expect": "Profile, Needs attention, Tab 5 of 5"
+    },
+    {
+      "name": "A count badge reads its label, not its content",
+      "destination": {
+        "value": "inbox",
+        "label": "Inbox",
+        "badge": { "content": "3", "label": "3 unread" }
+      },
+      "expect": "Inbox, 3 unread"
+    },
+    {
+      "name": "The current marker on a desktop list",
+      "destination": { "value": "clients", "label": "Clients" },
+      "current": true,
+      "expect": "Clients, current page"
+    },
+    {
+      "name": "The position counts only the destinations passed",
+      "destination": { "value": "hours", "label": "Hours" },
+      "index": 3,
+      "count": 4,
+      "expect": "Hours, Tab 3 of 4"
+    },
+    {
+      "name": "The unavailable reason is not part of the name",
+      "destination": {
+        "value": "projects",
+        "label": "Projects",
+        "unavailable": { "reason": "Available online only" }
+      },
+      "index": 3,
+      "count": 5,
+      "expect": "Projects, Tab 3 of 5"
+    },
+    {
+      "name": "A locale reorders the position",
+      "destination": { "value": "ore", "label": "Ore" },
+      "index": 4,
+      "count": 5,
+      "messages": { "navigationBar.position": "{index} di {count}, scheda" },
+      "expect": "Ore, 4 di 5, scheda"
+    },
+    {
+      "name": "A locale translates the current marker",
+      "destination": { "value": "clienti", "label": "Clienti" },
+      "current": true,
+      "messages": { "navigationBar.current": "pagina corrente" },
+      "expect": "Clienti, pagina corrente"
+    }
+  ]
+}

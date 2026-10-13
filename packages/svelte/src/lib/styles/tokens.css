@@ -301,6 +301,13 @@
   /* The scrim behind a modal dialog (the dialog-overlay role). How far it
      sets the dialog apart from the page is a theme choice: docs/tokens.md. */
   --ds-dialog-overlay: rgb(28 25 21 / 0.5);
+  /* The shape behind a navigation bar's current destination: 3:1 against the
+     surface and against the text, so the shape and the icon on it both read. */
+  --ds-navigation-bar-current-indicator: color-mix(
+    in srgb,
+    var(--ds-color-secondary) 90%,
+    var(--ds-neutral-0)
+  );
 }
 
 /* =============== Tier 2 — semantic (dark) ================================= */
@@ -433,6 +440,11 @@
 
     --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
     --ds-dialog-overlay: rgb(0 0 0 / 0.6);
+    --ds-navigation-bar-current-indicator: color-mix(
+      in srgb,
+      var(--ds-color-secondary) 75%,
+      var(--ds-neutral-50)
+    );
   }
 }
 
@@ -551,6 +563,11 @@
 
   --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
   --ds-dialog-overlay: rgb(0 0 0 / 0.6);
+  --ds-navigation-bar-current-indicator: color-mix(
+    in srgb,
+    var(--ds-color-secondary) 75%,
+    var(--ds-neutral-50)
+  );
 }
 
 /* =============== Fallback: no color-mix() (pre-2023 engines) ============== *
@@ -572,6 +589,7 @@
     --ds-color-danger-border: var(--ds-feedback-danger);
     --ds-color-destructive-surface: var(--ds-neutral-50);
     --ds-color-secondary-surface: var(--ds-neutral-50);
+    --ds-navigation-bar-current-indicator: var(--ds-neutral-400);
     /* The dark label text keeps 4.5:1 on a neutral fill; the word carries the status. */
     --ds-color-warning-label-surface: var(--ds-neutral-100);
     --ds-color-info-text: var(--ds-neutral-900);
@@ -596,6 +614,7 @@
       --ds-color-danger-border: var(--ds-feedback-danger);
       --ds-color-destructive-surface: var(--ds-neutral-800);
       --ds-color-secondary-surface: var(--ds-neutral-800);
+      --ds-navigation-bar-current-indicator: var(--ds-neutral-300);
       --ds-color-warning-label-surface: var(--ds-neutral-100);
       --ds-color-info-text: var(--ds-neutral-50);
       --ds-color-success-text: var(--ds-neutral-50);
@@ -622,6 +641,7 @@
     --ds-color-danger-border: var(--ds-feedback-danger);
     --ds-color-destructive-surface: var(--ds-neutral-800);
     --ds-color-secondary-surface: var(--ds-neutral-800);
+    --ds-navigation-bar-current-indicator: var(--ds-neutral-300);
     --ds-color-warning-label-surface: var(--ds-neutral-100);
     --ds-color-info-text: var(--ds-neutral-50);
     --ds-color-success-text: var(--ds-neutral-50);

@@ -1,0 +1,183 @@
+{
+  "component": "navigation-bar",
+  "selected": false,
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "NavigationBar",
+        "specifier": "@design-system/svelte/NavigationBar.svelte"
+      },
+      "props": [
+        {
+          "name": "destinations",
+          "type": "NavigationDestination[]",
+          "default": null,
+          "required": true,
+          "description": "The destinations, in reading order.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The current destination's value. The application owns it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the landmark. Defaults to the catalog's \"Main\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSelect",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with a button destination's value on every activation.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "unavailableIcon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Replaces the lock glyph that marks an unavailable destination.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "NavigationBar",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "destinations",
+          "type": "NavigationDestination[]",
+          "default": null,
+          "required": true,
+          "description": "The destinations, in reading order.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The current destination's value. The application owns it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the landmark. Defaults to the catalog's \"Main\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with a button destination's value on every activation.",
+          "descriptionFrom": "source"
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "unavailableIcon"
+      ]
+    },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "NavigationBar",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "destinations",
+          "type": "NavigationDestination[]",
+          "default": null,
+          "required": true,
+          "description": "The destinations, in reading order.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The current destination's value. The application owns it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the landmark. Defaults to the catalog's \"Main\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with a button destination's value on every activation.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "unavailableIcon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Replaces the lock glyph that marks an unavailable destination.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-navigation-bar",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "the landmark name; \"Main\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "the current destination",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Emits: bubbling `select` (`detail.value`, destinations without `href`)."
+      ]
+    }
+  }
+}

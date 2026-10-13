@@ -182,6 +182,7 @@ export default defineConfig({
             "components/patterns/form-workflows",
             "components/patterns/login-form",
             "components/patterns/menubar",
+            "components/patterns/navigation-bar",
             "components/patterns/navigation-menu",
             "components/patterns/notification-center",
             "components/patterns/stepper",

@@ -277,7 +277,13 @@ export function dartTokensFormat({ dictionary }) {
     ...roleKeys.map((key) => `    Color? ${roleName(key)},`),
     "  }) {",
     "    return InvisibleColors(",
-    ...roleKeys.map((key) => `      ${roleName(key)}: ${roleName(key)} ?? this.${roleName(key)},`),
+    ...roleKeys.map((key) => {
+      const line = `      ${roleName(key)}: ${roleName(key)} ?? this.${roleName(key)},`;
+      // A line past the 80 columns `dart format` keeps breaks after the name.
+      return line.length <= 80
+        ? line
+        : `      ${roleName(key)}:\n          ${roleName(key)} ?? this.${roleName(key)},`;
+    }),
     "    );",
     "  }",
     "",

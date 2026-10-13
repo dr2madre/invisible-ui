@@ -5,7 +5,7 @@ layer, themed from the Invisible UI design tokens. The package reimplements
 the behaviour of the web adapters in Dart and is held to the same
 specification ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0017-flutter-adapter.md)).
 
-**Status: alpha, full catalog.** The package covers all 80 components of
+**Status: alpha, full catalog.** The package covers all 81 components of
 the catalog. It carries the tokens, the theme (light and dark, density,
 minimum target size, focus ring, messages) and the components listed
 below: Button, the form fields (Field, TextField, Textarea, NumberField),
@@ -17,10 +17,10 @@ SheetDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
 RadioButtonGroup, SegmentedControl, Select, Combobox, MultiSelect), the
 search field (SearchField), the dates (Calendar, DatePicker,
 DateRangePicker, TimeField), the disclosures and navigation (Collapsible,
-Accordion, Tabs, Breadcrumb, Pagination, Link, Navigation Menu, Sidebar,
-Tree View), the value displays (Progress, Meter), the display components
-(Avatar, AvatarGroup, Count, Tag, Kbd, Label, FeedbackIcon, Skeleton, Code,
-CodeBlock, Blockquote, ScrollArea), the value controls (Slider,
+Accordion, Tabs, Breadcrumb, Pagination, Link, Navigation Menu, Navigation
+Bar, Sidebar, Tree View), the value displays (Progress, Meter), the display
+components (Avatar, AvatarGroup, Count, Tag, Kbd, Label, FeedbackIcon,
+Skeleton, Code, CodeBlock, Blockquote, ScrollArea), the value controls (Slider,
 RangeSlider, RatingGroup, PinInput, Radio, ToggleButton, ToggleGroup,
 ButtonGroup, Stepper, Separator) and the data and form patterns (Table and
 TableSet, with Table View internal as on the web, Carousel, LoginForm,
@@ -196,6 +196,7 @@ iu.NumberField(
 | Pagination | Matched, with adaptations listed | [parity/pagination.md](parity/pagination.md) | [Pagination](https://dr2madre.github.io/invisible-ui/components/navigation/pagination/) |
 | Link | Matched, with adaptations listed | [parity/link.md](parity/link.md) | [Link](https://dr2madre.github.io/invisible-ui/components/navigation/link/) |
 | Navigation Menu | Matched, with adaptations listed | [parity/navigation-menu.md](parity/navigation-menu.md) | [Navigation Menu](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-menu/) |
+| Navigation Bar | Matched, with the platform semantics profiles and adaptations listed | [parity/navigation-bar.md](parity/navigation-bar.md) | [Navigation Bar](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-bar/) |
 | Sidebar | Matched for the inline sidebar, the rail and the drawer, with adaptations listed | [parity/sidebar.md](parity/sidebar.md) | [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/) |
 | Tree View | Matched, single selection, with adaptations listed | [parity/tree-view.md](parity/tree-view.md) | [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/) |
 | Table | Matched, with adaptations listed | [parity/table.md](parity/table.md) | [Table](https://dr2madre.github.io/invisible-ui/components/patterns/table/) |
@@ -455,6 +456,42 @@ iu.Breadcrumb(
   `iu.showSidebarDrawer(context:, builder:)` shows it in a Sheet Dialog at
   the inline-start edge (ADR 0013); following a destination closes the
   drawer, then reports.
+- **Navigation Bar.** The app's primary navigation between three to five
+  sections: a row of destinations, each with an icon above its label. The
+  app owns `value` and navigates on `onSelected`, which also reports a press
+  on the current destination. Labels wrap and are never cut. A badge needs
+  its accessible text (`label`) and is announced when it appears or
+  changes; pass the app's `ModalObserver` as `modals` so announcements wait
+  while a modal is open. A destination with `unavailableReason` stays
+  focusable and reads its reason. iOS and Android read the bar as a tab bar
+  with "Tab 4 of 5"; macOS, Windows and Linux read it as a navigation list
+  with "current page" (`semanticsProfile` overrides the choice). The bar
+  reads no screen size: whether and where to show it is the app's.
+
+  ```dart
+  import 'package:invisible_ui/invisible_ui.dart' as iu;
+
+  iu.NavigationBar<Section>(
+    value: section,
+    onSelected: (next) => setState(() => section = next),
+    modals: modals,
+    destinations: [
+      const iu.NavigationDestination(
+        value: Section.home,
+        label: 'Home',
+        icon: Icon(homeIcon),
+      ),
+      iu.NavigationDestination(
+        value: Section.profile,
+        label: 'Profile',
+        icon: const Icon(profileIcon),
+        badge: needsAttention
+            ? const iu.NavigationBadge(label: 'Needs attention')
+            : null,
+      ),
+    ],
+  )
+  ```
 - **Tree View.** The tree keyboard of the APG with typeahead, which moves
   focus only. Single selection. Children load on demand
   (`onLoadChildren`). For assistive technology, a closed parent offers an

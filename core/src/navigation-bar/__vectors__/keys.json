@@ -1,0 +1,80 @@
+{
+  "description": "The navigation bar's arrow keys, language-neutral: a key pressed on the destination `from` of the destinations below, in move() from core/src/navigation-bar/connect.ts. `focus` is the destination focus moves to, or null when the key does nothing. Keys are DOM key names. direction defaults to ltr. Unavailable destinations stay in the order. There is no wrap and no Home or End. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "destinations": [
+    { "value": "home" },
+    { "value": "clients" },
+    { "value": "projects", "unavailable": true },
+    { "value": "hours" },
+    { "value": "profile" }
+  ],
+  "keys": [
+    {
+      "name": "Right moves to the next destination",
+      "from": "home",
+      "key": "ArrowRight",
+      "focus": "clients"
+    },
+    {
+      "name": "Left moves to the previous destination",
+      "from": "clients",
+      "key": "ArrowLeft",
+      "focus": "home"
+    },
+    {
+      "name": "Right stops on an unavailable destination",
+      "from": "clients",
+      "key": "ArrowRight",
+      "focus": "projects"
+    },
+    {
+      "name": "Left stops on an unavailable destination",
+      "from": "hours",
+      "key": "ArrowLeft",
+      "focus": "projects"
+    },
+    {
+      "name": "Right does not wrap from the last destination",
+      "from": "profile",
+      "key": "ArrowRight",
+      "focus": null
+    },
+    {
+      "name": "Left does not wrap from the first destination",
+      "from": "home",
+      "key": "ArrowLeft",
+      "focus": null
+    },
+    {
+      "name": "Right to left, Left moves forward",
+      "from": "home",
+      "key": "ArrowLeft",
+      "direction": "rtl",
+      "focus": "clients"
+    },
+    {
+      "name": "Right to left, Right moves back",
+      "from": "clients",
+      "key": "ArrowRight",
+      "direction": "rtl",
+      "focus": "home"
+    },
+    {
+      "name": "Right to left, Left does not wrap from the last destination",
+      "from": "profile",
+      "key": "ArrowLeft",
+      "direction": "rtl",
+      "focus": null
+    },
+    {
+      "name": "Right to left, Right does not wrap from the first destination",
+      "from": "home",
+      "key": "ArrowRight",
+      "direction": "rtl",
+      "focus": null
+    },
+    { "name": "Home is not handled", "from": "hours", "key": "Home", "focus": null },
+    { "name": "End is not handled", "from": "clients", "key": "End", "focus": null },
+    { "name": "Down is not handled", "from": "clients", "key": "ArrowDown", "focus": null },
+    { "name": "Up is not handled", "from": "clients", "key": "ArrowUp", "focus": null }
+  ]
+}

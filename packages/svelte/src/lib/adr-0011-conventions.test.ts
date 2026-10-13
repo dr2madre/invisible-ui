@@ -539,6 +539,7 @@ const NOT_A_CASE: Record<string, string> = {
 
   // Covered by their own suites, named here so the coverage is findable.
   Pagination: "pagination.test.ts holds reflection, silence and the live callback",
+  NavigationBar: "navigation-bar.test.ts holds the live callback; value is never kept inside",
   // Named omissions: controls with a controlled value and no case written
   // yet. Every name here is listed in the audit the reason points at, and
   // the last test in this file checks that it is.

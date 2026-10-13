@@ -1451,6 +1451,101 @@
       "signature": "multiSelect_valuesId: typeof valuesId"
     },
     {
+      "name": "navigationBar",
+      "kind": "namespace",
+      "signature": "namespace navigationBar"
+    },
+    {
+      "name": "navigationBar.BadgeAnnouncement",
+      "kind": "type",
+      "signature": "navigationBar.BadgeAnnouncement = interface BadgeAnnouncement { /** The destination whose badge changed. */ value: string; /** The text to announce: \"Profile: Needs attention\". */ text: string; }"
+    },
+    {
+      "name": "navigationBar.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions#d074bb38 { destinations: readonly NavigationTarget[]; /** The current destination's value. The application owns it. */ value?: string | null; /** The landmark's accessible name. */ label: string; /** Base id for the reason elements. */ id: string; /** Called with a button destination's value on every activation. */ onSelect?: (value: string) => void; /** Reading direction. Read from the destination's computed style when left out. */ direction?: \"ltr\" | \"rtl\"; normalize?: Normalize; }"
+    },
+    {
+      "name": "navigationBar.DESTINATION_ATTRIBUTE",
+      "kind": "const",
+      "signature": "navigationBar_DESTINATION_ATTRIBUTE: typeof DESTINATION_ATTRIBUTE"
+    },
+    {
+      "name": "navigationBar.DescribeOptions",
+      "kind": "type",
+      "signature": "navigationBar.DescribeOptions = interface DescribeOptions extends TextOptions { /** Position among the destinations passed, from 1. Given with `count`, the position is read. */ index?: number; /** How many destinations the bar shows. */ count?: number; /** Whether this destination is the current one; read as `navigationBar.current`. */ current?: boolean; }"
+    },
+    {
+      "name": "navigationBar.LONG_PRESS_MS",
+      "kind": "const",
+      "signature": "navigationBar_LONG_PRESS_MS: typeof LONG_PRESS_MS"
+    },
+    {
+      "name": "navigationBar.NavigationBadge",
+      "kind": "type",
+      "signature": "navigationBar.NavigationBadge = interface NavigationBadge { /** Visible content: a short count (\"3\", \"99+\"). Omitted: a dot glyph. */ content?: string; /** Accessible text: \"3 unread\", \"Needs attention\". */ label: string; /** Announce politely when `label` changes. Defaults to `true`. */ announce?: boolean; }"
+    },
+    {
+      "name": "navigationBar.NavigationBarApi",
+      "kind": "type",
+      "signature": "navigationBar.NavigationBarApi = interface NavigationBarApi { /** The current destination's value, or `null` when `value` names none. */ current: string | null; /** Props for the `<nav>` landmark. */ getRootProps(): ElementProps; /** Props for the `<ul>` of destinations. */ getListProps(): ElementProps; /** * Props for a destination: `href` for a link or `type=\"button\"`, * `aria-current=\"page\"` on the current one, `aria-disabled` and the reason * link on an unavailable one, and the handlers. */ getDestinationProps(value: string): ElementProps; /** Props for the element that holds an unavailable destination's reason. */ getReasonProps(value: string): ElementProps; /** The arrow keys on a destination: next or previous, mirrored, no wrap. */ onDestinationKeyDown(event: Event): void; /** Activate a destination without an `href`: reports once; nothing when unavailable. */ select(value: string): void; }"
+    },
+    {
+      "name": "navigationBar.NavigationDestination",
+      "kind": "type",
+      "signature": "type navigationBar_NavigationDestination<TIcon = unknown> = NavigationDestination<TIcon>;"
+    },
+    {
+      "name": "navigationBar.NavigationTarget",
+      "kind": "type",
+      "signature": "navigationBar.NavigationTarget = interface NavigationTarget { /** Identity, unique in the bar. */ value: string; /** Visible label and accessible name. */ label: string; /** Renders a link. Without it the destination is a button that reports `onSelect`. */ href?: string; /** A notification on the section. */ badge?: NavigationBadge; /** The section cannot open now; the reason is read with the destination. */ unavailable?: NavigationUnavailable; }"
+    },
+    {
+      "name": "navigationBar.NavigationUnavailable",
+      "kind": "type",
+      "signature": "navigationBar.NavigationUnavailable = interface NavigationUnavailable { /** Read with the destination and shown on hover, focus and long press. */ reason: string; }"
+    },
+    {
+      "name": "navigationBar.RECOMMENDED_MAXIMUM",
+      "kind": "const",
+      "signature": "navigationBar_RECOMMENDED_MAXIMUM: typeof RECOMMENDED_MAXIMUM"
+    },
+    {
+      "name": "navigationBar.TextOptions",
+      "kind": "type",
+      "signature": "navigationBar.TextOptions = interface TextOptions { /** Resolved locale, for plural rules. Defaults to the catalog's. */ locale?: string; /** Consumer catalog overrides. */ messages?: Messages; /** * An adapter's own translator, already bound to its locale and overrides. * Given, it wins over `locale` and `messages`. */ translate?: (key: MessageKey, vars?: Record<string, string | number>) => string; }"
+    },
+    {
+      "name": "navigationBar.badgeAnnouncements",
+      "kind": "const",
+      "signature": "navigationBar_badgeAnnouncements: typeof badgeAnnouncements"
+    },
+    {
+      "name": "navigationBar.checkDestinations",
+      "kind": "const",
+      "signature": "navigationBar_checkDestinations: typeof checkDestinations"
+    },
+    {
+      "name": "navigationBar.connect",
+      "kind": "function",
+      "signature": "declare function connect#aab3dfed({ destinations, value, label, id, onSelect, direction, normalize, }: ConnectOptions#d074bb38): NavigationBarApi;"
+    },
+    {
+      "name": "navigationBar.describeDestination",
+      "kind": "const",
+      "signature": "navigationBar_describeDestination: typeof describeDestination"
+    },
+    {
+      "name": "navigationBar.holdAnnouncements",
+      "kind": "const",
+      "signature": "navigationBar_holdAnnouncements: typeof holdAnnouncements"
+    },
+    {
+      "name": "navigationBar.move",
+      "kind": "const",
+      "signature": "navigationBar_move: typeof move"
+    },
+    {
       "name": "navigationMenu",
       "kind": "namespace",
       "signature": "namespace navigationMenu"
@@ -2722,8 +2817,8 @@
     },
     {
       "name": "toggleGroup.move",
-      "kind": "const",
-      "signature": "toggleGroup_move: typeof move"
+      "kind": "function",
+      "signature": "declare function move#81ad99f4({ key, index, disabled, orientation, direction, }: { key: string; /** Index of the focused toggle among all toggles. */ index: number; /** One entry per toggle, in order: whether it is disabled. */ disabled: boolean[]; orientation?: ToolbarOrientation; direction?: ToolbarDirection; }): number | null;"
     },
     {
       "name": "toggleGroup.refocusIndex",

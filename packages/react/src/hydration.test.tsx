@@ -43,6 +43,7 @@ import { Collapsible } from "./collapsible/Collapsible";
 import { Breadcrumb } from "./breadcrumb/Breadcrumb";
 import { Pagination } from "./pagination/Pagination";
 import { Stepper } from "./stepper/Stepper";
+import { NavigationBar } from "./navigation-bar/NavigationBar";
 import { Sidebar } from "./sidebar/Sidebar";
 import { TreeView } from "./tree-view/TreeView";
 import { ButtonGroup } from "./button-group/ButtonGroup";
@@ -217,6 +218,18 @@ function HydrationFixture(): ReactElement {
               label: "Reports",
               collapsible: true,
               items: [{ value: "daily", label: "Daily", href: "/daily" }],
+            },
+          ]}
+        />
+        <NavigationBar
+          value="home"
+          destinations={[
+            { value: "home", label: "Home", href: "/home", icon: null },
+            {
+              value: "hours",
+              label: "Hours",
+              icon: null,
+              unavailable: { reason: "Available online only" },
             },
           ]}
         />

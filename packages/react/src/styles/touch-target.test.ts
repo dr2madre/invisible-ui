@@ -31,9 +31,14 @@ const coarseBlocks = (css: string) => {
 const TOKEN = "var(--ds-min-target-size-touch, 44px)";
 
 describe("touch target under a coarse pointer", () => {
-  it("is set by the menus", () => {
+  it("is set by the menus and the navigation bar", () => {
     const withRules = sheets.filter((file) => coarseBlocks(read(file)).length > 0).sort();
-    expect(withRules).toEqual(["context-menu.css", "dropdown-menu.css", "menubar.css"]);
+    expect(withRules).toEqual([
+      "context-menu.css",
+      "dropdown-menu.css",
+      "menubar.css",
+      "navigation-bar.css",
+    ]);
   });
 
   it.each(sheets)("%s reads the token, 44 by 44, never a literal", (file) => {

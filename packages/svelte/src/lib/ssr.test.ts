@@ -5,6 +5,8 @@ import { describe, expect, it } from "vitest";
 import Calendar from "./calendar/Calendar.svelte";
 import Combobox from "./combobox/Combobox.svelte";
 import Meter from "./meter/Meter.svelte";
+import NavigationBar from "./navigation-bar/NavigationBar.svelte";
+import Dot from "./sidebar/sidebar-icon.fixture.svelte";
 import PinInput from "./pin-input/PinInput.svelte";
 import RatingGroup from "./rating-group/RatingGroup.svelte";
 import Progress from "./progress/Progress.svelte";
@@ -48,6 +50,24 @@ describe("SSR — the markup is valid before hydration", () => {
   const cases: Array<[string, unknown, Record<string, unknown>, RegExp[]]> = [
     ["Calendar", Calendar, { label: "Calendar" }, [/role="grid"/, /role="row"/, /role="gridcell"/]],
     ["Meter", Meter, { label: "Disk usage", value: 40 }, [/role="meter"/, /aria-valuenow="40"/]],
+    [
+      "NavigationBar",
+      NavigationBar,
+      {
+        value: "home",
+        destinations: [
+          { value: "home", label: "Home", href: "/home", icon: Dot },
+          { value: "hours", label: "Hours", icon: Dot, unavailable: { reason: "Offline" } },
+        ],
+      },
+      [
+        /<nav[^>]+aria-label="Main"/,
+        /<ul[^>]+role="list"/,
+        /<a[^>]+aria-current="page"/,
+        /<button[^>]+aria-disabled="true"/,
+        /aria-describedby="ds-navigation-bar-\d+-reason-1"/,
+      ],
+    ],
     ["Progress", Progress, { label: "Upload", value: 30 }, [/role="progressbar"/]],
     [
       // The dependent-bound override is the whole point of this component's

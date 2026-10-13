@@ -54,6 +54,9 @@ export 'src/menu/menu_entry.dart';
 export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;
 export 'src/multi_select/multi_select.dart' show MultiSelect;
+export 'src/navigation_bar/navigation_bar.dart' show NavigationBar;
+export 'src/navigation_bar/navigation_destination.dart'
+    show NavigationBadge, NavigationBarSemanticsProfile, NavigationDestination;
 export 'src/navigation_menu/navigation_menu.dart'
     show
         NavigationMenu,

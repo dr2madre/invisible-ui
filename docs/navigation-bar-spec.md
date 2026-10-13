@@ -11,8 +11,10 @@ icon and label, the current section exposed to assistive technology, and
 Profile marked when it needs attention
 ([wave 2 row](./proposals/flutter-adapter.md#wave-2--forms-lists-dialogs)).
 
-Status: decided. Nothing here is built. The maintainer recorded the
-[decisions](#decisions-taken) on 2026-10-13.
+Status: decided and built in `core/`, the four web adapters and Flutter. The
+maintainer recorded the [decisions](#decisions-taken) on 2026-10-13. The
+badge and unavailable support for Sidebar (see
+[Relation to Sidebar](#relation-to-sidebar)) is not built yet.
 
 ## Pattern
 

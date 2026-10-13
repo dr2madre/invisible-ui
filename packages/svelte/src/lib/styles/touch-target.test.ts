@@ -16,6 +16,7 @@ describe("touch target under a coarse pointer", () => {
     ["../dropdown-menu/DropdownMenu.svelte", [".menu__item"]],
     ["../context-menu/ContextMenu.svelte", [".context-menu__item"]],
     ["../menubar/Menubar.svelte", [".menubar__item", ".menubar__trigger"]],
+    ["../navigation-bar/NavigationBar.svelte", [".navigation-bar__destination"]],
   ])("%s gives its items 44 by 44 from the token", (file, selectors) => {
     const block = /@media \(pointer: coarse\) \{([\s\S]*?)\n {2}\}/.exec(read(file))?.[1];
     expect(block, file).toBeDefined();

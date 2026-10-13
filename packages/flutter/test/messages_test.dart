@@ -229,6 +229,16 @@ void main() {
         messages.navigationMenuCurrent,
         _english('navigationMenu.current'),
       );
+      expect(messages.navigationBarLabel, _english('navigationBar.label'));
+      expect(
+        messages.navigationBarPosition,
+        _english('navigationBar.position'),
+      );
+      expect(messages.navigationBarCurrent, _english('navigationBar.current'));
+      expect(
+        messages.navigationBarAnnouncement,
+        _english('navigationBar.announcement'),
+      );
       expect(messages.treeLoading, _english('tree.loading'));
       expect(messages.treeLoadError, _english('tree.loadError'));
       expect(messages.treeExpand, _english('tree.expand'));

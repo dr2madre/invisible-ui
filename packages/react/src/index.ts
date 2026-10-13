@@ -104,6 +104,12 @@ export {
   type SidebarProps,
   type SidebarSection,
 } from "./sidebar/Sidebar";
+export {
+  NavigationBar,
+  type NavigationBadge,
+  type NavigationBarProps,
+  type NavigationDestination,
+} from "./navigation-bar/NavigationBar";
 export { TreeView, type TreeViewProps } from "./tree-view/TreeView";
 export {
   ButtonGroup,

@@ -52,6 +52,7 @@ describe("custom-elements adapter SSR", () => {
       "DsMenubar",
       "DsMeter",
       "DsMultiSelect",
+      "DsNavigationBar",
       "DsNavigationMenu",
       "DsNotification",
       "DsNotificationRegion",

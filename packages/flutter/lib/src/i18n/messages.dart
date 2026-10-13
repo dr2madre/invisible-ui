@@ -143,6 +143,10 @@ class InvisibleMessages {
     this.sidebarExpand = 'Expand the navigation',
     this.sidebarCurrent = 'current page',
     this.navigationMenuCurrent = 'current page',
+    this.navigationBarLabel = 'Main',
+    this.navigationBarPosition = 'Tab {index} of {count}',
+    this.navigationBarCurrent = 'current page',
+    this.navigationBarAnnouncement = '{label}: {badge}',
     this.treeLoading = 'Loading {name}…',
     this.treeLoadError = 'Could not load {name}. Press Right Arrow to retry.',
     this.treeExpand = 'Expand',
@@ -630,6 +634,22 @@ class InvisibleMessages {
   /// `navigationMenu.current`.
   final String navigationMenuCurrent;
 
+  /// The name of a navigation bar given none. Catalog key
+  /// `navigationBar.label`.
+  final String navigationBarLabel;
+
+  /// A navigation bar destination's position on a tab bar, with `{index}`
+  /// and `{count}`. Catalog key `navigationBar.position`.
+  final String navigationBarPosition;
+
+  /// Read with a navigation bar's current destination in a navigation
+  /// list. Catalog key `navigationBar.current`.
+  final String navigationBarCurrent;
+
+  /// Announced when a navigation bar badge appears or changes, with
+  /// `{label}` and `{badge}`. Catalog key `navigationBar.announcement`.
+  final String navigationBarAnnouncement;
+
   /// Read while a tree item's children load, with `{name}`. Catalog key
   /// `tree.loading`.
   final String treeLoading;
@@ -840,6 +860,10 @@ class InvisibleMessages {
     String? sidebarExpand,
     String? sidebarCurrent,
     String? navigationMenuCurrent,
+    String? navigationBarLabel,
+    String? navigationBarPosition,
+    String? navigationBarCurrent,
+    String? navigationBarAnnouncement,
     String? treeLoading,
     String? treeLoadError,
     String? treeExpand,
@@ -1002,6 +1026,12 @@ class InvisibleMessages {
       sidebarCurrent: sidebarCurrent ?? this.sidebarCurrent,
       navigationMenuCurrent:
           navigationMenuCurrent ?? this.navigationMenuCurrent,
+      navigationBarLabel: navigationBarLabel ?? this.navigationBarLabel,
+      navigationBarPosition:
+          navigationBarPosition ?? this.navigationBarPosition,
+      navigationBarCurrent: navigationBarCurrent ?? this.navigationBarCurrent,
+      navigationBarAnnouncement:
+          navigationBarAnnouncement ?? this.navigationBarAnnouncement,
       treeLoading: treeLoading ?? this.treeLoading,
       treeLoadError: treeLoadError ?? this.treeLoadError,
       treeExpand: treeExpand ?? this.treeExpand,
@@ -1149,6 +1179,10 @@ class InvisibleMessages {
       other.sidebarExpand == sidebarExpand &&
       other.sidebarCurrent == sidebarCurrent &&
       other.navigationMenuCurrent == navigationMenuCurrent &&
+      other.navigationBarLabel == navigationBarLabel &&
+      other.navigationBarPosition == navigationBarPosition &&
+      other.navigationBarCurrent == navigationBarCurrent &&
+      other.navigationBarAnnouncement == navigationBarAnnouncement &&
       other.treeLoading == treeLoading &&
       other.treeLoadError == treeLoadError &&
       other.treeExpand == treeExpand &&
@@ -1291,6 +1325,10 @@ class InvisibleMessages {
     sidebarExpand,
     sidebarCurrent,
     navigationMenuCurrent,
+    navigationBarLabel,
+    navigationBarPosition,
+    navigationBarCurrent,
+    navigationBarAnnouncement,
     treeLoading,
     treeLoadError,
     treeExpand,

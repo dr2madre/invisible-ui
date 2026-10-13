@@ -151,6 +151,12 @@ export {
   type SidebarProps,
   type SidebarSection,
 } from "./sidebar/Sidebar";
+export {
+  NavigationBar,
+  type NavigationBadge,
+  type NavigationBarProps,
+  type NavigationDestination,
+} from "./navigation-bar/NavigationBar";
 export { Menubar, type MenubarProps } from "./menubar/Menubar";
 export { NavigationMenu, type NavigationMenuProps } from "./navigation-menu/NavigationMenu";
 export { AspectRatio, type AspectRatioProps } from "./aspect-ratio/AspectRatio";

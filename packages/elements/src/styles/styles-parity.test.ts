@@ -69,6 +69,7 @@ const REACT_SHEETS = [
   "stepper.css",
   "tree-view.css",
   "sidebar.css",
+  "navigation-bar.css",
   "field.css",
   "label.css",
   "progress.css",

@@ -1,0 +1,228 @@
+---
+title: "Navigation Bar"
+---
+
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import NavigationBarDemo from "../../../../demos/NavigationBarDemo.svelte";
+
+<Preview>
+  <NavigationBarDemo client:only="svelte" />
+</Preview>
+
+Primary navigation between the main sections of an application: a short,
+flat set of destinations, each with an icon and a visible label, one of
+which is the current one. It is a bar at the bottom of the screen on phone,
+tablet and web. The pattern is drawn for three to five destinations.
+
+A destination with an `href` is a link: the browser or your router follows
+it, and the bar reports nothing. A destination without one is a button that
+reports `onSelect(value)`, again when it is already the current one, so your
+application can return to the section root or scroll to the top.
+
+### Import
+
+<ImportSnippet component="navigation-bar" />
+
+### Svelte
+
+```svelte
+<script>
+  import NavigationBar from "@design-system/svelte/NavigationBar.svelte";
+  import HomeIcon from "./HomeIcon.svelte";
+  import UserIcon from "./UserIcon.svelte";
+
+  let section = $state("home");
+</script>
+
+<NavigationBar
+  value={section}
+  onSelect={(next) => (section = next)}
+  destinations={[
+    { value: "home", label: "Home", icon: HomeIcon },
+    { value: "profile", label: "Profile", icon: UserIcon, badge: { label: "Needs attention" } },
+  ]}
+/>
+```
+
+### Vue
+
+An icon is any Vue component; wrap it in `markRaw()`. The `unavailableIcon`
+slot replaces the lock glyph.
+
+```vue
+<script setup>
+import { markRaw, shallowRef } from "vue";
+import { NavigationBar } from "@design-system/vue";
+import HomeIcon from "./HomeIcon.vue";
+
+const section = shallowRef("home");
+const destinations = [{ value: "home", label: "Home", icon: markRaw(HomeIcon) }];
+</script>
+
+<template>
+  <NavigationBar
+    :destinations="destinations"
+    :value="section"
+    @select="(next) => (section = next)"
+  />
+</template>
+```
+
+### React
+
+An icon is any element.
+
+```tsx
+<NavigationBar
+  value={section}
+  onSelect={setSection}
+  destinations={[
+    { value: "home", label: "Home", href: "/home", icon: <HomeIcon /> },
+    { value: "inbox", label: "Inbox", icon: <InboxIcon />, badge: { content: "3", label: "3 unread" } },
+  ]}
+/>
+```
+
+### Custom elements
+
+Assign the destinations as a property. Icons are SVG path data on a 24 by 24
+grid. Destinations without an `href` emit `select`.
+
+```html
+<ds-navigation-bar value="home"></ds-navigation-bar>
+
+<script type="module">
+  const bar = document.querySelector("ds-navigation-bar");
+  bar.destinations = [
+    { value: "home", label: "Home", icon: "M3 12l9-9 9 9M5 10v10h14V10" },
+    { value: "hours", label: "Hours", icon: "M12 6v6l4 2" },
+  ];
+  bar.addEventListener("select", ({ detail }) => {
+    bar.value = detail.value;
+  });
+</script>
+```
+
+### Flutter
+
+Every destination reports through `onSelected` and your app navigates; an
+optional `uri` is the announced address, and `unavailableReason` makes a
+destination unavailable. Values are any type. Pass the app's `ModalObserver`
+as `modals` so badge announcements wait while a modal is open. iOS and
+Android read the bar as a tab bar ("Tab 4 of 5"), macOS, Windows and Linux
+as a navigation list with "current page"; `semanticsProfile` overrides the
+choice.
+
+```dart
+import 'package:invisible_ui/invisible_ui.dart' as iu;
+
+iu.NavigationBar<Section>(
+  value: _section,
+  onSelected: (section) => setState(() => _section = section),
+  modals: modals,
+  destinations: [
+    iu.NavigationDestination(
+      value: Section.home,
+      label: 'Home',
+      icon: const Icon(LucideIcons.home),
+    ),
+    iu.NavigationDestination(
+      value: Section.profile,
+      label: 'Profile',
+      icon: const Icon(LucideIcons.user),
+      badge: needsAttention ? iu.NavigationBadge(label: 'Needs attention') : null,
+    ),
+  ],
+)
+```
+
+`NavigationBar` and `NavigationDestination` share their names with Material
+widgets; the `iu` prefix keeps them apart.
+
+### Props
+
+<PropsTable component="navigation-bar" />
+
+Every `href` is rendered as given: pass only URLs you trust or have
+sanitized. See [Security](/invisible-ui/api/#security).
+
+A destination's `value` is its identity: a repeated value is an error in
+development. A `value` that names no destination marks nothing current, which
+is valid for a page reached from elsewhere, and warns in development. More
+than five destinations warn too: they stop fitting at 320 px and at twice the
+text size.
+
+### Badges
+
+A badge has visible content and accessible text. `content` is a short count
+("3", "99+"); without it the badge is a dot. `label` is required: it is read
+as part of the destination's name ("Profile, Needs attention"), so the dot
+never relies on its colour or its shape alone.
+
+When a badge's `label` appears or changes, the bar announces it once,
+politely: "Profile: Needs attention". Nothing is announced on the first
+render or when a badge goes away. Set `announce: false` on a count that
+changes often. While a modal dialog is open the announcement waits, and the
+latest one for each destination is made after the last modal closes
+(ADR 0016).
+
+### Unavailable destinations
+
+Two approaches are supported, and your design team picks one for the whole
+product. Neither is the default.
+
+- **Hide the destination** when the section makes no sense at that moment:
+  leave it out of `destinations`. The bar has no hidden state.
+- **Keep it visible** when people need to know why the section cannot open:
+  pass `unavailable: { reason }`. The destination stays in the tab order,
+  carries `aria-disabled="true"`, and its reason is its description, shown on
+  hover, keyboard focus and a long press. Escape hides it. Activation does
+  nothing.
+
+### What stays with your application
+
+- **Whether and where the bar shows.** The component reads no screen size. It
+  has no rail and no layout helper; use [Sidebar](/invisible-ui/components/patterns/sidebar/)
+  wherever you prefer. When both carry the same destinations and only one is
+  shown, hide the other with `display: none` and give both the same label.
+- **The routing and the current destination.** You pass `value`.
+- **Width, position, radius, shadow and safe-area padding.** The bar draws
+  the destinations, the current mark, the badge and the focus ring; the
+  container gets the surface colour and nothing else, and there are no
+  tokens for the rest. A floating pill is your style.
+- **Space for the bar.** Give your content bottom padding equal to the bar's
+  height and set `scroll-padding-block-end` to the same value, so a focused
+  element never sits under a fixed bar (WCAG 2.4.11).
+- **Focus after navigation.** Keeping focus on the destination works well:
+  the bar stays on screen, so a person can continue through it.
+
+### Accessibility
+
+- A `<nav>` landmark named by `label` (the catalog's "Main" by default, the
+  same text as the Sidebar's), around a list: screen readers that announce
+  lists say "list, 5 items" and the position.
+- `aria-current="page"` on the current destination. The current state is also
+  a shape behind the icon and a heavier label, never colour alone; under
+  forced colours the shape becomes an outline.
+- Every destination is a tab stop. The left and right arrows move to the next
+  or previous destination as well, mirrored under right to left, with no wrap
+  and no Home or End. Enter activates; Space presses a button and leaves a
+  link alone, as native links do.
+- Icons are decorative and hidden from assistive technology.
+- Labels wrap onto more lines and never truncate; the bar grows taller.
+- Every destination is at least 24 by 24, and 44 by 44 under a coarse
+  pointer (`--ds-min-target-size-touch`).
+- No motion: the current mark changes at once.
+
+What VoiceOver, TalkBack, NVDA and Narrator say is not tested yet.
+
+### Styling hooks
+
+Each destination carries `data-current` when it is the current one and
+`data-unavailable` when it is unavailable. Themeable via
+`--ds-navigation-bar-surface`, `--ds-navigation-bar-item-text`,
+`--ds-navigation-bar-item-current-text`, `--ds-navigation-bar-current-indicator`,
+`--ds-navigation-bar-badge-surface`, `--ds-navigation-bar-badge-text`,
+`--ds-navigation-bar-gap` and `--ds-navigation-bar-item-padding`.

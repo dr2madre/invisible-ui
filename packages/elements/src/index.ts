@@ -120,6 +120,11 @@ export {
 } from "./login-form/ds-login-form";
 export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
 export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";
+export {
+  DsNavigationBar,
+  type NavigationBadge,
+  type NavigationDestination,
+} from "./navigation-bar/ds-navigation-bar";
 export { DsAvatarGroup, type AvatarGroupItem } from "./avatar-group/ds-avatar-group";
 export { DsBreadcrumb, type BreadcrumbItem } from "./breadcrumb/ds-breadcrumb";
 export { DsProgress, type ProgressShape } from "./progress/ds-progress";
