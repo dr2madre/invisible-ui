@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../i18n/locale_provider.dart';
 import '../internal/open_width.dart';
 import '../internal/roving.dart';
 import '../internal/value_control.dart';
@@ -36,7 +37,8 @@ const Map<ShortcutActivator, Intent> sliderShortcuts = {
 };
 
 /// The text a slider shows and announces for [value]: [format]'s, or the
-/// number written in the symbols of [locale], the app's locale or English.
+/// number written in the symbols of [locale], the app's locale or the
+/// international default.
 String sliderText(
   BuildContext context,
   double value,
@@ -44,9 +46,7 @@ String sliderText(
   Locale? locale,
 ) {
   if (format != null) return format(value);
-  final symbols = NumberSymbols.forLocale(
-    locale ?? Localizations.maybeLocaleOf(context) ?? const Locale('en'),
-  );
+  final symbols = NumberSymbols.forLocale(resolveLocale(context, locale));
   return formatNumber(value, symbols);
 }
 

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../button/button.dart';
+import '../i18n/locale_provider.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
 import '../theme/theme.dart';
@@ -48,7 +49,8 @@ const double _disabledOpacity = 0.35;
 /// previous and next buttons, which move focus a month.
 ///
 /// Each day is a button named by its full date in the locale ([locale], the
-/// app's locale from [Localizations], or English), with "today" added to
+/// app's locale from [Localizations], or the international default: English
+/// with Monday first and a 24-hour clock), with "today" added to
 /// today's name; a picked day is selected. Weekday and month names come
 /// from [DateSymbols], or [symbols] when given.
 ///
@@ -228,11 +230,7 @@ class _CalendarState extends State<Calendar> {
   DateTime? get _max => widget.max == null ? null : dateOnly(widget.max!);
   int get _weekStart =>
       (widget.weekStartsOn ??
-          weekStartForLocale(
-            widget.locale ??
-                Localizations.maybeLocaleOf(context) ??
-                const Locale('en'),
-          )) %
+          weekStartForLocale(resolveLocale(context, widget.locale))) %
       7;
 
   FocusNode? get _focusedNode => _nodes[_focused];

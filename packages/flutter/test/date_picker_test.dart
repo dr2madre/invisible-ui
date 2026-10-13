@@ -46,15 +46,15 @@ void main() {
           ),
         ),
       );
-      expect(find.text('Jun 10, 2026'), findsOneWidget);
-      await tester.tap(find.text('Jun 10, 2026'));
+      expect(find.text('10 Jun 2026'), findsOneWidget);
+      await tester.tap(find.text('10 Jun 2026'));
       await pumpFocus(tester);
       expect(_open(), isTrue);
       expect(_dayFocused(tester, 2026, 6, 10), isTrue);
       await tester.tap(_day(2026, 6, 12));
       await pumpFocus(tester);
       expect(_open(), isFalse);
-      expect(find.text('Jun 12, 2026'), findsOneWidget);
+      expect(find.text('12 Jun 2026'), findsOneWidget);
       expect(reports, [DateTime(2026, 6, 12)]);
       expect(focus.hasFocus, isTrue);
     });
@@ -186,7 +186,7 @@ void main() {
         tester.getSemantics(find.byType(FieldSemantics)),
         semanticsWith(
           label: 'Start date',
-          value: 'Jun 10, 2026',
+          value: '10 Jun 2026',
           hint: 'The first day you worked.',
           isButton: true,
           hasExpandedState: true,
@@ -196,7 +196,7 @@ void main() {
         ),
       );
       expect(find.bySemanticsLabel('Clear date'), findsOneWidget);
-      await tester.tap(find.text('Jun 10, 2026'));
+      await tester.tap(find.text('10 Jun 2026'));
       await pumpFocus(tester);
       expect(
         tester.getSemantics(find.byType(FieldSemantics)),
@@ -259,15 +259,15 @@ void main() {
       await tester.pump();
       expect(find.text('Pick a date.'), findsOneWidget);
       await tester.pumpWidget(build(DateTime(2026, 6, 10)));
-      expect(find.text('Jun 10, 2026'), findsOneWidget);
-      await tester.tap(find.text('Jun 10, 2026'));
+      expect(find.text('10 Jun 2026'), findsOneWidget);
+      await tester.tap(find.text('10 Jun 2026'));
       await pumpFocus(tester);
       await tester.tap(_day(2026, 6, 20));
       await pumpFocus(tester);
-      expect(find.text('Jun 20, 2026'), findsOneWidget);
+      expect(find.text('20 Jun 2026'), findsOneWidget);
       form.currentState!.reset();
       await tester.pump();
-      expect(find.text('Jun 10, 2026'), findsOneWidget);
+      expect(find.text('10 Jun 2026'), findsOneWidget);
       expect(find.text('Pick a date.'), findsNothing);
       expect(reports, [DateTime(2026, 6, 20)]);
     });
@@ -314,7 +314,7 @@ void main() {
           theme: InvisibleThemeData.light(density: InvisibleDensity.touch),
         ),
       );
-      await tester.tap(find.text('Jun 10, 2026'));
+      await tester.tap(find.text('10 Jun 2026'));
       await pumpFocus(tester);
       expect(tester.takeException(), isNull);
       final popup = tester.getRect(find.byType(Calendar));
@@ -358,14 +358,16 @@ void main() {
       await tester.tap(_day(first.year, first.month, first.day));
       await pumpFocus(tester);
       expect(_open(), isTrue);
-      final en = DateSymbols.english;
-      expect(find.text('${en.formatMedium(first)} – …'), findsOneWidget);
+      final symbols = DateSymbols.international;
+      expect(find.text('${symbols.formatMedium(first)} – …'), findsOneWidget);
       await tester.tap(_day(last.year, last.month, last.day));
       await pumpFocus(tester);
       expect(_open(), isFalse);
       expect(focus.hasFocus, isTrue);
       expect(
-        find.text('${en.formatMedium(first)} – ${en.formatMedium(last)}'),
+        find.text(
+          '${symbols.formatMedium(first)} – ${symbols.formatMedium(last)}',
+        ),
         findsOneWidget,
       );
       expect(reports, [DateRange(first), DateRange(first, last)]);
@@ -402,16 +404,16 @@ void main() {
         tester.getSemantics(find.byType(FieldSemantics)),
         semanticsWith(
           label: 'Date range',
-          value: 'Jun 4, 2026 – Jun 10, 2026',
+          value: '4 Jun 2026 – 10 Jun 2026',
           isButton: true,
         ),
       );
-      await tester.tap(find.text('Jun 4, 2026 – Jun 10, 2026'));
+      await tester.tap(find.text('4 Jun 2026 – 10 Jun 2026'));
       await pumpFocus(tester);
       expect(
         tester.getSemantics(_day(2026, 6, 4)),
         semanticsWith(
-          label: 'Thursday, June 4, 2026, range start',
+          label: 'Thursday, 4 June 2026, range start',
           isSelected: true,
         ),
       );
@@ -449,7 +451,7 @@ void main() {
       expect(find.text('Select a range'), findsOneWidget);
       form.currentState!.reset();
       await tester.pump();
-      expect(find.text('Jun 4, 2026 – Jun 10, 2026'), findsOneWidget);
+      expect(find.text('4 Jun 2026 – 10 Jun 2026'), findsOneWidget);
       expect(reports, [null]);
     });
   });

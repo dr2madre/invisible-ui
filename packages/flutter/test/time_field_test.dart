@@ -155,9 +155,14 @@ void main() {
         'sets PM; a tap toggles', (tester) async {
       final reports = <String?>[];
       await tester.pumpWidget(
-        harness(TimeField.uncontrolled(onChanged: reports.add)),
+        harness(
+          TimeField.uncontrolled(
+            locale: const Locale('en', 'US'),
+            onChanged: reports.add,
+          ),
+        ),
       );
-      expect(find.text('--'), findsOneWidget, reason: 'English is 12-hour');
+      expect(find.text('--'), findsOneWidget, reason: 'US English is 12-hour');
       await _focus(tester, 'hour');
       await _type(tester, [_nine, _three, _zero]);
       expect(reports, isEmpty);
