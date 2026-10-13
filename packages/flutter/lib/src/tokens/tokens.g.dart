@@ -199,6 +199,7 @@ final class InvisibleColors {
     required this.selected,
     required this.onSelected,
     required this.dialogOverlay,
+    required this.navigationBarCurrentIndicator,
   });
 
   static const InvisibleColors light = InvisibleColors(
@@ -259,6 +260,7 @@ final class InvisibleColors {
     selected: Color(0xFF7A52CC),
     onSelected: Color(0xFFFFFFFF),
     dialogOverlay: Color(0x801C1915),
+    navigationBarCurrentIndicator: Color(0xFF8763D1),
   );
 
   static const InvisibleColors dark = InvisibleColors(
@@ -319,6 +321,7 @@ final class InvisibleColors {
     selected: Color(0xFF7A52CC),
     onSelected: Color(0xFFFFFFFF),
     dialogOverlay: Color(0x99000000),
+    navigationBarCurrentIndicator: Color(0xFF997AD5),
   );
 
   /// `color-background`.
@@ -492,6 +495,9 @@ final class InvisibleColors {
   /// `dialog-overlay`.
   final Color dialogOverlay;
 
+  /// `navigation-bar-current-indicator`.
+  final Color navigationBarCurrentIndicator;
+
   /// A copy with the given roles replaced.
   InvisibleColors copyWith({
     Color? background,
@@ -551,6 +557,7 @@ final class InvisibleColors {
     Color? selected,
     Color? onSelected,
     Color? dialogOverlay,
+    Color? navigationBarCurrentIndicator,
   }) {
     return InvisibleColors(
       background: background ?? this.background,
@@ -610,6 +617,7 @@ final class InvisibleColors {
       selected: selected ?? this.selected,
       onSelected: onSelected ?? this.onSelected,
       dialogOverlay: dialogOverlay ?? this.dialogOverlay,
+      navigationBarCurrentIndicator: navigationBarCurrentIndicator ?? this.navigationBarCurrentIndicator,
     );
   }
 
@@ -671,6 +679,7 @@ final class InvisibleColors {
     selected,
     onSelected,
     dialogOverlay,
+    navigationBarCurrentIndicator,
   ];
 
   @override
@@ -800,6 +809,12 @@ abstract final class InvisibleColorMixes {
       mixWith: Color(0xFF282420),
       value: Color(0xFF553D7F),
     ),
+    'navigationBarCurrentIndicator': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.9,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFF8763D1),
+    ),
   };
 
   static const Map<String, InvisibleColorMix> dark = {
@@ -928,6 +943,12 @@ abstract final class InvisibleColorMixes {
       amount: 0.5,
       mixWith: Color(0xFFF4F2EF),
       value: Color(0xFF99B489),
+    ),
+    'navigationBarCurrentIndicator': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.75,
+      mixWith: Color(0xFFF4F2EF),
+      value: Color(0xFF997AD5),
     ),
   };
 }

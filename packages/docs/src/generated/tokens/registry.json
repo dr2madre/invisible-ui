@@ -3284,6 +3284,42 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-navigation-bar-current-indicator",
+      "id": "navigation-bar-current-indicator",
+      "tier": "other",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 306,
+        "dtcg": "role.light.navigation-bar-current-indicator"
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-color-secondary) 90%, var(--ds-neutral-0) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-color-secondary) 75%, var(--ds-neutral-50) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-color-secondary) 75%, var(--ds-neutral-50) )",
+        "fallbackLight": "var(--ds-neutral-400)",
+        "fallbackDark": "var(--ds-neutral-300)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#8763d1",
+        "dark": "#997ad5"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "The shape behind a navigation bar's current destination: 3:1 against the surface and against the text, so the shape and the icon on it both read.",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-neutral-0",
       "id": "neutral-0",
       "tier": "primitive",
@@ -35119,13 +35155,13 @@
     }
   ],
   "counts": {
-    "total": 115,
+    "total": 116,
     "byTier": {
       "primitive": 24,
       "brand": 6,
       "semantic": 54,
       "sizing": 4,
-      "other": 1,
+      "other": 2,
       "elevation": 1,
       "feedback": 5,
       "focus": 4,
@@ -35133,14 +35169,14 @@
       "radius": 3,
       "state": 2
     },
-    "withDarkOverride": 55,
-    "designOwned": 104,
-    "colors": 92
+    "withDarkOverride": 56,
+    "designOwned": 105,
+    "colors": 93
   },
   "adapters": {
-    "svelte": 115,
-    "vue": 115,
-    "react": 115,
-    "elements": 115
+    "svelte": 116,
+    "vue": 116,
+    "react": 116,
+    "elements": 116
   }
 }
