@@ -1,0 +1,227 @@
+/* Navigation Bar (primary navigation between a few sections), ported from the
+   Svelte adapter, class names kept identical. There the block is scoped per
+   component by the compiler; here the sheets are global, so every rule is
+   scoped under `nav.navigation-bar`.
+
+   The bar draws the destinations, the current mark, the badge and the focus
+   ring; the container gets the surface role and nothing else. Width,
+   position, radius, shadow and safe-area padding are the application's, so
+   they have no token. */
+
+nav.navigation-bar {
+  color: var(--ds-navigation-bar-item-text, var(--ds-color-text-secondary, #524c44));
+  background: var(--ds-navigation-bar-surface, var(--ds-color-surface, #e6e0d8));
+}
+
+/* Each destination takes an equal share of the width, from the inline start,
+   so the first destination sits on the right under right to left. */
+nav.navigation-bar .navigation-bar__list {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--ds-navigation-bar-gap, 0.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav.navigation-bar .navigation-bar__item {
+  position: relative;
+  display: flex;
+  min-inline-size: 0;
+}
+
+nav.navigation-bar .navigation-bar__destination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: var(--ds-min-target-size, 24px);
+  min-block-size: var(--ds-min-target-size, 24px);
+  padding: var(--ds-navigation-bar-item-padding, 0.5rem 0.25rem);
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: var(--ds-line-height-tight, 1.2);
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  border-radius: var(--ds-radius-control, 0.5rem);
+  cursor: pointer;
+  -webkit-touch-callout: none;
+}
+
+@media (pointer: coarse) {
+  nav.navigation-bar .navigation-bar__destination {
+    min-inline-size: var(--ds-min-target-size-touch, 44px);
+    min-block-size: var(--ds-min-target-size-touch, 44px);
+  }
+}
+
+@media (hover: hover) {
+  nav.navigation-bar .navigation-bar__destination:hover {
+    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  }
+}
+
+/* The ring surrounds the whole destination, so it never depends on the
+   current mark. */
+nav.navigation-bar .navigation-bar__destination:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+}
+
+/* The shape behind the icon: the current mark, never colour alone. It
+   carries the badge and the status glyph at its corners. */
+nav.navigation-bar .navigation-bar__indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.5rem;
+  max-inline-size: 100%;
+  block-size: 2rem;
+  border-radius: var(--ds-radius-pill, 999px);
+}
+
+nav.navigation-bar .navigation-bar__icon {
+  display: inline-flex;
+  font-size: 1.5rem;
+}
+
+nav.navigation-bar .navigation-bar__destination[data-current] {
+  color: var(--ds-navigation-bar-item-current-text, var(--ds-color-text, #282420));
+}
+
+nav.navigation-bar .navigation-bar__destination[data-current] .navigation-bar__indicator {
+  background: var(--ds-navigation-bar-current-indicator, #8763d1);
+}
+
+/* The label wraps and never truncates; the bar grows taller. A hidden copy at
+   the current weight shares its grid cell, so the weight change never
+   reflows the bar. */
+nav.navigation-bar .navigation-bar__label {
+  display: grid;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+}
+
+nav.navigation-bar .navigation-bar__label::after {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  font-weight: 600;
+  visibility: hidden;
+}
+
+nav.navigation-bar .navigation-bar__label-text {
+  grid-area: 1 / 1;
+}
+
+nav.navigation-bar .navigation-bar__destination[data-current] .navigation-bar__label-text {
+  font-weight: 600;
+}
+
+nav.navigation-bar .navigation-bar__badge {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: calc(50% + 0.375rem);
+  box-sizing: border-box;
+  min-inline-size: 1rem;
+  block-size: 1rem;
+  padding-inline: 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1rem;
+  color: var(--ds-navigation-bar-badge-text, var(--ds-color-on-status, #fff));
+  white-space: nowrap;
+  background: var(--ds-navigation-bar-badge-surface, var(--ds-color-danger, #be3b50));
+  border-radius: var(--ds-radius-pill, 999px);
+}
+
+nav.navigation-bar .navigation-bar__badge--dot {
+  inset-block-start: 0.25rem;
+  min-inline-size: 0;
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  padding: 0;
+}
+
+nav.navigation-bar .navigation-bar__destination[data-unavailable] {
+  color: var(--ds-color-text-disabled, #757067);
+  cursor: default;
+}
+
+nav.navigation-bar .navigation-bar__status {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: calc(50% + 0.375rem);
+  display: inline-flex;
+  font-size: 0.875rem;
+}
+
+/* The reason shows on hover, keyboard focus and a long press, and Escape
+   hides it until focus or the pointer leaves (WCAG 1.4.13). It stays in the
+   page for `aria-describedby` while hidden. */
+nav.navigation-bar .navigation-bar__reason {
+  position: absolute;
+  inset-block-end: calc(100% + 0.25rem);
+  inset-inline: 0;
+  z-index: var(--ds-tooltip-z-index, 60);
+  display: none;
+  inline-size: max-content;
+  max-inline-size: 12rem;
+  margin-inline: auto;
+  padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
+  font-size: var(--ds-tooltip-font-size, 0.8125rem);
+  line-height: var(--ds-line-height, 1.4);
+  color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f4f2ef));
+  background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #332f2a));
+  border-radius: var(--ds-tooltip-radius, var(--ds-radius-control, 0.5rem));
+}
+
+nav.navigation-bar .navigation-bar__destination:focus-visible + .navigation-bar__reason,
+nav.navigation-bar .navigation-bar__destination[data-reason-shown] + .navigation-bar__reason {
+  display: block;
+}
+
+@media (hover: hover) {
+  nav.navigation-bar .navigation-bar__item:hover > .navigation-bar__reason {
+    display: block;
+  }
+}
+
+nav.navigation-bar .navigation-bar__destination[data-reason-dismissed] + .navigation-bar__reason {
+  display: none;
+}
+
+nav.navigation-bar .navigation-bar__hidden,
+nav.navigation-bar .navigation-bar__live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Forced colors drop backgrounds: the current mark becomes an outline, and
+   the badge keeps a border so a dot stays visible. */
+@media (forced-colors: active) {
+  nav.navigation-bar .navigation-bar__destination[data-current] .navigation-bar__indicator {
+    outline: 2px solid CanvasText;
+    outline-offset: -2px;
+  }
+
+  nav.navigation-bar .navigation-bar__badge {
+    border: 1px solid CanvasText;
+  }
+
+  nav.navigation-bar .navigation-bar__reason {
+    border: 1px solid CanvasText;
+  }
+}
