@@ -8,8 +8,9 @@ import { localeScope, notifyLocaleChange, onLocaleChange } from "../internal/i18
  * so assistive technologies use the right language rules and the CSS logical
  * properties flip for right-to-left text. Without `dir`, the direction follows
  * the locale. The closest provider wins; outside any provider an element reads
- * the closest `lang` attribute, then English. A label attribute set on an
- * element still wins over the catalog.
+ * the closest `lang` attribute, then the international default (English
+ * messages, Monday first, 24-hour time). A label attribute set on an element
+ * still wins over the catalog.
  *
  * ```html
  * <ds-locale-provider locale="it">
@@ -21,7 +22,7 @@ import { localeScope, notifyLocaleChange, onLocaleChange } from "../internal/i18
  * ```
  *
  * Attributes: `locale` (BCP-47 tag; without it, the language around the
- * provider, then English), `dir` (`ltr` or `rtl`; derived from the locale when
+ * provider, then the international default), `dir` (`ltr` or `rtl`; derived from the locale when
  * omitted).
  * Properties: `locale` (the resolved tag), `messages` (overrides keyed by
  * catalog key: plain strings, or plural objects for count messages).

@@ -19,11 +19,11 @@
         },
         {
           "name": "hourCycle",
-          "type": "HourCycle",
-          "default": "24",
+          "type": "HourCycle | undefined",
+          "default": "undefined",
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "12 or 24 hours. Defaults to the locale's cycle.",
+          "descriptionFrom": "source"
         },
         {
           "name": "withSeconds",
@@ -141,10 +141,10 @@
         {
           "name": "hourCycle",
           "type": "HourCycle",
-          "default": "24",
+          "default": "undefined",
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "12 or 24 hours. Defaults to the locale's cycle.",
+          "descriptionFrom": "source"
         },
         {
           "name": "withSeconds",

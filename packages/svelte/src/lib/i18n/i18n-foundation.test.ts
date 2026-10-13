@@ -33,7 +33,7 @@ describe("Svelte i18n foundation", () => {
     expect(wrapper()).toHaveAttribute("lang", "it-IT");
     unmount();
     render(Fixture, { props: { locale: "not a tag" } });
-    expect(document.querySelector(".ds-locale")).toHaveAttribute("lang", "en");
+    expect(document.querySelector(".ds-locale")).toHaveAttribute("lang", "en-001-u-hc-h23");
     spy.mockRestore();
   });
 

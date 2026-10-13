@@ -9,7 +9,8 @@
    * (`@design-system/core`): ArrowUp/Down increment/decrement (wrapping),
    * Left/Right move between segments, digits type with auto-advance, Backspace
    * clears, and A/P set the period in 12-hour mode. The value is the canonical
-   * 24-hour ISO string (`HH:mm` or `HH:mm:ss`). Themeable via `--ds-time-field-*`.
+   * 24-hour ISO string (`HH:mm` or `HH:mm:ss`). The hour cycle follows the
+   * locale unless `hourCycle` says otherwise. Themeable via `--ds-time-field-*`.
    */
   import {
     createTimeField,
@@ -17,17 +18,18 @@
     type TimeSegmentType,
     type TimeValueError,
   } from "./create-time-field";
-  import { timeField as core } from "@design-system/core";
+  import { i18n, timeField as core } from "@design-system/core";
   import { formReset } from "../internal/form-reset";
   import { controllable } from "../internal/controllable.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { get } from "svelte/store";
   import { untrack } from "svelte";
 
-  const { t } = getI18n();
+  const { t, locale } = getI18n();
 
   interface Props {
     value?: string | null;
+    /** 12 or 24 hours. Defaults to the locale's cycle. */
     hourCycle?: HourCycle;
     withSeconds?: boolean;
     disabled?: boolean;
@@ -52,7 +54,7 @@
 
   let {
     value = $bindable(null),
-    hourCycle = 24,
+    hourCycle,
     withSeconds = false,
     disabled = false,
     invalid = false,
@@ -66,6 +68,7 @@
     onValidationChange,
   }: Props = $props();
 
+  const cycle = $derived(hourCycle ?? i18n.hourCycleOf($locale));
   const translate = get(t);
   const id = `ds-time-field-${++timeFieldId}`;
   const errorId = `${id}-error`;
@@ -75,7 +78,7 @@
     createTimeField({
       id,
       value,
-      hourCycle,
+      hourCycle: cycle,
       withSeconds,
       min,
       max,
@@ -98,7 +101,7 @@
   const { state: tfState, api, rootAction, segmentAction, fieldAction } = field;
 
   $effect.pre(() => {
-    field.syncConfig({ min, max, hourCycle, withSeconds });
+    field.syncConfig({ min, max, hourCycle: cycle, withSeconds });
   });
 
   // Controllable mirror (ADR 0011), with the reset default of ADR 0012.

@@ -906,6 +906,11 @@
       "signature": "i18n.NumberSymbols = interface NumberSymbols { decimal: string; group: string; minusSign: string; /** The ten digits of the locale's default numbering system, 0 through 9. */ digits: string[]; }"
     },
     {
+      "name": "i18n.PageLocale",
+      "kind": "type",
+      "signature": "i18n.PageLocale = interface PageLocale { locale: string | null; dir: Dir | null; }"
+    },
+    {
       "name": "i18n.PluralMessage",
       "kind": "type",
       "signature": "i18n.PluralMessage = interface PluralMessage { zero?: string; one?: string; two?: string; few?: string; many?: string; other: string; }"
@@ -936,6 +941,11 @@
       "signature": "i18n_foldDigits: typeof foldDigits"
     },
     {
+      "name": "i18n.hourCycleOf",
+      "kind": "const",
+      "signature": "i18n_hourCycleOf: typeof hourCycleOf"
+    },
+    {
       "name": "i18n.localeDirection",
       "kind": "const",
       "signature": "i18n_localeDirection: typeof localeDirection"
@@ -961,9 +971,24 @@
       "signature": "i18n_numberSymbols: typeof numberSymbols"
     },
     {
+      "name": "i18n.pageLocale",
+      "kind": "const",
+      "signature": "i18n_pageLocale: typeof pageLocale"
+    },
+    {
       "name": "i18n.pluralRules",
       "kind": "const",
       "signature": "i18n_pluralRules: typeof pluralRules"
+    },
+    {
+      "name": "i18n.resolveLocale",
+      "kind": "const",
+      "signature": "i18n_resolveLocale: typeof resolveLocale"
+    },
+    {
+      "name": "i18n.subscribePageLocale",
+      "kind": "const",
+      "signature": "i18n_subscribePageLocale: typeof subscribePageLocale"
     },
     {
       "name": "i18n.translate",

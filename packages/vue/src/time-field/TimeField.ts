@@ -1,3 +1,4 @@
+import { i18n as coreI18n } from "@design-system/core";
 import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import {
@@ -12,6 +13,7 @@ export interface TimeFieldProps {
   /** Value as `"HH:mm"` or `"HH:mm:ss"` (24h); bindable with `v-model`. */
   modelValue?: string | null;
   value?: string | null;
+  /** 12 or 24 hours. Defaults to the locale's cycle. */
   hourCycle?: HourCycle;
   withSeconds?: boolean;
   disabled?: boolean;
@@ -41,7 +43,8 @@ export interface TimeFieldProps {
  * wrapping, Left/Right move between segments, digits type with auto-advance,
  * Backspace clears, and A/P set the period in 12-hour mode. The value is the
  * canonical 24-hour string (`HH:mm` or `HH:mm:ss`) and binds two ways:
- * `v-model` or the `value` prop plus `onValueChange`. Themeable via
+ * `v-model` or the `value` prop plus `onValueChange`. The hour cycle follows
+ * the locale unless `hourCycle` says otherwise. Themeable via
  * `--ds-time-field-*`.
  */
 export const TimeField = defineComponent({
@@ -49,7 +52,7 @@ export const TimeField = defineComponent({
   props: {
     modelValue: { type: String as PropType<string | null>, default: undefined },
     value: { type: String as PropType<string | null>, default: null },
-    hourCycle: { type: Number as PropType<HourCycle>, default: 24 },
+    hourCycle: { type: Number as PropType<HourCycle>, default: undefined },
     withSeconds: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
     invalid: { type: Boolean, default: false },
@@ -86,7 +89,7 @@ export const TimeField = defineComponent({
 
     const { api, segments, parts, reset, onFieldFocusOut, id } = useTimeField(() => ({
       value: given(),
-      hourCycle: props.hourCycle,
+      hourCycle: props.hourCycle ?? coreI18n.hourCycleOf(i18n.value.locale),
       withSeconds: props.withSeconds,
       min: props.min,
       max: props.max,

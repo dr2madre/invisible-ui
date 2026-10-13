@@ -35,16 +35,6 @@ export interface TimeFieldProps {
   onValidationChange?: (error: TimeValueError | null) => void;
 }
 
-/**
- * The hour cycle a locale prefers. Read from a formatter's resolved options,
- * which every runtime answers alike, so the server and the browser render
- * the same segments.
- */
-function localeHourCycle(locale: string): HourCycle {
-  const cycle = coreI18n.dateTimeFormat(locale, { hour: "numeric" }).resolvedOptions().hourCycle;
-  return cycle === "h11" || cycle === "h12" ? 12 : 24;
-}
-
 /** The catalog message for each way a time can be wrong. */
 const MESSAGES: Record<TimeValueError, MessageKey> = {
   "invalid-format": "timeField.invalidFormat",
@@ -93,7 +83,7 @@ export function TimeField({
 
   const api = useTimeField({
     value,
-    hourCycle: hourCycle ?? localeHourCycle(locale),
+    hourCycle: hourCycle ?? coreI18n.hourCycleOf(locale),
     withSeconds,
     min,
     max,

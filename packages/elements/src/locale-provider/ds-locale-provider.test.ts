@@ -212,7 +212,7 @@ describe("<ds-locale-provider>", () => {
     expect(remove("inner-tag")).toBe("Retirer");
   });
 
-  it("reads the closest lang without a provider, then falls back to English", () => {
+  it("reads the closest lang without a provider, then the international default", () => {
     document.documentElement.lang = "ar";
     document.body.innerHTML = `
       <div lang="ru-ru"><ds-tag id="ru" removable>Один</ds-tag></div>
@@ -224,7 +224,7 @@ describe("<ds-locale-provider>", () => {
     // Without a provider there are no overrides: the English catalog.
     expect(within(ru).getByRole("button", { name: "Remove" })).toBeInTheDocument();
     document.documentElement.removeAttribute("lang");
-    expect(localeScope(doc).locale).toBe("en");
+    expect(localeScope(doc).locale).toBe("en-001-u-hc-h23");
   });
 
   it("gives a provider without locale the language of the page", () => {
