@@ -90,6 +90,15 @@ const fixtures: Record<string, ReactElement> = {
       sections={[{ label: "Main", items: [{ value: "home", label: "Home", href: "/" }] }]}
     />
   ),
+  NavigationBar: (
+    <adapter.NavigationBar
+      value="home"
+      destinations={[
+        { value: "home", label: "Home", href: "/", icon: null },
+        { value: "hours", label: "Hours", icon: null, unavailable: { reason: "Offline" } },
+      ]}
+    />
+  ),
   TreeView: (
     <adapter.TreeView
       label="Files"
