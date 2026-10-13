@@ -13,8 +13,9 @@ part is implemented: the `submenu` entry, the open path and the keyboard map
 in `core/src/menu`, the Menubar coordination in `core/src/menubar`, and the
 grace-area and placement functions in `core/src/internal`. The React
 adapter renders submenus (see [React](#react)), and the Flutter adapter
-renders them in its Dropdown Menu, on the shared menu layer in
-`packages/flutter/lib/src/menu`, running the shared vectors. The Svelte, Vue
+renders them in its Dropdown Menu, Context Menu and Menubar, on the shared
+menu layer in `packages/flutter/lib/src/menu`, running the shared vectors,
+the Menubar ones in `core/src/menubar/__vectors__` included. The Svelte, Vue
 and custom element adapters do not render them yet.
 
 ## Pattern
@@ -384,8 +385,11 @@ activation commits the closed state to the DOM and returns focus before
 
 - **Anchors.** Each level is a `RawMenuAnchor` with its own `MenuController`.
   A submenu anchor sits inside its parent's `overlayBuilder`, the nesting
-  the `RawMenuAnchor` documentation shows. Menubar is a `RawMenuAnchorGroup`.
-  The trigger's `FocusNode` is the anchor's `childFocusNode`.
+  the `RawMenuAnchor` documentation shows. In Menubar each top menu is a
+  root anchor and the bar coordinates them with the `core/src/menubar`
+  rules, rather than through a `RawMenuAnchorGroup`, whose own outside-press
+  handling can return focus to the trigger. The trigger's `FocusNode` is
+  the anchor's `childFocusNode`.
 - **Keyboard.** One shared menu keyboard layer (ADR 0017 §4) maps the keys
   with `Shortcuts` to menu intents (next, previous, first, last, open
   submenu, close level, activate, dismiss) and resolves left and right from
@@ -401,8 +405,8 @@ activation commits the closed state to the DOM and returns focus before
   overlay size; a layout delegate applies the placement, flip and shift rules
   above, with `AlignmentDirectional` so they mirror under right-to-left.
 - **Semantics.** As in the roles table.
-- **Close order and the SDK range.** The package declares `sdk: ^3.8.0`
-  (Flutter 3.32). Flutter 3.44 changed how nested anchors close: since 3.44
+- **Close order and the SDK range.** The package declares `sdk: ^3.9.0`
+  (Flutter 3.35). Flutter 3.44 changed how nested anchors close: since 3.44
   closing an anchor closes its descendants first, calls `onCloseRequested`
   from the parent down and `onClose` from the deepest child up; before 3.44
   each `onCloseRequested` had to call `closeChildren()` and the parent's
@@ -412,7 +416,7 @@ activation commits the closed state to the DOM and returns focus before
   itself (`closeChildren()` on the root controller, then `close()`), tracks
   the open path in its own state, and reports `onSelect` and returns focus
   after the root is closed, in a post-frame callback. The widget tests run on
-  Flutter 3.32 and on the current stable release (3.44 or later).
+  Flutter 3.35 and on the current stable release (3.44 or later).
 
 ## Test plan
 
@@ -483,7 +487,7 @@ tree in `menu-tree.json`.
 - `meetsGuideline` with a 24 by 24 and a 44 by 44 `MinimumTapTargetGuideline`
   per density; `labeledTapTargetGuideline`; text scale 2.0.
 - Close order: activation inside a submenu closes every level, returns focus
-  and reports once, on Flutter 3.32 and on 3.44 or later.
+  and reports once, on Flutter 3.35 and on 3.44 or later.
 
 ### Parity checklist lines
 

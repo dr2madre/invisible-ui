@@ -1,10 +1,7 @@
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../i18n/messages.dart';
-import '../internal/announce.dart';
+import '../internal/copy_feedback.dart';
 import '../internal/focus_ring.dart';
 import '../internal/open_width.dart';
 import '../internal/pressable.dart';
@@ -27,9 +24,6 @@ const EdgeInsetsDirectional _headerPadding = EdgeInsetsDirectional.fromSTEB(
   12,
   6.4,
 );
-
-/// How long the "Copied" confirmation stays, as on the web.
-const Duration copiedDuration = Duration(seconds: 2);
 
 /// A multi-line, monospaced sample of code, with an optional caption and a
 /// copy button.
@@ -77,31 +71,27 @@ class CodeBlock extends StatefulWidget {
 }
 
 class _CodeBlockState extends State<CodeBlock> {
-  bool _copied = false;
-  Timer? _timer;
+  final CopyFeedback _feedback = CopyFeedback();
+
+  @override
+  void initState() {
+    super.initState();
+    _feedback.addListener(_changed);
+  }
+
+  void _changed() => setState(() {});
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _feedback.dispose();
     super.dispose();
   }
 
-  Future<void> _copy() async {
-    try {
-      await Clipboard.setData(ClipboardData(text: widget.code));
-    } on PlatformException {
-      // Nothing was copied, so nothing is confirmed.
-      return;
-    }
-    // A copy can finish after the block is gone.
-    if (!mounted) return;
-    _timer?.cancel();
-    setState(() => _copied = true);
-    announce(context, InvisibleTheme.of(context).messages.codeBlockCopied);
-    _timer = Timer(copiedDuration, () {
-      if (mounted) setState(() => _copied = false);
-    });
-  }
+  Future<void> _copy() => _feedback.copy(
+    context,
+    widget.code,
+    announcement: InvisibleTheme.of(context).messages.codeBlockCopied,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +134,7 @@ class _CodeBlockState extends State<CodeBlock> {
                     _CopyButton(
                       onPressed: _copy,
                       label: widget.copyLabel ?? messages.codeBlockCopy,
-                      text: _copied
+                      text: _feedback.copied
                           ? messages.codeBlockCopiedText
                           : messages.codeBlockCopyText,
                     ),

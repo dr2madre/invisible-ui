@@ -263,6 +263,8 @@ class _AlertDialogState extends State<AlertDialog> {
 /// set [confirmVariant] to [ButtonVariant.danger]. Focus starts on Cancel,
 /// the safe choice. [urgent] makes it an alert dialog, which assistive
 /// technology reads at once; nothing else changes.
+///
+/// Confirming closes the dialog first, then calls [onConfirm] (ADR 0011).
 class ConfirmDialog extends StatefulWidget {
   /// Creates a confirm dialog.
   const ConfirmDialog({
@@ -297,8 +299,7 @@ class ConfirmDialog extends StatefulWidget {
   /// Whether the choice interrupts, as an alert dialog.
   final bool urgent;
 
-  /// Called when the confirming button is pressed, before the dialog
-  /// closes.
+  /// Called after the dialog has closed on a confirmation.
   final VoidCallback? onConfirm;
 
   /// Whether the header ends with a close button.
@@ -323,6 +324,14 @@ class _ConfirmDialogState extends State<ConfirmDialog> {
     super.dispose();
   }
 
+  /// Closes with true, then reports the confirmation.
+  void _confirm() {
+    final onConfirm = widget.onConfirm;
+    final navigator = Navigator.maybeOf(context);
+    if (navigator != null && navigator.canPop()) navigator.pop(true);
+    onConfirm?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     final messages = InvisibleTheme.of(context).messages;
@@ -345,10 +354,7 @@ class _ConfirmDialogState extends State<ConfirmDialog> {
             child: Text(widget.cancelLabel ?? messages.dialogCancelLabel),
           ),
           Button(
-            onPressed: () {
-              widget.onConfirm?.call();
-              Navigator.maybeOf(context)?.maybePop(true);
-            },
+            onPressed: _confirm,
             variant: widget.confirmVariant,
             child: Text(widget.confirmLabel ?? messages.dialogConfirmLabel),
           ),

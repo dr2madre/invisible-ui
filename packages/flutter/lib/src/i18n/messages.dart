@@ -3,6 +3,17 @@ import 'package:flutter/foundation.dart';
 // The English `avatarGroup.more`: its one and other forms read the same.
 String _avatarGroupMore(int count) => '$count more';
 
+// The English `searchDialog.results`.
+String _searchDialogResults(int count) =>
+    count == 1 ? '$count result available' : '$count results available';
+
+// The English `rating.stars`.
+String _ratingStars(int count) => count == 1 ? '$count star' : '$count stars';
+
+// The English `table.results`.
+String _tableResults(int count) =>
+    count == 1 ? '$count result' : '$count results';
+
 /// The text the components show or announce.
 ///
 /// The defaults are the English catalog of `core/src/i18n/messages.ts`; each
@@ -15,7 +26,9 @@ class InvisibleMessages {
   /// Creates a message set, English unless a field is given.
   const InvisibleMessages({
     this.loadingLabel = 'Loading…',
+    this.buttonCopied = 'Copied',
     this.submenuHint = 'submenu',
+    this.contextMenuLabel = 'Context menu',
     this.closeLabel = 'Close',
     this.notificationRegionLabel = 'Notifications',
     this.numberFieldIncrement = 'Increase {label}',
@@ -36,6 +49,22 @@ class InvisibleMessages {
     this.comboboxEmpty = 'No results',
     this.comboboxShow = 'Show options',
     this.comboboxHide = 'Close options',
+    this.searchFieldClear = 'Clear search',
+    this.searchFieldSubmit = 'Search',
+    this.searchDialogTitle = 'Search',
+    this.searchDialogLabel = 'Search',
+    this.searchDialogPlaceholder = 'Type to search…',
+    this.searchDialogEmpty = 'No results found.',
+    this.searchDialogResults = _searchDialogResults,
+    this.searchDialogLoading = 'Searching…',
+    this.sheetDialogClose = 'Close',
+    this.sidebarOpen = 'Open the navigation',
+    this.multiSelectSelected = 'Selected values',
+    this.multiSelectRemove = 'Remove {name}',
+    this.multiSelectAdded = '{name} added',
+    this.multiSelectRemoved = '{name} removed',
+    this.multiSelectEmpty = 'No results',
+    this.multiSelectPlaceholder = 'Search…',
     this.popoverTriggerLabel = 'Open',
     this.calendarLabel = 'Calendar',
     this.calendarPrevious = 'Previous',
@@ -68,8 +97,57 @@ class InvisibleMessages {
     this.paginationNext = 'Go to next page',
     this.paginationPage = 'Go to page {page}',
     this.paginationCurrent = 'current page',
+    this.tableViews = 'Views',
+    this.tablePagination = 'Table pages',
+    this.tableLoadMore = 'Load more',
+    this.tableLoading = 'Loading…',
+    this.tableColumns = 'Columns',
+    this.tableSelectRow = 'Select {name}',
+    this.tableSelectPage = 'Select all visible rows',
+    this.tableSelection = 'Selection',
+    this.tableNoResults = 'No rows match the current filters',
+    this.tableResults = _tableResults,
+    this.tableClearFilters = 'Clear filters',
+    this.tableView = 'View',
+    this.tableViewTable = 'Table',
+    this.tableViewCards = 'Cards',
+    this.tableSortedAscending = 'sorted ascending',
+    this.tableSortedDescending = 'sorted descending',
+    this.carouselPrevious = 'Previous slide',
+    this.carouselNext = 'Next slide',
+    this.carouselChoose = 'Choose slide',
+    this.carouselSlide = '{index} of {count}',
+    this.carouselGoTo = 'Go to slide {index}',
+    this.carouselRoleDescription = 'carousel',
+    this.carouselSlideRoleDescription = 'slide',
+    this.loginFormHeading = 'Sign in',
+    this.loginFormSubmit = 'Sign in',
+    this.loginFormForgot = 'Forgot password?',
+    this.loginFormEmail = 'Email',
+    this.loginFormEmailPlaceholder = 'you@example.com',
+    this.loginFormPassword = 'Password',
+    this.loginFormDivider = 'or',
+    this.loginFormProvider = 'Continue with {name}',
+    this.uploadDropAreaPrompt = 'Drag & drop files or',
+    this.uploadDropAreaAction = 'browse',
+    this.uploadDropAreaBrowse = 'Browse files',
+    this.uploadDropAreaRejectedType = '{name} is not an accepted file type.',
+    this.uploadDropAreaRejectedCount =
+        '{name} was not added: only one file is accepted.',
+    this.uploadDropAreaFiles = 'Selected files',
+    this.uploadDropAreaRemove = 'Remove {name}',
     this.breadcrumbLabel = 'Breadcrumb',
     this.breadcrumbCurrent = 'current page',
+    this.sidebarLabel = 'Main',
+    this.sidebarCollapse = 'Collapse the navigation',
+    this.sidebarExpand = 'Expand the navigation',
+    this.sidebarCurrent = 'current page',
+    this.navigationMenuCurrent = 'current page',
+    this.treeLoading = 'Loading {name}…',
+    this.treeLoadError = 'Could not load {name}. Press Right Arrow to retry.',
+    this.treeExpand = 'Expand',
+    this.treeCollapse = 'Collapse',
+    this.treeRetry = 'Retry',
     this.avatarGroupMore = _avatarGroupMore,
     this.tagRemove = 'Remove',
     this.codeBlockLabel = 'Code',
@@ -80,14 +158,29 @@ class InvisibleMessages {
     this.codeBlockCopyText = 'Copy',
     this.codeBlockCopiedText = 'Copied',
     this.codeBlockCopied = 'Copied to clipboard',
+    this.rangeSliderLowerText = '{value}, minimum; may not exceed {bound}',
+    this.rangeSliderUpperText = '{value}, maximum; may not go below {bound}',
+    this.ratingStars = _ratingStars,
+    this.pinInputCell = 'Character {index} of {length}',
+    this.stepperLabel = 'Progress',
+    this.stepperCompleted = 'Completed',
+    this.stepperCurrent = 'current step',
   });
 
   /// Announced while a control is busy. Catalog key `loading.label`.
   final String loadingLabel;
 
+  /// Shown beside a button after it copied its text, and announced.
+  /// Catalog key `button.copied`.
+  final String buttonCopied;
+
   /// The hint of a menu item that opens a submenu. Catalog key
   /// `menu.submenu`.
   final String submenuHint;
+
+  /// The name of a context menu given none. Catalog key
+  /// `contextMenu.label`.
+  final String contextMenuLabel;
 
   /// The name of a notification's close button. Catalog key
   /// `inlineNotification.close`.
@@ -164,6 +257,70 @@ class InvisibleMessages {
   /// The name of a combobox's button while its list is open.
   /// Catalog key `combobox.hide`.
   final String comboboxHide;
+
+  /// The name of a search field's clear button. Catalog key
+  /// `searchField.clear`.
+  final String searchFieldClear;
+
+  /// The name of a search field's submit button. Catalog key
+  /// `searchField.submit`.
+  final String searchFieldSubmit;
+
+  /// The default title of a search dialog. Catalog key `searchDialog.title`.
+  final String searchDialogTitle;
+
+  /// The default name of a search dialog's field. Catalog key
+  /// `searchDialog.label`.
+  final String searchDialogLabel;
+
+  /// Shown in a search dialog's empty field. Catalog key
+  /// `searchDialog.placeholder`.
+  final String searchDialogPlaceholder;
+
+  /// Shown and announced when nothing matches a search dialog's query. Catalog
+  /// key `searchDialog.empty`.
+  final String searchDialogEmpty;
+
+  /// Announced with the number of results, a function of the count, so a
+  /// translation picks its own plural forms. Catalog key
+  /// `searchDialog.results`.
+  final String Function(int count) searchDialogResults;
+
+  /// Announced while a search dialog's results load. Catalog key
+  /// `searchDialog.loading`.
+  final String searchDialogLoading;
+
+  /// The name of a sheet dialog's close button. Catalog key
+  /// `sheetDialog.close`.
+  final String sheetDialogClose;
+
+  /// The name of the button an app gives the sidebar drawer. Catalog key
+  /// `sidebar.open`.
+  final String sidebarOpen;
+
+  /// The name of a multi select's list of chosen values. Catalog key
+  /// `multiSelect.selected`.
+  final String multiSelectSelected;
+
+  /// The name of a chosen value's remove button, with `{name}`. Catalog key
+  /// `multiSelect.remove`.
+  final String multiSelectRemove;
+
+  /// Announced after a value is added to a multi select, with `{name}`. Catalog
+  /// key `multiSelect.added`.
+  final String multiSelectAdded;
+
+  /// Announced after a value is removed from a multi select, with `{name}`.
+  /// Catalog key `multiSelect.removed`.
+  final String multiSelectRemoved;
+
+  /// Shown when no option matches a multi select's text. Catalog key
+  /// `multiSelect.empty`.
+  final String multiSelectEmpty;
+
+  /// Shown in a multi select's empty field. Catalog key
+  /// `multiSelect.placeholder`.
+  final String multiSelectPlaceholder;
 
   /// The text of a popover trigger given no content of its own.
   /// Catalog key `dialog.trigger`.
@@ -293,6 +450,158 @@ class InvisibleMessages {
   /// `pagination.current`.
   final String paginationCurrent;
 
+  /// The name of a table set's view tabs. Catalog key
+  /// `table.views`.
+  final String tableViews;
+
+  /// The name of a table's pagination. Catalog key
+  /// `table.pagination`.
+  final String tablePagination;
+
+  /// The button that loads more rows. Catalog key
+  /// `table.loadMore`.
+  final String tableLoadMore;
+
+  /// Shown and announced while rows load. Catalog key
+  /// `table.loading`.
+  final String tableLoading;
+
+  /// The column visibility button and its panel. Catalog key
+  /// `table.columns`.
+  final String tableColumns;
+
+  /// The name of a row's selection checkbox, with `{name}`. Catalog key
+  /// `table.selectRow`.
+  final String tableSelectRow;
+
+  /// The name of the checkbox that selects the rows shown. Catalog key
+  /// `table.selectPage`.
+  final String tableSelectPage;
+
+  /// The name of the selection column's header in single mode. Catalog key
+  /// `table.selection`.
+  final String tableSelection;
+
+  /// The title of the no-results state. Catalog key
+  /// `table.noResults`.
+  final String tableNoResults;
+
+  /// Announced when filtering changes the row count, a function of the count, so a translation picks its own plural forms. Catalog key
+  /// `table.results`.
+  final String Function(int count) tableResults;
+
+  /// The no-results state's action. Catalog key
+  /// `table.clearFilters`.
+  final String tableClearFilters;
+
+  /// The name of the switch between the table and the cards. Catalog key
+  /// `table.view`.
+  final String tableView;
+
+  /// The table choice of that switch. Catalog key
+  /// `table.viewTable`.
+  final String tableViewTable;
+
+  /// The cards choice of that switch. Catalog key
+  /// `table.viewCards`.
+  final String tableViewCards;
+
+  /// Read with the header of a column sorted ascending. Catalog key
+  /// `table.sortedAscending`.
+  final String tableSortedAscending;
+
+  /// Read with the header of a column sorted descending. Catalog key
+  /// `table.sortedDescending`.
+  final String tableSortedDescending;
+
+  /// The name of a carousel's previous button. Catalog key
+  /// `carousel.previous`.
+  final String carouselPrevious;
+
+  /// The name of a carousel's next button. Catalog key
+  /// `carousel.next`.
+  final String carouselNext;
+
+  /// The name of a carousel's slide picker. Catalog key
+  /// `carousel.choose`.
+  final String carouselChoose;
+
+  /// The name of a slide, with `{index}` and `{count}`. Catalog key
+  /// `carousel.slide`.
+  final String carouselSlide;
+
+  /// The name of a slide picker button, with `{index}`. Catalog key
+  /// `carousel.goTo`.
+  final String carouselGoTo;
+
+  /// Read as what a carousel is. Catalog key
+  /// `carousel.roleDescription`.
+  final String carouselRoleDescription;
+
+  /// Read as what a slide is. Catalog key
+  /// `carousel.slideRoleDescription`.
+  final String carouselSlideRoleDescription;
+
+  /// The heading of a sign-in form. Catalog key
+  /// `loginForm.heading`.
+  final String loginFormHeading;
+
+  /// The submit button of a sign-in form. Catalog key
+  /// `loginForm.submit`.
+  final String loginFormSubmit;
+
+  /// The forgotten password link. Catalog key
+  /// `loginForm.forgot`.
+  final String loginFormForgot;
+
+  /// The email field's label. Catalog key
+  /// `loginForm.email`.
+  final String loginFormEmail;
+
+  /// The email field's placeholder. Catalog key
+  /// `loginForm.emailPlaceholder`.
+  final String loginFormEmailPlaceholder;
+
+  /// The password field's label. Catalog key
+  /// `loginForm.password`.
+  final String loginFormPassword;
+
+  /// Between the provider buttons and the fields. Catalog key
+  /// `loginForm.divider`.
+  final String loginFormDivider;
+
+  /// A provider button, with `{name}`. Catalog key
+  /// `loginForm.provider`.
+  final String loginFormProvider;
+
+  /// The upload area's prompt where it takes dropped files. Catalog key
+  /// `uploadDropArea.prompt`.
+  final String uploadDropAreaPrompt;
+
+  /// The action word after the prompt. Catalog key
+  /// `uploadDropArea.action`.
+  final String uploadDropAreaAction;
+
+  /// The upload area's text where it takes no dropped files. Catalog key
+  /// `uploadDropArea.browse`.
+  final String uploadDropAreaBrowse;
+
+  /// Shown and announced for a file of a type the area does not accept, with `{name}`. Catalog key
+  /// `uploadDropArea.rejectedType`.
+  final String uploadDropAreaRejectedType;
+
+  /// Shown and announced for a file past the one-file limit, with `{name}`. Catalog key
+  /// `uploadDropArea.rejectedCount`.
+  final String uploadDropAreaRejectedCount;
+
+  /// The name of the upload area's file list. Catalog key
+  /// `uploadDropArea.files`.
+  final String uploadDropAreaFiles;
+
+  /// The name of a file's remove button, with `{name}`. Catalog key
+  /// `uploadDropArea.remove`.
+  final String uploadDropAreaRemove;
+
   /// The name of a breadcrumb trail given none. Catalog key
   /// `breadcrumb.label`.
   final String breadcrumbLabel;
@@ -300,6 +609,46 @@ class InvisibleMessages {
   /// Read with a breadcrumb trail's current page. Catalog key
   /// `breadcrumb.current`.
   final String breadcrumbCurrent;
+
+  /// The name of a sidebar's navigation given none. Catalog key
+  /// `sidebar.label`.
+  final String sidebarLabel;
+
+  /// The name of a sidebar's rail toggle while the sidebar is open. Catalog
+  /// key `sidebar.collapse`.
+  final String sidebarCollapse;
+
+  /// The name of a sidebar's rail toggle while it is a rail. Catalog key
+  /// `sidebar.expand`.
+  final String sidebarExpand;
+
+  /// Read with a sidebar's current destination. Catalog key
+  /// `sidebar.current`.
+  final String sidebarCurrent;
+
+  /// Read with a navigation menu's current link. Catalog key
+  /// `navigationMenu.current`.
+  final String navigationMenuCurrent;
+
+  /// Read while a tree item's children load, with `{name}`. Catalog key
+  /// `tree.loading`.
+  final String treeLoading;
+
+  /// Read when a tree item's children failed to load, with `{name}`.
+  /// Catalog key `tree.loadError`.
+  final String treeLoadError;
+
+  /// The custom action that expands a tree branch. Catalog key
+  /// `tree.expand`.
+  final String treeExpand;
+
+  /// The custom action that collapses a tree branch. Catalog key
+  /// `tree.collapse`.
+  final String treeCollapse;
+
+  /// The custom action that loads a branch's children again after they
+  /// failed to load. Catalog key `tree.retry`.
+  final String treeRetry;
 
   /// The name of an avatar group's "+N" chip, from the number of avatars
   /// left out. Catalog key `avatarGroup.more`, a plural message: a
@@ -340,6 +689,31 @@ class InvisibleMessages {
   /// `codeBlock.copied`.
   final String codeBlockCopied;
 
+  /// The value text of a range slider's lower thumb, with `{value}` and the
+  /// `{bound}` it may not pass. Catalog key `rangeSlider.lowerText`.
+  final String rangeSliderLowerText;
+
+  /// The value text of a range slider's upper thumb, with `{value}` and the
+  /// `{bound}` it may not pass. Catalog key `rangeSlider.upperText`.
+  final String rangeSliderUpperText;
+
+  /// The name of a rating star, a function of its count, so a translation
+  /// picks its own plural forms. Catalog key `rating.stars`.
+  final String Function(int count) ratingStars;
+
+  /// The name of a PIN input cell, with `{index}` and `{length}`. Catalog
+  /// key `pinInput.cell`.
+  final String pinInputCell;
+
+  /// The default name of a stepper. Catalog key `stepper.label`.
+  final String stepperLabel;
+
+  /// Read after a completed step's label. Catalog key `stepper.completed`.
+  final String stepperCompleted;
+
+  /// Read with the current step. Catalog key `stepper.current`.
+  final String stepperCurrent;
+
   /// [message] with each `{name}` placeholder replaced from [values].
   static String fill(String message, Map<String, String> values) =>
       message.replaceAllMapped(
@@ -350,7 +724,9 @@ class InvisibleMessages {
   /// A copy with the given messages replaced.
   InvisibleMessages copyWith({
     String? loadingLabel,
+    String? buttonCopied,
     String? submenuHint,
+    String? contextMenuLabel,
     String? closeLabel,
     String? notificationRegionLabel,
     String? numberFieldIncrement,
@@ -371,6 +747,22 @@ class InvisibleMessages {
     String? comboboxEmpty,
     String? comboboxShow,
     String? comboboxHide,
+    String? searchFieldClear,
+    String? searchFieldSubmit,
+    String? searchDialogTitle,
+    String? searchDialogLabel,
+    String? searchDialogPlaceholder,
+    String? searchDialogEmpty,
+    String Function(int count)? searchDialogResults,
+    String? searchDialogLoading,
+    String? sheetDialogClose,
+    String? sidebarOpen,
+    String? multiSelectSelected,
+    String? multiSelectRemove,
+    String? multiSelectAdded,
+    String? multiSelectRemoved,
+    String? multiSelectEmpty,
+    String? multiSelectPlaceholder,
     String? popoverTriggerLabel,
     String? calendarLabel,
     String? calendarPrevious,
@@ -403,8 +795,56 @@ class InvisibleMessages {
     String? paginationNext,
     String? paginationPage,
     String? paginationCurrent,
+    String? tableViews,
+    String? tablePagination,
+    String? tableLoadMore,
+    String? tableLoading,
+    String? tableColumns,
+    String? tableSelectRow,
+    String? tableSelectPage,
+    String? tableSelection,
+    String? tableNoResults,
+    String Function(int count)? tableResults,
+    String? tableClearFilters,
+    String? tableView,
+    String? tableViewTable,
+    String? tableViewCards,
+    String? tableSortedAscending,
+    String? tableSortedDescending,
+    String? carouselPrevious,
+    String? carouselNext,
+    String? carouselChoose,
+    String? carouselSlide,
+    String? carouselGoTo,
+    String? carouselRoleDescription,
+    String? carouselSlideRoleDescription,
+    String? loginFormHeading,
+    String? loginFormSubmit,
+    String? loginFormForgot,
+    String? loginFormEmail,
+    String? loginFormEmailPlaceholder,
+    String? loginFormPassword,
+    String? loginFormDivider,
+    String? loginFormProvider,
+    String? uploadDropAreaPrompt,
+    String? uploadDropAreaAction,
+    String? uploadDropAreaBrowse,
+    String? uploadDropAreaRejectedType,
+    String? uploadDropAreaRejectedCount,
+    String? uploadDropAreaFiles,
+    String? uploadDropAreaRemove,
     String? breadcrumbLabel,
     String? breadcrumbCurrent,
+    String? sidebarLabel,
+    String? sidebarCollapse,
+    String? sidebarExpand,
+    String? sidebarCurrent,
+    String? navigationMenuCurrent,
+    String? treeLoading,
+    String? treeLoadError,
+    String? treeExpand,
+    String? treeCollapse,
+    String? treeRetry,
     String Function(int count)? avatarGroupMore,
     String? tagRemove,
     String? codeBlockLabel,
@@ -415,10 +855,19 @@ class InvisibleMessages {
     String? codeBlockCopyText,
     String? codeBlockCopiedText,
     String? codeBlockCopied,
+    String? rangeSliderLowerText,
+    String? rangeSliderUpperText,
+    String Function(int count)? ratingStars,
+    String? pinInputCell,
+    String? stepperLabel,
+    String? stepperCompleted,
+    String? stepperCurrent,
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
+      buttonCopied: buttonCopied ?? this.buttonCopied,
       submenuHint: submenuHint ?? this.submenuHint,
+      contextMenuLabel: contextMenuLabel ?? this.contextMenuLabel,
       closeLabel: closeLabel ?? this.closeLabel,
       notificationRegionLabel:
           notificationRegionLabel ?? this.notificationRegionLabel,
@@ -444,6 +893,24 @@ class InvisibleMessages {
       comboboxEmpty: comboboxEmpty ?? this.comboboxEmpty,
       comboboxShow: comboboxShow ?? this.comboboxShow,
       comboboxHide: comboboxHide ?? this.comboboxHide,
+      searchFieldClear: searchFieldClear ?? this.searchFieldClear,
+      searchFieldSubmit: searchFieldSubmit ?? this.searchFieldSubmit,
+      searchDialogTitle: searchDialogTitle ?? this.searchDialogTitle,
+      searchDialogLabel: searchDialogLabel ?? this.searchDialogLabel,
+      searchDialogPlaceholder:
+          searchDialogPlaceholder ?? this.searchDialogPlaceholder,
+      searchDialogEmpty: searchDialogEmpty ?? this.searchDialogEmpty,
+      searchDialogResults: searchDialogResults ?? this.searchDialogResults,
+      searchDialogLoading: searchDialogLoading ?? this.searchDialogLoading,
+      sheetDialogClose: sheetDialogClose ?? this.sheetDialogClose,
+      sidebarOpen: sidebarOpen ?? this.sidebarOpen,
+      multiSelectSelected: multiSelectSelected ?? this.multiSelectSelected,
+      multiSelectRemove: multiSelectRemove ?? this.multiSelectRemove,
+      multiSelectAdded: multiSelectAdded ?? this.multiSelectAdded,
+      multiSelectRemoved: multiSelectRemoved ?? this.multiSelectRemoved,
+      multiSelectEmpty: multiSelectEmpty ?? this.multiSelectEmpty,
+      multiSelectPlaceholder:
+          multiSelectPlaceholder ?? this.multiSelectPlaceholder,
       popoverTriggerLabel: popoverTriggerLabel ?? this.popoverTriggerLabel,
       calendarLabel: calendarLabel ?? this.calendarLabel,
       calendarPrevious: calendarPrevious ?? this.calendarPrevious,
@@ -483,8 +950,63 @@ class InvisibleMessages {
       paginationNext: paginationNext ?? this.paginationNext,
       paginationPage: paginationPage ?? this.paginationPage,
       paginationCurrent: paginationCurrent ?? this.paginationCurrent,
+      tableViews: tableViews ?? this.tableViews,
+      tablePagination: tablePagination ?? this.tablePagination,
+      tableLoadMore: tableLoadMore ?? this.tableLoadMore,
+      tableLoading: tableLoading ?? this.tableLoading,
+      tableColumns: tableColumns ?? this.tableColumns,
+      tableSelectRow: tableSelectRow ?? this.tableSelectRow,
+      tableSelectPage: tableSelectPage ?? this.tableSelectPage,
+      tableSelection: tableSelection ?? this.tableSelection,
+      tableNoResults: tableNoResults ?? this.tableNoResults,
+      tableResults: tableResults ?? this.tableResults,
+      tableClearFilters: tableClearFilters ?? this.tableClearFilters,
+      tableView: tableView ?? this.tableView,
+      tableViewTable: tableViewTable ?? this.tableViewTable,
+      tableViewCards: tableViewCards ?? this.tableViewCards,
+      tableSortedAscending: tableSortedAscending ?? this.tableSortedAscending,
+      tableSortedDescending:
+          tableSortedDescending ?? this.tableSortedDescending,
+      carouselPrevious: carouselPrevious ?? this.carouselPrevious,
+      carouselNext: carouselNext ?? this.carouselNext,
+      carouselChoose: carouselChoose ?? this.carouselChoose,
+      carouselSlide: carouselSlide ?? this.carouselSlide,
+      carouselGoTo: carouselGoTo ?? this.carouselGoTo,
+      carouselRoleDescription:
+          carouselRoleDescription ?? this.carouselRoleDescription,
+      carouselSlideRoleDescription:
+          carouselSlideRoleDescription ?? this.carouselSlideRoleDescription,
+      loginFormHeading: loginFormHeading ?? this.loginFormHeading,
+      loginFormSubmit: loginFormSubmit ?? this.loginFormSubmit,
+      loginFormForgot: loginFormForgot ?? this.loginFormForgot,
+      loginFormEmail: loginFormEmail ?? this.loginFormEmail,
+      loginFormEmailPlaceholder:
+          loginFormEmailPlaceholder ?? this.loginFormEmailPlaceholder,
+      loginFormPassword: loginFormPassword ?? this.loginFormPassword,
+      loginFormDivider: loginFormDivider ?? this.loginFormDivider,
+      loginFormProvider: loginFormProvider ?? this.loginFormProvider,
+      uploadDropAreaPrompt: uploadDropAreaPrompt ?? this.uploadDropAreaPrompt,
+      uploadDropAreaAction: uploadDropAreaAction ?? this.uploadDropAreaAction,
+      uploadDropAreaBrowse: uploadDropAreaBrowse ?? this.uploadDropAreaBrowse,
+      uploadDropAreaRejectedType:
+          uploadDropAreaRejectedType ?? this.uploadDropAreaRejectedType,
+      uploadDropAreaRejectedCount:
+          uploadDropAreaRejectedCount ?? this.uploadDropAreaRejectedCount,
+      uploadDropAreaFiles: uploadDropAreaFiles ?? this.uploadDropAreaFiles,
+      uploadDropAreaRemove: uploadDropAreaRemove ?? this.uploadDropAreaRemove,
       breadcrumbLabel: breadcrumbLabel ?? this.breadcrumbLabel,
       breadcrumbCurrent: breadcrumbCurrent ?? this.breadcrumbCurrent,
+      sidebarLabel: sidebarLabel ?? this.sidebarLabel,
+      sidebarCollapse: sidebarCollapse ?? this.sidebarCollapse,
+      sidebarExpand: sidebarExpand ?? this.sidebarExpand,
+      sidebarCurrent: sidebarCurrent ?? this.sidebarCurrent,
+      navigationMenuCurrent:
+          navigationMenuCurrent ?? this.navigationMenuCurrent,
+      treeLoading: treeLoading ?? this.treeLoading,
+      treeLoadError: treeLoadError ?? this.treeLoadError,
+      treeExpand: treeExpand ?? this.treeExpand,
+      treeCollapse: treeCollapse ?? this.treeCollapse,
+      treeRetry: treeRetry ?? this.treeRetry,
       avatarGroupMore: avatarGroupMore ?? this.avatarGroupMore,
       tagRemove: tagRemove ?? this.tagRemove,
       codeBlockLabel: codeBlockLabel ?? this.codeBlockLabel,
@@ -497,6 +1019,13 @@ class InvisibleMessages {
       codeBlockCopyText: codeBlockCopyText ?? this.codeBlockCopyText,
       codeBlockCopiedText: codeBlockCopiedText ?? this.codeBlockCopiedText,
       codeBlockCopied: codeBlockCopied ?? this.codeBlockCopied,
+      rangeSliderLowerText: rangeSliderLowerText ?? this.rangeSliderLowerText,
+      rangeSliderUpperText: rangeSliderUpperText ?? this.rangeSliderUpperText,
+      ratingStars: ratingStars ?? this.ratingStars,
+      pinInputCell: pinInputCell ?? this.pinInputCell,
+      stepperLabel: stepperLabel ?? this.stepperLabel,
+      stepperCompleted: stepperCompleted ?? this.stepperCompleted,
+      stepperCurrent: stepperCurrent ?? this.stepperCurrent,
     );
   }
 
@@ -504,7 +1033,9 @@ class InvisibleMessages {
   bool operator ==(Object other) =>
       other is InvisibleMessages &&
       other.loadingLabel == loadingLabel &&
+      other.buttonCopied == buttonCopied &&
       other.submenuHint == submenuHint &&
+      other.contextMenuLabel == contextMenuLabel &&
       other.closeLabel == closeLabel &&
       other.notificationRegionLabel == notificationRegionLabel &&
       other.numberFieldIncrement == numberFieldIncrement &&
@@ -525,6 +1056,22 @@ class InvisibleMessages {
       other.comboboxEmpty == comboboxEmpty &&
       other.comboboxShow == comboboxShow &&
       other.comboboxHide == comboboxHide &&
+      other.searchFieldClear == searchFieldClear &&
+      other.searchFieldSubmit == searchFieldSubmit &&
+      other.searchDialogTitle == searchDialogTitle &&
+      other.searchDialogLabel == searchDialogLabel &&
+      other.searchDialogPlaceholder == searchDialogPlaceholder &&
+      other.searchDialogEmpty == searchDialogEmpty &&
+      other.searchDialogResults == searchDialogResults &&
+      other.searchDialogLoading == searchDialogLoading &&
+      other.sheetDialogClose == sheetDialogClose &&
+      other.sidebarOpen == sidebarOpen &&
+      other.multiSelectSelected == multiSelectSelected &&
+      other.multiSelectRemove == multiSelectRemove &&
+      other.multiSelectAdded == multiSelectAdded &&
+      other.multiSelectRemoved == multiSelectRemoved &&
+      other.multiSelectEmpty == multiSelectEmpty &&
+      other.multiSelectPlaceholder == multiSelectPlaceholder &&
       other.popoverTriggerLabel == popoverTriggerLabel &&
       other.calendarLabel == calendarLabel &&
       other.calendarPrevious == calendarPrevious &&
@@ -557,8 +1104,56 @@ class InvisibleMessages {
       other.paginationNext == paginationNext &&
       other.paginationPage == paginationPage &&
       other.paginationCurrent == paginationCurrent &&
+      other.tableViews == tableViews &&
+      other.tablePagination == tablePagination &&
+      other.tableLoadMore == tableLoadMore &&
+      other.tableLoading == tableLoading &&
+      other.tableColumns == tableColumns &&
+      other.tableSelectRow == tableSelectRow &&
+      other.tableSelectPage == tableSelectPage &&
+      other.tableSelection == tableSelection &&
+      other.tableNoResults == tableNoResults &&
+      other.tableResults == tableResults &&
+      other.tableClearFilters == tableClearFilters &&
+      other.tableView == tableView &&
+      other.tableViewTable == tableViewTable &&
+      other.tableViewCards == tableViewCards &&
+      other.tableSortedAscending == tableSortedAscending &&
+      other.tableSortedDescending == tableSortedDescending &&
+      other.carouselPrevious == carouselPrevious &&
+      other.carouselNext == carouselNext &&
+      other.carouselChoose == carouselChoose &&
+      other.carouselSlide == carouselSlide &&
+      other.carouselGoTo == carouselGoTo &&
+      other.carouselRoleDescription == carouselRoleDescription &&
+      other.carouselSlideRoleDescription == carouselSlideRoleDescription &&
+      other.loginFormHeading == loginFormHeading &&
+      other.loginFormSubmit == loginFormSubmit &&
+      other.loginFormForgot == loginFormForgot &&
+      other.loginFormEmail == loginFormEmail &&
+      other.loginFormEmailPlaceholder == loginFormEmailPlaceholder &&
+      other.loginFormPassword == loginFormPassword &&
+      other.loginFormDivider == loginFormDivider &&
+      other.loginFormProvider == loginFormProvider &&
+      other.uploadDropAreaPrompt == uploadDropAreaPrompt &&
+      other.uploadDropAreaAction == uploadDropAreaAction &&
+      other.uploadDropAreaBrowse == uploadDropAreaBrowse &&
+      other.uploadDropAreaRejectedType == uploadDropAreaRejectedType &&
+      other.uploadDropAreaRejectedCount == uploadDropAreaRejectedCount &&
+      other.uploadDropAreaFiles == uploadDropAreaFiles &&
+      other.uploadDropAreaRemove == uploadDropAreaRemove &&
       other.breadcrumbLabel == breadcrumbLabel &&
       other.breadcrumbCurrent == breadcrumbCurrent &&
+      other.sidebarLabel == sidebarLabel &&
+      other.sidebarCollapse == sidebarCollapse &&
+      other.sidebarExpand == sidebarExpand &&
+      other.sidebarCurrent == sidebarCurrent &&
+      other.navigationMenuCurrent == navigationMenuCurrent &&
+      other.treeLoading == treeLoading &&
+      other.treeLoadError == treeLoadError &&
+      other.treeExpand == treeExpand &&
+      other.treeCollapse == treeCollapse &&
+      other.treeRetry == treeRetry &&
       other.avatarGroupMore == avatarGroupMore &&
       other.tagRemove == tagRemove &&
       other.codeBlockLabel == codeBlockLabel &&
@@ -568,12 +1163,21 @@ class InvisibleMessages {
       other.codeBlockCopy == codeBlockCopy &&
       other.codeBlockCopyText == codeBlockCopyText &&
       other.codeBlockCopiedText == codeBlockCopiedText &&
-      other.codeBlockCopied == codeBlockCopied;
+      other.codeBlockCopied == codeBlockCopied &&
+      other.rangeSliderLowerText == rangeSliderLowerText &&
+      other.rangeSliderUpperText == rangeSliderUpperText &&
+      other.ratingStars == ratingStars &&
+      other.pinInputCell == pinInputCell &&
+      other.stepperLabel == stepperLabel &&
+      other.stepperCompleted == stepperCompleted &&
+      other.stepperCurrent == stepperCurrent;
 
   @override
   int get hashCode => Object.hashAll([
     loadingLabel,
+    buttonCopied,
     submenuHint,
+    contextMenuLabel,
     closeLabel,
     notificationRegionLabel,
     numberFieldIncrement,
@@ -594,6 +1198,22 @@ class InvisibleMessages {
     comboboxEmpty,
     comboboxShow,
     comboboxHide,
+    searchFieldClear,
+    searchFieldSubmit,
+    searchDialogTitle,
+    searchDialogLabel,
+    searchDialogPlaceholder,
+    searchDialogEmpty,
+    searchDialogResults,
+    searchDialogLoading,
+    sheetDialogClose,
+    sidebarOpen,
+    multiSelectSelected,
+    multiSelectRemove,
+    multiSelectAdded,
+    multiSelectRemoved,
+    multiSelectEmpty,
+    multiSelectPlaceholder,
     popoverTriggerLabel,
     calendarLabel,
     calendarPrevious,
@@ -626,8 +1246,56 @@ class InvisibleMessages {
     paginationNext,
     paginationPage,
     paginationCurrent,
+    tableViews,
+    tablePagination,
+    tableLoadMore,
+    tableLoading,
+    tableColumns,
+    tableSelectRow,
+    tableSelectPage,
+    tableSelection,
+    tableNoResults,
+    tableResults,
+    tableClearFilters,
+    tableView,
+    tableViewTable,
+    tableViewCards,
+    tableSortedAscending,
+    tableSortedDescending,
+    carouselPrevious,
+    carouselNext,
+    carouselChoose,
+    carouselSlide,
+    carouselGoTo,
+    carouselRoleDescription,
+    carouselSlideRoleDescription,
+    loginFormHeading,
+    loginFormSubmit,
+    loginFormForgot,
+    loginFormEmail,
+    loginFormEmailPlaceholder,
+    loginFormPassword,
+    loginFormDivider,
+    loginFormProvider,
+    uploadDropAreaPrompt,
+    uploadDropAreaAction,
+    uploadDropAreaBrowse,
+    uploadDropAreaRejectedType,
+    uploadDropAreaRejectedCount,
+    uploadDropAreaFiles,
+    uploadDropAreaRemove,
     breadcrumbLabel,
     breadcrumbCurrent,
+    sidebarLabel,
+    sidebarCollapse,
+    sidebarExpand,
+    sidebarCurrent,
+    navigationMenuCurrent,
+    treeLoading,
+    treeLoadError,
+    treeExpand,
+    treeCollapse,
+    treeRetry,
     avatarGroupMore,
     tagRemove,
     codeBlockLabel,
@@ -638,5 +1306,12 @@ class InvisibleMessages {
     codeBlockCopyText,
     codeBlockCopiedText,
     codeBlockCopied,
+    rangeSliderLowerText,
+    rangeSliderUpperText,
+    ratingStars,
+    pinInputCell,
+    stepperLabel,
+    stepperCompleted,
+    stepperCurrent,
   ]);
 }

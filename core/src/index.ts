@@ -44,4 +44,7 @@ export * as numberField from "./number-field";
 // `switch` is a reserved word, so the namespace is `switchControl`.
 export * as switchControl from "./switch";
 export * as calendar from "./calendar";
+// Its own namespace, so an adapter that imports `calendar` does not carry the
+// table.
+export * as weekStart from "./calendar/week-start";
 export * as timeField from "./time-field";

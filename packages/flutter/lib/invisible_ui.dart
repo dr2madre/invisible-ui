@@ -9,35 +9,58 @@ export 'src/avatar/avatar_group.dart' show AvatarGroup, AvatarGroupItem;
 export 'src/blockquote/blockquote.dart' show Blockquote;
 export 'src/breadcrumb/breadcrumb.dart' show Breadcrumb, BreadcrumbItem;
 export 'src/button/button.dart' show Button, ButtonVariant;
+export 'src/button_group/button_group.dart' show ButtonGroup;
 export 'src/calendar/calendar.dart' show Calendar, CalendarView;
 export 'src/calendar/calendar_date.dart' show DateRange;
 export 'src/calendar/date_symbols.dart' show DateSymbols;
+export 'src/calendar/week_start.dart' show weekStartForLocale;
 export 'src/card/card.dart' show Card, CardOrientation, CardTrend;
+export 'src/carousel/carousel.dart'
+    show Carousel, CarouselItemBuilder, CarouselSlide, CarouselVariant;
 export 'src/checkbox/checkbox.dart' show Checkbox, CheckboxGroup;
 export 'src/choice/choice_item.dart';
 export 'src/code/code.dart' show Code;
 export 'src/code_block/code_block.dart' show CodeBlock;
 export 'src/collapsible/collapsible.dart' show Collapsible;
 export 'src/combobox/combobox.dart' show ChoiceFilter, Combobox;
+export 'src/context_menu/context_menu.dart' show ContextMenu;
 export 'src/count/count.dart' show Count;
 export 'src/date_picker/date_picker.dart' show DatePicker, DateRangePicker;
 export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
 export 'src/dialog/dialog_panel.dart' show DialogController, DialogNotice;
 export 'src/dialog/dialog_route.dart'
     show InvisibleDialogRoute, showInvisibleDialog;
+export 'src/dialog/prompt_dialog.dart' show PromptDialog;
+export 'src/dialog/search_dialog.dart'
+    show SearchDialog, SearchDialogFilter, SearchDialogItem;
+export 'src/dialog/sheet_dialog.dart' show SheetDialog, SheetDialogSide;
 export 'src/dropdown_menu/dropdown_menu.dart' show DropdownMenu;
 export 'src/feedback_icon/feedback_icon.dart'
     show FeedbackIcon, FeedbackIconBox, FeedbackIconShape;
 export 'src/feedback_state/feedback_state.dart'
     show EmptyState, ErrorState, FeedbackStateSize;
 export 'src/field/field.dart' show Field;
+export 'src/i18n/locale_provider.dart' show LocaleProvider, localeDirection;
 export 'src/i18n/messages.dart';
 export 'src/kbd/kbd.dart' show Kbd;
 export 'src/label/label.dart' show Label;
 export 'src/link/link.dart' show Link, LinkVariant;
 export 'src/loading/loading.dart' show Loading, LoadingVariant;
+export 'src/loading/loading_generation_area.dart'
+    show LoadingAreaLabelPosition, LoadingGenerationArea;
+export 'src/login_form/login_form.dart'
+    show LoginCredentials, LoginForm, LoginProvider;
 export 'src/menu/menu_entry.dart';
+export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;
+export 'src/multi_select/multi_select.dart' show MultiSelect;
+export 'src/navigation_menu/navigation_menu.dart'
+    show
+        NavigationMenu,
+        NavigationMenuItem,
+        NavigationMenuLink,
+        NavigationMenuPanel,
+        NavigationMenuTopLink;
 export 'src/notification/inline_notification.dart'
     show
         InlineNotification,
@@ -53,23 +76,52 @@ export 'src/number_field/number_field.dart' show NumberField, NumberFieldState;
 export 'src/number_field/number_format.dart'
     show NumberFieldError, NumberInputStatus, NumberParseResult, NumberSymbols;
 export 'src/pagination/pagination.dart' show Pagination;
+export 'src/pin_input/pin_input.dart' show PinInput, PinInputType;
 export 'src/popover/popover.dart'
     show Popover, PopoverController, PopoverPlacement;
 export 'src/progress/progress.dart' show Progress, ProgressShape;
+export 'src/radio/radio.dart' show Radio;
 export 'src/radio_group/radio_group.dart' show RadioButtonGroup;
+export 'src/rating_group/rating_group.dart' show RatingGroup;
 export 'src/scroll_area/scroll_area.dart'
     show ScrollArea, ScrollAreaOrientation;
+export 'src/search_field/search_field.dart' show SearchField;
 export 'src/segmented_control/segmented_control.dart' show SegmentedControl;
 export 'src/select/select.dart' show Select;
+export 'src/separator/separator.dart' show Separator;
+export 'src/sidebar/sidebar.dart' show Sidebar, showSidebarDrawer;
+export 'src/sidebar/sidebar_item.dart' show SidebarItem, SidebarSection;
 export 'src/skeleton/skeleton.dart'
     show Skeleton, SkeletonAnimation, SkeletonVariant;
+export 'src/slider/range_slider.dart' show RangeSlider;
+export 'src/slider/slider.dart' show Slider;
+export 'src/stepper/stepper.dart' show StepItem, Stepper;
 export 'src/switch/switch.dart' show Switch;
+export 'src/table/table.dart'
+    show
+        Table,
+        TableAlign,
+        TableCellBuilder,
+        TableCellDetails,
+        TableColumn,
+        TableSelectionCellBuilder;
+export 'src/table/table_logic.dart'
+    show SelectionMode, SortDirection, TableSort, nextSort, sortRows;
+export 'src/table/table_set.dart' show TableSet, TableSetView, TableViewMode;
 export 'src/tabs/tabs.dart' show TabActivationMode, TabItem, Tabs;
 export 'src/tag/tag.dart' show Tag, TagSize, TagStatus, TagVariant;
 export 'src/text_field/text_field.dart' show TextField, Textarea;
 export 'src/theme/theme.dart';
 export 'src/time_field/time_field.dart' show TimeField;
 export 'src/time_field/time_logic.dart' show TimeFieldError, TimeInputStatus;
+export 'src/toggle_button/toggle_button.dart' show ToggleButton;
+export 'src/toggle_group/toggle_group.dart'
+    show ToggleGroup, ToggleGroupVariant;
 export 'src/toolbar/toolbar.dart' show Toolbar, ToolbarSeparator;
 export 'src/tokens/tokens.g.dart';
 export 'src/tooltip/tooltip.dart' show Tooltip, TooltipPlacement;
+export 'src/tree_view/tree_view.dart' show TreeLoadRequest, TreeNode, TreeView;
+export 'src/upload_drop_area/upload_drop_area.dart'
+    show UploadDropArea, UploadDropController;
+export 'src/upload_drop_area/upload_files.dart'
+    show UploadFile, UploadRejectReason, UploadRejection, acceptsFile;

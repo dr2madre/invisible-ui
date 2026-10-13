@@ -142,8 +142,8 @@ Each item ships as its own PR. Checkboxes track progress.
   tokens and tests. Every stylesheet is held byte for byte to the Vue and
   custom element copies, and every public component has server-rendering and
   hydration coverage.
-- [ ] **15. Flutter adapter** — ran in parallel with item 14, React: full
-  catalog ([ADR 0017](./adr/0017-flutter-adapter.md), accepted). The shared
+- [x] **15. Flutter adapter** — done. It ran in parallel with item 14,
+  React: full catalog ([ADR 0017](./adr/0017-flutter-adapter.md), accepted). The shared
   groundwork comes first: `tokens.json` moves to `packages/tokens/`, the
   roles, sizes, focus ring and density move into it, and the menu spec gains
   submenus ([`docs/menu-submenu-spec.md`](./menu-submenu-spec.md)). Then `packages/flutter` (Dart package `invisible_ui`)
@@ -152,7 +152,8 @@ Each item ships as its own PR. Checkboxes track progress.
   [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md) and
   the discovery in
   [`docs/proposals/flutter-discovery.md`](./proposals/flutter-discovery.md).
-  Progress: `packages/flutter` carries the foundation (generated tokens
+  `packages/flutter` carries all 80 components of the catalog: the
+  foundation (generated tokens
   checked by `pnpm tokens:check`, `InvisibleTheme` with light and dark,
   density, minimum target size, focus ring and messages), Button, the
   fields Field, TextField, Textarea and NumberField, Tooltip, Toolbar,
@@ -172,9 +173,34 @@ Each item ships as its own PR. Checkboxes track progress.
   components: Avatar, Avatar Group, Count, Tag (with its remove button),
   Kbd, Label, Feedback Icon (now public), Skeleton, Code, Code Block (copy
   through Flutter's `Clipboard`, announced) and Blockquote, and Scroll Area,
-  each with its parity checklist in `packages/flutter/parity/`, and the
-  `flutter.yml` workflow. Aspect Ratio is not ported: the widgets library
-  has its own `AspectRatio`, recorded in `parity/aspect-ratio.md`.
+  then the menus and navigation: Context Menu and Menubar on the shared menu
+  layer (the bar running the `core/src/menubar` vectors), Navigation Menu,
+  Sidebar (inline and rail) and Tree View
+  (the `core/src/tree-view` vectors), then the value controls: Slider and
+  Range Slider (the native range keys, mirrored right to left, with an
+  end-of-gesture callback), Rating Group, Pin Input (paste and one-time code
+  autofill spread over the cells), Radio (grouped by name), Toggle Button,
+  Toggle Group, Button Group, Stepper and Separator, then search and the
+  rest of the dialog family: Search Field, Multi Select (its selection rules
+  on the shared vectors in `core/src/multi-select/__vectors__`), Prompt
+  Dialog, Search Dialog, Sheet Dialog (edges that follow the reading
+  direction, drag to dismiss) with the Sidebar drawer on it (ADR 0013), and
+  Loading Generation Area, each with its parity checklist in
+  `packages/flutter/parity/`, and the `flutter.yml` workflow.
+  The data and form patterns follow: Table and Table Set (sorting,
+  selection, filtering, pagination and the card view of
+  [`docs/data-table-spec.md`](./data-table-spec.md), with Table View kept
+  internal), Carousel, Login Form (with the autofill hints a password
+  manager reads), Upload Drop Area (the app opens the picker and reports
+  drops, no dependency) and Locale Provider, running the table, carousel and
+  locale direction vectors in `core/src/table`, `carousel` and `i18n`.
+  Aspect Ratio and Icon are not ported: the widgets library has its own
+  `AspectRatio` and `Icon`, recorded in `parity/aspect-ratio.md` and
+  `parity/icon.md`.
+  The lower bound is Flutter 3.35 and Dart 3.9 (ADR 0017, decision 7): the
+  radios run on the native `RadioGroup` and `RawRadio`, and the calendar's
+  default week start comes from CLDR through the shared vectors in
+  `core/src/calendar/__vectors__/week-start.json`.
   The number
   field's logic answers the shared test vectors in
   `core/src/number-field/__vectors__`, the select typeahead and collection
@@ -186,10 +212,14 @@ Each item ships as its own PR. Checkboxes track progress.
   progress and meter readings those in `core/src/tabs`, `accordion`,
   `pagination`, `progress` and `meter`, and the avatar initials those in
   `core/src/avatar`, where the initials logic the four web adapters shared
-  as copies now lives, read by the core and the Flutter tests. Every component of the first wave in ADR 0017 is in. Of what
+  as copies now lives, and the slider, range slider, stepper and PIN input
+  values those in `core/src/slider`, `range-slider`, `stepper` and
+  `pin-input`, read by the core and the Flutter tests. Every component of the first wave in ADR 0017 is in. Of what
   follows it, Card, Collapsible and Timelog's dialogs, forms, pickers and
-  Date Picker are in; the rest of wave 2 (the navigation bar) and the specs
-  for the section header and the colour swatch are next.
+  Date Picker are in, and so is the rest of the catalog. The navigation bar
+  of wave 2, a new component that starts from its spec, and the specs for
+  the section header and the colour swatch are outside the catalog and come
+  next.
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27

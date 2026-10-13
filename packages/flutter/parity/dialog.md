@@ -99,7 +99,7 @@ that holds it.
 | Falls back when that element is gone | adapted | the navigator's own focus history decides, since a Flutter dialog has no trigger of its own: `focus falls back when the element that had focus is gone` |
 | Closing reacts only to the dialog's own close | matched | only the route's pop closes it; a widget inside cannot close it by accident |
 | The notification region holds toasts while a dialog is open | matched | `the notification region holds toasts while a dialog is open (ADR 0016, case 2)`; the route is a `PopupRoute`, which `ModalObserver` counts |
-| `returnFocusTo` selector | out of scope | not asked for yet; the element that had focus is the default |
+| `returnFocusTo` | adapted | `showInvisibleDialog(returnFocus:)` names the focus node, for a dialog opened by something other than a button (ADR 0013); the element that had focus stays the default: `test/sidebar_drawer_test.dart` (`returnFocus names where focus goes when focus was elsewhere at the opening`) |
 
 ## Not yet verified
 

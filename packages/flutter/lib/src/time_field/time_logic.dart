@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../number_field/number_format.dart';
+
 // The rules below port core/src/time-field/state.ts and the key handling of
 // core/src/time-field/connect.ts. The shared vectors in
 // core/src/time-field/__vectors__ hold both to the same answers.
@@ -501,6 +503,35 @@ class TimeEditor {
     return index >= 0 && index < order.length ? order[index] : null;
   }
 
+  /// Pastes [text] on [segment]. A whole time in the field's precision,
+  /// `HH:mm` or `HH:mm:ss` on the 24-hour clock, replaces the parts; any
+  /// other text is typed from [segment] one character at a time, as the
+  /// keys would type it, so `0930` fills the hour and the minute. Digits
+  /// may be Arabic-Indic or Persian. Returns the segment the typing moved
+  /// to, or null when focus stays.
+  TimeSegment? paste(TimeSegment segment, String text) {
+    final folded = asciiDigits(text.trim());
+    final whole = parseTimeValue(
+      folded,
+      withSeconds: withSeconds,
+      hourCycle: hourCycle,
+    );
+    if (whole.status == TimeInputStatus.valid) {
+      _set(whole.parts);
+      return null;
+    }
+    var current = segment;
+    TimeSegment? moved;
+    // A time is a few characters; a long paste types no more than these.
+    for (final char in folded.split('').take(32)) {
+      if (key(current, char).focus case final next?) {
+        current = next;
+        moved = next;
+      }
+    }
+    return moved;
+  }
+
   /// Runs [key] on [segment]. Enter commits and is never handled, so a
   /// form still sees it; Escape is handled only when it undid something.
   TimeKeyResult key(TimeSegment segment, String key) {
@@ -530,8 +561,10 @@ class TimeEditor {
           } else {
             return (handled: false, focus: null);
           }
-        } else if (RegExp(r'^\d$').hasMatch(key)) {
-          return (handled: true, focus: _typeDigit(segment, int.parse(key)));
+        } else if (asciiDigits(key) case final digit
+            when RegExp(r'^\d$').hasMatch(digit)) {
+          // Arabic-Indic and Persian digits type as 0 to 9 in every locale.
+          return (handled: true, focus: _typeDigit(segment, int.parse(digit)));
         } else {
           return (handled: false, focus: null);
         }

@@ -34,7 +34,7 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| A group (`role="group"`) named by `label` | adapted | Flutter 3.32 has no group role; a container node named by `label` with its avatars as children: `a group shows …` |
+| A group (`role="group"`) named by `label` | adapted | Flutter 3.35 has no group role; a container node named by `label` with its avatars as children: `a group shows …` |
 | Each avatar keeps its own name | matched | same test |
 | The chip is an image named "N more" from the catalog (`avatarGroup.more`) | matched | same test, also with a translated plural message |
 | `avatarGroup.more` is a plural message | adapted | `InvisibleMessages.avatarGroupMore` is a function of the count, so a translation picks its own plural forms: same test |

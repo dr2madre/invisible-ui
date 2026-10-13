@@ -10,6 +10,9 @@ enum PressKeys {
 
   /// Enter only, as a link takes it: Space scrolls the page on the web.
   link,
+
+  /// Space only, as a native checkbox takes it.
+  space,
 }
 
 /// What a [Pressable] paints from: whether keyboard focus shows and whether
@@ -67,9 +70,13 @@ class _PressableState extends State<Pressable> {
     SingleActivator(LogicalKeyboardKey.numpadEnter): ActivateIntent(),
   };
 
+  static const Map<ShortcutActivator, Intent> _spaceKeys = {
+    SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+  };
+
   static const Map<ShortcutActivator, Intent> _buttonKeys = {
     ..._linkKeys,
-    SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+    ..._spaceKeys,
   };
 
   late final Map<Type, Action<Intent>> _actions = {
@@ -86,7 +93,11 @@ class _PressableState extends State<Pressable> {
     return FocusableActionDetector(
       enabled: enabled,
       focusNode: widget.focusNode,
-      shortcuts: widget.keys == PressKeys.link ? _linkKeys : _buttonKeys,
+      shortcuts: switch (widget.keys) {
+        PressKeys.button => _buttonKeys,
+        PressKeys.link => _linkKeys,
+        PressKeys.space => _spaceKeys,
+      },
       actions: _actions,
       mouseCursor: enabled
           ? SystemMouseCursors.click

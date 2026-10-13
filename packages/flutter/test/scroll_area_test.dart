@@ -1,4 +1,7 @@
 import 'package:flutter/gestures.dart';
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
+// ignore: unnecessary_import
+import 'package:flutter/semantics.dart' show SemanticsRole;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -212,6 +215,10 @@ void main() {
     expect(
       tester.getSemantics(find.byType(ScrollArea)),
       semanticsWith(label: 'Activity', isFocusable: true),
+    );
+    expect(
+      tester.getSemantics(find.byType(ScrollArea)).getSemanticsData().role,
+      SemanticsRole.region,
     );
     await expectLater(tester, meetsGuideline(textContrastGuideline));
     semantics.dispose();

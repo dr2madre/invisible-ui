@@ -1,3 +1,6 @@
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
+// ignore: unnecessary_import
+import 'package:flutter/semantics.dart' show SemanticsRole;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -90,6 +93,7 @@ class Scroller extends StatefulWidget {
     this.semanticLabel,
     this.ringInside = false,
     this.padding = EdgeInsets.zero,
+    this.focusableOnlyWhenScrollable = false,
   });
 
   /// The content.
@@ -113,6 +117,10 @@ class Scroller extends StatefulWidget {
   /// The space around the content, inside the scrolling area.
   final EdgeInsetsGeometry padding;
 
+  /// Whether the viewport takes focus only while its content overflows, for
+  /// a table that fits its width most of the time: no extra tab stop then.
+  final bool focusableOnlyWhenScrollable;
+
   @override
   State<Scroller> createState() => _ScrollerState();
 }
@@ -133,6 +141,13 @@ class _ScrollerState extends State<Scroller> {
   final ScrollController _horizontal = ScrollController();
   final FocusNode _node = FocusNode(debugLabel: 'Scroller');
   bool _focusVisible = false;
+  bool _scrollable = false;
+
+  bool _onMetrics(ScrollMetricsNotification notification) {
+    final scrollable = notification.metrics.maxScrollExtent > 0;
+    if (scrollable != _scrollable) setState(() => _scrollable = scrollable);
+    return false;
+  }
 
   static const Map<ShortcutActivator, Intent> _keys = {
     SingleActivator(LogicalKeyboardKey.arrowDown): _ScrollIntent(
@@ -277,6 +292,12 @@ class _ScrollerState extends State<Scroller> {
       content = _bar(_horizontal, content, depth: widget.vertical ? 1 : 0);
     }
     if (widget.vertical) content = _bar(_vertical, content);
+    if (widget.focusableOnlyWhenScrollable) {
+      content = NotificationListener<ScrollMetricsNotification>(
+        onNotification: _onMetrics,
+        child: content,
+      );
+    }
 
     final maxHeight = widget.maxHeight;
     if (maxHeight != null) {
@@ -287,10 +308,13 @@ class _ScrollerState extends State<Scroller> {
     }
 
     final label = widget.semanticLabel;
+    final named = label != null && label.isNotEmpty;
     return Semantics(
       container: label != null,
       label: label,
+      role: named ? SemanticsRole.region : null,
       child: FocusableActionDetector(
+        enabled: !widget.focusableOnlyWhenScrollable || _scrollable,
         focusNode: _node,
         shortcuts: _keys,
         actions: _actions,

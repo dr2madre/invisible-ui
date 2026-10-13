@@ -11,7 +11,13 @@ String? _english(String key) {
   final match = RegExp(
     '"${RegExp.escape(key)}": "([^"]*)"',
   ).firstMatch(_catalog.readAsStringSync());
-  return match?.group(1);
+  // The catalog writes a few characters as `\uXXXX` escapes.
+  return match
+      ?.group(1)
+      ?.replaceAllMapped(
+        RegExp(r'\\u([0-9a-fA-F]{4})'),
+        (escape) => String.fromCharCode(int.parse(escape.group(1)!, radix: 16)),
+      );
 }
 
 /// One plural form of a plural catalog message, such as `one` or `other`.
@@ -30,7 +36,9 @@ void main() {
     () {
       const messages = InvisibleMessages();
       expect(messages.loadingLabel, _english('loading.label'));
+      expect(messages.buttonCopied, _english('button.copied'));
       expect(messages.submenuHint, _english('menu.submenu'));
+      expect(messages.contextMenuLabel, _english('contextMenu.label'));
       expect(messages.closeLabel, _english('inlineNotification.close'));
       expect(
         messages.notificationRegionLabel,
@@ -66,6 +74,35 @@ void main() {
       expect(messages.comboboxEmpty, _english('combobox.empty'));
       expect(messages.comboboxShow, _english('combobox.show'));
       expect(messages.comboboxHide, _english('combobox.hide'));
+      expect(messages.searchFieldClear, _english('searchField.clear'));
+      expect(messages.searchFieldSubmit, _english('searchField.submit'));
+      expect(messages.searchDialogTitle, _english('searchDialog.title'));
+      expect(messages.searchDialogLabel, _english('searchDialog.label'));
+      expect(
+        messages.searchDialogPlaceholder,
+        _english('searchDialog.placeholder'),
+      );
+      expect(messages.searchDialogEmpty, _english('searchDialog.empty'));
+      for (final (count, form) in [(1, 'one'), (3, 'other')]) {
+        expect(
+          messages.searchDialogResults(count),
+          InvisibleMessages.fill(_plural('searchDialog.results', form)!, {
+            'count': '$count',
+          }),
+        );
+      }
+      expect(messages.searchDialogLoading, _english('searchDialog.loading'));
+      expect(messages.sheetDialogClose, _english('sheetDialog.close'));
+      expect(messages.sidebarOpen, _english('sidebar.open'));
+      expect(messages.multiSelectSelected, _english('multiSelect.selected'));
+      expect(messages.multiSelectRemove, _english('multiSelect.remove'));
+      expect(messages.multiSelectAdded, _english('multiSelect.added'));
+      expect(messages.multiSelectRemoved, _english('multiSelect.removed'));
+      expect(messages.multiSelectEmpty, _english('multiSelect.empty'));
+      expect(
+        messages.multiSelectPlaceholder,
+        _english('multiSelect.placeholder'),
+      );
       expect(messages.popoverTriggerLabel, _english('dialog.trigger'));
       expect(messages.calendarLabel, _english('calendar.label'));
       expect(messages.calendarPrevious, _english('calendar.previous'));
@@ -119,8 +156,84 @@ void main() {
       expect(messages.paginationNext, _english('pagination.next'));
       expect(messages.paginationPage, _english('pagination.page'));
       expect(messages.paginationCurrent, _english('pagination.current'));
+      expect(messages.tableViews, _english('table.views'));
+      expect(messages.tablePagination, _english('table.pagination'));
+      expect(messages.tableLoadMore, _english('table.loadMore'));
+      expect(messages.tableLoading, _english('table.loading'));
+      expect(messages.tableColumns, _english('table.columns'));
+      expect(messages.tableSelectRow, _english('table.selectRow'));
+      expect(messages.tableSelectPage, _english('table.selectPage'));
+      expect(messages.tableSelection, _english('table.selection'));
+      expect(messages.tableNoResults, _english('table.noResults'));
+      expect(messages.tableClearFilters, _english('table.clearFilters'));
+      expect(messages.tableView, _english('table.view'));
+      expect(messages.tableViewTable, _english('table.viewTable'));
+      expect(messages.tableViewCards, _english('table.viewCards'));
+      expect(messages.tableSortedAscending, _english('table.sortedAscending'));
+      expect(
+        messages.tableSortedDescending,
+        _english('table.sortedDescending'),
+      );
+      expect(messages.carouselPrevious, _english('carousel.previous'));
+      expect(messages.carouselNext, _english('carousel.next'));
+      expect(messages.carouselChoose, _english('carousel.choose'));
+      expect(messages.carouselSlide, _english('carousel.slide'));
+      expect(messages.carouselGoTo, _english('carousel.goTo'));
+      expect(
+        messages.carouselRoleDescription,
+        _english('carousel.roleDescription'),
+      );
+      expect(
+        messages.carouselSlideRoleDescription,
+        _english('carousel.slideRoleDescription'),
+      );
+      expect(messages.loginFormHeading, _english('loginForm.heading'));
+      expect(messages.loginFormSubmit, _english('loginForm.submit'));
+      expect(messages.loginFormForgot, _english('loginForm.forgot'));
+      expect(messages.loginFormEmail, _english('loginForm.email'));
+      expect(
+        messages.loginFormEmailPlaceholder,
+        _english('loginForm.emailPlaceholder'),
+      );
+      expect(messages.loginFormPassword, _english('loginForm.password'));
+      expect(messages.loginFormDivider, _english('loginForm.divider'));
+      expect(messages.loginFormProvider, _english('loginForm.provider'));
+      expect(messages.uploadDropAreaPrompt, _english('uploadDropArea.prompt'));
+      expect(messages.uploadDropAreaAction, _english('uploadDropArea.action'));
+      expect(messages.uploadDropAreaBrowse, _english('uploadDropArea.browse'));
+      expect(
+        messages.uploadDropAreaRejectedType,
+        _english('uploadDropArea.rejectedType'),
+      );
+      expect(
+        messages.uploadDropAreaRejectedCount,
+        _english('uploadDropArea.rejectedCount'),
+      );
+      expect(messages.uploadDropAreaFiles, _english('uploadDropArea.files'));
+      expect(messages.uploadDropAreaRemove, _english('uploadDropArea.remove'));
+      for (final (count, form) in [(1, 'one'), (3, 'other')]) {
+        expect(
+          messages.tableResults(count),
+          InvisibleMessages.fill(_plural('table.results', form)!, {
+            'count': '$count',
+          }),
+        );
+      }
       expect(messages.breadcrumbLabel, _english('breadcrumb.label'));
       expect(messages.breadcrumbCurrent, _english('breadcrumb.current'));
+      expect(messages.sidebarLabel, _english('sidebar.label'));
+      expect(messages.sidebarCollapse, _english('sidebar.collapse'));
+      expect(messages.sidebarExpand, _english('sidebar.expand'));
+      expect(messages.sidebarCurrent, _english('sidebar.current'));
+      expect(
+        messages.navigationMenuCurrent,
+        _english('navigationMenu.current'),
+      );
+      expect(messages.treeLoading, _english('tree.loading'));
+      expect(messages.treeLoadError, _english('tree.loadError'));
+      expect(messages.treeExpand, _english('tree.expand'));
+      expect(messages.treeCollapse, _english('tree.collapse'));
+      expect(messages.treeRetry, _english('tree.retry'));
       expect(
         messages.avatarGroupMore(1),
         InvisibleMessages.fill(_plural('avatarGroup.more', 'one')!, {
@@ -148,6 +261,20 @@ void main() {
       expect(messages.codeBlockCopyText, _english('codeBlock.copyText'));
       expect(messages.codeBlockCopiedText, _english('codeBlock.copiedText'));
       expect(messages.codeBlockCopied, _english('codeBlock.copied'));
+      expect(messages.rangeSliderLowerText, _english('rangeSlider.lowerText'));
+      expect(messages.rangeSliderUpperText, _english('rangeSlider.upperText'));
+      for (final (count, form) in [(1, 'one'), (4, 'other')]) {
+        expect(
+          messages.ratingStars(count),
+          InvisibleMessages.fill(_plural('rating.stars', form)!, {
+            'count': '$count',
+          }),
+        );
+      }
+      expect(messages.pinInputCell, _english('pinInput.cell'));
+      expect(messages.stepperLabel, _english('stepper.label'));
+      expect(messages.stepperCompleted, _english('stepper.completed'));
+      expect(messages.stepperCurrent, _english('stepper.current'));
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );

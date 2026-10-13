@@ -1,0 +1,138 @@
+{
+  "description": "PIN input values, language-neutral: splitValue(value, length) and sanitizeChar(char, type) in core/src/pin-input/state.ts, and paste: what the onPaste handler of connect.ts commits and focuses when text is pasted into the cell at index (null when it commits nothing). The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "split": [
+    {
+      "name": "Fills from the first cell",
+      "value": "12",
+      "length": 4,
+      "expect": ["1", "2", "", ""]
+    },
+    {
+      "name": "A full value",
+      "value": "1234",
+      "length": 4,
+      "expect": ["1", "2", "3", "4"]
+    },
+    {
+      "name": "Longer than the cells: cut",
+      "value": "123456",
+      "length": 4,
+      "expect": ["1", "2", "3", "4"]
+    },
+    {
+      "name": "Empty",
+      "value": "",
+      "length": 3,
+      "expect": ["", "", ""]
+    }
+  ],
+  "sanitize": [
+    {
+      "name": "A digit, numeric",
+      "char": "5",
+      "type": "numeric",
+      "expect": "5"
+    },
+    {
+      "name": "A letter, numeric",
+      "char": "a",
+      "type": "numeric",
+      "expect": ""
+    },
+    {
+      "name": "A letter, alphanumeric",
+      "char": "a",
+      "type": "alphanumeric",
+      "expect": "a"
+    },
+    {
+      "name": "An upper-case letter, alphanumeric",
+      "char": "Q",
+      "type": "alphanumeric",
+      "expect": "Q"
+    },
+    {
+      "name": "A symbol, alphanumeric",
+      "char": "@",
+      "type": "alphanumeric",
+      "expect": ""
+    },
+    {
+      "name": "A space, numeric",
+      "char": " ",
+      "type": "numeric",
+      "expect": ""
+    },
+    {
+      "name": "An Arabic-Indic digit, numeric",
+      "char": "٣",
+      "type": "numeric",
+      "expect": ""
+    }
+  ],
+  "paste": [
+    {
+      "name": "Fills from the first cell",
+      "values": ["", "", "", ""],
+      "index": 0,
+      "text": "1234",
+      "type": "numeric",
+      "expect": {
+        "values": ["1", "2", "3", "4"],
+        "focus": 3
+      }
+    },
+    {
+      "name": "Fills from the focused cell",
+      "values": ["9", "", "", ""],
+      "index": 1,
+      "text": "12",
+      "type": "numeric",
+      "expect": {
+        "values": ["9", "1", "2", ""],
+        "focus": 3
+      }
+    },
+    {
+      "name": "Drops the characters the type refuses",
+      "values": ["", "", "", ""],
+      "index": 0,
+      "text": "1-2 3a4",
+      "type": "numeric",
+      "expect": {
+        "values": ["1", "2", "3", "4"],
+        "focus": 3
+      }
+    },
+    {
+      "name": "Stops at the last cell",
+      "values": ["", "", "", ""],
+      "index": 2,
+      "text": "123456",
+      "type": "numeric",
+      "expect": {
+        "values": ["", "", "1", "2"],
+        "focus": 3
+      }
+    },
+    {
+      "name": "Nothing allowed changes nothing",
+      "values": ["1", "", "", ""],
+      "index": 0,
+      "text": "abc",
+      "type": "numeric",
+      "expect": null
+    },
+    {
+      "name": "Letters, alphanumeric",
+      "values": ["", "", "", ""],
+      "index": 0,
+      "text": "a1-B2",
+      "type": "alphanumeric",
+      "expect": {
+        "values": ["a", "1", "B", "2"],
+        "focus": 3
+      }
+    }
+  ]
+}

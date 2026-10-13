@@ -1,5 +1,5 @@
 // Widget previews for review: run `flutter widget-preview start` in
-// packages/flutter. The previewer arrived in Flutter 3.35, after the package's
+// packages/flutter. Preview groups arrived after Flutter 3.35, the package's
 // lower bound, so this file sits outside lib/ and test/.
 import 'package:flutter/widget_previews.dart';
 // widgets.dart exports Brightness only from Flutter 3.44 on.

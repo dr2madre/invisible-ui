@@ -152,4 +152,89 @@ void main() {
       }
     }
   });
+
+  group('Arabic-Indic and Persian digits', () {
+    test('fold to ASCII; other text stays as it is', () {
+      expect(asciiDigits('٠١٢٣٤'), '01234');
+      expect(asciiDigits('٥٦٧٨٩'), '56789');
+      expect(asciiDigits('۰۱۲۳۴'), '01234');
+      expect(asciiDigits('۵۶۷۸۹'), '56789');
+      expect(asciiDigits('12:30 ٫٬'), '12:30 ٫٬');
+    });
+
+    test('parse in every locale of the table', () {
+      for (final tag in [
+        'en',
+        'it-IT',
+        'de-DE',
+        'de-CH',
+        'fr-FR',
+        'sv',
+        'ja',
+        'he',
+        'ar',
+        'ar-EG',
+        'ar-MA',
+        'fa',
+      ]) {
+        final symbols = _symbols(tag);
+        for (final text in ['١٢٣', '۱۲۳']) {
+          final result = parseNumber(text, symbols);
+          expect(result.status, NumberInputStatus.valid, reason: '$tag $text');
+          expect(result.value, 123, reason: '$tag $text');
+        }
+      }
+    });
+
+    test('mix with the locale separators and signs', () {
+      expect(parseNumber('-١٢.٥', _symbols('en')).value, -12.5);
+      expect(parseNumber('١.٢٣٤,٥', _symbols('de')).value, 1234.5);
+      expect(parseNumber('۱’۲۳۴', _symbols('de-CH')).value, 1234);
+      expect(
+        parseNumber('١٢.', _symbols('en')).status,
+        NumberInputStatus.incomplete,
+      );
+      expect(parseNumber('١٢a', _symbols('en')).error, NumberFieldError.parse);
+    });
+  });
+
+  group('apostrophe grouping', () {
+    final swiss = _symbols('de-CH');
+
+    test('de-CH takes the typographic and the straight apostrophe', () {
+      for (final text in ['1’234.5', "1'234.5", "12'345’678", "-1'234"]) {
+        final result = parseNumber(text, swiss);
+        expect(result.status, NumberInputStatus.valid, reason: text);
+      }
+      expect(parseNumber("1'234.5", swiss).value, 1234.5);
+      expect(parseNumber("12'345’678", swiss).value, 12345678);
+    });
+
+    test('a malformed number is still refused', () {
+      for (final text in ["1'234,5", "1'234.5.6", "1'2a3", "'"]) {
+        expect(
+          parseNumber(text, swiss).error,
+          NumberFieldError.parse,
+          reason: text,
+        );
+      }
+    });
+
+    test('an apostrophe is no separator where the locale groups otherwise', () {
+      for (final tag in ['en', 'de-DE', 'it-IT', 'fr-FR']) {
+        for (final text in ["1'234", '1’234']) {
+          expect(
+            parseNumber(text, _symbols(tag)).error,
+            NumberFieldError.parse,
+            reason: '$tag $text',
+          );
+        }
+      }
+    });
+
+    test('display uses the typographic apostrophe', () {
+      expect(formatNumber(1234.5, swiss), '1’234.5');
+      expect(formatNumber(-12345678, swiss), '-12’345’678');
+    });
+  });
 }

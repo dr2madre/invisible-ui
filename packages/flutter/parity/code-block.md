@@ -38,7 +38,7 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| The block is a group named "Code" or "Code: {language}" (`codeBlock.label`, `codeBlock.labelLanguage`) | adapted | Flutter 3.32 has no group role; a container node with that name: `the code shows …` |
+| The block is a group named "Code" or "Code: {language}" (`codeBlock.label`, `codeBlock.labelLanguage`) | adapted | Flutter 3.35 has no group role; a container node with that name: `the code shows …` |
 | The scroller takes focus and is named "Code sample" or "Code sample, {language}" | matched | same test, and `the scroller takes focus with the ring inside and scrolls a wide sample with the arrows` |
 | The copy button is named `copyLabel ?? "Copy code"` | matched | `the code shows …` |
 | "Copied to clipboard" through a polite live region | adapted | Flutter announces it with `SemanticsService`, politely: `copy writes the code, …` |

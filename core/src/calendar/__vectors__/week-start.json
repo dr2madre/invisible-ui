@@ -1,0 +1,341 @@
+{
+  "source": "CLDR 46.0: supplemental weekData firstDay, and the likely region of each language whose region does not start the week on Monday",
+  "firstDay": {
+    "default": 1,
+    "byRegion": {
+      "5": ["MV"],
+      "6": ["AF", "BH", "DJ", "DZ", "EG", "IQ", "IR", "JO", "KW", "LY", "OM", "QA", "SD", "SY"],
+      "7": [
+        "AG",
+        "AS",
+        "BD",
+        "BR",
+        "BS",
+        "BT",
+        "BW",
+        "BZ",
+        "CA",
+        "CO",
+        "DM",
+        "DO",
+        "ET",
+        "GT",
+        "GU",
+        "HK",
+        "HN",
+        "ID",
+        "IL",
+        "IN",
+        "JM",
+        "JP",
+        "KE",
+        "KH",
+        "KR",
+        "LA",
+        "MH",
+        "MM",
+        "MO",
+        "MT",
+        "MX",
+        "MZ",
+        "NI",
+        "NP",
+        "PA",
+        "PE",
+        "PH",
+        "PK",
+        "PR",
+        "PT",
+        "PY",
+        "SA",
+        "SG",
+        "SV",
+        "TH",
+        "TT",
+        "TW",
+        "UM",
+        "US",
+        "VE",
+        "VI",
+        "WS",
+        "YE",
+        "ZA",
+        "ZW"
+      ]
+    },
+    "likelyRegion": {
+      "aa": "ET",
+      "ae": "IR",
+      "af": "ZA",
+      "am": "ET",
+      "ar": "EG",
+      "as": "IN",
+      "bn": "BD",
+      "ch": "GU",
+      "cr": "CA",
+      "dv": "MV",
+      "dz": "BT",
+      "en": "US",
+      "fa": "IR",
+      "gn": "PY",
+      "gu": "IN",
+      "he": "IL",
+      "hi": "IN",
+      "id": "ID",
+      "ik": "US",
+      "iu": "CA",
+      "ja": "JP",
+      "jv": "ID",
+      "ki": "KE",
+      "km": "KH",
+      "kn": "IN",
+      "ko": "KR",
+      "ks": "IN",
+      "lo": "LA",
+      "mh": "MH",
+      "ml": "IN",
+      "mr": "IN",
+      "mt": "MT",
+      "my": "MM",
+      "nd": "ZW",
+      "ne": "NP",
+      "nr": "ZA",
+      "nv": "US",
+      "oj": "CA",
+      "om": "ET",
+      "or": "IN",
+      "pa": "IN",
+      "pi": "IN",
+      "ps": "AF",
+      "pt": "BR",
+      "qu": "PE",
+      "sa": "IN",
+      "sd": "PK",
+      "sm": "WS",
+      "sn": "ZW",
+      "ss": "ZA",
+      "st": "ZA",
+      "su": "ID",
+      "ta": "IN",
+      "te": "IN",
+      "th": "TH",
+      "ti": "ET",
+      "tn": "ZA",
+      "ts": "ZA",
+      "ur": "PK",
+      "ve": "ZA",
+      "xh": "ZA",
+      "zu": "ZA"
+    }
+  },
+  "cases": [
+    {
+      "locale": "en-US",
+      "firstDay": 7
+    },
+    {
+      "locale": "en",
+      "firstDay": 7
+    },
+    {
+      "locale": "en-GB",
+      "firstDay": 1
+    },
+    {
+      "locale": "en-AU",
+      "firstDay": 1
+    },
+    {
+      "locale": "en-IN",
+      "firstDay": 7
+    },
+    {
+      "locale": "de-CH",
+      "firstDay": 1
+    },
+    {
+      "locale": "de",
+      "firstDay": 1
+    },
+    {
+      "locale": "fr-CA",
+      "firstDay": 7
+    },
+    {
+      "locale": "fr",
+      "firstDay": 1
+    },
+    {
+      "locale": "it",
+      "firstDay": 1
+    },
+    {
+      "locale": "it-IT",
+      "firstDay": 1
+    },
+    {
+      "locale": "pt",
+      "firstDay": 7
+    },
+    {
+      "locale": "pt-PT",
+      "firstDay": 7
+    },
+    {
+      "locale": "pt-BR",
+      "firstDay": 7
+    },
+    {
+      "locale": "es",
+      "firstDay": 1
+    },
+    {
+      "locale": "es-MX",
+      "firstDay": 7
+    },
+    {
+      "locale": "es-419",
+      "firstDay": 1
+    },
+    {
+      "locale": "ar",
+      "firstDay": 6
+    },
+    {
+      "locale": "ar-EG",
+      "firstDay": 6
+    },
+    {
+      "locale": "ar-SA",
+      "firstDay": 7
+    },
+    {
+      "locale": "ar-AE",
+      "firstDay": 1
+    },
+    {
+      "locale": "ar-MA",
+      "firstDay": 1
+    },
+    {
+      "locale": "fa",
+      "firstDay": 6
+    },
+    {
+      "locale": "fa-IR",
+      "firstDay": 6
+    },
+    {
+      "locale": "fa-AF",
+      "firstDay": 6
+    },
+    {
+      "locale": "he",
+      "firstDay": 7
+    },
+    {
+      "locale": "dv",
+      "firstDay": 5
+    },
+    {
+      "locale": "dv-MV",
+      "firstDay": 5
+    },
+    {
+      "locale": "zh",
+      "firstDay": 1
+    },
+    {
+      "locale": "zh-CN",
+      "firstDay": 1
+    },
+    {
+      "locale": "zh-TW",
+      "firstDay": 7
+    },
+    {
+      "locale": "zh-Hant-TW",
+      "firstDay": 7
+    },
+    {
+      "locale": "zh-Hant-HK",
+      "firstDay": 7
+    },
+    {
+      "locale": "ja",
+      "firstDay": 7
+    },
+    {
+      "locale": "ko-KR",
+      "firstDay": 7
+    },
+    {
+      "locale": "hi",
+      "firstDay": 7
+    },
+    {
+      "locale": "ur-PK",
+      "firstDay": 7
+    },
+    {
+      "locale": "ur-IN",
+      "firstDay": 7
+    },
+    {
+      "locale": "sr-Latn-RS",
+      "firstDay": 1
+    },
+    {
+      "locale": "en_US",
+      "firstDay": 7
+    },
+    {
+      "locale": "EN-gb",
+      "firstDay": 1
+    },
+    {
+      "locale": "en-US-u-fw-mon",
+      "firstDay": 1
+    },
+    {
+      "locale": "de-DE-u-fw-sun",
+      "firstDay": 7
+    },
+    {
+      "locale": "en-u-rg-gbzzzz",
+      "firstDay": 1
+    },
+    {
+      "locale": "en-GB-u-rg-uszzzz",
+      "firstDay": 7
+    },
+    {
+      "locale": "ar-u-fw-sat",
+      "firstDay": 6
+    },
+    {
+      "locale": "und",
+      "firstDay": 1
+    },
+    {
+      "locale": "",
+      "firstDay": 1
+    },
+    {
+      "locale": "xx",
+      "firstDay": 1
+    },
+    {
+      "locale": "en-ZZ",
+      "firstDay": 1
+    },
+    {
+      "locale": "en-US-x-fw-mon",
+      "firstDay": 7
+    },
+    {
+      "locale": "en-u-fw-xyz",
+      "firstDay": 7
+    }
+  ]
+}

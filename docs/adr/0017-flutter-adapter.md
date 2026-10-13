@@ -431,6 +431,12 @@ Recorded by the maintainer on 2026-10-03:
    web adapters covers behaviour and meaning, not necessarily property names
    (for example `onChanged` where the web says `onValueChange`).
 
+Recorded by the maintainer on 2026-10-12:
+
+7. **SDK lower bound, replacing decision 4.** Flutter 3.35 and Dart 3.9
+   (`sdk: ^3.9.0`, `flutter: ">=3.35.0"`): the radios use `RadioGroup` and
+   `RawRadio`, which Flutter 3.35 adds.
+
 ## Open questions, not blocking
 
 1. **Desktop target size.** Is 24 by 24 under compact and regular density

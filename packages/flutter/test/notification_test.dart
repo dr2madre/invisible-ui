@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
+// ignore: unnecessary_import
+import 'package:flutter/semantics.dart' show SemanticsRole;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
@@ -141,14 +144,18 @@ void main() {
       expect(log.last, (message: 'First, changed', assertive: false));
     });
 
-    testWidgets('the region is named and each toast keeps its glyph', (
-      tester,
-    ) async {
+    testWidgets('the region is a region named Notifications while it holds '
+        'toasts, and each toast keeps its glyph', (tester) async {
       final semantics = tester.ensureSemantics();
       await tester.pumpWidget(_region(controller));
       controller.success('Saved');
       await tester.pumpAndSettle();
-      expect(find.bySemanticsLabel('Notifications'), findsOneWidget);
+      final region = find.semantics.byLabel('Notifications');
+      expect(region, findsOne);
+      expect(
+        region.evaluate().single.getSemanticsData().role,
+        SemanticsRole.region,
+      );
       expect(find.text('Saved'), findsOneWidget);
       semantics.dispose();
     });
@@ -319,6 +326,68 @@ void main() {
         'During one',
         'During two',
       ]);
+    });
+
+    testWidgets('a toast shown before a dialog route stays visible under '
+        'it, inert and held, and comes back when it closes', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final modals = ModalObserver();
+      addTearDown(modals.dispose);
+      final navigator = GlobalKey<NavigatorState>();
+      await tester.pumpWidget(
+        WidgetsApp(
+          color: const Color(0xFF000000),
+          navigatorKey: navigator,
+          navigatorObservers: [modals],
+          builder: (context, child) => InvisibleTheme(
+            data: InvisibleThemeData.light(),
+            child: NotificationRegion(
+              controller: controller,
+              modals: modals,
+              child: child!,
+            ),
+          ),
+          pageRouteBuilder: <T>(settings, builder) => PageRouteBuilder<T>(
+            settings: settings,
+            pageBuilder: (context, _, _) => builder(context),
+          ),
+          home: const SizedBox.expand(),
+        ),
+      );
+      controller.show(title: 'Before', duration: const Duration(seconds: 2));
+      await tester.pumpAndSettle();
+      unawaited(
+        navigator.currentState!.push(
+          RawDialogRoute<void>(
+            barrierColor: const Color(0x80000000),
+            pageBuilder: (context, _, _) => const Center(child: Text('Dialog')),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Before'), findsOneWidget, reason: 'still visible');
+      expect(find.semantics.byLabel('Before'), findsNothing);
+      expect(find.semantics.byLabel('Dialog'), findsOneWidget);
+      // In the navigator's overlay now, under the dialog route.
+      expect(
+        find.ancestor(
+          of: find.text('Before'),
+          matching: find.byType(Navigator),
+        ),
+        findsOneWidget,
+      );
+      // The barrier takes the pointer; the countdown is held.
+      await tester.tap(find.text('Before'), warnIfMissed: false);
+      await tester.pump(const Duration(seconds: 5));
+      expect(controller.notices, hasLength(1));
+
+      navigator.currentState!.pop();
+      await tester.pumpAndSettle();
+      expect(find.semantics.byLabel('Before'), findsOneWidget);
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
+      expect(controller.notices, isEmpty);
+      semantics.dispose();
     });
 
     testWidgets('a dialog route counts as a modal', (tester) async {

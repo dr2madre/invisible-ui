@@ -131,9 +131,52 @@ describe("i18n — translate", () => {
     );
   });
 
+  it("carries the current step marker for platforms with no aria-current", () => {
+    expect(translate(catalog, {}, "en", "stepper.current")).toBe("current step");
+    expect(
+      translate(catalog, { "stepper.current": "passo corrente" }, "it", "stepper.current"),
+    ).toBe("passo corrente");
+  });
+
+  it("carries the tree branch actions for platforms with no expanded-state actions", () => {
+    expect(translate(catalog, {}, "en", "tree.expand")).toBe("Expand");
+    expect(translate(catalog, {}, "en", "tree.collapse")).toBe("Collapse");
+    expect(translate(catalog, {}, "en", "tree.retry")).toBe("Retry");
+    expect(translate(catalog, { "tree.retry": "Riprova" }, "it", "tree.retry")).toBe("Riprova");
+  });
+
+  it("carries the sort state for platforms with no aria-sort", () => {
+    expect(translate(catalog, {}, "en", "table.sortedAscending")).toBe("sorted ascending");
+    expect(translate(catalog, {}, "en", "table.sortedDescending")).toBe("sorted descending");
+    expect(
+      translate(
+        catalog,
+        { "table.sortedAscending": "in ordine crescente" },
+        "it",
+        "table.sortedAscending",
+      ),
+    ).toBe("in ordine crescente");
+  });
+
+  it("carries the upload area's browse name, rejections and file list", () => {
+    expect(translate(catalog, {}, "en", "uploadDropArea.browse")).toBe("Browse files");
+    expect(translate(catalog, {}, "en", "uploadDropArea.rejectedType", { name: "a.exe" })).toBe(
+      "a.exe is not an accepted file type.",
+    );
+    expect(translate(catalog, {}, "en", "uploadDropArea.rejectedCount", { name: "b.png" })).toBe(
+      "b.png was not added: only one file is accepted.",
+    );
+    expect(translate(catalog, {}, "en", "uploadDropArea.files")).toBe("Selected files");
+    expect(translate(catalog, {}, "en", "uploadDropArea.remove", { name: "c.pdf" })).toBe(
+      "Remove c.pdf",
+    );
+  });
+
   it("carries the current page marker for platforms with no aria-current", () => {
     expect(translate(catalog, {}, "en", "pagination.current")).toBe("current page");
     expect(translate(catalog, {}, "en", "breadcrumb.current")).toBe("current page");
+    expect(translate(catalog, {}, "en", "sidebar.current")).toBe("current page");
+    expect(translate(catalog, {}, "en", "navigationMenu.current")).toBe("current page");
     expect(
       translate(catalog, { "breadcrumb.current": "pagina corrente" }, "it", "breadcrumb.current"),
     ).toBe("pagina corrente");
@@ -144,6 +187,18 @@ describe("i18n — translate", () => {
     expect(translate(catalog, { "menu.submenu": "sottomenu" }, "it", "menu.submenu")).toBe(
       "sottomenu",
     );
+  });
+
+  it("carries the multi select announcements for platforms with no live tag list", () => {
+    expect(translate(catalog, {}, "en", "multiSelect.added", { name: "Ada" })).toBe("Ada added");
+    expect(translate(catalog, {}, "en", "multiSelect.removed", { name: "Ada" })).toBe(
+      "Ada removed",
+    );
+    expect(
+      translate(catalog, { "multiSelect.removed": "{name} rimosso" }, "it", "multiSelect.removed", {
+        name: "Ada",
+      }),
+    ).toBe("Ada rimosso");
   });
 
   it("interpolates named variables, reorderable, as plain text", () => {

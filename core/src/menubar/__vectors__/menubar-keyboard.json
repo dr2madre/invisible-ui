@@ -1,0 +1,165 @@
+{
+  "description": "Menubar coordination: the keys the bar takes after the open menu left them unhandled, and hover on a trigger. Each case starts from a focused trigger and an open menu (-1 for none) and lists what the bar asks for, in order: close a menu, open a menu, or focus a trigger.",
+  "menus": [
+    { "value": "file" },
+    { "value": "edit" },
+    { "value": "view", "disabled": true },
+    { "value": "help" }
+  ],
+  "cases": [
+    {
+      "name": "ArrowRight moves focus to the next trigger while every menu is closed",
+      "focusedIndex": 0,
+      "openIndex": -1,
+      "event": "ArrowRight",
+      "expected": { "focusedIndex": 1, "openIndex": -1, "log": ["focus:1"], "handled": true }
+    },
+    {
+      "name": "ArrowLeft wraps to the last trigger",
+      "focusedIndex": 0,
+      "openIndex": -1,
+      "event": "ArrowLeft",
+      "expected": { "focusedIndex": 3, "openIndex": -1, "log": ["focus:3"], "handled": true }
+    },
+    {
+      "name": "RTL: ArrowLeft moves to the next trigger",
+      "focusedIndex": 0,
+      "openIndex": -1,
+      "direction": "rtl",
+      "event": "ArrowLeft",
+      "expected": { "focusedIndex": 1, "openIndex": -1, "log": ["focus:1"], "handled": true }
+    },
+    {
+      "name": "RTL: ArrowRight moves to the previous trigger, wrapping",
+      "focusedIndex": 0,
+      "openIndex": -1,
+      "direction": "rtl",
+      "event": "ArrowRight",
+      "expected": { "focusedIndex": 3, "openIndex": -1, "log": ["focus:3"], "handled": true }
+    },
+    {
+      "name": "ArrowRight switches the open menu to the next one",
+      "focusedIndex": 0,
+      "openIndex": 0,
+      "event": "ArrowRight",
+      "expected": {
+        "focusedIndex": 1,
+        "openIndex": 1,
+        "log": ["close:0", "open:1"],
+        "handled": true
+      }
+    },
+    {
+      "name": "ArrowRight onto a disabled menu closes the open one and focuses its trigger",
+      "focusedIndex": 1,
+      "openIndex": 1,
+      "event": "ArrowRight",
+      "expected": {
+        "focusedIndex": 2,
+        "openIndex": -1,
+        "log": ["close:1", "focus:2"],
+        "handled": true
+      }
+    },
+    {
+      "name": "ArrowRight from the last open menu wraps to the first",
+      "focusedIndex": 3,
+      "openIndex": 3,
+      "event": "ArrowRight",
+      "expected": {
+        "focusedIndex": 0,
+        "openIndex": 0,
+        "log": ["close:3", "open:0"],
+        "handled": true
+      }
+    },
+    {
+      "name": "RTL: ArrowLeft switches the open menu to the next one",
+      "focusedIndex": 0,
+      "openIndex": 0,
+      "direction": "rtl",
+      "event": "ArrowLeft",
+      "expected": {
+        "focusedIndex": 1,
+        "openIndex": 1,
+        "log": ["close:0", "open:1"],
+        "handled": true
+      }
+    },
+    {
+      "name": "An arrow the open menu already used is left alone",
+      "focusedIndex": 0,
+      "openIndex": 0,
+      "event": "ArrowRight",
+      "menuHandled": true,
+      "expected": { "focusedIndex": 0, "openIndex": 0, "log": [], "handled": false }
+    },
+    {
+      "name": "Home focuses the first trigger while every menu is closed",
+      "focusedIndex": 2,
+      "openIndex": -1,
+      "event": "Home",
+      "expected": { "focusedIndex": 0, "openIndex": -1, "log": ["focus:0"], "handled": true }
+    },
+    {
+      "name": "End focuses the last trigger while every menu is closed",
+      "focusedIndex": 0,
+      "openIndex": -1,
+      "event": "End",
+      "expected": { "focusedIndex": 3, "openIndex": -1, "log": ["focus:3"], "handled": true }
+    },
+    {
+      "name": "Home is left to an open menu",
+      "focusedIndex": 1,
+      "openIndex": 1,
+      "event": "Home",
+      "expected": { "focusedIndex": 1, "openIndex": 1, "log": [], "handled": false }
+    },
+    {
+      "name": "ArrowDown is not a bar key",
+      "focusedIndex": 0,
+      "openIndex": -1,
+      "event": "ArrowDown",
+      "expected": { "focusedIndex": 0, "openIndex": -1, "log": [], "handled": false }
+    },
+    {
+      "name": "A tab stop past the last menu is kept on the bar",
+      "focusedIndex": 9,
+      "openIndex": -1,
+      "event": "ArrowRight",
+      "expected": { "focusedIndex": 0, "openIndex": -1, "log": ["focus:0"], "handled": true }
+    },
+    {
+      "name": "Hover on another trigger while a menu is open switches to its menu",
+      "focusedIndex": 0,
+      "openIndex": 0,
+      "event": "pointerEnter",
+      "index": 3,
+      "expected": { "focusedIndex": 3, "openIndex": 3, "log": ["close:0", "open:3"] }
+    },
+    {
+      "name": "Hover on a disabled trigger while a menu is open closes it and focuses the trigger",
+      "focusedIndex": 0,
+      "openIndex": 0,
+      "event": "pointerEnter",
+      "index": 2,
+      "expected": { "focusedIndex": 2, "openIndex": -1, "log": ["close:0", "focus:2"] }
+    },
+    {
+      "name": "Hover opens nothing while every menu is closed",
+      "focusedIndex": 0,
+      "openIndex": -1,
+      "event": "pointerEnter",
+      "index": 1,
+      "expected": { "focusedIndex": 0, "openIndex": -1, "log": [] }
+    },
+    {
+      "name": "Hover on the open menu's own trigger changes nothing",
+      "focusedIndex": 1,
+      "openIndex": 1,
+      "event": "pointerEnter",
+      "index": 1,
+      "expected": { "focusedIndex": 1, "openIndex": 1, "log": [] }
+    }
+  ]
+}

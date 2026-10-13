@@ -1,0 +1,109 @@
+{
+  "items": [
+    { "value": "ada", "label": "Ada" },
+    { "value": "grace", "label": "Grace" },
+    { "value": "alan", "label": "Alan", "disabled": true },
+    { "value": "edsger", "label": "Edsger" }
+  ],
+  "add": [
+    {
+      "name": "Adds at the end, in selection order",
+      "values": ["ada"],
+      "value": "grace",
+      "max": null,
+      "expect": ["ada", "grace"],
+      "same": false
+    },
+    {
+      "name": "Adds to an empty selection",
+      "values": [],
+      "value": "edsger",
+      "max": null,
+      "expect": ["edsger"],
+      "same": false
+    },
+    {
+      "name": "A value already chosen is a no-op",
+      "values": ["ada", "grace"],
+      "value": "ada",
+      "max": null,
+      "expect": ["ada", "grace"],
+      "same": true
+    },
+    {
+      "name": "max blocks the addition",
+      "values": ["ada", "grace"],
+      "value": "edsger",
+      "max": 2,
+      "expect": ["ada", "grace"],
+      "same": true
+    },
+    {
+      "name": "A selection already over max stays intact",
+      "values": ["ada", "grace", "edsger"],
+      "value": "alan",
+      "max": 2,
+      "expect": ["ada", "grace", "edsger"],
+      "same": true
+    },
+    {
+      "name": "Below max an addition goes through",
+      "values": ["ada"],
+      "value": "grace",
+      "max": 2,
+      "expect": ["ada", "grace"],
+      "same": false
+    }
+  ],
+  "remove": [
+    {
+      "name": "Removes a chosen value and keeps the order",
+      "values": ["ada", "grace", "edsger"],
+      "value": "grace",
+      "expect": ["ada", "edsger"],
+      "same": false
+    },
+    {
+      "name": "Removes every occurrence",
+      "values": ["ada", "grace", "ada"],
+      "value": "ada",
+      "expect": ["grace"],
+      "same": false
+    },
+    {
+      "name": "An absent value is a no-op",
+      "values": ["grace"],
+      "value": "missing",
+      "expect": ["grace"],
+      "same": true
+    }
+  ],
+  "lastRemovable": [
+    { "name": "The last value", "values": ["ada", "grace"], "expect": "grace" },
+    { "name": "Skips a disabled value at the end", "values": ["ada", "alan"], "expect": "ada" },
+    {
+      "name": "A value with no item can be removed",
+      "values": ["ada", "ghost"],
+      "expect": "ghost"
+    },
+    { "name": "Only disabled values: none", "values": ["alan"], "expect": null },
+    { "name": "An empty selection: none", "values": [], "expect": null }
+  ],
+  "resolve": [
+    {
+      "name": "A listed value takes its item's label",
+      "value": "grace",
+      "expect": { "label": "Grace", "disabled": false }
+    },
+    {
+      "name": "A disabled item stays disabled",
+      "value": "alan",
+      "expect": { "label": "Alan", "disabled": true }
+    },
+    {
+      "name": "A value with no item shows the raw value",
+      "value": "ghost",
+      "expect": { "label": "ghost", "disabled": false }
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "description": "Carousel navigation, language-neutral, from core/src/carousel. states: initialState({ count, index, loop }) clamps the index, then nextIndex, prevIndex, canGoNext and canGoPrev answer for that state. keys: the root's arrow keys from connect({ state, direction }), the index after the key, the same index when the key does nothing. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "states": [
+    {
+      "name": "The first of three, no loop",
+      "count": 3,
+      "index": 0,
+      "loop": false,
+      "expect": { "index": 0, "next": 1, "prev": 0, "canGoNext": true, "canGoPrev": false }
+    },
+    {
+      "name": "The last of three, no loop",
+      "count": 3,
+      "index": 2,
+      "loop": false,
+      "expect": { "index": 2, "next": 2, "prev": 1, "canGoNext": false, "canGoPrev": true }
+    },
+    {
+      "name": "The last of three wraps with loop",
+      "count": 3,
+      "index": 2,
+      "loop": true,
+      "expect": { "index": 2, "next": 0, "prev": 1, "canGoNext": true, "canGoPrev": true }
+    },
+    {
+      "name": "The first of three wraps back with loop",
+      "count": 3,
+      "index": 0,
+      "loop": true,
+      "expect": { "index": 0, "next": 1, "prev": 2, "canGoNext": true, "canGoPrev": true }
+    },
+    {
+      "name": "An index past the end is clamped",
+      "count": 4,
+      "index": 9,
+      "loop": false,
+      "expect": { "index": 3, "next": 3, "prev": 2, "canGoNext": false, "canGoPrev": true }
+    },
+    {
+      "name": "A negative index is clamped",
+      "count": 4,
+      "index": -2,
+      "loop": false,
+      "expect": { "index": 0, "next": 1, "prev": 0, "canGoNext": true, "canGoPrev": false }
+    },
+    {
+      "name": "One slide never moves, even with loop",
+      "count": 1,
+      "index": 0,
+      "loop": true,
+      "expect": { "index": 0, "next": 0, "prev": 0, "canGoNext": false, "canGoPrev": false }
+    },
+    {
+      "name": "No slides",
+      "count": 0,
+      "index": 0,
+      "loop": false,
+      "expect": { "index": 0, "next": 0, "prev": 0, "canGoNext": false, "canGoPrev": false }
+    }
+  ],
+  "keys": [
+    {
+      "name": "Right Arrow moves forward",
+      "count": 3,
+      "index": 0,
+      "loop": false,
+      "orientation": "horizontal",
+      "direction": "ltr",
+      "key": "ArrowRight",
+      "expect": 1
+    },
+    {
+      "name": "Left Arrow moves back",
+      "count": 3,
+      "index": 1,
+      "loop": false,
+      "orientation": "horizontal",
+      "direction": "ltr",
+      "key": "ArrowLeft",
+      "expect": 0
+    },
+    {
+      "name": "Right to left, Left Arrow moves forward",
+      "count": 3,
+      "index": 0,
+      "loop": false,
+      "orientation": "horizontal",
+      "direction": "rtl",
+      "key": "ArrowLeft",
+      "expect": 1
+    },
+    {
+      "name": "Right to left, Right Arrow moves back",
+      "count": 3,
+      "index": 1,
+      "loop": false,
+      "orientation": "horizontal",
+      "direction": "rtl",
+      "key": "ArrowRight",
+      "expect": 0
+    },
+    {
+      "name": "Left Arrow at the first slide stays without loop",
+      "count": 3,
+      "index": 0,
+      "loop": false,
+      "orientation": "horizontal",
+      "direction": "ltr",
+      "key": "ArrowLeft",
+      "expect": 0
+    },
+    {
+      "name": "Left Arrow at the first slide wraps with loop",
+      "count": 3,
+      "index": 0,
+      "loop": true,
+      "orientation": "horizontal",
+      "direction": "ltr",
+      "key": "ArrowLeft",
+      "expect": 2
+    },
+    {
+      "name": "Vertical, Down Arrow moves forward",
+      "count": 3,
+      "index": 0,
+      "loop": false,
+      "orientation": "vertical",
+      "direction": "ltr",
+      "key": "ArrowDown",
+      "expect": 1
+    },
+    {
+      "name": "Vertical, Up Arrow moves back",
+      "count": 3,
+      "index": 2,
+      "loop": false,
+      "orientation": "vertical",
+      "direction": "rtl",
+      "key": "ArrowUp",
+      "expect": 1
+    },
+    {
+      "name": "Vertical ignores Right Arrow",
+      "count": 3,
+      "index": 0,
+      "loop": false,
+      "orientation": "vertical",
+      "direction": "ltr",
+      "key": "ArrowRight",
+      "expect": 0
+    },
+    {
+      "name": "Horizontal ignores Down Arrow",
+      "count": 3,
+      "index": 0,
+      "loop": false,
+      "orientation": "horizontal",
+      "direction": "ltr",
+      "key": "ArrowDown",
+      "expect": 0
+    }
+  ]
+}

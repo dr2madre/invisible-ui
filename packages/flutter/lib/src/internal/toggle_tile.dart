@@ -10,8 +10,9 @@ const double _gap = 8;
 const double _disabledOpacity = 0.5;
 
 /// A painted indicator and its label, activated as a whole: the shared body
-/// of [Checkbox], [Switch], and the items of [CheckboxGroup] and [RadioButtonGroup],
-/// as the web wraps the native input and its text in one `<label>`.
+/// of [Checkbox], [Switch], the items of [CheckboxGroup] and the stars of
+/// [RatingGroup], as the web wraps the native input and its text in one
+/// `<label>`. [Radio] shares its look, [ToggleTileBody].
 ///
 /// A tap anywhere on the row or Space activates it; Enter does not, as on a
 /// native checkbox. The focus ring is drawn around the indicator. The row is
@@ -105,36 +106,7 @@ class _ToggleTileState extends State<ToggleTile> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = InvisibleTheme.of(context);
-    final colors = theme.colors;
-    final target = theme.minTargetSize;
     final enabled = _enabled;
-
-    final row = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        FocusRingPainter(
-          visible: _focusVisible,
-          ring: theme.focusRing,
-          radius: widget.indicatorRadius,
-          child: Opacity(
-            opacity: enabled ? 1 : _disabledOpacity,
-            child: widget.indicator,
-          ),
-        ),
-        if (!widget.hideLabel) ...[
-          const SizedBox(width: _gap),
-          Flexible(
-            child: Text(
-              widget.label,
-              style: theme.textStyle.copyWith(
-                color: enabled ? colors.text : colors.textDisabled,
-              ),
-            ),
-          ),
-        ],
-      ],
-    );
 
     // Only the label and the indicator take presses, also in a parent that
     // stretches its children.
@@ -175,21 +147,96 @@ class _ToggleTileState extends State<ToggleTile> {
               behavior: HitTestBehavior.opaque,
               excludeFromSemantics: true,
               onTap: enabled ? _activate : null,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: target.width,
-                  minHeight: target.height,
-                ),
-                child: Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  widthFactor: 1,
-                  heightFactor: 1,
-                  child: row,
-                ),
+              child: ToggleTileBody(
+                label: widget.label,
+                hideLabel: widget.hideLabel,
+                indicator: widget.indicator,
+                indicatorRadius: widget.indicatorRadius,
+                enabled: enabled,
+                focusVisible: _focusVisible,
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The look of a [ToggleTile] without its behaviour: the indicator with its
+/// focus ring, the label beside it, dimmed when disabled, in a row at least
+/// [InvisibleThemeData.minTargetSize] in both directions. Shared with
+/// [Radio], whose behaviour is the widgets library's raw radio.
+class ToggleTileBody extends StatelessWidget {
+  /// Lays out [indicator] and [label].
+  const ToggleTileBody({
+    super.key,
+    required this.label,
+    required this.indicator,
+    required this.indicatorRadius,
+    required this.enabled,
+    required this.focusVisible,
+    this.hideLabel = false,
+  });
+
+  /// The visible label.
+  final String label;
+
+  /// The painted box, track or dot.
+  final Widget indicator;
+
+  /// The corner radius of [indicator], which the focus ring follows.
+  final double indicatorRadius;
+
+  /// Whether the control is enabled; dims it when false.
+  final bool enabled;
+
+  /// Whether the focus ring shows.
+  final bool focusVisible;
+
+  /// Hides the label visually.
+  final bool hideLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = InvisibleTheme.of(context);
+    final colors = theme.colors;
+    final target = theme.minTargetSize;
+    final row = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FocusRingPainter(
+          visible: focusVisible,
+          ring: theme.focusRing,
+          radius: indicatorRadius,
+          child: Opacity(
+            opacity: enabled ? 1 : _disabledOpacity,
+            child: indicator,
+          ),
+        ),
+        if (!hideLabel) ...[
+          const SizedBox(width: _gap),
+          Flexible(
+            child: Text(
+              label,
+              style: theme.textStyle.copyWith(
+                color: enabled ? colors.text : colors.textDisabled,
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minWidth: target.width,
+        minHeight: target.height,
+      ),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        widthFactor: 1,
+        heightFactor: 1,
+        child: row,
       ),
     );
   }

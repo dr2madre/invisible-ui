@@ -1,5 +1,4 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -58,9 +57,7 @@ void main() {
       docs.getSemanticsData().linkUrl,
       Uri.parse('https://example.com/docs'),
     );
-    // The flag API Flutter 3.32 has; later releases add flagsCollection.
-    // ignore: deprecated_member_use
-    expect(docs.getSemanticsData().hasFlag(SemanticsFlag.isLink), isTrue);
+    expect(docs.getSemanticsData().flagsCollection.isLink, isTrue);
     expect(tester.getSemantics(find.text('Pricing')).label, 'Pricing page');
     await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
     await expectLater(tester, meetsGuideline(targetGuideline24));

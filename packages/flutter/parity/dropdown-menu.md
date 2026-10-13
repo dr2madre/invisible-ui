@@ -91,7 +91,7 @@ scope**. Every matched line names the test that holds it, in
 | The callback is read at the activation | matched | `the callback is read when the item is chosen` |
 | Items that lose a value on the open path cut it silently | matched | `items that drop the open submenu cut the path silently`; vectors: `An open path through a disabled submenu is cut` |
 | One submenu open per level | matched | `hover opens a submenu after 100 ms; a sibling closes it after 100 ms`; vectors: `Moving within a level closes the submenu open below it` |
-| Close order the same before and after Flutter 3.44 | matched | the session keeps the open path itself, closes the deepest controller first, ignores anchor `onClose` calls for levels it already closed, and reports in a post-frame callback; every test here runs on Flutter 3.32.8 and on the current stable release |
+| Close order the same before and after Flutter 3.44 | matched | the session keeps the open path itself, closes the deepest controller first, ignores anchor `onClose` calls for levels it already closed, and reports in a post-frame callback; every test here runs on Flutter 3.35.7 and on the current stable release |
 | `onOpenChange` | out of scope | the Svelte `DropdownMenu` component does not expose it |
 
 ## Semantics

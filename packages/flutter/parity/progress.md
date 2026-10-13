@@ -34,8 +34,8 @@ shared vectors in `core/src/progress/__vectors__`
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| `role="progressbar"` named by the label | adapted | Flutter 3.32's progress bar role fails its own debug role check; a node named by the label: `semantics: …` |
-| `aria-valuenow` with `aria-valuemin` and `aria-valuemax` | adapted | Flutter 3.32 semantics carry a value string, not a range; the value is the percentage, which screen readers announce for a progress bar: same test |
+| `role="progressbar"` named by the label | adapted | Flutter 3.35's progress bar role fails its own debug role check; a node named by the label: `semantics: …` |
+| `aria-valuenow` with `aria-valuemin` and `aria-valuemax` | adapted | Flutter 3.35 semantics carry a value string, not a range; the value is the percentage, which screen readers announce for a progress bar: same test |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
 
 ## Look and layout

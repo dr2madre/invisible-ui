@@ -48,7 +48,7 @@ class DatePicker extends StatefulWidget {
     this.placeholder,
     this.min,
     this.max,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.locale,
     this.symbols,
     this.clearable = false,
@@ -73,7 +73,7 @@ class DatePicker extends StatefulWidget {
     this.placeholder,
     this.min,
     this.max,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.locale,
     this.symbols,
     this.clearable = false,
@@ -114,8 +114,8 @@ class DatePicker extends StatefulWidget {
   final DateTime? max;
 
   /// The first day of a calendar week, [DateTime.monday] to
-  /// [DateTime.sunday].
-  final int weekStartsOn;
+  /// [DateTime.sunday]. Null uses the locale's first day from CLDR.
+  final int? weekStartsOn;
 
   /// The locale of the field and the calendar; defaults to the app's.
   final Locale? locale;
@@ -265,7 +265,7 @@ class DateRangePicker extends StatefulWidget {
     this.placeholder,
     this.min,
     this.max,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.view = CalendarView.twoMonth,
     this.locale,
     this.symbols,
@@ -291,7 +291,7 @@ class DateRangePicker extends StatefulWidget {
     this.placeholder,
     this.min,
     this.max,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.view = CalendarView.twoMonth,
     this.locale,
     this.symbols,
@@ -333,8 +333,8 @@ class DateRangePicker extends StatefulWidget {
   final DateTime? max;
 
   /// The first day of a calendar week, [DateTime.monday] to
-  /// [DateTime.sunday].
-  final int weekStartsOn;
+  /// [DateTime.sunday]. Null uses the locale's first day from CLDR.
+  final int? weekStartsOn;
 
   /// The months the calendar shows; two by default.
   final CalendarView view;

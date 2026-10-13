@@ -38,7 +38,7 @@ scope**. Every matched line names the widget test in
 | The close button takes the surface's text colour | matched | `on an inverted banner the close glyph takes its text colour` |
 | `open` bindable visibility | adapted | Flutter widgets do not hide themselves: the app removes the banner in `onClose`, which keeps the state in one place |
 | Link (`href`, `linkText`, `link` snippet) | out of scope | the package has no link widget yet; an action covers the case |
-| `region` role | out of scope | Flutter 3.32 has no region role |
+| `region` role | out of scope | built when the lower bound (Flutter 3.32) had no region role; Flutter 3.35 has `SemanticsRole.region`, and adopting it is an open point |
 | `snack` layout, `iconShape`, `iconBox` | out of scope | no consumer asks for them yet |
 
 ## Semantics and announcements

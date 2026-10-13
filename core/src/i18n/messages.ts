@@ -138,11 +138,26 @@ export const en = {
   "sidebar.collapse": "Collapse the navigation",
   "sidebar.expand": "Expand the navigation",
   "sidebar.open": "Open the navigation",
+  // Read with the current destination on a platform whose semantics have no
+  // aria-current (the Flutter adapter).
+  "sidebar.current": "current page",
+  // Read with the navigation menu's current link on a platform whose
+  // semantics have no aria-current (the Flutter adapter).
+  "navigationMenu.current": "current page",
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",
+  // Read with the current step on a platform whose semantics have no
+  // aria-current (the Flutter adapter).
+  "stepper.current": "current step",
   "tree.loading": "Loading {name}…",
   "tree.loadError": "Could not load {name}. Press Right Arrow to retry.",
+  // The custom actions a tree branch offers on a platform whose semantics
+  // have no expanded-state actions of their own (the Flutter adapter).
+  "tree.expand": "Expand",
+  "tree.collapse": "Collapse",
+  // The custom action that reloads a branch whose children failed to load.
+  "tree.retry": "Retry",
   "carousel.previous": "Previous slide",
   "carousel.next": "Next slide",
   "carousel.choose": "Choose slide",
@@ -174,6 +189,10 @@ export const en = {
   "table.view": "View",
   "table.viewTable": "Table",
   "table.viewCards": "Cards",
+  // Read with a sorted column's header on a platform whose semantics have no
+  // aria-sort (the Flutter adapter).
+  "table.sortedAscending": "sorted ascending",
+  "table.sortedDescending": "sorted descending",
   // Misc
   // The name of the "+N" chip that stands for the avatars left out.
   "avatarGroup.more": {
@@ -194,12 +213,26 @@ export const en = {
   "tag.remove": "Remove",
   "multiSelect.selected": "Selected values",
   "multiSelect.remove": "Remove {name}",
+  // Announced politely after a value is added or removed, on a platform with
+  // no live tag list (the Flutter adapter).
+  "multiSelect.added": "{name} added",
+  "multiSelect.removed": "{name} removed",
   "multiSelect.empty": "No results",
   "multiSelect.placeholder": "Search\u2026",
   // Upload Drop Area — prompt first, the styled action word last, so translations
   // like "Trascina qui i file oppure seleziona" keep a natural order.
   "uploadDropArea.prompt": "Drag & drop files or",
   "uploadDropArea.action": "browse",
+  // The area's name where the application takes no dropped files (the
+  // Flutter adapter, where the application opens the picker).
+  "uploadDropArea.browse": "Browse files",
+  // Shown and announced for each file the accept filter or the one-file
+  // limit leaves out.
+  "uploadDropArea.rejectedType": "{name} is not an accepted file type.",
+  "uploadDropArea.rejectedCount": "{name} was not added: only one file is accepted.",
+  // The list of files the application keeps, and each file's remove button.
+  "uploadDropArea.files": "Selected files",
+  "uploadDropArea.remove": "Remove {name}",
 } as const;
 
 export type MessageKey = keyof typeof en;

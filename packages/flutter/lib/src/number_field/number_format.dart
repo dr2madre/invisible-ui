@@ -179,6 +179,24 @@ final RegExp _trailingSeparator = RegExp(r'^[-+]?\d+\.$');
 // locale's space grouping, because keyboards produce different spaces.
 const List<String> _spaceGroups = [' ', ' ', ' ', ' '];
 
+// A locale that groups with an apostrophe, such as de-CH, takes the
+// typographic one it displays and the straight one keyboards type.
+const List<String> _apostropheGroups = ['\u2019', "'"];
+
+/// [text] with Arabic-Indic (U+0660 to U+0669) and Persian (U+06F0 to
+/// U+06F9) digits written as the ASCII digits 0 to 9. Number, PIN and time
+/// inputs take these digits in every locale and report ASCII.
+String asciiDigits(String text) {
+  int fold(int unit) => unit >= 0x0660 && unit <= 0x0669
+      ? unit - 0x0660 + 0x30
+      : unit >= 0x06f0 && unit <= 0x06f9
+      ? unit - 0x06f0 + 0x30
+      : unit;
+  final units = text.codeUnits;
+  if (units.every((unit) => fold(unit) == unit)) return text;
+  return String.fromCharCodes(units.map(fold));
+}
+
 const double _epsilon = 2.220446049250313e-16;
 
 /// JavaScript's `Math.round`: halves round towards positive infinity.
@@ -188,7 +206,9 @@ double _round(double x) {
 }
 
 /// Parse an editing text against [symbols]. This classifies the grammar
-/// only; [validateNumber] checks range and step.
+/// only; [validateNumber] checks range and step. The locale's digits,
+/// Arabic-Indic and Persian digits are all read as numbers, and a locale
+/// that groups with an apostrophe takes both U+2019 and U+0027.
 NumberParseResult parseNumber(String text, NumberSymbols symbols) {
   final trimmed = text.trim();
   if (trimmed.isEmpty) {
@@ -203,7 +223,12 @@ NumberParseResult parseNumber(String text, NumberSymbols symbols) {
     }
     s = folded.toString();
   }
-  final groups = symbols.group.trim().isEmpty ? _spaceGroups : [symbols.group];
+  s = asciiDigits(s);
+  final groups = symbols.group.trim().isEmpty
+      ? _spaceGroups
+      : _apostropheGroups.contains(symbols.group)
+      ? _apostropheGroups
+      : [symbols.group];
   for (final group in groups) {
     s = s.replaceAll(group, '');
   }

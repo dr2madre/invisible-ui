@@ -169,6 +169,7 @@ void main() {
               initialValue: DateTime(2026, 6, 10),
               onChanged: reports.add,
               onFocusChanged: moves.add,
+              weekStartsOn: DateTime.monday,
             ),
           ),
         ),

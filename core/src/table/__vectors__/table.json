@@ -1,0 +1,217 @@
+{
+  "description": "Table sorting, column visibility and row selection, language-neutral, from core/src/table/state.ts. nextSort(current, key) cycles a header's sort; compareValues(a, b) is reported by its sign (-1, 0 or 1); sortRows(rows, sort) lists the row ids in sorted order, reading row[key]; toggleRowSelection, toggleScopeSelection, scopeSelectionState and toggleHidden are the pure transitions. Strings hold letters, digits and spaces only, the range both implementations compare the same way. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "nextSort": [
+    {
+      "name": "An unsorted table sorts the column ascending",
+      "current": null,
+      "key": "name",
+      "expect": { "key": "name", "direction": "asc" }
+    },
+    {
+      "name": "Ascending turns descending",
+      "current": { "key": "name", "direction": "asc" },
+      "key": "name",
+      "expect": { "key": "name", "direction": "desc" }
+    },
+    {
+      "name": "Descending clears the sort",
+      "current": { "key": "name", "direction": "desc" },
+      "key": "name",
+      "expect": null
+    },
+    {
+      "name": "Another column starts ascending",
+      "current": { "key": "name", "direction": "desc" },
+      "key": "city",
+      "expect": { "key": "city", "direction": "asc" }
+    }
+  ],
+  "compareValues": [
+    { "name": "Two nulls are equal", "a": null, "b": null, "expect": 0 },
+    { "name": "A null sorts after a value", "a": null, "b": 1, "expect": 1 },
+    { "name": "A value sorts before a null", "a": "a", "b": null, "expect": -1 },
+    { "name": "Numbers compare by value", "a": 9, "b": 10, "expect": -1 },
+    { "name": "Negative numbers compare by value", "a": -2, "b": -10, "expect": 1 },
+    { "name": "Equal numbers", "a": 3, "b": 3, "expect": 0 },
+    { "name": "False sorts before true", "a": false, "b": true, "expect": -1 },
+    { "name": "Strings ignore case", "a": "apple", "b": "Banana", "expect": -1 },
+    { "name": "Strings that differ in case only are equal", "a": "Rome", "b": "rome", "expect": 0 },
+    { "name": "Digit runs compare as numbers", "a": "item 2", "b": "item 10", "expect": -1 },
+    { "name": "A prefix sorts first", "a": "Ann", "b": "Anna", "expect": -1 },
+    { "name": "A space sorts before a letter", "a": "a b", "b": "ab", "expect": -1 },
+    { "name": "Digits sort before letters", "a": "9 lives", "b": "a life", "expect": -1 },
+    { "name": "A number and a string compare as text", "a": 10, "b": "9", "expect": 1 }
+  ],
+  "sortRows": [
+    {
+      "name": "No sort keeps the order",
+      "rows": [
+        { "id": "a", "name": "Carla" },
+        { "id": "b", "name": "Anna" },
+        { "id": "c", "name": "Bruno" }
+      ],
+      "sort": null,
+      "expect": ["a", "b", "c"]
+    },
+    {
+      "name": "Ascending by text",
+      "rows": [
+        { "id": "a", "name": "Carla" },
+        { "id": "b", "name": "anna" },
+        { "id": "c", "name": "Bruno" }
+      ],
+      "sort": { "key": "name", "direction": "asc" },
+      "expect": ["b", "c", "a"]
+    },
+    {
+      "name": "Descending by number",
+      "rows": [
+        { "id": "a", "age": 30 },
+        { "id": "b", "age": 4 },
+        { "id": "c", "age": 41 }
+      ],
+      "sort": { "key": "age", "direction": "desc" },
+      "expect": ["c", "a", "b"]
+    },
+    {
+      "name": "Equal values keep their order in both directions",
+      "rows": [
+        { "id": "a", "city": "Rome" },
+        { "id": "b", "city": "Milan" },
+        { "id": "c", "city": "rome" },
+        { "id": "d", "city": "Milan" }
+      ],
+      "sort": { "key": "city", "direction": "desc" },
+      "expect": ["a", "c", "b", "d"]
+    },
+    {
+      "name": "Missing and null values stay last ascending",
+      "rows": [
+        { "id": "a", "age": null },
+        { "id": "b", "age": 20 },
+        { "id": "c" },
+        { "id": "d", "age": 10 }
+      ],
+      "sort": { "key": "age", "direction": "asc" },
+      "expect": ["d", "b", "a", "c"]
+    },
+    {
+      "name": "Missing and null values stay last descending",
+      "rows": [
+        { "id": "a", "age": null },
+        { "id": "b", "age": 20 },
+        { "id": "c" },
+        { "id": "d", "age": 10 }
+      ],
+      "sort": { "key": "age", "direction": "desc" },
+      "expect": ["b", "d", "a", "c"]
+    },
+    {
+      "name": "Digit runs sort as numbers",
+      "rows": [
+        { "id": "a", "file": "report 10" },
+        { "id": "b", "file": "report 9" },
+        { "id": "c", "file": "report 100" }
+      ],
+      "sort": { "key": "file", "direction": "asc" },
+      "expect": ["b", "a", "c"]
+    }
+  ],
+  "toggleRowSelection": [
+    { "name": "None mode changes nothing", "selected": [], "id": 1, "mode": "none", "expect": [] },
+    {
+      "name": "Multiple mode adds an id at the end",
+      "selected": [3],
+      "id": 1,
+      "mode": "multiple",
+      "expect": [3, 1]
+    },
+    {
+      "name": "Multiple mode removes a selected id",
+      "selected": [3, 1, 2],
+      "id": 1,
+      "mode": "multiple",
+      "expect": [3, 2]
+    },
+    {
+      "name": "Single mode replaces the selection",
+      "selected": ["a"],
+      "id": "b",
+      "mode": "single",
+      "expect": ["b"]
+    },
+    {
+      "name": "Single mode empties on the selected id",
+      "selected": ["a"],
+      "id": "a",
+      "mode": "single",
+      "expect": []
+    },
+    {
+      "name": "Text and number ids stay apart",
+      "selected": ["1"],
+      "id": 1,
+      "mode": "multiple",
+      "expect": ["1", 1]
+    }
+  ],
+  "toggleScopeSelection": [
+    {
+      "name": "Selects the missing ids of the scope, keeping ids outside it",
+      "selected": [9, 2],
+      "scope": [1, 2, 3],
+      "mode": "multiple",
+      "expect": [9, 2, 1, 3]
+    },
+    {
+      "name": "A fully selected scope is removed, ids outside it stay",
+      "selected": [3, 9, 1, 2],
+      "scope": [1, 2, 3],
+      "mode": "multiple",
+      "expect": [9]
+    },
+    {
+      "name": "Duplicate ids in the scope are added once",
+      "selected": [],
+      "scope": [1, 1, 2],
+      "mode": "multiple",
+      "expect": [1, 2]
+    },
+    {
+      "name": "An empty scope changes nothing",
+      "selected": [4],
+      "scope": [],
+      "mode": "multiple",
+      "expect": [4]
+    },
+    {
+      "name": "Single mode has no scope toggle",
+      "selected": [],
+      "scope": [1, 2],
+      "mode": "single",
+      "expect": []
+    },
+    {
+      "name": "None mode has no scope toggle",
+      "selected": [1],
+      "scope": [1, 2],
+      "mode": "none",
+      "expect": [1]
+    }
+  ],
+  "scopeSelectionState": [
+    { "name": "An empty scope is none", "selected": [1], "scope": [], "expect": "none" },
+    { "name": "Nothing of the scope selected", "selected": [9], "scope": [1, 2], "expect": "none" },
+    { "name": "Part of the scope selected", "selected": [2, 9], "scope": [1, 2], "expect": "some" },
+    { "name": "The whole scope selected", "selected": [2, 9, 1], "scope": [1, 2], "expect": "all" }
+  ],
+  "toggleHidden": [
+    {
+      "name": "Hides a shown column at the end",
+      "hidden": ["city"],
+      "key": "age",
+      "expect": ["city", "age"]
+    },
+    { "name": "Shows a hidden column", "hidden": ["city", "age"], "key": "city", "expect": ["age"] }
+  ]
+}

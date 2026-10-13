@@ -19,8 +19,8 @@ import 'submenu_geometry.dart';
 
 // The shared menu layer (ADR 0017 §4): the open state of a menu and its
 // submenus, the keyboard map, typeahead, hover timing, the grace area, focus
-// return and the rendering of each level. Dropdown Menu builds on it, and
-// Context Menu and Menubar will.
+// return and the rendering of each level. Dropdown Menu, Context Menu and
+// Menubar build on it.
 //
 // Each level is a RawMenuAnchor with its own MenuController, nested in its
 // parent's overlay. The session keeps the open path itself and drives the
@@ -58,6 +58,7 @@ class MenuSession<T> extends ChangeNotifier {
     required this.onSelected,
     required this.direction,
     this.keepsUnusedArrows = false,
+    this.returnFocus,
   });
 
   /// Whether the side arrows no level used stop at the menu. A Dropdown
@@ -67,6 +68,11 @@ class MenuSession<T> extends ChangeNotifier {
 
   /// The control that opens the menu and takes focus back when it closes.
   final FocusNode triggerFocus;
+
+  /// Where focus returns when the menu closes, when that is not
+  /// [triggerFocus]: a Context Menu returns it to the control that had it
+  /// before the menu opened.
+  final ValueGetter<FocusNode?>? returnFocus;
 
   /// The current selection callback.
   final ValueGetter<ValueChanged<T>?> onSelected;
@@ -232,7 +238,10 @@ class MenuSession<T> extends ChangeNotifier {
       ..addPostFrameCallback((_) {
         if (_disposed) return;
         if (returnFocus) {
-          triggerFocus.requestFocus();
+          // A control that has left the tree since gives way to the trigger.
+          final target = this.returnFocus?.call();
+          final attached = target?.context != null && target!.canRequestFocus;
+          (attached ? target : triggerFocus).requestFocus();
           // Focus is back on the trigger before the report, so a dialog the
           // report opens returns focus there (ADR 0016).
           FocusManager.instance.applyFocusChangesIfNeeded();
@@ -692,7 +701,7 @@ class _SubmenuAnchorState<T> extends State<_SubmenuAnchor<T>> {
       controller: _controller,
       onClose: () => widget.session.anchorClosed(value),
       overlayBuilder: (context, info) => CustomSingleChildLayout(
-        delegate: _SubmenuLayout(
+        delegate: SubmenuLayout(
           // The submenu's first item lines up with its trigger.
           anchor: info.anchorRect.translate(0, -_panelPadding - _panelBorder),
           direction: Directionality.of(context),
@@ -710,11 +719,16 @@ class _SubmenuAnchorState<T> extends State<_SubmenuAnchor<T>> {
 }
 
 /// Applies [placeSubmenu]: inline-end, flipping to inline-start, overlapping
-/// the parent on a narrow screen, shifted inside the overlay.
-class _SubmenuLayout extends SingleChildLayoutDelegate {
-  const _SubmenuLayout({required this.anchor, required this.direction});
+/// the parent on a narrow screen, shifted inside the overlay. A submenu sits
+/// beside its trigger; a Context Menu beside the point it was opened at.
+class SubmenuLayout extends SingleChildLayoutDelegate {
+  /// Places the menu beside [anchor], in the overlay's coordinates.
+  const SubmenuLayout({required this.anchor, required this.direction});
 
+  /// The rectangle the menu opens beside.
   final Rect anchor;
+
+  /// The reading direction, which decides the inline-end.
   final TextDirection direction;
 
   static const double _edge = 8;
@@ -738,7 +752,7 @@ class _SubmenuLayout extends SingleChildLayoutDelegate {
   ).offset;
 
   @override
-  bool shouldRelayout(_SubmenuLayout old) =>
+  bool shouldRelayout(SubmenuLayout old) =>
       old.anchor != anchor || old.direction != direction;
 }
 

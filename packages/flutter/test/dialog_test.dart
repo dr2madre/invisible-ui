@@ -1,7 +1,3 @@
-// flutter/semantics.dart exports SemanticsRole only after Flutter 3.32.
-// ignore: unnecessary_import
-import 'dart:ui' show SemanticsRole;
-
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -453,6 +449,28 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets('confirming closes the dialog first, then reports '
+        '(ADR 0011)', (tester) async {
+      final log = <String>[];
+      await tester.pumpWidget(
+        _page(
+          (context) => ConfirmDialog(
+            title: 'Delete 6 hours?',
+            confirmLabel: 'Delete',
+            onConfirm: () => log.add('confirm'),
+          ),
+          observers: [_PopLog(log)],
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      expect(log, ['pop', 'confirm']);
+      expect(await _result, isTrue);
+      expect(find.byType(ConfirmDialog), findsNothing);
+    });
+
     testWidgets('urgent makes it an alert dialog', (tester) async {
       final semantics = tester.ensureSemantics();
       await tester.pumpWidget(
@@ -874,3 +892,14 @@ void main() {
 }
 
 int _confirmed = 0;
+
+/// Records each popped route in [log], so a test can tell what came first.
+class _PopLog extends NavigatorObserver {
+  _PopLog(this.log);
+
+  final List<String> log;
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+      log.add('pop');
+}

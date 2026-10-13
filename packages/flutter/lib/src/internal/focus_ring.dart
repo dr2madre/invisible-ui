@@ -21,6 +21,7 @@ class FocusRingPainter extends StatelessWidget {
     required this.radius,
     required this.child,
     this.inside = false,
+    this.corners,
   });
 
   /// Whether the ring shows.
@@ -38,13 +39,19 @@ class FocusRingPainter extends StatelessWidget {
   /// Whether the ring is drawn within the control's bounds.
   final bool inside;
 
+  /// Corners of their own, in place of [radius] on every corner, for a
+  /// control whose corners differ, such as the ends of a joined group.
+  final BorderRadiusGeometry? corners;
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       foregroundPainter: visible
           ? _RingPainter(
               ring: ring,
-              radius: radius,
+              corners: (corners ?? BorderRadius.circular(radius)).resolve(
+                Directionality.maybeOf(context),
+              ),
               highContrast: MediaQuery.maybeHighContrastOf(context) ?? false,
               inside: inside,
             )
@@ -57,21 +64,25 @@ class FocusRingPainter extends StatelessWidget {
 class _RingPainter extends CustomPainter {
   const _RingPainter({
     required this.ring,
-    required this.radius,
+    required this.corners,
     required this.highContrast,
     required this.inside,
   });
 
   final InvisibleFocusRing ring;
-  final double radius;
+  final BorderRadius corners;
   final bool highContrast;
   final bool inside;
 
   void _stroke(Canvas canvas, Size size, double from, double width, Color c) {
     final grow = from + width / 2;
-    final rect = RRect.fromRectAndRadius(
+    Radius out(Radius r) => Radius.circular(math.max(0, r.x + grow));
+    final rect = RRect.fromRectAndCorners(
       (Offset.zero & size).inflate(grow),
-      Radius.circular(math.max(0, radius + grow)),
+      topLeft: out(corners.topLeft),
+      topRight: out(corners.topRight),
+      bottomLeft: out(corners.bottomLeft),
+      bottomRight: out(corners.bottomRight),
     );
     canvas.drawRRect(
       rect,
@@ -99,7 +110,7 @@ class _RingPainter extends CustomPainter {
   @override
   bool shouldRepaint(_RingPainter old) =>
       old.ring != ring ||
-      old.radius != radius ||
+      old.corners != corners ||
       old.highContrast != highContrast ||
       old.inside != inside;
 }

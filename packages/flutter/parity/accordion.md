@@ -48,7 +48,7 @@ shared vectors in `core/src/accordion/__vectors__`
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Header button with `aria-expanded` inside an `h3` | matched | `semantics: headers are buttons and level 3 headings that report expanded; a disabled one reports disabled` |
-| Panel `role="region"` labelled by its header | adapted | Flutter 3.32 has no region role and no labelled-by relation; the panel follows its header in reading order |
+| Panel `role="region"` labelled by its header | adapted | Flutter 3.35 has `SemanticsRole.region`, which needs a label of its own, and no labelled-by relation; the panel follows its header in reading order. Adopting the role with the header text as its label is an open point |
 | Disabled header reported | matched | same test |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
 

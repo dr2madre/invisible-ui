@@ -45,7 +45,7 @@ them to the web names and to the ADR 0011 vocabulary.
 | Loading: a spinner replaces the leading icon, or the glyph of an icon-only button | matched | `a spinner replaces the leading icon; the label stays`, `a spinner replaces the glyph of an icon-only button` |
 | Loading: the spinner stands still under reduced motion | matched | `the spinner stands still under reduced motion` |
 | Loading: `loadingStatus`, a live succession of steps | out of scope | needs `SemanticsService` announcements; follows with the Loading component |
-| Copy button (`copy`, `copiedLabel`, ADR 0016) | out of scope | needs the clipboard and a status region; on demand |
+| Copy button (`copy`, `copiedLabel`, ADR 0016) | matched | see the Copy section below |
 | Read-only, invalid, selected | out of scope | the reference button has none of them |
 
 ## Variants
@@ -109,6 +109,7 @@ them to the web names and to the ADR 0011 vocabulary.
 | --- | --- | --- |
 | Hit area at least 24 by 24 under compact and regular | matched | `targets are at least 24 by 24 under regular and compact` |
 | Hit area at least 44 by 44 under touch | matched | `targets are at least 44 by 44 under touch` |
+| A smaller `minTargetSize` never lowers the hit area below the density token | matched | `InvisibleThemeData.minTargetSize` keeps the token as its floor: `a smaller target size never goes below the token` (theme_test) |
 | An explicit `minTargetSize` applies at any density | matched | `an explicit 44 by 44 target applies at regular density` |
 | A press between the painted button and the target edge counts | matched | `a press outside the painted button but inside the target counts` |
 | Compact and touch padding | adapted | the tokens define control padding for regular only; compact and touch use the regular values until the tokens define theirs |
@@ -121,3 +122,15 @@ them to the web names and to the ADR 0011 vocabulary.
 | Text scale 2.0 grows the button and its icons, no overflow | matched | `text scale 2.0 grows the button without overflow` |
 | A long label wraps in a narrow space | matched | `a long label wraps in a narrow space at text scale 2.0` |
 | Ghost underline offset (`text-underline-offset`) | adapted | Flutter text decoration has no offset |
+
+## Copy (ADR 0016, case 1)
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| `copy` writes its text to the clipboard on a press, after the press callback | matched | `a press runs onPressed, copies, shows Copied beside the button for two seconds and announces it; the name and focus stay` |
+| "Copied" (`button.copied`, or `copiedLabel`) shows beside the button for two seconds | matched | same test; `copiedLabel replaces the text; a refused copy shows and announces nothing` |
+| The confirmation is a polite live region; the button keeps its name and focus | adapted | Flutter announces it with `SemanticsService`, politely, as Code Block does; the text sits beside the button, outside its node, so the name stays: same test. Assistive technology: not tested |
+| A refused copy shows and announces nothing | matched | `copiedLabel replaces the text; a refused copy shows and announces nothing` |
+| The confirmation follows the button in the reading direction and wraps below it in a narrow parent | matched | `right to left at text scale 2.0 in a narrow parent, the confirmation follows the button` |
+| `copy` with no press callback | adapted | a null `onPressed` disables a Flutter button, so a copy button passes one, even an empty one |
+| Code Block shares the clipboard and timing logic | matched | both use the package's internal `CopyFeedback`: `copy writes the code, shows Copied for two seconds and announces it politely; Enter copies too` |

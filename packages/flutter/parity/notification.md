@@ -49,7 +49,7 @@ that holds it.
 | --- | --- | --- |
 | Newest on top of the stack | matched | `newest on top, each announced once with its level` |
 | Each notification announced once, politely or assertively; a change to a shown one announced again | adapted | the web toast is a live region; the Flutter region announces each one through the accessibility channel when it appears or changes, with its level, in list order: same test |
-| The region is a landmark named "Notifications" | adapted | Flutter 3.32 has no region role: a semantics container named by the catalog label while it holds toasts: `the region is named and each toast keeps its glyph` |
+| The region is a landmark named "Notifications" | matched | `SemanticsRole.region` (Flutter 3.35), named by the catalog label while it holds toasts: `the region is a region named Notifications while it holds toasts, and each toast keeps its glyph`. Assistive technology: not tested |
 | Auto-dismiss is opt-in | matched | `auto-dismiss is opt-in and pauses while hovered` |
 | The whole stack pauses while hovered (WCAG 2.2.1) | matched | same test |
 | The whole stack pauses while focus is inside | matched | `focus inside the stack pauses the countdown` |
@@ -72,11 +72,12 @@ that holds it.
 | When the last modal closes they show in order and their countdowns start | matched | same test |
 | Notifications shown before keep their countdowns held | matched | same test |
 | A change to a shown notification waits for the modal to close, then is announced | matched | same test |
-| Shown notifications stay where they are, under the modal | adapted | the Flutter region paints over the navigator, so a toast left visible would sit above the modal and take input. While a modal is open the shown toasts are hidden, inert and out of the focus order; they come back when it closes: same test |
+| Shown notifications stay where they are, under the modal | matched | while a modal route is open the region moves the shown toasts into the navigator's overlay, just below the first modal route: visible under its barrier, with no pointer, no focus and no semantics, countdowns held; they move back when the last modal closes, keeping their state: `a toast shown before a dialog route stays visible under it, inert and held, and comes back when it closes`. Assistive technology: not tested |
+| The same under a modal counted with `hold()` | adapted | a modal that is not a route has no place in the navigator's overlay, and the region paints over the navigator, so a toast left there would sit above the modal: the shown toasts are hidden, inert and out of the focus order until it closes: `new notifications wait while a modal is open, then show and are announced in order` |
 | Every modal counts, including one opened outside the design system | adapted | `ModalObserver` counts every `PopupRoute` (dialogs and modal sheets) in the navigator it observes: `a dialog route counts as a modal`; an overlay that is not a route calls `hold()` |
 | The package's own dialogs count | matched | `showInvisibleDialog` pushes a `PopupRoute`: `the notification region holds toasts while a dialog is open (ADR 0016, case 2)` in `test/dialog_test.dart` |
 | The region mounts in `<body>`, never inside a dialog | adapted | the app places the region around its navigator (`WidgetsApp.builder`), outside every route |
-| Dialog status area (case 1) and dialogs on top (case 3) | out of scope | they belong to the dialog family, which the Flutter package does not have yet |
+| Dialog status area (case 1) and dialogs on top (case 3) | matched | they belong to the dialog family: see [dialog.md](dialog.md) |
 
 ## Accessibility and layout
 
