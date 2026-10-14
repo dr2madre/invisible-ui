@@ -10,6 +10,16 @@ export type CarouselApi = core.CarouselApi;
 export type CarouselState = core.CarouselState;
 export type CarouselContext = core.CarouselContext;
 
+/** The spoken names the headless carousel writes in English, translated by the caller. */
+export interface CarouselLabels {
+  /** `aria-roledescription` of the carousel. */
+  carousel: string;
+  /** `aria-roledescription` of a slide. */
+  slide: string;
+  /** The name of slide `index` (1-based) of `count`. */
+  slideName: (index: number, count: number) => string;
+}
+
 export interface CreateCarousel {
   /** Reactive resolved state. */
   state: Readable<CarouselState>;
@@ -52,7 +62,10 @@ export interface CreateCarousel {
  * actions. The styled layer maps the current index to a transform (slide mode) or
  * scrolls the active slide into view (gallery mode).
  */
-export function createCarousel(context: CarouselContext): CreateCarousel {
+export function createCarousel(
+  context: CarouselContext,
+  labels?: Readable<CarouselLabels>,
+): CreateCarousel {
   const state = writable<CarouselState>(
     core.initialState({ ...context, id: context.id ?? stableId("ds-carousel") }),
   );
@@ -86,9 +99,22 @@ export function createCarousel(context: CarouselContext): CreateCarousel {
     });
   };
 
-  const api = derived(state, ($state) =>
+  const connected = derived(state, ($state) =>
     core.connect({ state: $state, setIndex, normalize: normalizeProps }),
   );
+  // The core names the carousel and its slides in English; the caller's
+  // catalog replaces those three texts.
+  const api: Readable<CarouselApi> = labels
+    ? derived([connected, labels], ([$api, $labels]) => ({
+        ...$api,
+        rootProps: { ...$api.rootProps, "aria-roledescription": $labels.carousel },
+        getSlideProps: (index: number) => ({
+          ...$api.getSlideProps(index),
+          "aria-roledescription": $labels.slide,
+          "aria-label": $labels.slideName(index + 1, $api.count),
+        }),
+      }))
+    : connected;
 
   const rootAction = createRootAction(api);
   const viewportAction = createPropsAction(api, (a) => a.getViewportProps());

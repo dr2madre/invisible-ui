@@ -2,6 +2,9 @@ import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useCarousel, type CarouselOrientation } from "./use-carousel";
 
+const prefersReducedMotion = () =>
+  typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 /** A built-in slide's content (used when no default slot is provided). */
 export interface CarouselSlide {
   /** Background image URL (slide variant). */
@@ -120,7 +123,11 @@ export const Carousel = defineComponent({
         const node = viewportRef.value;
         if (!node || variant !== "gallery" || typeof node.scrollTo !== "function") return;
         const child = node.querySelectorAll<HTMLElement>(".carousel__slide")[index];
-        if (child) node.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
+        if (child)
+          node.scrollTo({
+            left: child.offsetLeft,
+            behavior: prefersReducedMotion() ? "auto" : "smooth",
+          });
       },
       { flush: "post" },
     );
@@ -137,14 +144,12 @@ export const Carousel = defineComponent({
         : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
       const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
       const scale = Math.max(0, 1 - abs * 0.15);
-      // Coverflow recedes its neighbours on purpose: they fade with distance so
-      // the active slide reads as the one in front. Their text follows the fade,
-      // so a title beside the active slide measures below the AA contrast a body
-      // of text needs. Kept as the effect, decided 2026-08-04.
-      const opacity = abs > 2 ? 0 : Math.max(0, 1 - abs * 0.28);
+      // Neighbours recede by scale and turn only: a fade would take their text
+      // below the AA contrast. Slides past two places are hidden outright.
+      const opacity = abs > 2 ? 0 : 1;
       return {
         transform: `translate(-50%, -50%) ${translate} ${rotate} scale(${scale.toFixed(3)})`,
-        opacity: opacity.toFixed(3),
+        opacity: String(opacity),
         zIndex: String(100 - Math.round(abs)),
       };
     };
@@ -165,6 +170,7 @@ export const Carousel = defineComponent({
           ...api.value.rootProps,
           class: "carousel",
           "data-variant": variant,
+          "aria-roledescription": t("carousel.roleDescription"),
           "aria-label": props.label,
         },
         [
@@ -198,6 +204,11 @@ export const Carousel = defineComponent({
                         ...api.value.getSlideProps(i),
                         key: i,
                         class: "carousel__slide",
+                        "aria-roledescription": t("carousel.slideRoleDescription"),
+                        "aria-label": t("carousel.slide", {
+                          index: i + 1,
+                          count: props.items.length,
+                        }),
                         style: slideStyle(i),
                         // A slide the user cannot see is hidden from assistive
                         // technology and taken out of the tab order together:
@@ -274,7 +285,7 @@ export const Carousel = defineComponent({
                     ...api.value.getIndicatorProps(i),
                     key: i,
                     class: "carousel__dot",
-                    "aria-label": `Go to slide ${i + 1}`,
+                    "aria-label": t("carousel.goTo", { index: i + 1 }),
                   }),
                 ),
               )

@@ -39,7 +39,7 @@ keys also answer the shared vectors in `core/src/carousel/__vectors__`
 | A controlled index shows without a report; a shorter list clamps it silently | matched | `a controlled index shows without a report; …` |
 | Gallery scrolls the current item into view; its viewport takes focus | matched | `gallery: every item is reachable, …` |
 | Auto-advance | out of scope | the reference never advances on its own, so no rotation and no pause control (WCAG 2.2.2) are needed; an auto-advancing variant would need a pause control first (an open point) |
-| Reduced motion: no slide animation | matched | `reduced motion: the slide moves at once`; the web drops only the coverflow transition, the slide track keeps animating |
+| Reduced motion: no slide animation | matched | `reduced motion: the slide moves at once`; the web drops the slide track, the coverflow transition and the gallery scroll animation too |
 
 ## Semantics
 
@@ -62,7 +62,7 @@ keys also answer the shared vectors in `core/src/carousel/__vectors__`
 | Image-less slides cycle through the pastel set | adapted | the pastels are not in the token source; image-less slides take the neutral surface |
 | Gallery: 224 wide items, 16 apart, scaled with the text | matched | `_galleryView` |
 | Coverflow: the current item centred, neighbours translated, turned and scaled | matched | `_CoverflowTrack` |
-| Coverflow neighbours fade with distance | adapted | never faded: their text keeps its contrast, and items more than two places away are not drawn: `coverflow: neighbours stay opaque, only near ones are drawn`. The web fade lowers the neighbours' text contrast (an open point) |
+| Coverflow neighbours fade with distance | adapted | never faded: their text keeps its contrast, and items more than two places away are not drawn: `coverflow: neighbours stay opaque, only near ones are drawn`. The web adapters no longer fade them either |
 | Coverflow and the slide track mirror right to left | adapted | both follow the reading direction; the web coverflow does not mirror |
 | The current dot shows by shape as well as colour | adapted | the current dot is wider and filled with the primary colour; the web fills the dot's button area |
 | Arrow buttons over the stage at the inline start and end | matched | `PositionedDirectional` |
