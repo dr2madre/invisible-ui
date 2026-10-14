@@ -69,7 +69,11 @@
     onChange,
   }: Props = $props();
 
-  const popover = createPopover({ placement: "bottom-start" });
+  const popover = createPopover({
+    placement: "bottom-start",
+    // The start day, else the one the calendar would focus, not Today.
+    initialFocus: '[data-date][tabindex="0"]',
+  });
   const { triggerAction, contentAction, open: isOpen, setOpen } = popover;
 
   const resolvedLocale = $derived(locale ?? $providerLocale);
@@ -99,13 +103,26 @@
     startMirror.write(s);
     endMirror.write(e);
     onChange?.(s, e);
-    if (s && e) setOpen(false);
+    if (s && e) {
+      setOpen(false);
+      field?.focus();
+    }
   };
 
   const clear = () => {
     startMirror.write(null);
     endMirror.write(null);
     onChange?.(null, null);
+    // The button goes away with the value; focus stays in the control.
+    field?.focus();
+  };
+  // A readonly field gets no click from the keyboard, so these keys open it.
+  const OPEN_KEYS = new Set(["Enter", " ", "ArrowDown"]);
+  let field: HTMLInputElement | undefined = $state();
+  const openFromKey = (event: KeyboardEvent) => {
+    if (!OPEN_KEYS.has(event.key) || $isOpen || disabled) return;
+    event.preventDefault();
+    setOpen(true);
   };
 
   const restore = () => {
@@ -147,6 +164,8 @@
       value={displayValue}
       aria-controls={popupId}
       aria-expanded={$isOpen}
+      bind:this={field}
+      onkeydown={openFromKey}
       use:triggerAction
     />
     {#if clearable && start && !disabled}

@@ -555,7 +555,7 @@
     {
       "name": "CreateCalendar",
       "kind": "interface",
-      "signature": "interface CreateCalendar { /** Reactive resolved state. */ state: Readable<CalendarState>; /** Reactive connected API. */ api: Readable<CalendarApi>; setValue: (iso: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (iso: string | null) => void; /** Reflect a controlled `focusedDate` prop without reporting a change. */ syncFocus: (iso: string) => void; /** Reflect a controlled `view` prop without reporting a change. */ syncView: (view: CalendarView) => void; /** * Reflect the constraints after mount: `min`, `max`, `weekStartsOn`. * Reporting nothing, like any reflection. */ syncConfig: (config: CalendarConfig) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Svelte action for the grid container: `<div use:gridAction>`. */ gridAction: Action<HTMLElement>; /** Svelte action for a grid row: `<div use:rowAction>`. */ rowAction: Action<HTMLElement>; /** Svelte action for a day cell wrapper: `<div use:cellAction={iso}>`. */ cellAction: Action<HTMLElement, string>; /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */ dayAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateCalendar { /** Reactive resolved state. */ state: Readable<CalendarState>; /** Reactive connected API. */ api: Readable<CalendarApi>; setValue: (iso: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (iso: string | null) => void; /** Reflect a controlled `focusedDate` prop without reporting a change. */ syncFocus: (iso: string) => void; /** Reflect a controlled `view` prop without reporting a change. */ syncView: (view: CalendarView) => void; /** * The range in `mode=\"range\"` (`null` otherwise). Every day of it, the ends * and those between, is a selected cell, not only the single value the core * knows about. */ syncRange: (range: calendar.DateRange | null) => void; /** * Reflect the constraints after mount: `min`, `max`, `weekStartsOn`. * Reporting nothing, like any reflection. */ syncConfig: (config: CalendarConfig) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Svelte action for the grid container: `<div use:gridAction>`. */ gridAction: Action<HTMLElement>; /** Svelte action for a grid row: `<div use:rowAction>`. */ rowAction: Action<HTMLElement>; /** Svelte action for a day cell wrapper: `<div use:cellAction={iso}>`. */ cellAction: Action<HTMLElement, string>; /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */ dayAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateCarousel",
@@ -1130,7 +1130,7 @@
     {
       "name": "PopoverContext",
       "kind": "interface",
-      "signature": "interface PopoverContext extends popover.PopoverContext { /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; }"
+      "signature": "interface PopoverContext extends popover.PopoverContext { /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; /** Selector of what takes focus when the panel opens. Defaults to the first focusable. */ initialFocus?: string; }"
     },
     {
       "name": "PopoverState",
@@ -1535,7 +1535,7 @@
     {
       "name": "createCarousel",
       "kind": "function",
-      "signature": "declare function createCarousel(context: CarouselContext): CreateCarousel;"
+      "signature": "declare function createCarousel(context: CarouselContext, labels?: Readable<CarouselLabels>): CreateCarousel;"
     },
     {
       "name": "createCheckbox",

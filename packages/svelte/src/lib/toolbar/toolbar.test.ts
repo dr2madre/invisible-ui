@@ -1,10 +1,11 @@
-import { render, screen, waitFor } from "@testing-library/svelte";
+import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./toolbar.fixture.svelte";
 import DynamicFixture from "./toolbar-dynamic.fixture.svelte";
 import ToggleFixture from "./toolbar-toggle.fixture.svelte";
+import FieldFixture from "./toolbar-field.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -162,5 +163,30 @@ describe("Toolbar (toggle button children)", () => {
     control("Bold").focus();
     await user.keyboard("{ArrowRight}");
     expect(control("Italic")).toHaveFocus();
+  });
+});
+
+describe("Toolbar with a text field", () => {
+  it("leaves the caret keys to the text field", async () => {
+    render(FieldFixture);
+    const input = screen.getByRole("textbox", { name: "Search" });
+    input.focus();
+    for (const key of ["ArrowLeft", "ArrowRight", "Home", "End"]) {
+      // fireEvent returns false when a handler cancelled the event.
+      expect(await fireEvent.keyDown(input, { key })).toBe(true);
+      expect(input).toHaveFocus();
+    }
+  });
+
+  it("still moves in and out of the field from the buttons beside it", async () => {
+    render(FieldFixture);
+    const bold = screen.getByRole("button", { name: "Bold" });
+    bold.focus();
+    await fireEvent.keyDown(bold, { key: "ArrowRight" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
+    const italic = screen.getByRole("button", { name: "Italic" });
+    italic.focus();
+    await fireEvent.keyDown(italic, { key: "ArrowLeft" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
   });
 });

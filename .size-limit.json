@@ -2,7 +2,7 @@
   {
     "name": "@design-system/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "25.7 kB"
+    "limit": "26.1 kB"
   },
   {
     "name": "@design-system/core — one primitive, tree-shaken (label)",
@@ -37,17 +37,17 @@
   {
     "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "54.1 kB"
+    "limit": "54.4 kB"
   },
   {
     "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "83.5 kB"
+    "limit": "84.5 kB"
   },
   {
     "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "76.2 kB"
+    "limit": "76.7 kB"
   },
   {
     "name": "@design-system/react — text field only, tree-shaken",
@@ -75,7 +75,7 @@
     "name": "@design-system/elements — table set only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTableSet }",
-    "limit": "22.7 kB"
+    "limit": "23.2 kB"
   },
   {
     "name": "@design-system/elements — count only, tree-shaken",
@@ -339,7 +339,7 @@
     "name": "@design-system/elements — toggle group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToggleGroup }",
-    "limit": "1.6 kB"
+    "limit": "1.7 kB"
   },
   {
     "name": "@design-system/elements — toolbar only, tree-shaken",

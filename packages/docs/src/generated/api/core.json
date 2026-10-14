@@ -2126,6 +2126,11 @@
       "signature": "scrollArea_hasOverflow: typeof hasOverflow"
     },
     {
+      "name": "scrollArea.observeInlineOverflow",
+      "kind": "const",
+      "signature": "scrollArea_observeInlineOverflow: typeof observeInlineOverflow"
+    },
+    {
       "name": "scrollArea.scrollByThumbDrag",
       "kind": "const",
       "signature": "scrollArea_scrollByThumbDrag: typeof scrollByThumbDrag"
@@ -2436,6 +2441,26 @@
       "signature": "table.TableContext = interface TableContext { columns: TableColumn[]; /** Initial sort. Defaults to none. */ sort?: SortState | null; /** Initially hidden column keys. Defaults to none. */ hiddenColumns?: string[]; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the sort changes (including cleared to `null`). */ onSortChange?: (sort: SortState | null) => void; /** Called whenever the hidden-column set changes. */ onHiddenColumnsChange?: (hidden: string[]) => void; /** How rows can be selected. Defaults to `\"none\"`. */ selectionMode?: SelectionMode; /** Initially selected row ids. Defaults to none. */ selectedRowIds?: RowId[]; /** Called whenever the selected row ids change. */ onSelectedRowIdsChange?: (ids: RowId[]) => void; }"
     },
     {
+      "name": "table.TableResultsInput",
+      "kind": "type",
+      "signature": "table.TableResultsInput = interface TableResultsInput { /** The number of rows supplied, already filtered. */ count: number; /** Whether the consumer's filters are active. */ filtersActive: boolean; /** The consumer's filter revision, when it keeps one. */ filterRevision?: string | number; /** The unfiltered row count when known; `0` means the dataset is empty. */ totalRowCount?: number; }"
+    },
+    {
+      "name": "table.TableResultsMemory",
+      "kind": "type",
+      "signature": "table.TableResultsMemory = interface TableResultsMemory { count: number; filters: string; }"
+    },
+    {
+      "name": "table.TableResultsMessage",
+      "kind": "type",
+      "signature": "table.TableResultsMessage = type TableResultsMessage = { kind: \"results\"; count: number; } | { kind: \"no-results\"; };"
+    },
+    {
+      "name": "table.TableResultsUpdate",
+      "kind": "type",
+      "signature": "table.TableResultsUpdate = interface TableResultsUpdate { /** Pass this back with the next state. */ memory: TableResultsMemory; /** `null` when the change needs no announcement. */ message: TableResultsMessage | null; }"
+    },
+    {
       "name": "table.TableState",
       "kind": "type",
       "signature": "table.TableState = interface TableState { columns: TableColumn[]; /** The active sort, or `null` when unsorted. */ sort: SortState | null; /** Keys of columns hidden via configuration. */ hiddenColumns: string[]; /** How rows can be selected. */ selectionMode: SelectionMode; /** Ids of the selected rows, in the order they were selected. */ selectedRowIds: RowId[]; /** Base id (styling/labelling hook). */ id: string; }"
@@ -2474,6 +2499,11 @@
       "name": "table.sortRows",
       "kind": "const",
       "signature": "table_sortRows: typeof sortRows"
+    },
+    {
+      "name": "table.tableResultsUpdate",
+      "kind": "const",
+      "signature": "table_tableResultsUpdate: typeof tableResultsUpdate"
     },
     {
       "name": "table.toggleHidden",
@@ -2861,6 +2891,16 @@
       "signature": "namespace toolbar"
     },
     {
+      "name": "toolbar.ToolbarControlKind",
+      "kind": "type",
+      "signature": "toolbar.ToolbarControlKind = type ToolbarControlKind = \"text\" | \"multiline\" | \"other\";"
+    },
+    {
+      "name": "toolbar.ToolbarControlLike",
+      "kind": "type",
+      "signature": "toolbar.ToolbarControlLike = interface ToolbarControlLike { tagName: string; type?: string; readOnly?: boolean; isContentEditable?: boolean; }"
+    },
+    {
       "name": "toolbar.ToolbarDirection",
       "kind": "type",
       "signature": "toolbar.ToolbarDirection = type ToolbarDirection = \"ltr\" | \"rtl\";"
@@ -2868,7 +2908,7 @@
     {
       "name": "toolbar.ToolbarMoveOptions",
       "kind": "type",
-      "signature": "toolbar.ToolbarMoveOptions = interface ToolbarMoveOptions { /** The key the user pressed. */ key: string; /** Index of the control that has focus. */ index: number; /** How many controls the toolbar holds. */ count: number; orientation?: ToolbarOrientation; /** Defaults to `\"ltr\"`. In right-to-left text the arrows swap sides. */ direction?: ToolbarDirection; }"
+      "signature": "toolbar.ToolbarMoveOptions = interface ToolbarMoveOptions { /** The key the user pressed. */ key: string; /** Index of the control that has focus. */ index: number; /** How many controls the toolbar holds. */ count: number; orientation?: ToolbarOrientation; /** Defaults to `\"ltr\"`. In right-to-left text the arrows swap sides. */ direction?: ToolbarDirection; /** * The kind of control that has focus (see `controlKind`). A control that * needs a key for itself keeps it: the toolbar does not move focus then. * Defaults to `\"other\"`. */ control?: ToolbarControlKind; }"
     },
     {
       "name": "toolbar.ToolbarOrientation",
@@ -2876,9 +2916,14 @@
       "signature": "toolbar.ToolbarOrientation = type ToolbarOrientation = \"horizontal\" | \"vertical\";"
     },
     {
+      "name": "toolbar.controlKind",
+      "kind": "const",
+      "signature": "toolbar_controlKind: typeof controlKind"
+    },
+    {
       "name": "toolbar.nextIndex",
       "kind": "function",
-      "signature": "declare function nextIndex#e702ba57({ key, index, count, orientation, direction, }: ToolbarMoveOptions): number | null;"
+      "signature": "declare function nextIndex#34668541({ key, index, count, orientation, direction, control, }: ToolbarMoveOptions): number | null;"
     },
     {
       "name": "tooltip",

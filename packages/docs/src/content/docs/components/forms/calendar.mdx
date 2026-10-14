@@ -41,6 +41,10 @@ In Elements, names come from `Intl`. Events and prices are properties:
   Enter/Space selects.
 - The period title is announced (`aria-live`); out-of-range days are
   `aria-disabled`; today is `aria-current="date"`.
+- In `mode="range"` every day of the range, the two ends and the days between,
+  is a selected cell (`aria-selected`). The ends add "range start" and "range
+  end" to the day's name, and a day with events adds the event count. These
+  texts come from the message catalog, so a Locale Provider can translate them.
 
 ### First day of the week
 

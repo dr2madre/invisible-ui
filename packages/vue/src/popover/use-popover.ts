@@ -23,6 +23,8 @@ export interface UsePopoverOptions {
   offset?: number;
   /** Name for the panel. Defaults to being named by the trigger. */
   label?: string;
+  /** Selector of what takes focus when the panel opens. Defaults to the first focusable. */
+  initialFocus?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -142,8 +144,13 @@ export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): U
       };
       panel.addEventListener("keydown", onKeyDown, true);
 
-      // Move focus into the panel (first focusable, else the panel itself).
-      (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
+      // Move focus into the panel: `initialFocus` when it matches, else the
+      // first focusable, else the panel itself.
+      const initialFocus = resolved.value.initialFocus;
+      const first =
+        (initialFocus ? panel.querySelector<HTMLElement>(initialFocus) : null) ??
+        panel.querySelector<HTMLElement>(FOCUSABLE);
+      (first ?? panel).focus();
 
       onCleanup(() => {
         stopOutside();

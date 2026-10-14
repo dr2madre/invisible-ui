@@ -101,7 +101,7 @@ describe("Svelte TableSet (composed)", () => {
     it("hides the button and shows a status while loading", () => {
       render(Fixture, { props: { infinite: true, hasMore: true, loading: true } });
       expect(screen.getByRole("button", { name: "Loading…" })).toBeDisabled();
-      expect(screen.getByRole("status")).toHaveTextContent("Loading…");
+      expect(document.querySelector(".table-view__status")).toHaveTextContent("Loading…");
     });
 
     it("shows no load-more button when there is nothing more", () => {

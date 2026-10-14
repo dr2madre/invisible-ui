@@ -24,4 +24,25 @@ export interface ToolbarMoveOptions {
   orientation?: ToolbarOrientation;
   /** Defaults to `"ltr"`. In right-to-left text the arrows swap sides. */
   direction?: ToolbarDirection;
+  /**
+   * The kind of control that has focus (see `controlKind`). A control that
+   * needs a key for itself keeps it: the toolbar does not move focus then.
+   * Defaults to `"other"`.
+   */
+  control?: ToolbarControlKind;
+}
+
+/**
+ * What the focused control does with the keys: a `"text"` input keeps the
+ * arrows that move its caret, and Home and End, which jump to its ends; a
+ * `"multiline"` one (a textarea or editable content) keeps all of them.
+ */
+export type ToolbarControlKind = "text" | "multiline" | "other";
+
+/** The parts of an element `controlKind` reads: a structural slice of the DOM element. */
+export interface ToolbarControlLike {
+  tagName: string;
+  type?: string;
+  readOnly?: boolean;
+  isContentEditable?: boolean;
 }

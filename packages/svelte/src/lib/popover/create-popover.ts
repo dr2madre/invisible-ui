@@ -18,6 +18,8 @@ export interface PopoverContext extends core.PopoverContext {
   offset?: number;
   /** Name for the panel. Defaults to being named by the trigger. */
   label?: string;
+  /** Selector of what takes focus when the panel opens. Defaults to the first focusable. */
+  initialFocus?: string;
 }
 
 export interface CreatePopover {
@@ -122,8 +124,11 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
     };
     document.addEventListener("focusin", onFocusIn);
 
-    // Move focus into the panel (first focusable, else the panel itself).
-    const first = node.querySelector<HTMLElement>(FOCUSABLE);
+    // Move focus into the panel: `initialFocus` when it matches, else the
+    // first focusable, else the panel itself.
+    const first =
+      (context.initialFocus ? node.querySelector<HTMLElement>(context.initialFocus) : null) ??
+      node.querySelector<HTMLElement>(FOCUSABLE);
     (first ?? node).focus();
 
     return {

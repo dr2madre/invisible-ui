@@ -112,8 +112,15 @@ already-filtered `rows` plus a few coordination inputs.
 - Selection checkboxes are native inputs with screen-reader-only names; the
   select-all reflects a partial page with the native `indeterminate` state.
   Selected rows carry `data-selected` for styling.
-- The no-results state is a `role="status"` Empty State; no live region wraps
-  the table itself.
+- The no-results state is a `role="status"` Empty State. A separate polite live
+  region, outside the table, announces the result count ("3 results") when
+  filtering changes it. It stays silent on the first render, when the count is
+  unchanged and when rows arrive with no filtering behind them. The no-results
+  state is said once, by its status. No live region wraps the table itself.
+- A table wider than its card scrolls inside the card. The card takes
+  `tabindex="0"`, `role="region"` and a name (the title, else the caption) only
+  while it overflows, so the keyboard can scroll it and a table that fits adds
+  no tab stop (WCAG 2.2 1.4.10, 2.1.1).
 
 ### Example
 

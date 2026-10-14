@@ -18,6 +18,24 @@ const mount = (activationMode = "automatic") => {
 };
 
 describe("<ds-tabs>", () => {
+  it("keeps a disabled tab out of the tab sequence", async () => {
+    const user = userEvent.setup();
+    const tabs = mount();
+    tabs.items = [
+      { value: "a", label: "A", content: "One" },
+      { value: "b", label: "B", content: "Two", disabled: true },
+      { value: "c", label: "C", content: "Three" },
+    ];
+    const disabled = screen.getByRole("tab", { name: "B" });
+    expect(disabled).toHaveAttribute("tabindex", "-1");
+    expect(disabled).toHaveAttribute("aria-disabled", "true");
+    await user.tab();
+    expect(screen.getByRole("tab", { name: "A" })).toHaveFocus();
+    await user.tab();
+    expect(disabled).not.toHaveFocus();
+    expect(screen.getByRole("tab", { name: "C" })).not.toHaveFocus();
+  });
+
   it("renders a named tablist, counts and one visible linked panel", () => {
     mount();
     expect(screen.getByRole("tablist", { name: "Catalog" })).toBeInTheDocument();

@@ -88,28 +88,32 @@ export const LoginForm = defineComponent({
                     left: slots.providerIcon
                       ? () => slots.providerIcon?.({ provider: provider.id })
                       : undefined,
-                    default: () => `Continue with ${provider.label}`,
+                    default: () => t("loginForm.provider", { name: provider.label }),
                   },
                 ),
               ),
             ])
           : null,
-        props.providers.length ? h("div", { class: "login__divider" }, [h("span", "or")]) : null,
+        props.providers.length
+          ? h("div", { class: "login__divider" }, [h("span", t("loginForm.divider"))])
+          : null,
 
         h(TextField, {
-          label: "Email",
+          label: t("loginForm.email"),
           type: "email",
           name: "email",
-          placeholder: "you@example.com",
+          autocomplete: "username",
+          placeholder: t("loginForm.emailPlaceholder"),
           modelValue: email.value,
           "onUpdate:modelValue": (next: string) => (email.value = next),
         }),
 
         h("div", { class: "login__field" }, [
           h(TextField, {
-            label: "Password",
+            label: t("loginForm.password"),
             type: "password",
             name: "password",
+            autocomplete: "current-password",
             modelValue: password.value,
             "onUpdate:modelValue": (next: string) => (password.value = next),
           }),

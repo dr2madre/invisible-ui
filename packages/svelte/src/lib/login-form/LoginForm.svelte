@@ -86,23 +86,30 @@
              without a providerIcon, as it did before snippets. -->
         {#snippet providerLeft()}{@render providerIcon?.({ provider: p.id })}{/snippet}
         <Button variant="default" onpress={() => onProvider?.(p.id)} left={providerLeft}>
-          Continue with {p.label}
+          {$t("loginForm.provider", { name: p.label })}
         </Button>
       {/each}
     </div>
-    <div class="login__divider"><span>or</span></div>
+    <div class="login__divider"><span>{$t("loginForm.divider")}</span></div>
   {/if}
 
   <TextField
-    label="Email"
+    label={$t("loginForm.email")}
     type="email"
     name="email"
-    placeholder="you@example.com"
+    autocomplete="username"
+    placeholder={$t("loginForm.emailPlaceholder")}
     bind:value={email}
   />
 
   <div class="login__field">
-    <TextField label="Password" type="password" name="password" bind:value={password} />
+    <TextField
+      label={$t("loginForm.password")}
+      type="password"
+      name="password"
+      autocomplete="current-password"
+      bind:value={password}
+    />
     {#if forgotHref}
       <a class="login__forgot" href={forgotHref}>{resolvedForgotLabel}</a>
     {/if}

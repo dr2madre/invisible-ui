@@ -66,7 +66,11 @@
     onValueChange,
   }: Props = $props();
 
-  const popover = createPopover({ placement: "bottom-start" });
+  const popover = createPopover({
+    placement: "bottom-start",
+    // The selected day, else the one the calendar would focus, not Today.
+    initialFocus: '[data-date][tabindex="0"]',
+  });
   const { triggerAction, contentAction, open: isOpen, setOpen } = popover;
 
   const resolvedLocale = $derived(locale ?? $providerLocale);
@@ -82,15 +86,27 @@
     set: (next) => (value = next),
   });
 
+  // A readonly field gets no click from the keyboard, so these keys open it.
+  const OPEN_KEYS = new Set(["Enter", " ", "ArrowDown"]);
+  let field: HTMLInputElement | undefined = $state();
+  const openFromKey = (event: KeyboardEvent) => {
+    if (!OPEN_KEYS.has(event.key) || $isOpen || disabled) return;
+    event.preventDefault();
+    setOpen(true);
+  };
+
   const pick = (iso: string) => {
     mirror.write(iso);
     onValueChange?.(iso);
     setOpen(false);
+    field?.focus();
   };
 
   const clear = () => {
     mirror.write(null);
     onValueChange?.(null);
+    // The button goes away with the value; focus stays in the control.
+    field?.focus();
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
@@ -121,6 +137,8 @@
       value={displayValue}
       aria-controls={popupId}
       aria-expanded={$isOpen}
+      bind:this={field}
+      onkeydown={openFromKey}
       use:triggerAction
     />
     {#if clearable && value && !disabled}

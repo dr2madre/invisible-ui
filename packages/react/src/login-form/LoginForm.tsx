@@ -105,11 +105,17 @@ export function LoginForm({
         label={t("loginForm.email")}
         type="email"
         name="email"
+        autoComplete="username"
         placeholder={t("loginForm.emailPlaceholder")}
       />
 
       <div className="login__field">
-        <TextField label={t("loginForm.password")} type="password" name="password" />
+        <TextField
+          label={t("loginForm.password")}
+          type="password"
+          name="password"
+          autoComplete="current-password"
+        />
         {forgotHref ? (
           <a className="login__forgot" href={forgotHref}>
             {forgotLabel ?? t("loginForm.forgot")}

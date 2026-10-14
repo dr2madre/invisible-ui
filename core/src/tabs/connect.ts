@@ -87,7 +87,7 @@ export function connect({
         "aria-selected": selected,
         "aria-controls": panelId(id, v),
         "aria-disabled": disabled || undefined,
-        tabindex: disabled ? undefined : v === tabStop ? 0 : -1,
+        tabindex: !disabled && v === tabStop ? 0 : -1,
         "data-state": selected ? "active" : "inactive",
         "data-disabled": disabled ? "" : undefined,
         "data-value": v,

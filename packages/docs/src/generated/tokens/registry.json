@@ -10470,7 +10470,7 @@
         "vue"
       ],
       "fallbacks": [
-        "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
+        "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))"
       ],
       "parents": [],
       "sites": [
@@ -10479,28 +10479,28 @@
           "file": "packages/elements/src/styles/carousel.css",
           "selector": ".carousel__overlay",
           "property": "background",
-          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
+          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__overlay",
           "property": "background",
-          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
+          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
           "selector": ".carousel__overlay",
           "property": "background",
-          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
+          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/carousel.css",
           "selector": ".carousel__overlay",
           "property": "background",
-          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
+          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))"
         }
       ],
       "purpose": "The gradient scrim under a slide's caption.",

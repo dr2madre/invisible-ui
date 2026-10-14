@@ -57,7 +57,7 @@
   color: var(--ds-carousel-overlay-text, #fff);
   background: var(
     --ds-carousel-overlay-bg,
-    linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))
+    linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))
   );
 }
 .carousel__title {
@@ -69,7 +69,6 @@
 .carousel__desc {
   margin: 0.35rem 0 0;
   line-height: var(--ds-line-height, 1.4);
-  opacity: 0.95;
 }
 
 /* ---- Gallery mode: scrolling row of items ---- */
