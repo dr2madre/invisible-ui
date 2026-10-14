@@ -1,3 +1,4 @@
+import { menubar as bar } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { get, writable, type Readable } from "svelte/store";
 import {
@@ -63,7 +64,6 @@ export function createMenubar(context: MenubarContext): CreateMenubar {
   // The current menus, each with its dropdown machine. Everything below reads
   // this list at call time, so a sync reaches the keyboard coordination too.
   let entries: { menu: MenubarMenu; dropdown: CreateDropdownMenu }[] = [];
-  const count = () => entries.length;
   const dropdownAt = (i: number) => entries[i]!.dropdown;
   const indexOf = (value: string) => entries.findIndex((entry) => entry.menu.value === value);
 
@@ -72,55 +72,30 @@ export function createMenubar(context: MenubarContext): CreateMenubar {
   const triggerEls = new Map<string, HTMLElement>();
 
   const openIndex = () => entries.findIndex((entry) => get(entry.dropdown.open));
-  const closeAllExcept = (keep: number) =>
-    entries.forEach(({ dropdown }, i) => {
-      if (i !== keep && get(dropdown.open)) get(dropdown.api).closeMenu();
-    });
-  const openAt = (i: number) => {
-    closeAllExcept(i);
-    get(dropdownAt(i).api).openMenu("first");
-  };
   const focusTrigger = (i: number) => {
     focusedIndex.set(i);
     triggerEls.get(entries[i]!.menu.value)?.focus();
   };
-  const move = (from: number, dir: 1 | -1) => {
-    const n = count();
-    const next = (from + dir + n) % n;
-    focusedIndex.set(next);
-    if (openIndex() !== -1) openAt(next);
-    else focusTrigger(next);
-  };
+
+  // Key routing, which top menu opens or takes focus, and right-to-left
+  // mirroring live in the core menubar, as in the other adapters. It is
+  // rebuilt per call so it always sees the current menus and open menu.
+  const barApi = () =>
+    bar.connect({
+      state: {
+        menus: entries.map(({ menu }) => ({ value: menu.value, disabled: menu.disabled })),
+        focusedIndex: get(focusedIndex),
+        openIndex: openIndex(),
+      },
+      setFocusedIndex: (i) => focusedIndex.set(i),
+      openMenu: (i) => get(dropdownAt(i).api).openMenu("first"),
+      closeMenu: (i) => get(dropdownAt(i).api).closeMenu(),
+      focusTrigger,
+    });
 
   const menubarAction: Action<HTMLElement> = (node) => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (count() === 0) return;
-      const open = openIndex();
-      const from = open !== -1 ? open : get(focusedIndex);
-      switch (event.key) {
-        case "ArrowRight":
-          event.preventDefault();
-          move(from, 1);
-          break;
-        case "ArrowLeft":
-          event.preventDefault();
-          move(from, -1);
-          break;
-        // Home/End move between triggers only while closed; an open menu uses
-        // them to jump items (handled by the menu itself).
-        case "Home":
-          if (open === -1) {
-            event.preventDefault();
-            focusTrigger(0);
-          }
-          break;
-        case "End":
-          if (open === -1) {
-            event.preventDefault();
-            focusTrigger(count() - 1);
-          }
-          break;
-      }
+      (barApi().menubarProps.onKeyDown as (event: Event) => void)(event);
     };
     node.addEventListener("keydown", onKeyDown);
     return { destroy: () => node.removeEventListener("keydown", onKeyDown) };
@@ -147,9 +122,7 @@ export function createMenubar(context: MenubarContext): CreateMenubar {
       const onFocus = () => focusedIndex.set(indexOf(value));
       // Hover switches the open menu (only while another menu is already open).
       const onPointerEnter = () => {
-        const open = openIndex();
-        const i = indexOf(value);
-        if (open !== -1 && open !== i) openAt(i);
+        (barApi().getTriggerProps(indexOf(value)).onPointerEnter as () => void)();
       };
       node.addEventListener("focus", onFocus);
       node.addEventListener("pointerenter", onPointerEnter);

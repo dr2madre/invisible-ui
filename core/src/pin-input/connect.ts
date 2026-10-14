@@ -1,5 +1,6 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
 import type { Dir } from "../i18n/locale";
+import { directionOf } from "../internal/direction";
 import { keyTarget, sanitizeChar } from "./state";
 import type { PinInputState } from "./types";
 
@@ -34,13 +35,6 @@ export interface ConnectOptions {
   direction?: Dir;
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
-}
-
-/** The computed reading direction of the element a key event reached. */
-function directionOf(event: Event): Dir {
-  const el = event.currentTarget as Element | null;
-  const style = el ? el.ownerDocument.defaultView?.getComputedStyle(el) : undefined;
-  return style?.direction === "rtl" ? "rtl" : "ltr";
 }
 
 /**

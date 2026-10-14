@@ -6,6 +6,7 @@ import {
   type CollectionItem,
 } from "../internal/collection";
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
+import { directionOf } from "../internal/direction";
 import { clampPage, pageItems } from "./state";
 import type { PageItem, PaginationState } from "./types";
 
@@ -36,7 +37,7 @@ export interface ConnectOptions {
   /** Move DOM focus to the control with the given value (adapter-provided). */
   focus?: (value: string) => void;
   /**
-   * Reading direction. Defaults to `"ltr"`. In right-to-left text the left and
+   * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text the left and
    * right arrows swap meaning, so they keep following the visual order.
    */
   direction?: "ltr" | "rtl";
@@ -58,7 +59,7 @@ export function connect({
   state,
   setPage,
   focus,
-  direction = "ltr",
+  direction,
   normalize = identityNormalize,
 }: ConnectOptions): PaginationApi {
   const { page, pageCount, disabled } = state;
@@ -85,8 +86,8 @@ export function connect({
   };
 
   // In right-to-left text Left moves forward and Right moves back.
-  const mirror = (key: string) =>
-    direction !== "rtl"
+  const mirror = (key: string, event: Event) =>
+    (direction ?? directionOf(event)) !== "rtl"
       ? key
       : key === "ArrowLeft"
         ? "ArrowRight"
@@ -95,7 +96,7 @@ export function connect({
           : key;
 
   const navKeyDown = (value: string) => (event: Event) => {
-    const key = mirror((event as KeyboardEvent).key);
+    const key = mirror((event as KeyboardEvent).key, event);
     switch (key) {
       case "ArrowRight":
       case "ArrowDown":

@@ -348,22 +348,6 @@ export class DsCalendar extends HTMLElementBase {
 
     // Replaced by the view's body on the first render.
     const body = document.createElement("div");
-    // The core counts ArrowRight as the next day. In right-to-left text the
-    // next day sits to the left, so the two keys swap before the core sees them.
-    root.addEventListener(
-      "keydown",
-      (event) => {
-        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-        if (!(event.target as Element).matches?.("[data-date]")) return;
-        if (getComputedStyle(this).direction !== "rtl") return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        const step = event.key === "ArrowLeft" ? 1 : -1;
-        this.#api().setFocus(core.addDays(this.#focused, step));
-      },
-      true,
-    );
-
     root.append(header, body);
     this.appendChild(root);
 

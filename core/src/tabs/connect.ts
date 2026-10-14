@@ -1,4 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
+import { directionOf } from "../internal/direction";
 import { firstEnabled, lastEnabled, nextEnabled, panelId, prevEnabled, tabId } from "./state";
 import type { TabsState } from "./types";
 
@@ -24,7 +25,7 @@ export interface ConnectOptions {
   /** Move DOM focus to the tab with the given value (adapter-provided). */
   focus?: (value: string) => void;
   /**
-   * Reading direction. Defaults to `"ltr"`. In right-to-left text the left and
+   * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text the left and
    * right arrows swap meaning, so they keep following the visual order.
    */
   direction?: "ltr" | "rtl";
@@ -42,7 +43,7 @@ export function connect({
   state,
   setValue,
   focus,
-  direction = "ltr",
+  direction,
   normalize = identityNormalize,
 }: ConnectOptions): TabsApi {
   const { value, items, orientation, activationMode, id } = state;
@@ -63,10 +64,10 @@ export function connect({
     if (activationMode === "automatic") select(target);
   };
 
-  const [nextKey, prevKey] =
+  const keysFor = (event: Event) =>
     orientation === "vertical"
       ? ["ArrowDown", "ArrowUp"]
-      : direction === "rtl"
+      : (direction ?? directionOf(event)) === "rtl"
         ? ["ArrowLeft", "ArrowRight"]
         : ["ArrowRight", "ArrowLeft"];
 
@@ -94,6 +95,7 @@ export function connect({
         onClick: () => select(v),
         onKeyDown: (event: Event) => {
           const key = (event as KeyboardEvent).key;
+          const [nextKey, prevKey] = keysFor(event);
           switch (key) {
             case nextKey:
               event.preventDefault();

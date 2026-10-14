@@ -1,5 +1,5 @@
 import { calendar as core, weekStart, type ElementProps } from "@design-system/core";
-import { useEffect, useId, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import { useI18n } from "../i18n/i18n";
 import { useControllable } from "../internal/controllable";
 import { asDate } from "../internal/date";
@@ -58,7 +58,7 @@ export interface UseCalendar extends core.CalendarApi {
  * In range mode a pick extends or restarts the range (the core's
  * `extendRange`), every day of the range is a selected cell, and the
  * endpoints carry `data-range-start` and `data-range-end`. In right-to-left
- * text ArrowLeft and ArrowRight follow the visual direction.
+ * text ArrowLeft and ArrowRight follow the visual direction (the core reads it).
  */
 export function useCalendar({
   value: valueProp = null,
@@ -162,26 +162,11 @@ export function useCalendar({
     },
     getDayProps: (iso) => {
       const props: ElementProps = api.getDayProps(iso);
-      const onKeyDown = props.onKeyDown as (event: KeyboardEvent<HTMLElement>) => void;
       return {
         ...props,
         "data-range-start": isStart(iso) ? "" : undefined,
         "data-range-end": isEnd(iso) ? "" : undefined,
         "data-in-range": between(iso) ? "" : undefined,
-        // The core counts ArrowRight as the next day. In right-to-left text the
-        // next day sits to the left, so the two keys swap.
-        onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
-          const { key } = event;
-          if (
-            (key === "ArrowLeft" || key === "ArrowRight") &&
-            getComputedStyle(event.currentTarget).direction === "rtl"
-          ) {
-            event.preventDefault();
-            api.setFocus(core.addDays(focused, key === "ArrowLeft" ? 1 : -1));
-            return;
-          }
-          onKeyDown(event);
-        },
       };
     },
   };
