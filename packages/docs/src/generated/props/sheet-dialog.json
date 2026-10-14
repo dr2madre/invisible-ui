@@ -36,10 +36,10 @@
         {
           "name": "side",
           "type": "SheetDialogSide",
-          "default": "\"right\"",
+          "default": "\"end\"",
           "required": false,
           "description": "Which edge the panel is anchored to.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "draggable",
@@ -173,10 +173,10 @@
         {
           "name": "side",
           "type": "SheetDialogSide",
-          "default": "\"right\"",
+          "default": "\"end\"",
           "required": false,
           "description": "Which edge the panel is anchored to.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "draggable",
@@ -317,10 +317,10 @@
         {
           "name": "side",
           "type": "SheetDialogSide",
-          "default": "\"right\"",
+          "default": "\"end\"",
           "required": false,
           "description": "Which edge the panel is anchored to.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "draggable",

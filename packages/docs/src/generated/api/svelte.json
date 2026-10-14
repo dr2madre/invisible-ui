@@ -1255,12 +1255,12 @@
     {
       "name": "SheetDialogContext",
       "kind": "interface",
-      "signature": "interface SheetDialogContext extends Omit<DialogContext, \"role\"> { /** Which edge the panel is anchored to. Default `\"right\"`. */ side?: SheetDialogSide; }"
+      "signature": "interface SheetDialogContext extends Omit<DialogContext, \"role\"> { /** Which edge the panel is anchored to. Default `\"end\"`. */ side?: SheetDialogSide; }"
     },
     {
       "name": "SheetDialogSide",
       "kind": "type",
-      "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
+      "signature": "type SheetDialogSide = dialog.SheetSide;"
     },
     {
       "name": "SidebarItem",

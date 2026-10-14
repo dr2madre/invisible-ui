@@ -28,6 +28,7 @@
     legacyShape?: boolean;
     /** Replaces every other choice of sections. */
     sections?: SidebarSection[];
+    side?: "inline-start" | "inline-end";
   }
 
   let {
@@ -51,6 +52,7 @@
     movedIntoGroup = false,
     legacyShape = false,
     sections: given,
+    side,
   }: Props = $props();
 
   // Two collapsible sections under one label, told apart by their ids.
@@ -135,5 +137,6 @@
     {closeOnNavigate}
     {renderTrigger}
     {returnFocusTo}
+    {side}
   />
 {/if}

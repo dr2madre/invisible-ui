@@ -11,7 +11,13 @@ export interface SheetDialogProps {
   triggerVariant?: ButtonVariant;
   /** The trigger button's label. The `trigger` slot replaces it with markup. */
   trigger?: string;
-  /** Which edge the panel is anchored to. */
+  /**
+   * Which edge the panel is anchored to. `start` and `end` follow the reading
+   * direction, so the panel slides in from, and is dragged toward, the right
+   * edge in left-to-right text and the left edge in right-to-left text. `left`
+   * and `right` are the older names for `start` and `end` and follow the
+   * reading direction the same way. Default `"end"`.
+   */
   side?: SheetDialogSide;
   /**
    * Show a grab handle and enable the drag-to-dismiss gesture. Available on the
@@ -72,7 +78,7 @@ export const SheetDialog = defineComponent({
   props: {
     triggerVariant: { type: String as PropType<ButtonVariant>, default: "default" },
     trigger: { type: String, default: undefined },
-    side: { type: String as PropType<SheetDialogSide>, default: "right" },
+    side: { type: String as PropType<SheetDialogSide>, default: "end" },
     draggable: { type: Boolean, default: false },
     open: { type: Boolean, default: false },
     title: { type: String, required: true },
@@ -119,16 +125,6 @@ export const SheetDialog = defineComponent({
       triggerRef.value = node instanceof HTMLElement ? node : null;
     };
 
-    /** The panel's live transform while a drag is in flight (none at rest). */
-    const dragTransform = () => {
-      const offset = dragOffset.value;
-      if (offset === 0) return undefined;
-      if (props.side === "bottom") return `translateY(${offset}px)`;
-      if (props.side === "right") return `translateX(${offset}px)`;
-      if (props.side === "left") return `translateX(${-offset}px)`;
-      return undefined;
-    };
-
     return () => {
       const { t } = i18n.value;
       const resolvedCloseLabel = props.closeLabel ?? t("sheetDialog.close");
@@ -151,7 +147,7 @@ export const SheetDialog = defineComponent({
           ref: panelRef,
           class: ["sheet-dialog__panel", { "sheet-dialog__panel--dragging": dragging.value }],
           "data-side": props.side,
-          style: { transform: dragTransform() },
+          style: dragOffset.value === 0 ? undefined : { "--_sheet-drag": `${dragOffset.value}px` },
         },
         [
           hasHandle

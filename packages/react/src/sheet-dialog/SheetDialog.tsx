@@ -22,7 +22,13 @@ export interface SheetDialogProps {
   renderTrigger?: boolean;
   /** CSS selector for the element focus returns to when there is no trigger. */
   returnFocusTo?: string;
-  /** Which edge the panel is anchored to. */
+  /**
+   * Which edge the panel is anchored to. `start` and `end` follow the reading
+   * direction, so the panel slides in from, and is dragged toward, the right
+   * edge in left-to-right text and the left edge in right-to-left text. `left`
+   * and `right` are the older names for `start` and `end` and follow the
+   * reading direction the same way. Default `"end"`.
+   */
   side?: SheetDialogSide;
   /**
    * Show a grab handle and enable the drag-to-dismiss gesture. Available on the
@@ -90,7 +96,7 @@ export const SheetDialog = /* @__PURE__ */ forwardRef<DialogHandle, SheetDialogP
       trigger,
       renderTrigger = true,
       returnFocusTo,
-      side = "right",
+      side = "end",
       draggable = false,
       open = false,
       title,

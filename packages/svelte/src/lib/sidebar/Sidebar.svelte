@@ -36,7 +36,7 @@
   import { fail } from "../internal/dev";
   import { canRail, resolveSections } from "./identity";
 
-  const { t, dir } = getI18n();
+  const { t } = getI18n();
 
   interface Props {
     /** Groups of items, rendered in order with an optional heading each. */
@@ -130,9 +130,7 @@
   const resolvedLabel = $derived(label ?? $t("sidebar.label"));
   // The drawer's edge follows the writing direction, so one `side` value is
   // right in both directions.
-  const edge = (start: boolean, rtl: boolean): SheetDialogSide =>
-    start === rtl ? "right" : "left";
-  const sheetSide = $derived(edge(side === "inline-start", $dir === "rtl"));
+  const sheetSide: SheetDialogSide = $derived(side === "inline-start" ? "start" : "end");
 
   // The ids this component keeps open. While the application controls the set
   // this copy follows it, so handing `openGroups` back as undefined starts

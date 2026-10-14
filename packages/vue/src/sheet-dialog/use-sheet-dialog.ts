@@ -1,14 +1,20 @@
+import { dialog as core } from "@design-system/core";
 import { computed, onScopeDispose, ref, toValue, type MaybeRefOrGetter, type Ref } from "vue";
 import { useDialog, type UseDialog, type UseDialogOptions } from "../dialog/use-dialog";
 
-export type SheetDialogSide = "top" | "right" | "bottom" | "left";
+/**
+ * The edge the panel is anchored to. `start` and `end` follow the reading
+ * direction; `left` and `right` are their older names and follow it the same
+ * way.
+ */
+export type SheetDialogSide = core.SheetSide;
 
 /**
  * SheetDialog options: the Dialog options without `role` (an edge panel is
  * always a dialog), plus the anchored edge.
  */
 export interface UseSheetDialogOptions extends Omit<UseDialogOptions, "role"> {
-  /** Which edge the panel is anchored to. Default `"right"`. */
+  /** Which edge the panel is anchored to. Default `"end"`. */
   side?: SheetDialogSide;
 }
 
@@ -21,19 +27,15 @@ export interface UseSheetDialog extends UseDialog {
   onHandlePointerDown: (event: PointerEvent) => void;
 }
 
-/** Fraction of the panel extent past which releasing dismisses the panel. */
-const DISMISS_DISTANCE_RATIO = 0.25;
-/** Outward velocity (px/ms) past which releasing dismisses regardless of distance. */
-const DISMISS_VELOCITY = 0.5;
-
 /**
  * Create an edge-anchored modal dialog with an optional drag-to-dismiss
  * gesture. Open state, focus trap, scroll lock, Escape and outside-press
  * dismissal, focus restore and ARIA all come from `useDialog` (the shared modal
  * composable); this wrapper adds only the drag, along the axis of the anchored
- * edge ("outward" means toward that edge). Bind `onHandlePointerDown` to the
- * grab handle, the panel's `transform` to `dragOffset`, and a "dragging" class
- * to `dragging`. A release past a distance or velocity threshold closes the
+ * edge ("outward" means toward that edge, along the reading direction for the
+ * inline edges). Bind `onHandlePointerDown` to the grab handle, the panel's
+ * `--_sheet-drag` custom property to `dragOffset`, and a "dragging" class to
+ * `dragging`. A release past a distance or velocity threshold closes the
  * panel; anything less snaps it home (via a CSS transition on the panel).
  */
 export function useSheetDialog(
@@ -48,23 +50,15 @@ export function useSheetDialog(
   const dragOffset = ref(0);
   const dragging = ref(false);
 
+  const edge = () => core.sheetEdge(resolved.value.side);
   // Outward means toward the anchored edge, so it stays positive while dismissing.
-  const outward = (x: number, y: number, startX: number, startY: number) => {
-    switch (resolved.value.side ?? "right") {
-      case "bottom":
-        return y - startY;
-      case "top":
-        return startY - y;
-      case "left":
-        return startX - x;
-      default:
-        return x - startX;
-    }
-  };
+  const outward = (x: number, y: number, startX: number, startY: number) =>
+    core.sheetOutward(edge(), direction, x - startX, y - startY);
 
   let startX = 0;
   let startY = 0;
   let panelExtent = 0;
+  let direction: "ltr" | "rtl" = "ltr";
   let lastOffset = 0;
   let lastTime = 0;
   let velocity = 0;
@@ -96,19 +90,18 @@ export function useSheetDialog(
     dragging.value = false;
 
     const offset = Math.max(0, outward(event.clientX, event.clientY, startX, startY));
-    const dismiss =
-      (panelExtent > 0 && offset > panelExtent * DISMISS_DISTANCE_RATIO) ||
-      velocity > DISMISS_VELOCITY;
-    if (dismiss) dialog.setOpen(false);
+    if (core.sheetShouldDismiss(offset, panelExtent, velocity)) dialog.setOpen(false);
     dragOffset.value = 0; // snap home (open) or reset for next time (closed)
   }
 
   const onHandlePointerDown = (event: PointerEvent) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
-    const side = resolved.value.side ?? "right";
+    const side = edge();
     const panel = dialog.panelRef.value;
     panelExtent =
       side === "top" || side === "bottom" ? (panel?.offsetHeight ?? 0) : (panel?.offsetWidth ?? 0);
+    // Read when the drag starts, so a `dir` set above the panel counts.
+    direction = panel && getComputedStyle(panel).direction === "rtl" ? "rtl" : "ltr";
     startX = event.clientX;
     startY = event.clientY;
     lastOffset = 0;

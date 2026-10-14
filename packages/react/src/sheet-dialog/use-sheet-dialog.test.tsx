@@ -36,7 +36,7 @@ describe("useSheetDialog (headless)", () => {
     expect(panel).toHaveAttribute("data-dragging");
     // Toward the left edge is outward for a left-anchored panel.
     fireEvent.pointerMove(window, { clientX: 170, pointerId: 1 });
-    expect(panel.style.transform).toBe("translateX(-30px)");
+    expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("30px");
 
     fireEvent.pointerUp(window, { clientX: 100, pointerId: 1 });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

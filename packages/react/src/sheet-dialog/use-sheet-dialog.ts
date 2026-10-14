@@ -1,15 +1,21 @@
+import { dialog as core } from "@design-system/core";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import { useDialog, type UseDialog, type UseDialogOptions } from "../dialog/use-dialog";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
 
-export type SheetDialogSide = "top" | "right" | "bottom" | "left";
+/**
+ * The edge the panel is anchored to. `start` and `end` follow the reading
+ * direction; `left` and `right` are their older names and follow it the same
+ * way.
+ */
+export type SheetDialogSide = core.SheetSide;
 
 /**
  * SheetDialog options: the Dialog options without `role` (an edge panel is
  * always a dialog), plus the anchored edge.
  */
 export interface UseSheetDialogOptions extends Omit<UseDialogOptions, "role"> {
-  /** Which edge the panel is anchored to. Default `"right"`. */
+  /** Which edge the panel is anchored to. Default `"end"`. */
   side?: SheetDialogSide;
 }
 
@@ -20,38 +26,26 @@ export interface UseSheetDialog extends UseDialog {
   onHandlePointerDown: (event: PointerEvent<HTMLElement>) => void;
 }
 
-/** Fraction of the panel extent past which releasing dismisses the panel. */
-const DISMISS_DISTANCE_RATIO = 0.25;
-/** Outward velocity (px/ms) past which releasing dismisses regardless of distance. */
-const DISMISS_VELOCITY = 0.5;
-
-/** The panel's transform for an outward drag offset; none at rest or on top. */
-function dragTransform(side: SheetDialogSide, offset: number): string {
-  if (offset === 0) return "";
-  if (side === "bottom") return `translateY(${offset}px)`;
-  if (side === "right") return `translateX(${offset}px)`;
-  if (side === "left") return `translateX(${-offset}px)`;
-  return "";
-}
+/** The custom property the sheet reads as the outward drag distance. */
+const DRAG_PROPERTY = "--_sheet-drag";
 
 /**
  * Connect an edge-anchored modal dialog with an optional drag-to-dismiss
  * gesture. Open state, modality, scroll lock, Escape and outside-press
  * dismissal, focus restore, the status area and ARIA all come from
  * `useDialog`; this hook adds only the drag, along the axis of the anchored
- * edge ("outward" means toward that edge). Attach `onHandlePointerDown` to the
+ * edge ("outward" means toward that edge, along the reading direction for the
+ * inline edges). Attach `onHandlePointerDown` to the
  * grab handle and a "dragging" class to `dragging`. A release past a distance
  * or velocity threshold closes the panel; anything less snaps it home through
  * the CSS transition on the panel.
  *
  * The drag offset changes on every pointer move, so the hook writes it to the
- * panel's `transform` directly instead of rendering it: a drag re-renders the
- * component twice, when it starts and when it ends.
+ * panel's `--_sheet-drag` custom property directly instead of rendering it: a
+ * drag re-renders the component twice, when it starts and when it ends. The
+ * sheet turns the distance into a move toward the edge.
  */
-export function useSheetDialog({
-  side = "right",
-  ...options
-}: UseSheetDialogOptions = {}): UseSheetDialog {
+export function useSheetDialog({ side, ...options }: UseSheetDialogOptions = {}): UseSheetDialog {
   const dialog = useDialog(options);
   const { panelRef, setOpen } = dialog;
   const [dragging, setDragging] = useState(false);
@@ -70,7 +64,9 @@ export function useSheetDialog({
       if (event.pointerType === "mouse" && event.button !== 0) return;
       const handle = event.currentTarget;
       const panel = panelRef.current;
-      const edge = latest.current.side;
+      const edge = core.sheetEdge(latest.current.side);
+      // Read when the drag starts, so a `dir` set above the panel counts.
+      const direction = panel && getComputedStyle(panel).direction === "rtl" ? "rtl" : "ltr";
       const extent =
         edge === "top" || edge === "bottom"
           ? (panel?.offsetHeight ?? 0)
@@ -83,13 +79,7 @@ export function useSheetDialog({
 
       // Outward means toward the anchored edge, so it stays positive while dismissing.
       const outward = (x: number, y: number) =>
-        edge === "bottom"
-          ? y - startY
-          : edge === "top"
-            ? startY - y
-            : edge === "left"
-              ? startX - x
-              : x - startX;
+        core.sheetOutward(edge, direction, x - startX, y - startY);
 
       const onMove = (move: globalThis.PointerEvent) => {
         if (move.pointerId !== pointerId) return;
@@ -98,7 +88,7 @@ export function useSheetDialog({
         if (dt > 0) velocity = (offset - lastOffset) / dt;
         lastOffset = offset;
         lastTime = move.timeStamp;
-        if (panel) panel.style.transform = dragTransform(edge, Math.max(0, offset));
+        if (panel) panel.style.setProperty(DRAG_PROPERTY, `${Math.max(0, offset)}px`);
       };
 
       const detach = () => {
@@ -115,13 +105,8 @@ export function useSheetDialog({
         setDragging(false);
         const offset = Math.max(0, outward(up.clientX, up.clientY));
         // Snap home (still open) or reset for the next opening (closed).
-        if (panel) panel.style.transform = "";
-        if (
-          (extent > 0 && offset > extent * DISMISS_DISTANCE_RATIO) ||
-          velocity > DISMISS_VELOCITY
-        ) {
-          latest.current.setOpen(false);
-        }
+        if (panel) panel.style.removeProperty(DRAG_PROPERTY);
+        if (core.sheetShouldDismiss(offset, extent, velocity)) latest.current.setOpen(false);
       }
 
       drag.current?.();

@@ -172,6 +172,20 @@ describe("Sidebar as a drawer", () => {
     expect(screen.getByRole("navigation")).toBeInTheDocument();
   });
 
+  it("anchors the drawer to the inline edge it is given, in either direction", async () => {
+    const user = userEvent.setup();
+    const { unmount } = render(Fixture, { props: { mode: "drawer", side: "inline-start" } });
+    await openDrawer(user);
+    expect(screen.getByRole("dialog"), "the start edge, which is the right in RTL").toHaveAttribute(
+      "data-side",
+      "start",
+    );
+    unmount();
+    render(Fixture, { props: { mode: "drawer", side: "inline-end" } });
+    await openDrawer(user);
+    expect(screen.getByRole("dialog")).toHaveAttribute("data-side", "end");
+  });
+
   it("closes when a destination is followed, and reports it once", async () => {
     const user = userEvent.setup();
     const onOpenChange = vi.fn();

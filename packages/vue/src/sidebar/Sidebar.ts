@@ -387,7 +387,7 @@ export const Sidebar = defineComponent({
     // The drawer's edge follows the writing direction, so one `side` value is
     // right in both directions.
     const sheetSide = computed<SheetDialogSide>(() =>
-      (props.side === "inline-start") === (i18n.value.dir === "rtl") ? "right" : "left",
+      props.side === "inline-start" ? "start" : "end",
     );
 
     return () => {
