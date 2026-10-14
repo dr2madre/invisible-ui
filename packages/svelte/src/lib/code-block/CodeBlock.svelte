@@ -54,7 +54,7 @@
 <figure
   class="code-block"
   role="group"
-  aria-label={language ? `Code: ${language}` : "Code"}
+  aria-label={language ? $t("codeBlock.labelLanguage", { language }) : $t("codeBlock.label")}
   {@attach dropTimer}
 >
   {#if language || copyable}
@@ -81,8 +81,9 @@
     class="code-block__pre"
     tabindex="0"
     role="group"
-    aria-label={language ? `Code sample, ${language}` : "Code sample"}><code
-      class="code-block__code"
+    aria-label={language
+      ? $t("codeBlock.sampleLanguage", { language })
+      : $t("codeBlock.sample")}><code class="code-block__code"
       >{#if children}{@render children()}{:else}{code}{/if}</code
     ></pre>
   <span class="code-block__live" role="status" aria-live="polite">

@@ -1,5 +1,6 @@
 import { defineComponent, h, type PropType } from "vue";
 import { Avatar } from "../avatar/Avatar";
+import { useI18n } from "../i18n/i18n";
 
 export interface AvatarGroupItem {
   /** Required: accessible name + initials fallback. */
@@ -46,12 +47,14 @@ export const AvatarGroup = defineComponent({
     label: { type: String, required: true },
   },
   setup(props) {
+    const i18n = useI18n();
     // A colour carrying `;`, `{` or `}` could add declarations of its own to
     // the rendered style attribute, so it is dropped.
     const colorOf = (item: AvatarGroupItem) =>
       item.color && !/[;{}]/.test(item.color) ? item.color : undefined;
 
     return () => {
+      const { t } = i18n.value;
       const visible = props.items.slice(0, props.max);
       const overflow = Math.max(0, props.items.length - visible.length);
 
@@ -96,7 +99,7 @@ export const AvatarGroup = defineComponent({
                   "data-size": props.size,
                   "data-shape": props.shape,
                   role: "img",
-                  "aria-label": `${overflow} more`,
+                  "aria-label": t("avatarGroup.more", { count: overflow }),
                 },
                 [h("span", { "aria-hidden": "true" }, `+${overflow}`)],
               )

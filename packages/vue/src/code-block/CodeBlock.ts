@@ -57,7 +57,9 @@ export const CodeBlock = defineComponent({
         {
           class: "code-block",
           role: "group",
-          "aria-label": props.language ? `Code: ${props.language}` : "Code",
+          "aria-label": props.language
+            ? t("codeBlock.labelLanguage", { language: props.language })
+            : t("codeBlock.label"),
         },
         [
           props.language || props.copyable
@@ -72,7 +74,7 @@ export const CodeBlock = defineComponent({
                         "aria-label": resolvedCopyLabel,
                         onClick: copy,
                       },
-                      copied.value ? "Copied" : "Copy",
+                      copied.value ? t("codeBlock.copiedText") : t("codeBlock.copyText"),
                     )
                   : null,
               ])
@@ -87,14 +89,16 @@ export const CodeBlock = defineComponent({
               class: "code-block__pre",
               tabindex: "0",
               role: "group",
-              "aria-label": props.language ? `Code sample, ${props.language}` : "Code sample",
+              "aria-label": props.language
+                ? t("codeBlock.sampleLanguage", { language: props.language })
+                : t("codeBlock.sample"),
             },
             [h("code", { class: "code-block__code" }, slots.default?.() ?? props.code)],
           ),
           h(
             "span",
             { class: "code-block__live", role: "status", "aria-live": "polite" },
-            copied.value ? "Copied to clipboard" : "",
+            copied.value ? t("codeBlock.copied") : "",
           ),
         ],
       );

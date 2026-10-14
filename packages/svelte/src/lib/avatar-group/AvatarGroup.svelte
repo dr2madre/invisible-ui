@@ -26,6 +26,9 @@
    * (`--ds-avatar-group-*`), inheriting the `Avatar` tokens.
    */
   import Avatar from "../avatar/Avatar.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   interface Props {
     /** The people in the group. */
@@ -63,7 +66,7 @@
       data-size={size}
       data-shape={shape}
       role="img"
-      aria-label={`${overflow} more`}
+      aria-label={$t("avatarGroup.more", { count: overflow })}
     >
       <span aria-hidden="true">+{overflow}</span>
     </span>
