@@ -34,7 +34,7 @@
   import { createCarousel, type CarouselContext } from "./create-carousel";
   import { getI18n } from "../i18n/create-i18n";
 
-  const { t } = getI18n();
+  const { t, dir } = getI18n();
 
   interface Props {
     items: CarouselSlide[];
@@ -150,10 +150,12 @@ keeps the scoped rule for the vertical coverflow layout. -->
       bind:this={viewportEl}
       use:viewportAction
     >
+      <!-- The track flows with the text, so in right-to-left text the next slide
+           sits to the left and the track moves the other way. -->
       <div
         class="carousel__track"
         style={variant === "slide"
-          ? `transform: translateX(calc(-1 * ${$index} * 100%))`
+          ? `transform: translateX(calc(${$dir === "rtl" ? 1 : -1} * ${$index} * 100%))`
           : undefined}
       >
         {#each items as item, i (i)}

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import CalendarFixture from "./calendar/calendar.fixture.svelte";
@@ -47,6 +47,14 @@ describe("Svelte arrows follow the reading direction", () => {
     expect(document.querySelectorAll(".carousel__slide")[1]).toHaveAttribute("data-active", "");
     await fireEvent.keyDown(carousel, { key: "ArrowRight" });
     expect(document.querySelectorAll(".carousel__slide")[0]).toHaveAttribute("data-active", "");
+  });
+
+  it("Carousel: the track moves the other way, so the next slide is the one in view", async () => {
+    render(CarouselFixture);
+    const carousel = screen.getByRole("group", { name: "Featured photos" });
+    await fireEvent.keyDown(carousel, { key: "ArrowLeft" });
+    const track = document.querySelector<HTMLElement>(".carousel__track")!;
+    await waitFor(() => expect(track.style.transform).toBe("translateX(calc(1 * 1 * 100%))"));
   });
 
   it("Calendar: ArrowLeft goes to the next day", async () => {

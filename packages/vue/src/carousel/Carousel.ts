@@ -186,7 +186,11 @@ export const Carousel = defineComponent({
                     class: "carousel__track",
                     style:
                       variant === "slide"
-                        ? { transform: `translateX(calc(-1 * ${index} * 100%))` }
+                        ? {
+                            // The track flows with the text, so in right-to-left text the
+                            // next slide sits to the left and the track moves the other way.
+                            transform: `translateX(calc(${i18n.value.dir === "rtl" ? 1 : -1} * ${index} * 100%))`,
+                          }
                         : undefined,
                   },
                   props.items.map((item, i) => {

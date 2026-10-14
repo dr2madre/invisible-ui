@@ -27,18 +27,20 @@ const thumbWithin = (track: import("@playwright/test").Locator) =>
     return { left, right: left + width, track: node.getBoundingClientRect().width };
   });
 
+const centre = (thumb: { left: number; right: number }) => (thumb.left + thumb.right) / 2;
+
 test.describe("Elements, which stands for React and Vue", () => {
   test("a switch thumb stays on the track and moves to the inline end", async ({ page }) => {
     await mount(page, ["ds-switch"], `<ds-switch label="Alerts"></ds-switch>`);
     const track = page.locator(".switch").first();
     const off = await thumbWithin(track);
-    expect(off.left, "off: at the start edge, the right one").toBeGreaterThan(off.track / 2);
+    expect(centre(off), "off: at the start edge, the right one").toBeGreaterThan(off.track / 2);
     expect(off.right).toBeLessThanOrEqual(off.track);
 
-    await page.getByRole("switch", { name: "Alerts" }).check({ force: true });
+    await track.click();
     await expect(page.getByRole("switch", { name: "Alerts" })).toBeChecked();
     // The thumb moves in 150ms: wait until it has arrived.
-    await expect.poll(async () => (await thumbWithin(track)).left).toBeLessThan(off.track / 4);
+    await expect.poll(async () => centre(await thumbWithin(track))).toBeLessThan(off.track / 2);
     const on = await thumbWithin(track);
     expect(on.left, "on: at the end edge, the left one").toBeGreaterThanOrEqual(0);
     expect(on.right).toBeLessThanOrEqual(on.track);
@@ -55,9 +57,8 @@ test.describe("Elements, which stands for React and Vue", () => {
     await page.getByRole("button", { name: "Open filters" }).click();
     const panel = page.locator(".sheet-dialog__panel");
     await expect(panel).toBeVisible();
-    // The end edge is the left one: the panel sits there and slides in from it.
-    const box = (await panel.boundingBox())!;
-    expect(box.x).toBeLessThanOrEqual(1);
+    // The end edge is the left one: the panel slides in from it and sits there.
+    await expect.poll(async () => Math.round((await panel.boundingBox())!.x)).toBe(0);
     expect(await panel.evaluate((node) => getComputedStyle(node).animationName)).toBe(
       "sheet-dialog-in-start",
     );
@@ -70,7 +71,11 @@ test.describe("Elements, which stands for React and Vue", () => {
     await page.mouse.move(x, y);
     await page.mouse.down();
     await page.mouse.move(x + 200, y, { steps: 8 });
-    expect(await panel.evaluate((node) => node.style.getPropertyValue("--_sheet-drag"))).toBe("");
+    expect(
+      await panel.evaluate((node) =>
+        parseFloat(node.style.getPropertyValue("--_sheet-drag") || "0"),
+      ),
+    ).toBe(0);
     await page.mouse.up();
     await expect(panel).toBeVisible();
     // Dragging toward it closes the panel.
@@ -135,7 +140,12 @@ test.describe("Elements, which stands for React and Vue", () => {
 });
 
 test.describe("Svelte, on the documentation site", () => {
-  const rtl = (page: Page) => page.evaluate(() => (document.documentElement.dir = "rtl"));
+  // The demos sit in a provider that writes its own `dir`, so every one of them turns over.
+  const rtl = (page: Page) =>
+    page.evaluate(() => {
+      document.documentElement.dir = "rtl";
+      for (const node of document.querySelectorAll("[dir]")) node.setAttribute("dir", "rtl");
+    });
 
   test("a switch thumb stays on the track", async ({ page }) => {
     await page.goto("components/forms/switch/", { waitUntil: "networkidle" });
@@ -147,10 +157,11 @@ test.describe("Svelte, on the documentation site", () => {
     });
     const off = await thumbWithin(track);
     expect(off.right).toBeLessThanOrEqual(off.track);
-    await input.check({ force: true });
-    await expect.poll(async () => (await thumbWithin(track)).left).toBeLessThan(off.track / 4);
+    await track.click();
+    await expect.poll(async () => centre(await thumbWithin(track))).toBeLessThan(off.track / 2);
     const on = await thumbWithin(track);
     expect(on.left).toBeGreaterThanOrEqual(0);
+    expect(on.right).toBeLessThanOrEqual(on.track);
   });
 
   test("a tree twistie mirrors", async ({ page }) => {

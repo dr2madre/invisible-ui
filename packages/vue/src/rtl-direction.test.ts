@@ -61,6 +61,14 @@ describe("Vue arrows follow the reading direction", () => {
     expect(document.querySelector('[data-index="0"]')).toHaveAttribute("data-active", "");
   });
 
+  it("Carousel: the track moves the other way, so the next slide is the one in view", async () => {
+    render(Carousel, { props: { items: slides, label: "Featured photos" } });
+    const carousel = screen.getByRole("group", { name: "Featured photos" });
+    await fireEvent.keyDown(carousel, { key: "ArrowLeft" });
+    const track = document.querySelector<HTMLElement>(".carousel__track")!;
+    await waitFor(() => expect(track.style.transform).toBe("translateX(calc(1 * 1 * 100%))"));
+  });
+
   it("Calendar: ArrowLeft goes to the next day", async () => {
     const user = userEvent.setup();
     render(Calendar, {
