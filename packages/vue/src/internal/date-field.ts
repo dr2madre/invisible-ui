@@ -43,6 +43,21 @@ export const dateFieldIcon = (active: boolean): VNode =>
   );
 
 /** The trailing button that empties the field. */
+/** A readonly field gets no click from the keyboard, so these keys open it. */
+const OPEN_KEYS = new Set(["Enter", " ", "ArrowDown"]);
+
+/** The key handler of a picker's field: opens the popup from the keyboard. */
+export const openFromKey =
+  (isOpen: () => boolean, isDisabled: () => boolean, open: () => void) =>
+  (event: KeyboardEvent) => {
+    if (!OPEN_KEYS.has(event.key) || isOpen() || isDisabled()) return;
+    event.preventDefault();
+    open();
+  };
+
+/** The calendar's focused day takes focus when the popup opens. */
+export const FOCUSED_DAY = '[data-date][tabindex="0"]';
+
 export const dateClearButton = (label: string, onClick: () => void): VNode =>
   h(
     "button",

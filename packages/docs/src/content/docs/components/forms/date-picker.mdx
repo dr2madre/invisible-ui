@@ -34,8 +34,11 @@ In Elements, `name` submits the ISO date with the form:
 ### Accessibility
 
 - The field is a readonly `role="combobox"` (`aria-haspopup`, `aria-expanded`):
-  click / Enter / Space opens; focus moves into the calendar; Escape returns
-  focus to the field.
+  a click, Enter, Space or ArrowDown opens it. Focus moves to the selected day,
+  or to the day the calendar would focus when none is selected, not to the
+  Today button.
+- Picking a day, or pressing Escape, closes the calendar and returns focus to
+  the field. The clear button keeps focus on the field when it removes itself.
 - See the [Calendar](/invisible-ui/components/forms/calendar/) for the grid's keyboard model.
 
 ### Example
