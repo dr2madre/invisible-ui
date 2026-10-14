@@ -123,6 +123,7 @@ export class DsToolbar extends HTMLElementBase {
       count: list.length,
       orientation: this.#orientation(),
       direction: getComputedStyle(this.#root!).direction === "rtl" ? "rtl" : "ltr",
+      control: core.controlKind(document.activeElement),
     });
     if (next === null) return;
     event.preventDefault();

@@ -83,6 +83,7 @@
       count: list.length,
       orientation,
       direction: root && getComputedStyle(root).direction === "rtl" ? "rtl" : "ltr",
+      control: core.controlKind(document.activeElement),
     });
     if (next === null) return;
     event.preventDefault();

@@ -34,6 +34,24 @@ describe("React Tabs (styled)", () => {
     expect(screen.getByRole("tab", { name: "b" })).toHaveAttribute("aria-selected", "true");
   });
 
+  it("keeps a disabled tab out of the tab sequence", async () => {
+    const user = userEvent.setup();
+    render(
+      <Tabs
+        items={[{ value: "a" }, { value: "b", disabled: true }, { value: "c" }]}
+        label="Letters"
+      />,
+    );
+    const disabled = screen.getByRole("tab", { name: "b" });
+    expect(disabled).toHaveAttribute("tabindex", "-1");
+    expect(disabled).toHaveAttribute("aria-disabled", "true");
+    await user.tab();
+    expect(screen.getByRole("tab", { name: "a" })).toHaveFocus();
+    await user.tab();
+    expect(disabled).not.toHaveFocus();
+    expect(screen.getByRole("tab", { name: "c" })).not.toHaveFocus();
+  });
+
   it("switches on click and reports once", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

@@ -1,4 +1,4 @@
-import { screen, waitFor } from "@testing-library/dom";
+import { fireEvent, screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { afterEach } from "vitest";
 import { axe } from "vitest-axe";
@@ -188,5 +188,39 @@ describe("<ds-toolbar> (DOM changes)", () => {
     strike.focus();
     await user.keyboard("{ArrowRight}");
     expect(control("Bold")).toHaveFocus();
+  });
+});
+
+describe("<ds-toolbar> with a text field", () => {
+  const field = () => {
+    document.body.innerHTML = `
+      <ds-toolbar label="Find">
+        <button type="button">Bold</button>
+        <input type="text" aria-label="Search" />
+        <button type="button">Italic</button>
+      </ds-toolbar>`;
+  };
+
+  it("leaves the caret keys to the text field", () => {
+    field();
+    const input = screen.getByRole("textbox", { name: "Search" });
+    input.focus();
+    for (const key of ["ArrowLeft", "ArrowRight", "Home", "End"]) {
+      // fireEvent returns false when a handler cancelled the event.
+      expect(fireEvent.keyDown(input, { key })).toBe(true);
+      expect(input).toHaveFocus();
+    }
+  });
+
+  it("still moves in and out of the field from the buttons beside it", () => {
+    field();
+    const bold = screen.getByRole("button", { name: "Bold" });
+    bold.focus();
+    fireEvent.keyDown(bold, { key: "ArrowRight" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
+    const italic = screen.getByRole("button", { name: "Italic" });
+    italic.focus();
+    fireEvent.keyDown(italic, { key: "ArrowLeft" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
   });
 });

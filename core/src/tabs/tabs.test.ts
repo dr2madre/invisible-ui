@@ -55,6 +55,18 @@ describe("tabs connect", () => {
     expect(missing.getTabProps("one").tabindex).toBe(0);
   });
 
+  it("keeps a disabled tab out of the tab sequence", () => {
+    // A button with no tabindex is a tab stop of its own, so the tab says -1.
+    const api = connect({ state: make({ value: "one" }), setValue: noop });
+    expect(api.getTabProps("two").tabindex).toBe(-1);
+    expect(api.getTabProps("two")["aria-disabled"]).toBe(true);
+
+    // Even as the selected value, a disabled tab is not the tab stop.
+    const selected = connect({ state: make({ value: "two" }), setValue: noop });
+    expect(selected.getTabProps("two").tabindex).toBe(-1);
+    expect(selected.getTabProps("one").tabindex).toBe(0);
+  });
+
   it("selects on click but ignores disabled tabs", () => {
     const setValue = vi.fn();
     const api = connect({ state: make(), setValue });

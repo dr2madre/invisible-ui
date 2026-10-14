@@ -85,6 +85,7 @@ export const Toolbar = defineComponent({
         count: list.length,
         orientation: props.orientation,
         direction: root.value && getComputedStyle(root.value).direction === "rtl" ? "rtl" : "ltr",
+        control: core.controlKind(document.activeElement),
       });
       if (next === null) return;
       event.preventDefault();

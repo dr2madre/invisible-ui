@@ -38,6 +38,7 @@ Controls added, removed or disabled later keep a single tab stop.
 
 - `role="toolbar"` with `aria-orientation`; a `label` is required.
 - Single tab stop (roving tabindex); arrow keys move between controls (Left/Right horizontal, Up/Down vertical), plus Home/End with wrapping.
+- A control that needs a key keeps it: in a text input, Left/Right (Up/Down in a vertical toolbar) move the caret and Home/End go to the ends of the text, and a multi-line field keeps every arrow. Tab leaves the toolbar from a text input.
 
 ### Example
 
