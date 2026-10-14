@@ -18,15 +18,17 @@ test.describe("Svelte TableSet filtering coordination (docs demo)", () => {
     await expect(
       demo.getByRole("table", { name: "Customers with filters", exact: true }),
     ).toBeVisible();
-    expect(await demo.locator("[role='status']").count()).toBe(0);
+    expect(await demo.locator(".table-view__no-results [role='status']").count()).toBe(0);
 
     await demo.getByRole("textbox", { name: "Filter by city" }).fill("zzz");
-    const panel = demo.locator("[role='status']");
+    const panel = demo.locator(".table-view__no-results [role='status']");
     await expect(panel).toHaveCount(1);
     await expect(panel).toContainText("No rows match the current filters");
     await expect(demo.getByRole("table")).toHaveCount(0);
-    // No live region wraps the table area beyond the panel itself.
-    expect(await demo.locator("[aria-live]").count()).toBe(0);
+    // No live region wraps the table area: the only one is the view's own
+    // results region, which holds no table.
+    await expect(demo.locator("[aria-live]")).toHaveCount(1);
+    await expect(demo.locator("[aria-live] table")).toHaveCount(0);
 
     await demo.getByRole("button", { name: "Clear filters" }).click();
     await expect(
@@ -71,11 +73,11 @@ test.describe("Vue TableSet filtering coordination (harness)", () => {
     // "no results".
     await filter.fill("zzz");
     await expect(page.getByRole("table", { name: "People" })).toBeVisible();
-    expect(await page.locator("[role='status']").count()).toBe(0);
+    expect(await page.locator(".table-view__no-results [role='status']").count()).toBe(0);
 
     // With data loaded, the same filter is a genuine no-results state.
     await page.getByRole("button", { name: "Load people" }).click();
-    const panel = page.locator("[role='status']");
+    const panel = page.locator(".table-view__no-results [role='status']");
     await expect(panel).toHaveCount(1);
     await expect(panel).toContainText("No rows match the current filters");
 
