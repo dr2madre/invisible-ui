@@ -129,14 +129,17 @@ const DIR = '[dir="ltr" i], [dir="rtl" i]';
 
 /**
  * The language and direction the page declares around `start`: the closest
- * `lang` and `dir` attributes, then those of the document element. Without a
- * document (server rendering) both are `null`.
+ * `lang` and `dir` attributes, then the page's: for the direction `<body>`,
+ * then the document element, so a page that sets `dir` on either is read the
+ * same way. Without a document (server rendering) both are `null`.
  */
 export function pageLocale(start?: Element | null): PageLocale {
   if (typeof document === "undefined") return { locale: null, dir: null };
   const root = document.documentElement;
   const lang = start?.closest("[lang]")?.getAttribute("lang") ?? root.getAttribute("lang");
-  const dir = (start?.closest(DIR) ?? root.closest(DIR))?.getAttribute("dir")?.toLowerCase();
+  const dir = (start?.closest(DIR) ?? (document.body ?? root).closest(DIR))
+    ?.getAttribute("dir")
+    ?.toLowerCase();
   return {
     locale: lang?.trim() || null,
     dir: dir === "ltr" || dir === "rtl" ? dir : null,
@@ -147,10 +150,10 @@ const pageListeners = new Set<() => void>();
 let pageObserver: MutationObserver | undefined;
 
 /**
- * Call `listener` when the document element's `lang` or `dir` changes, for
- * an app that switches the page language at runtime. Returns the function
- * that stops it. Without a document it does nothing. One observer serves
- * every listener.
+ * Call `listener` when the `lang` or `dir` of the document element or of
+ * `<body>` changes, for an app that switches the page language at runtime.
+ * Returns the function that stops it. Without a document it does nothing.
+ * One observer serves every listener.
  */
 export function subscribePageLocale(listener: () => void): () => void {
   if (typeof document === "undefined" || typeof MutationObserver === "undefined") {
@@ -161,10 +164,9 @@ export function subscribePageLocale(listener: () => void): () => void {
     pageObserver = new MutationObserver(() => {
       for (const notify of Array.from(pageListeners)) notify();
     });
-    pageObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["lang", "dir"],
-    });
+    const watched = { attributes: true, attributeFilter: ["lang", "dir"] };
+    pageObserver.observe(document.documentElement, watched);
+    if (document.body) pageObserver.observe(document.body, watched);
   }
   return () => {
     pageListeners.delete(listener);
