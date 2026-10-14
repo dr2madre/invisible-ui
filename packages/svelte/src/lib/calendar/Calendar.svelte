@@ -182,8 +182,14 @@
     syncValue,
     syncFocus,
     syncView,
+    syncRange,
     syncConfig,
   } = calendar;
+
+  // Every day of a range is selected for assistive technology.
+  $effect.pre(() => {
+    syncRange(mode === "range" ? { start: rangeStart, end: rangeEnd } : null);
+  });
 
   // Constraints changed after mount reach the machine, and report nothing.
   $effect.pre(() => {
@@ -302,10 +308,15 @@
   const monthLabel = (gm: { year: number; month: number }) =>
     titleFmt.format(core.monthDate(gm.year, gm.month));
 
+  // A day's full date, then its events, its price and its place in a range.
   const dayAria = (iso: string, count: number, price: string | undefined) => {
     let aria = dayFmt.format(localDate(iso));
-    if (count) aria += `, ${count} ${count === 1 ? "event" : "events"}`;
+    if (count) aria += `, ${$t("calendar.events", { count })}`;
     if (price) aria += `, ${price}`;
+    if (mode === "range") {
+      if (iso === rangeStart) aria += `, ${$t("calendar.rangeStart")}`;
+      if (iso === rangeEnd) aria += `, ${$t("calendar.rangeEnd")}`;
+    }
     return aria;
   };
 </script>
