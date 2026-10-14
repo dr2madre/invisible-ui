@@ -11,6 +11,18 @@ describe("LoginForm", () => {
     expect(document.querySelector('input[name="password"]')).not.toBeNull();
   });
 
+  it("names the purpose of the fields for autofill (WCAG 1.3.5)", () => {
+    render(Fixture);
+    expect(document.querySelector('input[name="email"]')).toHaveAttribute(
+      "autocomplete",
+      "username",
+    );
+    expect(document.querySelector('input[name="password"]')).toHaveAttribute(
+      "autocomplete",
+      "current-password",
+    );
+  });
+
   it("submits the typed credentials", async () => {
     const onSubmit = vi.fn();
     render(Fixture, { props: { onSubmit } });

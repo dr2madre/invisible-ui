@@ -41,6 +41,12 @@ describe("React LoginForm", () => {
     expect(email()).toHaveAttribute("placeholder", "you@example.com");
   });
 
+  it("names the purpose of the fields for autofill (WCAG 1.3.5)", () => {
+    render(<Example />);
+    expect(email()).toHaveAttribute("autocomplete", "username");
+    expect(password()).toHaveAttribute("autocomplete", "current-password");
+  });
+
   it("leaves the forgot-password link out for an empty href", () => {
     render(<Example forgotHref="" />);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
