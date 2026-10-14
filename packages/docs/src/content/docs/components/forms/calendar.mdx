@@ -39,6 +39,8 @@ In Elements, names come from `Intl`. Events and prices are properties:
 - `role="grid"` of day buttons with roving tabindex; arrows move by day/week,
   Home/End to the week edges, PageUp/PageDown by month (Shift = year),
   Enter/Space selects.
+- In right-to-left text ArrowLeft moves to the next day and ArrowRight to the
+  previous one, and the previous and next arrows are mirrored.
 - The period title is announced (`aria-live`); out-of-range days are
   `aria-disabled`; today is `aria-current="date"`.
 

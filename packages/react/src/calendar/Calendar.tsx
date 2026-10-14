@@ -250,8 +250,6 @@ export function Calendar({
     value: entry,
     label: viewLabels[entry] ?? t(`calendar.view.${entry}` as MessageKey),
   }));
-  // The arrows point along the reading direction.
-  const rtl = i18n.dir === "rtl";
   const body: BodyProps = {
     api,
     f,
@@ -291,7 +289,9 @@ export function Calendar({
               aria-label={prevLabel ?? t("calendar.previous")}
               onClick={api.goPrev}
             >
-              <Icon size="1.25rem">{rtl ? <ChevronEndGlyph /> : <ChevronStartGlyph />}</Icon>
+              <Icon size="1.25rem">
+                <ChevronStartGlyph />
+              </Icon>
             </button>
             <button
               type="button"
@@ -299,7 +299,9 @@ export function Calendar({
               aria-label={nextLabel ?? t("calendar.next")}
               onClick={api.goNext}
             >
-              <Icon size="1.25rem">{rtl ? <ChevronStartGlyph /> : <ChevronEndGlyph />}</Icon>
+              <Icon size="1.25rem">
+                <ChevronEndGlyph />
+              </Icon>
             </button>
           </div>
         </div>

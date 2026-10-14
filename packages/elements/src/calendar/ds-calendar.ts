@@ -116,7 +116,6 @@ export class DsCalendar extends HTMLElementBase {
   /** The switcher items last assigned, to skip assigning the same ones. */
   #switcherItems = "";
   #body: HTMLElement | null = null;
-  #arrowsRtl: boolean | null = null;
 
   constructor() {
     super();
@@ -336,10 +335,13 @@ export class DsCalendar extends HTMLElementBase {
     const prev = document.createElement("button");
     prev.type = "button";
     prev.className = "calendar__arrow";
+    // The sheet mirrors the arrows in right-to-left text.
+    prev.innerHTML = stepIcon("left");
     prev.addEventListener("click", () => this.#api().goPrev());
     const next = document.createElement("button");
     next.type = "button";
     next.className = "calendar__arrow";
+    next.innerHTML = stepIcon("right");
     next.addEventListener("click", () => this.#api().goNext());
 
     nav.append(today, prev, next);
@@ -377,13 +379,6 @@ export class DsCalendar extends HTMLElementBase {
     this.#today!.textContent = localized(this, "today-label", "calendar.today");
     this.#prev!.setAttribute("aria-label", localized(this, "prev-label", "calendar.previous"));
     this.#next!.setAttribute("aria-label", localized(this, "next-label", "calendar.next"));
-    // The arrows point along the reading direction.
-    const rtl = this.isConnected && getComputedStyle(this).direction === "rtl";
-    if (this.#arrowsRtl !== rtl) {
-      this.#arrowsRtl = rtl;
-      this.#prev!.innerHTML = stepIcon(rtl ? "right" : "left");
-      this.#next!.innerHTML = stepIcon(rtl ? "left" : "right");
-    }
 
     // A rebuilt body replaces the focused day button; focus follows to the new one.
     const hadFocus = this.#body!.contains(this.ownerDocument.activeElement);

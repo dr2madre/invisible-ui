@@ -93,6 +93,14 @@
   .sidebar__chevron--open {
     rotate: 90deg;
   }
+  /* The chevron points to the inline end: it mirrors in right-to-left text, and
+     the open turn runs the other way so it still points down. */
+  .sidebar__chevron:dir(rtl) {
+    scale: -1 1;
+  }
+  .sidebar__chevron--open:dir(rtl) {
+    rotate: -90deg;
+  }
   /* The label leaves the page but stays in the accessibility tree: the rail
      hides names from sight, never from a screen reader. */
   .sidebar__label--hidden {

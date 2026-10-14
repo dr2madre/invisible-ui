@@ -107,7 +107,7 @@
   margin-inline-start: auto;
   color: var(--ds-color-text-secondary, #524c44);
 }
-.context-menu__popup[dir="rtl"] .context-menu__submenu-chevron {
+.context-menu__submenu-chevron:dir(rtl) {
   scale: -1 1;
 }
 

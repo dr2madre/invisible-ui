@@ -121,6 +121,14 @@
   .accordion__trigger:global([data-state="open"]) .accordion__icon {
     rotate: 90deg;
   }
+  /* The chevron points to the inline end: it mirrors in right-to-left text, and
+     the open turn runs the other way so it still points down. */
+  .accordion__icon:dir(rtl) {
+    scale: -1 1;
+  }
+  .accordion__trigger:global([data-state="open"]) .accordion__icon:dir(rtl) {
+    rotate: -90deg;
+  }
   .accordion__trigger:global(:focus-visible) {
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);

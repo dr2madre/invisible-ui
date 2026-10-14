@@ -176,6 +176,11 @@
 .carousel__arrow--next {
   inset-inline-end: var(--ds-carousel-arrow-offset, 0.5rem);
 }
+/* The arrows sit at the inline start and end and point there: they mirror in
+   right-to-left text. */
+.carousel__arrow:dir(rtl) {
+  scale: -1 1;
+}
 .carousel__arrow:focus-visible {
   outline: none;
   box-shadow: var(--ds-focus-ring-shadow);
