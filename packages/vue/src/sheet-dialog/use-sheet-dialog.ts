@@ -1,4 +1,4 @@
-import { dialog as core } from "@design-system/core";
+import { sheetDialog as sheet } from "@design-system/core";
 import { computed, onScopeDispose, ref, toValue, type MaybeRefOrGetter, type Ref } from "vue";
 import { useDialog, type UseDialog, type UseDialogOptions } from "../dialog/use-dialog";
 
@@ -7,7 +7,7 @@ import { useDialog, type UseDialog, type UseDialogOptions } from "../dialog/use-
  * direction; `left` and `right` are their older names and follow it the same
  * way.
  */
-export type SheetDialogSide = core.SheetSide;
+export type SheetDialogSide = sheet.SheetSide;
 
 /**
  * SheetDialog options: the Dialog options without `role` (an edge panel is
@@ -50,10 +50,10 @@ export function useSheetDialog(
   const dragOffset = ref(0);
   const dragging = ref(false);
 
-  const edge = () => core.sheetEdge(resolved.value.side);
+  const edge = () => sheet.edge(resolved.value.side);
   // Outward means toward the anchored edge, so it stays positive while dismissing.
   const outward = (x: number, y: number, startX: number, startY: number) =>
-    core.sheetOutward(edge(), direction, x - startX, y - startY);
+    sheet.outward(edge(), direction, x - startX, y - startY);
 
   let startX = 0;
   let startY = 0;
@@ -90,7 +90,7 @@ export function useSheetDialog(
     dragging.value = false;
 
     const offset = Math.max(0, outward(event.clientX, event.clientY, startX, startY));
-    if (core.sheetShouldDismiss(offset, panelExtent, velocity)) dialog.setOpen(false);
+    if (sheet.shouldDismiss(offset, panelExtent, velocity)) dialog.setOpen(false);
     dragOffset.value = 0; // snap home (open) or reset for next time (closed)
   }
 

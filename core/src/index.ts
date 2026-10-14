@@ -35,6 +35,7 @@ export * as menubar from "./menubar";
 export * as multiSelect from "./multi-select";
 export * as popover from "./popover";
 export * as dialog from "./dialog";
+export * as sheetDialog from "./sheet-dialog";
 export * as hoverCard from "./hover-card";
 export * as combobox from "./combobox";
 export * as navigationMenu from "./navigation-menu";

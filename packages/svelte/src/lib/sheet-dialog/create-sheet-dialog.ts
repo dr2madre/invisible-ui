@@ -1,4 +1,4 @@
-import { dialog as core } from "@design-system/core";
+import { sheetDialog as sheet } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { writable, type Readable } from "svelte/store";
 import { createDialog, type CreateDialog, type DialogContext } from "../dialog/create-dialog";
@@ -8,7 +8,7 @@ import { createDialog, type CreateDialog, type DialogContext } from "../dialog/c
  * direction; `left` and `right` are their older names and follow it the same
  * way.
  */
-export type SheetDialogSide = core.SheetSide;
+export type SheetDialogSide = sheet.SheetSide;
 
 /** SheetDialog context — a Dialog context without `role` (an edge panel is always a dialog), plus the anchored edge. */
 export interface SheetDialogContext extends Omit<DialogContext, "role"> {
@@ -40,7 +40,7 @@ export interface CreateSheetDialog extends CreateDialog {
  */
 export function createSheetDialog(context: SheetDialogContext = {}): CreateSheetDialog {
   const { side, ...dialogContext } = context;
-  const edge = core.sheetEdge(side);
+  const edge = sheet.edge(side);
   const dialog = createDialog(dialogContext);
   const { setOpen } = dialog;
 
@@ -59,12 +59,7 @@ export function createSheetDialog(context: SheetDialogContext = {}): CreateSheet
 
     const onMove = (event: PointerEvent) => {
       if (pointerId === null || event.pointerId !== pointerId) return;
-      const offset = core.sheetOutward(
-        edge,
-        direction,
-        event.clientX - startX,
-        event.clientY - startY,
-      );
+      const offset = sheet.outward(edge, direction, event.clientX - startX, event.clientY - startY);
       const dt = event.timeStamp - lastTime;
       if (dt > 0) velocity = (offset - lastOffset) / dt;
       lastOffset = offset;
@@ -83,9 +78,9 @@ export function createSheetDialog(context: SheetDialogContext = {}): CreateSheet
 
       const offset = Math.max(
         0,
-        core.sheetOutward(edge, direction, event.clientX - startX, event.clientY - startY),
+        sheet.outward(edge, direction, event.clientX - startX, event.clientY - startY),
       );
-      if (core.sheetShouldDismiss(offset, panelExtent, velocity)) setOpen(false);
+      if (sheet.shouldDismiss(offset, panelExtent, velocity)) setOpen(false);
       dragOffset.set(0); // snap home (open) or reset for next time (closed)
     };
 

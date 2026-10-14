@@ -1,4 +1,4 @@
-import { dialog as core } from "@design-system/core";
+import { sheetDialog as sheet } from "@design-system/core";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import { useDialog, type UseDialog, type UseDialogOptions } from "../dialog/use-dialog";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
@@ -8,7 +8,7 @@ import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
  * direction; `left` and `right` are their older names and follow it the same
  * way.
  */
-export type SheetDialogSide = core.SheetSide;
+export type SheetDialogSide = sheet.SheetSide;
 
 /**
  * SheetDialog options: the Dialog options without `role` (an edge panel is
@@ -64,7 +64,7 @@ export function useSheetDialog({ side, ...options }: UseSheetDialogOptions = {})
       if (event.pointerType === "mouse" && event.button !== 0) return;
       const handle = event.currentTarget;
       const panel = panelRef.current;
-      const edge = core.sheetEdge(latest.current.side);
+      const edge = sheet.edge(latest.current.side);
       // Read when the drag starts, so a `dir` set above the panel counts.
       const direction = panel && getComputedStyle(panel).direction === "rtl" ? "rtl" : "ltr";
       const extent =
@@ -79,7 +79,7 @@ export function useSheetDialog({ side, ...options }: UseSheetDialogOptions = {})
 
       // Outward means toward the anchored edge, so it stays positive while dismissing.
       const outward = (x: number, y: number) =>
-        core.sheetOutward(edge, direction, x - startX, y - startY);
+        sheet.outward(edge, direction, x - startX, y - startY);
 
       const onMove = (move: globalThis.PointerEvent) => {
         if (move.pointerId !== pointerId) return;
@@ -106,7 +106,7 @@ export function useSheetDialog({ side, ...options }: UseSheetDialogOptions = {})
         const offset = Math.max(0, outward(up.clientX, up.clientY));
         // Snap home (still open) or reset for the next opening (closed).
         if (panel) panel.style.removeProperty(DRAG_PROPERTY);
-        if (core.sheetShouldDismiss(offset, extent, velocity)) latest.current.setOpen(false);
+        if (sheet.shouldDismiss(offset, extent, velocity)) latest.current.setOpen(false);
       }
 
       drag.current?.();

@@ -15,5 +15,5 @@ and the drag could not close it. A released drag no longer animates its snap
 back under `prefers-reduced-motion`. The drag distance reaches the sheet
 through the `--_sheet-drag` custom property instead of an inline `transform`.
 The drawer of Sidebar now asks for `start` or `end`, so its edge is right in
-right-to-left text too. Core exports the shared rules as `dialog.sheetEdge`,
-`dialog.sheetOutward` and `dialog.sheetShouldDismiss`.
+right-to-left text too. Core exports the shared rules as the `sheetDialog` namespace:
+`edge`, `outward` and `shouldDismiss`.

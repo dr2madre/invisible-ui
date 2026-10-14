@@ -1,4 +1,4 @@
-import { dialog as core } from "@design-system/core";
+import { dialog as core, sheetDialog as sheet } from "@design-system/core";
 import {
   applyProps,
   boolAttr,
@@ -22,7 +22,7 @@ import { localized, onLocaleChange } from "../internal/i18n";
  * direction; `left` and `right` are their older names and follow it the same
  * way.
  */
-export type SheetDialogSide = core.SheetSide;
+export type SheetDialogSide = sheet.SheetSide;
 
 /**
  * `<ds-sheet-dialog>` is an edge-anchored native modal dialog.
@@ -260,7 +260,7 @@ export class DsSheetDialog extends HTMLElementBase {
   #startDrag = (event: PointerEvent) => {
     if (this.handle.hidden || (event.pointerType === "mouse" && event.button !== 0)) return;
     const panel = this.#panel!;
-    const edge = core.sheetEdge(this.#side());
+    const edge = sheet.edge(this.#side());
     // Read when the drag starts, so a `dir` set above the panel counts.
     const direction = getComputedStyle(panel).direction === "rtl" ? "rtl" : "ltr";
     const startX = event.clientX;
@@ -271,7 +271,7 @@ export class DsSheetDialog extends HTMLElementBase {
     let velocity = 0;
 
     const outward = (move: PointerEvent) =>
-      core.sheetOutward(edge, direction, move.clientX - startX, move.clientY - startY);
+      sheet.outward(edge, direction, move.clientX - startX, move.clientY - startY);
     const onMove = (move: PointerEvent) => {
       if (move.pointerId !== event.pointerId) return;
       const offset = Math.max(0, outward(move));
@@ -288,7 +288,7 @@ export class DsSheetDialog extends HTMLElementBase {
       // A cancelled pointer carries no real position: the sheet snaps back.
       if (move.type === "pointercancel") return;
       const offset = Math.max(0, outward(move));
-      if (core.sheetShouldDismiss(offset, extent, velocity)) this.#setOpen(false);
+      if (sheet.shouldDismiss(offset, extent, velocity)) this.#setOpen(false);
     };
     this.#dragCleanup = () => {
       window.removeEventListener("pointermove", onMove);

@@ -10,13 +10,13 @@ export type SheetSide = "top" | "bottom" | "start" | "end" | "left" | "right";
 export type SheetEdge = "top" | "bottom" | "start" | "end";
 
 /** Fraction of the panel extent past which releasing a drag dismisses the panel. */
-export const SHEET_DISMISS_DISTANCE_RATIO = 0.25;
+export const DISMISS_DISTANCE_RATIO = 0.25;
 
 /** Outward velocity (px/ms) past which releasing a drag dismisses regardless of distance. */
-export const SHEET_DISMISS_VELOCITY = 0.5;
+export const DISMISS_VELOCITY = 0.5;
 
 /** Resolve a side to its edge; no side is `end`. */
-export function sheetEdge(side: SheetSide | undefined): SheetEdge {
+export function edge(side: SheetSide | undefined): SheetEdge {
   if (side === "left") return "start";
   if (side === "right" || side === undefined) return "end";
   return side;
@@ -29,12 +29,7 @@ export function sheetEdge(side: SheetSide | undefined): SheetEdge {
  * direction: `end` is the right edge in left-to-right text and the left edge
  * in right-to-left text.
  */
-export function sheetOutward(
-  edge: SheetEdge,
-  direction: "ltr" | "rtl",
-  dx: number,
-  dy: number,
-): number {
+export function outward(edge: SheetEdge, direction: "ltr" | "rtl", dx: number, dy: number): number {
   switch (edge) {
     case "bottom":
       return dy;
@@ -48,9 +43,6 @@ export function sheetOutward(
 }
 
 /** Whether releasing a drag dismisses the panel. */
-export function sheetShouldDismiss(offset: number, extent: number, velocity: number): boolean {
-  return (
-    (extent > 0 && offset > extent * SHEET_DISMISS_DISTANCE_RATIO) ||
-    velocity > SHEET_DISMISS_VELOCITY
-  );
+export function shouldDismiss(offset: number, extent: number, velocity: number): boolean {
+  return (extent > 0 && offset > extent * DISMISS_DISTANCE_RATIO) || velocity > DISMISS_VELOCITY;
 }

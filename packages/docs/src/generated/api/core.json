@@ -726,26 +726,6 @@
       "signature": "dialog.DialogState = interface DialogState { /** Whether the dialog is open. */ open: boolean; /** Base id linking the trigger, panel, title and description. */ id: string; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role: DialogRole; }"
     },
     {
-      "name": "dialog.SHEET_DISMISS_DISTANCE_RATIO",
-      "kind": "const",
-      "signature": "dialog_SHEET_DISMISS_DISTANCE_RATIO: typeof SHEET_DISMISS_DISTANCE_RATIO"
-    },
-    {
-      "name": "dialog.SHEET_DISMISS_VELOCITY",
-      "kind": "const",
-      "signature": "dialog_SHEET_DISMISS_VELOCITY: typeof SHEET_DISMISS_VELOCITY"
-    },
-    {
-      "name": "dialog.SheetEdge",
-      "kind": "type",
-      "signature": "dialog.SheetEdge = type SheetEdge = \"top\" | \"bottom\" | \"start\" | \"end\";"
-    },
-    {
-      "name": "dialog.SheetSide",
-      "kind": "type",
-      "signature": "dialog.SheetSide = type SheetSide = \"top\" | \"bottom\" | \"start\" | \"end\" | \"left\" | \"right\";"
-    },
-    {
       "name": "dialog.connect",
       "kind": "function",
       "signature": "declare function connect#d7b255e7({ state, setOpen, describedBy, closeOnEscape, normalize, }: ConnectOptions#85eefc16): DialogApi;"
@@ -764,21 +744,6 @@
       "name": "dialog.initialState",
       "kind": "function",
       "signature": "declare function initialState#21b401dd(context?: DialogContext): DialogState;"
-    },
-    {
-      "name": "dialog.sheetEdge",
-      "kind": "const",
-      "signature": "dialog_sheetEdge: typeof sheetEdge"
-    },
-    {
-      "name": "dialog.sheetOutward",
-      "kind": "const",
-      "signature": "dialog_sheetOutward: typeof sheetOutward"
-    },
-    {
-      "name": "dialog.sheetShouldDismiss",
-      "kind": "const",
-      "signature": "dialog_sheetShouldDismiss: typeof sheetShouldDismiss"
     },
     {
       "name": "dialog.titleId",
@@ -2269,6 +2234,46 @@
       "name": "select.triggerId",
       "kind": "const",
       "signature": "triggerId#158668af: (baseId: string) => string"
+    },
+    {
+      "name": "sheetDialog",
+      "kind": "namespace",
+      "signature": "namespace sheetDialog"
+    },
+    {
+      "name": "sheetDialog.DISMISS_DISTANCE_RATIO",
+      "kind": "const",
+      "signature": "sheetDialog_DISMISS_DISTANCE_RATIO: typeof DISMISS_DISTANCE_RATIO"
+    },
+    {
+      "name": "sheetDialog.DISMISS_VELOCITY",
+      "kind": "const",
+      "signature": "sheetDialog_DISMISS_VELOCITY: typeof DISMISS_VELOCITY"
+    },
+    {
+      "name": "sheetDialog.SheetEdge",
+      "kind": "type",
+      "signature": "sheetDialog.SheetEdge = type SheetEdge = \"top\" | \"bottom\" | \"start\" | \"end\";"
+    },
+    {
+      "name": "sheetDialog.SheetSide",
+      "kind": "type",
+      "signature": "sheetDialog.SheetSide = type SheetSide = \"top\" | \"bottom\" | \"start\" | \"end\" | \"left\" | \"right\";"
+    },
+    {
+      "name": "sheetDialog.edge",
+      "kind": "const",
+      "signature": "sheetDialog_edge: typeof edge"
+    },
+    {
+      "name": "sheetDialog.outward",
+      "kind": "const",
+      "signature": "sheetDialog_outward: typeof outward"
+    },
+    {
+      "name": "sheetDialog.shouldDismiss",
+      "kind": "const",
+      "signature": "sheetDialog_shouldDismiss: typeof shouldDismiss"
     },
     {
       "name": "slider",
