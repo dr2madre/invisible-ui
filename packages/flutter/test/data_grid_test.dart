@@ -781,7 +781,7 @@ void main() {
     });
 
     testWidgets('ArrowUp and ArrowDown step the draft and report nothing '
-        'until the commit', (tester) async {
+        'until F2 commits', (tester) async {
       final changes = <DataGridCellChange>[];
       await tester.pumpWidget(harness(_Timesheet(changes: changes)));
       await _focusCell(tester, _monPx);
@@ -795,8 +795,10 @@ void main() {
       await _press(tester, LogicalKeyboardKey.arrowDown);
       expect(controller.text, '8.5');
       expect(changes, isEmpty);
-      await _press(tester, LogicalKeyboardKey.enter);
-      expect(changes.single.value, 8.5);
+      await _press(tester, LogicalKeyboardKey.f2);
+      expect(changes.single.value, 8.5, reason: 'F2 commits');
+      expect(find.byType(EditableText), findsNothing);
+      expect(_focused(tester), '$_monPx, 8.5');
     });
 
     testWidgets('Arabic-Indic and Persian digits start and fill a draft in '
