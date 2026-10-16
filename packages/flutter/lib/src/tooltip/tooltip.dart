@@ -41,7 +41,9 @@ const EdgeInsets _padding = EdgeInsets.symmetric(horizontal: 8, vertical: 4.8);
 ///
 /// [message] is supplementary: assistive technology reads it as the
 /// trigger's tooltip, after the trigger's own name. It never names the
-/// trigger, so an icon-only button keeps its `semanticLabel`.
+/// trigger, so an icon-only button keeps its `semanticLabel`. With
+/// [excludeFromSemantics] it is only shown: for a trigger whose own
+/// semantics already say the same words.
 class Tooltip extends StatefulWidget {
   /// Shows [message] for [child].
   const Tooltip({
@@ -51,6 +53,7 @@ class Tooltip extends StatefulWidget {
     this.placement = TooltipPlacement.top,
     this.waitDuration = const Duration(milliseconds: 300),
     this.exitDuration = const Duration(milliseconds: 100),
+    this.excludeFromSemantics = false,
   });
 
   /// The text shown.
@@ -67,6 +70,10 @@ class Tooltip extends StatefulWidget {
 
   /// How long the tooltip stays after the pointer leaves.
   final Duration exitDuration;
+
+  /// Whether assistive technology leaves [message] out, because the
+  /// trigger's own label or hint already carries it.
+  final bool excludeFromSemantics;
 
   @override
   State<Tooltip> createState() => _TooltipState();
@@ -169,7 +176,7 @@ class _TooltipState extends State<Tooltip> {
       overlayChildBuilder: _buildTooltip,
       child: MergeSemantics(
         child: Semantics(
-          tooltip: widget.message,
+          tooltip: widget.excludeFromSemantics ? null : widget.message,
           child: Focus(
             canRequestFocus: false,
             skipTraversal: true,
