@@ -395,24 +395,14 @@ class NumberFieldState extends State<NumberField> {
     );
   }
 
-  String? _validityMessage(InvisibleMessages messages) {
-    return switch (validationError) {
-      null => null,
-      NumberFieldError.parse => messages.numberFieldParseError,
-      NumberFieldError.rangeUnderflow => InvisibleMessages.fill(
-        messages.numberFieldRangeUnderflow,
-        {'min': _format(_min ?? 0)},
-      ),
-      NumberFieldError.rangeOverflow => InvisibleMessages.fill(
-        messages.numberFieldRangeOverflow,
-        {'max': _format(_max ?? 0)},
-      ),
-      NumberFieldError.stepMismatch => InvisibleMessages.fill(
-        messages.numberFieldStepMismatch,
-        {'step': _format(_step)},
-      ),
-    };
-  }
+  String? _validityMessage(InvisibleMessages messages) => numberValidityMessage(
+    messages,
+    validationError,
+    format: _format,
+    min: _min,
+    max: _max,
+    step: _step,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -540,6 +530,34 @@ class NumberFieldState extends State<NumberField> {
       },
     );
   }
+}
+
+/// The message that says why a number is invalid, with the bounds and the
+/// step written by [format]; null without an [error].
+String? numberValidityMessage(
+  InvisibleMessages messages,
+  NumberFieldError? error, {
+  required String Function(double number) format,
+  double? min,
+  double? max,
+  required double step,
+}) {
+  return switch (error) {
+    null => null,
+    NumberFieldError.parse => messages.numberFieldParseError,
+    NumberFieldError.rangeUnderflow => InvisibleMessages.fill(
+      messages.numberFieldRangeUnderflow,
+      {'min': format(min ?? 0)},
+    ),
+    NumberFieldError.rangeOverflow => InvisibleMessages.fill(
+      messages.numberFieldRangeOverflow,
+      {'max': format(max ?? 0)},
+    ),
+    NumberFieldError.stepMismatch => InvisibleMessages.fill(
+      messages.numberFieldStepMismatch,
+      {'step': format(step)},
+    ),
+  };
 }
 
 class _StepIntent extends Intent {

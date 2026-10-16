@@ -25,6 +25,27 @@ export 'src/collapsible/collapsible.dart' show Collapsible;
 export 'src/combobox/combobox.dart' show ChoiceFilter, Combobox;
 export 'src/context_menu/context_menu.dart' show ContextMenu;
 export 'src/count/count.dart' show Count;
+export 'src/data_grid/data_grid.dart'
+    show
+        DataGrid,
+        DataGridCell,
+        DataGridCellChange,
+        DataGridCellRef,
+        DataGridColumn,
+        DataGridEditor,
+        DataGridRow,
+        DataGridRowTotalPosition,
+        DataGridState,
+        DataGridTotals;
+export 'src/data_grid/data_grid_logic.dart'
+    show
+        DataGridCellKind,
+        GridLabelKind,
+        GridLabelParts,
+        GridTotals,
+        gridCellLabel,
+        gridTotals,
+        sumGridValues;
 export 'src/date_picker/date_picker.dart' show DatePicker, DateRangePicker;
 export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
 export 'src/dialog/dialog_panel.dart' show DialogController, DialogNotice;
