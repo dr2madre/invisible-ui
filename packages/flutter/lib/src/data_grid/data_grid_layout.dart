@@ -193,10 +193,14 @@ class RenderGridRow extends RenderBox
   @override
   void paint(PaintingContext context, Offset offset) {
     final cells = _cells;
-    // The row header paints last, over the cells scrolled under it.
+    final visible = _viewport.size.width;
+    // The row header paints last, over the cells scrolled under it. Cells
+    // scrolled out of the viewport are not painted.
     for (final index in [for (var i = 1; i < cells.length; i++) i, 0]) {
       if (index >= cells.length) continue;
-      context.paintChild(cells[index], offset + Offset(_cellX(index), 0));
+      final x = _cellX(index);
+      if (x >= visible || x + _widths[index] <= 0) continue;
+      context.paintChild(cells[index], offset + Offset(x, 0));
     }
   }
 
@@ -524,7 +528,9 @@ class RenderGridViewport extends RenderBox
           if (_pinned(row)) row,
       ];
       for (final row in order) {
-        context.paintChild(rows[row], offset + Offset(0, _rowY(row)));
+        final y = _rowY(row);
+        if (y >= size.height || y + _heights[row] <= 0) continue;
+        context.paintChild(rows[row], offset + Offset(0, y));
       }
     });
   }
