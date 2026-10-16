@@ -403,6 +403,8 @@ class DataGridState extends State<DataGrid> {
   bool _touch = false;
   List<Object> _rowKeys = const [];
   List<Object> _columnKeys = const [];
+  Map<String, DataGridColumn> _columnById = const {};
+  Map<String, DataGridRow> _rowById = const {};
   Map<_Key, String> _errors = const {};
 
   /// The body cell that holds the grid's tab stop, or null when a header
@@ -497,6 +499,8 @@ class DataGridState extends State<DataGrid> {
       for (final row in widget.rows) row.id,
       if (_derived) _totalsRow,
     ];
+    _columnById = {for (final column in widget.columns) column.id: column};
+    _rowById = {for (final row in widget.rows) row.id: row};
     _columnKeys = [
       _rowHeaderColumn,
       if (_derived && start) _totalColumn,
@@ -554,11 +558,9 @@ class DataGridState extends State<DataGrid> {
     return _keyAt(gridInitialActive(_shape, fallback));
   }
 
-  DataGridColumn? _column(Object key) =>
-      key is String ? widget.columns.firstWhere((c) => c.id == key) : null;
+  DataGridColumn? _column(Object key) => _columnById[key];
 
-  DataGridRow? _row(Object key) =>
-      key is String ? widget.rows.firstWhere((r) => r.id == key) : null;
+  DataGridRow? _row(Object key) => _rowById[key];
 
   // ---------------------------------------------------------------- values
 
@@ -990,7 +992,10 @@ class DataGridState extends State<DataGrid> {
     final colors = theme.colors;
     final direction = Directionality.of(context);
     final gridSymbols = _symbolsOf(widget.editor);
-    final active = _active != null && _exists(_active!)
+    // A grid with no row has no cell to hold the tab stop.
+    final active = _rowKeys.isEmpty
+        ? (_active = null)
+        : _active != null && _exists(_active!)
         ? _active!
         : (_active = _initialActive());
 
@@ -1025,10 +1030,14 @@ class DataGridState extends State<DataGrid> {
       return text.isEmpty ? null : text;
     }
 
-    Widget bodyCell(DataGridRow row, int rowIndex, DataGridColumn column) {
+    Widget bodyCell(
+      DataGridRow row,
+      int rowIndex,
+      DataGridColumn column,
+      int columnIndex,
+    ) {
       final _Key key = (row.id, column.id);
       final cell = cells[key]!;
-      final columnIndex = widget.columns.indexOf(column);
       final value = values[rowIndex][columnIndex];
       final editor = _editorOf(column.id);
       final symbols = _symbolsOf(editor);
@@ -1133,58 +1142,58 @@ class DataGridState extends State<DataGrid> {
       );
     }
 
-    Widget totalCell({
-      required _Key key,
-      required String label,
-      required double? value,
-      String? error,
+    // The cells the grid derives: row headers and totals, all read-only.
+    Widget derivedCell(
+      _Key key, {
+      required GridLabelParts label,
+      required Widget content,
+      bool rowHeader = false,
       bool emphasis = false,
     }) {
+      final error = label.error;
       if (error != null && error.isNotEmpty) errors[key] = error;
       return _GridCell(
         key: ValueKey(key),
         focusNode: _nodeFor(key),
         tabStop: active == key,
-        label: label,
+        label: gridCellLabel(label, messages),
         readOnly: true,
         error: error == null || error.isEmpty ? null : error,
         surface: colors.background,
-        align: AlignmentDirectional.centerEnd,
+        align: rowHeader
+            ? AlignmentDirectional.centerStart
+            : AlignmentDirectional.centerEnd,
         onKey: (event) => _onKey(key, event),
         onFocusChange: (focused) => _cellFocusChanged(key, focused),
         onPress: (at) => _press(key, at: at),
         onPointerKind: (touch) => _touch = touch,
         emphasis: emphasis,
-        content: _CellText(value: _visible(value, gridSymbols)),
+        content: content,
       );
     }
 
-    Widget rowHeaderCell(DataGridRow row, int rowIndex) {
-      final key = (row.id, _rowHeaderColumn) as _Key;
-      final total = _derived ? totals.rows[rowIndex] : null;
-      return _GridCell(
-        key: ValueKey(key),
-        focusNode: _nodeFor(key),
-        tabStop: active == key,
-        label: gridCellLabel((
-          kind: GridLabelKind.rowHeader,
-          column: null,
-          row: row.label,
-          value: _derived ? _valueText(total, gridSymbols) : null,
-          badge: null,
-          secondary: null,
-          error: null,
-        ), messages),
-        readOnly: true,
-        surface: colors.background,
-        align: AlignmentDirectional.centerStart,
-        onKey: (event) => _onKey(key, event),
-        onFocusChange: (focused) => _cellFocusChanged(key, focused),
-        onPress: (at) => _press(key, at: at),
-        onPointerKind: (touch) => _touch = touch,
-        content: _RowHeaderText(code: row.code, name: row.name),
-      );
-    }
+    Widget total(
+      _Key key,
+      GridLabelKind kind,
+      double? value, {
+      String? column,
+      String? row,
+      String? error,
+      bool emphasis = true,
+    }) => derivedCell(
+      key,
+      label: (
+        kind: kind,
+        column: column,
+        row: row,
+        value: _valueText(value, gridSymbols),
+        badge: null,
+        secondary: null,
+        error: error,
+      ),
+      emphasis: emphasis,
+      content: _CellText(value: _visible(value, gridSymbols)),
+    );
 
     final start = widget.rowTotalPosition == DataGridRowTotalPosition.start;
     final header = GridRow(
@@ -1209,88 +1218,85 @@ class DataGridState extends State<DataGrid> {
       ],
     );
 
-    final body = [
-      for (final (rowIndex, row) in widget.rows.indexed)
+    final body = <GridRow>[];
+    for (final (rowIndex, row) in widget.rows.indexed) {
+      final rowTotal = _derived
+          ? total(
+              (row.id, _totalColumn),
+              GridLabelKind.rowTotal,
+              totals.rows[rowIndex],
+              row: row.label,
+              error: widget.rowTotalError?.call(row.id),
+              emphasis: false,
+            )
+          : null;
+      body.add(
         GridRow(
           key: ValueKey(row.id),
           cells: [
-            rowHeaderCell(row, rowIndex),
-            if (_derived && start)
-              totalCell(
-                key: (row.id, _totalColumn),
-                label: _rowTotalLabel(row, totals.rows[rowIndex], gridSymbols),
-                value: totals.rows[rowIndex],
-                error: widget.rowTotalError?.call(row.id),
+            derivedCell(
+              (row.id, _rowHeaderColumn),
+              rowHeader: true,
+              label: (
+                kind: GridLabelKind.rowHeader,
+                column: null,
+                row: row.label,
+                value: _derived
+                    ? _valueText(totals.rows[rowIndex], gridSymbols)
+                    : null,
+                badge: null,
+                secondary: null,
+                error: null,
               ),
-            for (final column in widget.columns)
-              bodyCell(row, rowIndex, column),
-            if (_derived && !start)
-              totalCell(
-                key: (row.id, _totalColumn),
-                label: _rowTotalLabel(row, totals.rows[rowIndex], gridSymbols),
-                value: totals.rows[rowIndex],
-                error: widget.rowTotalError?.call(row.id),
-              ),
+              content: _RowHeaderText(code: row.code, name: row.name),
+            ),
+            if (start) ?rowTotal,
+            for (final (columnIndex, column) in widget.columns.indexed)
+              bodyCell(row, rowIndex, column, columnIndex),
+            if (!start) ?rowTotal,
           ],
         ),
-    ];
+      );
+    }
 
-    Widget grandTotal() => totalCell(
-      key: (_totalsRow, _totalColumn),
-      label: gridCellLabel((
-        kind: GridLabelKind.grandTotal,
-        column: null,
-        row: null,
-        value: _valueText(totals.grand, gridSymbols),
-        badge: null,
-        secondary: null,
-        error: null,
-      ), messages),
-      value: totals.grand,
-      emphasis: true,
-    );
-
-    final totalsRow = !_derived
-        ? null
-        : GridRow(
-            key: const ValueKey(_totalsRow),
-            cells: [
-              _GridCell(
-                key: const ValueKey((_totalsRow, _rowHeaderColumn)),
-                focusNode: _nodeFor((_totalsRow, _rowHeaderColumn)),
-                tabStop: active == (_totalsRow, _rowHeaderColumn),
-                label: messages.dataGridTotal,
-                readOnly: true,
-                surface: colors.background,
-                align: AlignmentDirectional.centerStart,
-                onKey: (event) => _onKey((_totalsRow, _rowHeaderColumn), event),
-                onFocusChange: (focused) =>
-                    _cellFocusChanged((_totalsRow, _rowHeaderColumn), focused),
-                onPress: (at) => _press((_totalsRow, _rowHeaderColumn), at: at),
-                onPointerKind: (touch) => _touch = touch,
-                emphasis: true,
-                content: Text(messages.dataGridTotal),
-              ),
-              if (start) grandTotal(),
-              for (final (columnIndex, column) in widget.columns.indexed)
-                totalCell(
-                  key: (_totalsRow, column.id),
-                  label: gridCellLabel((
-                    kind: GridLabelKind.columnTotal,
-                    column: column.label,
-                    row: null,
-                    value: _valueText(totals.columns[columnIndex], gridSymbols),
-                    badge: null,
-                    secondary: null,
-                    error: widget.totalError?.call(column.id),
-                  ), messages),
-                  value: totals.columns[columnIndex],
-                  error: widget.totalError?.call(column.id),
-                  emphasis: true,
-                ),
-              if (!start) grandTotal(),
-            ],
-          );
+    GridRow? totalsRow;
+    if (_derived) {
+      final grand = total(
+        (_totalsRow, _totalColumn),
+        GridLabelKind.grandTotal,
+        totals.grand,
+      );
+      totalsRow = GridRow(
+        key: const ValueKey(_totalsRow),
+        cells: [
+          derivedCell(
+            (_totalsRow, _rowHeaderColumn),
+            rowHeader: true,
+            emphasis: true,
+            label: (
+              kind: GridLabelKind.rowHeader,
+              column: null,
+              row: messages.dataGridTotal,
+              value: null,
+              badge: null,
+              secondary: null,
+              error: null,
+            ),
+            content: Text(messages.dataGridTotal),
+          ),
+          if (start) grand,
+          for (final (columnIndex, column) in widget.columns.indexed)
+            total(
+              (_totalsRow, column.id),
+              GridLabelKind.columnTotal,
+              totals.columns[columnIndex],
+              column: column.label,
+              error: widget.totalError?.call(column.id),
+            ),
+          if (!start) grand,
+        ],
+      );
+    }
     _errors = errors;
 
     final grid = FocusTraversalGroup(
@@ -1354,20 +1360,6 @@ class DataGridState extends State<DataGrid> {
       ),
     );
   }
-
-  String _rowTotalLabel(
-    DataGridRow row,
-    double? total,
-    NumberSymbols symbols,
-  ) => gridCellLabel((
-    kind: GridLabelKind.rowTotal,
-    column: null,
-    row: row.label,
-    value: _valueText(total, symbols),
-    badge: null,
-    secondary: null,
-    error: widget.rowTotalError?.call(row.id),
-  ), InvisibleTheme.of(context).messages);
 
   Widget _columnHeader(DataGridColumn column, InvisibleMessages messages) {
     final secondary = column.secondary ? column.secondaryLabel : null;

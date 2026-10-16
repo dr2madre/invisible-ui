@@ -254,6 +254,16 @@ void main() {
       expect(_focused(tester), startsWith(_monPx));
     });
 
+    testWidgets('a grid with no rows shows its headers and no tab stop', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(const _Timesheet(rows: [], totals: DataGridTotals.none)),
+      );
+      expect(tester.takeException(), isNull);
+      expect(find.text('Mon 6'), findsOneWidget);
+    });
+
     testWidgets('repeated row ids throw in development', (tester) async {
       await tester.pumpWidget(
         harness(
