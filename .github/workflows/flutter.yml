@@ -147,6 +147,8 @@ on:
       - "core/src/navigation-bar/**"
       - "packages/svelte/src/lib/navigation-bar/**"
       - "docs/navigation-bar-spec.md"
+      - "core/src/grid/**"
+      - "docs/editable-grid-spec.md"
       - ".github/workflows/flutter.yml"
   push:
     branches: [main]
@@ -287,6 +289,8 @@ on:
       - "core/src/navigation-bar/**"
       - "packages/svelte/src/lib/navigation-bar/**"
       - "docs/navigation-bar-spec.md"
+      - "core/src/grid/**"
+      - "docs/editable-grid-spec.md"
       - ".github/workflows/flutter.yml"
   workflow_dispatch:
 

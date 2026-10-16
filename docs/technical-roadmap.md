@@ -221,8 +221,12 @@ Each item ships as its own PR. Checkboxes track progress.
   keys, spoken names and badge announcements against the shared vectors in
   `core/src/navigation-bar/__vectors__`, read by the core and the Flutter
   tests. The specs for the section header and the colour swatch come next.
-  The editable grid spec, for every platform, is in
-  [`docs/editable-grid-spec.md`](./editable-grid-spec.md).
+  The editable grid of wave 2 is in core and Flutter, built from
+  [`docs/editable-grid-spec.md`](./editable-grid-spec.md): `core/src/grid`
+  runs its key table, totals, active cell and spoken labels against the
+  shared vectors in `core/src/grid/__vectors__`, read by the core and the
+  Flutter tests, and `iu.DataGrid` carries Timelog's weekly timesheet. The
+  web adapters come next.
   The navigation bar spec, for every platform, is in
   [`docs/navigation-bar-spec.md`](./navigation-bar-spec.md).
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy

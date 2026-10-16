@@ -201,6 +201,7 @@ iu.NumberField(
 | Tree View | Matched, single selection, with adaptations listed | [parity/tree-view.md](parity/tree-view.md) | [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/) |
 | Table | Matched, with adaptations listed | [parity/table.md](parity/table.md) | [Table](https://dr2madre.github.io/invisible-ui/components/patterns/table/) |
 | TableSet (with the internal Table View) | Matched for spec units 5A to 5C, with adaptations listed | [parity/table-set.md](parity/table-set.md) | [Table Set](https://dr2madre.github.io/invisible-ui/components/patterns/table-set/) |
+| DataGrid | Built from the editable grid spec ahead of the web adapters, with adaptations listed | [parity/data-grid.md](parity/data-grid.md) | [Spec](https://github.com/dr2madre/invisible-ui/blob/main/docs/editable-grid-spec.md) |
 | Carousel | Matched, with adaptations listed | [parity/carousel.md](parity/carousel.md) | [Carousel](https://dr2madre.github.io/invisible-ui/components/data-layout/carousel/) |
 | LoginForm | Matched, with autofill hints and adaptations listed | [parity/login-form.md](parity/login-form.md) | [Login Form](https://dr2madre.github.io/invisible-ui/components/patterns/login-form/) |
 | UploadDropArea | Adapted: the app opens the picker and reports drops | [parity/upload-drop-area.md](parity/upload-drop-area.md) | [Upload Drop Area](https://dr2madre.github.io/invisible-ui/components/forms/upload-drop-area/) |
@@ -257,7 +258,8 @@ multi select's selection rules the vectors in `core/src/multi-select`,
 which the `core/` tests run too.
 
 Table and TableSet run the sort, selection and visibility vectors in
-`core/src/table/__vectors__`, Carousel the navigation and key vectors in
+`core/src/table/__vectors__`, DataGrid the key, totals, active cell and
+label vectors in `core/src/grid/__vectors__`, Carousel the navigation and key vectors in
 `core/src/carousel/__vectors__`, and LocaleProvider the direction vectors
 in `core/src/i18n/__vectors__`.
 
@@ -527,6 +529,20 @@ iu.TableSet<Map<String, Object?>>(
   getRowLabel: (row) => row['name']! as String,
 )
 
+iu.DataGrid(
+  label: 'Week 41',
+  columns: days, // iu.DataGridColumn(id:, label:, header:, secondary:)
+  rows: projects, // iu.DataGridRow(id:, code:, name:)
+  cell: (row, day) => iu.DataGridCell(
+    kind: iu.DataGridCellKind.editable,
+    value: hours[(row, day)],
+  ),
+  editor: const iu.DataGridEditor(min: 0, max: 24, step: 0.5),
+  onCellChanged: (change) => setState(
+    () => hours[(change.rowId, change.columnId)] = change.value,
+  ),
+)
+
 iu.UploadDropArea(
   accept: '.pdf,image/*',
   onBrowse: pickFiles, // the app opens the picker, e.g. with file_selector
@@ -548,6 +564,21 @@ iu.UploadDropArea(
   tabs. Each setting is a controllable mirror. Selection needs stable,
   unique ids and `getRowLabel`; the selection is the app's data and is
   never pruned. The view inside stays internal, as on the web.
+- **Data grid.** `iu.DataGrid` is the editable grid of
+  [`docs/editable-grid-spec.md`](https://github.com/dr2madre/invisible-ui/blob/main/docs/editable-grid-spec.md):
+  one tab stop, arrows between cells (mirrored right to left), and number
+  cells edited in place with the Number Field's parsing. Enter, F2 or a
+  digit starts editing, Enter commits and stays, Tab commits and edits the
+  next editable cell, Escape reverts. `onCellChanged` reports once per
+  commit with `previousValue`, after the Total column and the totals row are
+  updated; a draft that does not parse never commits, a number out of range
+  commits with its error. Cells allowed but outside the usual schedule take
+  `secondary` with a visible `secondaryLabel`. `onCellActivated` serves
+  summary cells and `onCellDetails` a details button, a custom semantics
+  action and an optional `detailsShortcut`. Each cell reads one label built
+  from the catalog (`gridCellLabel`, which a card view can use too); the
+  headers, the totals row and the row header column stick while the grid
+  scrolls on both axes.
 - **Carousel.** `iu.Carousel` names its slides "2 of 5", announces each
   move, takes the arrow keys (mirrored right to left) and moves at once
   under reduced motion. It never advances on its own. Coverflow neighbours
