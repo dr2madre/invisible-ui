@@ -308,6 +308,9 @@
     var(--ds-color-secondary) 90%,
     var(--ds-neutral-0)
   );
+  /* A data grid cell with the secondary emphasis: allowed, outside the usual
+     schedule. The text keeps 4.5:1 on it; the cell's label carries the meaning. */
+  --ds-grid-cell-secondary-surface: var(--ds-neutral-50);
 }
 
 /* =============== Tier 2 — semantic (dark) ================================= */
@@ -445,6 +448,7 @@
       var(--ds-color-secondary) 75%,
       var(--ds-neutral-50)
     );
+    --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
   }
 }
 
@@ -568,6 +572,7 @@
     var(--ds-color-secondary) 75%,
     var(--ds-neutral-50)
   );
+  --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
 }
 
 /* =============== Fallback: no color-mix() (pre-2023 engines) ============== *

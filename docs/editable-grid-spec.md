@@ -9,8 +9,9 @@ is Timelog's weekly timesheet: projects in rows, days in columns, hours in
 the cells, totals per day and per project
 ([requirements](./proposals/flutter-adapter.md#editable-grid--requirements-for-the-cross-platform-spec)).
 
-Status: decided; see [Decisions taken](#decisions-taken). Nothing here is
-built yet. The Data Table
+Status: decided; see [Decisions taken](#decisions-taken). Core
+(`core/src/grid`, with the shared vectors) and Flutter (`iu.DataGrid`) are
+built; the web adapters are next. The Data Table
 ([`data-table-spec.md`](./data-table-spec.md)) deferred grid semantics and
 editing on purpose; this spec picks up those two deferrals and leaves the
 others (range selection, remote select-all, virtualization) deferred.

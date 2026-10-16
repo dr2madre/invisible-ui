@@ -66,12 +66,12 @@ destinations, `test/sidebar_status_test.dart`.
 | An unavailable destination stays focusable, is read as disabled with its reason, and a press, Enter or Space does nothing | matched | `an unavailable destination is focusable, disabled, and reads its reason as the hint`, `a tap, Enter or Space on an unavailable destination does nothing; Tab still reaches it` |
 | An unavailable link is not followed and the drawer stays open | adapted | Flutter has no `href`: nothing is reported, so the drawer has nothing to close for: same test |
 | The reason shows under the label; a lock follows the label; label and icon take `text-disabled` | matched | `a count, a dot, a lock and the reason under the label` |
-| In the rail the lock sits at the icon's bottom corner and the tooltip reads "label: reason" from `sidebar.unavailableTooltip` | matched | `the rail tooltip gives back the name and the reason`; a catalog key added for this |
+| In the rail the lock sits at the icon's bottom corner and the tooltip reads "label: reason" from `sidebar.unavailableTooltip` | matched | `the rail tooltip gives back the name and the reason, and the reason is read once`; a catalog key added for this |
 | The rail marks the current destination with a bar at the inline start, never colour alone | matched | `the rail shows the badge on the icon and marks the current destination with a bar, not by colour alone` |
 | Text scale 2.0 in a narrow column: labels and reasons wrap, nothing overflows | matched | `text scale 2.0 in a narrow column: labels and reasons wrap, nothing overflows` |
 | High contrast borders the badge, as forced colors do on the web | matched | `high contrast borders the badge` |
 | Targets 24 by 24, 44 by 44 under touch, with badges and an unavailable destination | matched | `targets, names and contrast pass the guidelines` |
-| The rail tooltip on an unavailable destination is also read | adapted | the package's Tooltip merges its message into the destination's semantics, so the reason is read in the hint and again in the tooltip; the web tooltip is not referenced by the destination |
+| The rail tooltip on an unavailable destination is not read again | matched | the tooltip only shows (`Tooltip.excludeFromSemantics`), so the reason is read once, in the hint, as the web tooltip is not referenced by the destination: `the rail tooltip gives back the name and the reason, and the reason is read once` |
 | Screen reader output for the badge, its announcement and the reason | not yet verified | Assistive technology: not tested |
 
 ## Collapsible sections

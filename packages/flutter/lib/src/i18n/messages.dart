@@ -148,6 +148,20 @@ class InvisibleMessages {
     this.navigationBarPosition = 'Tab {index} of {count}',
     this.navigationBarCurrent = 'current page',
     this.navigationBarAnnouncement = '{label}: {badge}',
+    this.dataGridTotal = 'Total',
+    this.dataGridEmpty = 'empty',
+    this.dataGridEdit = 'Edit',
+    this.dataGridDetails = 'Details',
+    this.dataGridCell = '{column}, {row}, {value}',
+    this.dataGridRowHeader = '{row}, Total, {value}',
+    this.dataGridColumnTotal = '{column}, Total, {value}',
+    this.dataGridRowTotal = 'Total, {row}, {value}',
+    this.dataGridGrandTotal = 'Total, {value}',
+    this.dataGridSeparator = ', ',
+    this.dataGridError = 'Error: {message}',
+    this.dataGridDetailsLabel = 'Details, {column}, {row}',
+    this.dataGridDetailsShortcut = 'Details: {shortcut}',
+    this.dataGridAnnouncement = '{column}, {row}: {message}',
     this.treeLoading = 'Loading {name}…',
     this.treeLoadError = 'Could not load {name}. Press Right Arrow to retry.',
     this.treeExpand = 'Expand',
@@ -655,6 +669,67 @@ class InvisibleMessages {
   /// `{label}` and `{badge}`. Catalog key `navigationBar.announcement`.
   final String navigationBarAnnouncement;
 
+  /// The header of a data grid's totals row and Total column. Catalog key
+  /// `dataGrid.total`.
+  final String dataGridTotal;
+
+  /// The value text of a data grid cell with no value. Catalog key
+  /// `dataGrid.empty`.
+  final String dataGridEmpty;
+
+  /// The hint of an editable data grid cell. Catalog key
+  /// `dataGrid.edit`.
+  final String dataGridEdit;
+
+  /// The visible text and the custom action of a data grid cell's details. Catalog key
+  /// `dataGrid.details`.
+  final String dataGridDetails;
+
+  /// A data grid cell's label, with `{column}`, `{row}` and `{value}`, in
+  /// the order a translation gives them. Catalog key
+  /// `dataGrid.cell`.
+  final String dataGridCell;
+
+  /// A data grid row header's label with the row total, with `{row}` and
+  /// `{value}`. Catalog key
+  /// `dataGrid.rowHeader`.
+  final String dataGridRowHeader;
+
+  /// A data grid column total's label, with `{column}` and `{value}`. Catalog key
+  /// `dataGrid.columnTotal`.
+  final String dataGridColumnTotal;
+
+  /// A data grid row total's label, with `{row}` and `{value}`. Catalog key
+  /// `dataGrid.rowTotal`.
+  final String dataGridRowTotal;
+
+  /// A data grid grand total's label, with `{value}`. Catalog key
+  /// `dataGrid.grandTotal`.
+  final String dataGridGrandTotal;
+
+  /// Joins the badge, the secondary label and the error to a data grid
+  /// cell's label. Catalog key
+  /// `dataGrid.separator`.
+  final String dataGridSeparator;
+
+  /// A data grid cell's error in its label, with `{message}`. Catalog key
+  /// `dataGrid.error`.
+  final String dataGridError;
+
+  /// The name of a data grid cell's details button, with `{column}` and
+  /// `{row}`. Catalog key
+  /// `dataGrid.detailsLabel`.
+  final String dataGridDetailsLabel;
+
+  /// The details shortcut in a data grid cell's hint, with `{shortcut}`. Catalog key
+  /// `dataGrid.detailsShortcut`.
+  final String dataGridDetailsShortcut;
+
+  /// Announced when an error appears on a data grid commit, with
+  /// `{column}`, `{row}` and `{message}`. Catalog key
+  /// `dataGrid.announcement`.
+  final String dataGridAnnouncement;
+
   /// Read while a tree item's children load, with `{name}`. Catalog key
   /// `tree.loading`.
   final String treeLoading;
@@ -870,6 +945,20 @@ class InvisibleMessages {
     String? navigationBarPosition,
     String? navigationBarCurrent,
     String? navigationBarAnnouncement,
+    String? dataGridTotal,
+    String? dataGridEmpty,
+    String? dataGridEdit,
+    String? dataGridDetails,
+    String? dataGridCell,
+    String? dataGridRowHeader,
+    String? dataGridColumnTotal,
+    String? dataGridRowTotal,
+    String? dataGridGrandTotal,
+    String? dataGridSeparator,
+    String? dataGridError,
+    String? dataGridDetailsLabel,
+    String? dataGridDetailsShortcut,
+    String? dataGridAnnouncement,
     String? treeLoading,
     String? treeLoadError,
     String? treeExpand,
@@ -1040,6 +1129,21 @@ class InvisibleMessages {
       navigationBarCurrent: navigationBarCurrent ?? this.navigationBarCurrent,
       navigationBarAnnouncement:
           navigationBarAnnouncement ?? this.navigationBarAnnouncement,
+      dataGridTotal: dataGridTotal ?? this.dataGridTotal,
+      dataGridEmpty: dataGridEmpty ?? this.dataGridEmpty,
+      dataGridEdit: dataGridEdit ?? this.dataGridEdit,
+      dataGridDetails: dataGridDetails ?? this.dataGridDetails,
+      dataGridCell: dataGridCell ?? this.dataGridCell,
+      dataGridRowHeader: dataGridRowHeader ?? this.dataGridRowHeader,
+      dataGridColumnTotal: dataGridColumnTotal ?? this.dataGridColumnTotal,
+      dataGridRowTotal: dataGridRowTotal ?? this.dataGridRowTotal,
+      dataGridGrandTotal: dataGridGrandTotal ?? this.dataGridGrandTotal,
+      dataGridSeparator: dataGridSeparator ?? this.dataGridSeparator,
+      dataGridError: dataGridError ?? this.dataGridError,
+      dataGridDetailsLabel: dataGridDetailsLabel ?? this.dataGridDetailsLabel,
+      dataGridDetailsShortcut:
+          dataGridDetailsShortcut ?? this.dataGridDetailsShortcut,
+      dataGridAnnouncement: dataGridAnnouncement ?? this.dataGridAnnouncement,
       treeLoading: treeLoading ?? this.treeLoading,
       treeLoadError: treeLoadError ?? this.treeLoadError,
       treeExpand: treeExpand ?? this.treeExpand,
@@ -1192,6 +1296,20 @@ class InvisibleMessages {
       other.navigationBarPosition == navigationBarPosition &&
       other.navigationBarCurrent == navigationBarCurrent &&
       other.navigationBarAnnouncement == navigationBarAnnouncement &&
+      other.dataGridTotal == dataGridTotal &&
+      other.dataGridEmpty == dataGridEmpty &&
+      other.dataGridEdit == dataGridEdit &&
+      other.dataGridDetails == dataGridDetails &&
+      other.dataGridCell == dataGridCell &&
+      other.dataGridRowHeader == dataGridRowHeader &&
+      other.dataGridColumnTotal == dataGridColumnTotal &&
+      other.dataGridRowTotal == dataGridRowTotal &&
+      other.dataGridGrandTotal == dataGridGrandTotal &&
+      other.dataGridSeparator == dataGridSeparator &&
+      other.dataGridError == dataGridError &&
+      other.dataGridDetailsLabel == dataGridDetailsLabel &&
+      other.dataGridDetailsShortcut == dataGridDetailsShortcut &&
+      other.dataGridAnnouncement == dataGridAnnouncement &&
       other.treeLoading == treeLoading &&
       other.treeLoadError == treeLoadError &&
       other.treeExpand == treeExpand &&
@@ -1339,6 +1457,20 @@ class InvisibleMessages {
     navigationBarPosition,
     navigationBarCurrent,
     navigationBarAnnouncement,
+    dataGridTotal,
+    dataGridEmpty,
+    dataGridEdit,
+    dataGridDetails,
+    dataGridCell,
+    dataGridRowHeader,
+    dataGridColumnTotal,
+    dataGridRowTotal,
+    dataGridGrandTotal,
+    dataGridSeparator,
+    dataGridError,
+    dataGridDetailsLabel,
+    dataGridDetailsShortcut,
+    dataGridAnnouncement,
     treeLoading,
     treeLoadError,
     treeExpand,

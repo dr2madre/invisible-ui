@@ -3104,6 +3104,44 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-grid-cell-secondary-surface",
+      "id": "grid-cell-secondary-surface",
+      "tier": "other",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 313,
+        "dtcg": "role.light.grid-cell-secondary-surface"
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-50)",
+        "darkMedia": "var(--ds-neutral-800)",
+        "darkAttr": "var(--ds-neutral-800)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-50"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f4f2ef",
+        "dark": "#332f2a"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "A data grid cell with the secondary emphasis: allowed, outside the usual schedule. The text keeps 4.5:1 on it; the cell's label carries the meaning.",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-heading-weight",
       "id": "heading-weight",
       "tier": "typography",
@@ -35865,13 +35903,13 @@
     }
   ],
   "counts": {
-    "total": 116,
+    "total": 117,
     "byTier": {
       "primitive": 24,
       "brand": 6,
       "semantic": 54,
       "sizing": 4,
-      "other": 2,
+      "other": 3,
       "elevation": 1,
       "feedback": 5,
       "focus": 4,
@@ -35879,14 +35917,14 @@
       "radius": 3,
       "state": 2
     },
-    "withDarkOverride": 56,
-    "designOwned": 105,
-    "colors": 93
+    "withDarkOverride": 57,
+    "designOwned": 106,
+    "colors": 94
   },
   "adapters": {
-    "svelte": 116,
-    "vue": 116,
-    "react": 116,
-    "elements": 116
+    "svelte": 117,
+    "vue": 117,
+    "react": 117,
+    "elements": 117
   }
 }

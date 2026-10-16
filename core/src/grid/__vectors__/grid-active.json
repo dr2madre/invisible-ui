@@ -1,0 +1,75 @@
+{
+  "description": "The data grid's active cell after the application changes its rows or columns, language-neutral: resolveActive(previous, before, after) from core/src/grid/active.ts. An id that still exists is kept; an id that is gone gives way to the id now at its old position, clamped to the new size. expect is null when no row or no column is left. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "cases": [
+    {
+      "name": "unchanged ids keep the active cell",
+      "previous": { "rowId": "p2", "columnId": "tue" },
+      "before": { "rowIds": ["p1", "p2", "p3"], "columnIds": ["mon", "tue", "wed"] },
+      "after": { "rowIds": ["p1", "p2", "p3"], "columnIds": ["mon", "tue", "wed"] },
+      "expect": { "rowId": "p2", "columnId": "tue" }
+    },
+    {
+      "name": "reordered rows keep the active pair",
+      "previous": { "rowId": "p2", "columnId": "tue" },
+      "before": { "rowIds": ["p1", "p2", "p3"], "columnIds": ["mon", "tue", "wed"] },
+      "after": { "rowIds": ["p3", "p1", "p2"], "columnIds": ["mon", "tue", "wed"] },
+      "expect": { "rowId": "p2", "columnId": "tue" }
+    },
+    {
+      "name": "an added row keeps the active pair",
+      "previous": { "rowId": "p2", "columnId": "tue" },
+      "before": { "rowIds": ["p1", "p2"], "columnIds": ["mon", "tue"] },
+      "after": { "rowIds": ["p0", "p1", "p2"], "columnIds": ["mon", "tue"] },
+      "expect": { "rowId": "p2", "columnId": "tue" }
+    },
+    {
+      "name": "a removed row gives way to the row at its position",
+      "previous": { "rowId": "p2", "columnId": "tue" },
+      "before": { "rowIds": ["p1", "p2", "p3"], "columnIds": ["mon", "tue", "wed"] },
+      "after": { "rowIds": ["p1", "p3"], "columnIds": ["mon", "tue", "wed"] },
+      "expect": { "rowId": "p3", "columnId": "tue" }
+    },
+    {
+      "name": "a removed last row gives way to the new last row",
+      "previous": { "rowId": "p3", "columnId": "tue" },
+      "before": { "rowIds": ["p1", "p2", "p3"], "columnIds": ["mon", "tue", "wed"] },
+      "after": { "rowIds": ["p1", "p2"], "columnIds": ["mon", "tue", "wed"] },
+      "expect": { "rowId": "p2", "columnId": "tue" }
+    },
+    {
+      "name": "a removed column gives way to the column at its position",
+      "previous": { "rowId": "p1", "columnId": "wed" },
+      "before": { "rowIds": ["p1", "p2"], "columnIds": ["mon", "tue", "wed", "thu"] },
+      "after": { "rowIds": ["p1", "p2"], "columnIds": ["mon", "tue", "thu"] },
+      "expect": { "rowId": "p1", "columnId": "thu" }
+    },
+    {
+      "name": "a new week replaces every column",
+      "previous": { "rowId": "p1", "columnId": "2026-10-07" },
+      "before": { "rowIds": ["p1"], "columnIds": ["2026-10-05", "2026-10-06", "2026-10-07"] },
+      "after": { "rowIds": ["p1"], "columnIds": ["2026-10-12", "2026-10-13", "2026-10-14"] },
+      "expect": { "rowId": "p1", "columnId": "2026-10-14" }
+    },
+    {
+      "name": "both ids gone",
+      "previous": { "rowId": "p3", "columnId": "wed" },
+      "before": { "rowIds": ["p1", "p2", "p3"], "columnIds": ["mon", "tue", "wed"] },
+      "after": { "rowIds": ["p9"], "columnIds": ["sat"] },
+      "expect": { "rowId": "p9", "columnId": "sat" }
+    },
+    {
+      "name": "an id unknown before falls to the first position",
+      "previous": { "rowId": "px", "columnId": "tue" },
+      "before": { "rowIds": ["p1", "p2"], "columnIds": ["mon", "tue"] },
+      "after": { "rowIds": ["p1", "p2"], "columnIds": ["mon", "tue"] },
+      "expect": { "rowId": "p1", "columnId": "tue" }
+    },
+    {
+      "name": "no rows left",
+      "previous": { "rowId": "p1", "columnId": "mon" },
+      "before": { "rowIds": ["p1"], "columnIds": ["mon"] },
+      "after": { "rowIds": [], "columnIds": ["mon"] },
+      "expect": null
+    }
+  ]
+}

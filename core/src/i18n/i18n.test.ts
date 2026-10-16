@@ -242,6 +242,41 @@ describe("i18n — translate", () => {
     ).toBe("Profile: Needs attention");
   });
 
+  it("carries the data grid's headers, value text, labels and announcement", () => {
+    const t = (key: Parameters<typeof translate>[3], vars?: Record<string, string>) =>
+      translate(catalog, {}, "en", key, vars);
+    expect(t("dataGrid.total")).toBe("Total");
+    expect(t("dataGrid.empty")).toBe("empty");
+    expect(t("dataGrid.edit")).toBe("Edit");
+    expect(t("dataGrid.details")).toBe("Details");
+    expect(
+      t("dataGrid.cell", { column: "Monday 6 October", row: "PX-12 Project X", value: "5" }),
+    ).toBe("Monday 6 October, PX-12 Project X, 5");
+    expect(t("dataGrid.rowHeader", { row: "PX-12 Project X", value: "12" })).toBe(
+      "PX-12 Project X, Total, 12",
+    );
+    expect(t("dataGrid.columnTotal", { column: "Monday 6 October", value: "8" })).toBe(
+      "Monday 6 October, Total, 8",
+    );
+    expect(t("dataGrid.rowTotal", { row: "PX-12 Project X", value: "12" })).toBe(
+      "Total, PX-12 Project X, 12",
+    );
+    expect(t("dataGrid.grandTotal", { value: "40" })).toBe("Total, 40");
+    expect(t("dataGrid.separator")).toBe(", ");
+    expect(t("dataGrid.error", { message: "Enter a number." })).toBe("Error: Enter a number.");
+    expect(t("dataGrid.detailsLabel", { column: "Monday 6 October", row: "PX-12 Project X" })).toBe(
+      "Details, Monday 6 October, PX-12 Project X",
+    );
+    expect(t("dataGrid.detailsShortcut", { shortcut: "Alt+Enter" })).toBe("Details: Alt+Enter");
+    expect(
+      t("dataGrid.announcement", {
+        column: "Monday 6 October",
+        row: "Total",
+        message: "More than 24 hours on this day",
+      }),
+    ).toBe("Monday 6 October, Total: More than 24 hours on this day");
+  });
+
   it("carries the sidebar rail's tooltip for an unavailable destination", () => {
     expect(
       translate(catalog, {}, "en", "sidebar.unavailableTooltip", {

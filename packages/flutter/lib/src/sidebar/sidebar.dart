@@ -646,6 +646,8 @@ class _ItemButton<T> extends StatelessWidget {
               'reason': reason,
             }),
       placement: TooltipPlacement.end,
+      // The item reads the reason as its hint; the tooltip only shows it.
+      excludeFromSemantics: reason != null,
       child: button,
     );
   }
