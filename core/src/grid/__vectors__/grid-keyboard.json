@@ -1,0 +1,1400 @@
+{
+  "description": "The data grid's key table, language-neutral: gridKeyCommand(mode, active, key, shape, options), nextEditable and initialActive from core/src/grid/keyboard.ts. The shape below has three body rows and the totals row; its columns are the row header, three data columns and the row total, in logical order. kinds and details give each cell's kind and whether it offers details. Keys are KeyboardEvent.key names; a modifier left out is false. mode defaults to navigate, direction to ltr, pageRows to 2, locale to en, negative (the editor's minimum is below 0) to false, and shortcut to the file's detailsShortcut (null: none). The accepted characters come from acceptsCharacter with the locale's symbols in core/src/number-field/__vectors__/number-field.json. An arrow at an edge moves to the same cell, so the key is still consumed. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "kinds": [
+    ["readonly", "editable", "summary", "editable", "readonly"],
+    ["readonly", "editable", "readonly", "editable", "readonly"],
+    ["readonly", "summary", "summary", "summary", "readonly"],
+    ["readonly", "readonly", "readonly", "readonly", "readonly"]
+  ],
+  "details": [
+    [false, true, true, true, false],
+    [false, true, false, false, false],
+    [false, true, true, true, false],
+    [false, false, false, false, false]
+  ],
+  "detailsShortcut": {
+    "key": "Enter",
+    "alt": true
+  },
+  "keys": [
+    {
+      "name": "Right moves to the next cell",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowRight"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 2
+        }
+      }
+    },
+    {
+      "name": "Left moves to the previous cell",
+      "active": {
+        "row": 0,
+        "column": 2
+      },
+      "key": {
+        "key": "ArrowLeft"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "right to left: Left moves to the next cell",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowLeft"
+      },
+      "direction": "rtl",
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 2
+        }
+      }
+    },
+    {
+      "name": "right to left: Right moves to the previous cell",
+      "active": {
+        "row": 0,
+        "column": 2
+      },
+      "key": {
+        "key": "ArrowRight"
+      },
+      "direction": "rtl",
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "Right at the row end stays",
+      "active": {
+        "row": 0,
+        "column": 4
+      },
+      "key": {
+        "key": "ArrowRight"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 4
+        }
+      }
+    },
+    {
+      "name": "Left at the row start stays",
+      "active": {
+        "row": 0,
+        "column": 0
+      },
+      "key": {
+        "key": "ArrowLeft"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 0
+        }
+      }
+    },
+    {
+      "name": "right to left: Left at the row end stays",
+      "active": {
+        "row": 0,
+        "column": 4
+      },
+      "key": {
+        "key": "ArrowLeft"
+      },
+      "direction": "rtl",
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 4
+        }
+      }
+    },
+    {
+      "name": "Down moves to the same column in the next row",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowDown"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 1,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "Down reaches the totals row",
+      "active": {
+        "row": 2,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowDown"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 3,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "Down at the last row stays",
+      "active": {
+        "row": 3,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowDown"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 3,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "Up at the first row stays",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowUp"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "Up moves to the previous row",
+      "active": {
+        "row": 2,
+        "column": 3
+      },
+      "key": {
+        "key": "ArrowUp"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 1,
+          "column": 3
+        }
+      }
+    },
+    {
+      "name": "Home moves to the row header",
+      "active": {
+        "row": 1,
+        "column": 3
+      },
+      "key": {
+        "key": "Home"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 1,
+          "column": 0
+        }
+      }
+    },
+    {
+      "name": "End moves to the row total",
+      "active": {
+        "row": 1,
+        "column": 1
+      },
+      "key": {
+        "key": "End"
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 1,
+          "column": 4
+        }
+      }
+    },
+    {
+      "name": "right to left: Home follows logical order",
+      "active": {
+        "row": 1,
+        "column": 3
+      },
+      "key": {
+        "key": "Home"
+      },
+      "direction": "rtl",
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 1,
+          "column": 0
+        }
+      }
+    },
+    {
+      "name": "Control+Home moves to the first cell of the first body row",
+      "active": {
+        "row": 2,
+        "column": 3
+      },
+      "key": {
+        "key": "Home",
+        "ctrl": true
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 0
+        }
+      }
+    },
+    {
+      "name": "Control+End moves to the grand total",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "End",
+        "ctrl": true
+      },
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 3,
+          "column": 4
+        }
+      }
+    },
+    {
+      "name": "PageDown moves by the visible body rows",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "PageDown"
+      },
+      "pageRows": 2,
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 2,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "PageDown stops at the last row",
+      "active": {
+        "row": 2,
+        "column": 1
+      },
+      "key": {
+        "key": "PageDown"
+      },
+      "pageRows": 2,
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 3,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "PageUp moves by the visible body rows",
+      "active": {
+        "row": 3,
+        "column": 2
+      },
+      "key": {
+        "key": "PageUp"
+      },
+      "pageRows": 2,
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 1,
+          "column": 2
+        }
+      }
+    },
+    {
+      "name": "PageUp stops at the first row",
+      "active": {
+        "row": 1,
+        "column": 2
+      },
+      "key": {
+        "key": "PageUp"
+      },
+      "pageRows": 2,
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 0,
+          "column": 2
+        }
+      }
+    },
+    {
+      "name": "PageDown moves at least one row",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "PageDown"
+      },
+      "pageRows": 0,
+      "expect": {
+        "type": "move",
+        "to": {
+          "row": 1,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "Enter on an editable cell starts editing with the value selected",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Enter"
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "select"
+      }
+    },
+    {
+      "name": "Enter on a summary cell activates it",
+      "active": {
+        "row": 0,
+        "column": 2
+      },
+      "key": {
+        "key": "Enter"
+      },
+      "expect": {
+        "type": "activate"
+      }
+    },
+    {
+      "name": "Enter on a read-only cell does nothing",
+      "active": {
+        "row": 1,
+        "column": 2
+      },
+      "key": {
+        "key": "Enter"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Enter on the row header does nothing",
+      "active": {
+        "row": 0,
+        "column": 0
+      },
+      "key": {
+        "key": "Enter"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "F2 on an editable cell starts editing with the caret at the end",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "F2"
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "end"
+      }
+    },
+    {
+      "name": "F2 on a summary cell does nothing",
+      "active": {
+        "row": 0,
+        "column": 2
+      },
+      "key": {
+        "key": "F2"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "a digit starts editing with that digit",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "5"
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "5"
+      }
+    },
+    {
+      "name": "the decimal separator starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "."
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "."
+      }
+    },
+    {
+      "name": "Italian: the comma starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": ","
+      },
+      "locale": "it",
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": ","
+      }
+    },
+    {
+      "name": "English: the comma does not start editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": ","
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Arabic (Egypt): an Arabic-Indic digit starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "٥"
+      },
+      "locale": "ar-EG",
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "٥"
+      }
+    },
+    {
+      "name": "Arabic (Egypt): the Arabic decimal separator starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "٫"
+      },
+      "locale": "ar-EG",
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "٫"
+      }
+    },
+    {
+      "name": "English: an Arabic-Indic digit starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "٣"
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "٣"
+      }
+    },
+    {
+      "name": "English: a Persian digit starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "۷"
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "۷"
+      }
+    },
+    {
+      "name": "Persian: a Persian digit starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "۲"
+      },
+      "locale": "fa",
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "۲"
+      }
+    },
+    {
+      "name": "the minus sign does not start editing when the minimum is not below 0",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "-"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "the minus sign starts editing when the minimum is below 0",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "-"
+      },
+      "negative": true,
+      "expect": {
+        "type": "edit",
+        "seed": "replace",
+        "text": "-"
+      }
+    },
+    {
+      "name": "a letter does not start editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "a"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Space does not start editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": " "
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "a digit on a summary cell does nothing",
+      "active": {
+        "row": 0,
+        "column": 2
+      },
+      "key": {
+        "key": "5"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "a digit on a read-only cell does nothing",
+      "active": {
+        "row": 1,
+        "column": 2
+      },
+      "key": {
+        "key": "5"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Control with a digit never starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "5",
+        "ctrl": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Alt with a digit never starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "5",
+        "alt": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Meta with a digit never starts editing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "5",
+        "meta": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "a key during composition is left to the editor",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "5",
+        "composing": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Backspace starts editing with an empty draft",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Backspace"
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "clear"
+      }
+    },
+    {
+      "name": "Delete starts editing with an empty draft",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Delete"
+      },
+      "expect": {
+        "type": "edit",
+        "seed": "clear"
+      }
+    },
+    {
+      "name": "Backspace on a summary cell does nothing",
+      "active": {
+        "row": 0,
+        "column": 2
+      },
+      "key": {
+        "key": "Backspace"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Escape is not handled in navigation mode",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Escape"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Tab is not handled in navigation mode",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Tab"
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Shift+Tab is not handled in navigation mode",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Tab",
+        "shift": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Shift with an arrow is not handled",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowRight",
+        "shift": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Control with an arrow is not handled",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowRight",
+        "ctrl": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "the details shortcut on an editable cell",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Enter",
+        "alt": true
+      },
+      "expect": {
+        "type": "details",
+        "commitFirst": false
+      }
+    },
+    {
+      "name": "the details shortcut on a summary cell",
+      "active": {
+        "row": 0,
+        "column": 2
+      },
+      "key": {
+        "key": "Enter",
+        "alt": true
+      },
+      "expect": {
+        "type": "details",
+        "commitFirst": false
+      }
+    },
+    {
+      "name": "the details shortcut on a read-only cell does nothing",
+      "active": {
+        "row": 1,
+        "column": 2
+      },
+      "key": {
+        "key": "Enter",
+        "alt": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "the details shortcut on a cell without details does nothing",
+      "active": {
+        "row": 1,
+        "column": 3
+      },
+      "key": {
+        "key": "Enter",
+        "alt": true
+      },
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "without a details shortcut, Alt+Enter does nothing",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Enter",
+        "alt": true
+      },
+      "shortcut": null,
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "the details shortcut matches a letter in either case",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "D",
+        "ctrl": true,
+        "shift": true
+      },
+      "shortcut": {
+        "key": "d",
+        "ctrl": true,
+        "shift": true
+      },
+      "expect": {
+        "type": "details",
+        "commitFirst": false
+      }
+    },
+    {
+      "name": "Escape reverts the draft",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Escape"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "cancel"
+      }
+    },
+    {
+      "name": "Enter commits and stays on the cell",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Enter"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "commit",
+        "then": "stay"
+      }
+    },
+    {
+      "name": "F2 commits and stays on the cell",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "F2"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "commit",
+        "then": "stay"
+      }
+    },
+    {
+      "name": "Tab commits and edits the next editable cell, skipping a summary cell",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Tab"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "commit",
+        "then": "next",
+        "to": {
+          "row": 0,
+          "column": 3
+        }
+      }
+    },
+    {
+      "name": "Tab moves on to the next row's first editable cell",
+      "active": {
+        "row": 0,
+        "column": 3
+      },
+      "key": {
+        "key": "Tab"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "commit",
+        "then": "next",
+        "to": {
+          "row": 1,
+          "column": 1
+        }
+      }
+    },
+    {
+      "name": "Shift+Tab commits and edits the previous editable cell",
+      "active": {
+        "row": 1,
+        "column": 1
+      },
+      "key": {
+        "key": "Tab",
+        "shift": true
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "commit",
+        "then": "previous",
+        "to": {
+          "row": 0,
+          "column": 3
+        }
+      }
+    },
+    {
+      "name": "Tab after the last editable cell leaves the grid",
+      "active": {
+        "row": 1,
+        "column": 3
+      },
+      "key": {
+        "key": "Tab"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "commit",
+        "then": "leave",
+        "forward": true
+      }
+    },
+    {
+      "name": "Shift+Tab before the first editable cell leaves the grid",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Tab",
+        "shift": true
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "commit",
+        "then": "leave",
+        "forward": false
+      }
+    },
+    {
+      "name": "ArrowUp steps the draft up",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowUp"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "step",
+        "direction": 1
+      }
+    },
+    {
+      "name": "ArrowDown steps the draft down",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowDown"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "step",
+        "direction": -1
+      }
+    },
+    {
+      "name": "ArrowLeft moves the caret",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowLeft"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "right to left: ArrowRight moves the caret",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowRight"
+      },
+      "mode": "edit",
+      "direction": "rtl",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Home moves the caret",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Home"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "End moves the caret",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "End"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Backspace edits the draft",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Backspace"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "a digit edits the draft",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "5"
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "the details shortcut commits first",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Enter",
+        "alt": true
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "details",
+        "commitFirst": true
+      }
+    },
+    {
+      "name": "Enter during composition is left to the editor",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Enter",
+        "composing": true
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Escape during composition is left to the editor",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Escape",
+        "composing": true
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Control with ArrowUp is not a step",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "ArrowUp",
+        "ctrl": true
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    },
+    {
+      "name": "Shift+Enter is not handled",
+      "active": {
+        "row": 0,
+        "column": 1
+      },
+      "key": {
+        "key": "Enter",
+        "shift": true
+      },
+      "mode": "edit",
+      "expect": {
+        "type": "none"
+      }
+    }
+  ],
+  "nextEditable": [
+    {
+      "name": "forward skips summary and read-only cells",
+      "from": {
+        "row": 0,
+        "column": 1
+      },
+      "step": 1,
+      "expect": {
+        "row": 0,
+        "column": 3
+      }
+    },
+    {
+      "name": "forward wraps to the next row",
+      "from": {
+        "row": 0,
+        "column": 3
+      },
+      "step": 1,
+      "expect": {
+        "row": 1,
+        "column": 1
+      }
+    },
+    {
+      "name": "forward from the last editable cell finds none",
+      "from": {
+        "row": 1,
+        "column": 3
+      },
+      "step": 1,
+      "expect": null
+    },
+    {
+      "name": "backward wraps to the previous row",
+      "from": {
+        "row": 1,
+        "column": 1
+      },
+      "step": -1,
+      "expect": {
+        "row": 0,
+        "column": 3
+      }
+    },
+    {
+      "name": "backward from the first editable cell finds none",
+      "from": {
+        "row": 0,
+        "column": 1
+      },
+      "step": -1,
+      "expect": null
+    },
+    {
+      "name": "forward from a cell after every editable one",
+      "from": {
+        "row": 2,
+        "column": 2
+      },
+      "step": 1,
+      "expect": null
+    },
+    {
+      "name": "backward from the grand total",
+      "from": {
+        "row": 3,
+        "column": 4
+      },
+      "step": -1,
+      "expect": {
+        "row": 1,
+        "column": 3
+      }
+    }
+  ],
+  "initial": [
+    {
+      "name": "the first editable body cell",
+      "kinds": [
+        ["readonly", "summary", "editable", "readonly"],
+        ["readonly", "editable", "editable", "readonly"],
+        ["readonly", "readonly", "readonly", "readonly"]
+      ],
+      "fallback": {
+        "row": 0,
+        "column": 1
+      },
+      "expect": {
+        "row": 0,
+        "column": 2
+      }
+    },
+    {
+      "name": "the first body cell when none is editable",
+      "kinds": [
+        ["readonly", "summary", "readonly", "readonly"],
+        ["readonly", "readonly", "summary", "readonly"],
+        ["readonly", "readonly", "readonly", "readonly"]
+      ],
+      "fallback": {
+        "row": 0,
+        "column": 1
+      },
+      "expect": {
+        "row": 0,
+        "column": 1
+      }
+    }
+  ]
+}
