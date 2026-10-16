@@ -156,6 +156,24 @@ against the surface. The bar's other colours are component tokens that fall
 back to existing roles; width, radius, shadow and position are the
 application's and have no token.
 
+## Data grid secondary emphasis
+
+`grid-cell-secondary-surface` is the surface of a data grid cell with the
+secondary emphasis: a cell that is allowed but outside the usual schedule,
+such as a weekend in a timesheet (`docs/editable-grid-spec.md`). It is a
+role of each theme, `--ds-grid-cell-secondary-surface` in the stylesheet and
+`InvisibleColors.gridCellSecondarySurface` in Flutter. The surface adds to
+the cell's visible secondary label and never replaces it, so it needs no
+contrast against the plain cell; the text drawn on it needs 4.5:1.
+
+| Theme | Value | `color-text` | `color-text-secondary` | `color-danger-text` |
+| --- | --- | --- | --- | --- |
+| Light | `neutral-50`, `#f4f2ef` | 13.78:1 | 7.59:1 | 7.81:1 |
+| Dark | `neutral-800`, `#332f2a` | 11.89:1 | 7.43:1 | 5.78:1 |
+
+An application that styles its own variants apart, such as holidays and
+weekends, maps them onto this role in its theme.
+
 ## Naming grammar
 
 ```
