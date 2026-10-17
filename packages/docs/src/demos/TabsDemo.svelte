@@ -66,6 +66,9 @@
 <style>
   .demo {
     display: grid;
+    /* One column that never grows past the page, so a wide tab row scrolls
+       inside its own list instead of widening the page at 320px. */
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
   }
 </style>
