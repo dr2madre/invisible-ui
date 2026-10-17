@@ -105,7 +105,7 @@ export 'src/popover/popover.dart'
     show Popover, PopoverController, PopoverPlacement;
 export 'src/progress/progress.dart' show Progress, ProgressShape;
 export 'src/radio/radio.dart' show Radio;
-export 'src/radio_group/radio_group.dart' show RadioButtonGroup;
+export 'src/radio_group/radio_group.dart' show RadioGroup;
 export 'src/rating_group/rating_group.dart' show RatingGroup;
 export 'src/scroll_area/scroll_area.dart'
     show ScrollArea, ScrollAreaOrientation;

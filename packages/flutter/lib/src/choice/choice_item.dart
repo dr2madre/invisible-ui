@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-/// One option of a choice control: [CheckboxGroup], [RadioButtonGroup],
+/// One option of a choice control: [CheckboxGroup], [RadioGroup],
 /// [SegmentedControl], [Select] or [Combobox].
 ///
 /// Values identify the options, so each value appears once in a list.

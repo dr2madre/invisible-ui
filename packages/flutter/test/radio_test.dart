@@ -3,7 +3,7 @@ import 'dart:ui' show SemanticsRole;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invisible_ui/invisible_ui.dart';
+import 'package:invisible_ui/invisible_ui.dart' hide RadioGroup;
 
 import 'harness.dart';
 
