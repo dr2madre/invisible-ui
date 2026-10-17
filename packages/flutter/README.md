@@ -575,7 +575,7 @@ iu.UploadDropArea(
   commit with `previousValue`, after the Total column and the totals row are
   updated; a draft that does not parse never commits, a number out of range
   commits with its error. Cells allowed but outside the usual schedule take
-  `secondary` with a visible `secondaryLabel`. `onCellActivated` serves
+  a visible `secondaryLabel`, which sets the secondary emphasis. `onCellActivated` serves
   summary cells and `onCellDetails` a details button, a custom semantics
   action and an optional `detailsShortcut`. Each cell reads one label built
   from the catalog (`gridCellLabel`, which a card view can use too); the
@@ -588,6 +588,8 @@ iu.UploadDropArea(
 - **Sign-in.** `iu.LoginForm` puts the email and password fields in an
   `AutofillGroup` with the username, email and password hints, so a
   password manager fills and saves them; labels come from the catalog.
+  The password field keeps what was typed until the form resets: call
+  `LoginFormState.reset()` after a successful sign-in.
 - **Uploads.** `iu.UploadDropArea` adds no dependency: `onBrowse` opens the
   app's picker and returns `iu.UploadFile`s; drops reach it through an
   `iu.UploadDropController` the app wires to its drop plugin, and only then

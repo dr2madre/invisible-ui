@@ -70,7 +70,7 @@ export 'src/loading/loading.dart' show Loading, LoadingVariant;
 export 'src/loading/loading_generation_area.dart'
     show LoadingAreaLabelPosition, LoadingGenerationArea;
 export 'src/login_form/login_form.dart'
-    show LoginCredentials, LoginForm, LoginProvider;
+    show LoginCredentials, LoginForm, LoginFormState, LoginProvider;
 export 'src/menu/menu_entry.dart';
 export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;

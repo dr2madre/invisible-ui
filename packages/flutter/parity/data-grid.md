@@ -25,9 +25,9 @@ Orca say on these cells is a manual check, with no dated session yet.
 | Flutter | Spec (web names) | ADR 0011 meaning |
 | --- | --- | --- |
 | `DataGrid` | `DataGrid` | controlled only: the data always comes from the app, so no `.uncontrolled` constructor |
-| `columns: List<DataGridColumn>` | `columns` | `DataGridColumn(id:, label:, header:, secondary:, secondaryLabel:, editor:)`; `header` is the visible content, `label` the read name |
+| `columns: List<DataGridColumn>` | `columns` | `DataGridColumn(id:, label:, header:, secondaryLabel:, editor:)`; a non-null `secondaryLabel` is the web's `secondary` with its label, so the emphasis cannot come without its words; `header` is the visible content, `label` the read name |
 | `rows: List<DataGridRow>` | `rows` | `DataGridRow(id:, code:, name:)`; `label` joins code and name |
-| `cell: (rowId, columnId) => DataGridCell` | `cell(rowId, columnId)` | `DataGridCell(kind:, value:, badge:, secondary:, secondaryLabel:, error:)`; `value` is a `double?` |
+| `cell: (rowId, columnId) => DataGridCell` | `cell(rowId, columnId)` | `DataGridCell(kind:, value:, badge:, secondaryLabel:, error:)`; `secondaryLabel` as on the column; `value` is a `double?` |
 | `DataGridCellKind.editable / summary / readOnly` | `"editable" / "summary" / "readonly"` | Dart casing |
 | `editor: DataGridEditor(min:, max:, step:, locale:, symbols:)` | `editor` | the Number Field settings; a column's `editor` wins |
 | `formatValue: (double) => String` | `formatValue(value)` | visible text; null shows nothing |

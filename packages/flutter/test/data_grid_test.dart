@@ -18,7 +18,6 @@ const List<DataGridColumn> _days = [
     id: 'sat',
     label: 'Saturday 11 October',
     header: Text('Sat 11'),
-    secondary: true,
     secondaryLabel: 'Non-working day',
   ),
 ];
@@ -962,7 +961,6 @@ void main() {
               cell: (_, _) => const DataGridCell(
                 kind: DataGridCellKind.editable,
                 value: 2,
-                secondary: true,
                 secondaryLabel: 'Holiday',
               ),
             ),

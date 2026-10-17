@@ -67,7 +67,10 @@ class NavigationDestination<T> implements NavigationTarget<T> {
     this.uri,
     this.badge,
     this.unavailableReason,
-  });
+  }) : assert(
+         unavailableReason != '',
+         'An unavailable destination needs words for its unavailableReason.',
+       );
 
   /// Identifies the destination; the bar's `value` names the current one.
   @override
