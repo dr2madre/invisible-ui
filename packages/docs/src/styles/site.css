@@ -210,8 +210,8 @@
   text-align: start;
 }
 
-/* Hero actions: a left-aligned pair — Foundations first, the primary CTA
-   (Components) to its right. */
+/* Hero actions, left-aligned: Why Invisible UI, Foundations, then the primary
+   call to action (Components) last. */
 [data-has-hero] .hero .actions > .primary {
   order: 2;
 }
