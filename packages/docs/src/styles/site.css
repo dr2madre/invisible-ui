@@ -31,8 +31,8 @@
   --sl-color-gray-6: var(--ds-neutral-800, #332f2a);
   /* Page: the darkest grey of the palette, on every page. */
   --sl-color-black: var(--ds-neutral-950, #1c1915);
-  /* Sidebar: one step lighter than the page. */
-  --sl-color-bg-sidebar: var(--ds-neutral-900, #282420);
+  /* Sidebar: the same as the page. */
+  --sl-color-bg-sidebar: var(--ds-neutral-950, #1c1915);
   /* Header: the darkest grey of the palette. */
   --sl-color-bg-nav: var(--ds-neutral-950, #1c1915);
 }
