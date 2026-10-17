@@ -46,7 +46,11 @@ test("CI has one job, on one runner, with steps and nothing else", () => {
 
 test("CI's steps are checkout, pnpm, Node, install, gate; nothing else", () => {
   assert.deepEqual(stepKeys, ["uses", "name", "name", "name", "name"]);
-  assert.deepEqual(uses, ["actions/checkout@v4", "pnpm/action-setup@v4", "actions/setup-node@v4"]);
+  assert.deepEqual(uses, [
+    "actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0",
+    "pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0",
+    "actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0",
+  ]);
   assert.deepEqual(runs, ["pnpm install --frozen-lockfile", "pnpm gate"]);
   assert.deepEqual(stepInnerKeys, ["with", "uses", "uses", "with", "run", "run", "env"]);
 });
