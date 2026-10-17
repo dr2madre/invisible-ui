@@ -26,6 +26,7 @@ A WAI-ARIA tabs widget: a tablist linked to panels, with arrow navigation.
 - WAI-ARIA tabs pattern: roving tabindex, arrow/Home/End navigation, automatic or manual activation.
 - A disabled tab is skipped by the arrow keys and Home/End and is not a tab stop (`tabindex="-1"`, `aria-disabled`).
 - Each panel is correctly wired to its tab (`aria-labelledby` / `role="tabpanel"`), whether it holds text `content` or custom markup.
+- A tab list holds only tabs. A command such as "add" goes in the actions area, never in `items`: there it is an ordinary button, reached with Tab after the selected tab, and the arrow keys never land on it.
 
 ### Example
 
@@ -106,6 +107,96 @@ In React, `renderPanel` renders a panel from its item:
 
 ```tsx
 <Tabs label="Inbox" items={folders} renderPanel={(item) => <MyList folder={item.value} />} />
+```
+
+### Actions
+
+Commands that act on the tabs, such as "add", go in the actions area. It sits
+right after the tab list, on the same row, outside `role="tablist"`, and wraps
+below the tab list when the row is too narrow. Its controls are ordinary
+buttons: the tab list keeps its single tab stop, Tab moves from the selected
+tab to the actions, and the arrow keys never reach them. Give an icon-only
+button a name.
+
+The demo above adds a view and selects it; focus stays on the button, so
+several views can be added in a row.
+
+```svelte
+<script>
+  let views = $state.raw([{ value: "list", label: "List", content: "List view." }]);
+  let view = $state("list");
+
+  function addView() {
+    const number = views.length + 1;
+    const value = `view-${number}`;
+    views = [...views, { value, label: `View ${number}`, content: `View ${number}.` }];
+    view = value;
+  }
+</script>
+
+<Tabs label="View" bind:value={view} items={views}>
+  {#snippet actions()}
+    <Button iconOnly variant="ghost" ariaLabel="Add view" onpress={addView}>
+      <Icon><path d="M12 5v14 M5 12h14" /></Icon>
+    </Button>
+  {/snippet}
+</Tabs>
+```
+
+In React, pass the controls as the `actions` prop:
+
+```tsx
+<Tabs
+  label="View"
+  items={views}
+  value={view}
+  onValueChange={setView}
+  actions={
+    <Button iconOnly variant="ghost" ariaLabel="Add view" onPress={addView}>
+      <PlusIcon />
+    </Button>
+  }
+/>
+```
+
+In Vue, use the `actions` slot:
+
+```vue
+<Tabs v-model="view" label="View" :items="views">
+  <template #actions>
+    <Button icon-only variant="ghost" aria-label="Add view" @press="addView">
+      <PlusIcon />
+    </Button>
+  </template>
+</Tabs>
+```
+
+In Elements, mark the controls `slot="actions"`. The element reads them once,
+when it first renders the `items` shortcut. Composed tabs place such buttons
+beside the `<ds-tab-list>` themselves, as in the example below.
+
+```html
+<ds-tabs label="View">
+  <ds-button slot="actions" icon-only variant="ghost" aria-label="Add view">+</ds-button>
+</ds-tabs>
+```
+
+In Flutter, pass the widgets as `actions`:
+
+```dart
+iu.Tabs<String>(
+  label: 'View',
+  items: views,
+  value: view,
+  onChanged: (next) => setState(() => view = next),
+  actions: [
+    iu.Button.icon(
+      onPressed: addView,
+      semanticLabel: 'Add view',
+      icon: const Icon(LucideIcons.plus),
+    ),
+  ],
+)
 ```
 
 ### Composed tabs

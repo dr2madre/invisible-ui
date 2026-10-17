@@ -167,3 +167,72 @@ describe("<ds-tabs>", () => {
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });
+
+describe("<ds-tabs> actions", () => {
+  // The pattern of the docs demo: an "Add view" command beside the tab list.
+  const mountWithActions = () => {
+    document.body.innerHTML = `
+      <ds-tabs label="Views">
+        <ds-button slot="actions" icon-only aria-label="Add view">+</ds-button>
+      </ds-tabs>`;
+    const tabs = document.querySelector("ds-tabs") as DsTabs;
+    tabs.items = [
+      { value: "list", label: "List", content: "List view." },
+      { value: "grid", label: "Grid", content: "Grid view." },
+    ];
+    tabs.querySelector("ds-button")!.addEventListener("click", () => {
+      const number = tabs.items.length + 1;
+      const value = `view-${number}`;
+      tabs.items = [...tabs.items, { value, label: `View ${number}`, content: `View ${number}.` }];
+      tabs.value = value;
+    });
+    return tabs;
+  };
+
+  it("renders the action as a button outside the tab list, leaving the tabs alone", () => {
+    const tabs = mountWithActions();
+    const list = screen.getByRole("tablist", { name: "Views" });
+    const add = screen.getByRole("button", { name: "Add view" });
+    expect(list).not.toContainElement(add);
+    expect(add.closest(".tabs__actions")).not.toBeNull();
+    expect(tabs.querySelector(".tabs")).toHaveClass("tabs--with-actions");
+    expect(screen.getAllByRole("tab")).toHaveLength(2);
+    expect(screen.queryByRole("tab", { name: "Add view" })).toBeNull();
+  });
+
+  it("keeps the arrows in the tab list and reaches the action with Tab", async () => {
+    const user = userEvent.setup();
+    mountWithActions();
+    await user.tab();
+    expect(screen.getByRole("tab", { name: "List" })).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("tab", { name: "Grid" })).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("tab", { name: "List" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Add view" })).toHaveFocus();
+  });
+
+  it("adds and selects a tab per press, keeping focus on the action", async () => {
+    const user = userEvent.setup();
+    mountWithActions();
+    const add = screen.getByRole("button", { name: "Add view" });
+    await user.click(add);
+    await user.click(add);
+    expect(screen.getAllByRole("tab")).toHaveLength(4);
+    expect(screen.getByRole("tab", { name: "View 4" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("View 4.");
+    expect(add).toHaveFocus();
+  });
+
+  it("renders no actions area without actions", () => {
+    const tabs = mount();
+    expect(tabs.querySelector(".tabs__actions")).toBeNull();
+    expect(tabs.querySelector(".tabs")).not.toHaveClass("tabs--with-actions");
+  });
+
+  it("has no accessibility violations", async () => {
+    mountWithActions();
+    expect(await axe(document.body)).toHaveNoViolations();
+  });
+});

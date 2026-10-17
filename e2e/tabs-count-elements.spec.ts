@@ -100,3 +100,80 @@ test("Elements composed tabs line up with a header beside the strip", async ({ p
   await expect(page.getByRole("tab", { name: "Form" })).toBeFocused();
   await expect(page.getByText("Form fields")).toBeVisible();
 });
+
+const openActions = async (page: import("@playwright/test").Page, dir = "ltr") => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async (dir) => {
+    await Promise.all(["ds-tabs", "ds-button"].map((tag) => customElements.whenDefined(tag)));
+    document.documentElement.dir = dir;
+    document.body.innerHTML = `
+      <ds-tabs label="Views">
+        <ds-button slot="actions" icon-only variant="ghost" aria-label="Add view">+</ds-button>
+      </ds-tabs>`;
+    const tabs = document.querySelector("ds-tabs") as HTMLElement & {
+      items: Array<{ value: string; label: string; content: string }>;
+      value: string | null;
+    };
+    tabs.items = [
+      { value: "list", label: "List", content: "List view." },
+      { value: "grid", label: "Grid", content: "Grid view." },
+    ];
+    tabs.querySelector("ds-button")!.addEventListener("click", () => {
+      const number = tabs.items.length + 1;
+      const value = `view-${number}`;
+      tabs.items = [...tabs.items, { value, label: `View ${number}`, content: `View ${number}.` }];
+      tabs.value = value;
+    });
+  }, dir);
+};
+
+test("Elements Tabs actions sit after the tablist, outside it, on the same row", async ({
+  page,
+}) => {
+  await openActions(page);
+  const list = page.getByRole("tablist", { name: "Views" });
+  const add = page.getByRole("button", { name: "Add view" });
+  await expect(list.getByRole("button", { name: "Add view" })).toHaveCount(0);
+  await expect(page.getByRole("tab")).toHaveCount(2);
+
+  const strip = (await list.boundingBox())!;
+  const button = (await add.boundingBox())!;
+  expect(button.x).toBeGreaterThanOrEqual(strip.x + strip.width);
+  expect(button.y + button.height).toBeGreaterThan(strip.y);
+  expect(button.y).toBeLessThan(strip.y + strip.height);
+
+  // The arrows stay in the tablist; Tab moves on to the action.
+  await page.getByRole("tab", { name: "List" }).focus();
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("tab", { name: "List" })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(add).toBeFocused();
+
+  // Enter on the action adds and selects a tab; focus stays on the action.
+  await page.keyboard.press("Enter");
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("tab")).toHaveCount(4);
+  await expect(page.getByRole("tab", { name: "View 4" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tabpanel")).toHaveText("View 4.");
+  await expect(add).toBeFocused();
+});
+
+test("Elements Tabs actions follow the tablist right to left", async ({ page }) => {
+  await openActions(page, "rtl");
+  const strip = (await page.getByRole("tablist", { name: "Views" }).boundingBox())!;
+  const button = (await page.getByRole("button", { name: "Add view" }).boundingBox())!;
+  expect(button.x + button.width).toBeLessThanOrEqual(strip.x);
+});
+
+test("Elements Tabs actions wrap below the tablist at 320 CSS pixels", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await openActions(page);
+  const add = page.getByRole("button", { name: "Add view" });
+  for (let i = 0; i < 4; i++) await add.click();
+  const strip = (await page.getByRole("tablist", { name: "Views" }).boundingBox())!;
+  const button = (await add.boundingBox())!;
+  expect(button.y).toBeGreaterThanOrEqual(strip.y + strip.height - 1);
+  expect(button.x + button.width).toBeLessThanOrEqual(320);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+});
