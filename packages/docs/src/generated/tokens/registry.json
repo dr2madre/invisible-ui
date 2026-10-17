@@ -265,6 +265,44 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-code-block-surface",
+      "id": "code-block-surface",
+      "tier": "other",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 316,
+        "dtcg": "role.light.code-block-surface"
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-50)",
+        "darkMedia": "var(--ds-neutral-950)",
+        "darkAttr": "var(--ds-neutral-950)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-50"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f4f2ef",
+        "dark": "#1c1915"
+      },
+      "hasAlpha": false,
+      "purpose": "The surface of a code block, per theme (role.light.code-block-surface and role.dark.code-block-surface in the design source): the lightest grey in the light theme, the darkest grey short of black in the dark theme. The text keeps 4.5:1 on it; the border draws its edge against the page.",
+      "group": "The surface of a code block (the code-block-surface role): the lightest grey here, the darkest short of black in the dark theme.",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-color-background",
       "id": "color-background",
       "tier": "semantic",
@@ -11867,8 +11905,7 @@
         "color"
       ],
       "properties": [
-        "border",
-        "border-block-end"
+        "border"
       ],
       "adapters": [
         "elements",
@@ -11891,24 +11928,10 @@
           "fallback": "var(--ds-color-border, #c7c1b7)"
         },
         {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/code-block.css",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
           "adapter": "react",
           "file": "packages/react/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/code-block.css",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
           "fallback": "var(--ds-color-border, #c7c1b7)"
         },
         {
@@ -11919,24 +11942,10 @@
           "fallback": "var(--ds-color-border, #c7c1b7)"
         },
         {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/code-block.css",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
           "fallback": "var(--ds-color-border, #c7c1b7)"
         }
       ],
@@ -12288,66 +12297,6 @@
           "selector": ".code-block",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
-        }
-      ],
-      "purpose": null,
-      "stability": "alpha",
-      "replacedBy": null
-    },
-    {
-      "name": "--ds-code-block-surface",
-      "id": "code-block-surface",
-      "component": "code-block",
-      "usedBy": [
-        "code-block"
-      ],
-      "category": "color",
-      "categories": [
-        "color"
-      ],
-      "properties": [
-        "background"
-      ],
-      "adapters": [
-        "elements",
-        "react",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
-      ],
-      "parents": [
-        "--ds-color-surface"
-      ],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/code-block.css",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/code-block.css",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/code-block.css",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
         }
       ],
       "purpose": null,
@@ -35903,13 +35852,13 @@
     }
   ],
   "counts": {
-    "total": 117,
+    "total": 118,
     "byTier": {
       "primitive": 24,
       "brand": 6,
+      "other": 4,
       "semantic": 54,
       "sizing": 4,
-      "other": 3,
       "elevation": 1,
       "feedback": 5,
       "focus": 4,
@@ -35917,14 +35866,14 @@
       "radius": 3,
       "state": 2
     },
-    "withDarkOverride": 57,
-    "designOwned": 106,
-    "colors": 94
+    "withDarkOverride": 58,
+    "designOwned": 107,
+    "colors": 95
   },
   "adapters": {
-    "svelte": 117,
-    "vue": 117,
-    "react": 117,
-    "elements": 117
+    "svelte": 118,
+    "vue": 118,
+    "react": 118,
+    "elements": 118
   }
 }

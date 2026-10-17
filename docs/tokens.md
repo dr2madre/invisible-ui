@@ -28,7 +28,7 @@ gets the same theme from the same file:
 | Group | Holds | Becomes in `tokens.css` |
 | --- | --- | --- |
 | `radius` | Corner radii by shape role. | `radius.control` is `--ds-radius-control` |
-| `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection, the dialog overlay. | `role.dark.color-text` is `--ds-color-text` in the dark theme, `role.dark.dialog-overlay` is `--ds-dialog-overlay` |
+| `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection, the dialog overlay, the code block surface. | `role.dark.color-text` is `--ds-color-text` in the dark theme, `role.dark.dialog-overlay` is `--ds-dialog-overlay` |
 | `focus` | Focus ring width, offset and halo width. | `focus.ring-width` is `--ds-focus-ring-width` |
 | `typography` | Line heights, heading weight, heading sizes. | `typography.font-size-h1` is `--ds-font-size-h1` |
 | `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size`, `density.touch.min-target-size` is `--ds-min-target-size-touch` |
@@ -173,6 +173,24 @@ contrast against the plain cell; the text drawn on it needs 4.5:1.
 
 An application that styles its own variants apart, such as holidays and
 weekends, maps them onto this role in its theme.
+
+## Code block surface
+
+`code-block-surface` is the surface of a code block. It is a role of each
+theme, `--ds-code-block-surface` in the stylesheet, which every code block
+sheet reads for its background, and `InvisibleColors.codeBlockSurface` in
+Flutter. The light theme takes the lightest grey, the dark theme the darkest
+grey short of black. The block's border, `color-border`, draws its edge
+against the page.
+
+| Theme | Value | `color-text` | Focus ring | Header border | Surface against the page |
+| --- | --- | --- | --- | --- | --- |
+| Light | `neutral-50`, `#f4f2ef` | 13.78:1 | 3.58:1 | 1.60:1 | 1.12:1 |
+| Dark | `neutral-950`, `#1c1915` | 15.67:1 | 5.81:1 | 1.60:1 | 1.14:1 |
+
+The copy button keeps its text above 11:1 at rest and on hover in both
+themes. The header border and the edge against the page separate parts of
+one block and carry no meaning, so WCAG 1.4.11 sets them no minimum.
 
 ## Naming grammar
 

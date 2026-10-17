@@ -108,6 +108,9 @@
   "--ds-color-neutral-border": {
     "purpose": "The edge that goes with the quiet neutral fill."
   },
+  "--ds-code-block-surface": {
+    "purpose": "The surface of a code block, per theme (role.light.code-block-surface and role.dark.code-block-surface in the design source): the lightest grey in the light theme, the darkest grey short of black in the dark theme. The text keeps 4.5:1 on it; the border draws its edge against the page."
+  },
   "--ds-dialog-overlay": {
     "purpose": "The scrim behind a modal dialog, per theme (role.light.dialog-overlay and role.dark.dialog-overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement."
   },

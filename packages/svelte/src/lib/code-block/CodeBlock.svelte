@@ -108,7 +108,6 @@
     gap: 0.75rem;
     padding: var(--ds-code-block-header-padding, 0.4rem 0.75rem 0.4rem 1rem);
     font-size: 0.75rem;
-    border-block-end: 1px solid var(--ds-code-block-border, var(--ds-color-border, #c7c1b7));
   }
 
   .code-block__lang {

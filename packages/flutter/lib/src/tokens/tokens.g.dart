@@ -201,6 +201,7 @@ final class InvisibleColors {
     required this.dialogOverlay,
     required this.navigationBarCurrentIndicator,
     required this.gridCellSecondarySurface,
+    required this.codeBlockSurface,
   });
 
   static const InvisibleColors light = InvisibleColors(
@@ -263,6 +264,7 @@ final class InvisibleColors {
     dialogOverlay: Color(0x801C1915),
     navigationBarCurrentIndicator: Color(0xFF8763D1),
     gridCellSecondarySurface: Color(0xFFF4F2EF),
+    codeBlockSurface: Color(0xFFF4F2EF),
   );
 
   static const InvisibleColors dark = InvisibleColors(
@@ -325,6 +327,7 @@ final class InvisibleColors {
     dialogOverlay: Color(0x99000000),
     navigationBarCurrentIndicator: Color(0xFF997AD5),
     gridCellSecondarySurface: Color(0xFF332F2A),
+    codeBlockSurface: Color(0xFF1C1915),
   );
 
   /// `color-background`.
@@ -504,6 +507,9 @@ final class InvisibleColors {
   /// `grid-cell-secondary-surface`.
   final Color gridCellSecondarySurface;
 
+  /// `code-block-surface`.
+  final Color codeBlockSurface;
+
   /// A copy with the given roles replaced.
   InvisibleColors copyWith({
     Color? background,
@@ -565,6 +571,7 @@ final class InvisibleColors {
     Color? dialogOverlay,
     Color? navigationBarCurrentIndicator,
     Color? gridCellSecondarySurface,
+    Color? codeBlockSurface,
   }) {
     return InvisibleColors(
       background: background ?? this.background,
@@ -628,6 +635,7 @@ final class InvisibleColors {
           navigationBarCurrentIndicator ?? this.navigationBarCurrentIndicator,
       gridCellSecondarySurface:
           gridCellSecondarySurface ?? this.gridCellSecondarySurface,
+      codeBlockSurface: codeBlockSurface ?? this.codeBlockSurface,
     );
   }
 
@@ -691,6 +699,7 @@ final class InvisibleColors {
     dialogOverlay,
     navigationBarCurrentIndicator,
     gridCellSecondarySurface,
+    codeBlockSurface,
   ];
 
   @override

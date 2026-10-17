@@ -196,6 +196,11 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
     expect(lookup("dark", "--ds-dialog-overlay")).toBeDefined();
     expect(keysOf("role.light")).toContain("dialog-overlay");
     expect(keysOf("role.dark")).toContain("dialog-overlay");
+    // The code block surface is a role of each theme as well.
+    expect(lookup("light", "--ds-code-block-surface")).toBe("var(--ds-neutral-50)");
+    expect(lookup("dark", "--ds-code-block-surface")).toBe("var(--ds-neutral-950)");
+    expect(val("role.light.code-block-surface")).toBe(val("palette.grey.50"));
+    expect(val("role.dark.code-block-surface")).toBe(val("palette.grey.950"));
   });
 
   it("palette.grey.* matches the --ds-neutral-* ramp", () => {

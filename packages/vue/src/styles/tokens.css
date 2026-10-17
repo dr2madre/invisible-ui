@@ -311,6 +311,9 @@
   /* A data grid cell with the secondary emphasis: allowed, outside the usual
      schedule. The text keeps 4.5:1 on it; the cell's label carries the meaning. */
   --ds-grid-cell-secondary-surface: var(--ds-neutral-50);
+  /* The surface of a code block (the code-block-surface role): the lightest
+     grey here, the darkest short of black in the dark theme. */
+  --ds-code-block-surface: var(--ds-neutral-50);
 }
 
 /* =============== Tier 2 — semantic (dark) ================================= */
@@ -449,6 +452,7 @@
       var(--ds-neutral-50)
     );
     --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
+    --ds-code-block-surface: var(--ds-neutral-950);
   }
 }
 
@@ -573,6 +577,7 @@
     var(--ds-neutral-50)
   );
   --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
+  --ds-code-block-surface: var(--ds-neutral-950);
 }
 
 /* =============== Fallback: no color-mix() (pre-2023 engines) ============== *
