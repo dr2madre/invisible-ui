@@ -63,7 +63,6 @@ final List<DataGridColumn> _columns = [
       id: 'd$index',
       label: '$name ${6 + index} October',
       header: Text('${name.substring(0, 3)} ${6 + index}'),
-      secondary: index >= 5,
       secondaryLabel: index >= 5 ? 'Non-working day' : null,
     ),
 ];

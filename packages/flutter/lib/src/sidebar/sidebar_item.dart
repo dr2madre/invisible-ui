@@ -30,7 +30,10 @@ class SidebarItem<T> implements NavigationTarget<T> {
     this.uri,
     this.badge,
     this.unavailableReason,
-  });
+  }) : assert(
+         unavailableReason != '',
+         'An unavailable destination needs words for its unavailableReason.',
+       );
 
   /// The same destination as a `NavigationBar` shows it: its value, label,
   /// icon, address, badge and unavailable reason.

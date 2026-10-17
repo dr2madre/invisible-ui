@@ -44,12 +44,11 @@ class DataGridColumn {
     required this.id,
     required this.label,
     this.header,
-    this.secondary = false,
     this.secondaryLabel,
     this.editor,
   }) : assert(
-         !secondary || secondaryLabel != null,
-         'A secondary column needs its secondaryLabel.',
+         secondaryLabel != '',
+         'A secondary column needs words for its secondaryLabel.',
        );
 
   /// The stable id, unique in the grid.
@@ -62,13 +61,14 @@ class DataGridColumn {
   /// abbreviated if needed. Defaults to [label] as text.
   final Widget? header;
 
-  /// Whether every body cell of the column has the secondary emphasis:
-  /// allowed but outside the usual schedule, such as a weekend.
-  final bool secondary;
-
   /// The application's words for the secondary emphasis, shown in the
-  /// column header and read with each cell.
+  /// column header and read with each cell. Non-null gives every body cell
+  /// of the column the secondary emphasis: allowed but outside the usual
+  /// schedule, such as a weekend.
   final String? secondaryLabel;
+
+  /// Whether every body cell of the column has the secondary emphasis.
+  bool get secondary => secondaryLabel != null;
 
   /// The column's own editor settings, in place of the grid's.
   final DataGridEditor? editor;
@@ -102,12 +102,11 @@ class DataGridCell {
     required this.kind,
     this.value,
     this.badge,
-    this.secondary = false,
     this.secondaryLabel,
     this.error,
   }) : assert(
-         !secondary || secondaryLabel != null,
-         'A secondary cell needs its secondaryLabel.',
+         secondaryLabel != '',
+         'A secondary cell needs words for its secondaryLabel.',
        );
 
   /// How the cell behaves.
@@ -119,13 +118,14 @@ class DataGridCell {
   /// Summary cells: visible and read text, such as "2 entries".
   final String? badge;
 
-  /// Whether the cell has the secondary emphasis. It keeps its kind: an
-  /// editable cell stays editable.
-  final bool secondary;
-
   /// The application's words for the secondary emphasis, such as
-  /// "Non-working day", shown in the cell and read with it.
+  /// "Non-working day", shown in the cell and read with it. Non-null gives
+  /// the cell the secondary emphasis; it keeps its kind: an editable cell
+  /// stays editable.
   final String? secondaryLabel;
+
+  /// Whether the cell has the secondary emphasis.
+  bool get secondary => secondaryLabel != null;
 
   /// The application's validation message, such as "More than 24 hours on
   /// this day".
