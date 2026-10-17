@@ -368,7 +368,7 @@ class _VariantPaint {
   }) {
     return switch (variant) {
       ButtonVariant.standard => _VariantPaint(
-        hovered ? c.surface : c.background,
+        hovered ? c.stateHover : c.background,
         c.text,
         _mix(c.controlBorder, 0.7, c.background),
       ),

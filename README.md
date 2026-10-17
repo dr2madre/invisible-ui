@@ -201,6 +201,22 @@ pnpm --filter @invisible-ui/docs build    # static build
 The site's pages live in `packages/docs/src/content/docs/` and the demos in
 `packages/docs/src/demos/`.
 
+### Figma tokens
+
+The repository can generate two DTCG files for a Figma variable collection,
+with matching paths for its Light and Dark modes:
+
+```bash
+pnpm tokens:figma
+```
+
+The command reads the canonical [`packages/tokens/tokens.json`](./packages/tokens/tokens.json)
+and writes the import files under [`packages/tokens/figma/`](./packages/tokens/figma/).
+It converts dimensions to pixels, keeps aliases, and maps the two theme role
+sets to the same Figma variable names. See the
+[Figma tokens guide](https://dr2madre.github.io/invisible-ui/presentation/figma/)
+for the import sequence, supported transformations, and synchronization rules.
+
 ### Components
 
 - **Button** — defaults to a safe `type="button"`, exposes a `data-disabled`

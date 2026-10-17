@@ -58,6 +58,13 @@ gets the same theme from the same file:
   keeps 44 by 44 on the web, and the Flutter theme never lowers
   `minTargetSize` below the level's token.
 
+## Button hover
+
+Default and Ghost use the same `state-hover` background in both themes.
+Default keeps its border and text styling. Its component override
+`--ds-button-bg-hover` falls back to `--ds-state-hover`; it does not use
+`color-surface`. The shared token values remain unchanged.
+
 ## Mix recipes
 
 Each colour that `tokens.css` builds with `color-mix()` keeps the resolved
@@ -222,6 +229,23 @@ optional; property after a double dash. Canonical states:
   `pnpm tokens:check` fails when it differs from what the source produces.
   A density level that leaves a size undefined holds null there.
 
+- Generate the two DTCG files for the Light and Dark modes of a Figma variable
+  collection with:
+
+  ```sh
+  pnpm tokens:figma
+  ```
+
+  → `packages/tokens/figma/invisible-ui-light.tokens.json` and
+  `packages/tokens/figma/invisible-ui-dark.tokens.json`. The generator keeps
+  shared token paths identical across both files and removes `light` and
+  `dark` from the role paths. It converts `rem` dimensions to pixels with a
+  16px root, converts `fontWeight` to a number, and removes repository-only
+  extensions. It excludes `density` because compact, regular, and touch are a
+  separate mode axis rather than colour themes. The published
+  [Figma guide](https://dr2madre.github.io/invisible-ui/presentation/figma/)
+  documents the import flow.
+
 - A **parity test** (`packages/svelte/src/lib/styles/tokens-parity.test.ts`)
   resolves every token in the source, works out the value `tokens.css` gives
   the same property in the same theme (following `var()` and doing the
@@ -230,7 +254,8 @@ optional; property after a double dash. Canonical states:
 - The token registry (`pnpm tokens:check`) fails when a token in the source
   has no property in the stylesheet, except the density sizes the
   stylesheet does not render (the compact level). It leaves the mix recipes out: its entries already carry the
-  stylesheet's `color-mix()` expressions.
+  stylesheet's `color-mix()` expressions. The same command fails when either
+  committed Figma import file differs from the canonical source.
 
 ## Why the runtime stays in `tokens.css`
 

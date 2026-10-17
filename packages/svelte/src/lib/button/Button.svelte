@@ -311,7 +311,7 @@
     );
   }
   .button:global([data-variant="default"]):hover:not(:disabled) {
-    background: var(--ds-button-bg-hover, var(--ds-color-surface, #e0e0e0));
+    background: var(--ds-button-bg-hover, var(--ds-state-hover, rgb(0 0 0 / 0.06)));
   }
 
   /* primary: the high-emphasis call to action. */
