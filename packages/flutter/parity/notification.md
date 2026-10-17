@@ -1,6 +1,6 @@
 # Notification and Notification Region parity checklist
 
-Reference commit: `bde4433a71312b89d1164c6a1adce57471999a4a`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/notification` `packages/elements/src/notification` `packages/elements/src/internal/modal-stack.ts`
 

@@ -1,6 +1,6 @@
 # Date Picker parity checklist
 
-Reference commit: `e9cce2f081d9bab90d0a1754a1971d6c567c403c`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/calendar` `core/src/popover` `packages/svelte/src/lib/date-picker`
 
@@ -15,8 +15,8 @@ The calendar inside is the Flutter `Calendar`
 ([popover.md](popover.md)), opened by the field.
 Docs page: [Date Picker](https://dr2madre.github.io/invisible-ui/components/forms/date-picker/).
 
-Each line is **matched**, **adapted** (with the platform reason) or **out of
-scope**. Every matched line names the widget test in
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(with the gap) or **out of scope**. Every matched line names the widget test in
 `test/date_picker_test.dart` that holds it.
 
 ## Names
@@ -39,10 +39,12 @@ scope**. Every matched line names the widget test in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | A tap opens; focus moves to the calendar's focused day: the picked one, else today | matched | `a tap opens with focus on the picked day; a pick fills the field, closes, returns focus and reports once` |
+| With nothing picked, focus goes to today's day, never to a calendar button | open | the calendar focuses today when it has no value, but no widget test checks where focus lands with an empty field |
 | A pick fills the field, closes the popup before reporting, and returns focus to the field | matched | same test |
 | Enter, Space and Down open; the date grid keys apply; Escape closes without a pick and returns focus | matched | `Enter, Space and Down open; the grid keys move; Enter picks; Escape closes without a pick and returns focus` |
 | A press outside closes and leaves focus where it lands | matched | `a press outside closes and leaves focus where it lands` |
-| The clear button, while a date is picked, empties the field, reports null, keeps focus in the control | matched | `the clear button empties the field, reports null and keeps focus in the control` |
+| The clear button, while a date is picked, empties the field, reports null, keeps focus in the control | matched | `the clear button empties the field, reports null and keeps focus in the control` (a key press on the button) |
+| A pointer press on the clear button keeps focus in the control | adapted | in Flutter a pointer press does not move focus, so the clear button never takes it and focus stays where it was; the web moves focus back to the field because a click focuses the button that then goes away |
 | Disabled: no focus, no opening | matched | `disabled: no focus, no opening` |
 | Inside a dialog, Escape closes the popup first | matched | the popover's rule, held by `inside a dialog, Escape closes the popover and the dialog stays (ADR 0016)` in `test/popover_test.dart` |
 
@@ -62,6 +64,8 @@ scope**. Every matched line names the widget test in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | The field shows the date in the locale's medium style; the calendar names follow the locale; the week start follows the consumer | matched | `the locale names the field and the calendar` |
+| Without `weekStartsOn` the calendar starts on the locale's first day | open | the picker hands a null `weekStartsOn` to its `Calendar`, which takes the locale's CLDR day (see [calendar.md](calendar.md)), but no picker test holds it |
+| Without a locale from the widget or the app, the field and the calendar use the international default | matched | the tests name no locale and read the default's medium date, `10 Jun 2026`: `a tap opens with focus on the picked day; …` |
 | The calendar glyph takes the selection colour once a date is picked | matched | the field's glyph |
 | Popup at most 22rem wide, within the window | matched | `right to left at text scale 2.0 in a narrow window, the popup fits, under touch with 44 by 44 days` |
 | Right to left at text scale 2.0 in a narrow window; 44 by 44 days under touch | matched | same test |

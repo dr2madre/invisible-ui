@@ -1,6 +1,6 @@
 # RadioGroup parity checklist
 
-Reference commit: `0c336bd6e53053c3c9e46ad4d7701879eba50315`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/radio-group` `core/src/internal/collection.ts` `packages/svelte/src/lib/radio-group`
 
