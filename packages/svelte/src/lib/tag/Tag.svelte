@@ -158,39 +158,39 @@
   /* Soft, status-tinted surface. data-status/data-variant are dynamic, so the
      value part is :global to avoid Svelte's unused-selector pruning. */
   .tag:global([data-variant="soft"][data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral-surface, #f4f2ef);
-    --_fg: var(--ds-color-neutral-text, #413c36);
-    --_border: var(--ds-color-neutral-border, #c7c1b7);
+    --_bg: var(--ds-color-neutral-surface, #f5f5f5);
+    --_fg: var(--ds-color-neutral-text, #414141);
+    --_border: var(--ds-color-neutral-border, #bdbdbd);
   }
   .tag:global([data-variant="soft"][data-status="selected"]) {
     --_bg: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 8%, transparent);
-    --_fg: var(--ds-color-selected-text, #553d7f);
+    --_fg: var(--ds-color-selected-text, #553f82);
     --_border: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 22%, transparent);
   }
   .tag:global([data-variant="soft"][data-status="info"]) {
     --_bg: var(--ds-color-info-surface, #f0f3f9);
-    --_fg: var(--ds-color-info-text, #344468);
+    --_fg: var(--ds-color-info-text, #33466c);
     --_border: var(--ds-color-info-border, #c6d1e9);
   }
   .tag:global([data-variant="soft"][data-status="success"]) {
     --_bg: var(--ds-color-success-surface, #f0f4ed);
-    --_fg: var(--ds-color-success-text, #334e22);
+    --_fg: var(--ds-color-success-text, #335025);
     --_border: var(--ds-color-success-border, #c5d6bd);
   }
   .tag:global([data-variant="soft"][data-status="warning"]) {
     --_bg: var(--ds-color-warning-surface, #fbf3ed);
-    --_fg: var(--ds-color-warning-text, #6c3f21);
+    --_fg: var(--ds-color-warning-text, #6b4125);
     --_border: var(--ds-color-warning-border, #efd1bd);
   }
   .tag:global([data-variant="soft"][data-status="danger"]) {
     --_bg: var(--ds-color-danger-surface, #faeff1);
-    --_fg: var(--ds-color-danger-text, #7f313c);
+    --_fg: var(--ds-color-danger-text, #7f333f);
     --_border: var(--ds-color-danger-border, #ecc4cb);
   }
 
   /* Solid, filled chip. */
   .tag:global([data-variant="solid"][data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral, #5e5951);
+    --_bg: var(--ds-color-neutral, #616161);
     --_fg: var(--ds-color-on-status, #fff);
   }
   .tag:global([data-variant="solid"][data-status="info"]) {
@@ -203,7 +203,7 @@
   }
   .tag:global([data-variant="solid"][data-status="warning"]) {
     --_bg: var(--ds-color-warning-label-surface, #d17b43);
-    --_fg: var(--ds-color-on-warning, #282420);
+    --_fg: var(--ds-color-on-warning, #272727);
   }
   .tag:global([data-variant="solid"][data-status="danger"]) {
     --_bg: var(--ds-color-danger, #be3b50);

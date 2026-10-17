@@ -135,11 +135,11 @@ void main() {
       }
       expect(
         InvisibleThemeData.light().colors.codeBlockSurface,
-        const Color(0xFFF4F2EF),
+        const Color(0xFFF5F5F5),
       );
       expect(
         InvisibleThemeData.dark().colors.codeBlockSurface,
-        const Color(0xFF1C1915),
+        const Color(0xFF1B1B1B),
       );
       semantics.dispose();
     });

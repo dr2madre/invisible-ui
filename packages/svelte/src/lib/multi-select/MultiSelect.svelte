@@ -268,7 +268,7 @@
     inline-size: var(--ds-multi-select-width, 100%);
     max-inline-size: var(--ds-multi-select-max-width, 24rem);
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .multi-select__label {
     font-size: var(--ds-multi-select-label-size, 0.875rem);
@@ -281,7 +281,7 @@
     align-items: center;
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     background: var(--ds-color-background, #fff);
   }
@@ -293,7 +293,7 @@
     cursor: not-allowed;
   }
   .multi-select__control--readonly {
-    background: var(--ds-color-neutral-surface, #f4f2ef);
+    background: var(--ds-color-neutral-surface, #f5f5f5);
   }
   .multi-select__values {
     display: inline-flex;
@@ -347,9 +347,9 @@
     list-style: none;
     max-block-size: min(18rem, 50vh);
     overflow: auto;
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-radius-surface, 0.75rem);
-    background: var(--ds-color-surface, #e6e0d8);
+    background: var(--ds-color-surface, #e0e0e0);
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -392,7 +392,7 @@
   }
   .multi-select__empty {
     padding: 0.4rem 0.5rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   /* Forced colors: the active option is marked by a tint alone, and tints flatten away.
      Keyboard focus stays in the input, so the list must show which

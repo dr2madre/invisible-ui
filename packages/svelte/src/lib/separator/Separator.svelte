@@ -29,7 +29,7 @@
 <style>
   .separator {
     flex: none;
-    background: var(--ds-separator-color, var(--ds-color-border, #c7c1b7));
+    background: var(--ds-separator-color, var(--ds-color-border, #bdbdbd));
     border: 0;
   }
   .separator:global([data-orientation="horizontal"]) {

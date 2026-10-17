@@ -152,7 +152,7 @@ test("an Elements dialog backdrop paints the theme's dialog overlay", async ({ p
   const backdrop = () =>
     panel.evaluate((node) => getComputedStyle(node, "::backdrop").backgroundColor);
   // The dialog-overlay role: the light value, then the dark one under [data-theme].
-  expect(await backdrop()).toBe("rgba(28, 25, 21, 0.5)");
+  expect(await backdrop()).toBe("rgba(27, 27, 27, 0.5)");
   await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
   expect(await backdrop()).toBe("rgba(0, 0, 0, 0.6)");
 });

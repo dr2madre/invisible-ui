@@ -156,7 +156,7 @@
     inline-size: 100%;
     border-collapse: collapse;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     font-size: var(--ds-table-font-size, 0.9375rem);
   }
 
@@ -184,16 +184,16 @@
     font-weight: 600;
     background: var(--ds-table-header-background, transparent);
     /* Medium-dark header labels (not full black). */
-    color: var(--ds-table-header-text, var(--ds-color-text-secondary, #524c44));
+    color: var(--ds-table-header-text, var(--ds-color-text-secondary, #515151));
     /* Same height as body rows: identical padding + a 1px border (not thicker). */
     padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
     border-block-end: var(--ds-table-header-border, 1px) solid
-      var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+      var(--ds-table-border, var(--ds-color-border, #bdbdbd));
     white-space: nowrap;
   }
   .table__td {
     padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
-    border-block-end: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+    border-block-end: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
   }
   .table__th[data-align="end"],
   .table__td[data-align="end"] {
@@ -220,7 +220,7 @@
   }
 
   .table__row:hover {
-    background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f4f2ef));
+    background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f5f5f5));
   }
   .table__row[data-selected] {
     background: var(

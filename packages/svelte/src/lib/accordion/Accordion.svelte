@@ -88,12 +88,12 @@
 <style>
   .accordion {
     inline-size: var(--ds-accordion-width, 16rem);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-accordion-radius, var(--ds-radius-control, 0.5rem));
     overflow: hidden;
   }
   .accordion__item + .accordion__item {
-    border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .accordion__heading {
     margin: 0;
@@ -108,14 +108,14 @@
     border: none;
     background: none;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     cursor: pointer;
     text-align: start;
   }
   .accordion__icon {
     display: inline-flex;
     flex: none;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .accordion__trigger:global([data-state="open"]) .accordion__icon {

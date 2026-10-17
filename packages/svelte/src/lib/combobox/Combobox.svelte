@@ -310,7 +310,7 @@
     inline-size: var(--ds-combobox-width, 16rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .combobox:global([data-width="wrap"]) {
     inline-size: fit-content;
@@ -343,7 +343,7 @@
     gap: 0.25rem;
     box-sizing: border-box;
     padding-inline-end: 0.5rem;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-combobox-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     transition:
@@ -355,8 +355,8 @@
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .combobox__control--disabled {
-    background: var(--ds-color-disabled, #c7c1b7);
-    color: var(--ds-color-text-disabled, #757067);
+    background: var(--ds-color-disabled, #bdbdbd);
+    color: var(--ds-color-text-disabled, #757575);
   }
 
   .combobox__search {
@@ -365,7 +365,7 @@
     inline-size: 1.05em;
     block-size: 1.05em;
     margin-inline-start: 0.625rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .combobox__input {
     flex: 1;
@@ -413,7 +413,7 @@
     border: 0;
     border-radius: var(--ds-radius-control, 0.5rem);
     background: transparent;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     cursor: pointer;
   }
   .combobox__clear:hover {
@@ -438,7 +438,7 @@
     border: 0;
     border-radius: var(--ds-radius-control, 0.5rem);
     background: transparent;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     cursor: pointer;
     transition:
       background-color 120ms ease,
@@ -463,7 +463,7 @@
     max-block-size: var(--ds-select-max-height, 16rem);
     overflow-y: auto;
     background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-select-listbox-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -497,7 +497,7 @@
     background: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent);
   }
   .combobox__option:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
   .combobox__check {
@@ -515,7 +515,7 @@
     inline-size: var(--ds-combobox-option-icon-size, 1.1rem);
     block-size: var(--ds-combobox-option-icon-size, 1.1rem);
     flex: none;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .combobox__option:global([data-state="selected"]) .combobox__check {
     visibility: visible;
@@ -526,7 +526,7 @@
 
   .combobox__empty {
     padding: 0.5rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     cursor: default;
   }
   /* Forced colors: the active option is marked by a tint alone, and tints flatten away.

@@ -130,8 +130,8 @@
 
 <style>
   .navigation-bar {
-    color: var(--ds-navigation-bar-item-text, var(--ds-color-text-secondary, #524c44));
-    background: var(--ds-navigation-bar-surface, var(--ds-color-surface, #e6e0d8));
+    color: var(--ds-navigation-bar-item-text, var(--ds-color-text-secondary, #515151));
+    background: var(--ds-navigation-bar-surface, var(--ds-color-surface, #e0e0e0));
   }
 
   /* Each destination takes an equal share of the width, from the inline
@@ -216,7 +216,7 @@
   }
 
   .navigation-bar__destination[data-current] {
-    color: var(--ds-navigation-bar-item-current-text, var(--ds-color-text, #282420));
+    color: var(--ds-navigation-bar-item-current-text, var(--ds-color-text, #272727));
   }
 
   .navigation-bar__destination[data-current] .navigation-bar__indicator {
@@ -277,7 +277,7 @@
   }
 
   .navigation-bar__destination[data-unavailable] {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: default;
   }
 
@@ -304,8 +304,8 @@
     padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
     font-size: var(--ds-tooltip-font-size, 0.8125rem);
     line-height: var(--ds-line-height, 1.4);
-    color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f4f2ef));
-    background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #332f2a));
+    color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f5f5f5));
+    background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #323232));
     border-radius: var(--ds-tooltip-radius, var(--ds-radius-control, 0.5rem));
   }
 

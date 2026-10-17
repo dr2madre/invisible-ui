@@ -121,7 +121,7 @@
   /* Disabled group/item dims its label too. */
   .checkbox-group:disabled .checkbox-group__label,
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
   }
 
   .field {
@@ -158,7 +158,7 @@
     inline-size: var(--ds-checkbox-size, 1.25rem);
     block-size: var(--ds-checkbox-size, 1.25rem);
     padding: var(--ds-checkbox-padding, 0.15rem);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-checkbox-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     display: inline-flex;

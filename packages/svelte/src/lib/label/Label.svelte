@@ -42,7 +42,7 @@
     font: inherit;
     font-weight: var(--ds-label-font-weight, 500);
     line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-label-color, var(--ds-color-text, #282420));
+    color: var(--ds-label-color, var(--ds-color-text, #272727));
   }
   .label__required {
     color: var(--ds-label-required-color, var(--ds-color-danger-body-text, #be3b50));

@@ -21,7 +21,7 @@
 .range-slider-field__icon {
   display: inline-flex;
   flex: none;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
 }
 .range-slider-field__icon svg {
   inline-size: 1.2em;
@@ -33,13 +33,13 @@
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   font-size: 0.875rem;
-  color: var(--ds-color-text, #282420);
+  color: var(--ds-color-text, #272727);
 }
 .range-slider-field__range {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
 }
 .range-slider {
   position: relative;
@@ -60,7 +60,7 @@
   min-inline-size: 0;
   block-size: var(--ds-range-slider-track-size, 4px);
   border-radius: var(--ds-radius-control, 999px);
-  background: var(--ds-color-border, #c7c1b7);
+  background: var(--ds-color-border, #bdbdbd);
 }
 .range-slider[data-orientation="vertical"] .range-slider__track {
   /* The row's `flex: 1` would grow the track to the row's width; upright it is

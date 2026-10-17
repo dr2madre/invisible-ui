@@ -105,7 +105,7 @@
 <style>
   .navmenu {
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .navmenu__list {
     display: flex;
@@ -149,7 +149,7 @@
     display: inline-flex;
     inline-size: 1em;
     block-size: 1em;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .navmenu__trigger:global([data-state="open"]) .navmenu__chevron {
@@ -166,7 +166,7 @@
     min-inline-size: var(--ds-navmenu-content-width, 18rem);
     padding: var(--ds-navmenu-content-padding, 0.5rem);
     background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-navmenu-content-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -201,7 +201,7 @@
   }
   .navmenu__link-desc {
     font-size: 0.875rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
 
   /* The current page: the link the app marks, and the trigger whose panel

@@ -214,7 +214,7 @@
 
 <style>
   .prompt-dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
+    background: var(--ds-dialog-overlay, rgb(27 27 27 / 0.5));
   }
   .prompt-dialog__panel {
     /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */
@@ -224,8 +224,8 @@
     max-inline-size: var(--ds-dialog-max-width, 28rem);
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    color: var(--ds-color-text, #272727);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -240,7 +240,7 @@
   }
   .prompt-dialog__description {
     margin: 0.5rem 0 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .prompt-dialog__field {
     display: grid;
@@ -255,7 +255,7 @@
     inline-size: 100%;
     box-sizing: border-box;
     padding: var(--ds-control-padding-y, 0.5rem) 0.75rem;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     font: inherit;
     background: var(--ds-color-background, #fff);

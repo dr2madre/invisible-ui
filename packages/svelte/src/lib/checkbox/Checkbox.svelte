@@ -140,7 +140,7 @@
     cursor: not-allowed;
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
   }
   /* Kept in the accessibility tree (names the control), removed from view. */
   .field__label--hidden {
@@ -178,7 +178,7 @@
     block-size: var(--ds-checkbox-size, 1.25rem);
     /* Inset so the glyph never touches the box edge. */
     padding: var(--ds-checkbox-padding, 0.15rem);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-checkbox-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     display: inline-flex;
@@ -212,8 +212,8 @@
     /* The glyph, not the edge, carries the state: the boundary keeps the
        control border, and the glyph takes the selection text form, which
        stays readable on the tint in both themes. */
-    border-color: var(--ds-color-control-border, #757067);
-    color: var(--ds-color-selected-text, #553d7f);
+    border-color: var(--ds-color-control-border, #757575);
+    color: var(--ds-color-selected-text, #553f82);
   }
   .field--disabled .checkbox,
   .checkbox__input:disabled + .checkbox {

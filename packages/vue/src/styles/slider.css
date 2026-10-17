@@ -17,7 +17,7 @@
 .slider-field__icon {
   display: inline-flex;
   flex: none;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
 }
 .slider-field__icon svg {
   inline-size: 1.2em;
@@ -29,13 +29,13 @@
   text-align: end;
   font-variant-numeric: tabular-nums;
   font-size: 0.875rem;
-  color: var(--ds-color-text, #282420);
+  color: var(--ds-color-text, #272727);
 }
 .slider-field__range {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
 }
 
 .slider {
@@ -57,7 +57,7 @@
   block-size: 6px;
   transform: translate(-50%, 2px);
   border-radius: 1px;
-  background: var(--ds-slider-tick, var(--ds-color-border, #c7c1b7));
+  background: var(--ds-slider-tick, var(--ds-color-border, #bdbdbd));
 }
 .slider[data-orientation="horizontal"] {
   inline-size: auto;
@@ -98,7 +98,7 @@
   background: linear-gradient(
     to right,
     var(--ds-slider-range, var(--ds-color-secondary, #7a52cc)) var(--_slider-pct, 0%),
-    var(--ds-slider-track, var(--ds-color-border, #c7c1b7)) var(--_slider-pct, 0%)
+    var(--ds-slider-track, var(--ds-color-border, #bdbdbd)) var(--_slider-pct, 0%)
   );
 }
 .slider[data-orientation="vertical"] .slider__input::-webkit-slider-runnable-track {
@@ -106,7 +106,7 @@
   background: linear-gradient(
     to top,
     var(--ds-slider-range, var(--ds-color-secondary, #7a52cc)) var(--_slider-pct, 0%),
-    var(--ds-slider-track, var(--ds-color-border, #c7c1b7)) var(--_slider-pct, 0%)
+    var(--ds-slider-track, var(--ds-color-border, #bdbdbd)) var(--_slider-pct, 0%)
   );
 }
 .slider__input::-webkit-slider-thumb {
@@ -127,7 +127,7 @@
 .slider__input::-moz-range-track {
   block-size: var(--ds-slider-thickness, 0.375rem);
   border-radius: 999px;
-  background: var(--ds-slider-track, var(--ds-color-border, #c7c1b7));
+  background: var(--ds-slider-track, var(--ds-color-border, #bdbdbd));
 }
 .slider__input::-moz-range-progress {
   block-size: var(--ds-slider-thickness, 0.375rem);

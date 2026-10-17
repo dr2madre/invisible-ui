@@ -73,7 +73,7 @@
     "purpose": "Text drawn on the warning label fill (solid Tag, Count). It is dark, because the light warning colour cannot carry white text."
   },
   "--ds-color-warning-label-surface": {
-    "purpose": "The fill behind a text label with the warning status: the solid Tag and the Count. The warning colour gives dark text 3.9:1 only; this fill gives it 4.5:1 or more. Glyphs, dots and meter fills keep the warning colour."
+    "purpose": "The fill behind a text label with the warning status: the solid Tag and the Count. The warning colour gives dark text 3.8:1 only; this fill gives it 4.5:1 or more. Glyphs, dots and meter fills keep the warning colour."
   },
   "--ds-color-emphasis-surface": {
     "purpose": "An area that should stand out from the page around it, such as a tooltip or an inverted panel."

@@ -88,18 +88,18 @@
     align-items: center;
     gap: 0.5rem;
     padding: var(--ds-collapsible-trigger-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-collapsible-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     cursor: pointer;
     text-align: start;
   }
   .collapsible__icon {
     display: inline-flex;
     flex: none;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .collapsible__trigger:global([data-state="open"]) .collapsible__icon {

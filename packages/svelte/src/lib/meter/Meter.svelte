@@ -64,7 +64,7 @@
     inline-size: var(--ds-meter-width, 16rem);
     block-size: var(--ds-meter-height, 0.5rem);
     overflow: hidden;
-    background: var(--ds-meter-track, var(--ds-color-border, #c7c1b7));
+    background: var(--ds-meter-track, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-meter-radius, 999px);
   }
   .meter__indicator {

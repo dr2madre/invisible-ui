@@ -136,7 +136,7 @@
     display: grid;
     gap: var(--ds-rating-label-gap, 0.5rem);
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .rating__label {
     font-size: 0.875rem;
@@ -157,7 +157,7 @@
     position: relative;
     display: inline-flex;
     /* Darker outline so empty stars stay visible. */
-    color: var(--ds-rating-empty-color, var(--ds-neutral-400, #757067));
+    color: var(--ds-rating-empty-color, var(--ds-neutral-400, #757575));
     cursor: pointer;
   }
   .rating--disabled .rating__star {
@@ -169,7 +169,7 @@
   /* Hover preview: a neutral grey fill (not the selection color) showing the
      stars about to be set. */
   .rating__star--preview {
-    color: var(--ds-rating-preview-color, var(--ds-neutral-300, #a8a297));
+    color: var(--ds-rating-preview-color, var(--ds-neutral-300, #9e9e9e));
   }
   .rating__star--preview :global(svg) {
     fill: currentColor;
