@@ -31,14 +31,14 @@
   font: inherit;
   font-size: 0.75rem;
   color: inherit;
-  background: var(--ds-code-block-copy-bg, rgba(0, 0, 0, 0.05));
+  background: var(--ds-code-block-copy-bg, color-mix(in srgb, currentColor 8%, transparent));
   border: 1px solid transparent;
   border-radius: var(--ds-radius-control, 0.5rem);
   cursor: pointer;
   transition: background-color 120ms ease;
 }
 .code-block__copy:hover {
-  background: var(--ds-code-block-copy-hover, rgba(0, 0, 0, 0.1));
+  background: var(--ds-code-block-copy-hover, color-mix(in srgb, currentColor 16%, transparent));
 }
 .code-block__copy:focus-visible {
   outline: none;
