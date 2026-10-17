@@ -32,9 +32,15 @@ Each line is **matched**, **adapted** (with the platform reason), **open**
 | The first pick starts the range and the popup stays; the second ends it, closes before reporting and returns focus | matched | `the first pick starts, the second ends and closes; the field shows both; each pick reports` |
 | The field shows both dates, or the start and an ellipsis while half made | matched | same test (adapted: two medium dates joined by a dash, no `formatRange`) |
 | Each pick and the clear report once | matched | same test |
+<<<<<<< HEAD
 | Enter, Space and Down open the popup with focus on the start day, else today | matched | `Enter, Space and Down open with focus on the start day, else today` |
 | The range is made with the keyboard alone: Enter picks the start, the arrows move, Enter picks the end, the popup closes and focus returns to the field | matched | `the range is made with the keyboard alone; the popup closes and focus returns to the field` |
 | The clear button keeps focus in the control | matched | `the clear button keeps focus in the control` (in the `DateRangePicker` group) |
+=======
+| Enter, Space and Down open the popup with focus on the start day, else today | open | the shared field opens on these keys and the range calendar focuses its start, but no range picker test opens it from the keyboard or checks where focus lands |
+| The range is made with the keyboard alone: Enter picks the start, the arrows move, Enter picks the end, the popup closes and focus returns to the field | open | the calendar's Enter picks through the same path as a tap, but no range picker test makes a range from the keyboard |
+| The clear button keeps focus in the control | open | the shared field returns focus to the field after a key press on the button (see [date-picker.md](date-picker.md)), but no range picker test checks focus after a clear |
+>>>>>>> origin/main
 | The popup shows two months; the ends are named "range start" and "range end"; every day of the range is selected | matched | `semantics: the ends of the range are named in the popup` |
 | Field named by the label with the range as its value | matched | same test |
 | Labeled targets and contrast | matched | same test |

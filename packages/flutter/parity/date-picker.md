@@ -39,7 +39,11 @@ Each line is **matched**, **adapted** (with the platform reason), **open**
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | A tap opens; focus moves to the calendar's focused day: the picked one, else today | matched | `a tap opens with focus on the picked day; a pick fills the field, closes, returns focus and reports once` |
+<<<<<<< HEAD
 | With nothing picked, focus goes to today's day, never to a calendar button | matched | `with nothing picked, focus goes to today's day, never to a calendar button` |
+=======
+| With nothing picked, focus goes to today's day, never to a calendar button | open | the calendar focuses today when it has no value, but no widget test checks where focus lands with an empty field |
+>>>>>>> origin/main
 | A pick fills the field, closes the popup before reporting, and returns focus to the field | matched | same test |
 | Enter, Space and Down open; the date grid keys apply; Escape closes without a pick and returns focus | matched | `Enter, Space and Down open; the grid keys move; Enter picks; Escape closes without a pick and returns focus` |
 | A press outside closes and leaves focus where it lands | matched | `a press outside closes and leaves focus where it lands` |
@@ -64,7 +68,11 @@ Each line is **matched**, **adapted** (with the platform reason), **open**
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | The field shows the date in the locale's medium style; the calendar names follow the locale; the week start follows the consumer | matched | `the locale names the field and the calendar` |
+<<<<<<< HEAD
 | Without `weekStartsOn` the calendar starts on the locale's first day | matched | `without weekStartsOn the calendar starts on the locale's first day` (en-US on Sunday, en-GB on Monday); the picker hands a null `weekStartsOn` to its `Calendar`, which takes the locale's CLDR day (see [calendar.md](calendar.md)) |
+=======
+| Without `weekStartsOn` the calendar starts on the locale's first day | open | the picker hands a null `weekStartsOn` to its `Calendar`, which takes the locale's CLDR day (see [calendar.md](calendar.md)), but no picker test holds it |
+>>>>>>> origin/main
 | Without a locale from the widget or the app, the field and the calendar use the international default | matched | the tests name no locale and read the default's medium date, `10 Jun 2026`: `a tap opens with focus on the picked day; …` |
 | The calendar glyph takes the selection colour once a date is picked | matched | the field's glyph |
 | Popup at most 22rem wide, within the window | matched | `right to left at text scale 2.0 in a narrow window, the popup fits, under touch with 44 by 44 days` |

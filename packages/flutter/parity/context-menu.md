@@ -75,7 +75,11 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+<<<<<<< HEAD
 | Item hit area 24 by 24, and 44 by 44 for every item under a coarse pointer | matched | `every item is at least 24 by 24, and 44 by 44 under touch`, `on a touch platform every item is 44 by 44 with no density chosen`. Flutter has no pointer media query, so the theme reads the platform: on Android, iOS and Fuchsia (`InvisibleThemeData.touchPlatform`, from `defaultTargetPlatform`, the signal Material uses for its tap targets) every target keeps 44 by 44 at any density, as under `pointer: coarse` on the web; on desktop the touch density or a larger `minTargetSize` gives it |
+=======
+| Item hit area 24 by 24, and 44 by 44 for every item under a coarse pointer | adapted | Flutter has no pointer media query: the 44 by 44 target applies under the touch density, or a larger `minTargetSize`, that the app selects. `every item is at least 24 by 24, and 44 by 44 under touch` |
+>>>>>>> origin/main
 | The menu stays inside a narrow screen at text scale 2.0 | matched | `text scale 2.0 on a narrow screen keeps the menu inside` |
 | Colours, radii and elevation of the shared menu tokens | matched | the shared `MenuPanel`; see `dropdown-menu.md` |
 | Region focus ring radius `radius.control` | matched | the region paints the theme focus ring with `controlRadius` |

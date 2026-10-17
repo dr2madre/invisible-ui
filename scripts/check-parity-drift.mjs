@@ -129,6 +129,13 @@ export function checkDrift(root) {
       rows.push(`- \`${file}\`: up to date with \`${commit.slice(0, 8)}\``);
       continue;
     }
+    // A commit cannot name itself, so a change that updates the reference and
+    // its checklist together counts as reviewed.
+    const changed = git(root, ["show", "--name-only", "--format=", last]).stdout.split("\n");
+    if (changed.includes(file)) {
+      rows.push(`- \`${file}\`: updated with the reference in \`${last.slice(0, 8)}\``);
+      continue;
+    }
     stale.add(name);
     const message = `${file}: out of date, ${last.slice(0, 8)} changed the reference after ${commit.slice(0, 8)}`;
     if (excepted.has(name)) {
