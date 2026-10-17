@@ -106,7 +106,6 @@ class _CodeBlockState extends State<CodeBlock> {
     final header = hasLanguage || widget.copyable
         ? Container(
             padding: _headerPadding,
-            decoration: BoxDecoration(border: Border(bottom: border)),
             child: DefaultTextStyle(
               style: theme.textStyle.copyWith(
                 fontSize: _headerSize,
@@ -174,7 +173,7 @@ class _CodeBlockState extends State<CodeBlock> {
         child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            color: colors.surface,
+            color: colors.codeBlockSurface,
             border: Border.fromBorderSide(border),
             borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
           ),

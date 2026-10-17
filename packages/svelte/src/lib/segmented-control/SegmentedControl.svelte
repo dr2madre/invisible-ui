@@ -159,7 +159,7 @@
     display: inline-grid;
     gap: var(--ds-segment-label-gap, 0.375rem);
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .segmented-field__label {
     font-size: 0.875rem;
@@ -180,7 +180,7 @@
   .segmented {
     display: inline-flex;
     justify-self: start;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-segment-radius, var(--ds-radius-control, 0.5rem));
     /* Segments that cannot fit scroll inside the control instead of
        widening the page; focusing a clipped segment scrolls it into view. */
@@ -196,7 +196,7 @@
   .segmented--vertical .segment {
     justify-content: flex-start;
     border-inline-start: none;
-    border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .segmented--vertical .segment:first-child {
     border-block-start: none;
@@ -211,7 +211,7 @@
     gap: var(--ds-segment-gap, 0.4rem);
     padding: var(--ds-segment-padding, var(--ds-control-padding-y, 0.5rem) 0.9rem);
     cursor: pointer;
-    border-inline-start: 1px solid var(--ds-color-border, #c7c1b7);
+    border-inline-start: 1px solid var(--ds-color-border, #bdbdbd);
     transition:
       background-color 120ms ease,
       color 120ms ease;

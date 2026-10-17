@@ -58,6 +58,6 @@
   }
   .dialog-composition-demo p {
     margin: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
 </style>

@@ -47,7 +47,7 @@
   --ds-brand-secondary: var(--ds-purple-500); /* legacy alias — same hue as primary */
   --ds-brand-secondary-hover: var(--ds-purple-600);
   --ds-brand-white: var(--ds-neutral-0); /* lightest UI point — white #fff */
-  --ds-brand-black: var(--ds-neutral-950); /* darkest UI point — warm grey 950 */
+  --ds-brand-black: var(--ds-neutral-950); /* darkest UI point — grey 950 */
 
   /* 2) Feedback hues. */
   --ds-feedback-info: var(--ds-blue-500);
@@ -64,19 +64,19 @@
   --ds-pastel-green: oklch(78.3% 0.129 138.7); /* #8DCC7A */
   --ds-pastel-yellow: oklch(84.1% 0.151 98); /* #E5CB44 */
 
-  /* 3) Neutrals (UI) — the palette's "Warm Grey" 0–950 ramp. */
+  /* 3) Neutrals (UI) — the palette's "Grey" 0–950 ramp. */
   --ds-neutral-0: #ffffff;
-  --ds-neutral-50: #f4f2ef;
-  --ds-neutral-100: #e6e0d8;
-  --ds-neutral-200: #c7c1b7;
-  --ds-neutral-300: #a8a297;
-  --ds-neutral-400: #757067;
-  --ds-neutral-500: #5e5951;
-  --ds-neutral-600: #524c44;
-  --ds-neutral-700: #413c36;
-  --ds-neutral-800: #332f2a;
-  --ds-neutral-900: #282420;
-  --ds-neutral-950: #1c1915;
+  --ds-neutral-50: #f5f5f5;
+  --ds-neutral-100: #e0e0e0;
+  --ds-neutral-200: #bdbdbd;
+  --ds-neutral-300: #9e9e9e;
+  --ds-neutral-400: #757575;
+  --ds-neutral-500: #616161;
+  --ds-neutral-600: #515151;
+  --ds-neutral-700: #414141;
+  --ds-neutral-800: #323232;
+  --ds-neutral-900: #272727;
+  --ds-neutral-950: #1b1b1b;
 }
 
 /* =============== Tier 2 — non-color roles (shape & type) ================== *
@@ -212,8 +212,8 @@
   --ds-color-on-status: var(--ds-neutral-0);
   --ds-color-on-warning: var(--ds-neutral-900);
   /* The fill behind a text label with the warning status (solid Tag, Count).
-     The warning colour itself gives its dark text 3.9:1 only; this mix gives
-     it 4.9:1, and the warning colour stays as it is everywhere else. */
+     The warning colour itself gives its dark text 3.8:1 only; this mix gives
+     it 4.7:1, and the warning colour stays as it is everywhere else. */
   --ds-color-warning-label-surface: color-mix(
     in srgb,
     var(--ds-feedback-warning) 85%,
@@ -300,7 +300,7 @@
   --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   /* The scrim behind a modal dialog (the dialog-overlay role). How far it
      sets the dialog apart from the page is a theme choice: docs/tokens.md. */
-  --ds-dialog-overlay: rgb(28 25 21 / 0.5);
+  --ds-dialog-overlay: rgb(27 27 27 / 0.5);
   /* The shape behind a navigation bar's current destination: 3:1 against the
      surface and against the text, so the shape and the icon on it both read. */
   --ds-navigation-bar-current-indicator: color-mix(
@@ -311,6 +311,9 @@
   /* A data grid cell with the secondary emphasis: allowed, outside the usual
      schedule. The text keeps 4.5:1 on it; the cell's label carries the meaning. */
   --ds-grid-cell-secondary-surface: var(--ds-neutral-50);
+  /* The surface of a code block (the code-block-surface role): the lightest
+     grey here, the darkest short of black in the dark theme. */
+  --ds-code-block-surface: var(--ds-neutral-50);
 }
 
 /* =============== Tier 2 — semantic (dark) ================================= */
@@ -445,10 +448,11 @@
     --ds-dialog-overlay: rgb(0 0 0 / 0.6);
     --ds-navigation-bar-current-indicator: color-mix(
       in srgb,
-      var(--ds-color-secondary) 75%,
+      var(--ds-color-secondary) 74%,
       var(--ds-neutral-50)
     );
     --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
+    --ds-code-block-surface: var(--ds-neutral-950);
   }
 }
 
@@ -569,10 +573,11 @@
   --ds-dialog-overlay: rgb(0 0 0 / 0.6);
   --ds-navigation-bar-current-indicator: color-mix(
     in srgb,
-    var(--ds-color-secondary) 75%,
+    var(--ds-color-secondary) 74%,
     var(--ds-neutral-50)
   );
   --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
+  --ds-code-block-surface: var(--ds-neutral-950);
 }
 
 /* =============== Fallback: no color-mix() (pre-2023 engines) ============== *

@@ -130,7 +130,7 @@
     container-type: inline-size;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .stepper__list {
     display: flex;
@@ -168,7 +168,7 @@
     margin-inline: 0.25rem;
     background-image: radial-gradient(
       circle,
-      var(--ds-step-connector-color, var(--ds-color-border, #c7c1b7)) 0 42%,
+      var(--ds-step-connector-color, var(--ds-color-border, #bdbdbd)) 0 42%,
       transparent 48%
     );
     background-size: var(--ds-step-connector-dot-gap, 5px) 100%;
@@ -250,9 +250,9 @@
     font-weight: 600;
     line-height: 1;
     border-radius: 50%;
-    border: 2px solid var(--ds-step-indicator-border, var(--ds-color-border, #c7c1b7));
-    color: var(--ds-step-indicator-text, var(--ds-color-text-secondary, #524c44));
-    background: var(--ds-step-indicator-bg, var(--ds-color-surface, #e6e0d8));
+    border: 2px solid var(--ds-step-indicator-border, var(--ds-color-border, #bdbdbd));
+    color: var(--ds-step-indicator-text, var(--ds-color-text-secondary, #515151));
+    background: var(--ds-step-indicator-bg, var(--ds-color-surface, #e0e0e0));
     transition:
       background-color 120ms ease,
       border-color 120ms ease,
@@ -260,9 +260,9 @@
   }
   /* Completed: light gray filled circle with a dark check. */
   .stepper__step[data-status="complete"] .stepper__indicator {
-    background: var(--ds-step-complete-bg, var(--ds-color-surface, #e6e0d8));
-    border-color: var(--ds-step-complete-border, var(--ds-color-border, #c7c1b7));
-    color: var(--ds-step-complete-text, var(--ds-color-text, #282420));
+    background: var(--ds-step-complete-bg, var(--ds-color-surface, #e0e0e0));
+    border-color: var(--ds-step-complete-border, var(--ds-color-border, #bdbdbd));
+    color: var(--ds-step-complete-text, var(--ds-color-text, #272727));
   }
   /* Current: filled with the selection color. */
   /* Current step: the shared selected look — faint selection fill, selection
@@ -279,8 +279,8 @@
   .stepper__step[data-status="upcoming"] .stepper__indicator {
     background: transparent;
     border-style: dashed;
-    border-color: var(--ds-step-upcoming-border, var(--ds-color-text, #282420));
-    color: var(--ds-step-upcoming-text, var(--ds-color-text, #282420));
+    border-color: var(--ds-step-upcoming-border, var(--ds-color-text, #272727));
+    color: var(--ds-step-upcoming-text, var(--ds-color-text, #272727));
   }
 
   .stepper__text {
@@ -311,7 +311,7 @@
   .stepper__description {
     overflow-wrap: anywhere;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     line-height: var(--ds-line-height, 1.4);
   }
 </style>

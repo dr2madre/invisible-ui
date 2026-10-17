@@ -32,9 +32,9 @@
     );
     font-size: var(--ds-code-font-size, 0.875em);
     padding: var(--ds-code-padding, 0.1em 0.35em);
-    background: var(--ds-code-surface, var(--ds-color-neutral-surface, #f4f2ef));
-    color: var(--ds-code-text, var(--ds-color-text, #282420));
-    border: 1px solid var(--ds-code-border, var(--ds-color-neutral-border, #c7c1b7));
+    background: var(--ds-code-surface, var(--ds-color-neutral-surface, #f5f5f5));
+    color: var(--ds-code-text, var(--ds-color-text, #272727));
+    border: 1px solid var(--ds-code-border, var(--ds-color-neutral-border, #bdbdbd));
     border-radius: var(--ds-code-radius, var(--ds-radius-control, 0.5rem));
     /* Keep the box snug to the text baseline without throwing off line height. */
     line-height: 1.2;

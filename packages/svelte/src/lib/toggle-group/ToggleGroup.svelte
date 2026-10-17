@@ -108,7 +108,7 @@
      drawing a single outer border with thin dividers. */
   .toggle-group--segmented {
     gap: 0;
-    border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
+    border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757575));
     border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
     overflow: hidden;
     --ds-toggle-border-width: 0;
@@ -120,10 +120,10 @@
      is the toggle itself, or an element that holds it. */
   .toggle-group--segmented[data-orientation="horizontal"]
     > :global(:not(:first-child) .toggle__surface) {
-    border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
+    border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757575));
   }
   .toggle-group--segmented[data-orientation="vertical"]
     > :global(:not(:first-child) .toggle__surface) {
-    border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
+    border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757575));
   }
 </style>

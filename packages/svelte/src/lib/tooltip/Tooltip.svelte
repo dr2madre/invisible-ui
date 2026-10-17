@@ -65,8 +65,8 @@
     padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
     font-size: var(--ds-tooltip-font-size, 0.8125rem);
     line-height: var(--ds-line-height, 1.4);
-    background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #332f2a));
-    color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f4f2ef));
+    background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #323232));
+    color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f5f5f5));
     border-radius: var(--ds-tooltip-radius, var(--ds-radius-control, 0.5rem));
     box-shadow: var(
       --ds-elevation-overlay,

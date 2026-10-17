@@ -102,7 +102,7 @@ body {
 }
 
 .visual-panel {
-  border: 1px solid var(--ds-color-border, #c7c1b7);
+  border: 1px solid var(--ds-color-border, #bdbdbd);
   border-radius: 0.75rem;
   inline-size: 100%;
 }
@@ -110,7 +110,7 @@ body {
 .visual-note {
   margin: 0;
   font-size: 0.875rem;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
 }
 
 .visual-segmented {
@@ -129,7 +129,7 @@ body {
   margin: 0 0 0.5rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -180,7 +180,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
 }
 
 .visual-progress__note {
@@ -202,7 +202,7 @@ body {
 
 .visual-native-input {
   padding: 0.5rem 0.6rem;
-  border: 1px solid var(--ds-color-border, #c7c1b7);
+  border: 1px solid var(--ds-color-border, #bdbdbd);
   border-radius: 0.5rem;
   font: inherit;
 }

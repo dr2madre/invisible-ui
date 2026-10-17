@@ -96,10 +96,10 @@
   .field__label {
     font: inherit;
     font-weight: var(--ds-field-label-weight, 500);
-    color: var(--ds-field-label-color, var(--ds-color-text, #282420));
+    color: var(--ds-field-label-color, var(--ds-color-text, #272727));
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
   }
   .field__required {
     color: var(--ds-field-required-color, var(--ds-color-danger-body-text, #be3b50));
@@ -108,7 +108,7 @@
   .field__description {
     margin: 0;
     font-size: 0.875em;
-    color: var(--ds-field-description-color, var(--ds-color-text-secondary, #524c44));
+    color: var(--ds-field-description-color, var(--ds-color-text-secondary, #515151));
   }
   .field__error {
     margin: 0;

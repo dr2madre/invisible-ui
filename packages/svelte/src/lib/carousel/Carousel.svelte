@@ -256,7 +256,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     position: relative;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
 
   /* Positioning context for the arrows so they center on the slides only, not
@@ -283,7 +283,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     display: flex;
     align-items: flex-end;
     aspect-ratio: var(--ds-carousel-aspect, 16 / 9);
-    background-color: var(--ds-carousel-slide-bg, var(--ds-color-neutral-surface, #f4f2ef));
+    background-color: var(--ds-carousel-slide-bg, var(--ds-color-neutral-surface, #f5f5f5));
     background-size: cover;
     background-position: center;
   }
@@ -414,9 +414,9 @@ keeps the scoped rule for the vertical coverflow layout. -->
     inline-size: var(--ds-carousel-arrow-size, 2.25rem);
     block-size: var(--ds-carousel-arrow-size, 2.25rem);
     font-size: 1.1rem;
-    color: var(--ds-carousel-arrow-text, var(--ds-color-text, #282420));
-    background: var(--ds-carousel-arrow-bg, var(--ds-color-surface, #e6e0d8));
-    border: 1px solid var(--ds-carousel-arrow-border, var(--ds-color-control-border, #757067));
+    color: var(--ds-carousel-arrow-text, var(--ds-color-text, #272727));
+    background: var(--ds-carousel-arrow-bg, var(--ds-color-surface, #e0e0e0));
+    border: 1px solid var(--ds-carousel-arrow-border, var(--ds-color-control-border, #757575));
     border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     cursor: pointer;
@@ -463,7 +463,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     border-radius: 50%;
     /* Each dot is a real button whose whole visible form is this disc, so it
        takes the control boundary colour, not the divider colour. */
-    background: var(--ds-carousel-dot-color, var(--ds-color-control-border, #757067));
+    background: var(--ds-carousel-dot-color, var(--ds-color-control-border, #757575));
     transition: background-color 120ms ease;
   }
   .carousel__dot:global([data-selected]) {

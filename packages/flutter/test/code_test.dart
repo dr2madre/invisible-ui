@@ -92,6 +92,58 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets('the block sits on the code-block-surface role of each '
+        'theme, with no line under the header, and its text keeps contrast '
+        'on it', (tester) async {
+      final semantics = tester.ensureSemantics();
+      for (final theme in [
+        InvisibleThemeData.light(),
+        InvisibleThemeData.dark(),
+      ]) {
+        await tester.pumpWidget(
+          harness(const CodeBlock(code: _sample), theme: theme),
+        );
+        final surface = tester
+            .widgetList<Container>(
+              find.descendant(
+                of: find.byType(CodeBlock),
+                matching: find.byType(Container),
+              ),
+            )
+            .map((box) => box.decoration)
+            .whereType<BoxDecoration>()
+            .first;
+        expect(surface.color, theme.colors.codeBlockSurface);
+        // The card keeps its outer border; no line sets the header apart.
+        final borders = tester
+            .widgetList<Container>(
+              find.descendant(
+                of: find.byType(CodeBlock),
+                matching: find.byType(Container),
+              ),
+            )
+            .map((box) => box.decoration)
+            .whereType<BoxDecoration>()
+            .where((decoration) => decoration.border != null)
+            .toList();
+        expect(borders, [surface]);
+        expect(
+          surface.border,
+          Border.fromBorderSide(BorderSide(color: theme.colors.border)),
+        );
+        await expectLater(tester, meetsGuideline(textContrastGuideline));
+      }
+      expect(
+        InvisibleThemeData.light().colors.codeBlockSurface,
+        const Color(0xFFF5F5F5),
+      );
+      expect(
+        InvisibleThemeData.dark().colors.codeBlockSurface,
+        const Color(0xFF1B1B1B),
+      );
+      semantics.dispose();
+    });
+
     testWidgets('copy writes the code, shows Copied for two seconds and '
         'announces it politely; Enter copies too', (tester) async {
       final copied = _clipboard(tester);

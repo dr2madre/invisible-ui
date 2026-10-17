@@ -73,7 +73,7 @@
     text-align: start;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     background: none;
     border: 0;
     border-radius: var(--ds-radius-control, 0.5rem);

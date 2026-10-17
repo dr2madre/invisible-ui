@@ -133,7 +133,7 @@
     max-inline-size: 100%;
     padding: var(--ds-sidebar-padding, var(--ds-menu-padding, 0.75rem));
     background: var(--ds-sidebar-bg, var(--ds-color-background, #fff));
-    border: 1px solid var(--ds-sidebar-border, var(--ds-color-border, #c7c1b7));
+    border: 1px solid var(--ds-sidebar-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(
       --ds-sidebar-radius,
       var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem))
@@ -151,7 +151,7 @@
     align-items: center;
     justify-content: center;
     padding: 0.375rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     background: none;
     border: 0;
     border-radius: var(--ds-radius-control, 0.5rem);
@@ -171,7 +171,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .sidebar__label--hidden,
   .sidebar__live {
@@ -187,6 +187,6 @@
   .sidebar__footer {
     margin-block-start: auto;
     padding-block-start: 0.5rem;
-    border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
   }
 </style>
