@@ -30,6 +30,8 @@
   --sl-color-gray-5: var(--ds-color-border, #413c36);
   --sl-color-gray-6: var(--ds-neutral-800, #332f2a);
   --sl-color-black: var(--ds-color-background, #282420);
+  /* Header: the darkest grey of the palette. */
+  --sl-color-bg-nav: var(--ds-neutral-950, #1c1915);
 }
 
 /* Home page in the dark theme: the darkest grey of the palette as the page
