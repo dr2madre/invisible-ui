@@ -16,7 +16,7 @@ The visual layer is documented separately:
 
 - **Color palette** — the raw colors (HEX / OKLCH) and the per-hue scale
   (Dioxazine Purple brand, Cobalt Blue / Sap Green / Burnt Orange / Alizarin Red
-  feedback, Warm Grey neutrals). See the docs site,
+  feedback, Grey neutrals). See the docs site,
   `presentation/color-palette`.
 - **[Tokens](./tokens.md)** — the canonical token model and the two-tier
   `tokens.css` layer (primitives → semantic `--ds-color-*` roles) the components

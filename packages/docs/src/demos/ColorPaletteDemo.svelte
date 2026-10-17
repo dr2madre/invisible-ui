@@ -384,7 +384,7 @@
   .toolbar__label {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .cell__toast {
     position: absolute;
@@ -429,7 +429,7 @@
     font-size: 0.6875rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .hue-h {
     text-align: center;
@@ -455,7 +455,7 @@
   .cell--empty {
     background: transparent;
     cursor: default;
-    border: 1px dashed var(--ds-color-border, #c7c1b7);
+    border: 1px dashed var(--ds-color-border, #bdbdbd);
   }
 
   /* White lives apart from the shade grid, among the neutrals. */
@@ -469,7 +469,7 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .extra {
     display: grid;
@@ -484,7 +484,7 @@
   .cell--white {
     inline-size: 4rem;
     background: #ffffff;
-    border: 1px solid var(--ds-color-border, #c7c1b7);
-    color: #1c1915;
+    border: 1px solid var(--ds-color-border, #bdbdbd);
+    color: #1b1b1b;
   }
 </style>
