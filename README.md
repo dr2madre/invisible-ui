@@ -14,9 +14,9 @@
 
 _by nozcadesign_
 
-A **headless, accessible, multi-framework** component library — built from scratch.
+A **headless, accessible, multi-framework** component library, built from scratch.
 
-> **⚠️ Alpha — in active development.** APIs, design tokens, and package names
+> **⚠️ Alpha: in active development.** APIs, design tokens, and package names
 > may change without notice. Not recommended for production use yet.
 
 > **Status:** The framework-agnostic core and the **Svelte**, **React**,
@@ -26,7 +26,11 @@ A **headless, accessible, multi-framework** component library — built from scr
 > The repository includes light/dark tokens, `vitest`/`vitest-axe` coverage
 > and an Astro docs site with a live Svelte demo per component.
 > **Reflex (Python)** wraps the React components. **Flutter** reimplements
-> the behaviour in Dart on the widgets layer (ADR 0017). The
+> the behaviour in Dart on the widgets layer (ADR 0017), with a minimum of
+> Flutter 3.35. **Data Grid**, the editable grid, is built in `core/` and
+> Flutter; the web adapters follow. Automated checks (unit, interaction, axe,
+> keyboard, contrast) pass everywhere; no component has been checked yet with
+> a screen reader or touch assistive technology (ADR 0018). The
 > [technical roadmap](./docs/technical-roadmap.md) tracks what comes next.
 
 ## What this is
@@ -111,7 +115,7 @@ adapters expose it idiomatically. **Svelte**, **React**, **Vue**, **Web
 Components** and **Flutter** carry the full catalog. **React** started as the proof of concept
 that confirmed the core needs no changes to drive another framework, and now
 carries all 81 components. **Reflex**
-wraps the React components so Python apps reuse the same behaviour (ADR 0006) — nothing is re-implemented in Python.
+wraps the React components so Python apps reuse the same behaviour (ADR 0006): nothing is re-implemented in Python.
 
 See [`core/README.md`](./core/README.md) for the primitive contract, state
 ownership and adapter integration model.

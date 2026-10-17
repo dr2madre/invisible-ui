@@ -18,8 +18,19 @@ when an adapter grows.
 | **Vue** | `@design-system/vue` | All 81 | Complete: every Svelte component has a Vue counterpart, with `v-model` on the controlled values. |
 | **Flutter** | `invisible_ui` (Dart) | All 81 | Complete: foundation (tokens, theme, density, focus ring, messages) and Button, Field, Text Field, Text Area, Number Field, Checkbox, Checkbox Group, Switch, Radio Group, Segmented Control, Select, Combobox, Multi Select, Search Field, Calendar, Date Picker, Date Range Picker, Time Field, Tooltip, Toolbar, Popover, Dropdown Menu, Context Menu and Menubar with submenus, Inline Notification, Notification, Notification Region, Loading, Loading Area, Empty State, Error State, Card, Dialog, Alert Dialog, Confirm Dialog, Prompt Dialog, Search Dialog, Sheet Dialog, Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link, Navigation Menu, Sidebar (inline, rail and drawer), Navigation Bar, Tree View, Progress, Meter, Avatar, Avatar Group, Count, Tag, Kbd, Label, Feedback Icon, Skeleton, Code, Code Block, Blockquote, Scroll Area, Slider, Range Slider, Rating Group, Pin Input, Radio, Toggle Button, Toggle Group, Button Group, Stepper, Separator, Table, Table Set (with Table View inside it, internal as on the web), Carousel, Login Form, Upload Drop Area and Locale Provider, each checked against the Svelte reference ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0017-flutter-adapter.md), [parity checklists](https://github.com/dr2madre/invisible-ui/tree/main/packages/flutter/parity)). Aspect Ratio and Icon are Flutter's own `AspectRatio` and `Icon` widgets. Data Grid is built from its [spec](https://github.com/dr2madre/invisible-ui/blob/main/docs/editable-grid-spec.md) in Flutter and `core/` first; the web adapters follow. |
 
-Svelte, React, Vue, the web components and Flutter carry the whole catalog. The shared
-set below tracks the Python wrappers over the React components. When a component
+Svelte, React, Vue, the web components and Flutter carry the whole catalog of 81
+components. Data Grid, the editable grid for timesheets, is outside that count:
+it is built in `core/` and Flutter from its
+[specification](https://github.com/dr2madre/invisible-ui/blob/main/docs/editable-grid-spec.md),
+and the web adapters follow. The shared set below tracks the Python wrappers
+over the React components.
+
+Every adapter passes its automated checks: unit and interaction tests, axe,
+keyboard paths, contrast and, in Flutter, the accessibility guidelines. No
+component has been checked yet with a screen reader or with touch assistive
+technology, so none is described as verified; the
+[evidence register](https://github.com/dr2madre/invisible-ui/blob/main/docs/evidence-register.md)
+records what each check covers. When a component
 lands in an adapter, this page and the [API conventions](/invisible-ui/api/)
 change with it.
 
