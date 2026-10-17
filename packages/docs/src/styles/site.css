@@ -83,7 +83,7 @@
 /* Home "Available for" strip. Logos from Simple Icons (CC0); the name next to
    each logo carries the meaning, so the logo is decorative. Brand colours are
    adjusted per theme where the official colour would vanish on the page. */
-.home-adapters__title {
+.home-section-title {
   /* Half the size of a regular section heading. */
   font-size: calc(var(--sl-text-h2) / 2);
 }
@@ -184,6 +184,8 @@
   justify-items: start;
   text-align: start;
   gap: 1.5rem;
+  /* Starlight pads the hero up to 10rem on wide screens; keep it tight. */
+  padding-block: 1rem;
 }
 [data-has-hero] .hero > img,
 [data-has-hero] .hero > picture {
