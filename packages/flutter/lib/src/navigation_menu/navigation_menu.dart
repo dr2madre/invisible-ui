@@ -396,7 +396,7 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
               constraints: const BoxConstraints(minWidth: _panelMinWidth),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.background,
+                  color: colors.popoverBackground,
                   border: Border.all(color: colors.border),
                   borderRadius: BorderRadius.circular(
                     InvisibleRadiusTokens.surface,

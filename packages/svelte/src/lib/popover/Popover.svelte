@@ -152,7 +152,7 @@
     inline-size: max-content;
     max-inline-size: var(--ds-popover-max-width, 20rem);
     padding: var(--ds-popover-padding, 0.875rem 1rem);
-    background: var(--ds-color-background, #fff);
+    background: var(--ds-popover-background, var(--ds-color-background, #fff));
     color: var(--ds-color-text, #272727);
     border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-popover-radius, var(--ds-radius-surface, 0.75rem));

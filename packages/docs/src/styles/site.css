@@ -29,12 +29,11 @@
   --sl-color-gray-4: var(--ds-neutral-500, #616161);
   --sl-color-gray-5: var(--ds-color-border, #414141);
   --sl-color-gray-6: var(--ds-neutral-800, #323232);
-  /* Page: the darkest grey of the palette, on every page. */
-  --sl-color-black: var(--ds-neutral-950, #1b1b1b);
-  /* Sidebar: the same as the page. */
-  --sl-color-bg-sidebar: var(--ds-neutral-950, #1b1b1b);
-  /* Header: the darkest grey of the palette. */
-  --sl-color-bg-nav: var(--ds-neutral-950, #1b1b1b);
+  /* Page and header: the page background, on every page. */
+  --sl-color-black: var(--ds-page-background, #121212);
+  --sl-color-bg-nav: var(--ds-page-background, #121212);
+  /* Sidebar: the sidebar background. */
+  --sl-color-bg-sidebar: var(--ds-sidebar-background, #121212);
   /* With page, header and sidebar on one colour, the line under the header
      and the single line at the sidebar's inline end are the border role. */
   --sl-color-hairline-shade: var(--ds-color-border, #414141);
@@ -52,7 +51,7 @@
   gap: 0.85rem;
   align-items: flex-start;
   padding: 1.1rem 1.25rem;
-  background: var(--ds-color-background, #fff);
+  background: var(--ds-card-background, #fff);
   border: 1px solid var(--ds-color-border, #bdbdbd);
   border-radius: var(--ds-radius-surface, 0.75rem);
   /* The whole card is a link. */

@@ -292,7 +292,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--ds-color-background, #fff);
+    background: var(--ds-dialog-background, var(--ds-color-background, #fff));
     color: var(--ds-color-text, #272727);
     border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-search-dialog-radius, var(--ds-radius-surface, 0.75rem));

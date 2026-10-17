@@ -629,7 +629,7 @@ class _DialogPanelState extends State<DialogPanel> {
         widget.radius ?? BorderRadius.circular(InvisibleRadiusTokens.surface);
     final panel = DecoratedBox(
       decoration: BoxDecoration(
-        color: c.background,
+        color: c.dialogBackground,
         border: widget.border ?? Border.all(color: c.border),
         borderRadius: radius,
         boxShadow: overlayShadow(theme.brightness),

@@ -92,7 +92,7 @@ void main() {
       semantics.dispose();
     });
 
-    testWidgets('the block sits on the code-block-surface role of each '
+    testWidgets('the block sits on the code-block-background token of each '
         'theme, with no line under the header, and its text keeps contrast '
         'on it', (tester) async {
       final semantics = tester.ensureSemantics();
@@ -113,7 +113,7 @@ void main() {
             .map((box) => box.decoration)
             .whereType<BoxDecoration>()
             .first;
-        expect(surface.color, theme.colors.codeBlockSurface);
+        expect(surface.color, theme.colors.codeBlockBackground);
         // The card keeps its outer border; no line sets the header apart.
         final borders = tester
             .widgetList<Container>(
@@ -134,11 +134,11 @@ void main() {
         await expectLater(tester, meetsGuideline(textContrastGuideline));
       }
       expect(
-        InvisibleThemeData.light().colors.codeBlockSurface,
+        InvisibleThemeData.light().colors.codeBlockBackground,
         const Color(0xFFF5F5F5),
       );
       expect(
-        InvisibleThemeData.dark().colors.codeBlockSurface,
+        InvisibleThemeData.dark().colors.codeBlockBackground,
         const Color(0xFF1B1B1B),
       );
       semantics.dispose();

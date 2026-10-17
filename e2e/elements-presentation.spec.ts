@@ -13,7 +13,7 @@ test("Elements Card, Tag and Separator preserve native semantics and keyboard ac
     ]);
     document.body.innerHTML = `
       <ds-card title="Database" description="AdventureWorks" orientation="horizontal"
-        surface="secondary" style="--ds-card-secondary-bg: rgb(244, 242, 239)">
+        surface="secondary" style="--ds-card-secondary-background: rgb(244, 242, 239)">
         <ds-tag slot="tags" status="success" removable remove-label="Remove status">Connected</ds-tag>
         <p>12 tables available.</p>
         <ds-button slot="actions">Open</ds-button>

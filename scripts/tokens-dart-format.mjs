@@ -240,18 +240,24 @@ export function dartTokensFormat({ dictionary }) {
     "",
   );
 
-  // Roles: one class, a light and a dark instance.
+  // Roles and component backgrounds: one class, a light and a dark instance.
+  // The component tier follows the roles, one field per component token.
   const themes = children(tree.role);
-  const roleKeys = children(themes[0][1]).map(([key]) => key);
-  for (const [theme, group] of themes) {
-    const keys = children(group).map(([key]) => key);
+  const colorsOf = (theme) => [
+    ...children(tree.role[theme]),
+    ...children(tree.component?.[theme] ?? {}),
+  ];
+  const roleKeys = colorsOf(themes[0][0]).map(([key]) => key);
+  for (const [theme] of themes) {
+    const keys = colorsOf(theme).map(([key]) => key);
     if (keys.join() !== roleKeys.join())
-      throw new Error(`role.${theme} does not list the same roles as role.${themes[0][0]}`);
+      throw new Error(`${theme} does not list the same roles as ${themes[0][0]}`);
   }
   push(
     doc(
-      "The colour roles the components read, per theme. Mixed roles hold the " +
-        "resolved value; [InvisibleColorMixes] keeps their recipes.",
+      "The colour roles and the component backgrounds the components read, " +
+        "per theme. Mixed roles hold the resolved value; " +
+        "[InvisibleColorMixes] keeps their recipes.",
       "",
     ),
     "final class InvisibleColors {",
@@ -260,10 +266,10 @@ export function dartTokensFormat({ dictionary }) {
     "  });",
     "",
   );
-  for (const [theme, group] of themes) {
+  for (const [theme] of themes) {
     push(
       `  static const InvisibleColors ${camel(theme)} = InvisibleColors(`,
-      ...children(group).map(([key, token]) => `    ${roleName(key)}: ${dartColor(token.$value)},`),
+      ...colorsOf(theme).map(([key, token]) => `    ${roleName(key)}: ${dartColor(token.$value)},`),
       "  );",
       "",
     );

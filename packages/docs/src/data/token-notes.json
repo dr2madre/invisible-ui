@@ -108,8 +108,29 @@
   "--ds-color-neutral-border": {
     "purpose": "The edge that goes with the quiet neutral fill."
   },
-  "--ds-code-block-surface": {
-    "purpose": "The surface of a code block, per theme (role.light.code-block-surface and role.dark.code-block-surface in the design source): the lightest grey in the light theme, the darkest grey short of black in the dark theme. The text keeps 4.5:1 on it; the border draws its edge against the page."
+  "--ds-page-background": {
+    "purpose": "The page behind everything, per theme (component.light.page-background and component.dark.page-background in the design source): the background role in the light theme, Black in the dark one. The application paints it; the components do not."
+  },
+  "--ds-card-background": {
+    "purpose": "The background of a card, per theme: the background role in the light theme, Grey 950 in the dark one."
+  },
+  "--ds-card-secondary-background": {
+    "purpose": "The background of a card with the secondary surface, per theme: the neutral surface role in the light theme, Grey 900 in the dark one."
+  },
+  "--ds-dialog-background": {
+    "purpose": "The background of a dialog panel, per theme: dialog, sheet, alert, confirm, prompt and search dialogs. The background role in the light theme, Grey 950 in the dark one."
+  },
+  "--ds-popover-background": {
+    "purpose": "The background of a popover, per theme: popover, hover card, date picker popups and the navigation menu panel. The background role in the light theme, Grey 950 in the dark one."
+  },
+  "--ds-menu-background": {
+    "purpose": "The background of a menu or a listbox, per theme: dropdown menu, context menu, menubar menus, combobox and multi-select listboxes. The background role in the light theme, Grey 950 in the dark one."
+  },
+  "--ds-sidebar-background": {
+    "purpose": "The background of a sidebar, per theme: the background role in the light theme, Black in the dark one."
+  },
+  "--ds-code-block-background": {
+    "purpose": "The background of a code block, per theme: Grey 50 in the light theme, Grey 950 in the dark one. The text keeps 4.5:1 on it; the border draws its edge against the page."
   },
   "--ds-dialog-overlay": {
     "purpose": "The scrim behind a modal dialog, per theme (role.light.dialog-overlay and role.dark.dialog-overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement."

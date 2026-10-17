@@ -349,7 +349,7 @@
     overflow: auto;
     border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-radius-surface, 0.75rem);
-    background: var(--ds-color-surface, #e0e0e0);
+    background: var(--ds-menu-background, var(--ds-color-background, #fff));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),

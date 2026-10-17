@@ -155,14 +155,14 @@
 <style>
   .card {
     box-sizing: border-box;
-    background: var(--ds-card-bg, var(--ds-color-background, #fff));
+    background: var(--ds-card-background, var(--ds-color-background, #fff));
     color: var(--ds-card-text, var(--ds-color-text, #272727));
     border: 1px solid var(--ds-card-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-card-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
   }
   .card[data-surface="secondary"] {
-    background: var(--ds-card-secondary-bg, var(--ds-color-neutral-surface, #f5f5f5));
+    background: var(--ds-card-secondary-background, var(--ds-color-neutral-surface, #f5f5f5));
   }
 
   /* ---- Media card, vertical (classic) ---- */

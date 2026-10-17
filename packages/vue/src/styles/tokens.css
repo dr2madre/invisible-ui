@@ -14,6 +14,10 @@
  * are derived from the feedback hue via color-mix, so changing a feedback color
  * cascades to its Alert/Notification surface automatically.
  *
+ * Component backgrounds (--ds-page-background, --ds-card-background,
+ * --ds-dialog-background…) sit at the end of each theme block. Each points at
+ * a role or a primitive, so one kind of component can change on its own.
+ *
  * NAMING — headless, decoupled from style. A semantic token names a ROLE
  * (primary, surface, border, text…) or a STATE (hover, pressed, disabled,
  * focus…). It NEVER describes appearance. So there is no "muted", "soft" or
@@ -47,7 +51,7 @@
   --ds-brand-secondary: var(--ds-purple-500); /* legacy alias — same hue as primary */
   --ds-brand-secondary-hover: var(--ds-purple-600);
   --ds-brand-white: var(--ds-neutral-0); /* lightest UI point — white #fff */
-  --ds-brand-black: var(--ds-neutral-950); /* darkest UI point — grey 950 */
+  --ds-brand-black: var(--ds-black); /* darkest UI point — black #121212 */
 
   /* 2) Feedback hues. */
   --ds-feedback-info: var(--ds-blue-500);
@@ -77,6 +81,9 @@
   --ds-neutral-800: #323232;
   --ds-neutral-900: #272727;
   --ds-neutral-950: #1b1b1b;
+  /* Black sits apart at the dark end, as white does at the light end: a near
+     black, not pure black. */
+  --ds-black: #121212;
 }
 
 /* =============== Tier 2 — non-color roles (shape & type) ================== *
@@ -311,9 +318,17 @@
   /* A data grid cell with the secondary emphasis: allowed, outside the usual
      schedule. The text keeps 4.5:1 on it; the cell's label carries the meaning. */
   --ds-grid-cell-secondary-surface: var(--ds-neutral-50);
-  /* The surface of a code block (the code-block-surface role): the lightest
-     grey here, the darkest short of black in the dark theme. */
-  --ds-code-block-surface: var(--ds-neutral-50);
+
+  /* Component backgrounds: one per kind of component, so each can change
+     without the others. Each points at a role or a palette colour. */
+  --ds-page-background: var(--ds-color-background);
+  --ds-card-background: var(--ds-color-background);
+  --ds-card-secondary-background: var(--ds-color-neutral-surface);
+  --ds-dialog-background: var(--ds-color-background);
+  --ds-popover-background: var(--ds-color-background);
+  --ds-menu-background: var(--ds-color-background);
+  --ds-sidebar-background: var(--ds-color-background);
+  --ds-code-block-background: var(--ds-neutral-50);
 }
 
 /* =============== Tier 2 — semantic (dark) ================================= */
@@ -452,7 +467,15 @@
       var(--ds-neutral-50)
     );
     --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
-    --ds-code-block-surface: var(--ds-neutral-950);
+
+    --ds-page-background: var(--ds-black);
+    --ds-card-background: var(--ds-neutral-950);
+    --ds-card-secondary-background: var(--ds-neutral-900);
+    --ds-dialog-background: var(--ds-neutral-950);
+    --ds-popover-background: var(--ds-neutral-950);
+    --ds-menu-background: var(--ds-neutral-950);
+    --ds-sidebar-background: var(--ds-black);
+    --ds-code-block-background: var(--ds-neutral-950);
   }
 }
 
@@ -577,7 +600,15 @@
     var(--ds-neutral-50)
   );
   --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
-  --ds-code-block-surface: var(--ds-neutral-950);
+
+  --ds-page-background: var(--ds-black);
+  --ds-card-background: var(--ds-neutral-950);
+  --ds-card-secondary-background: var(--ds-neutral-900);
+  --ds-dialog-background: var(--ds-neutral-950);
+  --ds-popover-background: var(--ds-neutral-950);
+  --ds-menu-background: var(--ds-neutral-950);
+  --ds-sidebar-background: var(--ds-black);
+  --ds-code-block-background: var(--ds-neutral-950);
 }
 
 /* =============== Fallback: no color-mix() (pre-2023 engines) ============== *

@@ -173,7 +173,7 @@ class _CodeBlockState extends State<CodeBlock> {
         child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            color: colors.codeBlockSurface,
+            color: colors.codeBlockBackground,
             border: Border.fromBorderSide(border),
             borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
           ),
