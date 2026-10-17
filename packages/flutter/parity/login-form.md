@@ -24,6 +24,7 @@ scope**. Every matched line names the widget test in
 | `heading`, `subheading`, `submitLabel`, `forgotLabel` | the same names | texts |
 | `onForgotPassword` | `forgotHref` | the forgotten password link: Flutter opens it through the app's callback, as `Link` does |
 | `emailValidator`, `passwordValidator` | none | Flutter's form validation; none by default |
+| `LoginFormState.reset()`, through a `GlobalKey` | the native form's `reset()` | empties the fields |
 
 ## Behaviour
 
@@ -31,6 +32,7 @@ scope**. Every matched line names the widget test in
 | --- | --- | --- |
 | A real form; submit reports the typed email and password | matched | `submit reports the typed values once; …` |
 | Values read from the fields at submit, so a reset leaves nothing stale | matched | the fields save into the report (`FormState.save`), as React reads the form data |
+| The password stays in its field until the app clears it | matched | the widget keeps no copy beyond the field and never logs it; the field keeps what was typed until the form resets or leaves the screen, as a native password field does. The app clears it after a successful sign-in with `LoginFormState.reset()`: `reset empties both fields; …` |
 | Enter submits | adapted | Enter in the password field submits; Enter in the email field moves to the password field, the platform's next action on a touch keyboard: same test |
 | Provider buttons report their id | matched | `providers: …` |
 | The forgotten password link | adapted | shown when `onForgotPassword` is set; the web shows it with `href="#"` by default |

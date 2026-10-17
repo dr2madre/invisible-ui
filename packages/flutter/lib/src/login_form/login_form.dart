@@ -60,7 +60,26 @@ class LoginCredentials {
 /// The form validates with [emailValidator] and [passwordValidator] on
 /// submit, and reports the typed values through [onSubmitted] only when
 /// both pass. The forgotten password link shows when [onForgotPassword] is
-/// set. The widget never stores or logs the password.
+/// set.
+///
+/// The widget keeps no copy of the password beyond its field, and never
+/// logs it. The field itself keeps what was typed until the form resets or
+/// leaves the screen, as a native password field does on the web. After a
+/// successful sign-in, clear it through [LoginFormState.reset], reached
+/// with a [GlobalKey]:
+///
+/// ```dart
+/// import 'package:invisible_ui/invisible_ui.dart' as iu;
+///
+/// final login = GlobalKey<iu.LoginFormState>();
+///
+/// iu.LoginForm(
+///   key: login,
+///   onSubmitted: (credentials) async {
+///     if (await signIn(credentials)) login.currentState?.reset();
+///   },
+/// )
+/// ```
 class LoginForm extends StatefulWidget {
   /// Creates a sign-in form.
   const LoginForm({
@@ -120,10 +139,11 @@ class LoginForm extends StatefulWidget {
   final FormFieldValidator<String>? passwordValidator;
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<LoginForm> createState() => LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+/// The state of a [LoginForm], which clears the fields.
+class LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final FocusNode _password = FocusNode(debugLabel: 'LoginForm password');
   String _email = '';
@@ -134,6 +154,11 @@ class _LoginFormState extends State<LoginForm> {
     _password.dispose();
     super.dispose();
   }
+
+  /// Empties both fields and clears the validators' messages, as a form
+  /// reset does. Call it after a successful sign-in, so the password field
+  /// no longer holds what was typed.
+  void reset() => _form.currentState?.reset();
 
   void _submit() {
     final form = _form.currentState;
