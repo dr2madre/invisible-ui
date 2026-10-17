@@ -18,6 +18,20 @@
   --sl-color-text-accent: #6b46c1;
 }
 
+/* Dark theme chrome on the Invisible UI neutrals instead of Starlight's blue
+   greys: page, navigation, sidebar, borders and text follow the design
+   system's dark roles. The light theme keeps Starlight's own values. */
+:root:not([data-theme="light"]) {
+  --sl-color-white: var(--ds-neutral-0, #ffffff);
+  --sl-color-gray-1: var(--ds-neutral-50, #f4f2ef);
+  --sl-color-gray-2: var(--ds-color-text-secondary, #c7c1b7);
+  --sl-color-gray-3: var(--ds-neutral-300, #a8a297);
+  --sl-color-gray-4: var(--ds-neutral-500, #5e5951);
+  --sl-color-gray-5: var(--ds-color-border, #413c36);
+  --sl-color-gray-6: var(--ds-neutral-800, #332f2a);
+  --sl-color-black: var(--ds-color-background, #282420);
+}
+
 /* Home feature cards — design-system look with aligned icons. */
 .home-cards {
   display: grid;
