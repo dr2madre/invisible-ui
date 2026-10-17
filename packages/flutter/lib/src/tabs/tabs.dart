@@ -30,6 +30,9 @@ const double _countSize = 12;
 const double _countMinWidth = 20;
 const double _countPaddingX = 5.6;
 const double _panelPaddingY = 12;
+const double _actionsGap = 8;
+const double _actionsRunGap = 4;
+const double _actionGap = 4;
 const double _disabledOpacity = 0.5;
 const Duration _fade = Duration(milliseconds: 120);
 
@@ -83,6 +86,11 @@ class TabItem<T> extends ChoiceItem<T> {
 /// tab scrolls into view. A vertical list sits at the inline-start of the
 /// panels. Hidden panels keep their state and leave the focus order.
 ///
+/// [actions] are commands, such as "add", shown right after the list and
+/// outside it: ordinary buttons that Tab reaches after the selected tab,
+/// never tabs, which the arrows never reach. On a narrow row they wrap
+/// below the list.
+///
 /// Controlled, [Tabs] shows [value] and reports each selection through
 /// [onChanged]; [Tabs.uncontrolled] keeps its own. With no value, or one
 /// that names no tab, the first enabled tab is selected. A changed [value]
@@ -97,6 +105,7 @@ class Tabs<T> extends StatefulWidget {
     this.onChanged,
     this.activationMode = TabActivationMode.automatic,
     this.orientation = Axis.horizontal,
+    this.actions = const [],
   }) : initialValue = null,
        _controlled = true;
 
@@ -109,6 +118,7 @@ class Tabs<T> extends StatefulWidget {
     this.onChanged,
     this.activationMode = TabActivationMode.automatic,
     this.orientation = Axis.horizontal,
+    this.actions = const [],
   }) : value = null,
        _controlled = false;
 
@@ -133,6 +143,9 @@ class Tabs<T> extends StatefulWidget {
 
   /// A row of tabs above the panels, or a column beside them.
   final Axis orientation;
+
+  /// Commands beside the list, outside it, such as an "add" button.
+  final List<Widget> actions;
 
   final bool _controlled;
 
@@ -242,16 +255,45 @@ class _TabsState<T> extends State<Tabs<T>> with ValueControl<T?, Tabs<T>> {
           ),
         },
         child: horizontal
-            ? Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: IntrinsicHeight(child: list),
-                ),
+            ? SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicHeight(child: list),
               )
             : IntrinsicWidth(child: list),
       ),
     );
+
+    // The actions sit outside the list's semantics and key handling, so
+    // they stay ordinary buttons that the arrows never reach.
+    final actions = widget.actions.isEmpty
+        ? null
+        : Wrap(
+            spacing: _actionGap,
+            runSpacing: _actionGap,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: widget.actions,
+          );
+
+    final Widget header;
+    if (horizontal) {
+      header = actions == null
+          ? Align(alignment: AlignmentDirectional.centerStart, child: keyed)
+          : Wrap(
+              spacing: _actionsGap,
+              runSpacing: _actionsRunGap,
+              crossAxisAlignment: WrapCrossAlignment.end,
+              children: [keyed, actions],
+            );
+    } else {
+      header = actions == null
+          ? keyed
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: _actionsRunGap,
+              children: [keyed, actions],
+            );
+    }
 
     final panels = Column(
       mainAxisSize: MainAxisSize.min,
@@ -271,13 +313,13 @@ class _TabsState<T> extends State<Tabs<T>> with ValueControl<T?, Tabs<T>> {
         ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [keyed, panels],
+            children: [header, panels],
           )
         : Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: _tabPadding.end,
             children: [
-              keyed,
+              header,
               Flexible(child: panels),
             ],
           );

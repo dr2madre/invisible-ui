@@ -58,7 +58,7 @@
   {
     "name": "@design-system/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "84.5 kB"
+    "limit": "84.6 kB"
   },
   {
     "name": "@design-system/elements — define entry",

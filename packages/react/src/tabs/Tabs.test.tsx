@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { Button } from "../button/Button";
 import { Tabs, type TabsItem } from "./Tabs";
 import { useTabs } from "./use-tabs";
 
@@ -197,5 +199,80 @@ describe("React useTabs", () => {
     await user.keyboard("{ArrowRight}");
     expect(screen.getByRole("tab", { name: "Preview" })).toHaveFocus();
     expect(screen.getByRole("tabpanel")).toHaveTextContent("Preview panel");
+  });
+});
+
+// The pattern of the docs demo: an "Add view" command beside the tab list.
+function AddViews() {
+  const [views, setViews] = useState<TabsItem[]>([
+    { value: "list", label: "List", content: "List view." },
+    { value: "grid", label: "Grid", content: "Grid view." },
+  ]);
+  const [view, setView] = useState("list");
+  const addView = () => {
+    const number = views.length + 1;
+    const value = `view-${number}`;
+    setViews([...views, { value, label: `View ${number}`, content: `View ${number}.` }]);
+    setView(value);
+  };
+  return (
+    <Tabs
+      label="Views"
+      items={views}
+      value={view}
+      onValueChange={setView}
+      actions={
+        <Button iconOnly ariaLabel="Add view" onPress={addView}>
+          +
+        </Button>
+      }
+    />
+  );
+}
+
+describe("React Tabs actions", () => {
+  it("renders the action as a button outside the tab list, leaving the tabs alone", () => {
+    render(<AddViews />);
+    const list = screen.getByRole("tablist", { name: "Views" });
+    const add = screen.getByRole("button", { name: "Add view" });
+    expect(list).not.toContainElement(add);
+    expect(screen.getAllByRole("tab")).toHaveLength(2);
+    expect(screen.queryByRole("tab", { name: "Add view" })).toBeNull();
+  });
+
+  it("keeps the arrows in the tab list and reaches the action with Tab", async () => {
+    const user = userEvent.setup();
+    render(<AddViews />);
+    await user.tab();
+    expect(screen.getByRole("tab", { name: "List" })).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("tab", { name: "Grid" })).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("tab", { name: "List" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Add view" })).toHaveFocus();
+  });
+
+  it("adds and selects a tab per press, keeping focus on the action", async () => {
+    const user = userEvent.setup();
+    render(<AddViews />);
+    const add = screen.getByRole("button", { name: "Add view" });
+    await user.click(add);
+    await user.click(add);
+    expect(screen.getAllByRole("tab")).toHaveLength(4);
+    expect(screen.getByRole("tab", { name: "View 4" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("View 4.");
+    expect(add).toHaveFocus();
+  });
+
+  it("renders no actions area without actions", () => {
+    const { container } = render(<Tabs items={items} label="Settings" />);
+    expect(container.querySelector(".tabs__actions")).toBeNull();
+    expect(container.firstElementChild).not.toHaveClass("tabs--with-actions");
+  });
+
+  it("has no accessibility violations", async () => {
+    const { container } = render(<AddViews />);
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });

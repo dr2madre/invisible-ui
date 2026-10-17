@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Tabs from "./Tabs.svelte";
+import TabsActionsFixture from "./tabs-actions.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -67,5 +68,48 @@ describe("Svelte Tabs (styled)", () => {
       props: { items, label: "Settings", value: "account" },
     });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+
+  describe("actions", () => {
+    it("renders the action as a button outside the tab list, leaving the tabs alone", () => {
+      render(TabsActionsFixture);
+      const list = screen.getByRole("tablist", { name: "Views" });
+      const add = screen.getByRole("button", { name: "Add view" });
+      expect(list).not.toContainElement(add);
+      expect(screen.getAllByRole("tab")).toHaveLength(2);
+      expect(screen.queryByRole("tab", { name: "Add view" })).toBeNull();
+    });
+
+    it("keeps the arrows in the tab list and reaches the action with Tab", async () => {
+      const user = userEvent.setup();
+      render(TabsActionsFixture);
+      await user.tab();
+      expect(screen.getByRole("tab", { name: "List" })).toHaveFocus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByRole("tab", { name: "Grid" })).toHaveFocus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByRole("tab", { name: "List" })).toHaveFocus();
+      await user.tab();
+      expect(screen.getByRole("button", { name: "Add view" })).toHaveFocus();
+    });
+
+    it("adds and selects a tab per press, keeping focus on the action", async () => {
+      const user = userEvent.setup();
+      render(TabsActionsFixture);
+      const add = screen.getByRole("button", { name: "Add view" });
+      await user.click(add);
+      await user.click(add);
+      expect(screen.getAllByRole("tab")).toHaveLength(4);
+      const added = screen.getByRole("tab", { name: "View 4" });
+      expect(added).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByRole("tabpanel")).toHaveTextContent("View 4.");
+      expect(add).toHaveFocus();
+      expect(add).not.toHaveAttribute("role");
+    });
+
+    it("has no accessibility violations", async () => {
+      const { container } = render(TabsActionsFixture);
+      expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+    });
   });
 });

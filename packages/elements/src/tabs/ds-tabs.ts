@@ -23,7 +23,12 @@ export type TabsPanelContent = Node | string | number | null | undefined;
  * value>` elements and one `<ds-tab-panel value>` per tab. The strip can sit
  * in a header beside other controls while the panels fill the rest. As a
  * shortcut, with no `<ds-tab-list>` inside: assign `items` and the element
- * renders strip and panels itself.
+ * renders strip and panels itself. In the shortcut, children marked
+ * `slot="actions"`, read once when the element first renders, go right
+ * after the tab list and outside it: commands such as "add", ordinary
+ * buttons in the Tab order after the selected tab, never tabs, which the
+ * arrow keys never reach. Composed tabs place such buttons beside the
+ * `<ds-tab-list>` themselves.
  *
  * Attributes: `label` (required for the shortcut; composed tabs name their
  * `<ds-tab-list>`), `value`, `activation-mode` (automatic|manual).
@@ -141,12 +146,24 @@ export class DsTabs extends HTMLElementBase {
   }
 
   #render() {
+    const actions = Array.from(this.children).filter(
+      (child) => child.getAttribute("slot") === "actions",
+    );
     this.textContent = "";
     const root = document.createElement("div");
-    root.className = "tabs";
+    root.className = actions.length > 0 ? "tabs tabs--with-actions" : "tabs";
     const list = document.createElement("div");
     list.className = "tabs__list";
     root.appendChild(list);
+    if (actions.length > 0) {
+      const area = document.createElement("div");
+      area.className = "tabs__actions";
+      for (const action of actions) {
+        action.removeAttribute("slot");
+        area.appendChild(action);
+      }
+      root.appendChild(area);
+    }
     this.appendChild(root);
     this.#root = root;
     this.#list = list;

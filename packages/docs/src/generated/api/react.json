@@ -1229,7 +1229,7 @@
     {
       "name": "Tabs",
       "kind": "function",
-      "signature": "declare function Tabs({ items, value, activationMode, label, onValueChange, renderPanel, }: TabsProps): react.JSX.Element;"
+      "signature": "declare function Tabs({ items, value, activationMode, label, onValueChange, renderPanel, actions, }: TabsProps): react.JSX.Element;"
     },
     {
       "name": "TabsItem",
@@ -1244,7 +1244,7 @@
     {
       "name": "TabsProps",
       "kind": "interface",
-      "signature": "interface TabsProps { items: TabsItem[]; /** Initial (uncontrolled) or current (controlled) selected tab. */ value?: string | null; /** `automatic` (default): arrows select while moving. `manual`: Enter or Space selects. */ activationMode?: ActivationMode; /** Accessible name for the tab list (announced by screen readers). */ label: string; /** Called whenever the selected tab changes. */ onValueChange?: (value: string) => void; /** Rich content of one panel, rendered once per tab; wins over `content`. */ renderPanel?: (item: TabsItem) => ReactNode; }"
+      "signature": "interface TabsProps { items: TabsItem[]; /** Initial (uncontrolled) or current (controlled) selected tab. */ value?: string | null; /** `automatic` (default): arrows select while moving. `manual`: Enter or Space selects. */ activationMode?: ActivationMode; /** Accessible name for the tab list (announced by screen readers). */ label: string; /** Called whenever the selected tab changes. */ onValueChange?: (value: string) => void; /** Rich content of one panel, rendered once per tab; wins over `content`. */ renderPanel?: (item: TabsItem) => ReactNode; /** Commands beside the tab list, outside it, such as an \"add\" button. */ actions?: ReactNode; }"
     },
     {
       "name": "Tag",

@@ -99,6 +99,45 @@
   display: block;
 }
 
+/* Tabs with actions: the tablist and the actions share a row, and the
+   actions wrap below the tablist when the row is too narrow. The panels
+   take a row of their own. */
+.tabs--with-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.25rem 0.5rem;
+}
+.tabs--with-actions > .tabs__list {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+}
+.tabs--with-actions > .tabs__panel {
+  flex-basis: 100%;
+}
+/* Commands such as "add" sit outside the tablist, as ordinary buttons. */
+.tabs__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+/* The target size, density.regular.min-target-size, with no specificity: a
+   control that sets a larger size of its own keeps it. */
+:where(.tabs__actions button, .tabs__actions a[href]) {
+  min-inline-size: var(--ds-min-target-size, 24px);
+  min-block-size: var(--ds-min-target-size, 24px);
+}
+
+/* A coarse pointer gets the touch target, density.touch.min-target-size,
+   on whatever control the actions hold. */
+@media (pointer: coarse) {
+  .tabs__actions :is(button, a[href]) {
+    min-inline-size: var(--ds-min-target-size-touch, 44px);
+    min-block-size: var(--ds-min-target-size-touch, 44px);
+  }
+}
+
 /* Forced colors: the tab row is a scroller, so the ring must be drawn
    inside the tab or its top and bottom are clipped away. */
 @media (forced-colors: active) {
