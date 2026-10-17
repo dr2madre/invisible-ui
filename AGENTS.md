@@ -84,6 +84,31 @@ See [Writing](./CONTRIBUTING.md#writing) and
 - Code comments explain a non-obvious constraint or reason, not the code
   itself. Keep them short.
 
+## Platform conventions and verified accessibility
+
+[ADR 0018](./docs/adr/0018-platform-conventions-and-verified-accessibility.md)
+binds every change and every review:
+
+- The user's experience comes before parity, and parity before less code.
+  Never copy a defect into another adapter for parity; fix it everywhere.
+- The shared specification is the reference, not the Svelte implementation.
+  Recorded general decisions apply to every adapter; framework details and
+  unrecorded behaviour do not.
+- Follow each platform's semantics and conventions. Prefer native
+  components; a custom implementation states the requirement the native
+  one does not meet.
+- Every adapter meets the same functional and accessibility requirements,
+  with idiomatic names. State and explain each platform difference.
+- Accessible defaults, application-controlled behavior: an application
+  configures a component but no configuration removes an accessibility
+  guarantee.
+- Accept a component against WCAG 2.2 AA and the applicable WAI-ARIA APG
+  pattern, with keyboard tests and assistive technology checks where
+  relevant.
+- Keep implementation and verification apart. Never describe an
+  implemented or automatically tested component as accessibility verified,
+  and record an unrun check as not tested.
+
 ## Verification
 
 - Test the behavior changed, including accessibility and relevant edge cases.
