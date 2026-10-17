@@ -35,6 +35,9 @@
   --sl-color-bg-sidebar: var(--ds-neutral-950, #1c1915);
   /* Header: the darkest grey of the palette. */
   --sl-color-bg-nav: var(--ds-neutral-950, #1c1915);
+  /* With page, header and sidebar on one colour, the line under the header
+     and the single line at the sidebar's inline end are the border role. */
+  --sl-color-hairline-shade: var(--ds-color-border, #413c36);
 }
 
 /* Home feature cards — design-system look with aligned icons. */
