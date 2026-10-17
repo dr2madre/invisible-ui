@@ -1,4 +1,4 @@
-import type { radioGroup as core } from "@design-system/core";
+import type { radioGroup as core } from "@invisible-ui/core";
 import { computed, toValue, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { useRadioGroup } from "../radio-group/use-radio-group";
 

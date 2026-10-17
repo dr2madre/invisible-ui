@@ -1,5 +1,5 @@
 <script>
-  import SheetDialog from "@design-system/svelte/SheetDialog.svelte";
+  import SheetDialog from "@invisible-ui/svelte/SheetDialog.svelte";
 </script>
 
 <div style="display: grid; gap: 1.5rem;">

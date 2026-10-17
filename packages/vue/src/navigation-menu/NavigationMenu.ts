@@ -17,7 +17,7 @@ export interface NavigationMenuProps {
  * links. Plain items are ordinary links; panel items are disclosures.
  * Behaviour and ARIA (the open value, `aria-expanded` / `aria-controls`,
  * `aria-current`, Escape, ArrowDown) come from the headless navigation menu
- * (`@design-system/core`); this layer adds hover open/close with switching,
+ * (`@invisible-ui/core`); this layer adds hover open/close with switching,
  * Floating-UI positioning, outside-press dismissal and focus movement.
  *
  * Resting the pointer on a trigger opens its panel while the pointer stays. A

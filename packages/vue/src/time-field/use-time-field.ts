@@ -1,4 +1,4 @@
-import { timeField as core } from "@design-system/core";
+import { timeField as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -48,7 +48,7 @@ export interface UseTimeField {
 
 /**
  * Connect the headless time field (a segmented spinbutton) to Vue. The
- * digit-entry and keyboard logic live in `@design-system/core`: arrows
+ * digit-entry and keyboard logic live in `@invisible-ui/core`: arrows
  * increment and decrement with wrapping, Left/Right move between segments,
  * digits type with auto-advance, Backspace clears, and A/P set the period in
  * 12-hour mode. This composable owns the resolved parts, moves DOM focus

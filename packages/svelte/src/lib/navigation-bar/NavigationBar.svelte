@@ -30,7 +30,7 @@
    *   <NavigationBar {destinations} value={section} onSelect={go} />
    */
   import type { Snippet } from "svelte";
-  import { navigationBar as core } from "@design-system/core";
+  import { navigationBar as core } from "@invisible-ui/core";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { BadgeAnnouncements } from "../internal/badge-announcements.svelte";

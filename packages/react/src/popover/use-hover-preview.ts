@@ -1,4 +1,4 @@
-import { hoverCard as core } from "@design-system/core";
+import { hoverCard as core } from "@invisible-ui/core";
 import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useControllable } from "../internal/controllable";
 import { useDelayedToggle, type DelayedToggle } from "../internal/delayed-toggle";
@@ -32,7 +32,7 @@ export interface UseHoverPreview extends DelayedToggle {
 /**
  * The hover and focus preview behind Popover's `trigger="hover"` mode (the
  * pattern other libraries call a hover card). State and ARIA live in
- * `@design-system/core`; this hook owns the DOM side: opening on hover and
+ * `@invisible-ui/core`; this hook owns the DOM side: opening on hover and
  * focus with delays, Floating UI positioning, closing when focus leaves the
  * trigger and the card, and Escape. Focus never moves into the card. The
  * component wires the pointer and focus events to `show`, `hide` and `hold`.

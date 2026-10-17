@@ -1,4 +1,4 @@
-import { pagination as core } from "@design-system/core";
+import { pagination as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -44,7 +44,7 @@ export interface UsePagination {
  * (with ellipsis gaps) and next form a single-select roving collection, like
  * Tabs. Behaviour and accessibility (aria-current on the current page,
  * disabled prev/next at the bounds, arrow-key movement) live in
- * `@design-system/core`; this composable owns the resolved state, derives the
+ * `@invisible-ui/core`; this composable owns the resolved state, derives the
  * connected props with `computed(connect)`, and moves DOM focus inside the
  * container (`rootRef`).
  */

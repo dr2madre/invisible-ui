@@ -1,4 +1,4 @@
-import { toolbar as core } from "@design-system/core";
+import { toolbar as core } from "@invisible-ui/core";
 import { defineComponent, h, onBeforeUnmount, onMounted, ref, type PropType } from "vue";
 
 export type ToolbarOrientation = core.ToolbarOrientation;

@@ -40,7 +40,7 @@ export interface MultiSelectProps {
  * MultiSelect: the styled multi-value picker, ported from the Svelte adapter.
  * An editable, labelled input filters a multiselectable listbox; the chosen
  * values render as removable tags in a labelled list. Behaviour, semantics and
- * state live in `@design-system/core` (a sibling of Combobox; the two public
+ * state live in `@invisible-ui/core` (a sibling of Combobox; the two public
  * contracts stay separate).
  *
  * DOM focus stays on the input (`aria-activedescendant`); Enter adds the

@@ -1,4 +1,4 @@
-import { checkbox as core } from "@design-system/core";
+import { checkbox as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createRootAction } from "../internal/connect";
@@ -29,7 +29,7 @@ export interface CreateCheckbox {
 
 /**
  * Create a headless checkbox supporting checked / unchecked / indeterminate.
- * Behaviour and accessibility live in `@design-system/core`; this adapter
+ * Behaviour and accessibility live in `@invisible-ui/core`; this adapter
  * wires the state to a Svelte store and applies the connected props via an
  * action.
  */

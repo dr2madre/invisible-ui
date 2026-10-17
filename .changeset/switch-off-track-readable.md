@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": patch
-"@design-system/react": patch
-"@design-system/vue": patch
-"@design-system/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/react": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/elements": patch
 ---
 
 Make the switch readable when it is off. The track was filled with the control

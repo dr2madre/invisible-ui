@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { createServer, type ViteDevServer } from "vite";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { calendar } from "@design-system/core";
+import { calendar } from "@invisible-ui/core";
 import type { renderWeekStart } from "./week-start-ssr-entry";
 
 /** The long weekday name the first column carries (0 = Sunday). */

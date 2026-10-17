@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "TextField",
-        "specifier": "@design-system/svelte/TextField.svelte"
+        "specifier": "@invisible-ui/svelte/TextField.svelte"
       },
       "props": [
         {
@@ -183,7 +183,7 @@
       "import": {
         "kind": "named",
         "name": "TextField",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -362,7 +362,7 @@
       "import": {
         "kind": "named",
         "name": "TextField",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -540,7 +540,7 @@
       "import": {
         "kind": "element",
         "name": "ds-text-field",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

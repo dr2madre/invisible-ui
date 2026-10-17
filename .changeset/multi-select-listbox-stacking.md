@@ -1,8 +1,8 @@
 ---
-"@design-system/elements": patch
-"@design-system/react": patch
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": patch
+"@invisible-ui/react": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 The multi select's open list now has a stacking order again, in every adapter.

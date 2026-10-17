@@ -53,7 +53,7 @@ export interface ComboboxProps {
  * the design system's **advanced select**.
  *
  * Behaviour and accessibility come from the headless combobox
- * (`@design-system/core`); this adapter owns the DOM concerns — filtering,
+ * (`@invisible-ui/core`); this adapter owns the DOM concerns — filtering,
  * popup positioning (flip/shift via Floating UI), close-on-outside-pointer and
  * keeping the active option in view. DOM focus stays on the input; the
  * highlighted option travels through `aria-activedescendant`.

@@ -1,6 +1,6 @@
 <script>
-  import Button from "@design-system/svelte/Button.svelte";
-  import Popover from "@design-system/svelte/Popover.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Popover from "@invisible-ui/svelte/Popover.svelte";
 </script>
 
 <div style="display: grid; gap: 1.5rem;">

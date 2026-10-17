@@ -22,7 +22,7 @@ export interface MeterProps {
  * Meter: a gauge (WAI-ARIA meter pattern), a track with a fill that shows a
  * value within a known range, such as disk usage or battery. The role, the
  * ARIA value and the low, medium and high bands come from the headless meter
- * (`@design-system/core`); the fill is coloured by how good the value is.
+ * (`@invisible-ui/core`); the fill is coloured by how good the value is.
  *
  * A meter reports a measurement; for the completion of a task use
  * `Progress`.

@@ -16,7 +16,7 @@ export interface MenubarProps {
 /**
  * Menubar: a horizontal bar of menus (WAI-ARIA menubar pattern), the shape an
  * application menu takes (File / Edit / View). Each menu reuses the headless
- * menu (`@design-system/core`) for open/close, arrow & Home/End item
+ * menu (`@invisible-ui/core`) for open/close, arrow & Home/End item
  * navigation, typeahead, focus moving into the menu and Escape/outside to
  * close; this component adds the menubar coordination: a roving tabindex
  * across the triggers, ArrowLeft/Right to move between them (or to switch the

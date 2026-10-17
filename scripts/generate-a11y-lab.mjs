@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CONTENT = "packages/docs/src/content/docs/components";
-/** `pnpm --filter @design-system/docs preview` serves here, under this base. */
+/** `pnpm --filter @invisible-ui/docs preview` serves here, under this base. */
 const ORIGIN = "http://localhost:4321/invisible-ui/components";
 
 /** Pages that are not a component: the section index and the naming guidance. */
@@ -52,7 +52,7 @@ export const OPEN_SCENARIOS = [
 ];
 
 /**
- * `pnpm --filter @design-system/example-vue preview` serves the Vue example
+ * `pnpm --filter @invisible-ui/example-vue preview` serves the Vue example
  * here, after `pnpm build`. The docs demos are Svelte: the custom elements
  * render only in that example, on the page this origin carries.
  */
@@ -432,7 +432,7 @@ const elementsSection = () => {
     "",
     "Named by the Elements accessibility review and still open. The docs demos",
     "are Svelte, so these run on the Vue example's elements page: `pnpm build`,",
-    "then `pnpm --filter @design-system/example-vue preview`. Reload the page",
+    "then `pnpm --filter @invisible-ui/example-vue preview`. Reload the page",
     "before each scenario. Arrow keys reach the widget only in the screen",
     "reader's focus or forms mode; write down which mode was on.",
     "",

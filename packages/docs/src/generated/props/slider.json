@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Slider",
-        "specifier": "@design-system/svelte/Slider.svelte"
+        "specifier": "@invisible-ui/svelte/Slider.svelte"
       },
       "props": [
         {
@@ -135,7 +135,7 @@
       "import": {
         "kind": "named",
         "name": "Slider",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -273,7 +273,7 @@
       "import": {
         "kind": "named",
         "name": "Slider",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -403,7 +403,7 @@
       "import": {
         "kind": "element",
         "name": "ds-slider",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

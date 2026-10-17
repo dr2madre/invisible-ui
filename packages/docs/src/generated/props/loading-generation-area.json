@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "LoadingGenerationArea",
-        "specifier": "@design-system/svelte/LoadingGenerationArea.svelte"
+        "specifier": "@invisible-ui/svelte/LoadingGenerationArea.svelte"
       },
       "props": [
         {
@@ -87,7 +87,7 @@
       "import": {
         "kind": "named",
         "name": "LoadingGenerationArea",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -165,7 +165,7 @@
       "import": {
         "kind": "named",
         "name": "LoadingGenerationArea",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -255,7 +255,7 @@
       "import": {
         "kind": "element",
         "name": "ds-loading-generation-area",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

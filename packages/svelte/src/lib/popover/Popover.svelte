@@ -6,7 +6,7 @@
    * - **`trigger="click"`** (default): a Button opens it intentionally.
    *   Behaviour and accessibility (open/close, `aria-haspopup`/`aria-expanded`
    *   wiring, Escape to close) come from the headless popover
-   *   (`@design-system/core`); the adapter adds Floating-UI positioning
+   *   (`@invisible-ui/core`); the adapter adds Floating-UI positioning
    *   (flip/shift), outside-press + focus-leave dismissal, and focus management
    *   (focus moves into the panel on open, returns to the trigger on Escape).
    * - **`trigger="hover"`** (the pattern formerly shipped as HoverCard): the

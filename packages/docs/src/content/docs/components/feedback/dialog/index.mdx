@@ -114,8 +114,8 @@ and `copy` on `Button` gives the confirmation beside the control:
 
 ```svelte
 <script lang="ts">
-  import Button from "@design-system/svelte/Button.svelte";
-  import Dialog from "@design-system/svelte/Dialog.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Dialog from "@invisible-ui/svelte/Dialog.svelte";
 
   let dialog: ReturnType<typeof Dialog> | undefined = $state();
 
@@ -167,7 +167,7 @@ the control:
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { Button, Dialog, type DialogNoticeControls } from "@design-system/vue";
+import { Button, Dialog, type DialogNoticeControls } from "@invisible-ui/vue";
 
 const share = ref<DialogNoticeControls | null>(null);
 

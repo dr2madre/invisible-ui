@@ -4,7 +4,7 @@
    * pattern): a track with a fill that represents a value against a reference
    * — completion of user-driven steps, gamification, analytics. Behaviour and
    * accessibility (role, aria-value*) come from the headless progress
-   * (`@design-system/core`).
+   * (`@invisible-ui/core`).
    *
    * Deliberately no indeterminate state: something that sweeps or spins
    * without a value is *waiting*, and waiting is the Loading family's job

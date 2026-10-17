@@ -1,5 +1,5 @@
 {
-  "name": "@design-system/example-vue",
+  "name": "@invisible-ui/example-vue",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,9 +10,9 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@design-system/elements": "workspace:*",
-    "@design-system/react": "workspace:*",
-    "@design-system/vue": "workspace:*",
+    "@invisible-ui/elements": "workspace:*",
+    "@invisible-ui/react": "workspace:*",
+    "@invisible-ui/vue": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "vue": "^3.5.43"

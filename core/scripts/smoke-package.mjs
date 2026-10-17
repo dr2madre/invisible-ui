@@ -45,7 +45,7 @@ try {
   writeFileSync(
     join(consumer, "main.mjs"),
     [
-      'import { asyncContent, calendar, i18n, label, multiSelect, numberField, popover } from "@design-system/core";',
+      'import { asyncContent, calendar, i18n, label, multiSelect, numberField, popover } from "@invisible-ui/core";',
       "const state = popover.initialState({});",
       'if (state.open !== false || !state.id) throw new Error("unexpected popover state");',
       'if (typeof label.connect !== "function") throw new Error("label.connect missing");',
@@ -70,7 +70,7 @@ try {
   writeFileSync(
     join(consumer, "main.ts"),
     [
-      'import { asyncContent, i18n, multiSelect, numberField, popover } from "@design-system/core";',
+      'import { asyncContent, i18n, multiSelect, numberField, popover } from "@invisible-ui/core";',
       "const state: popover.PopoverState = popover.initialState({ open: true });",
       'if (!state.open) throw new Error("unreachable");',
       "const view: asyncContent.AsyncView = asyncContent.deriveAsyncView({",

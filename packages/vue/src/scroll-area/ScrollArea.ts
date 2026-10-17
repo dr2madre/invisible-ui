@@ -24,7 +24,7 @@ const OVERFLOW: Record<ScrollOrientation, Record<string, string>> = {
 /**
  * ScrollArea — a scrollable viewport with custom overlay scrollbars, ported
  * from the Svelte adapter. The scrollbar geometry comes from the headless
- * scroll area (`@design-system/core`); this layer measures the viewport (scroll
+ * scroll area (`@invisible-ui/core`); this layer measures the viewport (scroll
  * plus ResizeObserver) and supports dragging the thumb. Native scrollbars are
  * hidden while native keyboard and wheel scrolling stay intact (the focusable
  * viewport scrolls with the arrow keys).

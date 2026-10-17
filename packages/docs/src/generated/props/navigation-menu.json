@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "NavigationMenu",
-        "specifier": "@design-system/svelte/NavigationMenu.svelte"
+        "specifier": "@invisible-ui/svelte/NavigationMenu.svelte"
       },
       "props": [
         {
@@ -39,7 +39,7 @@
       "import": {
         "kind": "named",
         "name": "NavigationMenu",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -74,7 +74,7 @@
       "import": {
         "kind": "named",
         "name": "NavigationMenu",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -116,7 +116,7 @@
       "import": {
         "kind": "element",
         "name": "ds-navigation-menu",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

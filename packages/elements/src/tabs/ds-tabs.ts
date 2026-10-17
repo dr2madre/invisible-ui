@@ -1,4 +1,4 @@
-import { tabs as core } from "@design-system/core";
+import { tabs as core } from "@invisible-ui/core";
 import { applyProps, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { pathIcon } from "../internal/icons";
 

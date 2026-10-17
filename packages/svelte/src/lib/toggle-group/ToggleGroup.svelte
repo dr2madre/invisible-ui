@@ -12,7 +12,7 @@
    * - `segmented` — items are joined into one control: their individual borders
    *   are dropped and the group draws a single outer border with thin dividers.
    *
-   * Keyboard (the shared rule in `@design-system/core`): with three or more
+   * Keyboard (the shared rule in `@invisible-ui/core`): with three or more
    * toggles the group is one tab stop, and the arrow keys move focus between
    * the enabled toggles, wrapping at the ends. Left and Right follow the
    * reading direction in a horizontal group, Up and Down move in a vertical
@@ -31,7 +31,7 @@
    */
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
-  import { toggleGroup as core } from "@design-system/core";
+  import { toggleGroup as core } from "@invisible-ui/core";
 
   interface Props {
     /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */

@@ -1,4 +1,4 @@
-import { dialog as core } from "@design-system/core";
+import { dialog as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -57,7 +57,7 @@ export interface UseDialog extends DialogStatus {
  * Connect the headless Dialog to Vue on the native `<dialog>` element
  * (ADR 0005).
  *
- * Behaviour and ARIA live in `@design-system/core` (role, `aria-modal`,
+ * Behaviour and ARIA live in `@invisible-ui/core` (role, `aria-modal`,
  * labelling, Escape). Modality comes from the platform via `showModal()`: top
  * layer (no teleport, no z-index), an inert background (a real focus trap the
  * browser enforces for keyboard *and* assistive tech) and a stylable

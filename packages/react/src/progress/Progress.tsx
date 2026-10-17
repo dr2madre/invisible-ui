@@ -20,7 +20,7 @@ const R = 15.9155;
  * Progress: a determinate progress bar (WAI-ARIA progressbar pattern), a
  * track with a fill that shows a value against a total: steps completed, a
  * score, a quota. The role and ARIA value come from the headless progress
- * (`@design-system/core`).
+ * (`@invisible-ui/core`).
  *
  * There is no indeterminate state on purpose: something that spins without a
  * value is waiting, and waiting is the Loading family's job.

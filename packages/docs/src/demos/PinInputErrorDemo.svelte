@@ -1,5 +1,5 @@
 <script>
-  import PinInput from "@design-system/svelte/PinInput.svelte";
+  import PinInput from "@invisible-ui/svelte/PinInput.svelte";
   let error = $state("That code is wrong. Check it and try again.");
 </script>
 

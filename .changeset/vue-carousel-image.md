@@ -1,5 +1,5 @@
 ---
-"@design-system/vue": patch
+"@invisible-ui/vue": patch
 ---
 
 A Carousel slide image is set as one quoted URL, so an image value from data

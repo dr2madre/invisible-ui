@@ -1,9 +1,9 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/react": patch
-"@design-system/elements": patch
-"@design-system/core": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/react": patch
+"@invisible-ui/elements": patch
+"@invisible-ui/core": patch
 ---
 
 Combobox's clear button now answers the keyboard, in every adapter.

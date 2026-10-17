@@ -1,7 +1,7 @@
 ---
-"@design-system/svelte": minor
-"@design-system/vue": minor
-"@design-system/react": minor
+"@invisible-ui/svelte": minor
+"@invisible-ui/vue": minor
+"@invisible-ui/react": minor
 ---
 
 `hideLabel` now works on every field component. Svelte and Vue add it to

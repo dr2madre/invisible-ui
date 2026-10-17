@@ -40,7 +40,7 @@ jobs:
 
       # Turbo builds the dependency graph first (core → svelte → docs).
       - name: Build docs site
-        run: pnpm exec turbo run build --filter=@design-system/docs
+        run: pnpm exec turbo run build --filter=@invisible-ui/docs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1

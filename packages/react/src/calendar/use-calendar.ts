@@ -1,4 +1,4 @@
-import { calendar as core, weekStart, type ElementProps } from "@design-system/core";
+import { calendar as core, weekStart, type ElementProps } from "@invisible-ui/core";
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
 import { useI18n } from "../i18n/i18n";
 import { useControllable } from "../internal/controllable";
@@ -49,7 +49,7 @@ export interface UseCalendar extends core.CalendarApi {
 
 /**
  * Connect the headless calendar (WAI-ARIA date grid) to React. Behaviour and
- * all date arithmetic live in `@design-system/core`: a roving tab stop on the
+ * all date arithmetic live in `@invisible-ui/core`: a roving tab stop on the
  * focused day, arrow, Home, End, PageUp and PageDown navigation, selection
  * bounded by `[min, max]`. This hook owns the value, the range, the focused
  * date and the view as controllable mirrors (ADR 0011), and moves DOM focus to

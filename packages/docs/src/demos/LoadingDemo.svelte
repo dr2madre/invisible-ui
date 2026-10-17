@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
-  import Loading from "@design-system/svelte/Loading.svelte";
-  import Button from "@design-system/svelte/Button.svelte";
+  import Loading from "@invisible-ui/svelte/Loading.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
 
   // No-flash delay + overlay-without-veil: a fake ~1.2s task. Loading is mounted
   // immediately but only appears after its own 150ms delay, so a quick task

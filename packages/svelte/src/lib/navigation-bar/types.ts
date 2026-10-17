@@ -1,4 +1,4 @@
-import type { navigationBar } from "@design-system/core";
+import type { navigationBar } from "@invisible-ui/core";
 import type { Component, ComponentType } from "svelte";
 
 export type NavigationBadge = navigationBar.NavigationBadge;

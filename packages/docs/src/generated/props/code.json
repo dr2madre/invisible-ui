@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Code",
-        "specifier": "@design-system/svelte/Code.svelte"
+        "specifier": "@invisible-ui/svelte/Code.svelte"
       },
       "props": []
     },
@@ -14,7 +14,7 @@
       "import": {
         "kind": "named",
         "name": "Code",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [],
       "emits": [],
@@ -26,7 +26,7 @@
       "import": {
         "kind": "named",
         "name": "Code",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -44,7 +44,7 @@
       "import": {
         "kind": "element",
         "name": "ds-code",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [],
       "notes": []

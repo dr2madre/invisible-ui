@@ -1,4 +1,4 @@
-import { accordion as core } from "@design-system/core";
+import { accordion as core } from "@invisible-ui/core";
 import { useId, useMemo } from "react";
 import { sameSet, useControllable } from "../internal/controllable";
 import { normalizeProps } from "../normalize";

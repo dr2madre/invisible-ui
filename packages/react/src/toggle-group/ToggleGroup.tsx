@@ -1,4 +1,4 @@
-import { toggleGroup as core } from "@design-system/core";
+import { toggleGroup as core } from "@invisible-ui/core";
 import { useEffect, useRef, type ReactNode } from "react";
 import { cx } from "../internal/cx";
 

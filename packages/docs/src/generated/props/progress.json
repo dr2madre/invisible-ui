@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Progress",
-        "specifier": "@design-system/svelte/Progress.svelte"
+        "specifier": "@invisible-ui/svelte/Progress.svelte"
       },
       "props": [
         {
@@ -63,7 +63,7 @@
       "import": {
         "kind": "named",
         "name": "Progress",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -122,7 +122,7 @@
       "import": {
         "kind": "named",
         "name": "Progress",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -180,7 +180,7 @@
       "import": {
         "kind": "element",
         "name": "ds-progress",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Calendar",
-        "specifier": "@design-system/svelte/Calendar.svelte"
+        "specifier": "@invisible-ui/svelte/Calendar.svelte"
       },
       "props": [
         {
@@ -231,7 +231,7 @@
       "import": {
         "kind": "named",
         "name": "Calendar",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -465,7 +465,7 @@
       "import": {
         "kind": "named",
         "name": "Calendar",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -691,7 +691,7 @@
       "import": {
         "kind": "element",
         "name": "ds-calendar",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

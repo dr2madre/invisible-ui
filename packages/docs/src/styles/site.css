@@ -1,7 +1,7 @@
 /* Design tokens — primitives + semantic roles. They respond to [data-theme] (set
    by Starlight on <html>) and prefers-color-scheme, so the theme toggle recolors
    the live demos automatically. */
-@import "@design-system/svelte/tokens.css";
+@import "@invisible-ui/svelte/tokens.css";
 
 /* Recolor Starlight's accent (links, active nav, hero button) to the brand
    selection color (violet) instead of the default blue. */

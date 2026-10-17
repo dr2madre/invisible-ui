@@ -1,5 +1,5 @@
 ---
-"@design-system/elements": patch
+"@invisible-ui/elements": patch
 ---
 
 `<ds-combobox>` and `<ds-multi-select>` keep working when they are moved

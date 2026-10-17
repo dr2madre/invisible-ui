@@ -1,4 +1,4 @@
-import { navigationMenu as core } from "@design-system/core";
+import { navigationMenu as core } from "@invisible-ui/core";
 import {
   applyProps,
   emit,

@@ -1,24 +1,24 @@
 /**
- * `@design-system/elements` — the Web Components adapter over
- * `@design-system/core`.
+ * `@invisible-ui/elements` — the Web Components adapter over
+ * `@invisible-ui/core`.
  *
  * Framework-free custom elements (light DOM, ADR 0008) for contexts without a
  * framework: plain HTML pages, server-driven stacks (HTMX and friends) and
  * legacy portals. Framework users should prefer their native adapter
- * (`@design-system/svelte`, `@design-system/react`).
+ * (`@invisible-ui/svelte`, `@invisible-ui/react`).
  *
  * Two ways in:
  *
  * ```js
  * // Side-effect import: registers every <ds-*> tag.
- * import "@design-system/elements/define";
+ * import "@invisible-ui/elements/define";
  *
  * // Or register selectively:
- * import { DsButton } from "@design-system/elements";
+ * import { DsButton } from "@invisible-ui/elements";
  * customElements.define("ds-button", DsButton);
  * ```
  *
- * Styles are opt-in: `@design-system/elements/styles.css`.
+ * Styles are opt-in: `@invisible-ui/elements/styles.css`.
  */
 
 export { DsButton } from "./button/ds-button";

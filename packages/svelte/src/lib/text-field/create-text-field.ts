@@ -1,4 +1,4 @@
-import { textField as core } from "@design-system/core";
+import { textField as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
@@ -45,7 +45,7 @@ export interface CreateTextField {
 /**
  * Create a headless text field. Behaviour and accessibility (label/control
  * association, `aria-describedby`, `aria-invalid`, state flags) live in
- * `@design-system/core`; this adapter wires the state to a Svelte store and
+ * `@invisible-ui/core`; this adapter wires the state to a Svelte store and
  * applies each part's connected props via an action. Typing is left to the
  * native control — bind the value in the markup and report it through
  * `onValueChange` (or `setValue`).

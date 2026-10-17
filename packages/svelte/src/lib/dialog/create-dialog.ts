@@ -1,4 +1,4 @@
-import { dialog as core } from "@design-system/core";
+import { dialog as core } from "@invisible-ui/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
@@ -107,7 +107,7 @@ let noticeCounter = 0;
 
 /**
  * Create a headless modal dialog on the native `<dialog>` element (ADR 0005).
- * Behaviour/ARIA live in `@design-system/core` (role, `aria-modal`, labelling,
+ * Behaviour/ARIA live in `@invisible-ui/core` (role, `aria-modal`, labelling,
  * Escape); the platform provides modality via `showModal()`: top-layer
  * rendering (no portal, no z-index), an inert background (a real focus trap,
  * enforced by the browser for keyboard *and* assistive tech), Escape via the

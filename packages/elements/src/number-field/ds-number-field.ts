@@ -1,4 +1,4 @@
-import { i18n, numberField as core } from "@design-system/core";
+import { i18n, numberField as core } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,

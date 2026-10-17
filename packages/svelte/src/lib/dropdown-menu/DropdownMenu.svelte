@@ -4,7 +4,7 @@
    * button pattern). A trigger opens a `role="menu"` of action items; behaviour
    * and accessibility (open/close, arrow & Home/End navigation, typeahead,
    * focus moving into the menu and returning to the trigger, Escape/outside to
-   * close) come from the headless menu (`@design-system/core`). Popup
+   * close) come from the headless menu (`@invisible-ui/core`). Popup
    * positioning (flip/shift, stays attached on scroll) is handled via
    * `@floating-ui/dom`.
    *
@@ -13,7 +13,7 @@
    * and elevation are themeable CSS custom properties (`--ds-menu-*`).
    */
   import { untrack } from "svelte";
-  import { menu as core } from "@design-system/core";
+  import { menu as core } from "@invisible-ui/core";
   import { createDropdownMenu, type MenuEntry } from "./create-dropdown-menu";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";

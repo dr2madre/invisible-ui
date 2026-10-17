@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, it } from "vitest";
-import { calendar } from "@design-system/core";
+import { calendar } from "@invisible-ui/core";
 import Fixture from "./calendar-week-start.fixture.svelte";
 
 /** The long weekday name the first column carries (0 = Sunday). */

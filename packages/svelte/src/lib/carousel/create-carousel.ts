@@ -1,4 +1,4 @@
-import { carousel as core } from "@design-system/core";
+import { carousel as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createPropsAction, createRootAction } from "../internal/connect";
@@ -57,7 +57,7 @@ export interface CreateCarousel {
 /**
  * Create a headless carousel (WAI-ARIA carousel pattern): a labelled group of
  * "N of M" slides with previous/next buttons, slide-picker indicators, optional
- * looping and arrow-key navigation. The index math lives in `@design-system/core`;
+ * looping and arrow-key navigation. The index math lives in `@invisible-ui/core`;
  * this adapter wires state to Svelte stores and applies the connected props via
  * actions. The styled layer maps the current index to a transform (slide mode) or
  * scrolls the active slide into view (gallery mode).

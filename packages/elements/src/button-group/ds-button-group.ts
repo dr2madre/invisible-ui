@@ -1,4 +1,4 @@
-import { buttonGroup as core } from "@design-system/core";
+import { buttonGroup as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, HTMLElementBase, upgradeProperty } from "../internal/base";
 
 export type ButtonGroupOrientation = core.Orientation;

@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "AlertDialog",
-        "specifier": "@design-system/svelte/AlertDialog.svelte"
+        "specifier": "@invisible-ui/svelte/AlertDialog.svelte"
       },
       "props": [
         {
@@ -103,7 +103,7 @@
       "import": {
         "kind": "named",
         "name": "AlertDialog",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -210,7 +210,7 @@
       "import": {
         "kind": "named",
         "name": "AlertDialog",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -316,7 +316,7 @@
       "import": {
         "kind": "element",
         "name": "ds-alert-dialog",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

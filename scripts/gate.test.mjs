@@ -80,9 +80,9 @@ test("the gate lists every check CI used to run one by one, and the API manifest
     "pnpm api:check",
     "pnpm api:report:check",
     "pnpm api:runtime-check",
-    "pnpm --filter @design-system/core run smoke",
-    "pnpm --filter @design-system/svelte run smoke",
-    "pnpm --filter @design-system/vue run smoke",
+    "pnpm --filter @invisible-ui/core run smoke",
+    "pnpm --filter @invisible-ui/svelte run smoke",
+    "pnpm --filter @invisible-ui/vue run smoke",
     "pnpm consumers:check",
     "pnpm size",
   ]) {

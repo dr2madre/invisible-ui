@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": minor
-"@design-system/svelte": minor
-"@design-system/vue": minor
+"@invisible-ui/elements": minor
+"@invisible-ui/svelte": minor
+"@invisible-ui/vue": minor
 ---
 
 Add `ds-card`, `ds-tag`, and `ds-separator` with light-DOM composition,

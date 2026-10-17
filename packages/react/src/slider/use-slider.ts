@@ -1,4 +1,4 @@
-import { slider as core } from "@design-system/core";
+import { slider as core } from "@invisible-ui/core";
 import { useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useControlledDefault, useFormDefault, useFormReset } from "../internal/form-reset";
 import { inputEvent, normalizeProps } from "../normalize";

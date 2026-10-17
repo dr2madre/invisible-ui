@@ -1,5 +1,5 @@
 <script>
-  import Count from "@design-system/svelte/Count.svelte";
+  import Count from "@invisible-ui/svelte/Count.svelte";
 </script>
 
 <div style="display: flex; gap: 1.5rem; align-items: center;">

@@ -3,7 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["@design-system/core", "@design-system/svelte"]],
+  "linked": [["@invisible-ui/core", "@invisible-ui/svelte"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

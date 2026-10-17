@@ -1,6 +1,6 @@
 # invisible-ui (Reflex adapter)
 
-Python wrappers over [`@design-system/react`](../react) for
+Python wrappers over [`@invisible-ui/react`](../react) for
 [Reflex](https://reflex.dev) apps.
 
 **Status: proof-of-concept**, completing technical-roadmap item #6 Part B.
@@ -10,7 +10,7 @@ Dialog — mirroring the React set.
 ## How it works — and the constraint
 
 Reflex compiles Python to React, so each wrapper is a thin `rx.Component`
-subclass (`library = "@design-system/react"`, `tag = "Button"`, typed vars for
+subclass (`library = "@invisible-ui/react"`, `tag = "Button"`, typed vars for
 the props, `rx.EventHandler` triggers for the callbacks). It renders the
 **same component the React adapter ships**: nothing is re-implemented in
 Python.
@@ -24,7 +24,7 @@ Python.
 Prop names are written in snake_case and reach React camelCased
 (`footer_close` → `footerClose`); `button_type` maps to React's `type` (which
 shadows the Python builtin). Every wrapper imports
-`@design-system/react/styles.css`, so the `--ds-*` tokens and component styles
+`@invisible-ui/react/styles.css`, so the `--ds-*` tokens and component styles
 come along automatically.
 
 ## Usage
@@ -50,18 +50,18 @@ A runnable app lives in [`examples/reflex`](../../examples/reflex).
 
 ## Resolving the npm package
 
-`@design-system/react` is currently **private/unpublished**, so the Reflex
+`@invisible-ui/react` is currently **private/unpublished**, so the Reflex
 app's JS package manager must be able to resolve it before `reflex run`:
 
 ```sh
 # Build a tarball from this repo…
-pnpm --filter @design-system/react build
-cd packages/react && npm pack        # → design-system-react-0.1.0-alpha.0.tgz
+pnpm --filter @invisible-ui/react build
+cd packages/react && npm pack        # → invisible-ui-react-0.1.0-alpha.0.tgz
 ```
 
 …then make it resolvable in the Reflex project (an npm override / resolution to
 the tarball path, a local registry, or simply publishing the package). Once
-`@design-system/react` is on npm this section disappears.
+`@invisible-ui/react` is on npm this section disappears.
 
 ## Tests
 

@@ -3,7 +3,7 @@
  * source of truth for every adapter, so keys, placeholders and plural forms
  * cannot drift between frameworks.
  */
-import { i18n as core } from "@design-system/core";
+import { i18n as core } from "@invisible-ui/core";
 
 export const en = core.en;
 export type MessageKey = core.MessageKey;

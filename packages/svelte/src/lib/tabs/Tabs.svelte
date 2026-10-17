@@ -20,7 +20,7 @@
   /**
    * Tabs — the styled, batteries-included tabs widget (WAI-ARIA tabs pattern):
    * roving tabindex, arrow/Home/End navigation, automatic or manual activation.
-   * Behaviour and accessibility come from the headless tabs (`@design-system/core`);
+   * Behaviour and accessibility come from the headless tabs (`@invisible-ui/core`);
    * this layer adds the underline indicator and panels.
    *
    * Each item supplies a tab `label` (falling back to `value`) and, optionally,

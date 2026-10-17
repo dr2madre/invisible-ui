@@ -1,4 +1,4 @@
-import { toggleButton as core } from "@design-system/core";
+import { toggleButton as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createRootAction } from "../internal/connect";
@@ -30,7 +30,7 @@ export interface CreateToggleButton {
  * native `<button type="button">` with `aria-pressed` (e.g. Bold in a
  * toolbar). This is distinct from a switch (a settings-style on/off control):
  * use `createSwitch` for that. Behaviour and accessibility live in
- * `@design-system/core`; the browser owns the button role, Enter and Space
+ * `@invisible-ui/core`; the browser owns the button role, Enter and Space
  * activation and focus. For form data, render
  * `api.getHiddenInputProps({ name, value })` as an `<input type="hidden">`
  * when it is not `null` (provisional).

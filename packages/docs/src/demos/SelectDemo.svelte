@@ -1,5 +1,5 @@
 <script>
-  import Select from "@design-system/svelte/Select.svelte";
+  import Select from "@invisible-ui/svelte/Select.svelte";
 
   const fruits = [
     { value: "apple", label: "Apple" },

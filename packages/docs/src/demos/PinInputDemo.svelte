@@ -1,5 +1,5 @@
 <script>
-  import PinInput from "@design-system/svelte/PinInput.svelte";
+  import PinInput from "@invisible-ui/svelte/PinInput.svelte";
   let value = $state("");
 
   const labelStyle = "font-size: 0.875rem; font-weight: 600;";

@@ -1,4 +1,4 @@
-import { progress as core } from "@design-system/core";
+import { progress as core } from "@invisible-ui/core";
 import { computed, ref, type ComputedRef } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -20,7 +20,7 @@ export interface UseProgress {
 
 /**
  * Connect the headless progress bar (WAI-ARIA progressbar pattern) to Vue.
- * Behaviour and accessibility live in `@design-system/core`; this composable
+ * Behaviour and accessibility live in `@invisible-ui/core`; this composable
  * wires the state to a ref and derives the connected props with
  * `computed(connect)`, like the other composables. The element still needs an
  * accessible name, supplied by the consumer (`aria-label`).

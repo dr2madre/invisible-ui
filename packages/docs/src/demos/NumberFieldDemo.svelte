@@ -1,7 +1,7 @@
 <script>
-  import LocaleProvider from "@design-system/svelte/LocaleProvider.svelte";
-  import NumberField from "@design-system/svelte/NumberField.svelte";
-  import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
+  import LocaleProvider from "@invisible-ui/svelte/LocaleProvider.svelte";
+  import NumberField from "@invisible-ui/svelte/NumberField.svelte";
+  import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
 
   let locale = $state("en");
   const locales = [

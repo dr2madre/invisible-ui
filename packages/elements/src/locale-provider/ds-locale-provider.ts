@@ -1,4 +1,4 @@
-import { i18n } from "@design-system/core";
+import { i18n } from "@invisible-ui/core";
 import { HTMLElementBase, upgradeProperty } from "../internal/base";
 import { localeScope, notifyLocaleChange, onLocaleChange } from "../internal/i18n";
 

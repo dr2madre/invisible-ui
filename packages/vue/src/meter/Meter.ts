@@ -26,7 +26,7 @@ export interface MeterProps {
  * adapter: a track with a fill that reflects a value within a known range (e.g.
  * disk usage, battery). Behaviour and accessibility (role, aria-value*,
  * low/medium/high banding) come from the headless meter
- * (`@design-system/core`); this layer adds the track, fill and per-level
+ * (`@invisible-ui/core`); this layer adds the track, fill and per-level
  * colors.
  *
  * A meter reports a measurement; for the completion of a task use `Progress`.

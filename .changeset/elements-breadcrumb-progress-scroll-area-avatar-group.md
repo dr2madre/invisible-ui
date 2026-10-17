@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": minor
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 Add `<ds-breadcrumb>`, `<ds-progress>`, `<ds-scroll-area>` and `<ds-avatar-group>`, ported from the Svelte adapter with the same classes, roles and stylesheets.

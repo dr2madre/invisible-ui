@@ -58,9 +58,9 @@ decision now opens a dialog on top.
 
 ```svelte
 <script lang="ts">
-  import { createNotifier } from "@design-system/svelte";
-  import Dialog from "@design-system/svelte/Dialog.svelte";
-  import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
+  import { createNotifier } from "@invisible-ui/svelte";
+  import Dialog from "@invisible-ui/svelte/Dialog.svelte";
+  import NotificationRegion from "@invisible-ui/svelte/NotificationRegion.svelte";
 
   const notifier = createNotifier();
   let dialog: ReturnType<typeof Dialog> | undefined = $state();
@@ -118,7 +118,7 @@ to the region. The region renders in the browser only, through a portal into
 notifier.getSnapshot)` when a component needs it.
 
 ```tsx
-import { Button, createNotifier, NotificationRegion } from "@design-system/react";
+import { Button, createNotifier, NotificationRegion } from "@invisible-ui/react";
 
 const notifier = createNotifier();
 

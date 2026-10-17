@@ -1,4 +1,4 @@
-import { scrollArea, table as core } from "@design-system/core";
+import { scrollArea, table as core } from "@invisible-ui/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Card } from "../card/Card";
 import { Checkbox, type CheckboxProps } from "../checkbox/Checkbox";

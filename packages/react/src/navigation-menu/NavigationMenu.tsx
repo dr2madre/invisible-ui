@@ -40,7 +40,7 @@ export interface NavigationMenuProps {
  * NavigationMenu: a site-navigation bar where some items reveal a panel of
  * links. Plain items are ordinary links; panel items are disclosures. State
  * and ARIA (`aria-expanded`, `aria-controls`, Escape, ArrowDown) come from the
- * headless navigation menu (`@design-system/core`); the adapter adds hover
+ * headless navigation menu (`@invisible-ui/core`); the adapter adds hover
  * opening with switching, Floating UI positioning, outside-press dismissal
  * and focus movement (ArrowDown into the panel, Escape back to the trigger).
  * Inside an open dialog the panels render in the dialog (ADR 0016).

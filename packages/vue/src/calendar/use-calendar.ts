@@ -1,4 +1,4 @@
-import { calendar as core, weekStart } from "@design-system/core";
+import { calendar as core, weekStart } from "@invisible-ui/core";
 import {
   computed,
   nextTick,
@@ -51,7 +51,7 @@ export interface UseCalendar {
  * Connect the headless calendar (WAI-ARIA date-grid pattern) to Vue: a roving
  * tab stop on the focused day, arrow / Home / End / PageUp / PageDown
  * navigation, selection bounded by `[min, max]`, and prev/next/today stepping
- * per view. Behaviour and all date arithmetic live in `@design-system/core`;
+ * per view. Behaviour and all date arithmetic live in `@invisible-ui/core`;
  * this composable owns the resolved state, derives the connected props with
  * `computed(connect)`, and moves DOM focus to the day the core asks for.
  *

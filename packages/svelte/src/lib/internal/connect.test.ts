@@ -1,4 +1,4 @@
-import type { ElementProps } from "@design-system/core";
+import type { ElementProps } from "@invisible-ui/core";
 import { describe, expect, it, vi } from "vitest";
 import { get, writable } from "svelte/store";
 import { createNavigationMenu } from "../navigation-menu/create-navigation-menu";

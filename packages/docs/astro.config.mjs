@@ -220,6 +220,6 @@ export default defineConfig({
     // uses extensionless relative imports (`./types`) that Node ESM can't
     // resolve. Forcing it through Vite's pipeline (as `astro build` already
     // does) keeps `pnpm dev` working.
-    ssr: { noExternal: ["@design-system/core"] },
+    ssr: { noExternal: ["@invisible-ui/core"] },
   },
 });

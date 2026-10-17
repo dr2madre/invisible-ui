@@ -1,4 +1,4 @@
-import { switchControl as core } from "@design-system/core";
+import { switchControl as core } from "@invisible-ui/core";
 import { useMemo, type RefObject } from "react";
 import { useCheckedState } from "../internal/checked-state";
 import { normalizeProps } from "../normalize";

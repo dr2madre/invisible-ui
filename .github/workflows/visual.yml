@@ -48,8 +48,8 @@ jobs:
       - name: Build docs and the Vue example
         run: >
           pnpm exec turbo run build
-          --filter=@design-system/docs
-          --filter=@design-system/example-vue
+          --filter=@invisible-ui/docs
+          --filter=@invisible-ui/example-vue
 
       - name: Compare against baselines
         if: ${{ !inputs.update }}

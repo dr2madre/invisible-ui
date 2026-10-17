@@ -28,7 +28,7 @@
   /**
    * Calendar — the styled, batteries-included calendar (WAI-ARIA date grid).
    * Behaviour, date math and keyboard navigation come from the headless
-   * calendar (`@design-system/core`); this layer adds the header (period label,
+   * calendar (`@invisible-ui/core`); this layer adds the header (period label,
    * an optional view switcher, prev/next/today) and the bodies for each view.
    *
    * Views: `month`, `two-month` (two months side by side), `week`,
@@ -40,7 +40,7 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createCalendar, localDate, type CalendarView, type WeekStart } from "./create-calendar";
-  import { calendar as core, i18n, weekStart } from "@design-system/core";
+  import { calendar as core, i18n, weekStart } from "@invisible-ui/core";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";

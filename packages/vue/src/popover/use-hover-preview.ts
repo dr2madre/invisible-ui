@@ -1,4 +1,4 @@
-import { hoverCard as core } from "@design-system/core";
+import { hoverCard as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -49,7 +49,7 @@ export interface UseHoverPreview {
 /**
  * The hover/focus preview behaviour behind `Popover`'s `trigger="hover"` mode
  * (the pattern shipped as HoverCard in the Svelte adapter). ARIA/state live in
- * `@design-system/core`; this composable owns the DOM concerns: open/close on
+ * `@invisible-ui/core`; this composable owns the DOM concerns: open/close on
  * hover **and** focus with delays, `attachFloating` positioning, and, since the
  * card is non-modal and supplementary, it stays open while the pointer is over
  * the card (hoverable), closes when focus leaves both the trigger and the

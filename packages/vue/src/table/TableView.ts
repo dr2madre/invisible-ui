@@ -1,4 +1,4 @@
-import { scrollArea, table as core } from "@design-system/core";
+import { scrollArea, table as core } from "@invisible-ui/core";
 import {
   computed,
   defineComponent,

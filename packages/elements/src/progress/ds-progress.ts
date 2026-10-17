@@ -1,4 +1,4 @@
-import { progress } from "@design-system/core";
+import { progress } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -18,7 +18,7 @@ const R = "15.9155";
  * `<ds-progress>` — a determinate progress bar (WAI-ARIA progressbar pattern),
  * ported from the Svelte adapter with identical classes: a track with a fill
  * that shows a value against a range. Role and `aria-value*` come from the
- * headless progress in `@design-system/core`.
+ * headless progress in `@invisible-ui/core`.
  *
  * There is no indeterminate state: waiting without a value is the job of
  * `<ds-loading>`. The `label` gives the bar its accessible name.

@@ -1,5 +1,5 @@
 ---
-"@design-system/core": patch
+"@invisible-ui/core": patch
 ---
 
 `weekStart.forLocale(locale)` returns the first day of the week a

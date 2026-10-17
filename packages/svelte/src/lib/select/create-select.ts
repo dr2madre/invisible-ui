@@ -1,4 +1,4 @@
-import { select as core } from "@design-system/core";
+import { select as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createPropsAction } from "../internal/connect";
@@ -45,7 +45,7 @@ const TYPEAHEAD_RESET = 500;
 
 /**
  * Create a headless select (collapsible single-select listbox). Behaviour and
- * accessibility live in `@design-system/core`; this adapter wires the state to
+ * accessibility live in `@invisible-ui/core`; this adapter wires the state to
  * a Svelte store, applies each part's connected props via actions, and owns the
  * DOM concerns the pure core can't: popup positioning (via `@floating-ui/dom`,
  * with flip/shift), typeahead, close-on-outside-pointer, and keeping the active

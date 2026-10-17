@@ -39,8 +39,8 @@ test("every other form is read: side effect, star, dynamic, require, css", () =>
   assert.deepEqual(found('export * from "lodash-es";'), ["lodash-es"]);
   assert.deepEqual(found('const m = await import(\n  "lazy"\n);'), ["lazy"]);
   assert.deepEqual(found('const x = require("cjs");'), ["cjs"]);
-  assert.deepEqual(found('@import "@design-system/svelte/tokens.css";'), [
-    "@design-system/svelte/tokens.css",
+  assert.deepEqual(found('@import "@invisible-ui/svelte/tokens.css";'), [
+    "@invisible-ui/svelte/tokens.css",
   ]);
   assert.deepEqual(found("@import url('./a.css');"), ["./a.css"]);
 });
@@ -53,8 +53,8 @@ test("a dynamic import nobody can name is counted, not guessed at", () => {
 
 test("a build tool's query suffix names the same file", () => {
   assert.equal(
-    withoutQuery("@design-system/svelte/tokens.css?raw"),
-    "@design-system/svelte/tokens.css",
+    withoutQuery("@invisible-ui/svelte/tokens.css?raw"),
+    "@invisible-ui/svelte/tokens.css",
   );
   assert.equal(withoutQuery("./a.svg?url&inline"), "./a.svg");
   assert.equal(withoutQuery("./a.js"), "./a.js");

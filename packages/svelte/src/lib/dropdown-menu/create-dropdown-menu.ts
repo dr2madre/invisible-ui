@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
@@ -38,7 +38,7 @@ const TYPEAHEAD_RESET = 500;
 
 /**
  * Create a headless dropdown menu (WAI-ARIA menu button). Behaviour and
- * accessibility live in `@design-system/core`; this adapter owns the DOM
+ * accessibility live in `@invisible-ui/core`; this adapter owns the DOM
  * concerns: popup positioning (`@floating-ui/dom`, flip/shift), moving DOM
  * focus into the menu (roving — the active item is focused), returning focus to
  * the trigger on close, typeahead, and close-on-outside-pointer.

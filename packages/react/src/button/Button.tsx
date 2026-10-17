@@ -62,7 +62,7 @@ export interface ButtonProps extends NativeButtonProps {
 
 /**
  * Button — the styled, batteries-included button. Behaviour and accessibility
- * come from the headless Button (`@design-system/core`); this layer adds the
+ * come from the headless Button (`@invisible-ui/core`); this layer adds the
  * semantic variants and icon affordances.
  *
  * **Composition.** Any extra props are forwarded to the underlying `<button>`,

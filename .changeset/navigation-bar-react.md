@@ -1,5 +1,5 @@
 ---
-"@design-system/react": minor
+"@invisible-ui/react": minor
 ---
 
 Add `NavigationBar`: primary navigation between a few sections, a `<nav>`

@@ -1,5 +1,5 @@
 <script>
-  import Sidebar from "@design-system/svelte/Sidebar.svelte";
+  import Sidebar from "@invisible-ui/svelte/Sidebar.svelte";
   import Dot from "./SidebarDemoIcon.svelte";
 
   let active = $state("home");

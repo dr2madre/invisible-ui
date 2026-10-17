@@ -1,5 +1,5 @@
 <script>
-  import Pagination from "@design-system/svelte/Pagination.svelte";
+  import Pagination from "@invisible-ui/svelte/Pagination.svelte";
   let page = $state(3);
 </script>
 

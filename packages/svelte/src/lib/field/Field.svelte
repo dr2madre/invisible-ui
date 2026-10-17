@@ -3,7 +3,7 @@
    * Field — a styled form field that wires a label, control, description and
    * error message together. Behaviour and accessibility (id linking,
    * aria-describedby, aria-invalid / aria-required) come from the headless field
-   * (`@design-system/core`).
+   * (`@invisible-ui/core`).
    *
    * The control is provided via the `children` snippet, which receives
    * `controlProps` (spread them onto your control) and `controlId`:

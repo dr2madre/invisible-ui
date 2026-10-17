@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Separator",
-        "specifier": "@design-system/svelte/Separator.svelte"
+        "specifier": "@invisible-ui/svelte/Separator.svelte"
       },
       "props": [
         {
@@ -31,7 +31,7 @@
       "import": {
         "kind": "named",
         "name": "Separator",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -58,7 +58,7 @@
       "import": {
         "kind": "named",
         "name": "Separator",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -84,7 +84,7 @@
       "import": {
         "kind": "element",
         "name": "ds-separator",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

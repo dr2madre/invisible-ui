@@ -11,7 +11,7 @@
    */
   import type { Snippet } from "svelte";
   import { toStore } from "svelte/store";
-  import { collapsible as core } from "@design-system/core";
+  import { collapsible as core } from "@invisible-ui/core";
   import Icon from "../icon/Icon.svelte";
   import { createPropsAction } from "../internal/connect";
   import { normalizeProps } from "../normalize";

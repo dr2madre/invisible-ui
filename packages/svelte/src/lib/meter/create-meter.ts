@@ -1,4 +1,4 @@
-import { meter as core } from "@design-system/core";
+import { meter as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction, createRootAction } from "../internal/connect";
@@ -28,7 +28,7 @@ export interface CreateMeter {
 
 /**
  * Create a headless meter (WAI-ARIA meter pattern): a gauge of a value within a
- * known range. Behaviour and accessibility live in `@design-system/core`; this
+ * known range. Behaviour and accessibility live in `@invisible-ui/core`; this
  * adapter wires state to a Svelte store and applies the connected props via
  * actions. The element needs an accessible name, supplied by the consumer.
  */

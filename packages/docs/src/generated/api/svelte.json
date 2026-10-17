@@ -1,5 +1,5 @@
 {
-  "package": "@design-system/svelte",
+  "package": "@invisible-ui/svelte",
   "entry": "packages/svelte/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -335,8 +335,8 @@
     "./package.json": "./package.json"
   },
   "externalReferences": [
-    "@design-system/core",
     "@floating-ui/dom",
+    "@invisible-ui/core",
     "svelte",
     "svelte/action",
     "svelte/store"

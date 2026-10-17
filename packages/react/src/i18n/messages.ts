@@ -3,7 +3,7 @@
  * source of truth for every adapter, so keys, placeholders and plural forms
  * cannot drift between frameworks.
  */
-import { i18n as core } from "@design-system/core";
+import { i18n as core } from "@invisible-ui/core";
 
 // Read through a call marked pure: a bare property read at the top level
 // keeps the whole catalog in every bundle, even one that never uses it.

@@ -1,4 +1,4 @@
-import { i18n, numberField as core } from "@design-system/core";
+import { i18n, numberField as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { useStableId } from "../internal/use-stable-id";
 import { normalizeProps } from "../normalize";
@@ -47,7 +47,7 @@ export interface UseNumberField {
 
 /**
  * Connect the headless number field to Vue. Parsing, stepping, commit
- * boundaries, and the spinbutton semantics live in `@design-system/core`;
+ * boundaries, and the spinbutton semantics live in `@invisible-ui/core`;
  * this composable owns the value/draft refs, mirrors an externally controlled
  * value without emitting, and keeps a focused draft untouched by reflection.
  */

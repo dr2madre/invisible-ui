@@ -41,7 +41,7 @@ export interface SheetDialogProps {
  * SheetDialog — a Dialog anchored to an edge of the viewport (the panel pattern
  * variously marketed as "sheet", "side panel" or "drawer"), ported from the
  * Svelte adapter. It is a dialog in every sense: it reuses the headless dialog
- * (`@design-system/core`) and the shared modal composable unchanged, so it
+ * (`@invisible-ui/core`) and the shared modal composable unchanged, so it
  * keeps the native `<dialog>` plus `showModal()` (top layer, inert background),
  * scroll lock, Escape / backdrop / close-button dismissal, and focus restore.
  *

@@ -1,4 +1,4 @@
-import { navigationBar as core } from "@design-system/core";
+import { navigationBar as core } from "@invisible-ui/core";
 import {
   applyProps,
   emit,

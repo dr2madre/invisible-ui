@@ -1,10 +1,10 @@
 /* The Elements adapter's stylesheet: design tokens plus the styled components.
    Import once at the app root:
 
-     import "@design-system/elements/styles.css";
+     import "@invisible-ui/elements/styles.css";
 
    For tokens only (when you style the components yourself), import
-   `@design-system/elements/tokens.css` instead. */
+   `@invisible-ui/elements/tokens.css` instead. */
 
 @import "./tokens.css";
 @import "./button.css";

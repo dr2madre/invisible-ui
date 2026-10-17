@@ -1,4 +1,4 @@
-import { carousel as core } from "@design-system/core";
+import { carousel as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -24,7 +24,7 @@ export interface UseCarouselOptions {
  * Connect the headless carousel (WAI-ARIA carousel pattern) to Vue: a labelled
  * group of "N of M" slides with previous/next buttons, slide-picker indicators,
  * optional looping and arrow-key navigation. The index math lives in
- * `@design-system/core`; this composable owns the current index (mirrored by a
+ * `@invisible-ui/core`; this composable owns the current index (mirrored by a
  * `watch`) and derives the connected props with `computed(connect)`. The styled
  * layer maps the index to a transform (slide mode) or scrolls the active slide
  * into view (gallery mode).

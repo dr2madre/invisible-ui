@@ -1,5 +1,5 @@
 ---
-"@design-system/elements": minor
+"@invisible-ui/elements": minor
 ---
 
 Add an empty-state API to `ds-table` with the `empty-text` attribute and the

@@ -26,7 +26,7 @@
    *   either side. Set `orientation="vertical"` to stack the flow top-to-bottom.
    *
    * Behaviour and accessibility come from the headless carousel in
-   * `@design-system/core`: a labelled group of "N of M" slides, previous/next
+   * `@invisible-ui/core`: a labelled group of "N of M" slides, previous/next
    * buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The
    * control needs an accessible name via `label`. Themed via `--ds-carousel-*`.
    */

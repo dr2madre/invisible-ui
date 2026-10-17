@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Popover",
-        "specifier": "@design-system/svelte/Popover.svelte"
+        "specifier": "@invisible-ui/svelte/Popover.svelte"
       },
       "props": [
         {
@@ -87,7 +87,7 @@
       "import": {
         "kind": "named",
         "name": "Popover",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -170,7 +170,7 @@
       "import": {
         "kind": "named",
         "name": "Popover",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -260,7 +260,7 @@
       "import": {
         "kind": "element",
         "name": "ds-popover",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

@@ -8,19 +8,19 @@
     createSwitch,
     createTabs,
     createToggleButton,
-  } from "@design-system/svelte";
-  import FeedbackIcon from "@design-system/svelte/FeedbackIcon.svelte";
-  import Icon from "@design-system/svelte/Icon.svelte";
-  import { createNotifier } from "@design-system/svelte";
-  import Button from "@design-system/svelte/Button.svelte";
-  import InlineNotification from "@design-system/svelte/InlineNotification.svelte";
-  import EmptyState from "@design-system/svelte/EmptyState.svelte";
-  import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
-  import TextField from "@design-system/svelte/TextField.svelte";
-  import Textarea from "@design-system/svelte/Textarea.svelte";
-  import ButtonGroup from "@design-system/svelte/ButtonGroup.svelte";
-  import Select from "@design-system/svelte/Select.svelte";
-  import CheckboxGroup from "@design-system/svelte/CheckboxGroup.svelte";
+  } from "@invisible-ui/svelte";
+  import FeedbackIcon from "@invisible-ui/svelte/FeedbackIcon.svelte";
+  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import { createNotifier } from "@invisible-ui/svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import InlineNotification from "@invisible-ui/svelte/InlineNotification.svelte";
+  import EmptyState from "@invisible-ui/svelte/EmptyState.svelte";
+  import NotificationRegion from "@invisible-ui/svelte/NotificationRegion.svelte";
+  import TextField from "@invisible-ui/svelte/TextField.svelte";
+  import Textarea from "@invisible-ui/svelte/Textarea.svelte";
+  import ButtonGroup from "@invisible-ui/svelte/ButtonGroup.svelte";
+  import Select from "@invisible-ui/svelte/Select.svelte";
+  import CheckboxGroup from "@invisible-ui/svelte/CheckboxGroup.svelte";
 
   const notifier = createNotifier();
   let noticeCount = 0;

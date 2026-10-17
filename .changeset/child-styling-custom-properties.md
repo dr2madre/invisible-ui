@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/elements": patch
-"@design-system/react": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/elements": patch
+"@invisible-ui/react": patch
 ---
 
 Two new custom properties: `--ds-button-ghost-color` sets the text color of a

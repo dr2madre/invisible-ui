@@ -1,4 +1,4 @@
-import { popover as core } from "@design-system/core";
+import { popover as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
@@ -43,7 +43,7 @@ const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
- * Create a headless popover. Behaviour/ARIA live in `@design-system/core`; this
+ * Create a headless popover. Behaviour/ARIA live in `@invisible-ui/core`; this
  * adapter owns the DOM concerns, reusing the shared overlay primitives:
  * `attachFloating` (flip/shift positioning) and `onOutsidePointerDown`
  * (outside-press dismiss). Plus focus management — move focus into the panel on

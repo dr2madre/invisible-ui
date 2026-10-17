@@ -1,5 +1,5 @@
 <script>
-  import AvatarGroup from "@design-system/svelte/AvatarGroup.svelte";
+  import AvatarGroup from "@invisible-ui/svelte/AvatarGroup.svelte";
 
   // A palette of soft greens around the brand primary (#8DCC7A) so each avatar
   // reads as a distinct person while staying on-brand.

@@ -1,5 +1,5 @@
 <script>
-  import AlertDialog from "@design-system/svelte/AlertDialog.svelte";
+  import AlertDialog from "@invisible-ui/svelte/AlertDialog.svelte";
 
   const file = "report-q3.pdf";
 </script>

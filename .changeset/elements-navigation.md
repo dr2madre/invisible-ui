@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": minor
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 New `<ds-sidebar>` and `<ds-avatar>`, ported from the Svelte adapter with

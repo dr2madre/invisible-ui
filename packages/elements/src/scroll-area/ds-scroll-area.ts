@@ -1,4 +1,4 @@
-import { scrollArea } from "@design-system/core";
+import { scrollArea } from "@invisible-ui/core";
 import { HTMLElementBase } from "../internal/base";
 
 export type ScrollOrientation = scrollArea.ScrollOrientation;
@@ -14,7 +14,7 @@ const OVERFLOW: Record<ScrollOrientation, [x: string, y: string]> = {
 /**
  * `<ds-scroll-area>` — a scrollable viewport with custom overlay scrollbars,
  * ported from the Svelte adapter with identical classes. The scrollbar
- * geometry comes from the headless scroll area in `@design-system/core`; the
+ * geometry comes from the headless scroll area in `@invisible-ui/core`; the
  * element measures the viewport on scroll and resize and lets a pointer drag
  * the thumb. Native scrollbars are hidden while native keyboard and wheel
  * scrolling stay: the viewport is focusable and scrolls with the arrow keys.

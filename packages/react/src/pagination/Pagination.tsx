@@ -25,7 +25,7 @@ export interface PaginationProps {
  * ellipsis gaps) and next. Behaviour and accessibility (`aria-current` on the
  * current page, roving tabindex, arrow-key movement, disabled previous and
  * next at the bounds) come from the headless pagination
- * (`@design-system/core`). The control names come from the catalog.
+ * (`@invisible-ui/core`). The control names come from the catalog.
  *
  * Colors, sizing and radius are themeable via `--ds-pagination-*`.
  */

@@ -1,4 +1,4 @@
-import { i18n as coreI18n } from "@design-system/core";
+import { i18n as coreI18n } from "@invisible-ui/core";
 import { computed, defineComponent, h, ref, Teleport, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { WeekStart } from "../calendar/use-calendar";
@@ -43,7 +43,7 @@ export interface DatePickerProps {
 
 /**
  * DatePicker: a date field that opens a `Calendar` in a popover. It composes
- * the headless popover (`@design-system/core`, via `usePopover`) with the
+ * the headless popover (`@invisible-ui/core`, via `usePopover`) with the
  * styled `Calendar`: the readonly field is the trigger, focus moves into the
  * calendar, picking a day fills the field and closes the popover, and Escape
  * returns focus to the field.

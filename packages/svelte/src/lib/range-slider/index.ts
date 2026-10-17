@@ -1,4 +1,4 @@
-// The component ships as a subpath export (`@design-system/svelte/RangeSlider.svelte`);
+// The component ships as a subpath export (`@invisible-ui/svelte/RangeSlider.svelte`);
 // the barrel carries types, not markup.
 export type {
   CreateRangeSlider,

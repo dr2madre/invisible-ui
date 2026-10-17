@@ -1,4 +1,4 @@
-import { tooltip as core } from "@design-system/core";
+import { tooltip as core } from "@invisible-ui/core";
 import { applyProps, HTMLElementBase, nextId, numberAttr } from "../internal/base";
 import { attachFloating, type Placement } from "../internal/floating";
 import { HoverDelay } from "../internal/hover-delay";

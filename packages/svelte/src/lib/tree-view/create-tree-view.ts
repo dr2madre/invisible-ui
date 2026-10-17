@@ -1,4 +1,4 @@
-import { treeView as core } from "@design-system/core";
+import { treeView as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createRootAction } from "../internal/connect";
@@ -63,7 +63,7 @@ export interface CreateTreeView {
  * typeahead (typing moves focus to the next row whose label starts with the
  * typed text, never changing selection or expansion). Right expands and Left
  * collapses, mirrored in right-to-left text, read from the tree element.
- * The flattening + navigation logic lives in `@design-system/core`; this adapter
+ * The flattening + navigation logic lives in `@invisible-ui/core`; this adapter
  * wires state to Svelte stores, applies the connected props via actions, and
  * moves DOM focus during navigation.
  */

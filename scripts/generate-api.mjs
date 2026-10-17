@@ -659,7 +659,7 @@ function buildManifest(c) {
       import: {
         kind: "default",
         name: c.name,
-        specifier: `@design-system/svelte/${c.name}.svelte`,
+        specifier: `@invisible-ui/svelte/${c.name}.svelte`,
       },
       props: parseSvelte(readFileSync(c.sveltePath, "utf8")).map((p) =>
         described(p, svelteDesc[p.name], mdx?.descriptions[p.name]),
@@ -673,7 +673,7 @@ function buildManifest(c) {
     const parsed = parseVue(src, c.name);
     const vueDesc = committedDescriptions(committed, "vue");
     frameworks.vue = {
-      import: { kind: "named", name: c.name, specifier: "@design-system/vue" },
+      import: { kind: "named", name: c.name, specifier: "@invisible-ui/vue" },
       props: parsed.props.map((p) => described(p, vueDesc[p.name])),
       emits: parsed.emits,
       slots: parsed.slots,
@@ -688,7 +688,7 @@ function buildManifest(c) {
     if (parsed) {
       const reactDesc = committedDescriptions(committed, "react");
       frameworks.react = {
-        import: { kind: "named", name: c.name, specifier: "@design-system/react" },
+        import: { kind: "named", name: c.name, specifier: "@invisible-ui/react" },
         extends: parsed.extends,
         props: parsed.props.map((p) => described(p, reactDesc[p.name])),
       };
@@ -710,7 +710,7 @@ function buildManifest(c) {
         import: {
           kind: "element",
           name: elementTags.get(className),
-          specifier: "@design-system/elements/define",
+          specifier: "@invisible-ui/elements/define",
         },
         attributes: parsed.attributes.map((a) => described(a, elementDesc[a.name])),
         notes: parsed.notes,

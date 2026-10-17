@@ -6,7 +6,7 @@
 > tracked in [`technical-roadmap.md`](../technical-roadmap.md).
 
 Component build-out plan for the design system. Every component ships the same
-"parity bar": a headless primitive in `@design-system/core` (when it needs
+"parity bar": a headless primitive in `@invisible-ui/core` (when it needs
 state), a Svelte adapter, a styled themeable component (`--ds-*` tokens),
 `vitest` + `vitest-axe` tests, and an **Astro + Starlight docs page with a live
 demo** under `packages/docs`.
@@ -94,7 +94,7 @@ has a `create*`) and `packages/svelte/package.json` (`files` + `exports`).
 
 ## Phase 6 — Date & time ✅
 
-- Calendar — headless date-grid core (`@design-system/core` `calendar`) + styled
+- Calendar — headless date-grid core (`@invisible-ui/core` `calendar`) + styled
   `Calendar.svelte`. Month view: keyboard grid (arrows/Home/End/PageUp-Down),
   roving tabindex, selection, today, min/max, **appointment dots** + **per-day
   prices**, `day` slot, localised labels. Views: month, **two-month** (side by

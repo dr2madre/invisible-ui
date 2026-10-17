@@ -1,5 +1,5 @@
 {
-  "package": "@design-system/vue",
+  "package": "@invisible-ui/vue",
   "entry": "packages/vue/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -11,8 +11,8 @@
     "./package.json": "./package.json"
   },
   "externalReferences": [
-    "@design-system/core",
     "@floating-ui/dom",
+    "@invisible-ui/core",
     "vue"
   ],
   "symbols": [

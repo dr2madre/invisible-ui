@@ -1,5 +1,5 @@
 ---
-"@design-system/react": minor
+"@invisible-ui/react": minor
 ---
 
 A form reset now restores the current default in every form-bearing component, and says nothing while doing it (ADR 0012).

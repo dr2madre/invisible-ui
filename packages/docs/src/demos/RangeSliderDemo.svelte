@@ -1,6 +1,6 @@
 <script>
-  import RangeSlider from "@design-system/svelte/RangeSlider.svelte";
-  import Icon from "@design-system/svelte/Icon.svelte";
+  import RangeSlider from "@invisible-ui/svelte/RangeSlider.svelte";
+  import Icon from "@invisible-ui/svelte/Icon.svelte";
   let price = $state.raw([20, 80]);
   /** @type {"horizontal" | "vertical"} */
   let orientation = $state("horizontal");

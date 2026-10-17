@@ -1,5 +1,5 @@
 ---
-"@design-system/elements": patch
+"@invisible-ui/elements": patch
 ---
 
 Forward popup relationship and title attributes from `ds-button` and

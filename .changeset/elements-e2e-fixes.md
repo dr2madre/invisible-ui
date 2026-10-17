@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": patch
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 The login form no longer overflows a narrow container: its width now leaves

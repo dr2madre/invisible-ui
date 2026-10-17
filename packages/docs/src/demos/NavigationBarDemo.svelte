@@ -1,6 +1,6 @@
 <script>
-  import Checkbox from "@design-system/svelte/Checkbox.svelte";
-  import NavigationBar from "@design-system/svelte/NavigationBar.svelte";
+  import Checkbox from "@invisible-ui/svelte/Checkbox.svelte";
+  import NavigationBar from "@invisible-ui/svelte/NavigationBar.svelte";
   import BellIcon from "./icons/BellIcon.svelte";
   import HomeIcon from "./icons/HomeIcon.svelte";
   import LayoutIcon from "./icons/LayoutIcon.svelte";

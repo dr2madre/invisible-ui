@@ -1,5 +1,5 @@
 <script>
-  import ErrorState from "@design-system/svelte/ErrorState.svelte";
+  import ErrorState from "@invisible-ui/svelte/ErrorState.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 2rem; inline-size: 100%;">

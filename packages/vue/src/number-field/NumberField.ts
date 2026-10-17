@@ -1,4 +1,4 @@
-import { numberField as core } from "@design-system/core";
+import { numberField as core } from "@invisible-ui/core";
 import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useStableId } from "../internal/use-stable-id";
@@ -41,7 +41,7 @@ export interface NumberFieldProps {
  * NumberField: the styled, locale-aware decimal field. Behaviour and
  * accessibility (spinbutton semantics on a text input, locale parsing,
  * draft/value separation, stepping, commit boundaries) come from the headless
- * number field (`@design-system/core`); this layer adds the label, spin
+ * number field (`@invisible-ui/core`); this layer adds the label, spin
  * buttons, optional description and error message, the hidden form input, and
  * the field styling. The value binds two ways: `v-model` or the `value` prop
  * plus `onValueChange`, matching the Svelte adapter. Themeable via

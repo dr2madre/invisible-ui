@@ -24,7 +24,7 @@ export interface PaginationProps {
  * Pagination: a styled pager: previous, the visible page numbers (with
  * ellipsis gaps) and next. Behaviour and accessibility (aria-current on the
  * current page, roving tabindex, arrow-key movement, disabled prev/next at
- * the bounds) come from the headless pagination (`@design-system/core`).
+ * the bounds) come from the headless pagination (`@invisible-ui/core`).
  *
  * The current page binds two ways: `v-model` (the idiomatic Vue form) or the
  * `page` prop plus `onPageChange`, matching the other controlled components.

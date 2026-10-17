@@ -1,4 +1,4 @@
-import { toolbar as core } from "@design-system/core";
+import { toolbar as core } from "@invisible-ui/core";
 import { useEffect, useRef, type FocusEvent, type KeyboardEvent, type ReactNode } from "react";
 
 export type ToolbarOrientation = core.ToolbarOrientation;

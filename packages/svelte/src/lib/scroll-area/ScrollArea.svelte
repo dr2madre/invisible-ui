@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * ScrollArea — a scrollable viewport with custom overlay scrollbars. The
-   * scrollbar geometry comes from the headless scroll area (`@design-system/core`);
+   * scrollbar geometry comes from the headless scroll area (`@invisible-ui/core`);
    * this adapter measures the viewport (scroll + ResizeObserver) and supports
    * dragging the thumb. Native scrollbars are hidden but native keyboard/wheel
    * scrolling is preserved (the focusable viewport scrolls with the arrow keys).

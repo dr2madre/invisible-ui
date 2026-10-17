@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Breadcrumb",
-        "specifier": "@design-system/svelte/Breadcrumb.svelte"
+        "specifier": "@invisible-ui/svelte/Breadcrumb.svelte"
       },
       "props": [
         {
@@ -39,7 +39,7 @@
       "import": {
         "kind": "named",
         "name": "Breadcrumb",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -74,7 +74,7 @@
       "import": {
         "kind": "named",
         "name": "Breadcrumb",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -108,7 +108,7 @@
       "import": {
         "kind": "element",
         "name": "ds-breadcrumb",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

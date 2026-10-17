@@ -3,7 +3,7 @@
    * TreeView — the styled, batteries-included tree (WAI-ARIA tree pattern):
    * expand/collapse, roving tabindex, full arrow-key navigation and typeahead.
    * Behaviour and accessibility come from the headless tree in
-   * `@design-system/core`.
+   * `@invisible-ui/core`.
    *
    * Selection is single: one node at most is selected, and selecting another
    * replaces it. Typing a character moves focus to the next row whose label

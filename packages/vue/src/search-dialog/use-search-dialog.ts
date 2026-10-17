@@ -1,4 +1,4 @@
-import { combobox as core } from "@design-system/core";
+import { combobox as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -98,7 +98,7 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
  * Connect a headless quick search to Vue: a combobox inside a modal dialog. The
  * modal shell (native `<dialog>` plus `showModal()`, scroll lock, Escape and
  * backdrop close, focus restore) comes from {@link useDialog}; the search input
- * and filtered results reuse the headless combobox (`@design-system/core`)
+ * and filtered results reuse the headless combobox (`@invisible-ui/core`)
  * wired "always open" while the dialog is open. Choosing a result runs
  * `onSelect` and closes. The list renders inline in the dialog (no floating
  * popup), so there is no positioning to do.

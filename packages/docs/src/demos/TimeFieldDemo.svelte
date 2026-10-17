@@ -1,5 +1,5 @@
 <script>
-  import TimeField from "@design-system/svelte/TimeField.svelte";
+  import TimeField from "@invisible-ui/svelte/TimeField.svelte";
 
   let value = $state("09:30");
 </script>

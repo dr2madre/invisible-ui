@@ -26,7 +26,7 @@ export interface HoverCardProps {
  * leaves trigger and card, and is Escape-dismissable. Focus never moves into
  * the card, and the card holds nothing focusable.
  *
- * State and ARIA come from the headless hover card (`@design-system/core`)
+ * State and ARIA come from the headless hover card (`@invisible-ui/core`)
  * through `useHoverPreview`, the composable this component shares with
  * `Popover`'s `trigger="hover"` mode; positioning (flip/shift, stays attached
  * on scroll) is handled via `@floating-ui/dom`.

@@ -1,4 +1,4 @@
-import { pinInput as core } from "@design-system/core";
+import { pinInput as core } from "@invisible-ui/core";
 import { useId, useRef, useState, type RefObject } from "react";
 import { useI18n } from "../i18n/i18n";
 import { sameList } from "../internal/controllable";

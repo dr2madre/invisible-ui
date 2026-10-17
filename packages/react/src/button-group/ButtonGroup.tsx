@@ -1,4 +1,4 @@
-import { buttonGroup as core } from "@design-system/core";
+import { buttonGroup as core } from "@invisible-ui/core";
 import type { ReactNode } from "react";
 import { cx } from "../internal/cx";
 import { normalizeProps } from "../normalize";
@@ -32,7 +32,7 @@ const ALIGN_ITEMS: Record<ButtonGroupAlign, string> = {
 /**
  * ButtonGroup: the styled grouping of related action buttons. Semantics (a
  * labelled `role="group"` with an orientation) come from the headless button
- * group (`@design-system/core`); this layer lays the buttons out and, when
+ * group (`@invisible-ui/core`); this layer lays the buttons out and, when
  * `attached`, joins them into a single segmented bar by collapsing the inner
  * corners and shared borders.
  *

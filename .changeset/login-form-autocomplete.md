@@ -1,7 +1,7 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/react": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/react": patch
 ---
 
 The Login Form's email field names its purpose as `autocomplete="username"` and

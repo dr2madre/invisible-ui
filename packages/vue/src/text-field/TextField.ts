@@ -45,7 +45,7 @@ export interface TextFieldProps {
  * TextField: the styled, batteries-included single-line text field. Behaviour
  * and accessibility (label association, `aria-describedby` for the hint and
  * error, `aria-invalid` / `aria-required`) come from the headless text field
- * (`@design-system/core`); this layer adds the label, control, optional
+ * (`@invisible-ui/core`); this layer adds the label, control, optional
  * description and error message, and the focus / invalid styling.
  *
  * Covers the common single-line `type`s (text, search, email, password, tel,

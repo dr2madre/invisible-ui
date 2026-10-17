@@ -1,5 +1,5 @@
 <script>
-  import TableSet from "@design-system/svelte/TableSet.svelte";
+  import TableSet from "@invisible-ui/svelte/TableSet.svelte";
 
   const columns = [
     { key: "name", header: "Name", sortable: true },

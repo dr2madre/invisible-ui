@@ -1,7 +1,7 @@
 <script>
-  import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
-  import Tag from "@design-system/svelte/Tag.svelte";
-  import Icon from "@design-system/svelte/Icon.svelte";
+  import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
+  import Tag from "@invisible-ui/svelte/Tag.svelte";
+  import Icon from "@invisible-ui/svelte/Icon.svelte";
 
   // Color palette (materialui.co-style): tint columns × shade rows. Click a cell
   // to copy its value in the selected format. Values from the maintainer's SVG.

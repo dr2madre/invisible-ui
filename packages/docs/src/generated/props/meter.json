@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Meter",
-        "specifier": "@design-system/svelte/Meter.svelte"
+        "specifier": "@invisible-ui/svelte/Meter.svelte"
       },
       "props": [
         {
@@ -71,7 +71,7 @@
       "import": {
         "kind": "named",
         "name": "Meter",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -138,7 +138,7 @@
       "import": {
         "kind": "named",
         "name": "Meter",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -204,7 +204,7 @@
       "import": {
         "kind": "element",
         "name": "ds-meter",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

@@ -1,4 +1,4 @@
-import { label as core } from "@design-system/core";
+import { label as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createRootAction } from "../internal/connect";
@@ -21,7 +21,7 @@ export interface CreateLabel {
 
 /**
  * Create a headless label associated with a form control via `for`/`id`.
- * Behaviour lives in `@design-system/core` (association + prevent text
+ * Behaviour lives in `@invisible-ui/core` (association + prevent text
  * selection on double-click); this adapter applies the props via an action.
  */
 export function createLabel(context: core.LabelContext = {}): CreateLabel {

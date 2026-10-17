@@ -1,5 +1,5 @@
 <script>
-  import Table from "@design-system/svelte/Table.svelte";
+  import Table from "@invisible-ui/svelte/Table.svelte";
 
   const columns = [
     { key: "name", header: "Name", sortable: true },

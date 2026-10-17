@@ -1,4 +1,4 @@
-import { tabs as tabsCore } from "@design-system/core";
+import { tabs as tabsCore } from "@invisible-ui/core";
 import {
   applyProps,
   definePart,

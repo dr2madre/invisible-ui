@@ -1,5 +1,5 @@
 <script>
-  import Skeleton from "@design-system/svelte/Skeleton.svelte";
+  import Skeleton from "@invisible-ui/svelte/Skeleton.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 24rem;">

@@ -1,4 +1,4 @@
-import { navigationBar } from "@design-system/core";
+import { navigationBar } from "@invisible-ui/core";
 import type { Attachment } from "svelte/attachments";
 import type { TranslateFn } from "../i18n/create-i18n";
 import { hasOpenModal, onModalChange } from "./modal-stack";

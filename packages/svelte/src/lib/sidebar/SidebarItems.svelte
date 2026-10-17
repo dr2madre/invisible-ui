@@ -12,7 +12,7 @@
    * and does nothing when activated. The state and the activation come from
    * the headless navigation bar, shared with the Navigation Bar.
    */
-  import { navigationBar } from "@design-system/core";
+  import { navigationBar } from "@invisible-ui/core";
   import Icon from "../icon/Icon.svelte";
   import Tooltip from "../tooltip/Tooltip.svelte";
   import { getI18n } from "../i18n/create-i18n";

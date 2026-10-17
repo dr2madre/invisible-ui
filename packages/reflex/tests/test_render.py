@@ -174,6 +174,6 @@ def test_every_wrapper_imports_the_react_package_and_stylesheet():
     ):
         c = factory(label="x", title="x", items=[]) if factory is not ui.button else factory("x")
         imports = c._get_all_imports()
-        assert "@design-system/react" in imports
+        assert "@invisible-ui/react" in imports
         bare = [str(v.tag) for v in imports.get("", [])]
-        assert "@design-system/react/styles.css" in bare
+        assert "@invisible-ui/react/styles.css" in bare

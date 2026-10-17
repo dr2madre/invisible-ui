@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Link",
-        "specifier": "@design-system/svelte/Link.svelte"
+        "specifier": "@invisible-ui/svelte/Link.svelte"
       },
       "props": [
         {
@@ -39,7 +39,7 @@
       "import": {
         "kind": "named",
         "name": "Link",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -76,7 +76,7 @@
       "import": {
         "kind": "named",
         "name": "Link",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [
         "Omit< ComponentPropsWithoutRef<\"a\">",
@@ -121,7 +121,7 @@
       "import": {
         "kind": "element",
         "name": "ds-link",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

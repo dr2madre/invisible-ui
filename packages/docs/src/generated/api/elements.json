@@ -1,5 +1,5 @@
 {
-  "package": "@design-system/elements",
+  "package": "@invisible-ui/elements",
   "entry": "packages/elements/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -15,7 +15,7 @@
     "./package.json": "./package.json"
   },
   "externalReferences": [
-    "@design-system/core"
+    "@invisible-ui/core"
   ],
   "symbols": [
     {

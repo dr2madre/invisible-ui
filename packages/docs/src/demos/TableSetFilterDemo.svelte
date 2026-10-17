@@ -1,6 +1,6 @@
 <script>
-  import TableSet from "@design-system/svelte/TableSet.svelte";
-  import TextField from "@design-system/svelte/TextField.svelte";
+  import TableSet from "@invisible-ui/svelte/TableSet.svelte";
+  import TextField from "@invisible-ui/svelte/TextField.svelte";
 
   const columns = [
     { key: "name", header: "Name", sortable: true },

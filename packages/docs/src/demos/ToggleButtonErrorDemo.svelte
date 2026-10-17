@@ -1,5 +1,5 @@
 <script>
-  import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
+  import ToggleButton from "@invisible-ui/svelte/ToggleButton.svelte";
   let pressed = $state(false);
 </script>
 

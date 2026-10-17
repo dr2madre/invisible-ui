@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": patch
-"@design-system/react": patch
-"@design-system/vue": patch
-"@design-system/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/react": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/elements": patch
 ---
 
 Lighten the boundary of the default button. It is now the control boundary

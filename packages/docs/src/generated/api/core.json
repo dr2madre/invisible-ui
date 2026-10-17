@@ -1,5 +1,5 @@
 {
-  "package": "@design-system/core",
+  "package": "@invisible-ui/core",
   "entry": "core/dist/index.d.ts",
   "exportMap": {
     ".": {

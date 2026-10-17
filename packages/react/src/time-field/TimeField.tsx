@@ -1,4 +1,4 @@
-import { i18n as coreI18n } from "@design-system/core";
+import { i18n as coreI18n } from "@invisible-ui/core";
 import { Fragment, useId, useRef } from "react";
 import { useI18n } from "../i18n/i18n";
 import type { MessageKey } from "../i18n/messages";

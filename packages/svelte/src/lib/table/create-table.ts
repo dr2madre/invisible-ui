@@ -1,4 +1,4 @@
-import { table as core } from "@design-system/core";
+import { table as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction } from "../internal/connect";
@@ -101,7 +101,7 @@ export function resolveSelectionIds<Row>(
 /**
  * Create a headless table: column sort state with a three-state cycle and the
  * native sortable-header semantics (`aria-sort`). The sort logic and comparators
- * live in `@design-system/core`; this adapter wires state to Svelte stores and
+ * live in `@invisible-ui/core`; this adapter wires state to Svelte stores and
  * applies the connected props via actions. Use the connected API's `sortRows` to
  * derive the rows to render.
  */
