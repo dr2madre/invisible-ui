@@ -140,6 +140,37 @@ void main() {
       expect(focusedOn(tester, find.text('Underline')), isTrue);
     });
 
+    testWidgets('the tab stop skips a disabled first toggle, and leaves a '
+        'last focused toggle that turns disabled for the first enabled one', (
+      tester,
+    ) async {
+      Widget group({Set<String> disabled = const {}}) => harness(
+        _between(
+          ToggleGroup(
+            children: [
+              for (final label in _labels)
+                ToggleButton.uncontrolled(
+                  key: ValueKey(label),
+                  enabled: !disabled.contains(label),
+                  child: Text(label),
+                ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpWidget(group(disabled: {'Bold'}));
+      expect(await _tabStops(tester, _labels), ['Italic']);
+
+      await tester.pumpWidget(group());
+      await focusOn(tester, find.text('Bold'));
+      await tester.sendKeyEvent(LogicalKeyboardKey.end);
+      await pumpFocus(tester);
+      expect(focusedOn(tester, find.text('Strike')), isTrue);
+      await focusOn(tester, find.text('Before'));
+      await tester.pumpWidget(group(disabled: {'Strike'}));
+      expect(await _tabStops(tester, _labels), ['Bold']);
+    });
+
     testWidgets('a disabled toggle is skipped by the arrows', (tester) async {
       await tester.pumpWidget(
         harness(

@@ -57,7 +57,7 @@ runs through `connect()` too.
 | Enter and Space select the focused node | matched | `Enter and Space select the focused node, once each`; vectors: `Enter selects the node`, `Space selects the node` |
 | Arrows, Home and End stay in the tree, as the web prevents their default | matched | the tree's `RovingKeyAction` handles them whenever a node has focus |
 | Typeahead: a character, or a sequence typed within 500 ms, builds a query; case-insensitive prefix match on labels, over visible enabled nodes after the focused one, wrapping; it moves focus and never selects or opens | matched | `typeahead moves focus to the next visible enabled label that starts with the typed text, ignoring case and wrapping` (the selected node keeps its check). The web matches the text the row shows; Flutter matches `TreeNode.label`, which is that text. The shared vectors have no typeahead case |
-| A character typed with Control, Meta or Alt, or a space, is no typeahead character | open | `typedCharacter` in `lib/src/internal/roving.dart` skips them, but no widget test holds it |
+| A character typed with Control, Meta or Alt, or a space, is no typeahead character | matched | `a character typed with Control, Meta or Alt, or a space, is no typeahead character`; `typedCharacter` in `lib/src/internal/roving.dart` skips them |
 | `*` is an ordinary typeahead character, not the key that opens every parent beside the focused node | matched | by decision; core has no `*` key either. `* is an ordinary typeahead character: it opens, selects and requests nothing`. The shared vectors have no `*` case |
 | Multi-selection (Shift and Control with arrows, Space toggles) | out of scope | single selection only, by decision; the `TreeView` dartdoc says so |
 

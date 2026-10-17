@@ -39,7 +39,7 @@ Each line is **matched**, **adapted** (with the platform reason), **open**
 | Arrows follow the reading direction and wrap; Home and End jump to the ends; right to left mirrors | matched | `horizontal, ltr: the arrows follow the reading direction and wrap; Home and End jump to the ends; moving focus flips nothing` and the `rtl` case |
 | A vertical group takes up and down | matched | `vertical: up and down move, left and right do not` |
 | A disabled toggle is skipped | matched | `a disabled toggle is skipped by the arrows` |
-| The tab stop sits on the focused toggle, else the one focused last while it is enabled, else the first enabled one | open | the Flutter traversal policy does this, but no widget test holds a disabled first toggle or a last focused toggle that turns disabled |
+| The tab stop sits on the focused toggle, else the one focused last while it is enabled, else the first enabled one | matched | `three or more toggles are one tab stop that returns to the toggle that had focus last`, `the tab stop skips a disabled first toggle, and leaves a last focused toggle that turns disabled for the first enabled one` |
 | Moving focus never flips a toggle; Enter and Space do | matched | the arrow key tests and `separate: each toggle keeps its border; the group is a named container, not a toolbar; each toggle keeps its own value` |
 | Inside a toolbar, the toolbar's keys and its one tab stop apply, whatever the number of toggles | matched | `inside a toolbar, the toolbar's keys and its one tab stop apply, also with one or two toggles` |
 | From three toggles to two and back, the focused toggle keeps focus | matched | `from three to two and back, the focused toggle keeps it` |

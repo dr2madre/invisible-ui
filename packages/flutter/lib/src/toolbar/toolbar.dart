@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../internal/roving.dart';
 import '../theme/theme.dart';
+import '../toggle_button/toggle_button.dart';
 
 // Sizes the web Toolbar sets in its own stylesheet.
 const double _gap = 6;
@@ -18,8 +19,14 @@ const double _borderWidth = 1;
 /// control that had it last, or to the first enabled one when that control is
 /// gone or disabled.
 ///
+/// A focused text field inside keeps the keys its caret needs: the arrows
+/// along [orientation] and Home and End, or every arrow when it has more than
+/// one line. A read-only field does not.
+///
 /// A crowded horizontal toolbar wraps onto more rows instead of overflowing.
-/// Put a [ToolbarSeparator] between groups of controls.
+/// Put a [ToolbarSeparator] between groups of controls. A [flat] toolbar
+/// draws its toggle buttons without their own border and fill at rest, so
+/// they read as one group.
 class Toolbar extends StatefulWidget {
   /// Creates a toolbar named [semanticLabel].
   const Toolbar({
@@ -27,6 +34,7 @@ class Toolbar extends StatefulWidget {
     required this.semanticLabel,
     required this.children,
     this.orientation = Axis.horizontal,
+    this.flat = false,
   });
 
   /// The accessible name of the toolbar.
@@ -37,6 +45,11 @@ class Toolbar extends StatefulWidget {
 
   /// The layout and the arrow keys that move between the controls.
   final Axis orientation;
+
+  /// Whether the [ToggleButton]s inside lose their border and fill at rest,
+  /// with the `state-hover` tint under the pointer. The toolbar keeps its
+  /// own frame.
+  final bool flat;
 
   @override
   State<Toolbar> createState() => _ToolbarState();
@@ -79,6 +92,8 @@ class _ToolbarState extends State<Toolbar> {
       count: controls.length,
       axis: widget.orientation,
       direction: Directionality.of(context),
+      // A focused text field keeps the keys its caret needs.
+      control: controlKind(FocusManager.instance.primaryFocus),
     );
     return next == null ? null : controls[next];
   }
@@ -124,21 +139,24 @@ class _ToolbarState extends State<Toolbar> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(_padding),
-                    child: horizontal
-                        ? Wrap(
-                            spacing: _gap,
-                            runSpacing: _gap,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: widget.children,
-                          )
-                        : IntrinsicWidth(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                    child: ToggleFlat(
+                      flat: widget.flat,
+                      child: horizontal
+                          ? Wrap(
                               spacing: _gap,
+                              runSpacing: _gap,
+                              crossAxisAlignment: WrapCrossAlignment.center,
                               children: widget.children,
+                            )
+                          : IntrinsicWidth(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                spacing: _gap,
+                                children: widget.children,
+                              ),
                             ),
-                          ),
+                    ),
                   ),
                 ),
               ),

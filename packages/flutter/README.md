@@ -99,8 +99,13 @@ class Editor extends StatelessWidget {
 - **Density and target size.** `density` is `compact`, `regular` (the
   default) or `touch`. The minimum hit area comes from the density's
   `min-target-size` token: 24 by 24 by default, 44 by 44 under `touch`.
-  `minTargetSize: Size(44, 44)` gives 44 by 44 at any density; a smaller
-  size never goes below the token. The tokens define control
+  On Android, iOS and Fuchsia every target keeps 44 by 44 at any density,
+  with no setting: the web gives the same size under a coarse pointer, and
+  Flutter, which has no pointer query, reads the platform from
+  `defaultTargetPlatform`, as Material does for its tap targets
+  (`InvisibleThemeData.touchPlatform`). Density changes the look, never
+  that target. On desktop, `minTargetSize: Size(44, 44)` gives 44 by 44 at
+  any density; a smaller size never goes below the token. The tokens define control
   padding for `regular` only today, so `compact` and `touch` use the regular
   padding until the tokens define theirs.
 - **Messages.** `InvisibleMessages` holds the text the components announce,
