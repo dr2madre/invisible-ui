@@ -286,7 +286,8 @@ What changes per platform is the semantics, see
 - **Target size.** Every destination's hit area is at least
   `--ds-min-target-size` (24 by 24) and at least `--ds-min-target-size-touch`
   (44 by 44) under `@media (pointer: coarse)`. In Flutter it follows
-  `minTargetSize`: 44 by 44 under `touch` and Timelog's explicit setting.
+  `minTargetSize`: 44 by 44 under `touch`, on Android, iOS and Fuchsia at
+  any density, and under Timelog's explicit setting.
   Each destination fills its share of the height and width, so the painted
   indicator can be smaller than the hit area.
 - **Press.** A press activates on release, inside the target. A long press

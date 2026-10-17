@@ -1,6 +1,6 @@
 # MultiSelect parity checklist
 
-Reference commit: `e47db9b6717964787e0d689629f1beb73f18612d`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/multi-select/state.ts` `core/src/multi-select/connect.ts` `core/src/multi-select/types.ts` `packages/svelte/src/lib/multi-select`
 

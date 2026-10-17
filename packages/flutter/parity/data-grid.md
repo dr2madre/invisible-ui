@@ -1,6 +1,6 @@
 # Data Grid parity checklist
 
-Reference commit: `957859b9174447401062c34a78b2bc858d03f4f3`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/grid` `docs/editable-grid-spec.md`
 
@@ -115,7 +115,7 @@ Orca say on these cells is a manual check, with no dated session yet.
 | --- | --- | --- |
 | `onCellDetails` turns on a button for the cells `hasDetails` allows | matched | `the button names its cell, has a custom action and stays out of the tab order` |
 | Visible on the active focused cell, on hover and while editing | matched | `the button shows on hover and on the focused cell, and a press on it keeps the mode` |
-| Under a coarse pointer it shows on the active cell | adapted | Flutter has no pointer media query: it shows on the active cell under the touch density or after a touch press |
+| Under a coarse pointer it shows on the active cell | adapted | `on a touch platform the active cell shows its button without hover or focus, as under a coarse pointer on the web`. Flutter has no pointer media query: it shows on the active cell on Android, iOS and Fuchsia (`InvisibleThemeData.touchPlatform`), under the touch density, or after a touch press |
 | A button with the catalog's "Details" label and an icon | adapted | the button shows its icon (a chevron toward the inline end) and keeps a 24 or 44 target; "Details" is in its name and in the custom action, so the day columns stay narrow |
 | Name: "Details" with the cell's context | matched | `the button names its cell, has a custom action and stays out of the tab order`; details vectors |
 | Out of the tab order; reachable by pointer, by the shortcut and by the reading cursor | matched | same test |

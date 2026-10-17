@@ -325,6 +325,128 @@ void main() {
     expect(pages, [1]);
   });
 
+  group('result announcements', () {
+    Widget build(
+      List<_Row> rows, {
+      bool active = true,
+      Object? revision,
+      int? total,
+    }) => harness(
+      _set(
+        TableSet<_Row>(
+          columns: _columns,
+          rows: rows,
+          filtersActive: active,
+          filterRevision: revision,
+          totalRowCount: total,
+        ),
+      ),
+    );
+
+    testWidgets('an unchanged count, and rows that arrive with no filtering '
+        'behind them, stay silent', (tester) async {
+      final log = recordAnnouncements(tester);
+      await tester.pumpWidget(build(_people.sublist(0, 2), revision: 'a'));
+      await tester.pump();
+      expect(log, isEmpty, reason: 'the first render is silent');
+      await tester.pumpWidget(build([_people[3], _people[4]], revision: 'b'));
+      await tester.pump();
+      expect(log, isEmpty, reason: 'the same count');
+      await tester.pumpWidget(build(_people.sublist(0, 2), active: false));
+      await tester.pump();
+      log.clear();
+      await tester.pumpWidget(build(_people, active: false));
+      await tester.pump();
+      expect(log, isEmpty, reason: 'rows loaded with no filter behind them');
+    });
+
+    testWidgets('a cleared filter that changes the count is announced', (
+      tester,
+    ) async {
+      final log = recordAnnouncements(tester);
+      await tester.pumpWidget(build(_people.sublist(0, 2)));
+      await tester.pumpWidget(build(_people, active: false));
+      await tester.pump();
+      expect(log, [(message: '5 results', assertive: false)]);
+    });
+
+    testWidgets('the no-results state is said once, by its status; the count '
+        'is not announced with it', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final log = recordAnnouncements(tester);
+      await tester.pumpWidget(build(_people.sublist(0, 2), total: 5));
+      await tester.pumpWidget(build(const [], revision: 'b', total: 5));
+      await tester.pump();
+      expect(log, isEmpty);
+      final status = find.text('No rows match the current filters');
+      expect(status, findsOneWidget);
+      expect(
+        tester.getSemantics(status),
+        semanticsWith(isLiveRegion: true),
+        reason: 'the status speaks',
+      );
+      semantics.dispose();
+    });
+
+    testWidgets('filters on an empty dataset: a count that drops to zero is '
+        'announced as 0 results', (tester) async {
+      final log = recordAnnouncements(tester);
+      await tester.pumpWidget(build(_people.sublist(0, 2), total: 0));
+      await tester.pumpWidget(build(const [], revision: 'b', total: 0));
+      await tester.pump();
+      expect(log, [(message: '0 results', assertive: false)]);
+      expect(find.text('No rows match the current filters'), findsNothing);
+    });
+  });
+
+  testWidgets('while it overflows, the scroller is a region named by the '
+      'title, the caption or Table; a table that fits has none', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    Widget build(double width, {String? title, String? caption}) => harness(
+      _set(
+        TableSet<_Row>(
+          title: title,
+          caption: caption,
+          columns: _columns,
+          rows: _people,
+        ),
+        width: width,
+      ),
+      textScale: 2,
+    );
+    SemanticsNode? region() {
+      SemanticsNode? found;
+      bool visit(SemanticsNode node) {
+        if (node.getSemanticsData().role == SemanticsRole.region) {
+          found = node;
+          return false;
+        }
+        node.visitChildren(visit);
+        return found == null;
+      }
+
+      visit(tester.getSemantics(find.byType(TableSet<_Row>)));
+      return found;
+    }
+
+    for (final (title, caption, name) in [
+      ('Team', 'Customers', 'Team'),
+      (null, 'Customers', 'Customers'),
+      (null, null, 'Table'),
+    ]) {
+      await tester.pumpWidget(build(200, title: title, caption: caption));
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+      expect(region(), semanticsWith(label: name));
+    }
+    await tester.pumpWidget(build(2000, caption: 'Customers'));
+    await tester.pump();
+    expect(region(), isNull);
+    semantics.dispose();
+  });
+
   testWidgets('the card view is a named list of cards, with the select-all '
       'above it', (tester) async {
     final semantics = tester.ensureSemantics();

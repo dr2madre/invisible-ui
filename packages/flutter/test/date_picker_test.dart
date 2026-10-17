@@ -22,6 +22,22 @@ bool _dayFocused(WidgetTester tester, int year, int month, int day) => tester
 
 bool _open() => find.byType(Calendar).evaluate().isNotEmpty;
 
+/// The weekday heading of the first column of the open calendar.
+String _firstWeekday(WidgetTester tester) {
+  const names = {'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'};
+  final headings = [
+    for (final name in names)
+      if (find.text(name).evaluate().isNotEmpty) name,
+  ];
+  headings.sort(
+    (a, b) => tester
+        .getTopLeft(find.text(a).first)
+        .dx
+        .compareTo(tester.getTopLeft(find.text(b).first).dx),
+  );
+  return headings.first;
+}
+
 Future<void> _key(WidgetTester tester, LogicalKeyboardKey key) async {
   await tester.sendKeyEvent(key);
   await pumpFocus(tester);
@@ -98,6 +114,56 @@ void main() {
       expect(_open(), isFalse);
       expect(reports, [DateTime(2026, 6, 11)]);
       expect(focus.hasFocus, isTrue);
+    });
+
+    testWidgets('with nothing picked, focus goes to today\'s day, never to a '
+        'calendar button', (tester) async {
+      final focus = FocusNode();
+      addTearDown(focus.dispose);
+      await tester.pumpWidget(
+        harness(
+          SizedBox(
+            width: 360,
+            child: DatePicker.uncontrolled(focusNode: focus),
+          ),
+        ),
+      );
+      focus.requestFocus();
+      await pumpFocus(tester);
+      await _key(tester, LogicalKeyboardKey.enter);
+      expect(_open(), isTrue);
+      final today = DateTime.now();
+      expect(_dayFocused(tester, today.year, today.month, today.day), isTrue);
+    });
+
+    testWidgets('without weekStartsOn the calendar starts on the locale\'s '
+        'first day', (tester) async {
+      final focus = FocusNode();
+      addTearDown(focus.dispose);
+      for (final (locale, first) in [
+        (const Locale('en', 'US'), 'Sun'),
+        (const Locale('en', 'GB'), 'Mon'),
+      ]) {
+        await tester.pumpWidget(
+          harness(
+            SizedBox(
+              width: 360,
+              child: DatePicker.uncontrolled(
+                key: ValueKey(locale),
+                initialValue: DateTime(2026, 6, 10),
+                locale: locale,
+                focusNode: focus,
+              ),
+            ),
+          ),
+        );
+        focus.requestFocus();
+        await pumpFocus(tester);
+        await _key(tester, LogicalKeyboardKey.enter);
+        expect(_open(), isTrue);
+        expect(_firstWeekday(tester), first, reason: '$locale');
+        await _key(tester, LogicalKeyboardKey.escape);
+      }
     });
 
     testWidgets('a press outside closes and leaves focus where it lands', (
@@ -375,6 +441,122 @@ void main() {
       await tester.pump();
       expect(reports.last, isNull);
       expect(find.text('Select a range'), findsOneWidget);
+    });
+
+    testWidgets('Enter, Space and Down open with focus on the start day, else '
+        'today', (tester) async {
+      final focus = FocusNode();
+      addTearDown(focus.dispose);
+      Widget build({DateRange? initial}) => harness(
+        SizedBox(
+          width: 360,
+          child: DateRangePicker.uncontrolled(
+            key: ValueKey(initial),
+            initialValue: initial,
+            focusNode: focus,
+          ),
+        ),
+      );
+      final today = DateTime.now();
+      for (final (initial, start) in [
+        (
+          DateRange(DateTime(2026, 6, 10), DateTime(2026, 6, 12)),
+          DateTime(2026, 6, 10),
+        ),
+        (null, today),
+      ]) {
+        await tester.pumpWidget(build(initial: initial));
+        focus.requestFocus();
+        await pumpFocus(tester);
+        for (final key in [
+          LogicalKeyboardKey.enter,
+          LogicalKeyboardKey.space,
+          LogicalKeyboardKey.arrowDown,
+        ]) {
+          await _key(tester, key);
+          expect(_open(), isTrue, reason: '$key opens');
+          expect(
+            _dayFocused(tester, start.year, start.month, start.day),
+            isTrue,
+            reason: '$key, $initial',
+          );
+          await _key(tester, LogicalKeyboardKey.escape);
+          expect(_open(), isFalse);
+        }
+      }
+    });
+
+    testWidgets('the range is made with the keyboard alone; the popup closes '
+        'and focus returns to the field', (tester) async {
+      final focus = FocusNode();
+      addTearDown(focus.dispose);
+      final reports = <DateRange?>[];
+      await tester.pumpWidget(
+        harness(
+          SizedBox(
+            width: 360,
+            child: DateRangePicker.uncontrolled(
+              initialValue: DateRange(
+                DateTime(2026, 6, 10),
+                DateTime(2026, 6, 12),
+              ),
+              focusNode: focus,
+              onChanged: reports.add,
+            ),
+          ),
+        ),
+      );
+      focus.requestFocus();
+      await pumpFocus(tester);
+      await _key(tester, LogicalKeyboardKey.arrowDown);
+      expect(_dayFocused(tester, 2026, 6, 10), isTrue);
+      await _key(tester, LogicalKeyboardKey.arrowRight);
+      await _key(tester, LogicalKeyboardKey.enter);
+      expect(_open(), isTrue, reason: 'the start is picked');
+      await _key(tester, LogicalKeyboardKey.arrowRight);
+      await _key(tester, LogicalKeyboardKey.arrowRight);
+      await _key(tester, LogicalKeyboardKey.enter);
+      expect(_open(), isFalse);
+      expect(focus.hasFocus, isTrue);
+      expect(reports, [
+        DateRange(DateTime(2026, 6, 11)),
+        DateRange(DateTime(2026, 6, 11), DateTime(2026, 6, 13)),
+      ]);
+    });
+
+    testWidgets('the clear button keeps focus in the control', (tester) async {
+      final focus = FocusNode();
+      addTearDown(focus.dispose);
+      final reports = <DateRange?>[];
+      await tester.pumpWidget(
+        harness(
+          SizedBox(
+            width: 360,
+            child: DateRangePicker.uncontrolled(
+              initialValue: DateRange(
+                DateTime(2026, 6, 10),
+                DateTime(2026, 6, 12),
+              ),
+              focusNode: focus,
+              clearable: true,
+              onChanged: reports.add,
+            ),
+          ),
+        ),
+      );
+      Focus.of(
+        tester.element(
+          find.descendant(
+            of: find.byType(FieldButton),
+            matching: find.byType(GestureDetector),
+          ),
+        ),
+      ).requestFocus();
+      await pumpFocus(tester);
+      await _key(tester, LogicalKeyboardKey.enter);
+      expect(reports, [null]);
+      expect(find.text('Select a range'), findsOneWidget);
+      expect(focus.hasFocus, isTrue);
     });
 
     testWidgets('semantics: the ends of the range are named in the popup', (

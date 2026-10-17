@@ -10,6 +10,13 @@ Accepted on 2026-10-02, with the maintainer's decisions recorded under
 scoped exception to the rule "adapters stay thin, shared behaviour stays in
 `core/`" in [AGENTS.md](../../AGENTS.md).
 
+Amended 2026-10-17: the parity drift check blocks instead of reporting.
+A report that never failed let 77 of 80 checklists fall behind their
+reference. `scripts/check-parity-drift.mjs` fails the Flutter workflow on a
+stale checklist; a checklist that cannot be made current yet is listed in
+`packages/flutter/parity/drift-exceptions.json` with its reason, and the
+check fails again once the exception no longer applies.
+
 ## Context
 
 `core/` produces DOM-shaped prop bags: ARIA attributes and DOM event
@@ -78,12 +85,12 @@ callbacks.
 - **Drift.** A check in the Flutter workflow compares each checklist's
   reference commit with the last commit that touched the reference
   component in `core/` and `packages/svelte`. A newer change marks the
-  checklist as out of date in the workflow summary, and the component is
-  reviewed against it. Changed test vectors fail the Flutter tests
-  directly.
+  checklist as out of date in the workflow summary and fails the job, and
+  the component is reviewed against it. Changed test vectors fail the
+  Flutter tests directly.
 
 **Recommendation:** spec plus checklist plus shared test vectors, with the
-drift check reporting rather than blocking.
+drift check blocking (amended 2026-10-17; it first only reported).
 
 Alternatives considered: running `core/` in Flutter through a JavaScript
 engine or a web view (adds a runtime and a bridge to every interaction, and
@@ -362,7 +369,7 @@ exception when the record is accepted.
   requests that touch `packages/flutter/**`, `tokens.json` or the
   generator: `dart format --set-exit-if-changed`, `flutter analyze` and
   `flutter test` (widget tests for keyboard paths, semantics, RTL, text
-  scale 2.0 and `meetsGuideline`), plus the parity drift report. It pins
+  scale 2.0 and `meetsGuideline`), plus the parity drift check. It pins
   the Flutter version to the SDK lower bound. `scripts/gate.test.mjs` holds
   `ci.yml` to one job, so this check needs its own file, as `e2e.yml` and
   `visual.yml` do. It becomes a required check for pull requests that touch

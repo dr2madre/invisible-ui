@@ -1,6 +1,6 @@
 # Menubar parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/menu` `core/src/menubar` `packages/svelte/src/lib/menubar` `docs/menu-submenu-spec.md`
 
@@ -94,7 +94,11 @@ scope**. Every matched line names the test that holds it, in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Menus open below their trigger at the inline-start edge, shifted inside the screen | matched | `a menu opens below its trigger at the inline-start edge` |
-| Trigger and item hit area 24 by 24, 44 by 44 under touch | matched | `every trigger and item is at least 24 by 24, and 44 by 44 under touch` |
+<<<<<<< HEAD
+| Trigger and item hit area 24 by 24, and 44 by 44 for every trigger and item under a coarse pointer | matched | `every trigger and item is at least 24 by 24, and 44 by 44 under touch`, `on a touch platform every trigger and item is 44 by 44 with no density chosen`. Flutter has no pointer media query, so the theme reads the platform: on Android, iOS and Fuchsia (`InvisibleThemeData.touchPlatform`, from `defaultTargetPlatform`, the signal Material uses for its tap targets) every target keeps 44 by 44 at any density, as under `pointer: coarse` on the web; on desktop the touch density or a larger `minTargetSize` gives it |
+=======
+| Trigger and item hit area 24 by 24, and 44 by 44 for every trigger and item under a coarse pointer | adapted | Flutter has no pointer media query: the 44 by 44 target applies under the touch density, or a larger `minTargetSize`, that the app selects. `every trigger and item is at least 24 by 24, and 44 by 44 under touch` |
+>>>>>>> origin/main
 | A bar wider than its parent | adapted | the web bar is an `inline-flex` row; the Flutter bar wraps onto more rows instead of overflowing, and the arrows keep the reading order: `text scale 2.0 on a narrow screen wraps the bar and keeps the menu inside` |
 | Bar border, `radius.surface`, background; trigger padding, bold label, `radius.control`, `state-hover` tint on hover and while open, focus ring | matched | the values of the Svelte stylesheet |
 | Each top menu a root `RawMenuAnchor`, coordinated by the bar | matched | the spec's Flutter section: the bar applies the `core/src/menubar` rules itself rather than through a `RawMenuAnchorGroup`, whose own outside-press handling can return focus to the trigger; vectors |

@@ -415,9 +415,16 @@ void main() {
       expect(ring.visible, isTrue);
       controller.notify(title: 'Search is offline');
       await tester.pump();
+      // After the results list, which scrolls when its rows do not fit.
+      final results = find
+          .ancestor(
+            of: find.text('Settings'),
+            matching: find.byType(Scrollable),
+          )
+          .first;
       expect(
         tester.getTopLeft(find.text('Search is offline')).dy,
-        greaterThan(tester.getBottomLeft(find.text('Settings')).dy),
+        greaterThanOrEqualTo(tester.getBottomLeft(results).dy),
       );
       expect(_fieldFocused(tester), isTrue);
     });

@@ -299,7 +299,7 @@ class _TreeViewState<T> extends State<TreeView<T>> {
     _apply(_model.key(from, intent.key, Directionality.of(context)));
   }
 
-  // Typeahead, the APG key the web tree lacks. It moves focus only.
+  // Typeahead moves focus only: it never selects or opens a node.
   KeyEventResult _onKeyEvent(FocusNode _, KeyEvent event) {
     final character = typedCharacter(event);
     final from = _focusedNode;

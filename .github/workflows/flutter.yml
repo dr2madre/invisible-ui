@@ -15,6 +15,7 @@ on:
       - "packages/tokens/**"
       - "packages/svelte/style-dictionary.config.mjs"
       - "scripts/tokens-dart-format.mjs"
+      - "scripts/check-parity-drift.mjs"
       - "core/src/button/**"
       - "core/src/field/**"
       - "core/src/text-field/**"
@@ -157,6 +158,7 @@ on:
       - "packages/tokens/**"
       - "packages/svelte/style-dictionary.config.mjs"
       - "scripts/tokens-dart-format.mjs"
+      - "scripts/check-parity-drift.mjs"
       - "core/src/button/**"
       - "core/src/field/**"
       - "core/src/text-field/**"
@@ -342,8 +344,10 @@ jobs:
       - name: Test
         run: flutter test
 
-  # Reports, never blocks: a parity checklist checked against an older state
-  # of its reference component than the one on this branch.
+  # Blocks (ADR 0017, amended): a parity checklist checked against an older
+  # state of its reference component than the one on this branch fails the
+  # job. An exception needs an entry with its reason in
+  # packages/flutter/parity/drift-exceptions.json.
   parity-drift:
     name: Parity drift
     runs-on: ubuntu-latest
@@ -352,22 +356,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+
       - name: Compare each checklist with its reference
         working-directory: .
-        run: |
-          {
-            echo "## Parity drift"
-            echo
-            for checklist in packages/flutter/parity/*.md; do
-              ref=$(sed -n 's/^Reference commit: `\([0-9a-f]*\)`.*/\1/p' "$checklist")
-              paths=$(sed -n 's/^Reference paths: //p' "$checklist" | tr -d '`')
-              last=$(git log -1 --format=%H -- $paths)
-              if [ -z "$ref" ] || [ -z "$paths" ]; then
-                echo "- \`$checklist\`: no reference commit or paths"
-              elif git merge-base --is-ancestor "$last" "$ref"; then
-                echo "- \`$checklist\`: up to date with \`${ref:0:8}\`"
-              else
-                echo "- \`$checklist\`: out of date, \`${last:0:8}\` changed the reference after \`${ref:0:8}\`"
-              fi
-            done
-          } >> "$GITHUB_STEP_SUMMARY"
+        run: node scripts/check-parity-drift.mjs

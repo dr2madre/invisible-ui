@@ -1,6 +1,6 @@
 # CodeBlock parity checklist
 
-Reference commit: `e32e67cd2cc2fb993c9758007c27026cafc20420`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/code-block`
 
@@ -9,9 +9,9 @@ The Flutter `CodeBlock` checked against the Svelte `CodeBlock`
 names of the React adapter.
 Docs page: [Code Block](https://dr2madre.github.io/invisible-ui/components/formatting-display/code-block/).
 
-Each line is **matched**, **adapted** (with the platform reason) or **out of
-scope**. Every matched line names the widget test in `test/code_test.dart`
-that holds it.
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(with the gap) or **out of scope**. Every matched line names the widget
+test in `test/code_test.dart` that holds it.
 
 ## Names
 
@@ -39,7 +39,7 @@ that holds it.
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | The block is a group named "Code" or "Code: {language}" (`codeBlock.label`, `codeBlock.labelLanguage`) | adapted | Flutter 3.35 has no group role; a container node with that name: `the code shows …` |
-| The scroller takes focus and is named "Code sample" or "Code sample, {language}" | matched | same test, and `the scroller takes focus with the ring inside and scrolls a wide sample with the arrows` |
+| The scroller takes focus and is named "Code sample" or "Code sample, {language}" (`codeBlock.sample`, `codeBlock.sampleLanguage`) | matched | same test, and `the scroller takes focus with the ring inside and scrolls a wide sample with the arrows` |
 | The copy button is named `copyLabel ?? "Copy code"` | matched | `the code shows …` |
 | "Copied to clipboard" through a polite live region | adapted | Flutter announces it with `SemanticsService`, politely: `copy writes the code, …` |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
@@ -52,6 +52,10 @@ that holds it.
 | No line between the header and the code: spacing alone sets the header apart | matched | `the block sits on the code-block-background token …` |
 | Monospace at 0.875 rem, line height 1.6, 1 rem padding | matched | `the code shows …` |
 | Wide code scrolls sideways; the focus ring inside the scroller | matched | `the scroller takes focus …` (the scroller is `ScrollArea`'s) |
-| The copy button's fill: black at 5 %, 10 % on hover | adapted | the text colour at 5 % and 10 %, so it reads in dark mode too |
+<<<<<<< HEAD
+| The copy button's fill: the text colour at 8 %, 16 % on hover, so the hover shows in both themes | matched | `the copy button fills with the text colour at 8 %, 16 % on hover, in both themes` |
+=======
+| The copy button's fill: the text colour at 8 %, 16 % on hover, so the hover shows in both themes | open | Flutter tints with the text colour at 5 % and 10 %, the web's earlier amounts; no test holds the fill |
+>>>>>>> origin/main
 | Text scale 2.0, right to left | matched | `highlighted text replaces …` |
 | Copy button target 24 by 24 | matched | `the code shows …` |

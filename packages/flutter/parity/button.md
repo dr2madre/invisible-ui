@@ -1,6 +1,6 @@
 # Button parity checklist
 
-Reference commit: `8fa469ac66e57deb23b9a8ad76add6bb1d03af45`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/button` `packages/svelte/src/lib/button`
 

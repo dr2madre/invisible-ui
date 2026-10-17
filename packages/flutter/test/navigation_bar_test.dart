@@ -803,6 +803,39 @@ void main() {
       await tester.pumpAndSettle();
       expect(log, [(message: 'Profile: Needs attention', assertive: false)]);
     });
+
+    testWidgets('a bar inside the open dialog keeps announcing', (
+      tester,
+    ) async {
+      final log = recordAnnouncements(tester);
+      final modals = ModalObserver();
+      addTearDown(modals.dispose);
+      final badge = ValueNotifier<NavigationBadge?>(null);
+      addTearDown(badge.dispose);
+      await tester.pumpWidget(
+        appHarness((context) => const SizedBox.shrink(), observers: [modals]),
+      );
+      unawaited(
+        showInvisibleDialog<void>(
+          context: tester.element(find.byType(SizedBox).first),
+          builder: (context) => Dialog(
+            title: 'Edit',
+            child: ValueListenableBuilder(
+              valueListenable: badge,
+              builder: (context, value, _) => _bar(
+                destinations: _destinations(profileBadge: value),
+                modals: modals,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(modals.hasModal, isTrue);
+      badge.value = const NavigationBadge(label: 'Needs attention');
+      await tester.pumpAndSettle();
+      expect(log, [(message: 'Profile: Needs attention', assertive: false)]);
+    });
   });
 }
 

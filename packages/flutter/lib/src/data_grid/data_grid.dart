@@ -1107,7 +1107,10 @@ class DataGridState extends State<DataGrid> {
             ? _DetailsSpec(
                 label: gridDetailsLabel(column.label, row.label, messages),
                 actionLabel: messages.dataGridDetails,
-                showOnActive: _touch || theme.density == InvisibleDensity.touch,
+                showOnActive:
+                    _touch ||
+                    theme.touchPlatform ||
+                    theme.density == InvisibleDensity.touch,
                 onPressed: () => _details(key),
               )
             : null,
