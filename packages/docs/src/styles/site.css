@@ -34,7 +34,7 @@
 
 /* Home page in the dark theme: the darkest grey of the palette as the page
    background. */
-:root:not([data-theme="light"]) [data-has-hero] {
+:root[data-has-hero]:not([data-theme="light"]) {
   --sl-color-bg: var(--ds-neutral-950, #1c1915);
 }
 
