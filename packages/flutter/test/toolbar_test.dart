@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -183,6 +184,173 @@ void main() {
       await tester.pump();
       await _press(tester, LogicalKeyboardKey.arrowRight);
       expect(focused(), 3);
+    });
+  });
+
+  group('text fields', () {
+    Widget page(
+      FocusNode field, {
+      Axis orientation = Axis.horizontal,
+      bool readOnly = false,
+      bool multiline = false,
+    }) => WidgetsApp(
+      color: const Color(0xFF000000),
+      builder: (context, _) => harness(
+        SizedBox(
+          width: 400,
+          child: Toolbar(
+            semanticLabel: 'Search',
+            orientation: orientation,
+            children: [
+              Button(
+                onPressed: () {},
+                focusNode: nodes.controls[0],
+                child: const Text('Back'),
+              ),
+              SizedBox(
+                width: 200,
+                child: multiline
+                    ? Textarea.uncontrolled(
+                        label: 'Notes',
+                        initialValue: 'one\ntwo',
+                        readOnly: readOnly,
+                        focusNode: field,
+                      )
+                    : TextField.uncontrolled(
+                        label: 'Query',
+                        initialValue: 'abc',
+                        readOnly: readOnly,
+                        focusNode: field,
+                      ),
+              ),
+              Button(
+                onPressed: () {},
+                focusNode: nodes.controls[2],
+                child: const Text('Go'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    TextSelection selection(WidgetTester tester) => tester
+        .widget<EditableText>(find.byType(EditableText))
+        .controller
+        .selection;
+
+    testWidgets('a focused text field keeps Left, Right, Home and End for '
+        'its caret', (tester) async {
+      final field = FocusNode();
+      addTearDown(field.dispose);
+      await tester.pumpWidget(page(field));
+      field.requestFocus();
+      await tester.pump();
+      final start = selection(tester);
+      await _press(tester, LogicalKeyboardKey.arrowLeft);
+      expect(field.hasPrimaryFocus, isTrue);
+      expect(selection(tester), isNot(start), reason: 'the caret moved');
+      for (final key in [
+        LogicalKeyboardKey.arrowRight,
+        LogicalKeyboardKey.home,
+        LogicalKeyboardKey.end,
+      ]) {
+        await _press(tester, key);
+        expect(field.hasPrimaryFocus, isTrue, reason: key.keyLabel);
+      }
+      expect(focused(), -1);
+    });
+
+    testWidgets('in a vertical toolbar a text field keeps Up and Down; a '
+        'multi-line one keeps every arrow', (tester) async {
+      final field = FocusNode();
+      addTearDown(field.dispose);
+      for (final multiline in [false, true]) {
+        await tester.pumpWidget(
+          page(field, orientation: Axis.vertical, multiline: multiline),
+        );
+        field.requestFocus();
+        await tester.pump();
+        for (final key in [
+          LogicalKeyboardKey.arrowUp,
+          LogicalKeyboardKey.arrowDown,
+          LogicalKeyboardKey.arrowLeft,
+          LogicalKeyboardKey.arrowRight,
+          LogicalKeyboardKey.home,
+          LogicalKeyboardKey.end,
+        ]) {
+          await _press(tester, key);
+          expect(field.hasPrimaryFocus, isTrue, reason: key.keyLabel);
+        }
+      }
+    });
+
+    testWidgets('a read-only field leaves the arrows to the toolbar', (
+      tester,
+    ) async {
+      final field = FocusNode();
+      addTearDown(field.dispose);
+      await tester.pumpWidget(page(field, readOnly: true));
+      field.requestFocus();
+      await tester.pump();
+      await _press(tester, LogicalKeyboardKey.arrowRight);
+      expect(focused(), 2);
+      await _press(tester, LogicalKeyboardKey.home);
+      expect(focused(), 0);
+    });
+  });
+
+  group('flat', () {
+    BoxDecoration surface(WidgetTester tester, String label) =>
+        tester
+                .widget<AnimatedContainer>(
+                  find.ancestor(
+                    of: find.text(label),
+                    matching: find.byType(AnimatedContainer),
+                  ),
+                )
+                .decoration!
+            as BoxDecoration;
+
+    testWidgets('a flat toolbar draws its toggle buttons without border and '
+        'fill at rest, with the hover tint; a toggle that is on keeps its '
+        'look', (tester) async {
+      final colors = InvisibleThemeData.light().colors;
+      Widget build({required bool flat}) => harness(
+        Toolbar(
+          semanticLabel: 'Formatting',
+          flat: flat,
+          children: [
+            ToggleButton.uncontrolled(child: const Text('B')),
+            ToggleButton.uncontrolled(
+              initialValue: true,
+              child: const Text('I'),
+            ),
+          ],
+        ),
+      );
+      await tester.pumpWidget(build(flat: false));
+      expect(surface(tester, 'B').color, colors.background);
+      expect(
+        (surface(tester, 'B').border! as Border).top.color,
+        colors.controlBorder,
+      );
+      final on = surface(tester, 'I');
+
+      await tester.pumpWidget(build(flat: true));
+      await tester.pumpAndSettle();
+      expect(surface(tester, 'B').color, const Color(0x00000000));
+      expect(
+        (surface(tester, 'B').border! as Border).top.color,
+        const Color(0x00000000),
+      );
+      expect(surface(tester, 'I'), on, reason: 'on keeps its tint and border');
+
+      final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+      addTearDown(mouse.removePointer);
+      await mouse.addPointer(location: tester.getCenter(find.text('B')));
+      await tester.pumpAndSettle();
+      expect(surface(tester, 'B').color, colors.stateHover);
     });
   });
 

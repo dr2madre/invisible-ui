@@ -25,6 +25,23 @@ const double _unsortedHoverOpacity = 0.7;
 const double _selectedTint = 0.08;
 const double _selectionBox = 24;
 
+/// The name a [Table]'s scroller takes while the table overflows, in place
+/// of its caption: a Table Set names it with its title. Package-internal.
+class TableScrollName extends InheritedWidget {
+  /// Names the scrollers of the tables in [child] with [name].
+  const TableScrollName({super.key, required this.name, required super.child});
+
+  /// The region's name.
+  final String? name;
+
+  /// The name around [context], or null.
+  static String? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<TableScrollName>()?.name;
+
+  @override
+  bool updateShouldNotify(TableScrollName oldWidget) => oldWidget.name != name;
+}
+
 /// Where the text of a column sits in its cells.
 enum TableAlign {
   /// At the inline start: left in left-to-right text.
@@ -130,7 +147,8 @@ Object defaultTableRowId(Object? row, int index) =>
 /// since Flutter has no sort property. [caption] names the table and shows
 /// above it unless [hideCaption]. A table wider than its container scrolls
 /// sideways, and the scroller takes focus then, so the keyboard reaches
-/// every column.
+/// every column; while it does, the scroller is a region named by the
+/// caption, or "Table" (`InvisibleMessages.tableViewTable`).
 ///
 /// The name matches the widgets library's `Table`: import this package
 /// with a prefix, as `iu.Table`.
@@ -199,6 +217,14 @@ class Table<T> extends StatefulWidget {
 class _TableState<T> extends State<Table<T>> {
   int? _hoveredRow;
   String? _toggled;
+
+  /// The scroller's name: the set's title, the caption, or "Table".
+  String _scrollName(BuildContext context) {
+    for (final name in [TableScrollName.of(context), widget.caption]) {
+      if (name != null && name.isNotEmpty) return name;
+    }
+    return InvisibleTheme.of(context).messages.tableViewTable;
+  }
 
   Object? _value(T row, String key) =>
       (widget.getValue ?? defaultTableValue)(row, key);
@@ -384,6 +410,7 @@ class _TableState<T> extends State<Table<T>> {
                 vertical: false,
                 horizontal: true,
                 focusableOnlyWhenScrollable: true,
+                semanticLabel: _scrollName(context),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minWidth: constraints.hasBoundedWidth

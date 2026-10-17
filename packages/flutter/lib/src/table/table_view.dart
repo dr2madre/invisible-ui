@@ -86,6 +86,11 @@ class _TableViewState<T> extends State<TableView<T>> {
     return first == null ? null : TableSort(first.key, SortDirection.ascending);
   }
 
+  /// Whether [count] rows under [set] show the no-results state: filters
+  /// leave nothing of a dataset that is not empty.
+  static bool _noResults(TableSet<Object?> set, int count) =>
+      count == 0 && set.filtersActive && set.totalRowCount != 0;
+
   @override
   void dispose() {
     _root.dispose();
@@ -130,12 +135,12 @@ class _TableViewState<T> extends State<TableView<T>> {
       _afterFrame(() => _set.onPageChanged?.call(1));
     }
 
-    // A change of the row count under filters is announced; the
-    // no-results state announces itself.
+    // A change of the row count under filters is announced, the rule of
+    // `tableResultsUpdate` in core; the no-results state announces itself.
     final count = widget.rows.length;
     if (count != oldWidget.rows.length &&
-        count > 0 &&
-        (set.filtersActive || filtersChanged)) {
+        (set.filtersActive || filtersChanged) &&
+        !_noResults(set, count)) {
       _afterFrame(() {
         if (mounted) announce(context, _messages.tableResults(count));
       });
@@ -285,8 +290,7 @@ class _TableViewState<T> extends State<TableView<T>> {
           )
         : sorted;
 
-    final noResults =
-        widget.rows.isEmpty && set.filtersActive && set.totalRowCount != 0;
+    final noResults = _noResults(set, widget.rows.length);
 
     final mode = set.selectionMode;
     final ids = _selectionIds();
@@ -368,29 +372,32 @@ class _TableViewState<T> extends State<TableView<T>> {
         decoration: BoxDecoration(border: border, borderRadius: radius),
         child: ClipRRect(
           borderRadius: radius,
-          child: Table<T>(
-            columns: shown,
-            rows: visible,
-            sort: _sort,
-            onSortToggle: _toggleSort,
-            caption: widget.caption,
-            hideCaption: set.hideCaption || widget.title != null,
-            getValue: set.getValue,
-            getRowId: set.getRowId,
-            cellBuilder: set.cellBuilder,
-            selectionColumn: mode != SelectionMode.none,
-            isRowSelected: (row, _) =>
-                ids[row] != null && _selected.contains(ids[row]),
-            selectionHeader: switch (mode) {
-              SelectionMode.multiple => selectPage(),
-              SelectionMode.single => Semantics(
-                label: messages.tableSelection,
-                child: const SizedBox.shrink(),
-              ),
-              SelectionMode.none => null,
-            },
-            selectionCellBuilder: (context, row, _, _) =>
-                rowCheckbox(row) ?? const SizedBox.shrink(),
+          child: TableScrollName(
+            name: widget.title,
+            child: Table<T>(
+              columns: shown,
+              rows: visible,
+              sort: _sort,
+              onSortToggle: _toggleSort,
+              caption: widget.caption,
+              hideCaption: set.hideCaption || widget.title != null,
+              getValue: set.getValue,
+              getRowId: set.getRowId,
+              cellBuilder: set.cellBuilder,
+              selectionColumn: mode != SelectionMode.none,
+              isRowSelected: (row, _) =>
+                  ids[row] != null && _selected.contains(ids[row]),
+              selectionHeader: switch (mode) {
+                SelectionMode.multiple => selectPage(),
+                SelectionMode.single => Semantics(
+                  label: messages.tableSelection,
+                  child: const SizedBox.shrink(),
+                ),
+                SelectionMode.none => null,
+              },
+              selectionCellBuilder: (context, row, _, _) =>
+                  rowCheckbox(row) ?? const SizedBox.shrink(),
+            ),
           ),
         ),
       );

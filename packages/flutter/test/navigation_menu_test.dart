@@ -135,6 +135,30 @@ void main() {
     expect(outer, 1);
   });
 
+  testWidgets('Escape while the hover delay is pending cancels it; the key '
+      'still reaches the rest of the app', (tester) async {
+    final reports = <String?>[];
+    var outer = 0;
+    await tester.pumpWidget(
+      Focus(
+        onKeyEvent: (_, event) {
+          if (event is KeyDownEvent) outer++;
+          return KeyEventResult.handled;
+        },
+        child: _menu(onOpenChanged: reports.add),
+      ),
+    );
+    await focusOn(tester, _products);
+    final mouse = await _mouse(tester);
+    await mouse.moveTo(tester.getCenter(_products));
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(_shows('Analytics'), isFalse);
+    expect(reports, isEmpty);
+    expect(outer, 1);
+  });
+
   testWidgets('Tab enters an open panel after its trigger, then moves on', (
     tester,
   ) async {

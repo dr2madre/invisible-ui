@@ -77,7 +77,11 @@ names those in `calendar-names.json` (`test/calendar_vectors_test.dart`).
 | Day named by its full date in the locale | matched | same test, and `names follow the locale and never the time zone` |
 | Picked day `aria-selected` | matched | `a controlled value is shown without a report` |
 | Range days all selected; ends named "range start" and "range end" | matched | `a pick starts, the next ends, one before the start moves it; every day is selected and the ends say so` |
+<<<<<<< HEAD
+| A range changed by the parent is reflected: the new days are selected, the old ones are not | matched | `a range changed by the parent is reflected without a report` |
+=======
 | A range changed by the parent is reflected: the new days are selected, the old ones are not | open | the controlled `Calendar.range` reflects a new `range` in `didUpdateWidget`, but no widget test holds it; the Svelte test changes the range after the first render |
+>>>>>>> origin/main
 | `aria-current="date"` on today | adapted | Flutter semantics have no current-date property; today's name ends with the catalog's `calendar.current` ("today"), added to the core catalog for this |
 | `aria-disabled` outside the bounds | matched | `min and max disable the days outside; a tap there does nothing` |
 | Labeled targets and contrast | matched | `each day is a button named by its full date; …` |
