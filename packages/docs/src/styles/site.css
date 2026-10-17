@@ -80,6 +80,66 @@
   color: var(--ds-color-text-secondary, #57534e);
 }
 
+/* Home "Works with" strip. Logos from Simple Icons (CC0); the name next to
+   each logo carries the meaning, so the logo is decorative. Brand colours are
+   adjusted per theme where the official colour would vanish on the page. */
+.home-adapters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  margin-block: 1rem 1.5rem;
+  list-style: none;
+}
+.home-adapter {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  background: var(--ds-color-background, #fff);
+  border: 1px solid var(--ds-color-border, #e7e5e4);
+  border-radius: var(--ds-radius-surface, 0.75rem);
+  font-weight: 600;
+}
+.home-adapter svg {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  fill: currentColor;
+}
+.home-adapter span {
+  color: var(--ds-color-text, inherit);
+}
+.home-adapter--svelte svg {
+  color: #ff3e00;
+}
+.home-adapter--vue svg {
+  color: #4fc08d;
+}
+.home-adapter--react svg {
+  color: #61dafb;
+}
+.home-adapter--elements svg {
+  color: #29abe2;
+}
+.home-adapter--flutter svg {
+  color: #54c5f8;
+}
+:root[data-theme="light"] .home-adapter--react svg {
+  color: #087ea4;
+}
+:root[data-theme="light"] .home-adapter--flutter svg {
+  color: #02569b;
+}
+:root[data-theme="light"] .home-adapter--elements svg {
+  color: #1a7fb0;
+}
+@media (forced-colors: active) {
+  .home-adapter svg {
+    color: CanvasText;
+  }
+}
+
 /* Live-demo container used by <Preview>. */
 .ds-preview {
   display: flex;
