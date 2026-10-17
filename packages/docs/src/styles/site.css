@@ -144,15 +144,8 @@
   }
 }
 
-/* Live-demo container used by <Preview>. Black in the dark theme, so a
-   component's own surfaces stand out from the stage; the page background in
-   the light theme. */
-:root {
-  --docs-preview-bg: #000;
-}
-:root[data-theme="light"] {
-  --docs-preview-bg: var(--ds-color-background, #fff);
-}
+/* Live-demo container used by <Preview>. Transparent: the demo sits on the
+   page itself, with only the border marking the stage. */
 .ds-preview {
   display: flex;
   flex-wrap: wrap;
@@ -160,7 +153,7 @@
   gap: 1rem;
   padding: 1.5rem;
   margin-block: 1rem 0;
-  background: var(--docs-preview-bg);
+  background: transparent;
   color: var(--ds-color-text, #0f172a);
   border: 1px solid var(--ds-color-border, #cbd5e1);
   border-radius: var(--ds-radius-surface, 0.75rem);
