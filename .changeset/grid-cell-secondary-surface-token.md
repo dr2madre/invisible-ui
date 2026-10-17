@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": minor
-"@design-system/vue": minor
-"@design-system/react": minor
-"@design-system/elements": minor
+"@invisible-ui/svelte": minor
+"@invisible-ui/vue": minor
+"@invisible-ui/react": minor
+"@invisible-ui/elements": minor
 ---
 
 Define `--ds-grid-cell-secondary-surface` in `tokens.css`, from the

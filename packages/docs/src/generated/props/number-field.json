@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "NumberField",
-        "specifier": "@design-system/svelte/NumberField.svelte"
+        "specifier": "@invisible-ui/svelte/NumberField.svelte"
       },
       "props": [
         {
@@ -143,7 +143,7 @@
       "import": {
         "kind": "named",
         "name": "NumberField",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -295,7 +295,7 @@
       "import": {
         "kind": "named",
         "name": "NumberField",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -433,7 +433,7 @@
       "import": {
         "kind": "element",
         "name": "ds-number-field",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

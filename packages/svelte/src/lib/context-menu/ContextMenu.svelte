@@ -5,7 +5,7 @@
    * Behaviour and accessibility (open at pointer, arrow & Home/End navigation,
    * typeahead, roving focus, Enter/click activation, Escape / Tab / outside to
    * close, focus restored on close) come from the headless menu primitive
-   * (`@design-system/core`). Popup positioning (flip/shift against a virtual
+   * (`@invisible-ui/core`). Popup positioning (flip/shift against a virtual
    * anchor at the pointer) uses `@floating-ui/dom`.
    *
    * Wrap the target area in `children`; pass `items`

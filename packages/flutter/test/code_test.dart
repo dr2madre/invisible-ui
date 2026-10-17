@@ -46,7 +46,7 @@ void main() {
             width: 120,
             child: DefaultTextStyle(
               style: TextStyle(fontSize: 16),
-              child: Code('pnpm --filter @design-system/docs dev'),
+              child: Code('pnpm --filter @invisible-ui/docs dev'),
             ),
           ),
           textScale: 2,
@@ -59,7 +59,7 @@ void main() {
       final box = tester.widget<Container>(find.byType(Container));
       expect((box.decoration! as BoxDecoration).color, colors.neutralSurface);
       expect(
-        find.bySemanticsLabel('pnpm --filter @design-system/docs dev'),
+        find.bySemanticsLabel('pnpm --filter @invisible-ui/docs dev'),
         findsOneWidget,
       );
       await expectLater(tester, meetsGuideline(textContrastGuideline));

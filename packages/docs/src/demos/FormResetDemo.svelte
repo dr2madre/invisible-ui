@@ -4,12 +4,12 @@
    * defaults exactly as the native form beside it does, reports nothing, and a
    * consumer can replace the whole restore by cancelling the reset event.
    */
-  import Button from "@design-system/svelte/Button.svelte";
-  import Checkbox from "@design-system/svelte/Checkbox.svelte";
-  import Select from "@design-system/svelte/Select.svelte";
-  import Switch from "@design-system/svelte/Switch.svelte";
-  import TextField from "@design-system/svelte/TextField.svelte";
-  import PinInput from "@design-system/svelte/PinInput.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Checkbox from "@invisible-ui/svelte/Checkbox.svelte";
+  import Select from "@invisible-ui/svelte/Select.svelte";
+  import Switch from "@invisible-ui/svelte/Switch.svelte";
+  import TextField from "@invisible-ui/svelte/TextField.svelte";
+  import PinInput from "@invisible-ui/svelte/PinInput.svelte";
 
   const fruit = [
     { value: "apple", label: "Apple" },

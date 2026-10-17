@@ -1,5 +1,5 @@
 ---
-"@design-system/react": patch
+"@invisible-ui/react": patch
 ---
 
 Fix several React adapter bugs found in review:

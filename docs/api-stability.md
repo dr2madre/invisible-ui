@@ -6,7 +6,7 @@ now on, so the discipline exists before the first release rather than after.
 
 ## What is public
 
-- **Core**: everything importable from `@design-system/core` — the component
+- **Core**: everything importable from `@invisible-ui/core` — the component
   namespaces (each ships its machine's state, transitions and types; most
   expose `initialState` and `connect`, a few are pure helpers), `normalizeProps`'
   contract (`Normalize`), `ElementProps`, `DomProps`, `i18n`.

@@ -2,7 +2,7 @@
   // A card presentation over native radios. The radio's own label is the card,
   // so nothing is nested inside another label, the whole card selects the
   // option, and the group keeps native keyboard behaviour.
-  import Radio from "@design-system/svelte/Radio.svelte";
+  import Radio from "@invisible-ui/svelte/Radio.svelte";
 
   const options = [
     {

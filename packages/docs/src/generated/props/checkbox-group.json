@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "CheckboxGroup",
-        "specifier": "@design-system/svelte/CheckboxGroup.svelte"
+        "specifier": "@invisible-ui/svelte/CheckboxGroup.svelte"
       },
       "props": [
         {
@@ -63,7 +63,7 @@
       "import": {
         "kind": "named",
         "name": "CheckboxGroup",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -135,7 +135,7 @@
       "import": {
         "kind": "named",
         "name": "CheckboxGroup",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -193,7 +193,7 @@
       "import": {
         "kind": "element",
         "name": "ds-checkbox-group",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

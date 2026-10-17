@@ -3,7 +3,7 @@
    * Combobox — a styled editable autocomplete (WAI-ARIA editable combobox).
    * Behaviour and accessibility (open/close, arrow navigation,
    * `aria-activedescendant`, selection, Escape) come from the headless combobox
-   * (`@design-system/core`); this adapter owns filtering, popup positioning
+   * (`@invisible-ui/core`); this adapter owns filtering, popup positioning
    * (flip/shift via `@floating-ui/dom`), close-on-outside-pointer and keeping the
    * active option in view. DOM focus stays on the input.
    *
@@ -12,7 +12,7 @@
    * `--ds-combobox-*` (and the shared `--ds-select-*` listbox tokens).
    */
   import { untrack, type Snippet } from "svelte";
-  import { combobox as core } from "@design-system/core";
+  import { combobox as core } from "@invisible-ui/core";
   import { createCombobox, type ComboboxItem } from "./create-combobox";
   import { formReset } from "../internal/form-reset";
   import { ignoreGhostClicks } from "../internal/ghost-click";

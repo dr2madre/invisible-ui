@@ -16,7 +16,7 @@ const mount = async (page: Page, tags: string[], markup: string) => {
 
 const SOURCE = [
   "pnpm install",
-  `pnpm exec turbo run build --force --filter=@design-system/elements ${"--verbose ".repeat(12)}`,
+  `pnpm exec turbo run build --force --filter=@invisible-ui/elements ${"--verbose ".repeat(12)}`,
 ].join("\n");
 
 const setSource = (page: Page, code: string) =>

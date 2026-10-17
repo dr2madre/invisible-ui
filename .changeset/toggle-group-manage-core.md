@@ -1,9 +1,9 @@
 ---
-"@design-system/core": minor
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/react": patch
-"@design-system/elements": patch
+"@invisible-ui/core": minor
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/react": patch
+"@invisible-ui/elements": patch
 ---
 
 The toggle group's keyboard behaviour moves to the core as

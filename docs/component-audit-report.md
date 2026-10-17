@@ -97,7 +97,7 @@ targeted browser verification for the flows this plan changed.
   post-build step now rewrites every dist specifier to the file it resolves
   to ("./types.js", "./button/index.js"); the unbundled tree-shakeable shape
   is unchanged and the size limits stay green, tree-shaken entries included.
-- A new package smoke test (`pnpm --filter @design-system/core run smoke`)
+- A new package smoke test (`pnpm --filter @invisible-ui/core run smoke`)
   packs the package, has npm install the tarball into a temporary consumer,
   imports the entry in plain Node ESM, and type-checks a consumer file with
   `nodenext` resolution against the published declarations. The release
@@ -168,7 +168,7 @@ Done on branch `fix/audit-phase-4`, tasks 11 to 14.
 
 - The Vue example (`examples/vue`) gained a second Vite entry, `harness.html`,
   mounting a minimal `Harness.vue` that imports `Popover` and `Button` from
-  `@design-system/vue` as any consumer would. No Svelte code is involved and no
+  `@invisible-ui/vue` as any consumer would. No Svelte code is involved and no
   dependency was added: the example already carried Vue, Vite and the plugin.
 - The Playwright configuration starts it explicitly as a second web server on
   its own port, with a strict port so a busy port fails loudly instead of

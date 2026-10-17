@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -40,7 +40,7 @@ export interface UseDropdownMenu {
 
 /**
  * Connect the headless menu (WAI-ARIA menu button) to Vue. Behaviour and
- * accessibility live in `@design-system/core` (open/close, arrow & Home/End
+ * accessibility live in `@invisible-ui/core` (open/close, arrow & Home/End
  * navigation, selection, Escape/Tab); this composable owns the DOM concerns:
  * popup positioning (`attachFloating`, flip/shift), moving DOM focus into the
  * menu (roving: the active item is focused), returning focus to the trigger on

@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": patch
+"@invisible-ui/svelte": patch
 ---
 
 The styled Pagination now honours the state and callback conventions the

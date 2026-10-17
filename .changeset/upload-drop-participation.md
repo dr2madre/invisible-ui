@@ -1,6 +1,6 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 A dropped file joins the form the way a picked one does. It only reached

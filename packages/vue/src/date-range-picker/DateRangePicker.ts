@@ -1,4 +1,4 @@
-import { i18n as coreI18n } from "@design-system/core";
+import { i18n as coreI18n } from "@invisible-ui/core";
 import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { CalendarView, WeekStart } from "../calendar/use-calendar";

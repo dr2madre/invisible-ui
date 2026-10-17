@@ -1,4 +1,4 @@
-import { formReset as core } from "@design-system/core";
+import { formReset as core } from "@invisible-ui/core";
 import { onMounted, onUnmounted, ref, watch, type Ref } from "vue";
 
 /** An element that can name its form owner. */

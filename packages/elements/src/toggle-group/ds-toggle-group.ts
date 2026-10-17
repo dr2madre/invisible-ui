@@ -1,4 +1,4 @@
-import { toggleGroup as core } from "@design-system/core";
+import { toggleGroup as core } from "@invisible-ui/core";
 import { boolAttr, HTMLElementBase } from "../internal/base";
 
 export type ToggleGroupVariant = "separate" | "segmented";

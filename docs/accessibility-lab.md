@@ -41,12 +41,12 @@ build:
 
 ```
 pnpm build
-pnpm --filter @design-system/example-vue preview
+pnpm --filter @invisible-ui/example-vue preview
 ```
 
 It serves on `http://localhost:4173`; the sheet's URLs carry that origin and
 the section's fragment, such as `/elements-lab.html#calendar-range`.
-`pnpm --filter @design-system/example-vue dev` serves the same page on
+`pnpm --filter @invisible-ui/example-vue dev` serves the same page on
 `http://localhost:5173` while it is being edited.
 
 ## What the automated suite already answers
@@ -104,12 +104,12 @@ the table above are covered; a whole page's focus order is not.
 
    ```
    pnpm build
-   pnpm --filter @design-system/docs preview
+   pnpm --filter @invisible-ui/docs preview
    ```
 
    It serves on `http://localhost:4321`, which is the origin the sheet's URLs
    already carry. For the elements scenarios, also run
-   `pnpm --filter @design-system/example-vue preview`, which serves on
+   `pnpm --filter @invisible-ui/example-vue preview`, which serves on
    `http://localhost:4173`.
 
 2. Generate a fresh run sheet:

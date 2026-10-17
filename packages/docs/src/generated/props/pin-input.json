@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "PinInput",
-        "specifier": "@design-system/svelte/PinInput.svelte"
+        "specifier": "@invisible-ui/svelte/PinInput.svelte"
       },
       "props": [
         {
@@ -111,7 +111,7 @@
       "import": {
         "kind": "named",
         "name": "PinInput",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -231,7 +231,7 @@
       "import": {
         "kind": "named",
         "name": "PinInput",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -337,7 +337,7 @@
       "import": {
         "kind": "element",
         "name": "ds-pin-input",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

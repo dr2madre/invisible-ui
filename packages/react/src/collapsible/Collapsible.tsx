@@ -22,7 +22,7 @@ export interface CollapsibleProps {
  * Collapsible: a styled, single-item disclosure (WAI-ARIA disclosure
  * pattern): one trigger button toggling one content region. Behaviour and
  * accessibility (`aria-expanded`/`aria-controls` wiring, disabled handling)
- * come from the headless collapsible (`@design-system/core`); this layer adds
+ * come from the headless collapsible (`@invisible-ui/core`); this layer adds
  * a trigger row with a rotating chevron and a content area.
  *
  * Colors, radius and spacing are themeable via `--ds-collapsible-*`.

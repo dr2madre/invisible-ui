@@ -10,7 +10,7 @@
    */
   import { tick, untrack, type Snippet } from "svelte";
   import type { Action } from "svelte/action";
-  import { scrollArea, table as core } from "@design-system/core";
+  import { scrollArea, table as core } from "@invisible-ui/core";
   import Table, { defaultGetRowId, type TableColumnDef, type TableRow } from "./Table.svelte";
   import Pagination from "../pagination/Pagination.svelte";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";

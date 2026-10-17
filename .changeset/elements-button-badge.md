@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": minor
-"@design-system/react": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/react": patch
+"@invisible-ui/vue": patch
 ---
 
 `<ds-button>` takes a badge: a `<ds-count slot="badge">`, number or status

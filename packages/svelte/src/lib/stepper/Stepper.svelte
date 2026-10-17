@@ -13,7 +13,7 @@
    * Stepper — the styled, batteries-included progress stepper: an ordered
    * sequence of steps showing what's complete, current, and upcoming. Behaviour
    * (status, linear gating, navigation) comes from the headless stepper in
-   * `@design-system/core`; the accessible markup is a labelled `<nav>` wrapping
+   * `@invisible-ui/core`; the accessible markup is a labelled `<nav>` wrapping
    * an `<ol>`, with the current step marked `aria-current="step"`.
    *
    * Pass `steps` (their labels). In linear mode (default) upcoming steps are not

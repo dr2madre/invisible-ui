@@ -1,4 +1,4 @@
-import type { DomProps } from "@design-system/core";
+import type { DomProps } from "@invisible-ui/core";
 import { toValue, watchEffect, type MaybeRefOrGetter, type Ref } from "vue";
 
 /**

@@ -11,7 +11,7 @@ primitives through the `data-*` hooks they expose (e.g. `data-state`,
 Everything is expressed as **overridable CSS custom properties**, so you can
 keep them, retheme them, or ignore them entirely.
 
-> Nothing here is bundled into `@design-system/core` or the adapters. Copy what
+> Nothing here is bundled into `@invisible-ui/core` or the adapters. Copy what
 > you want into your app's global stylesheet and change the values freely.
 
 The visual layer is documented in its own chapters:

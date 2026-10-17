@@ -24,7 +24,7 @@
   import { stableId } from "../internal/stable-id";
   import FieldError from "../internal/FieldError.svelte";
   import { getI18n } from "../i18n/create-i18n";
-  import { rangeSlider as core } from "@design-system/core";
+  import { rangeSlider as core } from "@invisible-ui/core";
 
   const { t } = getI18n();
 

@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "LocaleProvider",
-        "specifier": "@design-system/svelte/LocaleProvider.svelte"
+        "specifier": "@invisible-ui/svelte/LocaleProvider.svelte"
       },
       "props": [
         {
@@ -47,7 +47,7 @@
       "import": {
         "kind": "named",
         "name": "LocaleProvider",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -84,7 +84,7 @@
       "import": {
         "kind": "named",
         "name": "LocaleProvider",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -126,7 +126,7 @@
       "import": {
         "kind": "element",
         "name": "ds-locale-provider",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

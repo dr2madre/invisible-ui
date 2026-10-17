@@ -1,4 +1,4 @@
-import { calendar as core } from "@design-system/core";
+import { calendar as core } from "@invisible-ui/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
@@ -61,7 +61,7 @@ export interface CalendarConfig {
 /**
  * Create a headless calendar (WAI-ARIA date-grid pattern) with roving tabindex
  * and arrow / Home / End / PageUp / PageDown navigation. Behaviour and date
- * math live in `@design-system/core`; this adapter wires state to a Svelte
+ * math live in `@invisible-ui/core`; this adapter wires state to a Svelte
  * store, applies connected props via actions, and moves DOM focus (deferred to
  * the next render so a day in a freshly-shown month can receive focus).
  */

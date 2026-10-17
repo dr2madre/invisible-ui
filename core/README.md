@@ -1,4 +1,4 @@
-# @design-system/core
+# @invisible-ui/core
 
 Framework-agnostic behavior and accessibility primitives for Invisible UI.
 The core owns state models, keyboard interaction, ARIA semantics and DOM-shaped
@@ -13,7 +13,7 @@ Each primitive is exported as a namespace so its common names (`connect`,
 `initialState`, types) do not collide with other primitives:
 
 ```ts
-import { button } from "@design-system/core";
+import { button } from "@invisible-ui/core";
 
 const state = button.initialState({ variant: "primary" });
 const api = button.connect({
@@ -30,7 +30,7 @@ current state and setters into `connect()`, then recomputes the API when state
 changes:
 
 ```ts
-import { checkbox } from "@design-system/core";
+import { checkbox } from "@invisible-ui/core";
 
 let checked: checkbox.CheckedState = false;
 
@@ -66,9 +66,9 @@ entrypoint.
 ## Scripts
 
 ```text
-pnpm --filter @design-system/core build
-pnpm --filter @design-system/core test
-pnpm --filter @design-system/core typecheck
+pnpm --filter @invisible-ui/core build
+pnpm --filter @invisible-ui/core test
+pnpm --filter @invisible-ui/core typecheck
 ```
 
 Run `pnpm install` from the repository root first.

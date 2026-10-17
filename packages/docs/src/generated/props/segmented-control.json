@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "SegmentedControl",
-        "specifier": "@design-system/svelte/SegmentedControl.svelte"
+        "specifier": "@invisible-ui/svelte/SegmentedControl.svelte"
       },
       "props": [
         {
@@ -95,7 +95,7 @@
       "import": {
         "kind": "named",
         "name": "SegmentedControl",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -199,7 +199,7 @@
       "import": {
         "kind": "named",
         "name": "SegmentedControl",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -289,7 +289,7 @@
       "import": {
         "kind": "element",
         "name": "ds-segmented-control",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

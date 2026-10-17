@@ -1,4 +1,4 @@
-import { scrollArea as core } from "@design-system/core";
+import { scrollArea as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { writable, type Readable } from "svelte/store";
 
@@ -20,7 +20,7 @@ const EMPTY: ScrollbarGeometry = { overflow: false, sizeFraction: 1, offsetFract
 
 /**
  * Create a headless scroll area. The scrollbar geometry math lives in
- * `@design-system/core`; this adapter owns the DOM: it measures the viewport on
+ * `@invisible-ui/core`; this adapter owns the DOM: it measures the viewport on
  * scroll and resize (`ResizeObserver`) to derive each thumb's size/offset, and
  * maps a thumb drag back onto the viewport's native scroll. Native scrollbars
  * are hidden by the styled layer; keyboard scrolling stays native.

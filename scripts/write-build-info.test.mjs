@@ -14,7 +14,7 @@ import { hashPackageSources } from "./source-hash.mjs";
 
 // A miniature workspace: one package with the inputs the hash covers, and a
 // dist this test fills in by hand to stand for what a bundler would write.
-function fixture({ pkgRel = "packages/thing", name = "@design-system/thing", bundles = [] } = {}) {
+function fixture({ pkgRel = "packages/thing", name = "@invisible-ui/thing", bundles = [] } = {}) {
   const root = mkdtempSync(join(tmpdir(), "build-info-"));
   const pkgDir = join(root, pkgRel);
   mkdirSync(join(pkgDir, "src"), { recursive: true });
@@ -104,9 +104,9 @@ test("a source edited while the build ran is refused", () => {
 // A package that copies a workspace dependency into its own dist holds a
 // copy, so the dependency's record is one of its inputs.
 test("a bundled workspace dependency counts as an input", () => {
-  const f = fixture({ bundles: ["@design-system/core"] });
+  const f = fixture({ bundles: ["@invisible-ui/core"] });
   mkdirSync(join(f.root, "core/dist"), { recursive: true });
-  writeFileSync(join(f.root, "core/package.json"), JSON.stringify({ name: "@design-system/core" }));
+  writeFileSync(join(f.root, "core/package.json"), JSON.stringify({ name: "@invisible-ui/core" }));
   writeFileSync(join(f.root, "core/dist/.build-info.json"), '{ "sourceHash": "first" }');
   const before = hashPackageSources(f.root, "packages/thing");
 
@@ -118,7 +118,7 @@ test("a bundled workspace dependency counts as an input", () => {
 test("a dependency it does not bundle is not an input", () => {
   const f = fixture();
   mkdirSync(join(f.root, "core/dist"), { recursive: true });
-  writeFileSync(join(f.root, "core/package.json"), JSON.stringify({ name: "@design-system/core" }));
+  writeFileSync(join(f.root, "core/package.json"), JSON.stringify({ name: "@invisible-ui/core" }));
   writeFileSync(join(f.root, "core/dist/.build-info.json"), '{ "sourceHash": "first" }');
   const before = hashPackageSources(f.root, "packages/thing");
 
@@ -129,7 +129,7 @@ test("a dependency it does not bundle is not an input", () => {
 
 // The guard the adapters run is what a developer meets after a build dies.
 test("the adapter guard refuses the dist a failed core build leaves", () => {
-  const f = fixture({ pkgRel: "core", name: "@design-system/core" });
+  const f = fixture({ pkgRel: "core", name: "@invisible-ui/core" });
   mkdirSync(join(f.pkgDir, "scripts"), { recursive: true });
   writeFileSync(join(f.pkgDir, "scripts/clean-dist.mjs"), "");
   writeFileSync(join(f.pkgDir, "scripts/patch-esm-specifiers.mjs"), "");

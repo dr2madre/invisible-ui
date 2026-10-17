@@ -4,7 +4,7 @@
    * marketed as "command palette"): a search combobox inside a modal dialog.
    * The modal shell (native `<dialog>` + `showModal()`, scroll lock, Escape /
    * backdrop close, focus restore) and the search/filter/keyboard behaviour come from the
-   * headless dialog + combobox (`@design-system/core`); this is the styled
+   * headless dialog + combobox (`@invisible-ui/core`); this is the styled
    * wrapper. A visually-hidden `role="status"` region announces the filtered
    * result count to screen readers.
    *

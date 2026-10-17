@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DomProps } from "@design-system/core";
+  import type { DomProps } from "@invisible-ui/core";
   import { domProps } from "./dom-props";
 
   interface Props {

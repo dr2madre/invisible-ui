@@ -1,4 +1,4 @@
-import { pinInput as core } from "@design-system/core";
+import { pinInput as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -52,7 +52,7 @@ export interface UsePinInput {
 /**
  * Connect the headless PIN input (OTP / verification code) to Vue. Behaviour
  * and accessibility (per-cell entry, advance/backspace, arrows, paste
- * distribution, character filtering) live in `@design-system/core`; this
+ * distribution, character filtering) live in `@invisible-ui/core`; this
  * composable owns the per-cell values, derives the connected props with
  * `computed(connect)`, moves DOM focus inside the container (`rootRef`), and
  * fires `onComplete` once every cell is filled.

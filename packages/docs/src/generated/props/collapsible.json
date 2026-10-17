@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Collapsible",
-        "specifier": "@design-system/svelte/Collapsible.svelte"
+        "specifier": "@invisible-ui/svelte/Collapsible.svelte"
       },
       "props": [
         {
@@ -55,7 +55,7 @@
       "import": {
         "kind": "named",
         "name": "Collapsible",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -106,7 +106,7 @@
       "import": {
         "kind": "named",
         "name": "Collapsible",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -164,7 +164,7 @@
       "import": {
         "kind": "element",
         "name": "ds-collapsible",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

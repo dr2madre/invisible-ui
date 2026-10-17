@@ -1,6 +1,6 @@
 ---
-"@design-system/elements": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": patch
+"@invisible-ui/vue": patch
 ---
 
 The popover card is never wider than the viewport less 1rem, so it fits a

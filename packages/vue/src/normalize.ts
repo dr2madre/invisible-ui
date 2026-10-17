@@ -1,4 +1,4 @@
-import type { ElementProps, Normalize } from "@design-system/core";
+import type { ElementProps, Normalize } from "@invisible-ui/core";
 
 /**
  * The Vue seam: map the core's generic prop bag onto `h()` vnode props.

@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/react": patch
-"@design-system/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/react": patch
+"@invisible-ui/elements": patch
 ---
 
 Coverflow neighbours are scaled and turned but no longer faded, so their text

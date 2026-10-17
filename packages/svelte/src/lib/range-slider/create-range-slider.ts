@@ -1,4 +1,4 @@
-import { rangeSlider as core } from "@design-system/core";
+import { rangeSlider as core } from "@invisible-ui/core";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { normalizeProps } from "../normalize";
 import { stableId } from "../internal/stable-id";

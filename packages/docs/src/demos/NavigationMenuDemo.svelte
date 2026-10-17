@@ -1,5 +1,5 @@
 <script>
-  import NavigationMenu from "@design-system/svelte/NavigationMenu.svelte";
+  import NavigationMenu from "@invisible-ui/svelte/NavigationMenu.svelte";
 </script>
 
 <NavigationMenu

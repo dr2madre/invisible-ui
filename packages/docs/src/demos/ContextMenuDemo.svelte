@@ -1,5 +1,5 @@
 <script>
-  import ContextMenu from "@design-system/svelte/ContextMenu.svelte";
+  import ContextMenu from "@invisible-ui/svelte/ContextMenu.svelte";
 </script>
 
 <ContextMenu

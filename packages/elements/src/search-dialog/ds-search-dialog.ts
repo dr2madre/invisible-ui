@@ -1,4 +1,4 @@
-import { combobox, dialog as core } from "@design-system/core";
+import { combobox, dialog as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, nextId, upgradeProperty } from "../internal/base";
 import {
   createDialogHeader,

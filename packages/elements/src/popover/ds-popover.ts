@@ -1,4 +1,4 @@
-import { button as buttonCore, hoverCard as hoverCore, popover as core } from "@design-system/core";
+import { button as buttonCore, hoverCard as hoverCore, popover as core } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -21,7 +21,7 @@ import { onOutside } from "../internal/outside";
  * by the `trigger` attribute when the element first renders:
  *
  * - `click` (default): a button opens the card intentionally. The headless
- *   popover (`@design-system/core`) wires `aria-haspopup="dialog"`,
+ *   popover (`@invisible-ui/core`) wires `aria-haspopup="dialog"`,
  *   `aria-expanded` and Escape; the card is a `role="dialog"` named by
  *   `label`, or by the trigger. Focus moves into the card when the user opens
  *   it, not when the page sets `open`, and returns to the trigger on Escape.

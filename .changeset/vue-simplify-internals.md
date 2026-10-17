@@ -1,5 +1,5 @@
 ---
-"@design-system/vue": patch
+"@invisible-ui/vue": patch
 ---
 
 The Vue adapter shares more of its internals: Combobox and MultiSelect use

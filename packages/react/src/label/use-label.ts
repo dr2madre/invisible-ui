@@ -1,4 +1,4 @@
-import { label as core } from "@design-system/core";
+import { label as core } from "@invisible-ui/core";
 import { normalizeProps } from "../normalize";
 
 export interface UseLabelOptions {

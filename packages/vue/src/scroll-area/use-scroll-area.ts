@@ -1,4 +1,4 @@
-import { scrollArea as core } from "@design-system/core";
+import { scrollArea as core } from "@invisible-ui/core";
 import { onScopeDispose, ref, watch, type Ref } from "vue";
 
 export type ScrollOrientation = core.ScrollOrientation;
@@ -19,7 +19,7 @@ const EMPTY: ScrollbarGeometry = { overflow: false, sizeFraction: 1, offsetFract
 
 /**
  * Connect the headless scroll area to Vue. The scrollbar geometry math lives in
- * `@design-system/core`; this composable owns the DOM: it measures the viewport
+ * `@invisible-ui/core`; this composable owns the DOM: it measures the viewport
  * on scroll and resize (`ResizeObserver`) to derive each thumb's size and
  * offset, and maps a thumb drag back onto the viewport's native scroll. Native
  * scrollbars are hidden by the styled layer; keyboard scrolling stays native.

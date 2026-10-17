@@ -1,4 +1,4 @@
-import type { Normalize } from "@design-system/core";
+import type { Normalize } from "@invisible-ui/core";
 
 /**
  * Svelte applies element props to the DOM directly (via the `use:` action),

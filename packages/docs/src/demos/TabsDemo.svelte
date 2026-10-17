@@ -1,7 +1,7 @@
 <script>
-  import Button from "@design-system/svelte/Button.svelte";
-  import Icon from "@design-system/svelte/Icon.svelte";
-  import Tabs from "@design-system/svelte/Tabs.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import Tabs from "@invisible-ui/svelte/Tabs.svelte";
 
   let views = $state.raw([
     {

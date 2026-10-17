@@ -1,5 +1,5 @@
 <script>
-  import Button from "@design-system/svelte/Button.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
 </script>
 
 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">

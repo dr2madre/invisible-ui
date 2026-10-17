@@ -1,4 +1,4 @@
-import { checkboxGroup as core } from "@design-system/core";
+import { checkboxGroup as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 
@@ -17,7 +17,7 @@ export interface UseCheckboxGroupOptions {
 
 /**
  * Connect the headless multi-select checkbox group to Vue. Behaviour and
- * accessibility live in `@design-system/core`: a native `<fieldset>` exposes
+ * accessibility live in `@invisible-ui/core`: a native `<fieldset>` exposes
  * the group role and each item is a native `<input type="checkbox">`, so the
  * browser owns Space activation, focus and form participation (every checked
  * item submits its value under the shared `name`). The composable owns the

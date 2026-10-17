@@ -38,7 +38,7 @@ export interface PinInputProps {
  * adapter: a row of single-character cells. Behaviour and accessibility
  * (per-cell entry, advance/backspace, arrow movement, paste distribution,
  * character filtering) come from the headless PIN input
- * (`@design-system/core`).
+ * (`@invisible-ui/core`).
  *
  * The code binds two ways: `v-model` or the `value` prop plus `onValueChange`;
  * `onComplete` fires once every cell is filled. Provide a `label` for the

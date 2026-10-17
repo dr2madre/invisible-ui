@@ -2,7 +2,7 @@
   /**
    * ConfirmDialog — a styled modal to verify or accept before proceeding, the
    * accessible equivalent of `window.confirm()` (a platform "simple dialog",
-   * per ADR 0005). It reuses the headless dialog (`@design-system/core`) and
+   * per ADR 0005). It reuses the headless dialog (`@invisible-ui/core`) and
    * the shared modal adapter (`createDialog`): native `<dialog>` +
    * `showModal()`, scroll lock.
    * Cancel stops the process, confirm proceeds. Set `urgent` when the choice

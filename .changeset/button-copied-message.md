@@ -1,8 +1,8 @@
 ---
-"@design-system/core": patch
-"@design-system/react": patch
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/core": patch
+"@invisible-ui/react": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 The shared catalog gains `button.copied` ("Copied"), the confirmation shown

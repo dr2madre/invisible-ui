@@ -1,4 +1,4 @@
-import type { DomProps } from "@design-system/core";
+import type { DomProps } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 
 /**

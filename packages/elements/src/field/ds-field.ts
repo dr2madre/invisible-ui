@@ -1,4 +1,4 @@
-import { field as core } from "@design-system/core";
+import { field as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, HTMLElementBase } from "../internal/base";
 
 /**

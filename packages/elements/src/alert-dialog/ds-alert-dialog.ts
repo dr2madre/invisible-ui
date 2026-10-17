@@ -1,4 +1,4 @@
-import { dialog as core } from "@design-system/core";
+import { dialog as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, nextId } from "../internal/base";
 import {
   createDialogHeader,

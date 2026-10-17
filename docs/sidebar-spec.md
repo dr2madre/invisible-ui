@@ -68,7 +68,7 @@ former name accepted are all unchanged.
 
 | Removed | Use instead |
 | --- | --- |
-| `@design-system/svelte/Menu.svelte`; `Menu` from `@design-system/vue` | `Sidebar.svelte`; `Sidebar` |
+| `@invisible-ui/svelte/Menu.svelte`; `Menu` from `@invisible-ui/vue` | `Sidebar.svelte`; `Sidebar` |
 | `MenuItem` / `MenuEntry` and `MenuSection` (the sidebar aliases) | `SidebarItem` and `SidebarSection` |
 | an override of `menu.label` | an override of `sidebar.label` |
 | `--ds-menu-gap`, `-width`, `-bg`, `-border`, `-item-text` | the `--ds-sidebar-*` token of the same suffix |

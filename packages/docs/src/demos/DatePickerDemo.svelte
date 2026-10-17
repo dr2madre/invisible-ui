@@ -1,5 +1,5 @@
 <script>
-  import DatePicker from "@design-system/svelte/DatePicker.svelte";
+  import DatePicker from "@invisible-ui/svelte/DatePicker.svelte";
 
   let value = $state("2026-06-15");
 </script>

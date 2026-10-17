@@ -1,10 +1,10 @@
 // The Elements visual page: the markup is in visual-elements.html. Only what
 // HTML cannot say is set here, once, before the first screenshot.
 import "./theme";
-import "@design-system/elements/styles.css";
+import "@invisible-ui/elements/styles.css";
 import "./visual.css";
-import "@design-system/elements/define";
-import type { DsRangeSlider, DsSegmentedControl } from "@design-system/elements";
+import "@invisible-ui/elements/define";
+import type { DsRangeSlider, DsSegmentedControl } from "@invisible-ui/elements";
 import { navIcons } from "./icons";
 import portrait from "./portrait.svg";
 

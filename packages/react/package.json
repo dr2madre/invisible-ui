@@ -1,7 +1,7 @@
 {
-  "name": "@design-system/react",
+  "name": "@invisible-ui/react",
   "version": "0.1.0-alpha.0",
-  "description": "React adapter for the design system: thin, headless, accessible bindings over @design-system/core.",
+  "description": "React adapter for the design system: thin, headless, accessible bindings over @invisible-ui/core.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@design-system/core": "workspace:*",
+    "@invisible-ui/core": "workspace:*",
     "@floating-ui/react-dom": "^2.1.6"
   },
   "devDependencies": {

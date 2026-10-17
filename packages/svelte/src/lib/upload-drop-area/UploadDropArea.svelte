@@ -14,7 +14,7 @@
    * catalog (`uploadDropArea.prompt` + the styled `uploadDropArea.action` word); pass your
    * own content as the `children` snippet to replace it entirely.
    */
-  import { uploadDropArea } from "@design-system/core";
+  import { uploadDropArea } from "@invisible-ui/core";
   import type { Snippet } from "svelte";
   import type { Action } from "svelte/action";
   import { dropArea } from "../drop-area/drop-area";

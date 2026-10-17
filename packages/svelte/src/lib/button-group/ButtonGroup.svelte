@@ -2,7 +2,7 @@
   /**
    * ButtonGroup — the styled, batteries-included grouping of related action
    * buttons. Semantics (a labelled `role="group"` with an orientation) come from
-   * the headless button group (`@design-system/core`); this layer lays the
+   * the headless button group (`@invisible-ui/core`); this layer lays the
    * buttons out and, when `attached`, joins them into a single segmented bar by
    * collapsing the inner corners and shared borders.
    *

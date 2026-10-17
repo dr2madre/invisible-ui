@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "DropdownMenu",
-        "specifier": "@design-system/svelte/DropdownMenu.svelte"
+        "specifier": "@invisible-ui/svelte/DropdownMenu.svelte"
       },
       "props": [
         {
@@ -47,7 +47,7 @@
       "import": {
         "kind": "named",
         "name": "DropdownMenu",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -90,7 +90,7 @@
       "import": {
         "kind": "named",
         "name": "DropdownMenu",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -132,7 +132,7 @@
       "import": {
         "kind": "element",
         "name": "ds-dropdown-menu",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

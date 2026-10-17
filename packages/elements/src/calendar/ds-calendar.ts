@@ -1,4 +1,4 @@
-import { calendar as core, i18n, weekStart } from "@design-system/core";
+import { calendar as core, i18n, weekStart } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -49,7 +49,7 @@ export function weekStartFor(locale: string): WeekStart {
  * element.
  *
  * Behaviour, date math and keyboard navigation come from the headless calendar
- * (`@design-system/core`): a roving tab stop on the focused day, arrows move by
+ * (`@invisible-ui/core`): a roving tab stop on the focused day, arrows move by
  * day and week, Home/End jump to the week edges, PageUp/PageDown step a month
  * (with Shift, a year), Enter/Space select. In right-to-left text the left and
  * right arrows follow the visual direction. This element adds the header

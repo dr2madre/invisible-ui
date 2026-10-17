@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Textarea",
-        "specifier": "@design-system/svelte/Textarea.svelte"
+        "specifier": "@invisible-ui/svelte/Textarea.svelte"
       },
       "props": [
         {
@@ -151,7 +151,7 @@
       "import": {
         "kind": "named",
         "name": "Textarea",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -311,7 +311,7 @@
       "import": {
         "kind": "named",
         "name": "Textarea",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -457,7 +457,7 @@
       "import": {
         "kind": "element",
         "name": "ds-textarea",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

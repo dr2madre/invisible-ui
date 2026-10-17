@@ -32,11 +32,11 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 /** The packages a consumer installs, and where they live. */
 const PACKAGES = [
-  { name: "@design-system/core", dir: "core" },
-  { name: "@design-system/svelte", dir: "packages/svelte" },
-  { name: "@design-system/vue", dir: "packages/vue" },
-  { name: "@design-system/react", dir: "packages/react" },
-  { name: "@design-system/elements", dir: "packages/elements" },
+  { name: "@invisible-ui/core", dir: "core" },
+  { name: "@invisible-ui/svelte", dir: "packages/svelte" },
+  { name: "@invisible-ui/vue", dir: "packages/vue" },
+  { name: "@invisible-ui/react", dir: "packages/react" },
+  { name: "@invisible-ui/elements", dir: "packages/elements" },
 ];
 
 /**
@@ -193,7 +193,7 @@ try {
     'import { compile } from "svelte/compiler";',
     'import { readFileSync, readdirSync, statSync } from "node:fs";',
     'import { join } from "node:path";',
-    'const root = "node_modules/@design-system/svelte/src/lib";',
+    'const root = "node_modules/@invisible-ui/svelte/src/lib";',
     "const walk = (d) => readdirSync(d).flatMap((e) => {",
     "  const p = join(d, e);",
     '  return statSync(p).isDirectory() ? walk(p) : p.endsWith(".svelte") ? [p] : [];',
@@ -215,7 +215,7 @@ try {
       run(process.execPath, [join(consumer, "components.mjs")], consumer).trim(),
     );
     for (const broken of result.broken.slice(0, 3)) {
-      fail(`@design-system/svelte ships a component that does not compile: ${broken}`);
+      fail(`@invisible-ui/svelte ships a component that does not compile: ${broken}`);
     }
     if (result.compiled < 50) {
       fail(`only ${result.compiled} components were compiled: the sweep found almost nothing`);
@@ -288,7 +288,7 @@ try {
     "}",
     "// A side-effect entry must not need a DOM to be imported: an SSR pass",
     "// imports it before any element exists.",
-    'await import("@design-system/elements/define");',
+    'await import("@invisible-ui/elements/define");',
     'if (typeof globalThis.customElements !== "undefined") throw new Error("the probe had a DOM after all");',
     "console.log(JSON.stringify(report));",
   ].join("\n");
@@ -303,7 +303,7 @@ try {
     console.log(
       "Runtime exports per package: " +
         Object.entries(counts)
-          .map(([name, count]) => `${name.replace("@design-system/", "")} ${count}`)
+          .map(([name, count]) => `${name.replace("@invisible-ui/", "")} ${count}`)
           .join(", "),
     );
   } catch {

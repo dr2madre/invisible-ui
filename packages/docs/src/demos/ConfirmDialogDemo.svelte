@@ -1,5 +1,5 @@
 <script>
-  import ConfirmDialog from "@design-system/svelte/ConfirmDialog.svelte";
+  import ConfirmDialog from "@invisible-ui/svelte/ConfirmDialog.svelte";
 
   const file = "report-q3.pdf";
   let deleted = $state(false);

@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -26,7 +26,7 @@ const MOVE_TOLERANCE = 10;
  *
  * The children are the region: they are wrapped in a focusable
  * `.context-menu__trigger`. Behaviour and ARIA come from the headless menu
- * (`@design-system/core`): arrow keys, Home and End move, Enter, Space or a
+ * (`@invisible-ui/core`): arrow keys, Home and End move, Enter, Space or a
  * click activates, Escape and Tab close. This element owns the DOM concerns:
  * positioning against the pointer with Floating UI, roving focus, typeahead,
  * closing on an outside press or when the page scrolls, and returning focus to

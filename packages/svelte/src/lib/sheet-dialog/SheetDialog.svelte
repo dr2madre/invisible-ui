@@ -2,7 +2,7 @@
   /**
    * SheetDialog — a Dialog anchored to an edge of the viewport (the panel
    * pattern variously marketed as "sheet", "side panel" or "drawer"). It is a
-   * dialog in every sense: it reuses the headless dialog (`@design-system/core`)
+   * dialog in every sense: it reuses the headless dialog (`@invisible-ui/core`)
    * and the shared modal adapter unchanged — native `<dialog>` + `showModal()`
    * (top layer, inert background), scroll lock, Escape / backdrop /
    * close-button dismissal, and focus restore.

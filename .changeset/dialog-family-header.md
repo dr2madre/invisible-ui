@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": minor
+"@invisible-ui/svelte": minor
 ---
 
 Every dialog in the family now shares one header: an optional feedback icon,

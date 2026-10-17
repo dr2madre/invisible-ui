@@ -1,4 +1,4 @@
-import { carousel as core } from "@design-system/core";
+import { carousel as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { localized, onLocaleChange, t } from "../internal/i18n";
 import { SVG_NS } from "../internal/icons";
@@ -53,7 +53,7 @@ const reducedMotion = () =>
  * active item centered and its neighbours receding.
  *
  * Behaviour and accessibility come from the headless carousel in
- * `@design-system/core` (WAI-ARIA carousel pattern): a named group of "N of M"
+ * `@invisible-ui/core` (WAI-ARIA carousel pattern): a named group of "N of M"
  * slides, previous and next buttons, slide-picker dots, an optional `loop` and
  * arrow-key navigation along the `orientation`. A slide out of view is hidden
  * from assistive technology and inert. The carousel does not rotate on its own.

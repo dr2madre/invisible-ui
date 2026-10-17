@@ -1,456 +1,456 @@
 [
   {
-    "name": "@design-system/core — full barrel (all primitives)",
+    "name": "@invisible-ui/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
     "limit": "27.4 kB"
   },
   {
-    "name": "@design-system/core — one primitive, tree-shaken (label)",
+    "name": "@invisible-ui/core — one primitive, tree-shaken (label)",
     "path": "core/dist/index.js",
     "import": "{ label }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@design-system/core — calendar only, tree-shaken",
+    "name": "@invisible-ui/core — calendar only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ calendar }",
     "limit": "2.5 kB"
   },
   {
-    "name": "@design-system/core — i18n only, tree-shaken (catalog included)",
+    "name": "@invisible-ui/core — i18n only, tree-shaken (catalog included)",
     "path": "core/dist/index.js",
     "import": "{ i18n }",
     "limit": "3.4 kB"
   },
   {
-    "name": "@design-system/core — number field only, tree-shaken (with i18n)",
+    "name": "@invisible-ui/core — number field only, tree-shaken (with i18n)",
     "path": "core/dist/index.js",
     "import": "{ numberField }",
     "limit": "3 kB"
   },
   {
-    "name": "@design-system/core — range slider only, tree-shaken",
+    "name": "@invisible-ui/core — range slider only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ rangeSlider }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@design-system/svelte — adapters barrel",
+    "name": "@invisible-ui/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
     "limit": "54.5 kB"
   },
   {
-    "name": "@design-system/vue — adapters barrel",
+    "name": "@invisible-ui/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
     "limit": "84.5 kB"
   },
   {
-    "name": "@design-system/react — adapters barrel",
+    "name": "@invisible-ui/react — adapters barrel",
     "path": "packages/react/dist/index.js",
     "limit": "77 kB"
   },
   {
-    "name": "@design-system/react — text field only, tree-shaken",
+    "name": "@invisible-ui/react — text field only, tree-shaken",
     "path": "packages/react/dist/index.js",
     "import": "{ TextField }",
     "limit": "10 kB"
   },
   {
-    "name": "@design-system/elements — elements barrel",
+    "name": "@invisible-ui/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
     "limit": "84.6 kB"
   },
   {
-    "name": "@design-system/elements — define entry",
+    "name": "@invisible-ui/elements — define entry",
     "path": "packages/elements/dist/define.js",
     "limit": "85.3 kB"
   },
   {
-    "name": "@design-system/elements — table only, tree-shaken",
+    "name": "@invisible-ui/elements — table only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTable }",
     "limit": "7.5 kB"
   },
   {
-    "name": "@design-system/elements — table set only, tree-shaken",
+    "name": "@invisible-ui/elements — table set only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTableSet }",
     "limit": "23.4 kB"
   },
   {
-    "name": "@design-system/elements — count only, tree-shaken",
+    "name": "@invisible-ui/elements — count only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCount }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — tabs only, tree-shaken",
+    "name": "@invisible-ui/elements — tabs only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTabs }",
     "limit": "8 kB"
   },
   {
-    "name": "@design-system/elements — pagination only, tree-shaken",
+    "name": "@invisible-ui/elements — pagination only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPagination }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — card only, tree-shaken",
+    "name": "@invisible-ui/elements — card only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCard }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — tag only, tree-shaken",
+    "name": "@invisible-ui/elements — tag only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTag }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — separator only, tree-shaken",
+    "name": "@invisible-ui/elements — separator only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSeparator }",
     "limit": "6.5 kB"
   },
   {
-    "name": "@design-system/elements — empty state only, tree-shaken",
+    "name": "@invisible-ui/elements — empty state only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsEmptyState }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — error state only, tree-shaken",
+    "name": "@invisible-ui/elements — error state only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsErrorState }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — inline notification only, tree-shaken",
+    "name": "@invisible-ui/elements — inline notification only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsInlineNotification }",
     "limit": "8 kB"
   },
   {
-    "name": "@design-system/elements — loading only, tree-shaken",
+    "name": "@invisible-ui/elements — loading only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoading }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — loading generation area only, tree-shaken",
+    "name": "@invisible-ui/elements — loading generation area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoadingGenerationArea }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements — sheet dialog only, tree-shaken",
+    "name": "@invisible-ui/elements — sheet dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSheetDialog }",
     "limit": "9 kB"
   },
   {
-    "name": "@design-system/elements — tree view only, tree-shaken",
+    "name": "@invisible-ui/elements — tree view only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTreeView }",
     "limit": "8 kB"
   },
   {
-    "name": "@design-system/elements — alert dialog only, tree-shaken",
+    "name": "@invisible-ui/elements — alert dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAlertDialog }",
     "limit": "7.3 kB"
   },
   {
-    "name": "@design-system/elements — avatar only, tree-shaken",
+    "name": "@invisible-ui/elements — avatar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAvatar }",
     "limit": "1 kB"
   },
   {
-    "name": "@design-system/elements — avatar group only, tree-shaken",
+    "name": "@invisible-ui/elements — avatar group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAvatarGroup }",
     "limit": "4.2 kB"
   },
   {
-    "name": "@design-system/elements — breadcrumb only, tree-shaken",
+    "name": "@invisible-ui/elements — breadcrumb only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsBreadcrumb }",
     "limit": "4.3 kB"
   },
   {
-    "name": "@design-system/elements — button group only, tree-shaken",
+    "name": "@invisible-ui/elements — button group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsButtonGroup }",
     "limit": "1 kB"
   },
   {
-    "name": "@design-system/elements — carousel only, tree-shaken",
+    "name": "@invisible-ui/elements — carousel only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCarousel }",
     "limit": "6.5 kB"
   },
   {
-    "name": "@design-system/elements — code block only, tree-shaken",
+    "name": "@invisible-ui/elements — code block only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCodeBlock }",
     "limit": "4.5 kB"
   },
   {
-    "name": "@design-system/elements — code only, tree-shaken",
+    "name": "@invisible-ui/elements — code only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCode }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@design-system/elements — confirm dialog only, tree-shaken",
+    "name": "@invisible-ui/elements — confirm dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsConfirmDialog }",
     "limit": "7.4 kB"
   },
   {
-    "name": "@design-system/elements — dropdown menu only, tree-shaken",
+    "name": "@invisible-ui/elements — dropdown menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsDropdownMenu }",
     "limit": "11 kB"
   },
   {
-    "name": "@design-system/elements — feedback icon only, tree-shaken",
+    "name": "@invisible-ui/elements — feedback icon only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsFeedbackIcon }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@design-system/elements — icon only, tree-shaken",
+    "name": "@invisible-ui/elements — icon only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsIcon }",
     "limit": "1 kB"
   },
   {
-    "name": "@design-system/elements — kbd only, tree-shaken",
+    "name": "@invisible-ui/elements — kbd only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsKbd }",
     "limit": "1 kB"
   },
   {
-    "name": "@design-system/elements — link only, tree-shaken",
+    "name": "@invisible-ui/elements — link only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLink }",
     "limit": "1 kB"
   },
   {
-    "name": "@design-system/elements — login form only, tree-shaken",
+    "name": "@invisible-ui/elements — login form only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoginForm }",
     "limit": "4.7 kB"
   },
   {
-    "name": "@design-system/elements — navigation menu only, tree-shaken",
+    "name": "@invisible-ui/elements — navigation menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNavigationMenu }",
     "limit": "9.5 kB"
   },
   {
-    "name": "@design-system/elements — number field only, tree-shaken",
+    "name": "@invisible-ui/elements — number field only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNumberField }",
     "limit": "7.5 kB"
   },
   {
-    "name": "@design-system/elements — progress only, tree-shaken",
+    "name": "@invisible-ui/elements — progress only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsProgress }",
     "limit": "2 kB"
   },
   {
-    "name": "@design-system/elements — pin input only, tree-shaken",
+    "name": "@invisible-ui/elements — pin input only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPinInput }",
     "limit": "6.5 kB"
   },
   {
-    "name": "@design-system/elements — prompt dialog only, tree-shaken",
+    "name": "@invisible-ui/elements — prompt dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPromptDialog }",
     "limit": "7.6 kB"
   },
   {
-    "name": "@design-system/elements — radio only, tree-shaken",
+    "name": "@invisible-ui/elements — radio only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRadio }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@design-system/elements — range slider only, tree-shaken",
+    "name": "@invisible-ui/elements — range slider only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRangeSlider }",
     "limit": "7.5 kB"
   },
   {
-    "name": "@design-system/elements — rating group only, tree-shaken",
+    "name": "@invisible-ui/elements — rating group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRatingGroup }",
     "limit": "6 kB"
   },
   {
-    "name": "@design-system/elements — scroll area only, tree-shaken",
+    "name": "@invisible-ui/elements — scroll area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsScrollArea }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@design-system/elements — search dialog only, tree-shaken",
+    "name": "@invisible-ui/elements — search dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSearchDialog }",
     "limit": "9.3 kB"
   },
   {
-    "name": "@design-system/elements — segmented control only, tree-shaken",
+    "name": "@invisible-ui/elements — segmented control only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSegmentedControl }",
     "limit": "2.5 kB"
   },
   {
-    "name": "@design-system/elements — navigation bar only, tree-shaken",
+    "name": "@invisible-ui/elements — navigation bar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNavigationBar }",
     "limit": "7.3 kB"
   },
   {
-    "name": "@design-system/elements — sidebar only, tree-shaken",
+    "name": "@invisible-ui/elements — sidebar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSidebar }",
     "limit": "14.6 kB"
   },
   {
-    "name": "@design-system/elements — slider only, tree-shaken",
+    "name": "@invisible-ui/elements — slider only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSlider }",
     "limit": "2.9 kB"
   },
   {
-    "name": "@design-system/elements — toggle button only, tree-shaken",
+    "name": "@invisible-ui/elements — toggle button only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToggleButton }",
     "limit": "2.3 kB"
   },
   {
-    "name": "@design-system/elements — toggle group only, tree-shaken",
+    "name": "@invisible-ui/elements — toggle group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToggleGroup }",
     "limit": "1.7 kB"
   },
   {
-    "name": "@design-system/elements — toolbar only, tree-shaken",
+    "name": "@invisible-ui/elements — toolbar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToolbar }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@design-system/elements — tooltip only, tree-shaken",
+    "name": "@invisible-ui/elements — tooltip only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTooltip }",
     "limit": "8 kB"
   },
   {
-    "name": "@design-system/elements — upload drop area only, tree-shaken",
+    "name": "@invisible-ui/elements — upload drop area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsUploadDropArea }",
     "limit": "6.5 kB"
   },
   {
-    "name": "@design-system/elements — accordion only, tree-shaken",
+    "name": "@invisible-ui/elements — accordion only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAccordion }",
     "limit": "3 kB"
   },
   {
-    "name": "@design-system/elements — collapsible only, tree-shaken",
+    "name": "@invisible-ui/elements — collapsible only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCollapsible }",
     "limit": "4.8 kB"
   },
   {
-    "name": "@design-system/elements — aspect ratio only, tree-shaken",
+    "name": "@invisible-ui/elements — aspect ratio only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAspectRatio }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@design-system/elements — blockquote only, tree-shaken",
+    "name": "@invisible-ui/elements — blockquote only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsBlockquote }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@design-system/elements — skeleton only, tree-shaken",
+    "name": "@invisible-ui/elements — skeleton only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSkeleton }",
     "limit": "1 kB"
   },
   {
-    "name": "@design-system/elements — meter only, tree-shaken",
+    "name": "@invisible-ui/elements — meter only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsMeter }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@design-system/elements — notification only, tree-shaken",
+    "name": "@invisible-ui/elements — notification only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNotification }",
     "limit": "5.5 kB"
   },
   {
-    "name": "@design-system/elements — notification region only, tree-shaken",
+    "name": "@invisible-ui/elements — notification region only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNotificationRegion }",
     "limit": "8.5 kB"
   },
   {
-    "name": "@design-system/elements — stepper only, tree-shaken",
+    "name": "@invisible-ui/elements — stepper only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsStepper }",
     "limit": "5.5 kB"
   },
   {
-    "name": "@design-system/elements — context menu only, tree-shaken",
+    "name": "@invisible-ui/elements — context menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsContextMenu }",
     "limit": "13.1 kB"
   },
   {
-    "name": "@design-system/elements — menubar only, tree-shaken",
+    "name": "@invisible-ui/elements — menubar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsMenubar }",
     "limit": "11 kB"
   },
   {
-    "name": "@design-system/elements — popover only, tree-shaken",
+    "name": "@invisible-ui/elements — popover only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPopover }",
     "limit": "12.5 kB"
   },
   {
-    "name": "@design-system/elements — calendar only, tree-shaken",
+    "name": "@invisible-ui/elements — calendar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCalendar }",
     "limit": "11 kB"
   },
   {
-    "name": "@design-system/elements — date picker only, tree-shaken",
+    "name": "@invisible-ui/elements — date picker only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsDatePicker }",
     "limit": "19.5 kB"
   },
   {
-    "name": "@design-system/elements — date range picker only, tree-shaken",
+    "name": "@invisible-ui/elements — date range picker only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsDateRangePicker }",
     "limit": "19.5 kB"
   },
   {
-    "name": "@design-system/elements — time field only, tree-shaken",
+    "name": "@invisible-ui/elements — time field only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTimeField }",
     "limit": "8 kB"

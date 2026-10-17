@@ -1,9 +1,9 @@
 <script>
-  import LocaleProvider from "@design-system/svelte/LocaleProvider.svelte";
-  import Calendar from "@design-system/svelte/Calendar.svelte";
-  import Combobox from "@design-system/svelte/Combobox.svelte";
-  import TextField from "@design-system/svelte/TextField.svelte";
-  import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
+  import LocaleProvider from "@invisible-ui/svelte/LocaleProvider.svelte";
+  import Calendar from "@invisible-ui/svelte/Calendar.svelte";
+  import Combobox from "@invisible-ui/svelte/Combobox.svelte";
+  import TextField from "@invisible-ui/svelte/TextField.svelte";
+  import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
 
   // Translated labels per locale; direction derives from the locale itself.
   const messages = {

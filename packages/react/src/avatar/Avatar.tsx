@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { avatar } from "@design-system/core";
+import { avatar } from "@invisible-ui/core";
 
 export interface AvatarProps {
   /** Required: the accessible name and the source of the initials. */
@@ -14,7 +14,7 @@ export interface AvatarProps {
 
 /**
  * Up to two initials from a name (first and last word), counted in
- * user-perceived characters. The logic lives in `@design-system/core`.
+ * user-perceived characters. The logic lives in `@invisible-ui/core`.
  */
 export function initialsOf(name: string): string {
   return avatar.initialsOf(name);

@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": patch
-"@design-system/react": patch
-"@design-system/vue": patch
-"@design-system/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/react": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/elements": patch
 ---
 
 The ghost button now takes the text colour of the design system, like every

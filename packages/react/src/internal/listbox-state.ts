@@ -1,4 +1,4 @@
-import { combobox } from "@design-system/core";
+import { combobox } from "@invisible-ui/core";
 import {
   useCallback,
   useRef,

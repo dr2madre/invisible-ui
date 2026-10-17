@@ -29,7 +29,7 @@ const ALIGN_ITEMS: Record<ButtonGroupAlign, string> = {
  * ButtonGroup — the styled, batteries-included grouping of related action
  * buttons, ported from the Svelte adapter. Semantics (a labelled
  * `role="group"` with an orientation) come from the headless button group
- * (`@design-system/core`); this layer lays the buttons out and, when
+ * (`@invisible-ui/core`); this layer lays the buttons out and, when
  * `attached`, joins them into a single segmented bar by collapsing the inner
  * corners and shared borders.
  *

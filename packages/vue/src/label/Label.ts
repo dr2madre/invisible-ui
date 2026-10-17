@@ -11,7 +11,7 @@ export interface LabelProps {
 /**
  * Label: a styled form label associated with a control via `for`. Behaviour
  * (the association and preventing text selection on double-click) comes from
- * the headless label (`@design-system/core`); this layer adds typographic
+ * the headless label (`@invisible-ui/core`); this layer adds typographic
  * styling and an optional required marker.
  *
  * The label text is the default slot. Colors are themeable via `--ds-label-*`.

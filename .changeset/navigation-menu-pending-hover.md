@@ -1,6 +1,6 @@
 ---
-"@design-system/svelte": patch
-"@design-system/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/elements": patch
 ---
 
 A navigation menu panel closed by a click no longer opens again on its own. A

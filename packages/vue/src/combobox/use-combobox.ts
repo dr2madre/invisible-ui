@@ -1,4 +1,4 @@
-import { combobox as core } from "@design-system/core";
+import { combobox as core } from "@invisible-ui/core";
 import {
   computed,
   ref,

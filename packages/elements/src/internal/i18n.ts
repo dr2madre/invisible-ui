@@ -1,4 +1,4 @@
-import { i18n } from "@design-system/core";
+import { i18n } from "@invisible-ui/core";
 
 /**
  * Locale resolution for the elements. An element reads its locale and message

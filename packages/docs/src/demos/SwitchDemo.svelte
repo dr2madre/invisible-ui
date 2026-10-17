@@ -1,5 +1,5 @@
 <script>
-  import Switch from "@design-system/svelte/Switch.svelte";
+  import Switch from "@invisible-ui/svelte/Switch.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 0.5rem;">

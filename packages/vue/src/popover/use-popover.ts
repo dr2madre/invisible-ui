@@ -1,4 +1,4 @@
-import { popover as core } from "@design-system/core";
+import { popover as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -43,7 +43,7 @@ const FOCUSABLE =
 
 /**
  * Connect the headless Popover to Vue. Behaviour and ARIA live in
- * `@design-system/core` (open/close, `aria-haspopup`/`aria-expanded` wiring,
+ * `@invisible-ui/core` (open/close, `aria-haspopup`/`aria-expanded` wiring,
  * Escape to close); this composable owns the DOM concerns through the shared
  * overlay helpers: `attachFloating` (flip/shift positioning) and
  * `onOutsidePointerDown` (outside-press dismiss). Plus focus management: focus

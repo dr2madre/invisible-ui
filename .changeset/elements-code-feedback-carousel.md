@@ -1,8 +1,8 @@
 ---
-"@design-system/elements": minor
-"@design-system/react": patch
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/react": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 Add `<ds-code>`, `<ds-code-block>`, `<ds-feedback-icon>` and `<ds-carousel>`,

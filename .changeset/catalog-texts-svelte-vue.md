@@ -1,6 +1,6 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 Svelte and Vue take the texts they wrote in English from the message catalog,

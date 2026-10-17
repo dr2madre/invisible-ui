@@ -38,8 +38,8 @@ jobs:
       - name: Build the served sites
         run: >
           pnpm exec turbo run build
-          --filter=@design-system/docs
-          --filter=@design-system/example-vue
+          --filter=@invisible-ui/docs
+          --filter=@invisible-ui/example-vue
 
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps ${{ matrix.browser }}

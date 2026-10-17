@@ -1,4 +1,4 @@
-import { navigationBar as core } from "@design-system/core";
+import { navigationBar as core } from "@invisible-ui/core";
 import { useId, type ReactNode } from "react";
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";

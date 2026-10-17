@@ -1,4 +1,4 @@
-import { field as core } from "@design-system/core";
+import { field as core } from "@invisible-ui/core";
 import { derived, writable, type Readable } from "svelte/store";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -19,7 +19,7 @@ export interface CreateField {
 /**
  * Create a headless field that wires together a label, control, description and
  * error message. Behaviour and accessibility (id linking, `aria-describedby`,
- * `aria-invalid` / `aria-required`) live in `@design-system/core`; this adapter
+ * `aria-invalid` / `aria-required`) live in `@invisible-ui/core`; this adapter
  * exposes the connected prop bags as a reactive store for the styled component
  * to spread onto each part.
  */

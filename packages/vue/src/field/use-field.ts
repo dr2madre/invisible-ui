@@ -1,4 +1,4 @@
-import { field as core } from "@design-system/core";
+import { field as core } from "@invisible-ui/core";
 import { computed, toValue, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -19,7 +19,7 @@ export interface UseFieldOptions {
 /**
  * Connect the headless field to Vue. A field wires a label, control,
  * description and error message together: id linking, `aria-describedby`,
- * `aria-invalid` / `aria-required` all live in `@design-system/core`. The
+ * `aria-invalid` / `aria-required` all live in `@invisible-ui/core`. The
  * composable holds no state of its own beyond the stable base id; every flag
  * resolves from the options on each recompute.
  */

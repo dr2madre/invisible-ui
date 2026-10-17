@@ -1,4 +1,4 @@
-import { combobox as core } from "@design-system/core";
+import { combobox as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { FieldMessages } from "../internal/field-message";
 import { attachFloating } from "../internal/floating";
@@ -20,7 +20,7 @@ export interface ComboboxItem {
  * `<ds-combobox>` — the editable autocomplete (and the design system's
  * advanced select) as a custom element.
  *
- * Behaviour and ARIA come from the headless combobox (`@design-system/core`);
+ * Behaviour and ARIA come from the headless combobox (`@invisible-ui/core`);
  * this element owns the DOM concerns the core leaves to adapters: filtering,
  * popup positioning (Floating UI), close-on-outside-pointer and
  * scroll-into-view. DOM focus stays on the input; the highlight travels via

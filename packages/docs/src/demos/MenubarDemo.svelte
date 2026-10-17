@@ -1,5 +1,5 @@
 <script>
-  import Menubar from "@design-system/svelte/Menubar.svelte";
+  import Menubar from "@invisible-ui/svelte/Menubar.svelte";
 </script>
 
 <Menubar

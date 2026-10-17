@@ -1,4 +1,4 @@
-import { calendar as core, i18n as coreI18n } from "@design-system/core";
+import { calendar as core, i18n as coreI18n } from "@invisible-ui/core";
 import { computed, defineComponent, h, ref, watch, type PropType, type VNodeChild } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
@@ -71,7 +71,7 @@ const weekdayName = (fmt: Intl.DateTimeFormat, weekday: number) =>
 /**
  * Calendar: the styled, batteries-included calendar (WAI-ARIA date grid).
  * Behaviour, date math and keyboard navigation come from the headless calendar
- * (`@design-system/core`); this layer adds the header (period label, an
+ * (`@invisible-ui/core`); this layer adds the header (period label, an
  * optional view switcher, prev/next/today) and a body per view.
  *
  * Views: `month`, `two-month` (two months side by side), `week`, `three-day`

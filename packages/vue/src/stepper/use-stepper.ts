@@ -1,4 +1,4 @@
-import { stepper as core } from "@design-system/core";
+import { stepper as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -31,7 +31,7 @@ export interface UseStepperOptions {
  * steps with `next`/`prev`/`goTo`, linear gating, and the conventional
  * accessible markup (a labelled `<nav>` plus `<ol>`, current step
  * `aria-current="step"`). The status and reachability logic live in
- * `@design-system/core`; this composable owns the current step (mirrored by a
+ * `@invisible-ui/core`; this composable owns the current step (mirrored by a
  * `watch`) and derives the connected props with `computed(connect)`.
  */
 export function useStepper(options: MaybeRefOrGetter<UseStepperOptions>): ComputedRef<StepperApi> {

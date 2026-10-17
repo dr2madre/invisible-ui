@@ -1,5 +1,5 @@
 ---
-"@design-system/elements": minor
+"@invisible-ui/elements": minor
 ---
 
 Add `<ds-navigation-bar>`: primary navigation between a few sections, a

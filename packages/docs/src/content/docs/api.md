@@ -10,7 +10,7 @@ lives on that component's own page under **Components**.
 ## The headless model
 
 Behaviour, state and accessibility live once in the framework-agnostic core
-(`@design-system/core`); thin per-framework adapters expose it idiomatically.
+(`@invisible-ui/core`); thin per-framework adapters expose it idiomatically.
 
 - **Core** — each component is a pure **state** plus a `connect()` function that
   returns framework-agnostic **prop getters**: plain objects carrying ARIA
@@ -29,7 +29,7 @@ element's attributes, ARIA and event listeners in sync with state.
 
 ```svelte
 <script>
-  import { createCollapsible } from "@design-system/svelte";
+  import { createCollapsible } from "@invisible-ui/svelte";
   const { rootAction, triggerAction, contentAction, open } =
     createCollapsible({ open: false });
 </script>
@@ -41,21 +41,21 @@ element's attributes, ARIA and event listeners in sync with state.
 ```
 
 The **styled** components are imported from their own module
-(`@design-system/svelte/<Component>.svelte`); the headless `create*` functions
-come from the package root (`@design-system/svelte`).
+(`@invisible-ui/svelte/<Component>.svelte`); the headless `create*` functions
+come from the package root (`@invisible-ui/svelte`).
 
 ## React adapter: `use*` hooks
 
-The React adapter (`@design-system/react`) includes Button, Checkbox, Switch,
+The React adapter (`@invisible-ui/react`) includes Button, Checkbox, Switch,
 Select, TextField, SearchField, Combobox, MultiSelect, Dialog and Icon. Its
 headless primitives
 are exposed as `use*` hooks. The connected API is recomputed each render and
 its prop bags are spread onto JSX; styled components and the hooks ship from
-the package root, styles are opt-in via `@design-system/react/styles.css`.
+the package root, styles are opt-in via `@invisible-ui/react/styles.css`.
 
 ```tsx
-import { Checkbox, useCheckbox } from "@design-system/react";
-import "@design-system/react/styles.css";
+import { Checkbox, useCheckbox } from "@invisible-ui/react";
+import "@invisible-ui/react/styles.css";
 
 // Styled…
 <Checkbox label="Subscribe" onCheckedChange={save} />;
@@ -72,7 +72,7 @@ package, `import invisible_ui as ui`, and
 the browser as the core's JavaScript; Python only wires state and events (ADR
 0006).
 
-**Vue** apps get native composables and components (`@design-system/vue`,
+**Vue** apps get native composables and components (`@invisible-ui/vue`,
 the whole catalog) with `v-model` on the controlled values, plus the same
 callback props as the React adapter (ADR 0010). The
 [Framework support](/invisible-ui/frameworks/) page tracks per-adapter

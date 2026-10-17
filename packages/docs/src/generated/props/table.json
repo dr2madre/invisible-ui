@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Table",
-        "specifier": "@design-system/svelte/Table.svelte"
+        "specifier": "@invisible-ui/svelte/Table.svelte"
       },
       "props": [
         {
@@ -119,7 +119,7 @@
       "import": {
         "kind": "named",
         "name": "Table",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -214,7 +214,7 @@
       "import": {
         "kind": "named",
         "name": "Table",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -328,7 +328,7 @@
       "import": {
         "kind": "element",
         "name": "ds-table",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

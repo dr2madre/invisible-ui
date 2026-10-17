@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Checkbox",
-        "specifier": "@design-system/svelte/Checkbox.svelte"
+        "specifier": "@invisible-ui/svelte/Checkbox.svelte"
       },
       "props": [
         {
@@ -79,7 +79,7 @@
       "import": {
         "kind": "named",
         "name": "Checkbox",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -169,7 +169,7 @@
       "import": {
         "kind": "named",
         "name": "Checkbox",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -251,7 +251,7 @@
       "import": {
         "kind": "element",
         "name": "ds-checkbox",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

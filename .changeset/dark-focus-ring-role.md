@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/react": patch
-"@design-system/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/react": patch
+"@invisible-ui/elements": patch
 ---
 
 The dark theme's focus ring is the `color-focus-ring` role of that theme,

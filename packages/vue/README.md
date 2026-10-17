@@ -1,7 +1,7 @@
-# @design-system/vue
+# @invisible-ui/vue
 
 Vue 3 adapter over the framework-agnostic
-[`@design-system/core`](../../core). It carries the complete Invisible UI
+[`@invisible-ui/core`](../../core). It carries the complete Invisible UI
 catalog: the same 74 styled components available in the Svelte adapter, plus
 native Vue composables for components with headless behavior.
 
@@ -17,8 +17,8 @@ Import the components you need and opt into the complete stylesheet:
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { Button, Checkbox, Dialog, Select } from "@design-system/vue";
-import "@design-system/vue/styles.css";
+import { Button, Checkbox, Dialog, Select } from "@invisible-ui/vue";
+import "@invisible-ui/vue/styles.css";
 
 const subscribed = ref(false);
 const fruit = ref<string | null>(null);
@@ -44,14 +44,14 @@ const save = () => {
 </template>
 ```
 
-Import `@design-system/vue/tokens.css` alone when rendering your own markup or
+Import `@invisible-ui/vue/tokens.css` alone when rendering your own markup or
 replacing the component styles. It defines the shared `--ds-*` custom
 properties without loading every component stylesheet.
 
 For a complete runnable integration, see the native
 [`examples/vue`](../../examples/vue) app. It uses `v-model`, localization,
 dialogs, notifications and the shared light/dark theme tokens directly through
-`@design-system/vue`.
+`@invisible-ui/vue`.
 
 ## Controlled values and `v-model`
 
@@ -81,7 +81,7 @@ accessibility while owning all markup and styling:
 
 ```vue
 <script setup lang="ts">
-import { useButton } from "@design-system/vue";
+import { useButton } from "@invisible-ui/vue";
 
 const save = () => {
   // Persist the form.
@@ -111,7 +111,7 @@ locale metadata, writing direction or message overrides:
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { LocaleProvider, Select } from "@design-system/vue";
+import { LocaleProvider, Select } from "@invisible-ui/vue";
 
 const value = ref<string | null>(null);
 const items = [{ value: "apple", label: "Mela" }];
@@ -166,9 +166,9 @@ the findings from the full port.
 ## Scripts
 
 ```text
-pnpm --filter @design-system/vue build
-pnpm --filter @design-system/vue test
-pnpm --filter @design-system/vue typecheck
+pnpm --filter @invisible-ui/vue build
+pnpm --filter @invisible-ui/vue test
+pnpm --filter @invisible-ui/vue typecheck
 ```
 
 Run `pnpm install` from the repository root first.

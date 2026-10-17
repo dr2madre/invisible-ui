@@ -55,8 +55,8 @@ try {
   writeFileSync(
     join(consumer, "main.mjs"),
     [
-      'import * as ds from "@design-system/vue";',
-      'import { normalizeProps, useButton, Button } from "@design-system/vue";',
+      'import * as ds from "@invisible-ui/vue";',
+      'import { normalizeProps, useButton, Button } from "@invisible-ui/vue";',
       'if (typeof useButton !== "function") throw new Error("useButton missing");',
       'if (!Button) throw new Error("Button component missing");',
       'const props = normalizeProps({ "aria-label": "x", onClick: () => {} });',
@@ -72,8 +72,8 @@ try {
   writeFileSync(
     join(consumer, "main.ts"),
     [
-      'import { useCheckbox, type UseCheckboxOptions, type CheckboxProps } from "@design-system/vue";',
-      'import type { CheckedState } from "@design-system/vue";',
+      'import { useCheckbox, type UseCheckboxOptions, type CheckboxProps } from "@invisible-ui/vue";',
+      'import type { CheckedState } from "@invisible-ui/vue";',
       "const options: UseCheckboxOptions = { checked: true, onCheckedChange: (value: CheckedState) => void value };",
       'if (typeof useCheckbox !== "function") throw new Error("unreachable");',
       'const props: CheckboxProps = { label: "x" };',

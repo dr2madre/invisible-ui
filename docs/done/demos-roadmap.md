@@ -21,7 +21,7 @@ Dialog, Switch, Tooltip — were normalized to the island convention).
 
 1. Create `packages/docs/src/demos/<Name>Demo.svelte` — a small, self-contained
    usage of the styled component (import it from
-   `@design-system/svelte/<Name>.svelte`), theme-aware (light/dark).
+   `@invisible-ui/svelte/<Name>.svelte`), theme-aware (light/dark).
 2. Create `packages/docs/src/content/docs/components/<name>.mdx`: frontmatter
    `title`, import `Preview` + the demo, then
    `<Preview><…Demo client:visible /></Preview>` followed by the prose (props

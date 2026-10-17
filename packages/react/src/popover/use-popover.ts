@@ -1,4 +1,4 @@
-import { popover as core } from "@design-system/core";
+import { popover as core } from "@invisible-ui/core";
 import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useControllable } from "../internal/controllable";
 import {
@@ -42,7 +42,7 @@ const FOCUSABLE =
 
 /**
  * Connect the headless Popover to React. Behaviour and ARIA live in
- * `@design-system/core` (open and close, `aria-haspopup` and `aria-expanded`,
+ * `@invisible-ui/core` (open and close, `aria-haspopup` and `aria-expanded`,
  * Escape); this hook owns the DOM side: Floating UI positioning, closing on
  * an outside press or when focus leaves the trigger and the panel, focus
  * moving into the panel on open, and back to the trigger only after Escape.

@@ -27,7 +27,7 @@ export interface StepperProps {
 /**
  * Stepper: the styled progress stepper, an ordered sequence of steps showing
  * what is complete, current and upcoming. Behaviour (status, linear gating,
- * navigation) comes from the headless stepper in `@design-system/core`; the
+ * navigation) comes from the headless stepper in `@invisible-ui/core`; the
  * markup is a labelled `<nav>` around an `<ol>`, with the current step marked
  * `aria-current="step"`.
  *

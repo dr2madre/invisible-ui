@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Select",
-        "specifier": "@design-system/svelte/Select.svelte"
+        "specifier": "@invisible-ui/svelte/Select.svelte"
       },
       "props": [
         {
@@ -103,7 +103,7 @@
       "import": {
         "kind": "named",
         "name": "Select",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -215,7 +215,7 @@
       "import": {
         "kind": "named",
         "name": "Select",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -313,7 +313,7 @@
       "import": {
         "kind": "element",
         "name": "ds-select",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

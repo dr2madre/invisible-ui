@@ -1,4 +1,4 @@
-import { treeView as core } from "@design-system/core";
+import { treeView as core } from "@invisible-ui/core";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { sameList, useControllable } from "../internal/controllable";
 import { focusValue, keyedByDirection, type Direction } from "../internal/roving";

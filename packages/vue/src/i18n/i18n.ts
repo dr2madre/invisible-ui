@@ -12,7 +12,7 @@ import {
   type InjectionKey,
   type PropType,
 } from "vue";
-import { i18n as core } from "@design-system/core";
+import { i18n as core } from "@invisible-ui/core";
 import { en, type MessageKey, type Messages } from "./messages";
 
 export type Dir = "ltr" | "rtl";

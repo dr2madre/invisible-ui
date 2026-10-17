@@ -1,4 +1,4 @@
-import { i18n, numberField as core } from "@design-system/core";
+import { i18n, numberField as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
@@ -67,7 +67,7 @@ const resolveConfig = (config: NumberFieldConfig) => ({
 
 /**
  * Create a headless number field. Parsing, stepping, commit boundaries, and
- * the spinbutton semantics live in `@design-system/core`; this adapter wires
+ * the spinbutton semantics live in `@invisible-ui/core`; this adapter wires
  * the state to Svelte stores, applies connected props via actions, and emits
  * `onValueChange` / `onValueCommit` from the core's guarded setters. Reflection
  * through `syncValue`/`syncConfig` never emits and never rewrites the text of

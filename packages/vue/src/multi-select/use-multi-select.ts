@@ -1,4 +1,4 @@
-import { multiSelect as core } from "@design-system/core";
+import { multiSelect as core } from "@invisible-ui/core";
 import {
   computed,
   ref,

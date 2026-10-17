@@ -1,4 +1,4 @@
-import { i18n, timeField as core } from "@design-system/core";
+import { i18n, timeField as core } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -19,7 +19,7 @@ type Segment = core.TimeSegmentType;
  * [AM/PM]) as a custom element.
  *
  * Each segment is a `role="spinbutton"` driven by the headless time field
- * (`@design-system/core`): ArrowUp/ArrowDown step with wrapping, ArrowLeft and
+ * (`@invisible-ui/core`): ArrowUp/ArrowDown step with wrapping, ArrowLeft and
  * ArrowRight move between segments, digits type with auto-advance, Backspace
  * clears, A and P set the period, Escape puts back the last finished value.
  * The value is the canonical 24-hour string (`HH:mm` or `HH:mm:ss`), `null`

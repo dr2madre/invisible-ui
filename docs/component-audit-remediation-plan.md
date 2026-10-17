@@ -313,7 +313,7 @@ end-to-end fixture where that isolates better.
 
 Requirements:
 
-- it imports `@design-system/vue` as a real consumer;
+- it imports `@invisible-ui/vue` as a real consumer;
 - it never routes through Svelte components;
 - it exposes stable content and selectors based on roles and accessible names;
 - the Playwright configuration starts it explicitly;

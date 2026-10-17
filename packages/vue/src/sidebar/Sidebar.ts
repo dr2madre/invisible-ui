@@ -1,4 +1,4 @@
-import { navigationBar } from "@design-system/core";
+import { navigationBar } from "@invisible-ui/core";
 import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";

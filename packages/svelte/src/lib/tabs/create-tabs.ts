@@ -1,4 +1,4 @@
-import { tabs as core } from "@design-system/core";
+import { tabs as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
 import { createItemAction, createRootAction } from "../internal/connect";
@@ -37,7 +37,7 @@ export interface CreateTabs {
 /**
  * Create a headless tabs widget (WAI-ARIA tabs pattern) with roving tabindex,
  * arrow/Home/End navigation, and automatic or manual activation. Behaviour and
- * accessibility live in `@design-system/core`; this adapter wires state to a
+ * accessibility live in `@invisible-ui/core`; this adapter wires state to a
  * Svelte store, applies connected props via actions, and moves DOM focus.
  */
 export function createTabs(context: TabsContext): CreateTabs {

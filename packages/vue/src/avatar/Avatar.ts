@@ -1,9 +1,9 @@
 import { defineComponent, h, ref, watch, type PropType } from "vue";
-import { avatar } from "@design-system/core";
+import { avatar } from "@invisible-ui/core";
 
 /**
  * Up to two initials from a name (first and last word), counted in
- * user-perceived characters. The logic lives in `@design-system/core`.
+ * user-perceived characters. The logic lives in `@invisible-ui/core`.
  */
 export function initialsOf(name: string): string {
   return avatar.initialsOf(name);

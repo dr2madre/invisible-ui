@@ -1,6 +1,6 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 The Date Picker and the Date Range Picker open from the keyboard: Enter, Space

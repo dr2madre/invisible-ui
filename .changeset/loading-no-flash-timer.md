@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": patch
+"@invisible-ui/svelte": patch
 ---
 
 The loading indicator's no-flash timer goes when the indicator goes. A

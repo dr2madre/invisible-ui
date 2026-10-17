@@ -1,5 +1,5 @@
 ---
-"@design-system/vue": minor
+"@invisible-ui/vue": minor
 ---
 
 **Breaking for TypeScript consumers of four controls, encoded as a minor while the package is 0.x** (see `docs/api-stability.md`, "How a classification is encoded"). `RadioGroup`, `SegmentedControl` and `Select` widen their `update:modelValue` payload from `string` to `string | null`, and `RatingGroup` from `number` to `number | null`. That is what "nothing selected" restores to.

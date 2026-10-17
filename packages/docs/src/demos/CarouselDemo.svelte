@@ -1,6 +1,6 @@
 <script>
-  import Carousel from "@design-system/svelte/Carousel.svelte";
-  import Tag from "@design-system/svelte/Tag.svelte";
+  import Carousel from "@invisible-ui/svelte/Carousel.svelte";
+  import Tag from "@invisible-ui/svelte/Tag.svelte";
 
   // Use the provided pastel tokens (soft), not strong custom colors.
   const items = [

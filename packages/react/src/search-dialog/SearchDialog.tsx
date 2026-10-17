@@ -83,7 +83,7 @@ const loadingIndicator = (
  * modal shell (native `<dialog>` + `showModal()`, scroll lock, Escape and
  * backdrop close, focus restore) and the search, filter and keyboard
  * behaviour come from the headless dialog and combobox
- * (`@design-system/core`) through `useSearchDialog`; this is the styled
+ * (`@invisible-ui/core`) through `useSearchDialog`; this is the styled
  * wrapper. A visually hidden `role="status"` region announces the filtered
  * result count.
  *

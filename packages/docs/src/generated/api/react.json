@@ -1,5 +1,5 @@
 {
-  "package": "@design-system/react",
+  "package": "@invisible-ui/react",
   "entry": "packages/react/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -11,8 +11,8 @@
     "./package.json": "./package.json"
   },
   "externalReferences": [
-    "@design-system/core",
     "@floating-ui/react-dom",
+    "@invisible-ui/core",
     "react"
   ],
   "symbols": [

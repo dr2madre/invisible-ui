@@ -1,6 +1,6 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 The CodeBlock scroller is a named group instead of a named landmark. It

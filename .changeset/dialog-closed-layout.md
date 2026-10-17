@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/react": patch
-"@design-system/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/react": patch
+"@invisible-ui/elements": patch
 ---
 
 Keep native dialog panels out of the rendered page until they are open. The

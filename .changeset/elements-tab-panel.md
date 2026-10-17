@@ -1,6 +1,6 @@
 ---
-"@design-system/elements": minor
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/vue": patch
 ---
 
 Tabs can be written as markup: `<ds-tabs>` is the root that holds the state,

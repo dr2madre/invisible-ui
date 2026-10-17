@@ -16,7 +16,7 @@ export interface TooltipProps {
 /**
  * Tooltip: a styled descriptive label shown on hover/focus of a trigger
  * (WAI-ARIA `role="tooltip"` linked via `aria-describedby`). Behaviour comes
- * from the headless tooltip (`@design-system/core`); the adapter adds open/
+ * from the headless tooltip (`@invisible-ui/core`); the adapter adds open/
  * close delays, Floating-UI positioning (flip/shift), and WCAG 1.4.13 "content
  * on hover" semantics (hoverable + Escape-dismissable). On touch, where hover
  * does not exist, a tap toggles the tooltip.

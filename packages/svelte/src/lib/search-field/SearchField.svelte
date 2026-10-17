@@ -1,7 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import type { HTMLInputAttributes } from "svelte/elements";
-  import { textField as core } from "@design-system/core";
+  import { textField as core } from "@invisible-ui/core";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { formReset } from "../internal/form-reset";

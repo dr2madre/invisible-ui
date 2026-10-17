@@ -1,4 +1,4 @@
-import { collapsible as core } from "@design-system/core";
+import { collapsible as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction, createRootAction } from "../internal/connect";
@@ -35,7 +35,7 @@ export interface CreateCollapsible {
 /**
  * Create a headless collapsible (WAI-ARIA disclosure pattern): a single trigger
  * button that shows or hides one content region. Behaviour and accessibility
- * live in `@design-system/core`; this adapter wires state to a Svelte store and
+ * live in `@invisible-ui/core`; this adapter wires state to a Svelte store and
  * applies the connected props via actions.
  */
 export function createCollapsible(context: CollapsibleContext = {}): CreateCollapsible {

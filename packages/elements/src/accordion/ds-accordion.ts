@@ -1,4 +1,4 @@
-import { accordion as core } from "@design-system/core";
+import { accordion as core } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -27,7 +27,7 @@ const parseValue = (raw: string | null): string[] =>
  * adapter with identical classes: header buttons that show and hide their
  * panels, one at a time or several, with arrow-key movement between headers.
  * Behaviour and accessibility come from the headless accordion in
- * `@design-system/core`.
+ * `@invisible-ui/core`.
  *
  * Write the items as `<ds-accordion-item value label>` children: each one's
  * own children are its panel content. As a shortcut, assign `items` (the

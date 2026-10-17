@@ -6,7 +6,7 @@
   /**
    * TimeField — a styled segmented time input (hour : minute [: second] [AM/PM]).
    * Each segment is a `role="spinbutton"` driven by the headless time field
-   * (`@design-system/core`): ArrowUp/Down increment/decrement (wrapping),
+   * (`@invisible-ui/core`): ArrowUp/Down increment/decrement (wrapping),
    * Left/Right move between segments, digits type with auto-advance, Backspace
    * clears, and A/P set the period in 12-hour mode. The value is the canonical
    * 24-hour ISO string (`HH:mm` or `HH:mm:ss`). The hour cycle follows the
@@ -18,7 +18,7 @@
     type TimeSegmentType,
     type TimeValueError,
   } from "./create-time-field";
-  import { i18n, timeField as core } from "@design-system/core";
+  import { i18n, timeField as core } from "@invisible-ui/core";
   import { formReset } from "../internal/form-reset";
   import { controllable } from "../internal/controllable.svelte";
   import { getI18n } from "../i18n/create-i18n";

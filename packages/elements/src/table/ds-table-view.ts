@@ -5,7 +5,7 @@ import {
   radioGroup as radioCore,
   scrollArea as scrollAreaCore,
   table as core,
-} from "@design-system/core";
+} from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,

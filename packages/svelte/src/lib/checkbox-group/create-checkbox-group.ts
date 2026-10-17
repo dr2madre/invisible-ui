@@ -1,4 +1,4 @@
-import { checkboxGroup as core } from "@design-system/core";
+import { checkboxGroup as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
 import { createItemAction, createRootAction } from "../internal/connect";
@@ -29,7 +29,7 @@ export interface CreateCheckboxGroup {
 /**
  * Create a headless multi-select checkbox group (WAI-ARIA `role="group"` of
  * `role="checkbox"` items). Behaviour and accessibility live in
- * `@design-system/core`; this adapter wires state to a Svelte store and applies
+ * `@invisible-ui/core`; this adapter wires state to a Svelte store and applies
  * the connected props via actions. Each item is independently Tab-focusable and
  * toggled with Space — no roving tabindex, so no focus management is needed.
  */

@@ -1,11 +1,11 @@
 <script>
-  import { asyncContent } from "@design-system/core";
-  import Button from "@design-system/svelte/Button.svelte";
-  import EmptyState from "@design-system/svelte/EmptyState.svelte";
-  import ErrorState from "@design-system/svelte/ErrorState.svelte";
-  import InlineNotification from "@design-system/svelte/InlineNotification.svelte";
-  import Loading from "@design-system/svelte/Loading.svelte";
-  import Skeleton from "@design-system/svelte/Skeleton.svelte";
+  import { asyncContent } from "@invisible-ui/core";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import EmptyState from "@invisible-ui/svelte/EmptyState.svelte";
+  import ErrorState from "@invisible-ui/svelte/ErrorState.svelte";
+  import InlineNotification from "@invisible-ui/svelte/InlineNotification.svelte";
+  import Loading from "@invisible-ui/svelte/Loading.svelte";
+  import Skeleton from "@invisible-ui/svelte/Skeleton.svelte";
 
   // The application owns the request lifecycle; these buttons script it
   // deterministically (no network, no timers of our own).

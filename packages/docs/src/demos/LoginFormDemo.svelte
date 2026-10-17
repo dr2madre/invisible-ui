@@ -1,5 +1,5 @@
 <script>
-  import LoginForm from "@design-system/svelte/LoginForm.svelte";
+  import LoginForm from "@invisible-ui/svelte/LoginForm.svelte";
 
   let result = $state("");
 </script>

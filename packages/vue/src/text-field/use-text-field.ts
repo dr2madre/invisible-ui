@@ -1,4 +1,4 @@
-import { textField as core } from "@design-system/core";
+import { textField as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";

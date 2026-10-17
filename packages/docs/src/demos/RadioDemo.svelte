@@ -1,5 +1,5 @@
 <script>
-  import Radio from "@design-system/svelte/Radio.svelte";
+  import Radio from "@invisible-ui/svelte/Radio.svelte";
   let plan = $state("pro");
 </script>
 

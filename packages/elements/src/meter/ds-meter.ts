@@ -1,4 +1,4 @@
-import { meter } from "@design-system/core";
+import { meter } from "@invisible-ui/core";
 import { applyProps, HTMLElementBase, nextId, numberAttr, upgradeProperty } from "../internal/base";
 
 const NUMBERS = ["value", "min", "max", "low", "high", "optimum"] as const;
@@ -8,7 +8,7 @@ const NUMBERS = ["value", "min", "max", "low", "high", "optimum"] as const;
  * adapter with identical classes: a track with a fill that shows a measured
  * value within a known range, such as disk usage or battery. Role,
  * `aria-value*` and the low, medium and high bands come from the headless
- * meter in `@design-system/core`. The fill is coloured by how good the value
+ * meter in `@invisible-ui/core`. The fill is coloured by how good the value
  * is, which `optimum` decides. For the completion of a task, use
  * `<ds-progress>`.
  *

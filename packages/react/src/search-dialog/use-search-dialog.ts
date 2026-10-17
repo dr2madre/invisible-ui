@@ -1,4 +1,4 @@
-import { combobox as core } from "@design-system/core";
+import { combobox as core } from "@invisible-ui/core";
 import { useId, useMemo, useState, type ChangeEvent } from "react";
 import { useDialog, type UseDialog } from "../dialog/use-dialog";
 import type { DialogNotices } from "../dialog/use-dialog-notices";
@@ -101,7 +101,7 @@ const resultsFor = (
  * The modal shell (native `<dialog>` + `showModal()`, scroll lock, Escape and
  * backdrop close, focus restore, the status area) comes from `useDialog`; the
  * search input and filtered results reuse the headless combobox
- * (`@design-system/core`), wired "always open" while the dialog is open.
+ * (`@invisible-ui/core`), wired "always open" while the dialog is open.
  * Choosing a result runs `onSelect` and closes. The list renders inline in
  * the dialog, so there is no popup to position.
  */

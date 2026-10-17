@@ -1,4 +1,4 @@
-import { numberField as core } from "@design-system/core";
+import { numberField as core } from "@invisible-ui/core";
 import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { useControlledDefault, useFormReset } from "../internal/form-reset";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";

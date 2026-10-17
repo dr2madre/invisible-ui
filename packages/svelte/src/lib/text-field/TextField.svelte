@@ -4,7 +4,7 @@
    * and accessibility (label association, `aria-describedby` for the hint,
    * error and success text, `aria-invalid` / `aria-required`) come from the
    * headless text field
-   * (`@design-system/core`); this layer adds the label, control, optional
+   * (`@invisible-ui/core`); this layer adds the label, control, optional
    * description and error message, and the focus / invalid styling.
    *
    * Covers the common single-line `type`s (text, search, email, password, tel,
@@ -14,7 +14,7 @@
    */
   import { untrack, type Snippet } from "svelte";
   import type { HTMLInputAttributes } from "svelte/elements";
-  import { textField as core } from "@design-system/core";
+  import { textField as core } from "@invisible-ui/core";
   import { createTextField } from "./create-text-field";
   import { formReset } from "../internal/form-reset";
   import { controllable } from "../internal/controllable.svelte";

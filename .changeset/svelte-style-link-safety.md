@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": patch
+"@invisible-ui/svelte": patch
 ---
 
 Consumer data can no longer add style declarations: a Carousel slide image is

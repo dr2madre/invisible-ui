@@ -1,4 +1,4 @@
-import { carousel as core } from "@design-system/core";
+import { carousel as core } from "@invisible-ui/core";
 import { useId, useMemo } from "react";
 import { useControllable } from "../internal/controllable";
 import { keyedByDirection, type Direction } from "../internal/roving";
@@ -25,7 +25,7 @@ export interface UseCarouselOptions {
  * Connect the headless carousel (WAI-ARIA carousel pattern) to React: a
  * labelled group of "N of M" slides with previous and next buttons,
  * slide-picker indicators, optional looping and arrow-key navigation. The
- * index math lives in `@design-system/core`. `index` is a controllable mirror
+ * index math lives in `@invisible-ui/core`. `index` is a controllable mirror
  * (ADR 0011), kept inside the slide count when the count shrinks; in
  * right-to-left text the left and right arrows follow the visual order.
  */

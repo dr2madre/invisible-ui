@@ -95,7 +95,7 @@ function ArrowGlyph({ d }: { d: string }) {
  *   `orientation="vertical"` to stack the flow top to bottom.
  *
  * Behaviour and accessibility come from the headless carousel in
- * `@design-system/core`: a labelled group of "N of M" slides, previous and
+ * `@invisible-ui/core`: a labelled group of "N of M" slides, previous and
  * next buttons, slide-picker dots, optional `loop`, and arrow-key
  * navigation. `index` is a controllable mirror (ADR 0011). Themed via
  * `--ds-carousel-*`.

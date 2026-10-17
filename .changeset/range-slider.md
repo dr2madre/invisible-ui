@@ -1,7 +1,7 @@
 ---
-"@design-system/svelte": minor
-"@design-system/vue": minor
-"@design-system/core": minor
+"@invisible-ui/svelte": minor
+"@invisible-ui/vue": minor
+"@invisible-ui/core": minor
 ---
 
 Range Slider: a two-thumb slider on two real range inputs, in core and both adapters.

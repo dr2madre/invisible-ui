@@ -1,5 +1,5 @@
 {
-  "name": "@design-system/example-svelte",
+  "name": "@invisible-ui/example-svelte",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,7 +8,7 @@
     "preview": "vite build && vite preview"
   },
   "dependencies": {
-    "@design-system/svelte": "workspace:*"
+    "@invisible-ui/svelte": "workspace:*"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.1.1",

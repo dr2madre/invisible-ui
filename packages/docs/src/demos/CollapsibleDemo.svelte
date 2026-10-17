@@ -1,5 +1,5 @@
 <script>
-  import Collapsible from "@design-system/svelte/Collapsible.svelte";
+  import Collapsible from "@invisible-ui/svelte/Collapsible.svelte";
 </script>
 
 <Collapsible>

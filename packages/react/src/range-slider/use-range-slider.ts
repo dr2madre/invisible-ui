@@ -1,4 +1,4 @@
-import { rangeSlider as core } from "@design-system/core";
+import { rangeSlider as core } from "@invisible-ui/core";
 import { useId, useMemo, useRef, type RefObject } from "react";
 import { useFormDefault, useResettable } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";

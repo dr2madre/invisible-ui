@@ -1,4 +1,4 @@
-import { combobox as core } from "@design-system/core";
+import { combobox as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createDialog, type CreateDialog } from "../dialog/create-dialog";
@@ -105,7 +105,7 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
  * Create a headless quick search — a combobox inside a modal dialog. The
  * modal shell (native `<dialog>` + `showModal()`, scroll lock, Escape /
  * backdrop close, focus restore) comes from {@link createDialog}; the search input + filtered results
- * reuse the headless combobox (`@design-system/core`) wired "always open" while
+ * reuse the headless combobox (`@invisible-ui/core`) wired "always open" while
  * the dialog is open. Choosing a command runs `onSelect` and closes. The list
  * is rendered inline in the dialog (no floating popup).
  */

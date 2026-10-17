@@ -1,9 +1,9 @@
 // End-to-end harness for the custom elements adapter, served by the same
 // Vite app as the Vue harness. Everything here is post-mount wiring: the
 // element upgrades from the declarative light-DOM markup.
-import "@design-system/elements/styles.css";
-import "@design-system/elements/define";
-import type { DsMultiSelect } from "@design-system/elements";
+import "@invisible-ui/elements/styles.css";
+import "@invisible-ui/elements/define";
+import type { DsMultiSelect } from "@invisible-ui/elements";
 
 const host = document.querySelector("ds-multi-select") as DsMultiSelect;
 const form = document.querySelector("form") as HTMLFormElement;

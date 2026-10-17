@@ -1,4 +1,4 @@
-import { accordion as core } from "@design-system/core";
+import { accordion as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createRootAction } from "../internal/connect";
@@ -48,7 +48,7 @@ const sameSet = (a: string[], b: string[]) =>
 /**
  * Create a headless accordion (WAI-ARIA accordion pattern) supporting single or
  * multiple expansion, with arrow-key movement between headers. Behaviour and
- * accessibility live in `@design-system/core`; this adapter wires state to a
+ * accessibility live in `@invisible-ui/core`; this adapter wires state to a
  * Svelte store, applies connected props via actions, and moves DOM focus.
  */
 export function createAccordion(context: AccordionContext): CreateAccordion {

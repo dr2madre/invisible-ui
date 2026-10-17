@@ -1,5 +1,5 @@
 <script>
-  import PromptDialog from "@design-system/svelte/PromptDialog.svelte";
+  import PromptDialog from "@invisible-ui/svelte/PromptDialog.svelte";
 
   const file = "report-q3.pdf";
   let renamed = $state("");

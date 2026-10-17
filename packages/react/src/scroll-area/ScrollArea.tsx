@@ -24,7 +24,7 @@ const OVERFLOW: Record<ScrollOrientation, CSSProperties> = {
 
 /**
  * ScrollArea: a scrollable viewport with overlay scrollbars. The scrollbar
- * geometry comes from the headless scroll area (`@design-system/core`);
+ * geometry comes from the headless scroll area (`@invisible-ui/core`);
  * `useScrollArea` measures the viewport and lets a thumb be dragged. Native
  * scrollbars are hidden, while keyboard and wheel scrolling stay native: the
  * viewport takes focus and scrolls with the arrow keys.

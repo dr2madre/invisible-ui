@@ -1,8 +1,8 @@
 ---
-"@design-system/react": minor
-"@design-system/elements": patch
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/react": minor
+"@invisible-ui/elements": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 The React adapter now carries the whole catalog. It adds `Textarea`, `Table`,

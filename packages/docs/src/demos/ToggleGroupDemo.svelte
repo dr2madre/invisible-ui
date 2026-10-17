@@ -1,6 +1,6 @@
 <script>
-  import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
-  import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
+  import ToggleGroup from "@invisible-ui/svelte/ToggleGroup.svelte";
+  import ToggleButton from "@invisible-ui/svelte/ToggleButton.svelte";
 
   // Each toggle is independent (its own on/off state). With three toggles the
   // group is one Tab stop with arrow keys; `label` names the container.

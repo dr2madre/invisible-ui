@@ -1,4 +1,4 @@
-import { scrollArea as core } from "@design-system/core";
+import { scrollArea as core } from "@invisible-ui/core";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 export type ScrollOrientation = core.ScrollOrientation;
@@ -43,7 +43,7 @@ const measured =
 
 /**
  * Connect the headless scroll area to React. The geometry math lives in
- * `@design-system/core`; the hook owns the DOM: it measures the viewport on
+ * `@invisible-ui/core`; the hook owns the DOM: it measures the viewport on
  * scroll and on resize (`ResizeObserver`) to size and place each thumb, and
  * maps a thumb drag back onto the viewport's native scroll. Hide the native
  * scrollbars in your styles; keyboard and wheel scrolling stay native.

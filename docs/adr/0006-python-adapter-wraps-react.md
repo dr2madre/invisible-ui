@@ -23,12 +23,12 @@ the field splits into two families:
 
 ## Decision
 
-The Python adapter is **Reflex wrappers over `@design-system/react`**
+The Python adapter is **Reflex wrappers over `@invisible-ui/react`**
 (`packages/reflex`, importable as `invisible_ui`). Each PoC component is an
 `rx.Component` subclass with typed vars mirroring the React props (snake_case →
 camelCase; `button_type` renamed to React's `type`) and `rx.EventHandler`
 triggers for the callbacks. Every wrapper imports
-`@design-system/react/styles.css`, so tokens and styling follow automatically.
+`@invisible-ui/react/styles.css`, so tokens and styling follow automatically.
 
 Nothing is re-implemented in Python — no second `connect()`, no duplicated
 behaviour. The wrappers' tests assert only the Python layer's job (right tag,
@@ -43,6 +43,6 @@ React package's own suite.
   If one is ever wanted, it is a new ADR, not an extension of this one.
 - The wrappers inherit React's release cadence: a React prop rename is a
   Python-visible change. The render tests catch the wiring half of that.
-- Until `@design-system/react` is published to npm, a consuming Reflex app must
+- Until `@invisible-ui/react` is published to npm, a consuming Reflex app must
   make the package resolvable itself (tarball via `npm pack`, local registry,
   or a workspace link) — documented in the package README.

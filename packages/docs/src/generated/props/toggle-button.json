@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "ToggleButton",
-        "specifier": "@design-system/svelte/ToggleButton.svelte"
+        "specifier": "@invisible-ui/svelte/ToggleButton.svelte"
       },
       "props": [
         {
@@ -79,7 +79,7 @@
       "import": {
         "kind": "named",
         "name": "ToggleButton",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -169,7 +169,7 @@
       "import": {
         "kind": "named",
         "name": "ToggleButton",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -251,7 +251,7 @@
       "import": {
         "kind": "element",
         "name": "ds-toggle-button",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

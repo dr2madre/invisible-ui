@@ -14,7 +14,7 @@
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
   import { localDate, type CalendarView, type WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
-  import { i18n } from "@design-system/core";
+  import { i18n } from "@invisible-ui/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
   import { formReset } from "../internal/form-reset";

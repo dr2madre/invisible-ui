@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * DatePicker — a date input that opens a `Calendar` in a popover. Composes the
-   * headless popover (`@design-system/core`, via `createPopover`) with the
+   * headless popover (`@invisible-ui/core`, via `createPopover`) with the
    * styled `Calendar`: the readonly field is the trigger (click / Enter / Space
    * to open), focus moves into the calendar, picking a day fills the field and
    * closes the popover, and Escape returns focus to the field.
@@ -15,7 +15,7 @@
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
   import { localDate, type WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
-  import { i18n } from "@design-system/core";
+  import { i18n } from "@invisible-ui/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
   import { formReset } from "../internal/form-reset";

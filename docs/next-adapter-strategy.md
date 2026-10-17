@@ -29,7 +29,7 @@ That single fact sorts every candidate:
 | HTMX / Rails Hotwire / Phoenix LiveView / Laravel Livewire | ✅ (server-sent HTML) | can't run `connect()` server-side, but can consume **custom elements** in their HTML |
 | Rust (Leptos, Dioxus) | ✅ (WASM → DOM) | interop possible; ecosystem young — watch list |
 | Rust (Tauri) | ✅ (webview) | **already covered today**: a Tauri app is a web frontend in a Rust shell — our existing adapters just work |
-| Streamlit (Python) | ✅ (its custom components are wrapped **React** components) | a component kit can reuse `@design-system/react`, same move as Reflex |
+| Streamlit (Python) | ✅ (its custom components are wrapped **React** components) | a component kit can reuse `@invisible-ui/react`, same move as Reflex |
 | **Flutter** | ❌ — paints its own pixels (Impeller/Skia), no DOM, no ARIA | behaviour adapters **impossible** for a DOM-based core. What *can* reach Flutter is the **tokens**: Style Dictionary already has Dart output on the roadmap (item 8) — the escape from the Material look is a theme, not behaviour |
 | COBOL / legacy backends | n/a (backend) | we never touch the backend; the play is being the easiest UI layer for **modernization frontends** (see below) |
 
@@ -109,10 +109,10 @@ React** — nobody is routed through them.
 
 | Target | Path | When |
 | --- | --- | --- |
-| **Vue** | native `@design-system/vue` adapter, complete catalog; custom elements remain an interop option | shipped after WC PoC |
+| **Vue** | native `@invisible-ui/vue` adapter, complete catalog; custom elements remain an interop option | shipped after WC PoC |
 | **Flutter** | tokens only: finish the Style Dictionary **Dart** output so a Flutter theme escapes Material with our design language | independent, small |
 | **Rust** | today: Tauri + existing adapters (document it). Watch Leptos/Dioxus; revisit at their 1.0 | watch list |
-| **Streamlit** | component kit wrapping `@design-system/react` (the Reflex move again) | small, on demand |
+| **Streamlit** | component kit wrapping `@invisible-ui/react` (the Reflex move again) | small, on demand |
 | **Solid / Qwik / Angular** | direct adapters; the core already proved it needs no changes | on demand |
 
 ## PoC plan — **shipped** (see ADR 0008)
@@ -123,7 +123,7 @@ habitat, and the three habitat pages in `examples/elements/`. Decisions
 (light DOM, self-contained dist, `<option>` children, `heading` naming) are
 recorded in `docs/adr/0008-web-components-adapter.md`.
 
-1. `packages/elements` (`@design-system/elements`): the **same six components
+1. `packages/elements` (`@invisible-ui/elements`): the **same six components
    as the React PoC** (Button, Checkbox, Switch, Select, Combobox, Dialog) as
    custom elements over the existing core — every integration shape is already
    understood, so the comparison is apples-to-apples.

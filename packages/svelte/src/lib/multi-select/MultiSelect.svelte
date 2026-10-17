@@ -3,7 +3,7 @@
    * MultiSelect — the styled multi-value picker: an editable, labelled input
    * that filters a multiselectable listbox, with the chosen values rendered as
    * removable tags in a labelled list. Behaviour, semantics and state live in
-   * `@design-system/core` (a sibling of Combobox: the two public contracts
+   * `@invisible-ui/core` (a sibling of Combobox: the two public contracts
    * stay separate); this layer adds the tag list, the popup styling and form
    * participation.
    *
@@ -21,7 +21,7 @@
    * Themeable via `--ds-multi-select-*`.
    */
   import { tick, untrack } from "svelte";
-  import { multiSelect as core } from "@design-system/core";
+  import { multiSelect as core } from "@invisible-ui/core";
   import Icon from "../icon/Icon.svelte";
   import Tag from "../tag/Tag.svelte";
   import { portal } from "../internal/portal";

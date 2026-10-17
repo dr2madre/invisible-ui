@@ -1,4 +1,4 @@
-import { i18n as core } from "@design-system/core";
+import { i18n as core } from "@invisible-ui/core";
 import { getContext, onMount, setContext } from "svelte";
 import { derived, readable, writable, type Readable } from "svelte/store";
 import { en, type MessageKey, type Messages } from "./messages";

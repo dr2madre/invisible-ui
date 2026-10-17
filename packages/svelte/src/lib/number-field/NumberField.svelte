@@ -3,12 +3,12 @@
    * NumberField — the styled, locale-aware decimal field. Behaviour and
    * accessibility (spinbutton semantics on a text input, locale parsing,
    * draft/value separation, stepping, commit boundaries) come from the
-   * headless number field (`@design-system/core`); this layer adds the label,
+   * headless number field (`@invisible-ui/core`); this layer adds the label,
    * spin buttons, optional description and error message, the hidden form
    * input, and the field styling. Themeable via `--ds-field-*`.
    */
   import { untrack } from "svelte";
-  import { numberField as core } from "@design-system/core";
+  import { numberField as core } from "@invisible-ui/core";
   import { getI18n } from "../i18n/create-i18n";
   import { createNumberField } from "./create-number-field";
   import { formReset } from "../internal/form-reset";

@@ -87,7 +87,7 @@ export default defineConfig({
       // Not `astro preview`: under an agent it turns itself into a background
       // daemon and exits, which reads here as the server having died. The
       // script serves in the foreground through Astro's own API.
-      command: `pnpm --filter @design-system/docs exec node scripts/serve.mjs --host 127.0.0.1 --port ${PORT}`,
+      command: `pnpm --filter @invisible-ui/docs exec node scripts/serve.mjs --host 127.0.0.1 --port ${PORT}`,
       url: BASE,
       // A server already on the port is reused only because the global setup
       // then checks whose build it serves.
@@ -97,7 +97,7 @@ export default defineConfig({
     {
       // Strict port: a busy port must fail here, never drift to another one
       // and leave the tests waiting for a URL that never answers.
-      command: `pnpm --filter @design-system/example-vue preview --host 127.0.0.1 --port ${VUE_PORT} --strictPort`,
+      command: `pnpm --filter @invisible-ui/example-vue preview --host 127.0.0.1 --port ${VUE_PORT} --strictPort`,
       url: VUE_BASE,
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,

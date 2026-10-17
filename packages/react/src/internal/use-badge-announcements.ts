@@ -1,4 +1,4 @@
-import { navigationBar } from "@design-system/core";
+import { navigationBar } from "@invisible-ui/core";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { hasOpenModal, onModalChange } from "./modal-stack";
 

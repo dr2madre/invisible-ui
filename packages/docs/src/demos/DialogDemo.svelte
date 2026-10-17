@@ -1,8 +1,8 @@
 <script>
-  import Dialog from "@design-system/svelte/Dialog.svelte";
-  import Button from "@design-system/svelte/Button.svelte";
-  import FeedbackIcon from "@design-system/svelte/FeedbackIcon.svelte";
-  import Icon from "@design-system/svelte/Icon.svelte";
+  import Dialog from "@invisible-ui/svelte/Dialog.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import FeedbackIcon from "@invisible-ui/svelte/FeedbackIcon.svelte";
+  import Icon from "@invisible-ui/svelte/Icon.svelte";
 </script>
 
 <Dialog title="Advanced options" description="Notifications set to all new posts" footerClose>

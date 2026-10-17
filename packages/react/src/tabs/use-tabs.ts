@@ -1,4 +1,4 @@
-import { tabs as core } from "@design-system/core";
+import { tabs as core } from "@invisible-ui/core";
 import { useCallback, useId, useMemo } from "react";
 import { useControllable } from "../internal/controllable";
 import { keyedByDirection, type Direction } from "../internal/roving";

@@ -45,7 +45,7 @@ type ModeProps = Required<
  *
  * - **`trigger="click"`** (default): a Button opens it intentionally.
  *   Behaviour and accessibility (`aria-haspopup` and `aria-expanded` wiring,
- *   Escape to close) come from the headless popover (`@design-system/core`);
+ *   Escape to close) come from the headless popover (`@invisible-ui/core`);
  *   the adapter adds Floating UI positioning, closing on an outside press or
  *   when focus leaves, and focus management (into the panel on open, back to
  *   the trigger after Escape).

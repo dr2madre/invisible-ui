@@ -1,4 +1,4 @@
-import { collapsible as core } from "@design-system/core";
+import { collapsible as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { localized, onLocaleChange } from "../internal/i18n";
 import { disclosureIcon } from "../internal/icons";
@@ -7,7 +7,7 @@ import { disclosureIcon } from "../internal/icons";
  * `<ds-collapsible>` — a single-item disclosure (WAI-ARIA disclosure
  * pattern), ported from the Svelte adapter with identical classes: one
  * trigger button that shows and hides one content region. Behaviour and
- * accessibility come from the headless collapsible in `@design-system/core`.
+ * accessibility come from the headless collapsible in `@invisible-ui/core`.
  *
  * The children are the content. A child with `slot="trigger"` becomes the
  * trigger's content in place of `label`.

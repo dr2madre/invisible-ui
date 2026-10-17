@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": minor
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 Add Tabs with count support and the standalone Count component to the Elements

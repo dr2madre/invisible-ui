@@ -1,24 +1,24 @@
-# @design-system/elements
+# @invisible-ui/elements
 
 Web Components adapter over the framework-agnostic
-[`@design-system/core`](../../core): framework-free custom elements for
+[`@invisible-ui/core`](../../core): framework-free custom elements for
 contexts **without** a framework — plain HTML pages, server-driven stacks
 (HTMX, LiveView, Hotwire, Livewire) and legacy portals. Framework users should
-prefer their native adapter (`@design-system/svelte`, `@design-system/react`).
+prefer their native adapter (`@invisible-ui/svelte`, `@invisible-ui/react`).
 
 **Status: full catalog** (ADR 0008). The package carries all 81 components in
 the catalog, each as a `ds-*` element. `ds-locale-provider` carries locale,
 message overrides and direction for the elements inside it.
 
 Both JavaScript entrypoints are safe to import during SSR. The server emits
-declarative `<ds-*>` light-DOM markup; when `@design-system/elements/define`
+declarative `<ds-*>` light-DOM markup; when `@invisible-ui/elements/define`
 loads in the browser, the elements upgrade that existing content in place.
 
 ## Usage — no build step required
 
 ```html
-<link rel="stylesheet" href=".../@design-system/elements/styles.css" />
-<script type="module" src=".../@design-system/elements/define.js"></script>
+<link rel="stylesheet" href=".../@invisible-ui/elements/styles.css" />
+<script type="module" src=".../@invisible-ui/elements/define.js"></script>
 
 <ds-button variant="primary">Save</ds-button>
 
@@ -34,11 +34,11 @@ loads in the browser, the elements upgrade that existing content in place.
 
 `define.js` is **self-contained** (core and Floating UI bundled), so a script
 tag is genuinely enough. In a bundled app, import selectively instead: the
-package entry leaves `@design-system/core` and `@floating-ui/dom` to your
+package entry leaves `@invisible-ui/core` and `@floating-ui/dom` to your
 bundler, so the page ships only the primitives its elements use.
 
 ```js
-import { DsButton } from "@design-system/elements";
+import { DsButton } from "@invisible-ui/elements";
 customElements.define("ds-button", DsButton);
 ```
 
@@ -97,5 +97,5 @@ the stylesheets byte-identical to the React adapter's, and to the Vue
 adapter's where React has no counterpart:
 
 ```sh
-pnpm --filter @design-system/elements test
+pnpm --filter @invisible-ui/elements test
 ```

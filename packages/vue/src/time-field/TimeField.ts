@@ -1,4 +1,4 @@
-import { i18n as coreI18n } from "@design-system/core";
+import { i18n as coreI18n } from "@invisible-ui/core";
 import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import {
@@ -39,7 +39,7 @@ export interface TimeFieldProps {
 /**
  * TimeField: the styled segmented time input (hour : minute [: second]
  * [AM/PM]). Each segment is a `role="spinbutton"` driven by the headless time
- * field (`@design-system/core`): ArrowUp/Down increment and decrement with
+ * field (`@invisible-ui/core`): ArrowUp/Down increment and decrement with
  * wrapping, Left/Right move between segments, digits type with auto-advance,
  * Backspace clears, and A/P set the period in 12-hour mode. The value is the
  * canonical 24-hour string (`HH:mm` or `HH:mm:ss`) and binds two ways:

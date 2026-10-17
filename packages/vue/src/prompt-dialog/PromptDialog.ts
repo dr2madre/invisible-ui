@@ -64,7 +64,7 @@ export interface PromptDialogProps {
  * PromptDialog: a styled modal that asks the user for a single value, the
  * accessible equivalent of `window.prompt()` (a platform "simple dialog", per
  * ADR 0005): everything ConfirmDialog has, plus an input. It reuses the
- * headless dialog (`@design-system/core`) and the shared modal composable
+ * headless dialog (`@invisible-ui/core`) and the shared modal composable
  * (`useDialog`): native `<dialog>` + `showModal()`, scroll lock. The text
  * input is focused on open. The value is optional by default; `required`
  * makes it mandatory, `confirmValue` turns it into a type-to-confirm gate,

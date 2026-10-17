@@ -1,4 +1,4 @@
-import { timeField as core } from "@design-system/core";
+import { timeField as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createRootAction } from "../internal/connect";
@@ -44,7 +44,7 @@ export interface CreateTimeField {
 
 /**
  * Create a headless time field (segmented spinbutton). Behaviour and the
- * digit-entry/keyboard logic live in `@design-system/core`; this adapter wires
+ * digit-entry/keyboard logic live in `@invisible-ui/core`; this adapter wires
  * state to a Svelte store, applies connected props via actions, moves DOM focus
  * between segments, and emits `onValueChange` when the formatted value changes.
  */

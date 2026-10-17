@@ -1,4 +1,4 @@
-import { stepper as core } from "@design-system/core";
+import { stepper as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createPropsAction, createRootAction } from "../internal/connect";
@@ -38,7 +38,7 @@ export interface CreateStepper {
  * Create a headless stepper: ordered progress through a sequence of steps with
  * `next`/`prev`/`goTo`, linear gating, and the conventional accessible markup
  * (a labelled `<nav>` + `<ol>`, current step `aria-current="step"`). The status
- * and reachability logic live in `@design-system/core`; this adapter wires state
+ * and reachability logic live in `@invisible-ui/core`; this adapter wires state
  * to Svelte stores and applies the connected props via actions.
  */
 export function createStepper(context: StepperContext): CreateStepper {

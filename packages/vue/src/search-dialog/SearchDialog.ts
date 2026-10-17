@@ -68,7 +68,7 @@ interface Section {
  * Ported from the Svelte adapter. The modal shell (native `<dialog>` plus
  * `showModal()`, scroll lock, Escape and backdrop close, focus restore) and the
  * search/filter/keyboard behaviour come from the headless dialog and combobox
- * (`@design-system/core`); this is the styled wrapper. A visually-hidden
+ * (`@invisible-ui/core`); this is the styled wrapper. A visually-hidden
  * `role="status"` region announces the filtered result count to screen readers.
  *
  * Pass `items` (`{ value, label?, disabled? }`); `onSelect(value)` runs when a

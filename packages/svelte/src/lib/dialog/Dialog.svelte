@@ -3,7 +3,7 @@
    * Dialog — a styled modal window (WAI-ARIA dialog pattern). Behaviour and
    * accessibility (open/close, `role="dialog"` + `aria-modal`, labelling via the
    * title, Escape to close) come from the headless dialog
-   * (`@design-system/core`); this adapter adds the modal DOM concerns on the
+   * (`@invisible-ui/core`); this adapter adds the modal DOM concerns on the
    * native `<dialog>` element (`showModal()`: top layer, inert background,
    * `::backdrop`), plus body scroll lock, backdrop light-dismiss and focus
    * management (focus moves into the panel on open and returns to the trigger

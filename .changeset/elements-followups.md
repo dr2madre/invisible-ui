@@ -1,5 +1,5 @@
 ---
-"@design-system/elements": patch
+"@invisible-ui/elements": patch
 ---
 
 A disabled `<ds-dropdown-menu>` now looks disabled. `<ds-login-form>` names

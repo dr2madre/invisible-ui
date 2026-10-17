@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Sidebar",
-        "specifier": "@design-system/svelte/Sidebar.svelte"
+        "specifier": "@invisible-ui/svelte/Sidebar.svelte"
       },
       "props": [
         {
@@ -167,7 +167,7 @@
       "import": {
         "kind": "named",
         "name": "Sidebar",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -310,7 +310,7 @@
       "import": {
         "kind": "named",
         "name": "Sidebar",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -472,7 +472,7 @@
       "import": {
         "kind": "element",
         "name": "ds-sidebar",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

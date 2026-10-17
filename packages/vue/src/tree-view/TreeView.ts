@@ -55,7 +55,7 @@ const CheckGlyph = () =>
  * TreeView — the styled tree (WAI-ARIA tree pattern): expand/collapse, roving
  * tabindex and full arrow-key navigation. Ported from the Svelte adapter;
  * behaviour and accessibility come from the headless tree in
- * `@design-system/core`.
+ * `@invisible-ui/core`.
  *
  * Selection is single: one node at most is selected, and selecting another
  * replaces it. Left and Right follow the reading direction, so in
