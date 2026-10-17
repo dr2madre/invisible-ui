@@ -28,7 +28,7 @@ gets the same theme from the same file:
 | Group | Holds | Becomes in `tokens.css` |
 | --- | --- | --- |
 | `radius` | Corner radii by shape role. | `radius.control` is `--ds-radius-control` |
-| `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection, the dialog overlay. | `role.dark.color-text` is `--ds-color-text` in the dark theme, `role.dark.dialog-overlay` is `--ds-dialog-overlay` |
+| `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection, the dialog overlay, the code block surface. | `role.dark.color-text` is `--ds-color-text` in the dark theme, `role.dark.dialog-overlay` is `--ds-dialog-overlay` |
 | `focus` | Focus ring width, offset and halo width. | `focus.ring-width` is `--ds-focus-ring-width` |
 | `typography` | Line heights, heading weight, heading sizes. | `typography.font-size-h1` is `--ds-font-size-h1` |
 | `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size`, `density.touch.min-target-size` is `--ds-min-target-size-touch` |
@@ -107,12 +107,12 @@ checks the result against `$value` and against `tokens.css`.
 Solid Tag and Count put a text label on a status fill, so the pair is a text
 pair: 4.5:1 (WCAG 1.4.3). White on the info, success, danger and neutral
 colours clears it. The warning colour, `#c96422`, gives the dark
-`color-on-warning` 3.9:1 only, and no palette colour reaches 4.5:1 on it. So
+`color-on-warning` 3.8:1 only, and no palette colour reaches 4.5:1 on it. So
 the warning label has its own fill, `color-warning-label-surface`: the
 warning colour mixed 85% with white, `#d17b43`, on which `color-on-warning`
-measures 4.86:1 in both themes. The warning colour stays as it is for
+measures 4.71:1 in both themes. The warning colour stays as it is for
 glyphs, dots and meter fills, which need 3:1. Without `color-mix()` the fill
-falls back to `--ds-neutral-100` (11.75:1), and the label's text still names
+falls back to `--ds-neutral-100` (11.32:1), and the label's text still names
 the status.
 
 ## Dialog overlay
@@ -125,8 +125,8 @@ its `::backdrop`, and `InvisibleThemeData.dialogOverlay` in Flutter.
 
 | Theme | Overlay | Dimmed page | Dialog surface against the dimmed page | Dialog border against the dimmed page |
 | --- | --- | --- | --- | --- |
-| Light | `rgb(28 25 21 / 0.5)` | `#8e8c8a` | 3.35:1 | 1.87:1 |
-| Dark | `rgb(0 0 0 / 0.6)` | `#100e0d` | 1.25:1 | 1.76:1 |
+| Light | `rgb(27 27 27 / 0.5)` | `#8d8d8d` | 3.32:1 | 1.77:1 |
+| Dark | `rgb(0 0 0 / 0.6)` | `#101010` | 1.27:1 | 1.86:1 |
 
 The dimmed page is the page background with the overlay on top; the dialog
 surface is `color-background` and its border `color-border`. Before the
@@ -147,11 +147,11 @@ destination, and the icon stays readable on it.
 
 | Theme | Recipe | Value | Against `color-surface` | Against `color-text` |
 | --- | --- | --- | --- | --- |
-| Light | `color-secondary` 90% with `neutral-0` | `#8763d1` | 3.38:1 | 3.47:1 |
-| Dark | `color-secondary` 75% with `neutral-50` | `#997ad5` | 3.17:1 | 3.08:1 |
+| Light | `color-secondary` 90% with `neutral-0` | `#8763d1` | 3.36:1 | 3.37:1 |
+| Dark | `color-secondary` 74% with `neutral-50` | `#9a7cd7` | 3.03:1 | 3.09:1 |
 
-Without `color-mix()` the light theme falls back to `neutral-400` (3.75:1 and
-3.13:1) and the dark theme to `neutral-300`, which keeps the shape at 4.30:1
+Without `color-mix()` the light theme falls back to `neutral-400` (3.49:1 and
+3.24:1) and the dark theme to `neutral-300`, which keeps the shape at 3.81:1
 against the surface. The bar's other colours are component tokens that fall
 back to existing roles; width, radius, shadow and position are the
 application's and have no token.
@@ -168,11 +168,29 @@ contrast against the plain cell; the text drawn on it needs 4.5:1.
 
 | Theme | Value | `color-text` | `color-text-secondary` | `color-danger-text` |
 | --- | --- | --- | --- | --- |
-| Light | `neutral-50`, `#f4f2ef` | 13.78:1 | 7.59:1 | 7.81:1 |
-| Dark | `neutral-800`, `#332f2a` | 11.89:1 | 7.43:1 | 5.78:1 |
+| Light | `neutral-50`, `#f5f5f5` | 13.70:1 | 7.28:1 | 7.87:1 |
+| Dark | `neutral-800`, `#323232` | 11.76:1 | 6.82:1 | 5.69:1 |
 
 An application that styles its own variants apart, such as holidays and
 weekends, maps them onto this role in its theme.
+
+## Code block surface
+
+`code-block-surface` is the surface of a code block. It is a role of each
+theme, `--ds-code-block-surface` in the stylesheet, which every code block
+sheet reads for its background, and `InvisibleColors.codeBlockSurface` in
+Flutter. The light theme takes the lightest grey, the dark theme the darkest
+grey short of black. The block's border, `color-border`, draws its edge
+against the page.
+
+| Theme | Value | `color-text` | Focus ring | Header border | Surface against the page |
+| --- | --- | --- | --- | --- | --- |
+| Light | `neutral-50`, `#f5f5f5` | 13.70:1 | 3.67:1 | 1.72:1 | 1.09:1 |
+| Dark | `neutral-950`, `#1b1b1b` | 15.80:1 | 5.72:1 | 1.69:1 | 1.15:1 |
+
+The copy button keeps its text above 11:1 at rest and on hover in both
+themes. The header border and the edge against the page separate parts of
+one block and carry no meaning, so WCAG 1.4.11 sets them no minimum.
 
 ## Naming grammar
 

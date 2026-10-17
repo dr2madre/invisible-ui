@@ -65,11 +65,11 @@
         "elements"
       ],
       "resolved": {
-        "light": "#1c1915",
-        "dark": "#1c1915"
+        "light": "#1b1b1b",
+        "dark": "#1b1b1b"
       },
       "hasAlpha": false,
-      "purpose": "darkest UI point — warm grey 950",
+      "purpose": "darkest UI point — grey 950",
       "group": "1) Brand — customize first. White text sits on these, so keep them dark enough for 4.5:1 when used as button fills.",
       "stability": "alpha",
       "replacedBy": null
@@ -265,6 +265,44 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-code-block-surface",
+      "id": "code-block-surface",
+      "tier": "other",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 316,
+        "dtcg": "role.light.code-block-surface"
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-50)",
+        "darkMedia": "var(--ds-neutral-950)",
+        "darkAttr": "var(--ds-neutral-950)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-50"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f5f5f5",
+        "dark": "#1b1b1b"
+      },
+      "hasAlpha": false,
+      "purpose": "The surface of a code block, per theme (role.light.code-block-surface and role.dark.code-block-surface in the design source): the lightest grey in the light theme, the darkest grey short of black in the dark theme. The text keeps 4.5:1 on it; the border draws its edge against the page.",
+      "group": "The surface of a code block (the code-block-surface role): the lightest grey here, the darkest short of black in the dark theme.",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-color-background",
       "id": "color-background",
       "tier": "semantic",
@@ -294,7 +332,7 @@
       ],
       "resolved": {
         "light": "#ffffff",
-        "dark": "#282420"
+        "dark": "#272727"
       },
       "hasAlpha": false,
       "purpose": "The page behind everything. Nothing is painted under it.",
@@ -331,8 +369,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#c7c1b7",
-        "dark": "#413c36"
+        "light": "#bdbdbd",
+        "dark": "#414141"
       },
       "hasAlpha": false,
       "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The edge that identifies a control is --ds-color-control-border.",
@@ -369,8 +407,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#757067",
-        "dark": "#a8a297"
+        "light": "#757575",
+        "dark": "#9e9e9e"
       },
       "hasAlpha": false,
       "purpose": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It reaches 3:1 on the page and on a surface; the generic border stays the quieter line between areas.",
@@ -449,7 +487,7 @@
       ],
       "resolved": {
         "light": "#be3b50",
-        "dark": "#da9aa3"
+        "dark": "#db9ca6"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -485,7 +523,7 @@
       ],
       "resolved": {
         "light": "#ecc4cb",
-        "dark": "#6c2e36"
+        "dark": "#6b3039"
       },
       "hasAlpha": false,
       "purpose": "The edge of the tinted danger surface.",
@@ -560,7 +598,7 @@
       ],
       "resolved": {
         "light": "#faeff1",
-        "dark": "#49292b"
+        "dark": "#482b30"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -595,8 +633,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#7f313c",
-        "dark": "#da9aa3"
+        "light": "#7f333f",
+        "dark": "#db9ca6"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -632,7 +670,7 @@
       ],
       "resolved": {
         "light": "#f9ebee",
-        "dark": "#432829"
+        "dark": "#422b2e"
       },
       "hasAlpha": false,
       "purpose": "The destructive action's fill: the danger button. Distinct from the danger status tint, which sits under a message rather than an action.",
@@ -669,8 +707,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#c7c1b7",
-        "dark": "#332f2a"
+        "light": "#bdbdbd",
+        "dark": "#323232"
       },
       "hasAlpha": false,
       "purpose": "The fill of a control that cannot be used right now.",
@@ -707,8 +745,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#413c36",
-        "dark": "#a8a297"
+        "light": "#414141",
+        "dark": "#9e9e9e"
       },
       "hasAlpha": false,
       "purpose": "The edge of the emphasis area.",
@@ -745,8 +783,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#332f2a",
-        "dark": "#e6e0d8"
+        "light": "#323232",
+        "dark": "#e0e0e0"
       },
       "hasAlpha": false,
       "purpose": "An area that should stand out from the page around it, such as a tooltip or an inverted panel.",
@@ -893,7 +931,7 @@
       ],
       "resolved": {
         "light": "#c6d1e9",
-        "dark": "#334264"
+        "dark": "#324467"
       },
       "hasAlpha": false,
       "purpose": "The edge of the tinted information surface.",
@@ -929,7 +967,7 @@
       ],
       "resolved": {
         "light": "#f0f3f9",
-        "dark": "#2d3341"
+        "dark": "#2d3546"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -964,8 +1002,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#344468",
-        "dark": "#a8b8d7"
+        "light": "#33466c",
+        "dark": "#a9b9db"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -1002,8 +1040,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#5e5951",
-        "dark": "#5e5951"
+        "light": "#616161",
+        "dark": "#616161"
       },
       "hasAlpha": false,
       "purpose": "The colour of a message that carries no status at all.",
@@ -1040,8 +1078,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#c7c1b7",
-        "dark": "#413c36"
+        "light": "#bdbdbd",
+        "dark": "#414141"
       },
       "hasAlpha": false,
       "purpose": "The edge that goes with the quiet neutral fill.",
@@ -1078,8 +1116,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#f4f2ef",
-        "dark": "#332f2a"
+        "light": "#f5f5f5",
+        "dark": "#323232"
       },
       "hasAlpha": false,
       "purpose": "The quiet fill of a control or chip that carries no status: a plain tag, a default button.",
@@ -1116,8 +1154,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#413c36",
-        "dark": "#c7c1b7"
+        "light": "#414141",
+        "dark": "#bdbdbd"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -1193,8 +1231,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#f4f2ef",
-        "dark": "#282420"
+        "light": "#f5f5f5",
+        "dark": "#272727"
       },
       "hasAlpha": false,
       "purpose": "Text and icons drawn on the emphasis area.",
@@ -1424,8 +1462,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#282420",
-        "dark": "#282420"
+        "light": "#272727",
+        "dark": "#272727"
       },
       "hasAlpha": false,
       "purpose": "Text drawn on the warning label fill (solid Tag, Count). It is dark, because the light warning colour cannot carry white text.",
@@ -1582,7 +1620,7 @@
       ],
       "resolved": {
         "light": "#7a52cc",
-        "dark": "#a88fd9"
+        "dark": "#a990dc"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -1657,7 +1695,7 @@
       ],
       "resolved": {
         "light": "#ebe5f7",
-        "dark": "#342b3a"
+        "dark": "#332d40"
       },
       "hasAlpha": false,
       "purpose": "The secondary action's fill: the quiet tint the secondary button paints.",
@@ -1732,8 +1770,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#553d7f",
-        "dark": "#a88fd9"
+        "light": "#553f82",
+        "dark": "#a990dc"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -1812,7 +1850,7 @@
       ],
       "resolved": {
         "light": "#3e7523",
-        "dark": "#99b489"
+        "dark": "#9ab58c"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -1848,7 +1886,7 @@
       ],
       "resolved": {
         "light": "#c5d6bd",
-        "dark": "#324821"
+        "dark": "#314a25"
       },
       "hasAlpha": false,
       "purpose": "The edge of the tinted success surface.",
@@ -1884,7 +1922,7 @@
       ],
       "resolved": {
         "light": "#f0f4ed",
-        "dark": "#2d3621"
+        "dark": "#2c3826"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -1919,8 +1957,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#334e22",
-        "dark": "#99b489"
+        "light": "#335025",
+        "dark": "#9ab58c"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -1957,8 +1995,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#e6e0d8",
-        "dark": "#413c36"
+        "light": "#e0e0e0",
+        "dark": "#414141"
       },
       "hasAlpha": false,
       "purpose": "Anything that sits on the page as its own area: cards, panels, menus, the inside of a field.",
@@ -1995,8 +2033,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#c7c1b7",
-        "dark": "#524c44"
+        "light": "#bdbdbd",
+        "dark": "#515151"
       },
       "hasAlpha": false,
       "purpose": "The opaque hover counterpart of --ds-color-surface. It replaces that resting fill on an interactive surface such as a clickable card or panel. Controls, actions, options and rows use --ds-state-hover instead.",
@@ -2033,8 +2071,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#282420",
-        "dark": "#f4f2ef"
+        "light": "#272727",
+        "dark": "#f5f5f5"
       },
       "hasAlpha": false,
       "purpose": "Ordinary reading text on background or surface.",
@@ -2071,8 +2109,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#757067",
-        "dark": "#524c44"
+        "light": "#757575",
+        "dark": "#515151"
       },
       "hasAlpha": false,
       "purpose": "The text of a control that cannot be used right now. It is exempt from the contrast minimum, so never carry meaning by this colour alone.",
@@ -2109,8 +2147,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#524c44",
-        "dark": "#c7c1b7"
+        "light": "#515151",
+        "dark": "#bdbdbd"
       },
       "hasAlpha": false,
       "purpose": "Text that supports the main text: hints, captions, units. Still has to reach 4.5:1.",
@@ -2185,7 +2223,7 @@
       ],
       "resolved": {
         "light": "#efd1bd",
-        "dark": "#704121"
+        "dark": "#704225"
       },
       "hasAlpha": false,
       "purpose": "The edge of the tinted warning surface.",
@@ -2224,8 +2262,8 @@
         "dark": "#d17b43"
       },
       "hasAlpha": false,
-      "purpose": "The fill behind a text label with the warning status: the solid Tag and the Count. The warning colour gives dark text 3.9:1 only; this fill gives it 4.5:1 or more. Glyphs, dots and meter fills keep the warning colour.",
-      "group": "The fill behind a text label with the warning status (solid Tag, Count). The warning colour itself gives its dark text 3.9:1 only; this mix gives it 4.9:1, and the warning colour stays as it is everywhere else.",
+      "purpose": "The fill behind a text label with the warning status: the solid Tag and the Count. The warning colour gives dark text 3.8:1 only; this fill gives it 4.5:1 or more. Glyphs, dots and meter fills keep the warning colour.",
+      "group": "The fill behind a text label with the warning status (solid Tag, Count). The warning colour itself gives its dark text 3.8:1 only; this mix gives it 4.7:1, and the warning colour stays as it is everywhere else.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -2257,7 +2295,7 @@
       ],
       "resolved": {
         "light": "#fbf3ed",
-        "dark": "#4b3220"
+        "dark": "#4b3426"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -2292,8 +2330,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#6c3f21",
-        "dark": "#dba078"
+        "light": "#6b4125",
+        "dark": "#dba17b"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -2386,7 +2424,7 @@
         "dtcg": "role.light.dialog-overlay"
       },
       "expressions": {
-        "light": "rgb(28 25 21 / 0.5)",
+        "light": "rgb(27 27 27 / 0.5)",
         "darkMedia": "rgb(0 0 0 / 0.6)",
         "darkAttr": "rgb(0 0 0 / 0.6)",
         "fallbackLight": null,
@@ -2400,7 +2438,7 @@
         "elements"
       ],
       "resolved": {
-        "light": "#1c1915 at 50% alpha",
+        "light": "#1b1b1b at 50% alpha",
         "dark": "#000000 at 60% alpha"
       },
       "hasAlpha": true,
@@ -3132,8 +3170,8 @@
         "elements"
       ],
       "resolved": {
-        "light": "#f4f2ef",
-        "dark": "#332f2a"
+        "light": "#f5f5f5",
+        "dark": "#323232"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -3335,8 +3373,8 @@
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-color-secondary) 90%, var(--ds-neutral-0) )",
-        "darkMedia": "color-mix( in srgb, var(--ds-color-secondary) 75%, var(--ds-neutral-50) )",
-        "darkAttr": "color-mix( in srgb, var(--ds-color-secondary) 75%, var(--ds-neutral-50) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-color-secondary) 74%, var(--ds-neutral-50) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-color-secondary) 74%, var(--ds-neutral-50) )",
         "fallbackLight": "var(--ds-neutral-400)",
         "fallbackDark": "var(--ds-neutral-300)"
       },
@@ -3349,7 +3387,7 @@
       ],
       "resolved": {
         "light": "#8763d1",
-        "dark": "#997ad5"
+        "dark": "#9a7cd7"
       },
       "hasAlpha": false,
       "purpose": null,
@@ -3389,7 +3427,7 @@
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3406,7 +3444,7 @@
         "dtcg": "palette.grey.100"
       },
       "expressions": {
-        "light": "#e6e0d8",
+        "light": "#e0e0e0",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3420,12 +3458,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#e6e0d8",
-        "dark": "#e6e0d8"
+        "light": "#e0e0e0",
+        "dark": "#e0e0e0"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3442,7 +3480,7 @@
         "dtcg": "palette.grey.200"
       },
       "expressions": {
-        "light": "#c7c1b7",
+        "light": "#bdbdbd",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3456,12 +3494,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#c7c1b7",
-        "dark": "#c7c1b7"
+        "light": "#bdbdbd",
+        "dark": "#bdbdbd"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3478,7 +3516,7 @@
         "dtcg": "palette.grey.300"
       },
       "expressions": {
-        "light": "#a8a297",
+        "light": "#9e9e9e",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3492,12 +3530,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#a8a297",
-        "dark": "#a8a297"
+        "light": "#9e9e9e",
+        "dark": "#9e9e9e"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3514,7 +3552,7 @@
         "dtcg": "palette.grey.400"
       },
       "expressions": {
-        "light": "#757067",
+        "light": "#757575",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3528,12 +3566,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#757067",
-        "dark": "#757067"
+        "light": "#757575",
+        "dark": "#757575"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3550,7 +3588,7 @@
         "dtcg": "palette.grey.50"
       },
       "expressions": {
-        "light": "#f4f2ef",
+        "light": "#f5f5f5",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3564,12 +3602,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#f4f2ef",
-        "dark": "#f4f2ef"
+        "light": "#f5f5f5",
+        "dark": "#f5f5f5"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3586,7 +3624,7 @@
         "dtcg": "palette.grey.500"
       },
       "expressions": {
-        "light": "#5e5951",
+        "light": "#616161",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3600,12 +3638,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#5e5951",
-        "dark": "#5e5951"
+        "light": "#616161",
+        "dark": "#616161"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3622,7 +3660,7 @@
         "dtcg": "palette.grey.600"
       },
       "expressions": {
-        "light": "#524c44",
+        "light": "#515151",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3636,12 +3674,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#524c44",
-        "dark": "#524c44"
+        "light": "#515151",
+        "dark": "#515151"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3658,7 +3696,7 @@
         "dtcg": "palette.grey.700"
       },
       "expressions": {
-        "light": "#413c36",
+        "light": "#414141",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3672,12 +3710,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#413c36",
-        "dark": "#413c36"
+        "light": "#414141",
+        "dark": "#414141"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3694,7 +3732,7 @@
         "dtcg": "palette.grey.800"
       },
       "expressions": {
-        "light": "#332f2a",
+        "light": "#323232",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3708,12 +3746,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#332f2a",
-        "dark": "#332f2a"
+        "light": "#323232",
+        "dark": "#323232"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3730,7 +3768,7 @@
         "dtcg": "palette.grey.900"
       },
       "expressions": {
-        "light": "#282420",
+        "light": "#272727",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3744,12 +3782,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#282420",
-        "dark": "#282420"
+        "light": "#272727",
+        "dark": "#272727"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -3766,7 +3804,7 @@
         "dtcg": "palette.grey.950"
       },
       "expressions": {
-        "light": "#1c1915",
+        "light": "#1b1b1b",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -3780,12 +3818,12 @@
         "elements"
       ],
       "resolved": {
-        "light": "#1c1915",
-        "dark": "#1c1915"
+        "light": "#1b1b1b",
+        "dark": "#1b1b1b"
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "group": "3) Neutrals (UI) — the palette's \"Grey\" 0–950 ramp.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -4755,7 +4793,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
+        "var(--ds-color-surface, #e0e0e0)"
       ],
       "parents": [
         "--ds-color-surface"
@@ -4766,28 +4804,28 @@
           "file": "packages/elements/src/styles/avatar.css",
           "selector": ".avatar",
           "property": "background-color",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/avatar.css",
           "selector": ".avatar",
           "property": "background-color",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar/Avatar.svelte",
           "selector": ".avatar",
           "property": "background-color",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/avatar.css",
           "selector": ".avatar",
           "property": "background-color",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         }
       ],
       "purpose": null,
@@ -4815,7 +4853,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -4826,28 +4864,28 @@
           "file": "packages/elements/src/styles/avatar.css",
           "selector": ".avatar",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/avatar.css",
           "selector": ".avatar",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar/Avatar.svelte",
           "selector": ".avatar",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/avatar.css",
           "selector": ".avatar",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -4875,7 +4913,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)"
+        "var(--ds-color-neutral-surface, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-neutral-surface"
@@ -4886,28 +4924,28 @@
           "file": "packages/elements/src/styles/avatar-group.css",
           "selector": ".avatar-group__overflow",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/avatar-group.css",
           "selector": ".avatar-group__overflow",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar-group/AvatarGroup.svelte",
           "selector": ".avatar-group__overflow",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/avatar-group.css",
           "selector": ".avatar-group__overflow",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -4935,7 +4973,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -4946,28 +4984,28 @@
           "file": "packages/elements/src/styles/avatar-group.css",
           "selector": ".avatar-group__overflow",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/avatar-group.css",
           "selector": ".avatar-group__overflow",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar-group/AvatarGroup.svelte",
           "selector": ".avatar-group__overflow",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/avatar-group.css",
           "selector": ".avatar-group__overflow",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -5686,7 +5724,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-neutral-400, #757067)"
+        "var(--ds-neutral-400, #757575)"
       ],
       "parents": [
         "--ds-neutral-400"
@@ -5697,28 +5735,28 @@
           "file": "packages/elements/src/styles/blockquote.css",
           "selector": ".blockquote",
           "property": "border-inline-start",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/blockquote.css",
           "selector": ".blockquote",
           "property": "border-inline-start",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
           "selector": ".blockquote",
           "property": "border-inline-start",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/blockquote.css",
           "selector": ".blockquote",
           "property": "border-inline-start",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         }
       ],
       "purpose": null,
@@ -5804,7 +5842,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -5815,28 +5853,28 @@
           "file": "packages/elements/src/styles/blockquote.css",
           "selector": ".blockquote__cite",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/blockquote.css",
           "selector": ".blockquote__cite",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
           "selector": ".blockquote__cite",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/blockquote.css",
           "selector": ".blockquote__cite",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -5980,7 +6018,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -5991,28 +6029,28 @@
           "file": "packages/elements/src/styles/blockquote.css",
           "selector": ".blockquote",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/blockquote.css",
           "selector": ".blockquote",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
           "selector": ".blockquote",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/blockquote.css",
           "selector": ".blockquote",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -6040,7 +6078,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -6051,28 +6089,28 @@
           "file": "packages/elements/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__current",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__current",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
           "selector": ".breadcrumb__current",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__current",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -6364,7 +6402,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -6375,28 +6413,28 @@
           "file": "packages/elements/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
           "selector": ".breadcrumb__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -6484,7 +6522,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
+        "var(--ds-color-surface, #e0e0e0)"
       ],
       "parents": [
         "--ds-color-surface"
@@ -6495,28 +6533,28 @@
           "file": "packages/elements/src/styles/button.css",
           "selector": ".button[data-variant=\"default\"]:hover:not(:disabled)",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/button.css",
           "selector": ".button[data-variant=\"default\"]:hover:not(:disabled)",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/button/Button.svelte",
           "selector": ".button:global([data-variant=\"default\"]):hover:not(:disabled)",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/button.css",
           "selector": ".button[data-variant=\"default\"]:hover:not(:disabled)",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         }
       ],
       "purpose": null,
@@ -6544,7 +6582,7 @@
         "vue"
       ],
       "fallbacks": [
-        "color-mix(in srgb, var(--ds-color-control-border, #757067) 70%, var(--ds-color-background, #fff))"
+        "color-mix(in srgb, var(--ds-color-control-border, #757575) 70%, var(--ds-color-background, #fff))"
       ],
       "parents": [
         "--ds-color-background",
@@ -6556,28 +6594,28 @@
           "file": "packages/elements/src/styles/button.css",
           "selector": ".button[data-variant=\"default\"]",
           "property": "border-color",
-          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757067) 70%, var(--ds-color-background, #fff))"
+          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757575) 70%, var(--ds-color-background, #fff))"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/button.css",
           "selector": ".button[data-variant=\"default\"]",
           "property": "border-color",
-          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757067) 70%, var(--ds-color-background, #fff))"
+          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757575) 70%, var(--ds-color-background, #fff))"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/button/Button.svelte",
           "selector": ".button:global([data-variant=\"default\"])",
           "property": "border-color",
-          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757067) 70%, var(--ds-color-background, #fff))"
+          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757575) 70%, var(--ds-color-background, #fff))"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/button.css",
           "selector": ".button[data-variant=\"default\"]",
           "property": "border-color",
-          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757067) 70%, var(--ds-color-background, #fff))"
+          "fallback": "color-mix(in srgb, var(--ds-color-control-border, #757575) 70%, var(--ds-color-background, #fff))"
         }
       ],
       "purpose": null,
@@ -6663,7 +6701,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -6674,28 +6712,28 @@
           "file": "packages/elements/src/styles/button.css",
           "selector": ".button[data-variant=\"ghost\"]",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/button.css",
           "selector": ".button[data-variant=\"ghost\"]",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/button/Button.svelte",
           "selector": ".button:global([data-variant=\"ghost\"])",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/button.css",
           "selector": ".button[data-variant=\"ghost\"]",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -7307,7 +7345,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)"
+        "var(--ds-color-neutral-surface, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-neutral-surface"
@@ -7318,56 +7356,56 @@
           "file": "packages/elements/src/styles/calendar.css",
           "selector": ".calendar__day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
           "selector": ".calendar__mini-day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__mini-day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/calendar/Calendar.svelte",
           "selector": ".calendar__day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/calendar/Calendar.svelte",
           "selector": ".calendar__mini-day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/calendar.css",
           "selector": ".calendar__day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/calendar.css",
           "selector": ".calendar__mini-day:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -8445,7 +8483,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -8456,28 +8494,28 @@
           "file": "packages/elements/src/styles/card.css",
           "selector": ".card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/card.css",
           "selector": ".card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/card/Card.svelte",
           "selector": ".card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/card.css",
           "selector": ".card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -8650,7 +8688,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -8661,28 +8699,28 @@
           "file": "packages/elements/src/styles/card.css",
           "selector": ".card__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/card.css",
           "selector": ".card__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/card/Card.svelte",
           "selector": ".card__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/card.css",
           "selector": ".card__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -8826,7 +8864,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -8837,56 +8875,56 @@
           "file": "packages/elements/src/styles/card.css",
           "selector": ".card--dashboard .card__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/card.css",
           "selector": ".card__media--icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/card.css",
           "selector": ".card--dashboard .card__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/card.css",
           "selector": ".card__media--icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/card/Card.svelte",
           "selector": ".card--dashboard .card__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/card/Card.svelte",
           "selector": ".card__media--icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/card.css",
           "selector": ".card--dashboard .card__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/card.css",
           "selector": ".card__media--icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -9059,7 +9097,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)"
+        "var(--ds-color-neutral-surface, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-neutral-surface"
@@ -9070,28 +9108,28 @@
           "file": "packages/elements/src/styles/card.css",
           "selector": ".card__media",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/card.css",
           "selector": ".card__media",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/card/Card.svelte",
           "selector": ".card__media",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/card.css",
           "selector": ".card__media",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -9265,7 +9303,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)"
+        "var(--ds-color-neutral-surface, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-neutral-surface"
@@ -9276,28 +9314,28 @@
           "file": "packages/elements/src/styles/card.css",
           "selector": ".card[data-surface=\"secondary\"]",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/card.css",
           "selector": ".card[data-surface=\"secondary\"]",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/card/Card.svelte",
           "selector": ".card[data-surface=\"secondary\"]",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/card.css",
           "selector": ".card[data-surface=\"secondary\"]",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -9325,7 +9363,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -9336,28 +9374,28 @@
           "file": "packages/elements/src/styles/card.css",
           "selector": ".card",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/card.css",
           "selector": ".card",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/card/Card.svelte",
           "selector": ".card",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/card.css",
           "selector": ".card",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -9501,7 +9539,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
+        "var(--ds-color-surface, #e0e0e0)"
       ],
       "parents": [
         "--ds-color-surface"
@@ -9512,28 +9550,28 @@
           "file": "packages/elements/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
           "selector": ".carousel__arrow",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         }
       ],
       "purpose": null,
@@ -9561,7 +9599,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-control-border, #757067)"
+        "var(--ds-color-control-border, #757575)"
       ],
       "parents": [
         "--ds-color-control-border"
@@ -9572,28 +9610,28 @@
           "file": "packages/elements/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
           "selector": ".carousel__arrow",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         }
       ],
       "purpose": null,
@@ -9795,7 +9833,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -9806,28 +9844,28 @@
           "file": "packages/elements/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
           "selector": ".carousel__arrow",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -10247,7 +10285,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-control-border, #757067)"
+        "var(--ds-color-control-border, #757575)"
       ],
       "parents": [
         "--ds-color-control-border"
@@ -10258,28 +10296,28 @@
           "file": "packages/elements/src/styles/carousel.css",
           "selector": ".carousel__dot::before",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__dot::before",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
           "selector": ".carousel__dot::before",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/carousel.css",
           "selector": ".carousel__dot::before",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         }
       ],
       "purpose": null,
@@ -10770,7 +10808,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)",
+        "var(--ds-color-neutral-surface, #f5f5f5)",
         "var(--ds-pastel-green, #8dcc7a)",
         "var(--ds-pastel-pink, #e5a1ac)",
         "var(--ds-pastel-teal, #7abecc)",
@@ -10861,7 +10899,7 @@
           "file": "packages/elements/src/styles/carousel.css",
           "selector": ".carousel__bg",
           "property": "background-color",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
@@ -10938,7 +10976,7 @@
           "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__bg",
           "property": "background-color",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
@@ -11015,7 +11053,7 @@
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
           "selector": ".carousel__bg",
           "property": "background-color",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
@@ -11092,7 +11130,7 @@
           "file": "packages/vue/src/styles/carousel.css",
           "selector": ".carousel__bg",
           "property": "background-color",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -11867,8 +11905,7 @@
         "color"
       ],
       "properties": [
-        "border",
-        "border-block-end"
+        "border"
       ],
       "adapters": [
         "elements",
@@ -11877,7 +11914,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -11888,56 +11925,28 @@
           "file": "packages/elements/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/code-block.css",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/code-block.css",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
           "selector": ".code-block",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/code-block.css",
-          "selector": ".code-block__header",
-          "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -11965,7 +11974,7 @@
         "vue"
       ],
       "fallbacks": [
-        "rgba(0, 0, 0, 0.05)"
+        "color-mix(in srgb, currentColor 8%, transparent)"
       ],
       "parents": [],
       "sites": [
@@ -11974,28 +11983,28 @@
           "file": "packages/elements/src/styles/code-block.css",
           "selector": ".code-block__copy",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.05)"
+          "fallback": "color-mix(in srgb, currentColor 8%, transparent)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/code-block.css",
           "selector": ".code-block__copy",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.05)"
+          "fallback": "color-mix(in srgb, currentColor 8%, transparent)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
           "selector": ".code-block__copy",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.05)"
+          "fallback": "color-mix(in srgb, currentColor 8%, transparent)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code-block.css",
           "selector": ".code-block__copy",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.05)"
+          "fallback": "color-mix(in srgb, currentColor 8%, transparent)"
         }
       ],
       "purpose": null,
@@ -12023,7 +12032,7 @@
         "vue"
       ],
       "fallbacks": [
-        "rgba(0, 0, 0, 0.1)"
+        "color-mix(in srgb, currentColor 16%, transparent)"
       ],
       "parents": [],
       "sites": [
@@ -12032,28 +12041,28 @@
           "file": "packages/elements/src/styles/code-block.css",
           "selector": ".code-block__copy:hover",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.1)"
+          "fallback": "color-mix(in srgb, currentColor 16%, transparent)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/code-block.css",
           "selector": ".code-block__copy:hover",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.1)"
+          "fallback": "color-mix(in srgb, currentColor 16%, transparent)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
           "selector": ".code-block__copy:hover",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.1)"
+          "fallback": "color-mix(in srgb, currentColor 16%, transparent)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code-block.css",
           "selector": ".code-block__copy:hover",
           "property": "background",
-          "fallback": "rgba(0, 0, 0, 0.1)"
+          "fallback": "color-mix(in srgb, currentColor 16%, transparent)"
         }
       ],
       "purpose": null,
@@ -12295,66 +12304,6 @@
       "replacedBy": null
     },
     {
-      "name": "--ds-code-block-surface",
-      "id": "code-block-surface",
-      "component": "code-block",
-      "usedBy": [
-        "code-block"
-      ],
-      "category": "color",
-      "categories": [
-        "color"
-      ],
-      "properties": [
-        "background"
-      ],
-      "adapters": [
-        "elements",
-        "react",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
-      ],
-      "parents": [
-        "--ds-color-surface"
-      ],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/code-block.css",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/code-block.css",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/code-block.css",
-          "selector": ".code-block",
-          "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
-        }
-      ],
-      "purpose": null,
-      "stability": "alpha",
-      "replacedBy": null
-    },
-    {
       "name": "--ds-code-block-text",
       "id": "code-block-text",
       "component": "code-block",
@@ -12375,7 +12324,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -12386,28 +12335,28 @@
           "file": "packages/elements/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
           "selector": ".code-block",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code-block.css",
           "selector": ".code-block",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -12435,7 +12384,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-border, #c7c1b7)"
+        "var(--ds-color-neutral-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-neutral-border"
@@ -12446,28 +12395,28 @@
           "file": "packages/elements/src/styles/code.css",
           "selector": ".code",
           "property": "border",
-          "fallback": "var(--ds-color-neutral-border, #c7c1b7)"
+          "fallback": "var(--ds-color-neutral-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/code.css",
           "selector": ".code",
           "property": "border",
-          "fallback": "var(--ds-color-neutral-border, #c7c1b7)"
+          "fallback": "var(--ds-color-neutral-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
           "selector": ".code",
           "property": "border",
-          "fallback": "var(--ds-color-neutral-border, #c7c1b7)"
+          "fallback": "var(--ds-color-neutral-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code.css",
           "selector": ".code",
           "property": "border",
-          "fallback": "var(--ds-color-neutral-border, #c7c1b7)"
+          "fallback": "var(--ds-color-neutral-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -12671,7 +12620,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)"
+        "var(--ds-color-neutral-surface, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-neutral-surface"
@@ -12682,28 +12631,28 @@
           "file": "packages/elements/src/styles/code.css",
           "selector": ".code",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/code.css",
           "selector": ".code",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
           "selector": ".code",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code.css",
           "selector": ".code",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -12731,7 +12680,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -12742,28 +12691,28 @@
           "file": "packages/elements/src/styles/code.css",
           "selector": ".code",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/code.css",
           "selector": ".code",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
           "selector": ".code",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/code.css",
           "selector": ".code",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -15666,7 +15615,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -15677,49 +15626,49 @@
           "file": "packages/elements/src/styles/field.css",
           "selector": ".field__message.field__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/field.css",
           "selector": ".form-field .field__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/field.css",
           "selector": ".field__message.field__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/field.css",
           "selector": ".form-field .field__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/field/Field.svelte",
           "selector": ".field__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/field.css",
           "selector": ".field__message.field__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/field.css",
           "selector": ".form-field .field__description",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -16020,7 +15969,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-control-border, #757067)"
+        "var(--ds-color-control-border, #757575)"
       ],
       "parents": [
         "--ds-color-control-border"
@@ -16031,28 +15980,28 @@
           "file": "packages/elements/src/styles/textarea.css",
           "selector": ".textarea .field__control",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/textarea.css",
           "selector": ".textarea .field__control",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/text-field/Textarea.svelte",
           "selector": ".field__control",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/textarea.css",
           "selector": ".textarea .field__control",
           "property": "background",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         }
       ],
       "purpose": null,
@@ -16167,7 +16116,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -16178,28 +16127,28 @@
           "file": "packages/elements/src/styles/field.css",
           "selector": ".form-field .field__label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/field.css",
           "selector": ".form-field .field__label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/field/Field.svelte",
           "selector": ".field__label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/field.css",
           "selector": ".form-field .field__label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -17138,7 +17087,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -17149,28 +17098,28 @@
           "file": "packages/elements/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
           "selector": ".kbd__key",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -17550,7 +17499,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -17561,28 +17510,28 @@
           "file": "packages/elements/src/styles/kbd.css",
           "selector": ".kbd__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/kbd.css",
           "selector": ".kbd__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
           "selector": ".kbd__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/kbd.css",
           "selector": ".kbd__sep",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -17610,7 +17559,7 @@
         "vue"
       ],
       "fallbacks": [
-        "0 1px 0 1px var(--ds-color-border, #c7c1b7)"
+        "0 1px 0 1px var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -17621,28 +17570,28 @@
           "file": "packages/elements/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "box-shadow",
-          "fallback": "0 1px 0 1px var(--ds-color-border, #c7c1b7)"
+          "fallback": "0 1px 0 1px var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "box-shadow",
-          "fallback": "0 1px 0 1px var(--ds-color-border, #c7c1b7)"
+          "fallback": "0 1px 0 1px var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
           "selector": ".kbd__key",
           "property": "box-shadow",
-          "fallback": "0 1px 0 1px var(--ds-color-border, #c7c1b7)"
+          "fallback": "0 1px 0 1px var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "box-shadow",
-          "fallback": "0 1px 0 1px var(--ds-color-border, #c7c1b7)"
+          "fallback": "0 1px 0 1px var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -17670,7 +17619,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -17681,28 +17630,28 @@
           "file": "packages/elements/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
           "selector": ".kbd__key",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/kbd.css",
           "selector": ".kbd__key",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -17730,7 +17679,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -17741,28 +17690,28 @@
           "file": "packages/elements/src/styles/label.css",
           "selector": ".label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/label.css",
           "selector": ".label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/label/Label.svelte",
           "selector": ".label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/label.css",
           "selector": ".label",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -19528,7 +19477,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -19539,28 +19488,28 @@
           "file": "packages/elements/src/styles/login-form.css",
           "selector": ".login",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
           "selector": ".login",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/login-form.css",
           "selector": ".login",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -21175,7 +21124,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -21186,28 +21135,28 @@
           "file": "packages/elements/src/styles/meter.css",
           "selector": ".meter",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/meter.css",
           "selector": ".meter",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
           "selector": ".meter",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/meter.css",
           "selector": ".meter",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -21703,7 +21652,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -21714,28 +21663,28 @@
           "file": "packages/elements/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__destination[data-current]",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__destination[data-current]",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
           "selector": ".navigation-bar__destination[data-current]",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__destination[data-current]",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -21821,7 +21770,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -21832,28 +21781,28 @@
           "file": "packages/elements/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
           "selector": ".navigation-bar",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -21881,7 +21830,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
+        "var(--ds-color-surface, #e0e0e0)"
       ],
       "parents": [
         "--ds-color-surface"
@@ -21892,28 +21841,28 @@
           "file": "packages/elements/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
           "selector": ".navigation-bar",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         }
       ],
       "purpose": null,
@@ -22558,7 +22507,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-on-emphasis, #f4f2ef)"
+        "var(--ds-color-on-emphasis, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-on-emphasis"
@@ -22569,28 +22518,28 @@
           "file": "packages/elements/src/styles/pagination.css",
           "selector": ".pagination__page[data-selected]",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/pagination.css",
           "selector": ".pagination__page[data-selected]",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/pagination/Pagination.svelte",
           "selector": ".pagination__page:global([data-selected])",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/pagination.css",
           "selector": ".pagination__page[data-selected]",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -23575,7 +23524,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -23586,56 +23535,56 @@
           "file": "packages/elements/src/styles/progress.css",
           "selector": ".progress__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/progress.css",
           "selector": ".progress__ring",
           "property": "stroke",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/progress.css",
           "selector": ".progress__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/progress.css",
           "selector": ".progress__ring",
           "property": "stroke",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
           "selector": ".progress__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
           "selector": ".progress__ring",
           "property": "stroke",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/progress.css",
           "selector": ".progress__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/progress.css",
           "selector": ".progress__ring",
           "property": "stroke",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -23780,7 +23729,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -23791,56 +23740,56 @@
           "file": "packages/elements/src/styles/progress.css",
           "selector": ".progress",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/progress.css",
           "selector": ".progress__track",
           "property": "stroke",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/progress.css",
           "selector": ".progress",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/progress.css",
           "selector": ".progress__track",
           "property": "stroke",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
           "selector": ".progress",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
           "selector": ".progress__track",
           "property": "stroke",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/progress.css",
           "selector": ".progress",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/progress.css",
           "selector": ".progress__track",
           "property": "stroke",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -24723,7 +24672,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-neutral-400, #757067)"
+        "var(--ds-neutral-400, #757575)"
       ],
       "parents": [
         "--ds-neutral-400"
@@ -24734,28 +24683,28 @@
           "file": "packages/elements/src/styles/rating-group.css",
           "selector": ".rating__star",
           "property": "color",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/rating-group.css",
           "selector": ".rating__star",
           "property": "color",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
           "selector": ".rating__star",
           "property": "color",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/rating-group.css",
           "selector": ".rating__star",
           "property": "color",
-          "fallback": "var(--ds-neutral-400, #757067)"
+          "fallback": "var(--ds-neutral-400, #757575)"
         }
       ],
       "purpose": null,
@@ -24899,7 +24848,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-neutral-300, #a8a297)"
+        "var(--ds-neutral-300, #9e9e9e)"
       ],
       "parents": [
         "--ds-neutral-300"
@@ -24910,28 +24859,28 @@
           "file": "packages/elements/src/styles/rating-group.css",
           "selector": ".rating__star--preview",
           "property": "color",
-          "fallback": "var(--ds-neutral-300, #a8a297)"
+          "fallback": "var(--ds-neutral-300, #9e9e9e)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/rating-group.css",
           "selector": ".rating__star--preview",
           "property": "color",
-          "fallback": "var(--ds-neutral-300, #a8a297)"
+          "fallback": "var(--ds-neutral-300, #9e9e9e)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
           "selector": ".rating__star--preview",
           "property": "color",
-          "fallback": "var(--ds-neutral-300, #a8a297)"
+          "fallback": "var(--ds-neutral-300, #9e9e9e)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/rating-group.css",
           "selector": ".rating__star--preview",
           "property": "color",
-          "fallback": "var(--ds-neutral-300, #a8a297)"
+          "fallback": "var(--ds-neutral-300, #9e9e9e)"
         }
       ],
       "purpose": null,
@@ -25104,7 +25053,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -25115,28 +25064,28 @@
           "file": "packages/elements/src/styles/scroll-area.css",
           "selector": ".scroll-area__thumb",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/scroll-area.css",
           "selector": ".scroll-area__thumb",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/scroll-area/ScrollArea.svelte",
           "selector": ".scroll-area__thumb",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/scroll-area.css",
           "selector": ".scroll-area__thumb",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -25164,7 +25113,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -25175,28 +25124,28 @@
           "file": "packages/elements/src/styles/scroll-area.css",
           "selector": ".scroll-area__thumb:hover",
           "property": "background",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/scroll-area.css",
           "selector": ".scroll-area__thumb:hover",
           "property": "background",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/scroll-area/ScrollArea.svelte",
           "selector": ".scroll-area__thumb:hover",
           "property": "background",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/scroll-area.css",
           "selector": ".scroll-area__thumb:hover",
           "property": "background",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -26803,7 +26752,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -26814,28 +26763,28 @@
           "file": "packages/elements/src/styles/separator.css",
           "selector": ".separator",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/separator.css",
           "selector": ".separator",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/separator/Separator.svelte",
           "selector": ".separator",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/separator.css",
           "selector": ".separator",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -27208,7 +27157,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -27219,28 +27168,28 @@
           "file": "packages/elements/src/styles/sheet-dialog.css",
           "selector": ".sheet-dialog__handle",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/sheet-dialog.css",
           "selector": ".sheet-dialog__handle",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sheet-dialog/SheetDialog.svelte",
           "selector": ".sheet-dialog__handle",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sheet-dialog.css",
           "selector": ".sheet-dialog__handle",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -27623,7 +27572,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -27634,28 +27583,28 @@
           "file": "packages/elements/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
           "selector": ".sidebar",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -27801,7 +27750,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -27812,28 +27761,28 @@
           "file": "packages/elements/src/styles/sidebar.css",
           "selector": "nav.sidebar .sidebar__item",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar .sidebar__item",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sidebar/SidebarItems.svelte",
           "selector": ".sidebar__item",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sidebar.css",
           "selector": "nav.sidebar .sidebar__item",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -28182,7 +28131,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-neutral-200, #c7c1b7)"
+        "var(--ds-neutral-200, #bdbdbd)"
       ],
       "parents": [
         "--ds-neutral-200"
@@ -28193,28 +28142,28 @@
           "file": "packages/elements/src/styles/skeleton.css",
           "selector": ".skeleton__bar",
           "property": "background",
-          "fallback": "var(--ds-neutral-200, #c7c1b7)"
+          "fallback": "var(--ds-neutral-200, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/skeleton.css",
           "selector": ".skeleton__bar",
           "property": "background",
-          "fallback": "var(--ds-neutral-200, #c7c1b7)"
+          "fallback": "var(--ds-neutral-200, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/skeleton/Skeleton.svelte",
           "selector": ".skeleton__bar",
           "property": "background",
-          "fallback": "var(--ds-neutral-200, #c7c1b7)"
+          "fallback": "var(--ds-neutral-200, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/skeleton.css",
           "selector": ".skeleton__bar",
           "property": "background",
-          "fallback": "var(--ds-neutral-200, #c7c1b7)"
+          "fallback": "var(--ds-neutral-200, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -29168,7 +29117,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -29179,28 +29128,28 @@
           "file": "packages/elements/src/styles/slider.css",
           "selector": ".slider__tick",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__tick",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
           "selector": ".slider__tick",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/slider.css",
           "selector": ".slider__tick",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -29228,7 +29177,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -29239,84 +29188,84 @@
           "file": "packages/elements/src/styles/slider.css",
           "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
           "selector": ".slider__input::-moz-range-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/slider.css",
           "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__input::-moz-range-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
           "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
           "selector": ".slider__input::-moz-range-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
           "selector": ".slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/slider.css",
           "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/slider.css",
           "selector": ".slider__input::-moz-range-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-runnable-track",
           "property": "background",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -29520,7 +29469,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
+        "var(--ds-color-surface, #e0e0e0)"
       ],
       "parents": [
         "--ds-color-surface"
@@ -29531,28 +29480,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         }
       ],
       "purpose": null,
@@ -29580,7 +29529,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -29591,28 +29540,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -29640,7 +29589,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -29651,28 +29600,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -29760,7 +29709,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -29771,28 +29720,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__connector",
           "property": "background-image",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__connector",
           "property": "background-image",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__connector",
           "property": "background-image",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__connector",
           "property": "background-image",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -30285,7 +30234,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-surface, #e6e0d8)"
+        "var(--ds-color-surface, #e0e0e0)"
       ],
       "parents": [
         "--ds-color-surface"
@@ -30296,28 +30245,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "background",
-          "fallback": "var(--ds-color-surface, #e6e0d8)"
+          "fallback": "var(--ds-color-surface, #e0e0e0)"
         }
       ],
       "purpose": null,
@@ -30345,7 +30294,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -30356,28 +30305,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__indicator",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -30492,7 +30441,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -30503,28 +30452,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -30668,7 +30617,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -30679,28 +30628,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "border-color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -30728,7 +30677,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -30739,28 +30688,28 @@
           "file": "packages/elements/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -31052,7 +31001,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -31063,28 +31012,28 @@
           "file": "packages/elements/src/styles/switch.css",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/switch.css",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/switch/Switch.svelte",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/switch.css",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -31408,7 +31357,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
+        "var(--ds-color-border, #bdbdbd)"
       ],
       "parents": [
         "--ds-color-border"
@@ -31419,112 +31368,112 @@
           "file": "packages/elements/src/styles/table-set.css",
           "selector": ".table-view__card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table-set.css",
           "selector": ".table-view__no-results",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
           "selector": ".table__td",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
           "selector": ".table__th",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/table-set.css",
           "selector": ".table-view__card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/table-set.css",
           "selector": ".table-view__no-results",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/table.css",
           "selector": ".table__td",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/table.css",
           "selector": ".table__th",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/Table.svelte",
           "selector": ".table__td",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/Table.svelte",
           "selector": ".table__th",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/TableView.svelte",
           "selector": ".table-view__card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/TableView.svelte",
           "selector": ".table-view__no-results",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/table-set.css",
           "selector": ".table-view__card",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/table-set.css",
           "selector": ".table-view__no-results",
           "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/table.css",
           "selector": ".table__td",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/table.css",
           "selector": ".table__th",
           "property": "border-block-end",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
+          "fallback": "var(--ds-color-border, #bdbdbd)"
         }
       ],
       "purpose": null,
@@ -31871,7 +31820,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -31882,28 +31831,28 @@
           "file": "packages/elements/src/styles/table.css",
           "selector": ".table__th",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/table.css",
           "selector": ".table__th",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/Table.svelte",
           "selector": ".table__th",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/table.css",
           "selector": ".table__th",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -32020,7 +31969,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)"
+        "var(--ds-color-neutral-surface, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-neutral-surface"
@@ -32031,28 +31980,28 @@
           "file": "packages/elements/src/styles/table.css",
           "selector": ".table__row:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/table.css",
           "selector": ".table__row:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/Table.svelte",
           "selector": ".table__row:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/table.css",
           "selector": ".table__row:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -33086,7 +33035,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-control-border, #757067)"
+        "var(--ds-color-control-border, #757575)"
       ],
       "parents": [
         "--ds-color-control-border"
@@ -33097,112 +33046,112 @@
           "file": "packages/elements/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-button/ToggleButton.svelte",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-inline-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-block-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         }
       ],
       "purpose": null,
@@ -33875,7 +33824,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-emphasis-surface, #332f2a)"
+        "var(--ds-color-emphasis-surface, #323232)"
       ],
       "parents": [
         "--ds-color-emphasis-surface"
@@ -33886,56 +33835,56 @@
           "file": "packages/elements/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
           "selector": ".navigation-bar__reason",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "background",
-          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+          "fallback": "var(--ds-color-emphasis-surface, #323232)"
         }
       ],
       "purpose": null,
@@ -33964,7 +33913,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-on-emphasis, #f4f2ef)"
+        "var(--ds-color-on-emphasis, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-on-emphasis"
@@ -33975,56 +33924,56 @@
           "file": "packages/elements/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-bar/NavigationBar.svelte",
           "selector": ".navigation-bar__reason",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
           "selector": ".tooltip__content",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/navigation-bar.css",
           "selector": "nav.navigation-bar .navigation-bar__reason",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "color",
-          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+          "fallback": "var(--ds-color-on-emphasis, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -34634,7 +34583,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-neutral-surface, #f4f2ef)"
+        "var(--ds-color-neutral-surface, #f5f5f5)"
       ],
       "parents": [
         "--ds-color-neutral-surface"
@@ -34645,28 +34594,28 @@
           "file": "packages/elements/src/styles/tree-view.css",
           "selector": ".tree__item:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
           "selector": ".tree__item:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/tree-view.css",
           "selector": ".tree__item:hover",
           "property": "background",
-          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+          "fallback": "var(--ds-color-neutral-surface, #f5f5f5)"
         }
       ],
       "purpose": null,
@@ -34932,7 +34881,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text, #282420)"
+        "var(--ds-color-text, #272727)"
       ],
       "parents": [
         "--ds-color-text"
@@ -34943,28 +34892,28 @@
           "file": "packages/elements/src/styles/tree-view.css",
           "selector": ".tree__item--selected",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item--selected",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
           "selector": ".tree__item--selected",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/tree-view.css",
           "selector": ".tree__item--selected",
           "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
+          "fallback": "var(--ds-color-text, #272727)"
         }
       ],
       "purpose": null,
@@ -35228,7 +35177,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-control-border, #757067)"
+        "var(--ds-color-control-border, #757575)"
       ],
       "parents": [
         "--ds-color-control-border"
@@ -35239,28 +35188,28 @@
           "file": "packages/elements/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
           "selector": ".upload-drop-area",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "border",
-          "fallback": "var(--ds-color-control-border, #757067)"
+          "fallback": "var(--ds-color-control-border, #757575)"
         }
       ],
       "purpose": null,
@@ -35346,7 +35295,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -35357,28 +35306,28 @@
           "file": "packages/elements/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
           "selector": ".upload-drop-area__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area__icon",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -35524,7 +35473,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text-secondary, #515151)"
       ],
       "parents": [
         "--ds-color-text-secondary"
@@ -35535,28 +35484,28 @@
           "file": "packages/elements/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
           "selector": ".upload-drop-area",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text-secondary, #515151)"
         }
       ],
       "purpose": null,
@@ -35570,8 +35519,8 @@
       "back": "--ds-color-background",
       "min": 4.5,
       "what": "body text on the page",
-      "light": 15.4,
-      "dark": 13.78,
+      "light": 14.94,
+      "dark": 13.7,
       "passes": {
         "light": true,
         "dark": true
@@ -35582,8 +35531,8 @@
       "back": "--ds-color-surface",
       "min": 4.5,
       "what": "body text on a surface",
-      "light": 11.75,
-      "dark": 9.77,
+      "light": 11.32,
+      "dark": 9.36,
       "passes": {
         "light": true,
         "dark": true
@@ -35594,8 +35543,8 @@
       "back": "--ds-color-background",
       "min": 4.5,
       "what": "supporting text on the page",
-      "light": 8.48,
-      "dark": 8.61,
+      "light": 7.94,
+      "dark": 7.95,
       "passes": {
         "light": true,
         "dark": true
@@ -35606,8 +35555,8 @@
       "back": "--ds-color-surface",
       "min": 4.5,
       "what": "supporting text on a surface",
-      "light": 6.47,
-      "dark": 6.1,
+      "light": 6.01,
+      "dark": 5.43,
       "passes": {
         "light": true,
         "dark": true
@@ -35690,8 +35639,8 @@
       "back": "--ds-color-warning-label-surface",
       "min": 4.5,
       "what": "label on the warning label fill",
-      "light": 4.86,
-      "dark": 4.86,
+      "light": 4.71,
+      "dark": 4.71,
       "passes": {
         "light": true,
         "dark": true
@@ -35726,8 +35675,8 @@
       "back": "--ds-color-emphasis-surface",
       "min": 4.5,
       "what": "text on the emphasis surface",
-      "light": 11.89,
-      "dark": 11.75,
+      "light": 11.76,
+      "dark": 11.32,
       "passes": {
         "light": true,
         "dark": true
@@ -35739,7 +35688,7 @@
       "min": 4.5,
       "what": "label on the secondary action fill",
       "light": 5.68,
-      "dark": 13.53,
+      "dark": 13.21,
       "passes": {
         "light": true,
         "dark": true
@@ -35751,7 +35700,7 @@
       "min": 4.5,
       "what": "label on the destructive action fill",
       "light": 5.67,
-      "dark": 13.34,
+      "dark": 12.99,
       "passes": {
         "light": true,
         "dark": true
@@ -35762,8 +35711,8 @@
       "back": "--ds-color-info-surface",
       "min": 4.5,
       "what": "information text on its tinted surface",
-      "light": 8.7,
-      "dark": 6.32,
+      "light": 8.46,
+      "dark": 6.23,
       "passes": {
         "light": true,
         "dark": true
@@ -35774,8 +35723,8 @@
       "back": "--ds-color-success-surface",
       "min": 4.5,
       "what": "success text on its tinted surface",
-      "light": 8.37,
-      "dark": 5.56,
+      "light": 8.15,
+      "dark": 5.5,
       "passes": {
         "light": true,
         "dark": true
@@ -35786,8 +35735,8 @@
       "back": "--ds-color-warning-surface",
       "min": 4.5,
       "what": "warning text on its tinted surface",
-      "light": 8.08,
-      "dark": 5.24,
+      "light": 7.95,
+      "dark": 5.17,
       "passes": {
         "light": true,
         "dark": true
@@ -35798,8 +35747,8 @@
       "back": "--ds-color-danger-surface",
       "min": 4.5,
       "what": "danger text on its tinted surface",
-      "light": 7.76,
-      "dark": 5.58,
+      "light": 7.63,
+      "dark": 5.6,
       "passes": {
         "light": true,
         "dark": true
@@ -35810,8 +35759,8 @@
       "back": "--ds-color-neutral-surface",
       "min": 4.5,
       "what": "text on the quiet neutral fill",
-      "light": 9.77,
-      "dark": 7.43,
+      "light": 9.36,
+      "dark": 6.82,
       "passes": {
         "light": true,
         "dark": true
@@ -35823,7 +35772,7 @@
       "min": 4.5,
       "what": "brand-coloured text on the page",
       "light": 5.38,
-      "dark": 5.57,
+      "dark": 5.48,
       "passes": {
         "light": true,
         "dark": true
@@ -35835,7 +35784,7 @@
       "min": 4.5,
       "what": "danger-coloured text on the page",
       "light": 5.34,
-      "dark": 6.7,
+      "dark": 6.63,
       "passes": {
         "light": true,
         "dark": true
@@ -35847,7 +35796,7 @@
       "min": 4.5,
       "what": "success-coloured text on the page",
       "light": 5.56,
-      "dark": 6.78,
+      "dark": 6.66,
       "passes": {
         "light": true,
         "dark": true
@@ -35858,8 +35807,8 @@
       "back": "--ds-color-background",
       "min": 3,
       "what": "a control's boundary against the page",
-      "light": 4.92,
-      "dark": 6.07,
+      "light": 4.61,
+      "dark": 5.58,
       "passes": {
         "light": true,
         "dark": true
@@ -35870,8 +35819,8 @@
       "back": "--ds-color-surface",
       "min": 3,
       "what": "a control's boundary against a surface",
-      "light": 3.75,
-      "dark": 4.3,
+      "light": 3.49,
+      "dark": 3.81,
       "passes": {
         "light": true,
         "dark": true
@@ -35883,7 +35832,7 @@
       "min": 3,
       "what": "the focus ring against the page",
       "light": 4,
-      "dark": 5.11,
+      "dark": 4.96,
       "passes": {
         "light": true,
         "dark": true
@@ -35894,8 +35843,8 @@
       "back": "--ds-color-surface",
       "min": 3,
       "what": "the focus ring against a surface",
-      "light": 3.05,
-      "dark": 3.62,
+      "light": 3.03,
+      "dark": 3.39,
       "passes": {
         "light": true,
         "dark": true
@@ -35903,13 +35852,13 @@
     }
   ],
   "counts": {
-    "total": 117,
+    "total": 118,
     "byTier": {
       "primitive": 24,
       "brand": 6,
+      "other": 4,
       "semantic": 54,
       "sizing": 4,
-      "other": 3,
       "elevation": 1,
       "feedback": 5,
       "focus": 4,
@@ -35917,14 +35866,14 @@
       "radius": 3,
       "state": 2
     },
-    "withDarkOverride": 57,
-    "designOwned": 106,
-    "colors": 94
+    "withDarkOverride": 58,
+    "designOwned": 107,
+    "colors": 95
   },
   "adapters": {
-    "svelte": 117,
-    "vue": 117,
-    "react": 117,
-    "elements": 117
+    "svelte": 118,
+    "vue": 118,
+    "react": 118,
+    "elements": 118
   }
 }

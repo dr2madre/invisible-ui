@@ -39,7 +39,7 @@
       color-mix(in srgb, var(--ds-color-primary, #7a52cc) 22%, transparent)
     );
     border-radius: var(--ds-radius-surface, 0.75rem);
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     font-weight: 600;
     font-size: 0.875rem;
   }

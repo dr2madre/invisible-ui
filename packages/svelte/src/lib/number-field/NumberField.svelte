@@ -222,7 +222,7 @@
     inline-size: var(--ds-field-width, 18rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
 
   .field__label {
@@ -230,7 +230,7 @@
     font-weight: 600;
   }
   .number-field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
   }
   .field__required {
     color: var(--ds-color-danger-body-text, #be3b50);
@@ -247,7 +247,7 @@
     inline-size: 100%;
     min-inline-size: 0;
     padding: var(--ds-field-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     background: var(--ds-color-background, #fff);
     color: inherit;
     font: inherit;
@@ -274,8 +274,8 @@
         color-mix(in srgb, var(--ds-color-danger, #be3b50) 30%, transparent);
   }
   .field__control:global([data-disabled]) {
-    background: var(--ds-color-disabled, #c7c1b7);
-    color: var(--ds-color-text-disabled, #757067);
+    background: var(--ds-color-disabled, #bdbdbd);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -283,9 +283,9 @@
     box-sizing: border-box;
     min-inline-size: 2.25rem;
     padding: 0 0.6rem;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     font: inherit;
     font-size: 1.05em;
     line-height: 1;
@@ -308,16 +308,16 @@
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .number-field__spin:disabled {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
   .number-field--disabled .number-field__spin {
-    background: var(--ds-color-disabled, #c7c1b7);
+    background: var(--ds-color-disabled, #bdbdbd);
   }
 
   .field__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .field__error {
     margin: 0;

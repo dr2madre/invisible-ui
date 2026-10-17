@@ -138,7 +138,7 @@
     overflow-x: auto;
     /* The rule is drawn inside the scroll area: a border would sit outside
        the clip, where the tabs' underline could never reach it. */
-    box-shadow: inset 0 -1px 0 var(--ds-color-border, #c7c1b7);
+    box-shadow: inset 0 -1px 0 var(--ds-color-border, #bdbdbd);
   }
   .tabs__tab {
     display: inline-flex;
@@ -150,7 +150,7 @@
     cursor: pointer;
     font: inherit;
     /* Idle tabs use full-strength text (not muted grey). */
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     border-block-end: 2px solid transparent;
     transition:
       color 120ms ease,
@@ -176,8 +176,8 @@
     font-weight: 600;
     line-height: 1.4;
     border-radius: var(--ds-radius-pill, 999px);
-    color: var(--ds-color-text-secondary, #524c44);
-    background: var(--ds-color-neutral-surface, #f4f2ef);
+    color: var(--ds-color-text-secondary, #515151);
+    background: var(--ds-color-neutral-surface, #f5f5f5);
   }
   .tabs__tab:global([data-state="active"]) .tabs__tab-count {
     color: var(--ds-color-on-selected, var(--ds-color-on-secondary, #fff));
@@ -188,7 +188,7 @@
        carries the selection color (so the accent can change without recoloring
        the text). */
     font-weight: 700;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     border-block-end-color: var(--ds-color-selected, #7a52cc);
   }
   /* The list clips its children, so an outer ring would be cut off:
@@ -203,7 +203,7 @@
   }
   .tabs__panel {
     padding-block: 0.75rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
 
   /* Tabs with actions: the tablist and the actions share a row, and the

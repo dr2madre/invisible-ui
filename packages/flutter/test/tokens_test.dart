@@ -30,7 +30,7 @@ void main() {
     });
 
     test('the dialog overlay is a role with a value per theme', () {
-      expect(InvisibleColors.light.dialogOverlay, const Color(0x801C1915));
+      expect(InvisibleColors.light.dialogOverlay, const Color(0x801B1B1B));
       expect(InvisibleColors.dark.dialogOverlay, const Color(0x99000000));
     });
 

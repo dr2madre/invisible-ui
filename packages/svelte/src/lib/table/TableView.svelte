@@ -592,7 +592,7 @@
     display: grid;
     justify-items: center;
     padding: 2rem 1rem;
-    border: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+    border: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
   }
   .table-view__header {
@@ -621,13 +621,13 @@
     justify-content: center;
     inline-size: 2.25rem;
     block-size: 2.25rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     border: 1px solid transparent;
     border-radius: var(--ds-radius-control, 0.5rem);
     background: transparent;
   }
   .table-view__settings:hover {
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .table-view__sr {
@@ -650,7 +650,7 @@
   }
   /* The table body sits in a bordered card; the footer (pagination) is outside. */
   .table-view__card {
-    border: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+    border: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
     /* A wide table scrolls inside the card instead of being cut off or
        widening the page. The card is focusable only while it overflows. */
@@ -697,7 +697,7 @@
   }
   .table-view__card-label {
     margin: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     font-size: 0.8125rem;
   }
   .table-view__card-value {
@@ -718,15 +718,15 @@
   .table-view__status {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     min-block-size: 1rem;
   }
   .table-view__load-more {
     font: inherit;
     padding: 0.45rem 1rem;
-    color: var(--ds-color-text, #282420);
-    background: var(--ds-color-surface, #e6e0d8);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    color: var(--ds-color-text, #272727);
+    background: var(--ds-color-surface, #e0e0e0);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }

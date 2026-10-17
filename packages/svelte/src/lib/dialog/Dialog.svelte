@@ -218,7 +218,7 @@
 
 <style>
   .dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
+    background: var(--ds-dialog-overlay, rgb(27 27 27 / 0.5));
   }
   .dialog__panel {
     /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */
@@ -236,9 +236,9 @@
     overflow: hidden;
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     line-height: var(--ds-line-height, 1.4);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,

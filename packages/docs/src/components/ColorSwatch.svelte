@@ -51,7 +51,7 @@
   .swatch__chip {
     block-size: 4rem;
     border-radius: var(--ds-radius-control, 0.5rem);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .swatch__meta {
     display: grid;
@@ -63,7 +63,7 @@
   }
   .swatch__val {
     font-size: 0.7rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .swatch__k {
     display: inline-block;

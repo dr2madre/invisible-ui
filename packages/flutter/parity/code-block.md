@@ -48,7 +48,8 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| The surface, border and surface radius; a header with the caption in lower case and the copy button | matched | `the code shows …` checks the text contrast |
+| The surface (`code-block-surface`), border and surface radius; a header with the caption in lower case and the copy button | matched | `the code shows …` checks the text contrast; `the block sits on the code-block-surface role …` checks the surface |
+| No line between the header and the code: spacing alone sets the header apart | matched | `the block sits on the code-block-surface role …` |
 | Monospace at 0.875 rem, line height 1.6, 1 rem padding | matched | `the code shows …` |
 | Wide code scrolls sideways; the focus ring inside the scroller | matched | `the scroller takes focus …` (the scroller is `ScrollArea`'s) |
 | The copy button's fill: black at 5 %, 10 % on hover | adapted | the text colour at 5 % and 10 %, so it reads in dark mode too |

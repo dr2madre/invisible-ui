@@ -15,7 +15,7 @@ role or carry a reviewed reason, prefixes cannot mint phantoms, notes cannot
 outlive their token).
 
 Confirmed defects fixed: the modal scrim was another design system's slate in
-14 files and is now the project's darkest warm neutral at the same alpha; the
+14 files and is now the project's darkest neutral at the same alpha; the
 calendar range band was Tailwind blue and now follows the selection tint like
 every other selected fill; the calendar price diverged between adapters in
 dark; five knobs gained the missing role chain (calendar selected text,

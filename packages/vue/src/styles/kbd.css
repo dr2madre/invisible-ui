@@ -28,12 +28,12 @@
   padding: var(--ds-kbd-padding, 0.1rem 0.4rem);
   font-size: var(--ds-kbd-font-size, 0.8125em);
   line-height: 1;
-  color: var(--ds-kbd-text, var(--ds-color-text, #282420));
+  color: var(--ds-kbd-text, var(--ds-color-text, #272727));
   background: var(--ds-kbd-bg, var(--ds-color-background, #fff));
-  border: 1px solid var(--ds-kbd-border, var(--ds-color-border, #c7c1b7));
+  border: 1px solid var(--ds-kbd-border, var(--ds-color-border, #bdbdbd));
   border-radius: var(--ds-kbd-radius, var(--ds-radius-control, 0.5rem));
-  box-shadow: var(--ds-kbd-shadow, 0 1px 0 1px var(--ds-color-border, #c7c1b7));
+  box-shadow: var(--ds-kbd-shadow, 0 1px 0 1px var(--ds-color-border, #bdbdbd));
 }
 .kbd__sep {
-  color: var(--ds-kbd-sep-text, var(--ds-color-text-secondary, #524c44));
+  color: var(--ds-kbd-sep-text, var(--ds-color-text-secondary, #515151));
 }

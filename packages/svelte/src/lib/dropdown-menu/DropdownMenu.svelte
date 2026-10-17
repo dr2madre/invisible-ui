@@ -106,7 +106,7 @@
   .menu {
     display: inline-block;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
 
   .menu__trigger {
@@ -114,7 +114,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: var(--ds-menu-trigger-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-menu-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     color: inherit;
@@ -129,15 +129,15 @@
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .menu__trigger:global([data-disabled]) {
-    background: var(--ds-color-disabled, #c7c1b7);
-    color: var(--ds-color-text-disabled, #757067);
+    background: var(--ds-color-disabled, #bdbdbd);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
   .menu__chevron {
     display: inline-flex;
     inline-size: 1.1em;
     block-size: 1.1em;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .menu__trigger:global([data-state="open"]) .menu__chevron {
@@ -155,7 +155,7 @@
     display: flex;
     flex-direction: column;
     background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -170,13 +170,13 @@
   .menu__separator {
     block-size: 1px;
     margin: 0.3rem 0.15rem;
-    background: var(--ds-color-border, #c7c1b7);
+    background: var(--ds-color-border, #bdbdbd);
   }
   .menu__group-label {
     padding: 0.35rem 0.55rem 0.2rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   /* The tick sits in a fixed column so labels line up whether or not an item
      is currently on. */
@@ -216,7 +216,7 @@
     box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .menu__item:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
 

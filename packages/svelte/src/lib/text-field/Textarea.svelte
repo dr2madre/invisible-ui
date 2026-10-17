@@ -192,7 +192,7 @@
     inline-size: var(--ds-field-width, 18rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
 
   .field__label {
@@ -213,7 +213,7 @@
     white-space: nowrap;
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
   }
   .field__required {
     color: var(--ds-color-danger-body-text, #be3b50);
@@ -223,7 +223,7 @@
     inline-size: 100%;
     box-sizing: border-box;
     padding: var(--ds-field-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
     color: inherit;
     font: inherit;
@@ -233,7 +233,7 @@
     background:
       repeating-linear-gradient(
           -45deg,
-          var(--ds-field-grip-color, var(--ds-color-control-border, #757067)) 0 1px,
+          var(--ds-field-grip-color, var(--ds-color-control-border, #757575)) 0 1px,
           transparent 1px 3px
         )
         bottom var(--ds-field-grip-inset, 3px) right var(--ds-field-grip-inset, 3px) / 9px 9px
@@ -244,7 +244,7 @@
       box-shadow 120ms ease;
   }
   .field__control::placeholder {
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .field__control:focus-visible {
     outline: none;
@@ -260,15 +260,15 @@
   }
 
   .field__control:global([data-disabled]) {
-    background: var(--ds-color-disabled, #c7c1b7);
-    color: var(--ds-color-text-disabled, #757067);
+    background: var(--ds-color-disabled, #bdbdbd);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
 
   /* Help and error text match the control's (placeholder) text size. */
   .field__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .field__error,
   .field__success {

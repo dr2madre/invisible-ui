@@ -10,7 +10,7 @@
   border: 1px solid var(--_border);
   border-radius: var(--ds-alert-radius, var(--ds-radius-surface, 0.75rem));
   background: var(--_bg);
-  color: var(--_fg, var(--ds-color-text, #282420));
+  color: var(--_fg, var(--ds-color-text, #272727));
 }
 /* Pin the close button to the top-right; reserve room so text never runs under it. */
 .inline-notification:has(.inline-notification__close) {
@@ -87,16 +87,16 @@
   --_border: var(--ds-color-danger-border, #ecc4cb);
 }
 .inline-notification[data-status="neutral"] {
-  --_bg: var(--ds-color-neutral-surface, #f4f2ef);
-  --_border: var(--ds-color-neutral-border, #c7c1b7);
+  --_bg: var(--ds-color-neutral-surface, #f5f5f5);
+  --_border: var(--ds-color-neutral-border, #bdbdbd);
 }
 
 /* Inverted: a high-contrast surface that ignores the status tint (the status
    stays visible via the colored FeedbackIcon). Wins over the rules above. */
 .inline-notification[data-inverted] {
-  --_bg: var(--ds-color-emphasis-surface, #332f2a);
-  --_border: var(--ds-color-emphasis-border, #413c36);
-  --_fg: var(--ds-color-on-emphasis, #f4f2ef);
+  --_bg: var(--ds-color-emphasis-surface, #323232);
+  --_border: var(--ds-color-emphasis-border, #414141);
+  --_fg: var(--ds-color-on-emphasis, #f5f5f5);
 }
 
 /* Plain (no-surface): transparent background, no border. The colored
