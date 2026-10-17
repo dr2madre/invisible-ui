@@ -1,7 +1,8 @@
 import 'dart:ui' show SemanticsRole, SemanticsValidationResult;
 
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide RadioGroup;
+import 'package:flutter/widgets.dart' as widgets show RadioGroup;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
 import 'package:invisible_ui/src/internal/focus_ring.dart';
@@ -50,7 +51,7 @@ class _ControlledState extends State<_Controlled> {
   void replace(String? next) => setState(() => value = next);
 
   @override
-  Widget build(BuildContext context) => RadioButtonGroup<String>(
+  Widget build(BuildContext context) => RadioGroup<String>(
     label: 'Export',
     items: _scopes,
     value: value,
@@ -67,7 +68,7 @@ void main() {
     final reports = <String>[];
     await tester.pumpWidget(
       harness(
-        RadioButtonGroup<String>.uncontrolled(
+        RadioGroup<String>.uncontrolled(
           label: 'Export',
           items: _scopes,
           onChanged: reports.add,
@@ -89,7 +90,7 @@ void main() {
     final reports = <String>[];
     await tester.pumpWidget(
       harness(
-        RadioButtonGroup<String>.uncontrolled(
+        RadioGroup<String>.uncontrolled(
           label: 'Export',
           items: _scopes,
           initialValue: 'year',
@@ -117,7 +118,7 @@ void main() {
     final reports = <String>[];
     await tester.pumpWidget(
       harness(
-        RadioButtonGroup<String>.uncontrolled(
+        RadioGroup<String>.uncontrolled(
           label: 'Export',
           items: _scopes,
           initialValue: 'month',
@@ -154,11 +155,7 @@ void main() {
               focusNode: before,
               child: const Text('Before'),
             ),
-            RadioButtonGroup<String>(
-              label: 'Export',
-              items: _scopes,
-              value: value,
-            ),
+            RadioGroup<String>(label: 'Export', items: _scopes, value: value),
             Button(onPressed: () {}, child: const Text('After')),
           ],
         ),
@@ -204,7 +201,7 @@ void main() {
       'nothing', (tester) async {
     final reports = <String>[];
     Widget build({required bool enabled}) => harness(
-      RadioButtonGroup<String>.uncontrolled(
+      RadioGroup<String>.uncontrolled(
         label: 'Export',
         items: _scopes,
         enabled: enabled,
@@ -256,7 +253,7 @@ void main() {
       harness(
         Form(
           key: form,
-          child: RadioButtonGroup<String>.uncontrolled(
+          child: RadioGroup<String>.uncontrolled(
             label: 'Export',
             items: _scopes,
             validator: (value) => value == null ? 'Choose a scope.' : null,
@@ -270,7 +267,7 @@ void main() {
     await tester.pump();
     expect(find.text('Choose a scope.'), findsOneWidget);
     expect(
-      tester.getSemantics(find.byType(RadioGroup<String>)),
+      tester.getSemantics(find.byType(widgets.RadioGroup<String>)),
       semanticsWith(
         label: 'Export',
         hint: 'Choose a scope.',
@@ -294,10 +291,7 @@ void main() {
     useKeyboardHighlight();
     await tester.pumpWidget(
       harness(
-        const RadioButtonGroup<String>.uncontrolled(
-          label: 'Export',
-          items: _scopes,
-        ),
+        const RadioGroup<String>.uncontrolled(label: 'Export', items: _scopes),
       ),
     );
     List<bool> rings() => [
@@ -318,7 +312,7 @@ void main() {
     final semantics = tester.ensureSemantics();
     await tester.pumpWidget(
       harness(
-        const RadioButtonGroup<String>(
+        const RadioGroup<String>(
           label: 'Export',
           items: _scopes,
           value: 'year',
@@ -329,7 +323,7 @@ void main() {
     );
     // One node: the native group's radio group role, with the field's name,
     // description and required state on it.
-    final group = tester.getSemantics(find.byType(RadioGroup<String>));
+    final group = tester.getSemantics(find.byType(widgets.RadioGroup<String>));
     expect(group.getSemanticsData().role, SemanticsRole.radioGroup);
     expect(
       group,
@@ -371,7 +365,7 @@ void main() {
       harness(
         const SizedBox(
           width: 240,
-          child: RadioButtonGroup<String>.uncontrolled(
+          child: RadioGroup<String>.uncontrolled(
             label: 'Export',
             items: _scopes,
             orientation: Axis.horizontal,

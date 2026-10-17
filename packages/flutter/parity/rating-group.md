@@ -13,7 +13,7 @@ Docs page: [Rating Group](https://dr2madre.github.io/invisible-ui/components/for
 Each line is **matched**, **adapted** (with the platform reason) or **out of
 scope**. Every matched line names the widget test in
 `test/rating_group_test.dart` that holds it. The keyboard is the shared
-single-choice focus of `RadioButtonGroup`, which runs the navigation
+single-choice focus of `RadioGroup`, which runs the navigation
 vectors in `core/src/select/__vectors__`.
 
 ## Names
