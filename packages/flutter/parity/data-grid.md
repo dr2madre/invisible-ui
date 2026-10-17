@@ -1,6 +1,6 @@
 # Data Grid parity checklist
 
-Reference commit: `957859b9174447401062c34a78b2bc858d03f4f3`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/grid` `docs/editable-grid-spec.md`
 

@@ -1,6 +1,6 @@
 # Popover parity checklist
 
-Reference commit: `0c336bd6e53053c3c9e46ad4d7701879eba50315`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/popover` `packages/svelte/src/lib/popover` `packages/svelte/src/lib/hover-card`
 
@@ -36,6 +36,7 @@ that holds it.
 | --- | --- | --- |
 | A press toggles; each change reported once | matched | `a press opens, focus moves to the first control, Escape closes and returns focus; each change is reported once` |
 | Focus moves to the first focusable control, in reading order | matched | same test |
+| An adapter-internal `initialFocus` option names what takes focus on opening, before the first focusable (the date pickers focus the selected day) | matched | the package-internal `fieldPopover` takes `initialFocus`, a function that returns a node; `a tap opens with focus on the picked day; a pick fills the field, closes, returns focus and reports once` in `test/date_picker_test.dart`. Neither adapter exposes it on the public popover |
 | Nothing focusable: the panel takes focus | matched | `a panel with nothing focusable takes focus itself`; the default trigger text is the catalog key `dialog.trigger` |
 | Escape closes and returns focus to the trigger | matched | first test |
 | A press outside closes; focus stays where the press put it | matched | `a press outside closes and leaves focus; a second press on the trigger closes` |

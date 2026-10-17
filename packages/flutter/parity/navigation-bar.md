@@ -1,6 +1,6 @@
 # Navigation Bar parity checklist
 
-Reference commit: `49db2e6b2d02f290504d70f8aec41d995a1a8ad4`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/navigation-bar` `packages/svelte/src/lib/navigation-bar` `docs/navigation-bar-spec.md`
 
@@ -13,10 +13,10 @@ and the behaviour spec
 whose "Decisions taken" section is binding.
 Docs page: [Navigation Bar](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-bar/).
 
-Each line is **matched**, **adapted** (with the platform reason), **out of
-scope** or **not yet verified**. Every matched line names the widget test in
-`test/navigation_bar_test.dart` that holds it, or the vector group in
-`test/navigation_bar_vectors_test.dart`.
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(with the gap), **out of scope** or **not yet verified**. Every matched line
+names the widget test in `test/navigation_bar_test.dart` that holds it, or
+the vector group in `test/navigation_bar_vectors_test.dart`.
 
 ## Names
 
@@ -65,6 +65,7 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Current mark: indicator behind the icon, label weight 600, never colour alone | matched | `the current destination has an indicator and a bolder label; …` |
+| The indicator paints the `navigation-bar-current-indicator` role: the secondary mixed 90 % with white in the light theme, 74 % with neutral 50 in the dark one | matched | `the current destination has an indicator and a bolder label; …` checks the role in the light theme; the dark recipe and its value (`#9a7cd7`) in `test/tokens_test.dart`: `every mix recipe computes the value its role holds`. No Flutter test measures the indicator's 3:1 against the surface or the text; the ratios are the token's (`docs/tokens.md`) |
 | The label keeps its weight-600 width, so the current state never reflows the bar | matched | `the current state never changes the label width` |
 | Web: `<nav aria-label>` around a list, `aria-current="page"` | adapted | Flutter has no landmark or `aria-current`; the two profiles below carry the same information |
 | iOS, Android, Fuchsia: tab bar profile. Bar: container, `SemanticsRole.tabBar`, label. Destination: `SemanticsRole.tab`, `button`, `selected` true or false, `enabled`, `onTap`, `indexInParent` | matched | `a tab bar on iOS and Android: tab role, selected, position and badge in the name, the reason as the hint` |
@@ -105,6 +106,7 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Announced through `SemanticsService.sendAnnouncement` with the widget's `View` | adapted | through the package's `announce`, which sends the same message with the view id: `sendAnnouncement` arrived after Flutter 3.35 |
 | Held while a modal is open, the latest per destination made after the last modal closes (ADR 0016, case 2) | matched | `held while a modal is open, the latest per destination made after the last one closes`, `a dialog route holds them too`; the port of `holdAnnouncements`: `held announcements keep the latest per destination, …` |
 | The bar knows a modal is open | adapted | through the app's `ModalObserver`, passed as `modals`, the mechanism `NotificationRegion` uses; without it nothing is held |
+| Only a modal outside the bar holds them: a bar shown inside an open modal still announces | open | the Flutter bar holds while any modal is open, the route that shows it included; the shared `BadgeAnnouncer` skips the hold for its own current popup route, but only `Sidebar` gives it that route, and no test covers a bar inside a modal |
 
 ## Layout, density, text and contrast
 

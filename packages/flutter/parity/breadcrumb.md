@@ -1,6 +1,6 @@
 # Breadcrumb parity checklist
 
-Reference commit: `ddcb5bf7b51d6d75d5e1606607c9caa5dcb3a0c1`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/breadcrumb`
 

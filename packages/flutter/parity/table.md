@@ -1,6 +1,6 @@
 # Table parity checklist
 
-Reference commit: `3a72a486d1ee462d04c027cc3511fb4c4dab559e`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/table` `packages/svelte/src/lib/table` `docs/data-table-spec.md`
 
@@ -62,5 +62,5 @@ selection transitions also answer the shared vectors in
 | Header labels in the secondary text colour, bold; the sorted header in the selection colour with an arrow | matched | `_HeaderCell`; the arrow shape says the direction, so colour is never the only cue |
 | Unsorted sortable headers show a faint up and down hint | matched | `GlyphShape.sortable` at 40%, 70% on hover |
 | Alignment per column, mirrored right to left | matched | `right to left: the first column sits at the right` |
-| A table wider than its container | adapted | the table scrolls sideways and the scroller takes focus only while it overflows, so the keyboard reaches every column and a table that fits adds no tab stop: `a table wider than its container scrolls sideways …`. The web table wraps its cells instead, and inside Table Set's card it is clipped when its columns still do not fit (an open point) |
+| A table wider than its container | adapted | the table scrolls sideways and the scroller takes focus only while it overflows, so the keyboard reaches every column and a table that fits adds no tab stop: `a table wider than its container scrolls sideways …`. The web table wraps its cells instead. Inside Table Set's card the web scrolls a table that still does not fit, and the card is a focusable named region only while it overflows (`scrollArea.observeInlineOverflow`); see [table-set.md](table-set.md) |
 | Targets 24 by 24, 44 by 44 under touch; text contrast | matched | `targets: 24 by 24, 44 by 44 under touch; text contrast` |

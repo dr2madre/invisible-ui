@@ -1,18 +1,18 @@
 # Toolbar parity checklist
 
-Reference commit: `bde4433a71312b89d1164c6a1adce57471999a4a`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/toolbar` `packages/svelte/src/lib/toolbar`
 
 The Flutter `Toolbar` checked against the Svelte `Toolbar`
 (`packages/svelte/src/lib/toolbar/Toolbar.svelte`) and the shared key rule
-in `core/src/toolbar` (`nextIndex`), which follow the
+in `core/src/toolbar` (`nextIndex`, `controlKind`), which follow the
 [WAI-ARIA toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/).
 Docs page: [Toolbar](https://dr2madre.github.io/invisible-ui/components/patterns/toolbar/).
 
-Each line is **matched**, **adapted** (with the platform reason) or **out of
-scope**. Every matched line names the widget test in `test/toolbar_test.dart`
-that holds it.
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(Flutter lacks it; the reason states the gap) or **out of scope**. Every
+matched line names the widget test in `test/toolbar_test.dart` that holds it.
 
 ## Names
 
@@ -35,8 +35,9 @@ that holds it.
 | Disabled controls are skipped | matched | `disabled controls are skipped` |
 | The last focused control keeps the tab stop | matched | `focus returns to the control that had it last` |
 | A tab stop on a control that becomes disabled or goes moves to the first enabled control | matched | `the tab stop moves to the first enabled control when its holder is disabled` |
-| Key arithmetic shared with the other adapters | matched | `nextIndex` in `lib/src/internal/roving.dart` is the Dart form of `core/src/toolbar/state.ts`; the shared menu keyboard layer uses the same intent and action |
-| Controls found by DOM query (buttons, toggles, links, fields) | adapted | Flutter has no selector query: every focusable, traversable control inside is a stop, in reading order, through a `FocusTraversalGroup` policy that exposes only the tab stop |
+| Key arithmetic shared with the other adapters | matched | `nextIndex` in `lib/src/internal/roving.dart` is the Dart form of `core/src/toolbar/state.ts` for moving focus; the shared menu keyboard layer uses the same intent and action. It has no `control` option: see the next line |
+| A focused text input keeps the keys its caret needs: Left and Right in a horizontal toolbar, Up and Down in a vertical one, and Home and End; multi-line content keeps every arrow. A read-only input does not | open | the Flutter toolbar takes these keys from a `TextField` inside it: Left, Right, Home and End move focus to the next control instead of moving the caret. No widget test covers a field in a toolbar |
+| Controls found by DOM query (buttons, toggles, links, fields, but not hidden inputs) | adapted | Flutter has no selector query: every focusable, traversable control inside is a stop, in reading order, through a `FocusTraversalGroup` policy that exposes only the tab stop. Flutter has no hidden input, so there is nothing to leave out |
 
 ## Semantics
 
@@ -56,5 +57,5 @@ that holds it.
 | Vertical toolbar stacks and stretches its controls | matched | `a vertical toolbar uses up and down` renders it |
 | Gap 0.375rem, padding 0.25rem, 1 px border in `color.border`, radius `radius.control`, background | matched | the reference sets them in its stylesheet; same numbers and roles |
 | Targets follow the theme: 44 by 44 under touch | matched | `targets are at least 44 by 44 under touch` |
-| `flat` presentation (borderless toggle buttons) | out of scope | it styles toggle buttons, which the Flutter package does not have yet |
+| `flat` presentation (borderless toggle buttons) | open | the Flutter package now has `ToggleButton`, but `Toolbar` has no `flat` option to remove the border and fill of the toggle buttons inside it |
 | Overflow menu | out of scope | the reference has none; it wraps |

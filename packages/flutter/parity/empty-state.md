@@ -1,6 +1,6 @@
 # Empty State parity checklist
 
-Reference commit: `e47db9b6717964787e0d689629f1beb73f18612d`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/empty-state` `packages/svelte/src/lib/feedback-icon` `packages/elements/src/empty-state`
 

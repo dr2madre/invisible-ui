@@ -1,6 +1,6 @@
 # Context Menu parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/menu` `core/src/internal/submenu-geometry.ts` `packages/svelte/src/lib/context-menu` `docs/menu-submenu-spec.md`
 
@@ -75,7 +75,7 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| Item hit area 24 by 24, 44 by 44 under touch | matched | `every item is at least 24 by 24, and 44 by 44 under touch` |
+| Item hit area 24 by 24, and 44 by 44 for every item under a coarse pointer | adapted | Flutter has no pointer media query: the 44 by 44 target applies under the touch density, or a larger `minTargetSize`, that the app selects. `every item is at least 24 by 24, and 44 by 44 under touch` |
 | The menu stays inside a narrow screen at text scale 2.0 | matched | `text scale 2.0 on a narrow screen keeps the menu inside` |
 | Colours, radii and elevation of the shared menu tokens | matched | the shared `MenuPanel`; see `dropdown-menu.md` |
 | Region focus ring radius `radius.control` | matched | the region paints the theme focus ring with `controlRadius` |
