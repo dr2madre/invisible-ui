@@ -55,7 +55,7 @@ implementation questions the strategy left open.
 - Light DOM means consumer CSS *can* reach into the components — accepted, and
   identical to the Svelte/React adapters' global-CSS stance.
 - The self-contained rule applies to `define.js` only. The package entry
-  (`index.js`, for bundled apps) leaves `@design-system/core` and
+  (`index.js`, for bundled apps) leaves `@invisible-ui/core` and
   `@floating-ui/dom` to the consumer's bundler. Until 2026-09 both entries
   were built as one, with the core inlined into a chunk they shared; that
   merged every primitive into a single module, and importing one element
