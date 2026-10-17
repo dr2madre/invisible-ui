@@ -14,7 +14,7 @@ Menubar, Popover), the feedback widgets (the notifications, Loading,
 LoadingGenerationArea, EmptyState, ErrorState), Card, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SearchDialog,
 SheetDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
-RadioButtonGroup, SegmentedControl, Select, Combobox, MultiSelect), the
+RadioGroup, SegmentedControl, Select, Combobox, MultiSelect), the
 search field (SearchField), the dates (Calendar, DatePicker,
 DateRangePicker, TimeField), the disclosures and navigation (Collapsible,
 Accordion, Tabs, Breadcrumb, Pagination, Link, Navigation Menu, Navigation
@@ -32,7 +32,7 @@ The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
 
 Some names match widgets in Flutter or Material (`Slider`, `Switch`,
-`Dialog`, `TextField`). The package keeps them: import it with a prefix, as
+`Dialog`, `TextField`, `RadioGroup`). The package keeps them: import it with a prefix, as
 every example below does.
 
 ```dart
@@ -178,7 +178,7 @@ iu.NumberField(
 | Checkbox | Matched, with adaptations listed | [parity/checkbox.md](parity/checkbox.md) | [Checkbox](https://dr2madre.github.io/invisible-ui/components/forms/checkbox/) |
 | CheckboxGroup | Matched, with adaptations listed | [parity/checkbox-group.md](parity/checkbox-group.md) | [Checkbox Group](https://dr2madre.github.io/invisible-ui/components/forms/checkbox-group/) |
 | Switch | Matched, with adaptations listed | [parity/switch.md](parity/switch.md) | [Switch](https://dr2madre.github.io/invisible-ui/components/forms/switch/) |
-| RadioButtonGroup | Matched, with adaptations listed | [parity/radio-group.md](parity/radio-group.md) | [Radio Group](https://dr2madre.github.io/invisible-ui/components/forms/radio-group/) |
+| RadioGroup | Matched, with adaptations listed | [parity/radio-group.md](parity/radio-group.md) | [Radio Group](https://dr2madre.github.io/invisible-ui/components/forms/radio-group/) |
 | SegmentedControl | Matched, with adaptations listed | [parity/segmented-control.md](parity/segmented-control.md) | [Segmented Control](https://dr2madre.github.io/invisible-ui/components/forms/segmented-control/) |
 | Select | Matched, with adaptations listed | [parity/select.md](parity/select.md) | [Select](https://dr2madre.github.io/invisible-ui/components/forms/select/) |
 | Combobox | Matched, with adaptations listed | [parity/combobox.md](parity/combobox.md) | [Combobox](https://dr2madre.github.io/invisible-ui/components/forms/combobox/) |
@@ -359,8 +359,10 @@ iu.Combobox<String>(
 - **Popover** holds anything, such as a search field and a list: focus
   moves in when it opens, Escape closes it and returns focus, and inside a
   dialog Escape closes the popover first.
-- **RadioButtonGroup** is the web's RadioGroup, built on the widgets
-  library's `RadioGroup` (which keeps that name) and `iu.Radio`.
+- **RadioGroup** is the web's RadioGroup, built on the widgets library's
+  `RadioGroup` and `iu.Radio`. With the prefixed import, `iu.RadioGroup` is
+  this package's labelled group and `RadioGroup` the widgets library's value
+  holder.
 - **MultiSelect** keeps several options as removable tags (`values:` with
   `onChanged:`): Enter adds and keeps the list open, every addition and
   removal is announced, and removing a tag moves focus to the next remove
@@ -663,7 +665,7 @@ iu.PinInput(
   invalid and is announced, and a form reset clears it. For example
   `iu.RatingGroup.uncontrolled(label: 'Rating', validator: (v) => v == null
   ? 'Choose a rating.' : null)`. `iu.Radio` holds no value;
-  `iu.RadioButtonGroup` does, and shows its own error the same way.
+  `iu.RadioGroup` does, and shows its own error the same way.
 - **Sliders.** `Slider` and `RangeSlider` take the keys of a native range
   input: arrows, Page Up and Page Down, Home and End, mirrored right to
   left. A `RangeSlider` value is a `(double, double)` pair whose thumbs
