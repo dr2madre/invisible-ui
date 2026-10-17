@@ -32,6 +32,12 @@
   --sl-color-black: var(--ds-color-background, #282420);
 }
 
+/* Home page in the dark theme: the darkest grey of the palette as the page
+   background. */
+:root:not([data-theme="light"]) [data-has-hero] {
+  --sl-color-bg: var(--ds-neutral-950, #1c1915);
+}
+
 /* Home feature cards — design-system look with aligned icons. */
 .home-cards {
   display: grid;
