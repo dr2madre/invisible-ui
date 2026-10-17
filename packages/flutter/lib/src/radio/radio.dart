@@ -54,7 +54,7 @@ const double _innerDot = 9.6;
 /// the next or previous enabled radio, wrapping, and check it; right and
 /// left follow the reading direction. Space or a tap checks the focused
 /// radio, and checking the radio that is already checked reports nothing.
-/// The radio joins no [Form]: [RadioButtonGroup] does, with a label, a
+/// The radio joins no [Form]: this package's `RadioGroup` does, with a label, a
 /// description and an error.
 ///
 /// The name matches Material's `Radio`: import this package with a prefix,

@@ -163,8 +163,8 @@ Each item ships as its own PR. Checkboxes track progress.
   Empty State, Error State, Card, the dialog family (Dialog, Alert Dialog
   and Confirm Dialog, with the ADR 0016 status area and dialogs on top) and
   the first part of Timelog's second wave: Checkbox, Checkbox Group, Switch,
-  Radio Group (`RadioButtonGroup`, since the widgets library has a
-  `RadioGroup`), Segmented Control, Select, Combobox and Popover, then the
+  Radio Group (`RadioGroup`, told apart from the widgets library's
+  `RadioGroup` by the prefixed import), Segmented Control, Select, Combobox and Popover, then the
   dates: Calendar (month and two-month views, single and range), Date
   Picker, Date Range Picker and Time Field, then the disclosures and
   navigation: Collapsible, Accordion, Tabs (automatic and manual
