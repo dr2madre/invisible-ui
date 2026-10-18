@@ -720,7 +720,7 @@ class _Badge extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: colors.danger,
-        borderRadius: BorderRadius.circular(_badgeMin),
+        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.pill),
         border: border,
       ),
       child: Text(
