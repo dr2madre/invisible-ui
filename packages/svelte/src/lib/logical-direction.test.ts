@@ -56,10 +56,9 @@ describe("directional glyphs", () => {
 describe("sheet dialog", () => {
   const css = source("sheet-dialog/SheetDialog.svelte");
 
-  it("names its edges start and end, with left and right as aliases", () => {
-    for (const side of ["start", "end", "left", "right"]) {
-      expect(css).toContain(`[data-side="${side}"]`);
-    }
+  it("names its lateral edges start and end, and has no physical left or right", () => {
+    for (const side of ["start", "end"]) expect(css).toContain(`[data-side="${side}"]`);
+    for (const side of ["left", "right"]) expect(css).not.toContain(`[data-side="${side}"]`);
   });
 
   it("moves, drags and slides along the inline axis", () => {
