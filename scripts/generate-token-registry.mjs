@@ -14,7 +14,7 @@
 //      cannot say it
 //
 // The page never copies a colour into a specimen: the registry keeps the
-// canonical expression (`var(--ds-colors-palette-grey-200)`, `color-mix(...)`) and the page
+// canonical expression (`var(--ds-palette-grey-200)`, `color-mix(...)`) and the page
 // paints with the live custom property. The resolved value is worked out here,
 // from the same stylesheet, and shown as text beside the specimen.
 
@@ -235,9 +235,9 @@ const isJustAValue = (text) =>
   /^(#[0-9a-fA-F]{3,8}|[\d.]+(px|rem|em|%)?|oklch\([^)]*\))$/.test(text.trim());
 
 const TIERS = [
-  { tier: "primitive", test: (n) => n.startsWith("--ds-colors-palette-") },
-  { tier: "brand", test: (n) => n.startsWith("--ds-colors-brand-") },
-  { tier: "feedback", test: (n) => n.startsWith("--ds-colors-feedback-") },
+  { tier: "primitive", test: (n) => n.startsWith("--ds-palette-") },
+  { tier: "brand", test: (n) => n.startsWith("--ds-brand-") },
+  { tier: "feedback", test: (n) => n.startsWith("--ds-feedback-") },
   { tier: "semantic", test: (n) => n.startsWith("--ds-components-general-") },
   { tier: "component", test: (n) => n.startsWith("--ds-components-") },
   { tier: "radius", test: (n) => n.startsWith("--ds-metrics-radius-") },
@@ -246,7 +246,7 @@ const TIERS = [
   { tier: "primitive", test: (n) => /^--ds-(neutral|purple|red|orange|green|blue)-\d+$/.test(n) },
   {
     tier: "primitive",
-    test: (n) => n.startsWith("--ds-pastel-") || n === "--ds-colors-palette-black",
+    test: (n) => n.startsWith("--ds-pastel-") || n === "--ds-palette-black",
   },
   { tier: "brand", test: (n) => n.startsWith("--ds-brand-") },
   { tier: "feedback", test: (n) => n.startsWith("--ds-feedback-") },
@@ -267,23 +267,23 @@ const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other
 
 /**
  * The CSS name a DTCG path ships as. `palette.grey.700` becomes
- * `--ds-colors-palette-grey-700`, `style.primary.hover` becomes `--ds-colors-brand-primary-hover`,
- * `style.danger.default` becomes `--ds-colors-feedback-danger-default`. The role, focus,
+ * `--ds-palette-grey-700`, `brand.primary.hover` becomes `--ds-brand-primary-hover`,
+ * `feedback.danger.default` becomes `--ds-feedback-danger-default`. The role, focus,
  * typography and regular density tiers name the property itself:
  * `role.dark.color-text` is `--ds-components-general-foreground-default`, `focus.ring-width` is
  * `--ds-components-general-focus-ring-width`, `role.dark.dialog-overlay` is `--ds-components-dialog-overlay-default`.
  * The component tier does the same: `component.dark.card-background` is
- * `--ds-components-card-background-default`. `palette.black` is `--ds-colors-palette-black`. The touch target
+ * `--ds-components-card-background-default`. `palette.black` is `--ds-palette-black`. The touch target
  * is `--ds-metrics-density-touch-min-target-size`.
  */
 function cssNameForDtcg(path) {
-  if (/^(colors|metrics|typography|components)\./.test(path))
+  if (/^(palette|brand|feedback|metrics|typography|components)\./.test(path))
     return `--ds-${path.replaceAll(".", "-")}`;
   const parts = path.split(".");
   if ((parts[0] === "role" || parts[0] === "component") && parts.length === 3) {
     return `--ds-${parts[2]}`;
   }
-  if (path === "palette.black") return "--ds-colors-palette-black";
+  if (path === "palette.black") return "--ds-palette-black";
   if (parts[0] === "focus" && parts.length === 2) return `--ds-focus-${parts[1]}`;
   if (parts[0] === "typography" && parts.length === 2) return `--ds-${parts[1]}`;
   if (parts[0] === "density" && parts[1] === "regular" && parts.length === 3) {

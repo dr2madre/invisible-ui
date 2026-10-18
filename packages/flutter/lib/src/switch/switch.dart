@@ -11,7 +11,7 @@ const double _trackWidth = 40;
 const double _trackWidthOnOff = 60;
 const double _trackHeight = 24;
 const double _thumbInset = 2;
-const double _onOffInset = 8;
+const double _onOffInset = 9;
 const double _onOffFontSize = 10;
 
 /// An on and off switch with its label, following the WAI-ARIA switch
@@ -188,8 +188,7 @@ class _SwitchState extends State<Switch> with ValueControl<bool, Switch> {
   }
 }
 
-/// The track and thumb. The track keeps a boundary in both states, and the
-/// thumb a rim, so each stays visible on the light off track.
+/// The track has no border. The thumb keeps a rim, white when selected.
 class _Track extends StatelessWidget {
   const _Track({required this.on, this.onText, this.offText});
 
@@ -237,8 +236,8 @@ class _Track extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: on ? colors.secondary : colors.switchBackground,
-        border: Border.all(color: colors.controlBorder),
+        color: on ? colors.primary : colors.switchBackground,
+        border: on ? Border.all(color: colors.primary) : null,
         borderRadius: BorderRadius.circular(InvisibleRadiusTokens.pill),
       ),
       child: Stack(
@@ -276,7 +275,9 @@ class _Track extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: InvisiblePalette.grey0,
                   shape: BoxShape.circle,
-                  border: Border.all(color: colors.controlBorder),
+                  border: Border.all(
+                    color: on ? colors.primary : colors.controlBorder,
+                  ),
                 ),
               ),
             ),

@@ -1,10 +1,12 @@
 # Switch parity checklist
 
-Reference commit: `5df411f6ee7583b84e5a6d5cbd113ff147043f7d`
+Reference commit: `cd25a32fb29a63e2931ed22abfe8284b28513622`
 
-Reference review (2026-10-18): checked the token-model change in the Svelte
+Reference review (2026-10-19): checked the version-3 token hierarchy in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
+The selected track and thumb rim now use the primary action colour. The off
+track has no border, and ON/OFF text sits closer to the thumb in both adapters.
 
 Reference paths: `core/src/switch` `packages/svelte/src/lib/switch`
 
@@ -55,7 +57,7 @@ or imports this package with a prefix.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| Track 2.5rem by 1.5rem with a boundary in both states; white thumb with a rim | matched | `_Track` |
+| Track 2.5rem by 1.5rem, borderless when off and primary-bordered when on; white thumb with a control-coloured rim off and a primary rim on | matched | `_Track` |
 | On/off text in the wider track | matched | `onOff shows the state as text from the messages` |
 | Thumb at the inline-end when on | matched | the web moves the thumb along the inline axis, so in right-to-left text it sits at the left when on; Flutter aligns it to the inline-end: `right to left: on puts the thumb at the left` |
 | Reduced motion: no transition | matched | `reduced motion moves the thumb at once` |

@@ -1,8 +1,8 @@
 # Button parity checklist
 
-Reference commit: `5df411f6ee7583b84e5a6d5cbd113ff147043f7d`
+Reference commit: `cd25a32fb29a63e2931ed22abfe8284b28513622`
 
-Reference review (2026-10-18): checked the token-model change in the Svelte
+Reference review (2026-10-19): checked the version-3 token hierarchy in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
@@ -101,7 +101,7 @@ them to the web names and to the ADR 0011 vocabulary.
 | --- | --- | --- |
 | Colours from the roles: background, text, surface, control border, primary, primary hover, on primary, secondary surface, on secondary surface, state hover, danger, destructive surface, on destructive surface | matched | `colours come from the theme roles` |
 | Mixed borders and hovers (`color-mix()` in the stylesheet) | matched | computed in sRGB from the same roles, as the stylesheet does |
-| Padding from `density.regular.control-padding-*` | matched | `compact and touch padding fall back to regular` (theme test) |
+| Padding from `metrics.spacing.control-padding-*` | matched | shared control spacing is read from `InvisibleSpacingTokens` (tokens test) |
 | Radius from `radius.control` | matched | `light and dark come from the tokens` (theme test) |
 | Line height `typography.line-height-tight`, weight 500 | matched | the reference sets weight 500 in its stylesheet |
 | Gap, icon-only padding and size, icon sizes, border width, disabled opacity | matched | the reference sets them in its own stylesheet, not in the tokens; the Flutter values are the same numbers |
@@ -116,7 +116,7 @@ them to the web names and to the ADR 0011 vocabulary.
 | A smaller `minTargetSize` never lowers the hit area below the density token | matched | `InvisibleThemeData.minTargetSize` keeps the token as its floor: `a smaller target size never goes below the token` (theme_test) |
 | An explicit `minTargetSize` applies at any density | matched | `an explicit 44 by 44 target applies at regular density` |
 | A press between the painted button and the target edge counts | matched | `a press outside the painted button but inside the target counts` |
-| Compact and touch padding | adapted | the tokens define control padding for regular only; compact and touch use the regular values until the tokens define theirs |
+| Compact and touch padding | matched | the shared spacing applies at every density; density changes the minimum target size |
 
 ## Direction and text scaling
 

@@ -4,6 +4,25 @@ Date: 2026-10-18
 
 ## Current execution status
 
+### Version-3 follow-up
+
+PR #495 contains the approved top-level `palette`, `brand`, `feedback`,
+`metrics`, `typography` and `components` model. Commit `bc891554` adds the
+previously missing Compact density minimum to the runtime CSS of all four web
+adapters. The runtime test now checks all 263 canonical tokens in Light and Dark,
+including references and colour-mix recipes. The token catalog contains 274
+shipped custom properties, of which 263 are design-owned. Local token, Svelte
+CSS, registry, Flutter generation, lint and formatting checks pass. The
+maintainer reviewed the approved Switch styling in the Light and Dark choice
+images. PR #496 regenerated only those two golden images with pinned Flutter
+3.35, passed its full CI and was merged into PR #495. Final CI for PR #495 must
+still pass before merging it. No manual assistive technology verification is
+claimed.
+
+The public token documentation and the current-status note in ADR 0019 have
+been aligned with the version-3 model. Historical examples in ADR 0002 are
+marked superseded without rewriting that decision's record.
+
 ### Pull request and verification
 
 The reform was squash-merged into `main` in
@@ -41,6 +60,20 @@ generator. The formatting correction passed in the final CI run.
 The historical progress notes below describe earlier stages. Their statements
 about an uncommitted local candidate and old CSS overrides are superseded by
 the merged implementation and final CI status.
+### Follow-up: flat colour groups and shared spacing
+
+The maintainer confirmed that `spacing` belongs in `metrics` and that a
+top-level `colors` group is redundant: `palette`, `brand` and `feedback` are
+already colour groups. The active schema is version 3, with those three groups
+at the root. Existing shared control-padding values moved from
+`metrics.density.regular` to `metrics.spacing`; their values did not change.
+Button references the shared metrics. Component-only spacing remains with its
+component. The migration is recorded in `packages/tokens/migration-v3.json`.
+
+The schema and documentation changes are committed as `cd25a32f` in
+[PR #495](https://github.com/dr2madre/invisible-ui/pull/495). The generated
+Flutter tokens and token registry match the canonical source. Focused token
+model and Switch tests pass. The historical v2 preparation check passes.
 
 ### Activation update
 
@@ -76,8 +109,8 @@ Border and foreground are unchanged. The existing explicit web override
 `--ds-button-bg-hover` remains available. Five source-level regression checks
 pass in `scripts/button-hover.test.mjs`; this is not a browser visual check.
 
-The version-2 model is now active locally on `feature/token-model-reform`.
-`packages/tokens/tokens.json` contains 230 logical tokens, including the 134
+The version-3 model is now active locally on the current worktree.
+`packages/tokens/tokens.json` contains 263 logical leaves, including 134
 palette entries. The temporary candidate has been removed. Web consumers and
 Flutter generation use the canonical source; the palette demo reads it directly.
 The migration manifest records the removed canonical CSS names, without runtime
@@ -144,12 +177,12 @@ also update the authoritative design documentation and record an ADR.
 
 ## Agreed structure
 
-- `colors/palette`: primitive colours, with the full family names, such as
+- `palette`: primitive colours, with the full family names, such as
   `alizarin-red`. Use `palette`, not `primitives`, as the colour group name.
-- `colors/brand`: tenant-configurable brand colours, which can reference palette.
-- `colors/feedback`: tenant-configurable info, success, warning and danger
+- `brand`: tenant-configurable brand colours, which can reference palette.
+- `feedback`: tenant-configurable info, success, warning and danger
   colours, which can reference palette. Do not use `functional` as a synonym.
-- `metrics`: measurements, including spacing, radius and border width.
+- `metrics`: shared measurements, including spacing, radius and border width.
   Do not use `numbers` as the group label.
 - `typography`: a separate group for font family, size, weight and line height.
 - Shared UI properties and component-specific properties form the next levels.
@@ -255,7 +288,7 @@ authorisation implied by the earlier request to merge that PR.
 
 The user has already approved this reform and its implementation. Do not ask
 for approval of the same architecture again. Confirmed decisions include
-colors/palette, brand, feedback, metrics, separate typography, shared and
+top-level palette, brand, feedback, metrics, separate typography, shared and
 component-specific properties, foreground without on-* names, background
 without surface names, and a clean migration without legacy aliases.
 
@@ -292,11 +325,10 @@ canonical data; slashes show the same hierarchy in documentation and Figma.
 Themes and tenants are configuration axes, not token-name segments.
 
 ```text
-colors/
-  palette/<family>/<step>
-  palette/black
-  brand/<primary|secondary>/<default|hover>
-  feedback/<info|success|warning|danger>/<state>
+palette/<family>/<step>
+palette/black
+brand/<primary|secondary>/<default|hover>
+feedback/<info|success|warning|danger>/<state>
 metrics/
   spacing/<existing-scale-entry>
   radius/<control|container|pill>
@@ -323,7 +355,8 @@ components/
     <part>/<property>/<state>
 ```
 
-This proposal retains `general` from the user's original tree. Thus
+This proposal retains `general` from the user's original tree. Shared spacing
+uses existing values in `metrics.spacing`; it does not add a new scale. Thus
 `components/general/background/default` is the unqualified UI background;
 `components/card/background/default` affects only Card. An application can
 override the latter without recolouring other components.
@@ -419,14 +452,14 @@ main. Any old leaf not covered blocks migration completion.
 
 | Existing source path | Proposed destination or required action |
 | --- | --- |
-| `palette.purple.*` | `colors.palette.dioxazine-purple.*` |
-| `palette.red.*` | `colors.palette.alizarin-red.*` |
-| `palette.orange.*` | `colors.palette.burnt-orange.*` |
-| `palette.green.*` | `colors.palette.sap-green.*` |
-| `palette.blue.*` | `colors.palette.cobalt-blue.*` |
-| `palette.grey.*`, `palette.black` | Same family/leaf under `colors.palette` |
-| `style.primary.S`, `style.secondary.S` | `colors.brand.primary.S`, `colors.brand.secondary.S` |
-| `style.info.S`, `style.success.S`, `style.warning.S`, `style.danger.S` | Same status/state under `colors.feedback` |
+| `palette.purple.*` | `palette.dioxazine-purple.*` |
+| `palette.red.*` | `palette.alizarin-red.*` |
+| `palette.orange.*` | `palette.burnt-orange.*` |
+| `palette.green.*` | `palette.sap-green.*` |
+| `palette.blue.*` | `palette.cobalt-blue.*` |
+| `palette.grey.*`, `palette.black` | Same family/leaf under `palette` |
+| `style.primary.S`, `style.secondary.S` | `brand.primary.S`, `brand.secondary.S` |
+| `style.info.S`, `style.success.S`, `style.warning.S`, `style.danger.S` | Same status/state under `feedback` |
 | `role.T.color-background` | `components.general.background.default`, mode T |
 | `role.T.color-text`, `color-text-secondary`, `color-text-disabled` | `components.general.foreground.default`, `.secondary`, `.disabled` |
 | `role.T.color-border`, `color-control-border` | `components.general.border.default`, `.control` |
@@ -547,6 +580,5 @@ Ask only if an actual conflict requires changing the requested behaviour,
 appearance, scope or result. Missing original palette data must be reported,
 not guessed.
 
-Implementation remains paused until the user confirms Claude's merges are
-complete. The approval to implement does not authorise commit, push, merge or
-publication of this new reform.
+Implementation may proceed on the approved corrections. This approval does
+not authorise commit, push, merge or publication.
