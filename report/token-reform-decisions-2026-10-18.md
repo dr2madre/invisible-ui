@@ -30,8 +30,9 @@ rounded mixed Button colors to eight-bit channels before Flutter painted them.
 The generator now keeps the source's fractional channels for Button mixes;
 other roles retain their existing representation. The generated-file check,
 Dart formatter, token tests and notification tests pass locally. The pinned
-Flutter 3.35 golden comparison must confirm this change in CI; golden images
-were not updated.
+Flutter 3.35 golden comparison passed in the third CI run; golden images were
+not updated. That run's general gate stopped at Prettier formatting for the
+generator. The formatting was corrected locally and needs CI confirmation.
 
 The historical progress notes below describe earlier stages. Their statements
 about an uncommitted local candidate and old CSS overrides are superseded by

@@ -330,7 +330,9 @@ export function dartTokensFormat({ dictionary }) {
   for (const [theme] of themes) {
     push(
       `  static const InvisibleColors ${camel(theme)} = InvisibleColors(`,
-      ...colorsOf(theme).map(([key, token]) => `    ${roleName(key)}: ${dartRoleColor(key, token)},`),
+      ...colorsOf(theme).map(
+        ([key, token]) => `    ${roleName(key)}: ${dartRoleColor(key, token)},`,
+      ),
       "  );",
       "",
     );
