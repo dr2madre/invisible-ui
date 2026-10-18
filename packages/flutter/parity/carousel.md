@@ -63,7 +63,7 @@ keys also answer the shared vectors in `core/src/carousel/__vectors__`
 | Gallery: 224 wide items, 16 apart, scaled with the text | matched | `_galleryView` |
 | Coverflow: the current item centred, neighbours translated, turned and scaled | matched | `_CoverflowTrack` |
 | Coverflow neighbours fade with distance | adapted | never faded: their text keeps its contrast, and items more than two places away are not drawn: `coverflow: neighbours stay opaque, only near ones are drawn`. The web adapters no longer fade them either |
-| Coverflow and the slide track mirror right to left | adapted | both follow the reading direction. The web slide track moves the other way in right-to-left text; the web coverflow does not mirror yet (an open point) |
+| Coverflow and the slide track mirror right to left | matched | both follow the reading direction: in right-to-left text the next slide sits on the left, and the coverflow turns its neighbours the other way: `coverflow right to left: the next slide sits on the left` |
 | The current dot shows by shape as well as colour | adapted | the current dot is wider and filled with the primary colour; the web fills the dot's button area |
 | Arrow buttons over the stage at the inline start and end | matched | `PositionedDirectional` |
 | Narrow at text scale 2.0: nothing overflows; 24 by 24, 44 by 44 under touch; contrast | matched | `narrow at text scale 2.0: …` |

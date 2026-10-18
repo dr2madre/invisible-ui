@@ -61,6 +61,13 @@ describe("Vue arrows follow the reading direction", () => {
     expect(document.querySelector('[data-index="0"]')).toHaveAttribute("data-active", "");
   });
 
+  it("Carousel: the coverflow places the next slide to the left, turned the other way", async () => {
+    render(Carousel, { props: { items: slides, variant: "coverflow", label: "Featured photos" } });
+    const next = document.querySelector<HTMLElement>('[data-index="1"]')!;
+    await waitFor(() => expect(next.style.transform).toContain("11rem) * -1)"));
+    expect(next.style.transform).toContain("rotateY(18deg)");
+  });
+
   it("Carousel: the track moves the other way, so the next slide is the one in view", async () => {
     render(Carousel, { props: { items: slides, label: "Featured photos" } });
     const carousel = screen.getByRole("group", { name: "Featured photos" });

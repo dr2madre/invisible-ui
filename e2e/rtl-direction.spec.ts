@@ -164,6 +164,17 @@ test.describe("Svelte, on the documentation site", () => {
     expect(on.right).toBeLessThanOrEqual(on.track);
   });
 
+  test("the coverflow puts the next slide on the left", async ({ page }) => {
+    await page.goto("components/data-layout/carousel/", { waitUntil: "networkidle" });
+    await rtl(page);
+    const carousel = page.getByRole("group", { name: "Featured destinations", exact: true });
+    const centreOf = async (index: number) => {
+      const box = await carousel.locator(".carousel__slide").nth(index).boundingBox();
+      return box!.x + box!.width / 2;
+    };
+    await expect.poll(async () => (await centreOf(1)) - (await centreOf(0))).toBeLessThan(0);
+  });
+
   test("a tree twistie mirrors", async ({ page }) => {
     await page.goto("components/patterns/tree-view/", { waitUntil: "networkidle" });
     await rtl(page);

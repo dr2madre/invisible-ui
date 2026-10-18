@@ -227,6 +227,26 @@ void main() {
     expect(find.text('Card 0'), findsNothing);
   });
 
+  testWidgets('coverflow right to left: the next slide sits on the left', (
+    tester,
+  ) async {
+    Future<double> nextMinusCurrent(TextDirection direction) async {
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(
+        harness(
+          _carousel(variant: CarouselVariant.coverflow),
+          direction: direction,
+        ),
+      );
+      await tester.pumpAndSettle();
+      return tester.getCenter(find.text('Hills')).dx -
+          tester.getCenter(find.text('Lake')).dx;
+    }
+
+    expect(await nextMinusCurrent(TextDirection.ltr), greaterThan(0));
+    expect(await nextMinusCurrent(TextDirection.rtl), lessThan(0));
+  });
+
   testWidgets('narrow at text scale 2.0: nothing overflows; targets 24 by '
       '24, 44 by 44 under touch; text contrast', (tester) async {
     final semantics = tester.ensureSemantics();

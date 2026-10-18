@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import CalendarFixture from "./calendar/calendar.fixture.svelte";
+import Carousel from "./carousel/Carousel.svelte";
 import CarouselFixture from "./carousel/carousel.fixture.svelte";
 import MenubarFixture from "./menubar/menubar.fixture.svelte";
 import Pagination from "./pagination/Pagination.svelte";
@@ -55,6 +56,14 @@ describe("Svelte arrows follow the reading direction", () => {
     await fireEvent.keyDown(carousel, { key: "ArrowLeft" });
     const track = document.querySelector<HTMLElement>(".carousel__track")!;
     await waitFor(() => expect(track.style.transform).toBe("translateX(calc(1 * 1 * 100%))"));
+  });
+
+  it("Carousel: the coverflow places the next slide to the left, turned the other way", async () => {
+    const items = [{ title: "Peaks" }, { title: "Valley" }, { title: "Forest" }];
+    render(Carousel, { props: { items, variant: "coverflow", label: "Featured photos" } });
+    const next = document.querySelectorAll<HTMLElement>(".carousel__slide")[1]!;
+    await waitFor(() => expect(next.style.transform).toContain("11rem) * -1)"));
+    expect(next.style.transform).toContain("rotateY(18deg)");
   });
 
   it("Calendar: ArrowLeft goes to the next day", async () => {

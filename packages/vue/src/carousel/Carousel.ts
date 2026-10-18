@@ -139,10 +139,13 @@ export const Carousel = defineComponent({
     const coverflowStyle = (offset: number) => {
       const abs = Math.abs(offset);
       const vertical = props.orientation === "vertical";
+      // The row flows with the text: in right-to-left text the next slide sits
+      // to the left and turns the other way.
+      const across = i18n.value.dir === "rtl" ? -offset : offset;
       const translate = vertical
         ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-        : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
-      const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
+        : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+      const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
       const scale = Math.max(0, 1 - abs * 0.15);
       // Neighbours recede by scale and turn only: a fade would take their text
       // below the AA contrast. Slides past two places are hidden outright.
