@@ -1084,7 +1084,7 @@
     {
       "name": "SheetDialogSide",
       "kind": "type",
-      "signature": "type SheetDialogSide = dialog.SheetSide;"
+      "signature": "type SheetDialogSide = sheetDialog.SheetSide;"
     },
     {
       "name": "Sidebar",
@@ -1504,7 +1504,7 @@
     {
       "name": "UseContextMenuOptions",
       "kind": "interface",
-      "signature": "interface UseContextMenuOptions { items: MenuItem[]; disabled?: boolean; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; onOpenChange?: (open: boolean) => void; /** Preferred placement relative to the pointer. Default `\"right-start\"`. */ placement?: Placement; }"
+      "signature": "interface UseContextMenuOptions { items: MenuItem[]; disabled?: boolean; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; onOpenChange?: (open: boolean) => void; /** Preferred placement relative to the pointer. Default `\"right-start\"`, `\"left-start\"` in right-to-left text. */ placement?: Placement; }"
     },
     {
       "name": "UseDialog",

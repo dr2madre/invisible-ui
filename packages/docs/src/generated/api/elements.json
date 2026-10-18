@@ -711,7 +711,7 @@
     {
       "name": "SheetDialogSide",
       "kind": "type",
-      "signature": "type SheetDialogSide = dialog.SheetSide;"
+      "signature": "type SheetDialogSide = sheetDialog.SheetSide;"
     },
     {
       "name": "SidebarItem",

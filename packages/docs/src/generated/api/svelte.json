@@ -530,7 +530,7 @@
     {
       "name": "ContextMenuContext",
       "kind": "interface",
-      "signature": "interface ContextMenuContext { items: menu.MenuItem[]; disabled?: boolean; id?: string; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** Preferred placement relative to the pointer. Default `\"right-start\"`. */ placement?: Placement; }"
+      "signature": "interface ContextMenuContext { items: menu.MenuItem[]; disabled?: boolean; id?: string; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** Preferred placement relative to the pointer. Default `\"right-start\"`, `\"left-start\"` in right-to-left text. */ placement?: Placement; }"
     },
     {
       "name": "CreateAccordion",
@@ -1260,7 +1260,7 @@
     {
       "name": "SheetDialogSide",
       "kind": "type",
-      "signature": "type SheetDialogSide = dialog.SheetSide;"
+      "signature": "type SheetDialogSide = sheetDialog.SheetSide;"
     },
     {
       "name": "SidebarItem",
