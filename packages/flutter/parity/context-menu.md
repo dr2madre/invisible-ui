@@ -38,6 +38,7 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | A secondary click opens the menu at the pointer, focusing the first enabled item | matched | `a secondary click opens the menu at the pointer, on its first item` |
 | Placement toward the inline-end (`right-start`, `left-start` in right to left), 2 px from the point, flipping and shifting with 8 px padding | matched | the menu opens toward the inline-end of the point and flips toward the inline-start, through the submenu placement rule (`placeSubmenu`, held by the shared placement vectors): `a secondary click opens…`, `rtl: the menu opens toward the inline-end of the pointer`, `near the edge the menu flips toward the inline-start`. Both mirror in right-to-left text, as the submenus do |
 | Opening again while open moves the menu to the new point and focuses the first item | matched | `opening again moves the menu to the new point` |

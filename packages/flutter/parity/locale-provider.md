@@ -27,6 +27,7 @@ the shared vectors in `core/src/i18n/__vectors__/locale-direction.json`
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| An overlay rendered outside the tree takes the direction of the control that opens it | open | on the web the core reads it with `i18n.elementDirection`; Flutter builds an `OverlayPortal` child in the context of the control, so its `Directionality` applies, but no widget test holds it |
 | Sets the locale for the subtree | matched | through Flutter's `Localizations`, which the components already read (calendar, number field, week start): `sets the locale, the direction from the locale and the messages for its subtree` |
 | The direction follows the locale; a given direction wins | matched | same test, `a given direction wins; …` |
 | Message overrides | adapted | a full `InvisibleMessages` (with `copyWith` for a few keys) on a nested theme, the Flutter way to carry the catalog; a component's own label still wins |

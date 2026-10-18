@@ -34,6 +34,7 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | A press toggles; each change reported once | matched | `a press opens, focus moves to the first control, Escape closes and returns focus; each change is reported once` |
 | Focus moves to the first focusable control, in reading order | matched | same test |
 | An adapter-internal `initialFocus` option names what takes focus on opening, before the first focusable (the date pickers focus the selected day) | matched | the package-internal `fieldPopover` takes `initialFocus`, a function that returns a node; `a tap opens with focus on the picked day; a pick fills the field, closes, returns focus and reports once` in `test/date_picker_test.dart`. Neither adapter exposes it on the public popover |

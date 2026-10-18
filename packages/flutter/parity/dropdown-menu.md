@@ -38,6 +38,7 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | A `submenu` entry beside items, groups and separators | matched | vectors: `menu keyboard vectors` |
 | A submenu trigger is a stop of its own level; its items belong to the next | matched | vectors: typeahead `A submenu item is not found from the root` |
 | Values unique across the tree | matched | `MenuTree` asserts in debug builds, as `checkItems` throws in development |

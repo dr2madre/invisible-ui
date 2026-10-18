@@ -35,6 +35,7 @@ verified**. Every matched line names the widget test in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | At most one panel open | matched | `hover opens after 150 ms, switches at once, …` (Products closes when Resources opens) |
 | A press opens a panel and keeps it open; the next press closes it | matched | `a click opens a panel and keeps it; Escape and a press outside close a kept panel`, `touch has no hover: a tap toggles the panel`. Approved decision; core keeps the panel with its `kept` flag |
 | The first press on a panel the pointer opened keeps it open, with no timing threshold | matched | `the first click keeps a panel the pointer opened; leaving then closes nothing; the next click closes it` |
