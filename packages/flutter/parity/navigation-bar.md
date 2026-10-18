@@ -106,11 +106,7 @@ the vector group in `test/navigation_bar_vectors_test.dart`.
 | Announced through `SemanticsService.sendAnnouncement` with the widget's `View` | adapted | through the package's `announce`, which sends the same message with the view id: `sendAnnouncement` arrived after Flutter 3.35 |
 | Held while a modal is open, the latest per destination made after the last modal closes (ADR 0016, case 2) | matched | `held while a modal is open, the latest per destination made after the last one closes`, `a dialog route holds them too`; the port of `holdAnnouncements`: `held announcements keep the latest per destination, …` |
 | The bar knows a modal is open | adapted | through the app's `ModalObserver`, passed as `modals`, the mechanism `NotificationRegion` uses; without it nothing is held |
-<<<<<<< HEAD
 | Only a modal outside the bar holds them: a bar shown inside an open modal still announces | matched | `a bar inside the open dialog keeps announcing`. The bar gives the shared `BadgeAnnouncer` the route it shows in, as `Sidebar` does, and the announcer skips the hold while that route is the current popup route |
-=======
-| Only a modal outside the bar holds them: a bar shown inside an open modal still announces | open | the Flutter bar holds while any modal is open, the route that shows it included; the shared `BadgeAnnouncer` skips the hold for its own current popup route, but only `Sidebar` gives it that route, and no test covers a bar inside a modal |
->>>>>>> origin/main
 
 ## Layout, density, text and contrast
 
