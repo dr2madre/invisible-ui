@@ -50,4 +50,18 @@ describe("scroll-area geometry", () => {
   it("never returns a negative position when content does not overflow", () => {
     expect(scrollByThumbDrag(10, { scrollPos: 0, scrollSize: 100, clientSize: 200 })).toBe(0);
   });
+
+  it("follows a right-to-left viewport, whose scrollLeft is zero or negative", () => {
+    const m = { scrollSize: 400, clientSize: 100 };
+    // At the inline start the thumb sits at the start; scrolled to the end, at the end.
+    expect(thumbOffsetFraction({ ...m, scrollPos: 0 })).toBe(0);
+    expect(thumbOffsetFraction({ ...m, scrollPos: -150 })).toBeCloseTo(0.375, 5);
+    expect(thumbOffsetFraction({ ...m, scrollPos: -300 })).toBeCloseTo(0.75, 5);
+    // Dragging the thumb left moves toward the inline end: scrollLeft goes negative.
+    expect(scrollByThumbDrag(-10, { ...m, scrollPos: 0 }, "rtl")).toBe(-40);
+    expect(scrollByThumbDrag(10, { ...m, scrollPos: -100 }, "rtl")).toBe(-60);
+    // Clamped at both ends.
+    expect(scrollByThumbDrag(10, { ...m, scrollPos: 0 }, "rtl")).toBe(0);
+    expect(scrollByThumbDrag(-1000, { ...m, scrollPos: 0 }, "rtl")).toBe(-300);
+  });
 });
