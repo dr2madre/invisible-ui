@@ -96,7 +96,7 @@ const lock = (
  * headless navigation bar, shared with the Navigation Bar.
  */
 function SidebarItems({ items, value, collapsed, onSelect, onNavigate }: ItemsProps) {
-  const { t } = useI18n();
+  const { t, dir } = useI18n();
   const id = `ds-sidebar-items-${useId()}`;
   return (
     <ul className={cx("sidebar__list", collapsed && "sidebar__list--collapsed")}>
@@ -162,7 +162,7 @@ function SidebarItems({ items, value, collapsed, onSelect, onNavigate }: ItemsPr
                       })
                     : item.label
                 }
-                placement="right"
+                placement={dir === "rtl" ? "left" : "right"}
               >
                 {control}
               </Tooltip>

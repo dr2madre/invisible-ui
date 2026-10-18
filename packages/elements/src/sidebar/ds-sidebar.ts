@@ -316,7 +316,8 @@ export class DsSidebar extends HTMLElementBase {
               })
             : entry.label,
         );
-        tooltip.setAttribute("placement", "right");
+        const rtl = this.isConnected && getComputedStyle(this).direction === "rtl";
+        tooltip.setAttribute("placement", rtl ? "left" : "right");
         tooltip.appendChild(item);
         li.appendChild(tooltip);
       } else {

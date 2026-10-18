@@ -32,7 +32,7 @@
 
   let { items, value = null, collapsed = false, onSelect, onNavigate }: Props = $props();
 
-  const { t } = getI18n();
+  const { t, dir } = getI18n();
   const id = stableId("ds-sidebar-items");
   const reasonId = (index: number) => `${id}-reason-${index}`;
 </script>
@@ -90,7 +90,7 @@
                 reason: item.unavailable.reason,
               })
             : item.label}
-          placement="right"
+          placement={$dir === "rtl" ? "left" : "right"}
         >
           {@render control(item, index)}
         </Tooltip>

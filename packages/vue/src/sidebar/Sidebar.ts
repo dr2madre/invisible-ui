@@ -289,7 +289,8 @@ export const Sidebar = defineComponent({
             reason: unavailable.reason,
           })
         : entry.label;
-      return h(Tooltip, { text, placement: "right" }, { default: () => node });
+      const placement = i18n.value.dir === "rtl" ? "left" : "right";
+      return h(Tooltip, { text, placement }, { default: () => node });
     };
 
     const list = (section: SidebarSection, sectionIndex: number) =>

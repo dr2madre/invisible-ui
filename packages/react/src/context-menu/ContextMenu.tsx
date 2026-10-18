@@ -72,10 +72,14 @@ export function ContextMenu({
     }, [previous]),
   });
 
+  const rtl = () => !!regionRef.current && getComputedStyle(regionRef.current).direction === "rtl";
+
   const reposition = () => {
     const popup = popupEl.current;
     const { x, y } = point.current;
-    if (popup) positionFloating(pointAnchor(x, y), popup, { placement: "right-start", offset: 2 });
+    // The menu opens toward the inline end: to the left in right-to-left text.
+    const placement = rtl() ? "left-start" : "right-start";
+    if (popup) positionFloating(pointAnchor(x, y), popup, { placement, offset: 2 });
   };
 
   /** Open, or summon again, at a viewport point, focusing the first item. */
@@ -95,10 +99,11 @@ export function ContextMenu({
 
   const onContextMenu = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    // The keyboard menu key and Shift+F10 carry no pointer: open at the corner.
+    // The keyboard menu key and Shift+F10 carry no pointer: open at the
+    // inline-start top corner.
     if (event.clientX === 0 && event.clientY === 0) {
       const rect = event.currentTarget.getBoundingClientRect();
-      openAt(rect.left, rect.top);
+      openAt(rtl() ? rect.right : rect.left, rect.top);
     } else {
       openAt(event.clientX, event.clientY);
     }
