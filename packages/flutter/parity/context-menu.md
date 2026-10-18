@@ -83,3 +83,7 @@ scope**. Every matched line names the test that holds it, in
 | The menu stays inside a narrow screen at text scale 2.0 | matched | `text scale 2.0 on a narrow screen keeps the menu inside` |
 | Colours, radii and elevation of the shared menu tokens | matched | the shared `MenuPanel`; see `dropdown-menu.md` |
 | Region focus ring radius `radius.control` | matched | the region paints the theme focus ring with `controlRadius` |
+
+## Background token
+
+The background reads the component token `--ds-menu-background` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

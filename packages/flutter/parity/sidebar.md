@@ -160,3 +160,7 @@ destinations, `test/sidebar_status_test.dart`.
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Responsive presentation | out of scope | as on the web, the component reads no screen size; the app decides where and when to show it, whether it is a rail and when it is a drawer |
+
+## Background token
+
+The background reads the component token `--ds-sidebar-background` on the web and `InvisibleColors.sidebarBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

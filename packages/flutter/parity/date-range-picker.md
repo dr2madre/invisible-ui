@@ -46,3 +46,7 @@ Each line is **matched**, **adapted** (with the platform reason), **open**
 | Labeled targets and contrast | matched | same test |
 | Form reset restores the default range silently | matched | `a form reset restores the default range silently` |
 | Popup at most 40rem wide, within the window | matched | the shared field, held by `right to left at text scale 2.0 in a narrow window, …` |
+
+## Background token
+
+The background reads the component token `--ds-popover-background` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

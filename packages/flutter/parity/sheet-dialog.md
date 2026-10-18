@@ -54,3 +54,7 @@ scope**. Every matched line names the widget test in
 | The system areas | adapted | a bottom sheet stays above the keyboard; the panel reaches the screen edge it is anchored to |
 | `--ds-sheet-dialog-duration`, `--ds-sheet-dialog-handle` | out of scope | 250 ms and the border role, as the web defaults |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
+
+## Background token
+
+The background reads the component token `--ds-dialog-background` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

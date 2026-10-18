@@ -39,3 +39,7 @@ that holds it.
 | Status area before the actions | matched | `the presets have a status area before their actions` (a `ConfirmDialog`, the same panel) |
 | A trigger button inside the component | adapted | Flutter opens dialogs as routes: the app's own button calls `showInvisibleDialog` |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+
+## Background token
+
+The background reads the component token `--ds-dialog-background` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

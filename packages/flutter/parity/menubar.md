@@ -102,3 +102,7 @@ scope**. Every matched line names the test that holds it, in
 | A bar wider than its parent | adapted | the web bar is an `inline-flex` row; the Flutter bar wraps onto more rows instead of overflowing, and the arrows keep the reading order: `text scale 2.0 on a narrow screen wraps the bar and keeps the menu inside` |
 | Bar border, `radius.surface`, background; trigger padding, bold label, `radius.control`, `state-hover` tint on hover and while open, focus ring | matched | the values of the Svelte stylesheet |
 | Each top menu a root `RawMenuAnchor`, coordinated by the bar | matched | the spec's Flutter section: the bar applies the `core/src/menubar` rules itself rather than through a `RawMenuAnchorGroup`, whose own outside-press handling can return focus to the trigger; vectors |
+
+## Background token
+
+The background reads the component token `--ds-menu-background` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

@@ -50,3 +50,7 @@ scope**. Every matched line names the widget test in
 | `required` shows the asterisk on the field label | adapted | the web label shows none; Flutter's field shows the required asterisk, as every Flutter field does, and reports the field required |
 | A trigger button inside the component | adapted | Flutter opens dialogs as routes: the app's own button calls `showInvisibleDialog` |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
+
+## Background token
+
+The background reads the component token `--ds-dialog-background` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
