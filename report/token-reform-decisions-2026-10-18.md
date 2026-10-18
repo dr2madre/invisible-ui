@@ -6,9 +6,13 @@ Date: 2026-10-18
 
 ### Pull request and verification
 
-The reform is committed as `5df411f6` and published in
-[PR #493](https://github.com/dr2madre/invisible-ui/pull/493). It is awaiting
-passing GitHub checks and the required maintainer review before squash merge.
+The reform was squash-merged into `main` in
+[PR #493](https://github.com/dr2madre/invisible-ui/pull/493) as `f2943333`.
+The final CI run passed the general gate, all three browser E2E jobs, Flutter
+stable, Flutter 3.35 with golden images, and parity drift. The Default Button
+hover intentionally matches Ghost hover; no golden images were changed.
+
+Earlier CI runs found the following issues, all corrected before the merge.
 The first CI run passed the main verification job, Firefox and WebKit. It found
 five Dart formatting differences, a stale Flutter parity checklist set, one
 Flutter inverted-notification close-glyph color regression and a token-catalog
@@ -21,7 +25,7 @@ the source review found token styling changes, with only token-name comments
 outside Svelte style blocks. The parity-drift check passes for all 80
 checklists. The complete Chromium catalog accessibility sweep passes locally
 (2 tests), as do the rebuilt site and Astro documentation check (zero errors,
-warnings or hints). CI must confirm the complete result.
+warnings or hints).
 
 The second CI run passed Flutter stable, Chromium, Firefox and parity drift,
 but Flutter 3.35 golden comparison found subpixel border differences in Button,
@@ -32,11 +36,11 @@ other roles retain their existing representation. The generated-file check,
 Dart formatter, token tests and notification tests pass locally. The pinned
 Flutter 3.35 golden comparison passed in the third CI run; golden images were
 not updated. That run's general gate stopped at Prettier formatting for the
-generator. The formatting was corrected locally and needs CI confirmation.
+generator. The formatting correction passed in the final CI run.
 
 The historical progress notes below describe earlier stages. Their statements
 about an uncommitted local candidate and old CSS overrides are superseded by
-the committed implementation and this PR status.
+the merged implementation and final CI status.
 
 ### Activation update
 
