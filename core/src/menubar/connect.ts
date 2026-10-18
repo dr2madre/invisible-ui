@@ -1,4 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
+import { directionOf } from "../internal/direction";
 import type { MenubarState } from "./types";
 
 /** The public, framework-agnostic API for a connected menubar. */
@@ -33,7 +34,7 @@ export interface ConnectOptions {
   /** Move DOM focus to the trigger at `index`. */
   focusTrigger: (index: number) => void;
   /**
-   * Reading direction. Defaults to `"ltr"`. In right-to-left text ArrowLeft
+   * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text ArrowLeft
    * goes to the next top menu and ArrowRight to the previous one, so the keys
    * keep following the visual order.
    */
@@ -57,7 +58,7 @@ export function connect({
   openMenu,
   closeMenu,
   focusTrigger,
-  direction = "ltr",
+  direction,
   normalize = identityNormalize,
 }: ConnectOptions): MenubarApi {
   const { menus, openIndex } = state;
@@ -89,12 +90,11 @@ export function connect({
     else focusAt(next);
   };
 
-  const forward = direction === "rtl" ? -1 : 1;
-
   const onKeyDown = (event: Event) => {
     // The open menu took the key (a submenu opened or closed): leave it.
     if (event.defaultPrevented || count === 0) return;
     const key = (event as KeyboardEvent).key;
+    const forward = (direction ?? directionOf(event)) === "rtl" ? -1 : 1;
     switch (key) {
       case "ArrowRight":
       case "ArrowLeft":

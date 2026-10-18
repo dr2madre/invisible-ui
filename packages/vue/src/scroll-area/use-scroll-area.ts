@@ -88,11 +88,11 @@ export function useScrollArea(): UseScrollArea {
         clientSize: node.clientHeight,
       });
     } else {
-      node.scrollLeft = core.scrollByThumbDrag(delta, {
-        scrollPos: node.scrollLeft,
-        scrollSize: node.scrollWidth,
-        clientSize: node.clientWidth,
-      });
+      node.scrollLeft = core.scrollByThumbDrag(
+        delta,
+        { scrollPos: node.scrollLeft, scrollSize: node.scrollWidth, clientSize: node.clientWidth },
+        getComputedStyle(node).direction === "rtl" ? "rtl" : "ltr",
+      );
     }
   };
 

@@ -187,7 +187,7 @@
     /* A rim in the boundary colour keeps the thumb separable from the light
        off track, where the white alone would disappear. */
     box-shadow: 0 0 0 1px var(--ds-color-control-border, #757575);
-    transition: translate 150ms ease;
+    transition: inset-inline-start 150ms ease;
   }
 
   .switch__input:checked + .switch {
@@ -202,7 +202,10 @@
     outline-offset: var(--ds-focus-ring-offset, 2px);
   }
   .switch__input:checked + .switch::after {
-    translate: calc(var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)) 0;
+    /* Logical, so the thumb stays on the track in right-to-left text. */
+    inset-inline-start: calc(
+      0.125rem + var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)
+    );
   }
 
   .field--disabled .switch,
@@ -247,11 +250,10 @@
   .switch__input:checked + .switch--onoff .switch__off {
     opacity: 0;
   }
-  .switch--onoff.switch::after {
-    translate: 0 0;
-  }
   .switch__input:checked + .switch--onoff.switch::after {
-    translate: calc(var(--ds-switch-onoff-width, 3.75rem) - var(--ds-switch-height, 1.5rem)) 0;
+    inset-inline-start: calc(
+      0.125rem + var(--ds-switch-onoff-width, 3.75rem) - var(--ds-switch-height, 1.5rem)
+    );
   }
   /* Forced colors: the focus sits on the hidden input, so the outline the
      theme forces there lands on something nobody can see. Draw it on the

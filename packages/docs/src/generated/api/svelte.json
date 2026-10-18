@@ -530,7 +530,7 @@
     {
       "name": "ContextMenuContext",
       "kind": "interface",
-      "signature": "interface ContextMenuContext { items: menu.MenuItem[]; disabled?: boolean; id?: string; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** Preferred placement relative to the pointer. Default `\"right-start\"`. */ placement?: Placement; }"
+      "signature": "interface ContextMenuContext { items: menu.MenuItem[]; disabled?: boolean; id?: string; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** Preferred placement relative to the pointer. Default `\"right-start\"`, `\"left-start\"` in right-to-left text. */ placement?: Placement; }"
     },
     {
       "name": "CreateAccordion",
@@ -1255,12 +1255,12 @@
     {
       "name": "SheetDialogContext",
       "kind": "interface",
-      "signature": "interface SheetDialogContext extends Omit<DialogContext, \"role\"> { /** Which edge the panel is anchored to. Default `\"right\"`. */ side?: SheetDialogSide; }"
+      "signature": "interface SheetDialogContext extends Omit<DialogContext, \"role\"> { /** Which edge the panel is anchored to. Default `\"end\"`. */ side?: SheetDialogSide; }"
     },
     {
       "name": "SheetDialogSide",
       "kind": "type",
-      "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
+      "signature": "type SheetDialogSide = sheetDialog.SheetSide;"
     },
     {
       "name": "SidebarItem",

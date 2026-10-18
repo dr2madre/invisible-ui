@@ -38,6 +38,7 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | A `submenu` entry beside items, groups and separators | matched | vectors: `menu keyboard vectors` |
 | A submenu trigger is a stop of its own level; its items belong to the next | matched | vectors: typeahead `A submenu item is not found from the root` |
 | Values unique across the tree | matched | `MenuTree` asserts in debug builds, as `checkItems` throws in development |
@@ -119,11 +120,7 @@ scope**. Every matched line names the test that holds it, in
 | Flip to the inline-start; overlap the parent when neither side has room | matched | `near the edge the submenu flips to the inline-start`, `text scale 2.0 on a narrow screen keeps every level inside`; vectors |
 | Maximum height is the viewport minus the padding; the level scrolls; the focused item stays in view | matched | `a tall level scrolls inside the screen; the focused item stays in view` |
 | Chevron at the inline-end, mirrored in right to left, hidden from assistive technology | matched | the tile draws `GlyphShape.chevronEnd`, mirrored under `TextDirection.rtl`, inside excluded semantics |
-<<<<<<< HEAD
 | Item hit area 24 by 24, and 44 by 44 for every item under a coarse pointer | matched | `every item is at least 24 by 24, and 44 by 44 under touch`, `on a touch platform every item is 44 by 44 with no density chosen`. Flutter has no pointer media query, so the theme reads the platform: on Android, iOS and Fuchsia (`InvisibleThemeData.touchPlatform`, from `defaultTargetPlatform`, the signal Material uses for its tap targets) every target keeps 44 by 44 at any density, as under `pointer: coarse` on the web; on desktop the touch density or a larger `minTargetSize` gives it |
-=======
-| Item hit area 24 by 24, and 44 by 44 for every item under a coarse pointer | adapted | Flutter has no pointer media query: the 44 by 44 target applies under the touch density, or a larger `minTargetSize`, that the app selects. `every item is at least 24 by 24, and 44 by 44 under touch` |
->>>>>>> origin/main
 | Hover and focus tint `state-hover`; inset focus ring for keyboard focus | matched | the ring shows in traditional highlight mode, inside the item, never moving the label |
 | Forced colours: outline on the focused item and the open trigger | adapted | Flutter has no forced-colours mode; the open trigger keeps its tint and the keyboard ring stays |
 | Colours `background`, `border`, `text`, `text-disabled`, `text-secondary`, `control-border`; radii `radius.control` and `radius.surface` | matched | the reference sets them in its stylesheet; same roles |

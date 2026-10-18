@@ -4,3 +4,6 @@ build/
 pubspec.lock
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# What a failed golden comparison writes: the diff images.
+test/golden/failures/

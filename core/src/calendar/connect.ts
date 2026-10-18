@@ -1,4 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
+import { directionOf } from "../internal/direction";
 import { addDays, addMonths, addYears, clamp, dayId, inRange, startOfWeek, today } from "./state";
 import type { CalendarState, CalendarView } from "./types";
 
@@ -37,6 +38,12 @@ export interface ConnectOptions {
   setView: (view: CalendarView) => void;
   /** Move DOM focus to the day with the given ISO date (adapter-provided). */
   focus?: (iso: string) => void;
+  /**
+   * Reading direction. Omitted, each key press reads the computed `direction`
+   * of the day, so a `dir` set anywhere above counts. In right-to-left text the
+   * next day sits to the left, so ArrowLeft and ArrowRight swap.
+   */
+  direction?: "ltr" | "rtl";
   normalize?: Normalize;
 }
 
@@ -72,6 +79,7 @@ export function connect({
   setFocus,
   setView,
   focus,
+  direction,
   normalize = identityNormalize,
 }: ConnectOptions): CalendarApi {
   const { value, focusedDate, view, weekStartsOn, min, max, id } = state;
@@ -127,13 +135,13 @@ export function connect({
           const e = event as KeyboardEvent;
           switch (e.key) {
             case "ArrowRight":
+            case "ArrowLeft": {
               e.preventDefault();
-              moveFocus(addDays(focusedDate, 1));
+              const rtl = (direction ?? directionOf(event)) === "rtl";
+              const forward = (e.key === "ArrowRight") !== rtl;
+              moveFocus(addDays(focusedDate, forward ? 1 : -1));
               break;
-            case "ArrowLeft":
-              e.preventDefault();
-              moveFocus(addDays(focusedDate, -1));
-              break;
+            }
             case "ArrowDown":
               e.preventDefault();
               moveFocus(addDays(focusedDate, 7));

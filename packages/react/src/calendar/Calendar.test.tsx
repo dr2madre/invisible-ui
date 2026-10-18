@@ -176,7 +176,7 @@ describe("React Calendar (month view)", () => {
     expect(day("2026-06-15")).toHaveFocus();
   });
 
-  it("points the previous and next glyphs along a right-to-left provider", () => {
+  it("draws the same arrows in right-to-left text, which the sheet mirrors", () => {
     render(
       <LocaleProvider locale="ar">
         <Fixture />
@@ -184,7 +184,8 @@ describe("React Calendar (month view)", () => {
     );
     const glyph = (name: RegExp) =>
       screen.getByRole("button", { name }).querySelector("polyline")!.getAttribute("points");
-    expect(glyph(/السابق|Previous/)).toBe("9 6 15 12 9 18");
+    expect(glyph(/السابق|Previous/)).toBe("15 6 9 12 15 18");
+    expect(glyph(/التالي|Next/)).toBe("9 6 15 12 9 18");
   });
 
   it("follows min, max and weekStartsOn changed after mount, reporting nothing", () => {

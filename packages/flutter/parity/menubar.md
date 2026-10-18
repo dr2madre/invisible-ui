@@ -1,6 +1,6 @@
 # Menubar parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/menu` `core/src/menubar` `packages/svelte/src/lib/menubar` `docs/menu-submenu-spec.md`
 
@@ -39,6 +39,7 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | One tab stop on the bar, following the trigger that had focus last | matched | `the bar is one tab stop` |
 | Left and right move between triggers, wrapping, disabled ones included | matched | `<direction>: the arrows move between triggers, wrapping, and reach a disabled one`; vectors |
 | Right to left mirrors the arrows | matched | the `rtl` variants of both arrow tests; vectors: `RTL: …` |
@@ -94,11 +95,7 @@ scope**. Every matched line names the test that holds it, in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Menus open below their trigger at the inline-start edge, shifted inside the screen | matched | `a menu opens below its trigger at the inline-start edge` |
-<<<<<<< HEAD
 | Trigger and item hit area 24 by 24, and 44 by 44 for every trigger and item under a coarse pointer | matched | `every trigger and item is at least 24 by 24, and 44 by 44 under touch`, `on a touch platform every trigger and item is 44 by 44 with no density chosen`. Flutter has no pointer media query, so the theme reads the platform: on Android, iOS and Fuchsia (`InvisibleThemeData.touchPlatform`, from `defaultTargetPlatform`, the signal Material uses for its tap targets) every target keeps 44 by 44 at any density, as under `pointer: coarse` on the web; on desktop the touch density or a larger `minTargetSize` gives it |
-=======
-| Trigger and item hit area 24 by 24, and 44 by 44 for every trigger and item under a coarse pointer | adapted | Flutter has no pointer media query: the 44 by 44 target applies under the touch density, or a larger `minTargetSize`, that the app selects. `every trigger and item is at least 24 by 24, and 44 by 44 under touch` |
->>>>>>> origin/main
 | A bar wider than its parent | adapted | the web bar is an `inline-flex` row; the Flutter bar wraps onto more rows instead of overflowing, and the arrows keep the reading order: `text scale 2.0 on a narrow screen wraps the bar and keeps the menu inside` |
 | Bar border, `radius.surface`, background; trigger padding, bold label, `radius.control`, `state-hover` tint on hover and while open, focus ring | matched | the values of the Svelte stylesheet |
 | Each top menu a root `RawMenuAnchor`, coordinated by the bar | matched | the spec's Flutter section: the bar applies the `core/src/menubar` rules itself rather than through a `RawMenuAnchorGroup`, whose own outside-press handling can return focus to the trigger; vectors |

@@ -612,6 +612,11 @@
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
+  /* Previous points to the inline start and next to the inline end: the arrows
+     mirror in right-to-left text. */
+  .calendar__arrow:dir(rtl) {
+    scale: -1 1;
+  }
   .calendar__today:focus-visible,
   .calendar__arrow:focus-visible {
     outline: none;

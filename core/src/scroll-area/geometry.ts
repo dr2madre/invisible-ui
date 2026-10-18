@@ -1,3 +1,4 @@
+import type { Dir } from "../i18n/locale";
 import type { ScrollMetrics, ScrollbarGeometry } from "./types";
 
 /** Sub-pixel tolerance so rounding never reports a phantom 1px overflow. */
@@ -16,11 +17,15 @@ export function thumbSizeFraction({ scrollSize, clientSize }: ScrollMetrics): nu
   return clamp01(clientSize / scrollSize);
 }
 
-/** Thumb start offset as a fraction (0..1) of the track length. */
+/**
+ * Thumb start offset as a fraction (0..1) of the track length, from the
+ * inline or block start. In right-to-left text `scrollLeft` runs from 0 down to
+ * negative values, so its distance from the start is its absolute value.
+ */
 export function thumbOffsetFraction(metrics: ScrollMetrics): number {
   const maxScroll = metrics.scrollSize - metrics.clientSize;
   if (maxScroll <= 0) return 0;
-  const progress = clamp01(metrics.scrollPos / maxScroll);
+  const progress = clamp01(Math.abs(metrics.scrollPos) / maxScroll);
   return progress * (1 - thumbSizeFraction(metrics));
 }
 
@@ -37,11 +42,19 @@ export function scrollbar(metrics: ScrollMetrics): ScrollbarGeometry {
  * New scroll position after dragging the thumb by `deltaPx` along the track.
  * The viewport scrolls proportionally faster than the thumb (by
  * `scrollSize / clientSize`), and the result is clamped to the scrollable range.
+ * Pass the viewport's `direction` for the horizontal thumb: in right-to-left
+ * text the thumb starts at the right and `scrollLeft` is zero or negative.
  */
-export function scrollByThumbDrag(deltaPx: number, metrics: ScrollMetrics): number {
-  const { scrollPos, scrollSize, clientSize } = metrics;
+export function scrollByThumbDrag(
+  deltaPx: number,
+  metrics: ScrollMetrics,
+  direction: Dir = "ltr",
+): number {
+  const sign = direction === "rtl" ? -1 : 1;
+  const { scrollSize, clientSize } = metrics;
+  const scrollPos = Math.abs(metrics.scrollPos);
   const maxScroll = Math.max(0, scrollSize - clientSize);
-  if (clientSize <= 0) return Math.min(maxScroll, Math.max(0, scrollPos));
-  const next = scrollPos + (deltaPx * scrollSize) / clientSize;
-  return Math.min(maxScroll, Math.max(0, next));
+  const next = clientSize <= 0 ? scrollPos : scrollPos + (sign * deltaPx * scrollSize) / clientSize;
+  // `+ 0` turns -0 into 0, so a left-to-right result is never negative zero.
+  return sign * Math.min(maxScroll, Math.max(0, next)) + 0;
 }

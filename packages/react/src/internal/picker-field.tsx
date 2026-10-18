@@ -4,7 +4,7 @@ import { useI18n } from "../i18n/i18n";
 import { CloseGlyph, Icon } from "../icon/Icon";
 import { usePopover } from "../popover/use-popover";
 import { cx } from "./cx";
-import { usePortalHost } from "./portal-host";
+import { useAnchorDirection, usePortalHost } from "./portal-host";
 
 export interface PickerFieldProps {
   /** Holds the form-reset anchor of the picker that renders the field. */
@@ -68,6 +68,7 @@ export function PickerField({
   const host = usePortalHost(triggerRef);
   // A control turned off shows no popup: nothing on the page answers it.
   const shown = open && !disabled;
+  const popupDir = useAnchorDirection(triggerRef, dir);
 
   // Found by id, so the calendar can be handed this while rendering.
   const triggerId = api.triggerProps.id as string;
@@ -140,7 +141,7 @@ export function PickerField({
               ref={panelRef}
               className={cx("date-picker__popover", popupClass)}
               lang={locale}
-              dir={dir}
+              dir={popupDir}
             >
               {children(done)}
             </div>,

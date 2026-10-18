@@ -27190,14 +27190,14 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"start\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
@@ -27225,14 +27225,14 @@
         {
           "adapter": "react",
           "file": "packages/react/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"start\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
@@ -27260,14 +27260,14 @@
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sheet-dialog/SheetDialog.svelte",
-          "selector": ".sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sheet-dialog/SheetDialog.svelte",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"start\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
@@ -27295,14 +27295,14 @@
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"start\"]",
           "property": "animation",
           "fallback": "0.25s"
         },
@@ -27421,7 +27421,7 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"left\"] .sheet-dialog__handle",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"start\"] .sheet-dialog__handle",
           "property": "block-size",
           "fallback": "2.5rem"
         },
@@ -27435,7 +27435,7 @@
         {
           "adapter": "react",
           "file": "packages/react/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"left\"] .sheet-dialog__handle",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"start\"] .sheet-dialog__handle",
           "property": "block-size",
           "fallback": "2.5rem"
         },
@@ -27449,7 +27449,7 @@
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sheet-dialog/SheetDialog.svelte",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"left\"] .sheet-dialog__handle",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"start\"] .sheet-dialog__handle",
           "property": "block-size",
           "fallback": "2.5rem"
         },
@@ -27463,7 +27463,7 @@
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"left\"] .sheet-dialog__handle",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"] .sheet-dialog__handle, .sheet-dialog__panel[data-side=\"start\"] .sheet-dialog__handle",
           "property": "block-size",
           "fallback": "2.5rem"
         }
@@ -27502,7 +27502,7 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"], .sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"], .sheet-dialog__panel[data-side=\"start\"]",
           "property": "inline-size",
           "fallback": "20rem"
         },
@@ -27516,7 +27516,7 @@
         {
           "adapter": "react",
           "file": "packages/react/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"], .sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"], .sheet-dialog__panel[data-side=\"start\"]",
           "property": "inline-size",
           "fallback": "20rem"
         },
@@ -27530,7 +27530,7 @@
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sheet-dialog/SheetDialog.svelte",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"], .sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"], .sheet-dialog__panel[data-side=\"start\"]",
           "property": "inline-size",
           "fallback": "20rem"
         },
@@ -27544,7 +27544,7 @@
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel[data-side=\"right\"], .sheet-dialog__panel[data-side=\"left\"]",
+          "selector": ".sheet-dialog__panel[data-side=\"end\"], .sheet-dialog__panel[data-side=\"start\"]",
           "property": "inline-size",
           "fallback": "20rem"
         },
@@ -30893,7 +30893,7 @@
       "properties": [
         "block-size",
         "inline-size",
-        "translate"
+        "inset-inline-start"
       ],
       "adapters": [
         "elements",
@@ -30931,14 +30931,14 @@
           "adapter": "elements",
           "file": "packages/elements/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         },
         {
@@ -30966,14 +30966,14 @@
           "adapter": "react",
           "file": "packages/react/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         },
         {
@@ -31001,14 +31001,14 @@
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/switch/Switch.svelte",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/switch/Switch.svelte",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         },
         {
@@ -31036,14 +31036,14 @@
           "adapter": "vue",
           "file": "packages/vue/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "1.5rem"
         }
       ],
@@ -31242,7 +31242,7 @@
       ],
       "properties": [
         "inline-size",
-        "translate"
+        "inset-inline-start"
       ],
       "adapters": [
         "elements",
@@ -31266,7 +31266,7 @@
           "adapter": "elements",
           "file": "packages/elements/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "3.75rem"
         },
         {
@@ -31280,7 +31280,7 @@
           "adapter": "react",
           "file": "packages/react/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "3.75rem"
         },
         {
@@ -31294,7 +31294,7 @@
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/switch/Switch.svelte",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "3.75rem"
         },
         {
@@ -31308,7 +31308,7 @@
           "adapter": "vue",
           "file": "packages/vue/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch--onoff.switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "3.75rem"
         }
       ],
@@ -31389,7 +31389,7 @@
       ],
       "properties": [
         "inline-size",
-        "translate"
+        "inset-inline-start"
       ],
       "adapters": [
         "elements",
@@ -31413,7 +31413,7 @@
           "adapter": "elements",
           "file": "packages/elements/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "2.5rem"
         },
         {
@@ -31427,7 +31427,7 @@
           "adapter": "react",
           "file": "packages/react/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "2.5rem"
         },
         {
@@ -31441,7 +31441,7 @@
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/switch/Switch.svelte",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "2.5rem"
         },
         {
@@ -31455,7 +31455,7 @@
           "adapter": "vue",
           "file": "packages/vue/src/styles/switch.css",
           "selector": ".switch__input:checked + .switch::after",
-          "property": "translate",
+          "property": "inset-inline-start",
           "fallback": "2.5rem"
         }
       ],

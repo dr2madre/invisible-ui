@@ -34,7 +34,7 @@
 
   <!-- Lateral variant with the same gesture. -->
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
-    <SheetDialog side="left" draggable title="Navigation" description="Jump to a section.">
+    <SheetDialog side="start" draggable title="Navigation" description="Jump to a section.">
       {#snippet trigger()}<span>Open left panel</span>{/snippet}
       <button type="button">Home</button>
     </SheetDialog>

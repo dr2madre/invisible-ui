@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it } from "vitest";
-import { pageLocale, subscribePageLocale } from "./locale";
+import { elementDirection, pageLocale, subscribePageLocale } from "./locale";
 
 describe("pageLocale", () => {
   const root = document.documentElement;
@@ -33,6 +33,15 @@ describe("pageLocale", () => {
     section.setAttribute("lang", "");
     expect(pageLocale(leaf).locale).toBeNull();
   });
+
+  it("reads a direction set on the body, which a closer one overrides", () => {
+    document.body.setAttribute("dir", "rtl");
+    expect(pageLocale().dir).toBe("rtl");
+    root.setAttribute("dir", "ltr");
+    expect(pageLocale().dir).toBe("rtl");
+    document.body.removeAttribute("dir");
+    expect(pageLocale().dir).toBe("ltr");
+  });
 });
 
 describe("subscribePageLocale", () => {
@@ -47,12 +56,33 @@ describe("subscribePageLocale", () => {
     root.setAttribute("class", "unrelated");
     await Promise.resolve();
     expect(calls).toBe(2);
+    document.body.setAttribute("dir", "rtl");
+    await Promise.resolve();
+    expect(calls).toBe(3);
+    document.body.removeAttribute("dir");
+    await Promise.resolve();
+    expect(calls).toBe(4);
     stop();
     root.setAttribute("lang", "de");
     await Promise.resolve();
-    expect(calls).toBe(2);
+    expect(calls).toBe(4);
     root.removeAttribute("lang");
     root.removeAttribute("dir");
     root.removeAttribute("class");
+  });
+});
+
+describe("elementDirection", () => {
+  it("reads the computed direction, so a plain wrapper's dir counts", () => {
+    document.body.innerHTML = `<div dir="rtl"><button>in</button></div><button>out</button>`;
+    const [inside, outside] = document.querySelectorAll("button");
+    expect(elementDirection(inside)).toBe("rtl");
+    expect(elementDirection(outside)).toBe("ltr");
+    document.body.innerHTML = "";
+  });
+
+  it("is null without an element in a document", () => {
+    expect(elementDirection(null)).toBeNull();
+    expect(elementDirection(document.createElement("div"))).toBeNull();
   });
 });

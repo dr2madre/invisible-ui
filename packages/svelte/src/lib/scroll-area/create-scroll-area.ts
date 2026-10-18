@@ -79,7 +79,7 @@ export function createScrollArea(): CreateScrollArea {
       if (!viewportEl) return;
       dragging = true;
       last = axis === "vertical" ? event.clientY : event.clientX;
-      node.setPointerCapture(event.pointerId);
+      node.setPointerCapture?.(event.pointerId);
       event.preventDefault();
     };
     const onPointerMove = (event: PointerEvent) => {
@@ -94,11 +94,15 @@ export function createScrollArea(): CreateScrollArea {
           clientSize: viewportEl.clientHeight,
         });
       } else {
-        viewportEl.scrollLeft = core.scrollByThumbDrag(delta, {
-          scrollPos: viewportEl.scrollLeft,
-          scrollSize: viewportEl.scrollWidth,
-          clientSize: viewportEl.clientWidth,
-        });
+        viewportEl.scrollLeft = core.scrollByThumbDrag(
+          delta,
+          {
+            scrollPos: viewportEl.scrollLeft,
+            scrollSize: viewportEl.scrollWidth,
+            clientSize: viewportEl.clientWidth,
+          },
+          getComputedStyle(viewportEl).direction === "rtl" ? "rtl" : "ltr",
+        );
       }
     };
     const onPointerUp = (event: PointerEvent) => {

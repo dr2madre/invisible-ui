@@ -209,19 +209,26 @@ export class DsContextMenu extends HTMLElementBase {
         bottom: y,
       }),
     };
-    positionFloating(anchor, popup, { placement: "right-start", offset: 2 });
+    // The menu opens toward the inline end: to the left in right-to-left text.
+    const placement = this.#rtl() ? "left-start" : "right-start";
+    positionFloating(anchor, popup, { placement, offset: 2 });
   }
 
   #close() {
     this.#api().closeMenu();
   }
 
+  #rtl() {
+    return getComputedStyle(this.#region ?? this).direction === "rtl";
+  }
+
   #onContextMenu = (event: MouseEvent) => {
     event.preventDefault();
-    // The keyboard menu key fires `contextmenu` without a pointer position.
+    // The keyboard menu key fires `contextmenu` without a pointer position:
+    // open at the region's inline-start top corner.
     if (event.clientX === 0 && event.clientY === 0) {
       const rect = this.#region!.getBoundingClientRect();
-      this.#openAt(rect.left, rect.top);
+      this.#openAt(this.#rtl() ? rect.right : rect.left, rect.top);
     } else {
       this.#openAt(event.clientX, event.clientY);
     }

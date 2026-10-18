@@ -14,7 +14,7 @@
    */
   import { untrack } from "svelte";
   import { createMenubar, type MenubarMenu } from "./create-menubar";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
@@ -71,7 +71,7 @@
       <div
         class="menubar__popup"
         lang={$i18nLocale}
-        dir={$i18nDir}
+        use:followDirection={{ fallback: $i18nDir, open: menu.open }}
         use:portal
         use:menubarAction
         use:menu.menuAction

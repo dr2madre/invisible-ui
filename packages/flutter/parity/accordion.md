@@ -1,6 +1,6 @@
 # Accordion parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/accordion` `packages/svelte/src/lib/accordion`
 
@@ -57,7 +57,7 @@ shared vectors in `core/src/accordion/__vectors__`
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Bordered box, sections divided, chevron turning a quarter turn toward the content | matched | `right to left: the chevron sits at the inline-end and turns toward the content; text scale 2.0 in a narrow column` |
-| The chevron mirrors right to left and turns the other way | adapted | the web chevron does not mirror; under right-to-left it points to the inline-end as the submenu chevron does: same test |
+| The chevron mirrors right to left and turns the other way | matched | the web chevron mirrors through `:dir(rtl)` in the sheet; under right-to-left it points to the inline-end as the submenu chevron does: same test |
 | The chevron turns at once under reduced motion | matched | the shared `DisclosureTrigger`, held by the Collapsible test `the chevron turns at once under reduced motion` |
 | Focus ring inside the header, since the box clips | matched | `DisclosureTrigger(ringInside: true)` |
 | Width `16rem` | adapted | the width the parent gives, 256 when it is open |

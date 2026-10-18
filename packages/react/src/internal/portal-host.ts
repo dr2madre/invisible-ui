@@ -1,4 +1,6 @@
+import { i18n } from "@invisible-ui/core";
 import { useEffect, useState, type RefObject } from "react";
+import { useIsomorphicLayoutEffect } from "./layout-effect";
 
 /**
  * Where an overlay belonging to `anchor` must be portalled: the dialog the
@@ -20,4 +22,24 @@ export function usePortalHost(anchor: RefObject<HTMLElement | null>): HTMLElemen
     setHost(anchor.current?.closest("dialog") ?? document.body);
   }, [anchor]);
   return host;
+}
+
+/**
+ * The direction an overlay portalled out of `anchor`'s tree takes: the
+ * computed direction of `anchor`, read after each commit (an overlay opens
+ * with a render), so a `dir` on a plain wrapper around the control counts as
+ * it does for the control. `fallback`, the i18n context's direction, until it
+ * can be read.
+ */
+export function useAnchorDirection(
+  anchor: RefObject<HTMLElement | null>,
+  fallback: i18n.Dir,
+): i18n.Dir {
+  const [read, setRead] = useState<i18n.Dir | null>(null);
+  useIsomorphicLayoutEffect(() => {
+    const next = i18n.elementDirection(anchor.current);
+    // Set only on a change, so the render it causes reads the same and stops.
+    if (next !== read) setRead(next);
+  });
+  return read ?? fallback;
 }

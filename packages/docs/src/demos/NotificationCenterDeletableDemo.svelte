@@ -41,7 +41,7 @@
   const clearAll = () => (items = []);
 </script>
 
-<SheetDialog side="right" title="Notifications" triggerVariant="ghost">
+<SheetDialog side="end" title="Notifications" triggerVariant="ghost">
   {#snippet trigger()}
     <span>
       <span style="position: relative; display: inline-flex;">
@@ -90,7 +90,7 @@
 </SheetDialog>
 
 <style>
-  :global(.sheet-dialog__panel[data-side="right"]) {
+  :global(.sheet-dialog__panel[data-side="end"]) {
     --ds-sheet-dialog-size: 26rem;
   }
 </style>

@@ -74,4 +74,24 @@ describe("<ds-scroll-area>", () => {
     mount('label="Logs"');
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("follows a right-to-left viewport, whose scrollLeft is zero or negative", () => {
+    document.documentElement.dir = "rtl";
+    try {
+      const viewport = mount('orientation="horizontal"');
+      Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 100 });
+      Object.defineProperty(viewport, "scrollWidth", { configurable: true, value: 400 });
+      viewport.scrollLeft = -150;
+      fireEvent.scroll(viewport);
+      const thumb = document.querySelector<HTMLElement>(
+        ".scroll-area__bar--h .scroll-area__thumb",
+      )!;
+      expect(thumb.style.insetInlineStart).toBe("37.5%");
+      fireEvent.pointerDown(thumb, { clientX: 30, pointerId: 1 });
+      fireEvent.pointerMove(thumb, { clientX: 10, pointerId: 1 });
+      expect(viewport.scrollLeft).toBe(-230);
+    } finally {
+      document.documentElement.removeAttribute("dir");
+    }
+  });
 });

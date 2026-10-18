@@ -48,12 +48,15 @@ export interface CarouselProps {
 // Coverflow: each slide moves along the flow by its signed distance from the
 // active one, recedes with a rotation and a downscale. The active slide (offset 0) is centered and upright. The sheet leaves
 // these per-slide values to the adapter, since they depend on the index.
-function coverflowStyle(offset: number, vertical: boolean): CSSProperties {
+function coverflowStyle(offset: number, vertical: boolean, rtl: boolean): CSSProperties {
   const abs = Math.abs(offset);
+  // The row flows with the text: in right-to-left text the next slide sits to
+  // the left and turns the other way.
+  const across = rtl ? -offset : offset;
   const translate = vertical
     ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-    : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
-  const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
+    : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+  const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
   const scale = Math.max(0, 1 - abs * 0.15);
   // Neighbours recede by scale and turn only: a fade would take their text
   // below the AA contrast. Slides past two places are hidden outright.
@@ -182,7 +185,7 @@ export function Carousel({
                   aria-label={t("carousel.slide", { index: i + 1, count: items.length })}
                   style={
                     variant === "coverflow"
-                      ? coverflowStyle(i - index, orientation === "vertical")
+                      ? coverflowStyle(i - index, orientation === "vertical", dir === "rtl")
                       : undefined
                   }
                   aria-hidden={offscreen ? "true" : undefined}

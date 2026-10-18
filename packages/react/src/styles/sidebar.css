@@ -143,6 +143,12 @@ nav.sidebar .sidebar__icon {
   display: inline-flex;
   font-size: 1.1em;
 }
+/* The group chevron and the rail toggle point along the inline axis: they
+   mirror in right-to-left text. */
+nav.sidebar .sidebar__chevron:dir(rtl),
+nav.sidebar .sidebar__rail-toggle .sidebar__icon:dir(rtl) {
+  scale: -1 1;
+}
 
 /* Long names wrap rather than being cut: a destination nobody can read is not
    navigation. When the row is too narrow, the label takes a line of its own

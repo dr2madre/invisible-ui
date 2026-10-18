@@ -35,6 +35,7 @@ scope**. Every matched line names the widget test in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | Typing opens, filters (contains, ignoring case and outer spaces), highlights the first enabled match | matched | `typing opens, filters by contains, ignoring case, and highlights the first enabled match`; the filter is also held by `choice_vectors_test.dart` |
 | Enter chooses the highlighted option, fills the text, closes, then reports | matched | `Enter chooses the highlighted option, closes, fills the text, then reports` |
 | No match shows the empty text | matched | `no match says so; loading says so instead` |

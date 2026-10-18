@@ -13,7 +13,7 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createTooltip, type TooltipContext } from "./create-tooltip";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
@@ -45,7 +45,13 @@
 </span>
 
 {#if $open}
-  <div class="tooltip__content" lang={$i18nLocale} dir={$i18nDir} use:portal use:tooltipAction>
+  <div
+    class="tooltip__content"
+    lang={$i18nLocale}
+    use:followDirection={{ fallback: $i18nDir }}
+    use:portal
+    use:tooltipAction
+  >
     {text}
   </div>
 {/if}

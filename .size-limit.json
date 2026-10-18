@@ -2,7 +2,7 @@
   {
     "name": "@invisible-ui/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "27.4 kB"
+    "limit": "27.6 kB"
   },
   {
     "name": "@invisible-ui/core — one primitive, tree-shaken (label)",
@@ -20,7 +20,7 @@
     "name": "@invisible-ui/core — i18n only, tree-shaken (catalog included)",
     "path": "core/dist/index.js",
     "import": "{ i18n }",
-    "limit": "3.4 kB"
+    "limit": "3.5 kB"
   },
   {
     "name": "@invisible-ui/core — number field only, tree-shaken (with i18n)",
@@ -37,17 +37,17 @@
   {
     "name": "@invisible-ui/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "54.5 kB"
+    "limit": "55 kB"
   },
   {
     "name": "@invisible-ui/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "84.5 kB"
+    "limit": "85.1 kB"
   },
   {
     "name": "@invisible-ui/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "77 kB"
+    "limit": "77.2 kB"
   },
   {
     "name": "@invisible-ui/react — text field only, tree-shaken",
@@ -58,12 +58,12 @@
   {
     "name": "@invisible-ui/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "84.6 kB"
+    "limit": "84.9 kB"
   },
   {
     "name": "@invisible-ui/elements — define entry",
     "path": "packages/elements/dist/define.js",
-    "limit": "85.3 kB"
+    "limit": "85.5 kB"
   },
   {
     "name": "@invisible-ui/elements — table only, tree-shaken",
@@ -75,7 +75,7 @@
     "name": "@invisible-ui/elements — table set only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTableSet }",
-    "limit": "23.4 kB"
+    "limit": "23.5 kB"
   },
   {
     "name": "@invisible-ui/elements — count only, tree-shaken",
@@ -159,7 +159,7 @@
     "name": "@invisible-ui/elements — alert dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAlertDialog }",
-    "limit": "7.3 kB"
+    "limit": "7.4 kB"
   },
   {
     "name": "@invisible-ui/elements — avatar only, tree-shaken",
@@ -177,7 +177,7 @@
     "name": "@invisible-ui/elements — breadcrumb only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsBreadcrumb }",
-    "limit": "4.3 kB"
+    "limit": "4.4 kB"
   },
   {
     "name": "@invisible-ui/elements — button group only, tree-shaken",
@@ -267,7 +267,7 @@
     "name": "@invisible-ui/elements — pin input only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPinInput }",
-    "limit": "6.5 kB"
+    "limit": "6.6 kB"
   },
   {
     "name": "@invisible-ui/elements — prompt dialog only, tree-shaken",
@@ -285,13 +285,13 @@
     "name": "@invisible-ui/elements — range slider only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRangeSlider }",
-    "limit": "7.5 kB"
+    "limit": "7.6 kB"
   },
   {
     "name": "@invisible-ui/elements — rating group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRatingGroup }",
-    "limit": "6 kB"
+    "limit": "6.1 kB"
   },
   {
     "name": "@invisible-ui/elements — scroll area only, tree-shaken",
@@ -303,7 +303,7 @@
     "name": "@invisible-ui/elements — search dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSearchDialog }",
-    "limit": "9.3 kB"
+    "limit": "9.4 kB"
   },
   {
     "name": "@invisible-ui/elements — segmented control only, tree-shaken",
@@ -321,7 +321,7 @@
     "name": "@invisible-ui/elements — sidebar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSidebar }",
-    "limit": "14.6 kB"
+    "limit": "14.7 kB"
   },
   {
     "name": "@invisible-ui/elements — slider only, tree-shaken",
@@ -357,7 +357,7 @@
     "name": "@invisible-ui/elements — upload drop area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsUploadDropArea }",
-    "limit": "6.5 kB"
+    "limit": "6.6 kB"
   },
   {
     "name": "@invisible-ui/elements — accordion only, tree-shaken",
@@ -369,7 +369,7 @@
     "name": "@invisible-ui/elements — collapsible only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCollapsible }",
-    "limit": "4.8 kB"
+    "limit": "4.9 kB"
   },
   {
     "name": "@invisible-ui/elements — aspect ratio only, tree-shaken",
@@ -405,7 +405,7 @@
     "name": "@invisible-ui/elements — notification region only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNotificationRegion }",
-    "limit": "8.5 kB"
+    "limit": "8.6 kB"
   },
   {
     "name": "@invisible-ui/elements — stepper only, tree-shaken",
@@ -417,7 +417,7 @@
     "name": "@invisible-ui/elements — context menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsContextMenu }",
-    "limit": "13.1 kB"
+    "limit": "13.2 kB"
   },
   {
     "name": "@invisible-ui/elements — menubar only, tree-shaken",

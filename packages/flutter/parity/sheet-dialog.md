@@ -1,6 +1,6 @@
 # Sheet Dialog parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/dialog` `packages/svelte/src/lib/sheet-dialog`
 
@@ -20,7 +20,7 @@ scope**. Every matched line names the widget test in
 | Flutter | Svelte | ADR 0011 meaning |
 | --- | --- | --- |
 | `showInvisibleDialog(builder: (_) => SheetDialog(...))` | the trigger, `open`, `onOpenChange` | opening and closing |
-| `side: SheetDialogSide.top / bottom / start / end` | `side: "top" / "bottom" / "left" / "right"` | the edge; start and end follow the reading direction |
+| `side: SheetDialogSide.top / bottom / start / end` | `side: "top" / "bottom" / "start" / "end"` | the edge; start and end follow the reading direction |
 | `draggable` | `draggable` | the grab handle |
 | `size` | `--ds-sheet-dialog-size` | the extent away from the edge |
 | `title`, `description`, `child`, `actions` | `title`, `description`, `children`, `footer` | name, description, body, footer |
@@ -37,16 +37,16 @@ scope**. Every matched line names the widget test in
 | Escape, the close button and an action close it; focus returns | matched | `Escape and the close button close it; focus returns` |
 | The body takes the space left; the footer sits at the far end, set apart by a border | matched | `the footer sits at the bottom, set apart by a border; a notice goes between the body and the footer` |
 | The status area between the body and the footer (ADR 0016) | matched | same test |
-| `right`/`left` anchor to the inline-end/start edge | adapted | the web names the sides physically and places them logically, so in right to left `side="right"` sits on the left. Flutter names them `end` and `start`, and the placement, the motion and the drag all follow the edge the panel is on: `end is the right edge left to right and the left edge right to left; start is the opposite` |
+| `end`/`start` anchor to the inline-end/start edge | matched | both name them `end` and `start`, and the placement, the motion and the drag all follow the edge the panel is on: `end is the right edge left to right and the left edge right to left; start is the opposite` |
 | Top and bottom: full width, 16rem high; sides: full height, 20rem wide; never larger than the screen | matched | same test; `the size grows with the text and stops at the screen` (rem grows with the text size) |
 | No border along the anchored edge, no corner radius | matched | `no border along the anchored edge and square corners` |
-| It slides in from its edge | matched | `it slides in from its edge, mirrored right to left`. The web slides a right-to-left `side="right"` panel in from the right while it sits on the left; Flutter slides from the edge the panel is on |
+| It slides in from its edge | matched | `it slides in from its edge, mirrored right to left`. Both slide from the edge the panel is on |
 | No motion under reduced motion | matched | `under reduced motion it shows in place at once` |
-| A snap home after a short drag animates | adapted | the web keeps the snap transition under reduced motion; Flutter snaps at once: `under reduced motion a short drag snaps home at once` |
+| A snap home after a short drag animates, and not under reduced motion | matched | both snap at once under reduced motion: `under reduced motion a short drag snaps home at once` |
 | The handle only with `draggable`, not on the top side; hidden from assistive technology | matched | `the handle shows only when draggable and not at the top, and stays out of the semantics tree` |
 | Release past a quarter of the extent dismisses; less snaps home | matched | `dragging past a quarter toward the edge closes; less snaps home` |
 | A fast flick toward the edge dismisses | matched | `a flick toward the edge closes` (0.5 px/ms on the web, 500 px/s here) |
-| Right to left, the drag follows the panel's edge | adapted | the web measures a `side="right"` drag toward the physical right while the panel sits on the left, so dragging it closed does not work; Flutter measures toward the panel's own edge: `right to left the end panel is dragged toward the left edge; a drag inward does nothing` |
+| Right to left, the drag follows the panel's edge | matched | both measure the drag toward the panel's own edge: `right to left the end panel is dragged toward the left edge; a drag inward does nothing` |
 | The handle's hit area | adapted | the bar is the web's 40 by 6; its hit area is at least the theme's minimum target, so a touch finds it |
 | Text scale 2.0, narrow, right to left; labelled 44 by 44 targets under touch | matched | `right to left at text scale 2.0 on a narrow screen: no overflow; labelled 44 by 44 targets under touch` |
 | Contrast light and dark | matched | `text contrast, light and dark` |

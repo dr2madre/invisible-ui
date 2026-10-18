@@ -26,13 +26,13 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createPopover, type PopoverContext } from "./create-popover";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { createHoverCard } from "../hover-card/create-hover-card";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { controllable } from "../internal/controllable.svelte";
 
-  const { t } = getI18n();
+  const { t, dir: i18nDir } = getI18n();
 
   interface Props {
     /** Opening contract: an intentional click, or a hover/focus preview. */
@@ -132,7 +132,12 @@
 {/if}
 
 {#if $isOpen}
-  <div class="popover__content" use:portal use:contentAction>
+  <div
+    class="popover__content"
+    use:followDirection={{ fallback: $i18nDir }}
+    use:portal
+    use:contentAction
+  >
     {@render children?.()}
   </div>
 {/if}

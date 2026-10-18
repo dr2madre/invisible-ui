@@ -87,3 +87,31 @@ describe("React ScrollArea with overflowing content", () => {
     expect(viewport().scrollTop).toBe(80);
   });
 });
+
+describe("React ScrollArea in right-to-left text", () => {
+  // In right-to-left text scrollLeft starts at 0 and goes negative toward the inline end.
+  const sizes = { scrollHeight: 100, clientHeight: 100, scrollWidth: 400, clientWidth: 100 };
+  beforeEach(() => {
+    for (const [key, value] of Object.entries(sizes)) {
+      Object.defineProperty(HTMLElement.prototype, key, { configurable: true, get: () => value });
+    }
+    document.documentElement.dir = "rtl";
+  });
+  afterEach(() => {
+    for (const key of Object.keys(sizes)) {
+      delete (HTMLElement.prototype as unknown as Record<string, unknown>)[key];
+    }
+    document.documentElement.removeAttribute("dir");
+  });
+
+  it("places the horizontal thumb from the inline start and drags it toward the inline end", () => {
+    render(<ScrollArea orientation="horizontal">{content}</ScrollArea>);
+    const thumb = document.querySelector<HTMLElement>(".scroll-area__bar--h .scroll-area__thumb")!;
+    viewport().scrollLeft = -150;
+    fireEvent.scroll(viewport());
+    expect(thumb.style.insetInlineStart).toBe("37.5%");
+    fireEvent.pointerDown(thumb, { pointerId: 1, clientX: 30 });
+    fireEvent.pointerMove(thumb, { pointerId: 1, clientX: 10 });
+    expect(viewport().scrollLeft).toBe(-230);
+  });
+});

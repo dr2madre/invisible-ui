@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { h } from "vue";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { ScrollArea } from "./ScrollArea";
 
@@ -44,5 +44,33 @@ describe("Vue ScrollArea", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(ScrollArea, { props: { label: "Logs" }, slots });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+});
+
+describe("Vue ScrollArea in right-to-left text", () => {
+  // jsdom has no layout; in right-to-left text scrollLeft goes negative toward the inline end.
+  const sizes = { scrollHeight: 100, clientHeight: 100, scrollWidth: 400, clientWidth: 100 };
+  beforeEach(() => {
+    for (const [key, value] of Object.entries(sizes)) {
+      Object.defineProperty(HTMLElement.prototype, key, { configurable: true, get: () => value });
+    }
+    document.documentElement.dir = "rtl";
+  });
+  afterEach(() => {
+    for (const key of Object.keys(sizes)) {
+      delete (HTMLElement.prototype as unknown as Record<string, unknown>)[key];
+    }
+    document.documentElement.removeAttribute("dir");
+  });
+
+  it("places the horizontal thumb from the inline start and drags it toward the inline end", async () => {
+    render(ScrollArea, { props: { orientation: "horizontal" }, slots });
+    viewport().scrollLeft = -150;
+    await fireEvent.scroll(viewport());
+    const thumb = document.querySelector<HTMLElement>(".scroll-area__bar--h .scroll-area__thumb")!;
+    expect(thumb.style.insetInlineStart).toBe("37.5%");
+    await fireEvent.pointerDown(thumb, { pointerId: 1, clientX: 30 });
+    await fireEvent.pointerMove(thumb, { pointerId: 1, clientX: 10 });
+    expect(viewport().scrollLeft).toBe(-230);
   });
 });

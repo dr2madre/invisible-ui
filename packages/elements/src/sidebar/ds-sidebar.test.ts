@@ -146,6 +146,18 @@ describe("<ds-sidebar> rail tooltips", () => {
     mount();
     expect(document.querySelector("ds-sidebar ds-tooltip")).toBeNull();
   });
+
+  it("places the tooltip at the inline end, on the left in right-to-left text", () => {
+    mount("collapsed");
+    expect(document.querySelector("ds-sidebar ds-tooltip")).toHaveAttribute("placement", "right");
+    document.documentElement.dir = "rtl";
+    try {
+      mount("collapsed");
+      expect(document.querySelector("ds-sidebar ds-tooltip")).toHaveAttribute("placement", "left");
+    } finally {
+      document.documentElement.removeAttribute("dir");
+    }
+  });
 });
 
 describe("<ds-sidebar> badges and unavailable destinations", () => {

@@ -71,6 +71,9 @@ groups, separators, checkable items and submenus:
   menu, arrows / Home / End / typeahead navigate, **Enter** activates,
   **Escape** closes and returns focus to the trigger. Hovering another trigger
   while a menu is open switches to it.
+- In right-to-left text **ArrowLeft/Right** swap, so they keep following the
+  reading direction. Moving onto a disabled menu moves focus to its trigger
+  with the tab stop: it is not opened.
 - Under a coarse pointer every trigger and item keeps a hit area of at least
   44 by 44 (`--ds-min-target-size-touch`).
 

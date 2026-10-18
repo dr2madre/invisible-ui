@@ -5,7 +5,7 @@ import type { MenuEntry } from "../dropdown-menu/DropdownMenu";
 import { useI18n } from "../i18n/i18n";
 import { attachFloating } from "../internal/floating";
 import { MenuPopup } from "../internal/menu";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import { normalizeProps } from "../normalize";
 
 /** One top-level menu in a menubar. */
@@ -54,11 +54,12 @@ const INITIAL: BarState = { focusedValue: null, ...ALL_CLOSED };
  * `--ds-menubar-*`.
  */
 export function Menubar({ label, menus, onSelect }: MenubarProps) {
-  const { locale, dir } = useI18n();
+  const { locale, dir: contextDir } = useI18n();
   const id = `ds-menubar-${useId()}`;
   const [state, setState] = useState<BarState>(INITIAL);
   const barRef = useRef<HTMLDivElement>(null);
   const host = usePortalHost(barRef);
+  const dir = useAnchorDirection(barRef, contextDir);
   const menuId = useCallback((index: number) => `${id}-menu-${index}`, [id]);
   const triggerOf = useCallback(
     (index: number) => document.getElementById(core.triggerId(menuId(index))),

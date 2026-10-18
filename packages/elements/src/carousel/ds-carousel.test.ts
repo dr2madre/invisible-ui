@@ -212,6 +212,18 @@ describe("<ds-carousel>", () => {
     expect(second).toHaveAttribute("inert");
   });
 
+  it("places the next coverflow slide to the left, turned the other way, in right-to-left text", () => {
+    document.documentElement.dir = "rtl";
+    try {
+      mount('variant="coverflow"');
+      const second = slides()[1]!;
+      expect(second.style.transform).toContain("11rem) * -1)");
+      expect(second.style.transform).toContain("rotateY(18deg)");
+    } finally {
+      document.documentElement.removeAttribute("dir");
+    }
+  });
+
   it("never fades a coverflow neighbour, and hides the slides past two places", () => {
     mount('variant="coverflow"', numbered(6));
     expect(slides().map((slide) => slide.style.opacity)).toEqual(["1", "1", "1", "0", "0", "0"]);

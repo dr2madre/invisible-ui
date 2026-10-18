@@ -147,7 +147,7 @@
   margin-inline-start: auto;
   color: var(--ds-color-text-secondary, #515151);
 }
-.menu__popup[dir="rtl"] .menu__submenu-chevron {
+.menu__submenu-chevron:dir(rtl) {
   scale: -1 1;
 }
 

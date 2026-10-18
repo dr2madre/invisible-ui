@@ -157,6 +157,10 @@
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
+  /* The toggle points along the inline axis: it mirrors in right-to-left text. */
+  .sidebar__rail-toggle .sidebar__icon:dir(rtl) {
+    scale: -1 1;
+  }
   .sidebar__rail-toggle:hover {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }

@@ -116,7 +116,6 @@ export class DsCalendar extends HTMLElementBase {
   /** The switcher items last assigned, to skip assigning the same ones. */
   #switcherItems = "";
   #body: HTMLElement | null = null;
-  #arrowsRtl: boolean | null = null;
 
   constructor() {
     super();
@@ -336,10 +335,13 @@ export class DsCalendar extends HTMLElementBase {
     const prev = document.createElement("button");
     prev.type = "button";
     prev.className = "calendar__arrow";
+    // The sheet mirrors the arrows in right-to-left text.
+    prev.innerHTML = stepIcon("left");
     prev.addEventListener("click", () => this.#api().goPrev());
     const next = document.createElement("button");
     next.type = "button";
     next.className = "calendar__arrow";
+    next.innerHTML = stepIcon("right");
     next.addEventListener("click", () => this.#api().goNext());
 
     nav.append(today, prev, next);
@@ -348,22 +350,6 @@ export class DsCalendar extends HTMLElementBase {
 
     // Replaced by the view's body on the first render.
     const body = document.createElement("div");
-    // The core counts ArrowRight as the next day. In right-to-left text the
-    // next day sits to the left, so the two keys swap before the core sees them.
-    root.addEventListener(
-      "keydown",
-      (event) => {
-        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-        if (!(event.target as Element).matches?.("[data-date]")) return;
-        if (getComputedStyle(this).direction !== "rtl") return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        const step = event.key === "ArrowLeft" ? 1 : -1;
-        this.#api().setFocus(core.addDays(this.#focused, step));
-      },
-      true,
-    );
-
     root.append(header, body);
     this.appendChild(root);
 
@@ -393,13 +379,6 @@ export class DsCalendar extends HTMLElementBase {
     this.#today!.textContent = localized(this, "today-label", "calendar.today");
     this.#prev!.setAttribute("aria-label", localized(this, "prev-label", "calendar.previous"));
     this.#next!.setAttribute("aria-label", localized(this, "next-label", "calendar.next"));
-    // The arrows point along the reading direction.
-    const rtl = this.isConnected && getComputedStyle(this).direction === "rtl";
-    if (this.#arrowsRtl !== rtl) {
-      this.#arrowsRtl = rtl;
-      this.#prev!.innerHTML = stepIcon(rtl ? "right" : "left");
-      this.#next!.innerHTML = stepIcon(rtl ? "left" : "right");
-    }
 
     // A rebuilt body replaces the focused day button; focus follows to the new one.
     const hadFocus = this.#body!.contains(this.ownerDocument.activeElement);

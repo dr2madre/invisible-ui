@@ -1,4 +1,4 @@
-import { dialog as core } from "@invisible-ui/core";
+import { dialog as core, sheetDialog as sheet } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -17,7 +17,11 @@ import { openModal } from "../internal/modal-host";
 import { returnFocus } from "../internal/modal-stack";
 import { localized, onLocaleChange } from "../internal/i18n";
 
-export type SheetDialogSide = "top" | "right" | "bottom" | "left";
+/**
+ * The edge the panel is anchored to. `start` and `end` follow the reading
+ * direction; `top` and `bottom` never move.
+ */
+export type SheetDialogSide = sheet.SheetSide;
 
 /**
  * `<ds-sheet-dialog>` is an edge-anchored native modal dialog.
@@ -243,29 +247,24 @@ export class DsSheetDialog extends HTMLElementBase {
 
   #side(): SheetDialogSide {
     const side = this.getAttribute("side");
-    return side === "top" || side === "bottom" || side === "left" ? side : "right";
+    return side === "top" || side === "bottom" || side === "start" ? side : "end";
   }
 
   #startDrag = (event: PointerEvent) => {
     if (this.handle.hidden || (event.pointerType === "mouse" && event.button !== 0)) return;
     const panel = this.#panel!;
-    const side = this.#side();
+    const edge = sheet.edge(this.#side());
+    // Read when the drag starts, so a `dir` set above the panel counts.
+    const direction = getComputedStyle(panel).direction === "rtl" ? "rtl" : "ltr";
     const startX = event.clientX;
     const startY = event.clientY;
-    const extent = side === "bottom" ? panel.offsetHeight : panel.offsetWidth;
+    const extent = edge === "bottom" ? panel.offsetHeight : panel.offsetWidth;
     let lastOffset = 0;
     let lastTime = event.timeStamp;
     let velocity = 0;
 
-    const outward = (move: PointerEvent) => {
-      if (side === "bottom") return move.clientY - startY;
-      if (side === "left") return startX - move.clientX;
-      return move.clientX - startX;
-    };
-    const transform = (offset: number) =>
-      side === "bottom"
-        ? `translateY(${offset}px)`
-        : `translateX(${side === "left" ? -offset : offset}px)`;
+    const outward = (move: PointerEvent) =>
+      sheet.outward(edge, direction, move.clientX - startX, move.clientY - startY);
     const onMove = (move: PointerEvent) => {
       if (move.pointerId !== event.pointerId) return;
       const offset = Math.max(0, outward(move));
@@ -273,7 +272,7 @@ export class DsSheetDialog extends HTMLElementBase {
       if (elapsed > 0) velocity = (offset - lastOffset) / elapsed;
       lastOffset = offset;
       lastTime = move.timeStamp;
-      panel.style.transform = transform(offset);
+      panel.style.setProperty("--_sheet-drag", `${offset}px`);
     };
     const end = (move: PointerEvent) => {
       if (move.pointerId !== event.pointerId) return;
@@ -282,14 +281,14 @@ export class DsSheetDialog extends HTMLElementBase {
       // A cancelled pointer carries no real position: the sheet snaps back.
       if (move.type === "pointercancel") return;
       const offset = Math.max(0, outward(move));
-      if ((extent > 0 && offset > extent * 0.25) || velocity > 0.5) this.#setOpen(false);
+      if (sheet.shouldDismiss(offset, extent, velocity)) this.#setOpen(false);
     };
     this.#dragCleanup = () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", end);
       window.removeEventListener("pointercancel", end);
       panel.classList.remove("sheet-dialog__panel--dragging");
-      panel.style.removeProperty("transform");
+      panel.style.removeProperty("--_sheet-drag");
     };
     panel.classList.add("sheet-dialog__panel--dragging");
     this.handle.setPointerCapture?.(event.pointerId);

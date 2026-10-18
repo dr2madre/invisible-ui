@@ -1069,12 +1069,12 @@
     {
       "name": "SheetDialogProps",
       "kind": "interface",
-      "signature": "interface SheetDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** * Whether this component renders its own trigger button. Turn it off when * the button belongs somewhere this panel cannot reach, an application * header for instance: drive `open` yourself and name `returnFocusTo`, since * there is no trigger left for focus to go back to (ADR 0013). */ renderTrigger?: boolean; /** CSS selector for the element focus returns to when there is no trigger. */ returnFocusTo?: string; /** Which edge the panel is anchored to. */ side?: SheetDialogSide; /** * Show a grab handle and enable the drag-to-dismiss gesture. Available on the * bottom and lateral sides (ignored on `side=\"top\"`). */ draggable?: boolean; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the panel (required). */ title: string; /** Optional description, wired via `aria-describedby`. */ description?: string; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Show the close button at the trailing end of the header. */ closeButton?: boolean; /** * CSS selector (within the panel) for the element to focus on open, e.g. * `\"input\"` to land on a form's first field. */ initialFocus?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Leading ghost button in the header, e.g. back. */ headerLead?: ReactNode; /** Actions before the close button. */ headerActions?: ReactNode; /** Footer actions. */ footer?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** The body. */ children?: ReactNode; }"
+      "signature": "interface SheetDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** * Whether this component renders its own trigger button. Turn it off when * the button belongs somewhere this panel cannot reach, an application * header for instance: drive `open` yourself and name `returnFocusTo`, since * there is no trigger left for focus to go back to (ADR 0013). */ renderTrigger?: boolean; /** CSS selector for the element focus returns to when there is no trigger. */ returnFocusTo?: string; /** * Which edge the panel is anchored to. `start` and `end` follow the reading * direction, so the panel slides in from, and is dragged toward, the right * edge in left-to-right text and the left edge in right-to-left text. * Default `\"end\"`. */ side?: SheetDialogSide; /** * Show a grab handle and enable the drag-to-dismiss gesture. Available on the * bottom and lateral sides (ignored on `side=\"top\"`). */ draggable?: boolean; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the panel (required). */ title: string; /** Optional description, wired via `aria-describedby`. */ description?: string; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Show the close button at the trailing end of the header. */ closeButton?: boolean; /** * CSS selector (within the panel) for the element to focus on open, e.g. * `\"input\"` to land on a form's first field. */ initialFocus?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Leading ghost button in the header, e.g. back. */ headerLead?: ReactNode; /** Actions before the close button. */ headerActions?: ReactNode; /** Footer actions. */ footer?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** The body. */ children?: ReactNode; }"
     },
     {
       "name": "SheetDialogSide",
       "kind": "type",
-      "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
+      "signature": "type SheetDialogSide = sheetDialog.SheetSide;"
     },
     {
       "name": "Sidebar",
@@ -1584,7 +1584,7 @@
     {
       "name": "UseSheetDialogOptions",
       "kind": "interface",
-      "signature": "interface UseSheetDialogOptions extends Omit<UseDialogOptions, \"role\"> { /** Which edge the panel is anchored to. Default `\"right\"`. */ side?: SheetDialogSide; }"
+      "signature": "interface UseSheetDialogOptions extends Omit<UseDialogOptions, \"role\"> { /** Which edge the panel is anchored to. Default `\"end\"`. */ side?: SheetDialogSide; }"
     },
     {
       "name": "UseSliderOptions",

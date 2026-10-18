@@ -167,7 +167,11 @@ export class DsScrollArea extends HTMLElementBase {
       const current = position(event);
       const delta = current - last;
       last = current;
-      const next = scrollArea.scrollByThumbDrag(delta, this.#metrics(axis));
+      const direction =
+        axis === "horizontal" && getComputedStyle(this.#viewport).direction === "rtl"
+          ? "rtl"
+          : "ltr";
+      const next = scrollArea.scrollByThumbDrag(delta, this.#metrics(axis), direction);
       if (axis === "vertical") this.#viewport.scrollTop = next;
       else this.#viewport.scrollLeft = next;
     });

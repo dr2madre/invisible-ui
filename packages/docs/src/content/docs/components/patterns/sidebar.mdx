@@ -144,7 +144,8 @@ rendered, `collapsed` keeps the labels, and development says why.
   (`aria-expanded`, `aria-controls`).
 - The rail toggle is `aria-pressed`, because collapsing hides names from sight
   and not from a screen reader: every destination keeps its accessible name,
-  and a tooltip shows it on hover or focus.
+  and a tooltip shows it on hover or focus. The tooltip sits at the inline
+  end of the destination: on the left in right-to-left text.
 - The current destination is never marked by colour alone: its label is bold,
   and on the rail a bar marks it at the inline start. A badge is a count or a
   dot shape with its text in the name; under forced colors it keeps a border.
