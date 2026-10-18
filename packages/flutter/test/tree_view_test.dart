@@ -351,6 +351,31 @@ void main() {
       expect(log.expanded, isEmpty);
     });
 
+    testWidgets('a character typed with Control, Meta or Alt, or a space, is '
+        'no typeahead character', (tester) async {
+      final log = _Log();
+      await tester.pumpWidget(harness(_tree(log, initialExpanded: {'docs'})));
+      await focusOn(tester, find.text('Documents'));
+      for (final modifier in [
+        LogicalKeyboardKey.controlLeft,
+        LogicalKeyboardKey.metaLeft,
+        LogicalKeyboardKey.altLeft,
+      ]) {
+        await tester.sendKeyDownEvent(modifier);
+        await _type(tester, 'n');
+        await tester.sendKeyUpEvent(modifier);
+        expect(_focused(tester, 'Documents'), isTrue, reason: '$modifier');
+      }
+      await tester.pump(typeaheadReset);
+      await tester.sendKeyEvent(LogicalKeyboardKey.space, character: ' ');
+      await _type(tester, 'n');
+      expect(
+        _focused(tester, 'Notes'),
+        isTrue,
+        reason: 'the space is not part of the query',
+      );
+    });
+
     testWidgets('* is an ordinary typeahead character: it opens, selects '
         'and requests nothing', (tester) async {
       final log = _Log();

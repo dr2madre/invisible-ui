@@ -108,7 +108,8 @@ class Scroller extends StatefulWidget {
   /// The tallest the viewport grows before it scrolls.
   final double? maxHeight;
 
-  /// The accessible name of the region.
+  /// The accessible name of the region. With [focusableOnlyWhenScrollable]
+  /// the region is named only while its content overflows.
   final String? semanticLabel;
 
   /// Whether the focus ring is drawn within the bounds.
@@ -307,14 +308,17 @@ class _ScrollerState extends State<Scroller> {
       );
     }
 
-    final label = widget.semanticLabel;
+    // A viewport that takes focus only while it overflows is a region, and
+    // carries its name, only then, as the web adds and removes both.
+    final active = !widget.focusableOnlyWhenScrollable || _scrollable;
+    final label = active ? widget.semanticLabel : null;
     final named = label != null && label.isNotEmpty;
     return Semantics(
       container: label != null,
       label: label,
       role: named ? SemanticsRole.region : null,
       child: FocusableActionDetector(
-        enabled: !widget.focusableOnlyWhenScrollable || _scrollable,
+        enabled: active,
         focusNode: _node,
         shortcuts: _keys,
         actions: _actions,

@@ -1,6 +1,6 @@
 # NumberField parity checklist
 
-Reference commit: `bde4433a71312b89d1164c6a1adce57471999a4a`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/number-field/state.ts` `core/src/number-field/connect.ts` `core/src/number-field/types.ts` `core/src/i18n/format.ts` `packages/svelte/src/lib/number-field/NumberField.svelte` `packages/svelte/src/lib/number-field/create-number-field.ts`
 
@@ -53,7 +53,7 @@ them to the web names and to the ADR 0011 vocabulary.
 | `NumberFieldState.validationError`, `.status`, `.text` | `api.validationError`, `api.status`, `api.inputValue` | validity as data |
 | `enabled: false` | `disabled` | `disabled` |
 | `min`, `max`, `step`, `readOnly`, `required`, `changeOnWheel`, `description`, `error`, `label` | the same names | as on the web |
-| `locale` (a `Locale`), else `Localizations`, else English | `locale`, else the provider's locale | the reading and writing locale |
+| `locale` (a `Locale`), else `Localizations`, else `Locale('en', '001')` | `locale`, else the provider's locale, else the page's `lang`, else `en-001-u-hc-h23` | the reading and writing locale; both defaults write English symbols |
 | `symbols` | none | explicit symbols for a locale outside the table |
 | `validator`, `onSaved`, `autovalidateMode` | `name` with the hidden input | Flutter `Form` |
 

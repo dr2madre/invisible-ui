@@ -1,6 +1,6 @@
 # Alert Dialog parity checklist
 
-Reference commit: `71ede6af6037f9dc1aa5ade2c426bd21abb37943`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/dialog` `packages/svelte/src/lib/dialog` `packages/svelte/src/lib/alert-dialog`
 

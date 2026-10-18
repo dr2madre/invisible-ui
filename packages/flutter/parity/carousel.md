@@ -1,6 +1,6 @@
 # Carousel parity checklist
 
-Reference commit: `3a72a486d1ee462d04c027cc3511fb4c4dab559e`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/carousel` `packages/svelte/src/lib/carousel`
 

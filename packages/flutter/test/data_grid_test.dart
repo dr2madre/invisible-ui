@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
@@ -1090,6 +1091,31 @@ void main() {
         reason: 'still editing',
       );
     });
+
+    testWidgets(
+      'on a touch platform the active cell shows its button '
+      'without hover or focus, as under a coarse pointer on the web',
+      (tester) async {
+        await tester.pumpWidget(harness(_Timesheet(details: const [])));
+        final shown = tester
+            .widgetList<Opacity>(
+              find.descendant(
+                of: find.byType(DataGrid),
+                matching: find.byType(Opacity),
+              ),
+            )
+            .where((o) => o.opacity == 1);
+        final touch = {
+          TargetPlatform.android,
+          TargetPlatform.iOS,
+        }.contains(defaultTargetPlatform);
+        expect(shown, hasLength(touch ? 1 : 0));
+      },
+      variant: const TargetPlatformVariant({
+        TargetPlatform.iOS,
+        TargetPlatform.macOS,
+      }),
+    );
   });
 
   group('data changes and dialogs', () {

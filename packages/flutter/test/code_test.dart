@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -162,6 +163,38 @@ void main() {
       await tester.pump();
       expect(copied, hasLength(2));
       await tester.pump(copiedDuration);
+    });
+
+    testWidgets('the copy button fills with the text colour at 8 %, 16 % on '
+        'hover, in both themes', (tester) async {
+      Color? fill() =>
+          (tester
+                      .widget<Container>(
+                        find
+                            .ancestor(
+                              of: find.text('Copy'),
+                              matching: find.byType(Container),
+                            )
+                            .first,
+                      )
+                      .decoration!
+                  as BoxDecoration)
+              .color;
+      for (final theme in [
+        InvisibleThemeData.light(),
+        InvisibleThemeData.dark(),
+      ]) {
+        await tester.pumpWidget(
+          harness(const CodeBlock(code: _sample), theme: theme),
+        );
+        expect(fill(), theme.colors.text.withValues(alpha: 0.08));
+        final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+        await mouse.addPointer(location: tester.getCenter(find.text('Copy')));
+        await tester.pump();
+        expect(fill(), theme.colors.text.withValues(alpha: 0.16));
+        await mouse.removePointer();
+        await tester.pump();
+      }
     });
 
     testWidgets('a refused copy shows and announces nothing', (tester) async {

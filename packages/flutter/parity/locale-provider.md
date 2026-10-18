@@ -1,6 +1,6 @@
 # LocaleProvider parity checklist
 
-Reference commit: `0c336bd6e53053c3c9e46ad4d7701879eba50315`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/i18n/locale.ts` `packages/svelte/src/lib/i18n`
 
@@ -30,6 +30,7 @@ the shared vectors in `core/src/i18n/__vectors__/locale-direction.json`
 | Sets the locale for the subtree | matched | through Flutter's `Localizations`, which the components already read (calendar, number field, week start): `sets the locale, the direction from the locale and the messages for its subtree` |
 | The direction follows the locale; a given direction wins | matched | same test, `a given direction wins; …` |
 | Message overrides | adapted | a full `InvisibleMessages` (with `copyWith` for a few keys) on a nested theme, the Flutter way to carry the catalog; a component's own label still wins |
+| The provider's messages reach the texts components take from the catalog, not only their labels (the web test covers the avatar group's overflow, the code block, the carousel, the table set's view switch and result count, a calendar day's events and range ends, the login form) | matched | Flutter components read the theme's messages, which the provider replaces: `sets the locale, the direction from the locale and the messages for its subtree`. Whether each component takes a given text from the catalog is a line of that component's checklist, for example `translated messages replace the labels` (`test/login_form_test.dart`) |
 | Plural messages | adapted | the count messages are functions of the count (`ratingStars`, `avatarGroupMore`, `tableResults`), so a translation picks its own plural forms |
 | Nested providers override their subtree | matched | `a given direction wins; nested providers …` |
 | A change applies in place, keeping state | matched | `a changed locale applies in place: state is kept` |

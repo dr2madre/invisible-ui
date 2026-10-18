@@ -1,6 +1,7 @@
 // widgets.dart exports Brightness only from Flutter 3.44 on.
 // ignore: unnecessary_import
-import 'package:flutter/foundation.dart' show Brightness;
+import 'package:flutter/foundation.dart'
+    show Brightness, TargetPlatform, defaultTargetPlatform;
 import 'package:flutter/widgets.dart';
 
 import '../i18n/messages.dart';
@@ -9,7 +10,8 @@ import '../tokens/tokens.g.dart';
 /// How tightly controls are laid out.
 ///
 /// Density sets control padding. The minimum target size is a separate
-/// setting, [InvisibleThemeData.minTargetSize], which density only defaults.
+/// setting, [InvisibleThemeData.minTargetSize], which density only defaults:
+/// on a touch platform it is 44 by 44 at every density.
 enum InvisibleDensity {
   /// Desktop pointer use.
   compact,
@@ -185,11 +187,14 @@ class InvisibleThemeData {
   /// The smallest hit area a control keeps, whatever its painted size.
   ///
   /// The density's `min-target-size` token: 24 by 24 under compact and
-  /// regular (WCAG 2.5.8), 44 by 44 under touch. A larger size passed to the
-  /// theme, such as `Size(44, 44)` for 44 by 44 targets at any density,
-  /// replaces it; a smaller one never lowers it below the token.
+  /// regular (WCAG 2.5.8), 44 by 44 under touch, and 44 by 44 at every
+  /// density on a [touchPlatform]. A larger size passed to the theme, such
+  /// as `Size(44, 44)` for 44 by 44 targets at any density, replaces it; a
+  /// smaller one never lowers it below the token.
   Size get minTargetSize {
-    final floor = density._tokens.minTargetSize;
+    final floor = touchPlatform
+        ? InvisibleDensityTokens.touch.minTargetSize
+        : density._tokens.minTargetSize;
     final size = _minTargetSize;
     if (size == null) return Size.square(floor);
     return Size(
@@ -197,6 +202,19 @@ class InvisibleThemeData {
       size.height < floor ? floor : size.height,
     );
   }
+
+  /// Whether the app runs where touch is the main input: Android, iOS and
+  /// Fuchsia, read from [defaultTargetPlatform], the platform Material also
+  /// adapts its tap targets to. The web reads the same fact from
+  /// `@media (pointer: coarse)`.
+  bool get touchPlatform => switch (defaultTargetPlatform) {
+    TargetPlatform.android ||
+    TargetPlatform.iOS ||
+    TargetPlatform.fuchsia => true,
+    TargetPlatform.linux ||
+    TargetPlatform.macOS ||
+    TargetPlatform.windows => false,
+  };
 
   final Color? _dialogOverlay;
 
