@@ -4,10 +4,10 @@ Date: 2026-10-18
 
 ## Status
 
-The maintainer approved the direction and clean migration. Implementation is
-active on `feature/token-model-reform`. The canonical source and runtime consumers
-use the new names. This record documents the approved decision, not a new
-request for architecture approval.
+The maintainer approved the direction and clean migration. The canonical
+source and runtime consumers use the new names. Follow-up verification and
+documentation are tracked in PR #495. This record documents the approved
+decision, not a new request for architecture approval.
 
 ## Context
 

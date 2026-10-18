@@ -16,10 +16,11 @@ shipped token, with its value in both themes and what it points at, is the
 
 ## Canonical groups
 
-Theming ships as `tokens.css` — **primitives** (the raw palette) feed
-**semantic** tokens (roles) that the components consume — plus a third tier of
-per-component knobs that live in the components themselves (see
-[Component tokens](/invisible-ui/presentation/component-tokens/)):
+The canonical model lives in `packages/tokens/tokens.json`; the web adapters
+ship its runtime theme in `tokens.css`. Palette values feed brand and feedback
+choices and shared UI decisions. Components have their own tokens, plus
+CSS-only knobs listed under
+[Component tokens](/invisible-ui/presentation/component-tokens/):
 
 ```js
 import "@invisible-ui/svelte/tokens.css";
@@ -40,8 +41,9 @@ secondary *color* — `--ds-components-general-action-secondary-background-defau
 "Secondary" names a **function** (a present-but-not-prominent button), realized
 by inverting the primary, not a second hue.
 
-**Shared decisions (`--ds-components-general-*`).** Role tokens that reference the
-primitives and **remap between light/dark**. Components only ever read these:
+**Shared decisions (`--ds-components-general-*`).** These tokens reference
+brand, feedback or palette choices and remap between Light and Dark.
+Component tokens can reference them:
 
 ```css
 --ds-components-general-action-primary-background-default: var(--ds-brand-primary-default);
@@ -57,11 +59,10 @@ primitives and **remap between light/dark**. Components only ever read these:
 > `--ds-components-general-background-default`, the hover overlay is `--ds-components-general-background-hover`. See ADR 0002
 > (tokens decoupled from style) in the repository's `docs/adr/`.
 
-**Tier 3 — component.** Per-component tokens that point at a role or a
-primitive, never at a raw value. The background of each kind of component is
-one of them, so one kind can change without the others (see
-[Component backgrounds](#component-backgrounds)); the other knobs live in the
-components themselves.
+**Component decisions.** Canonical `components.<name>` tokens scope a choice
+to one component. A component background is one example, so Card can change
+without changing Dialog (see [Component backgrounds](#component-backgrounds)).
+Components also expose CSS-only knobs that are not all canonical DTCG tokens.
 
 ## Component backgrounds
 
@@ -98,9 +99,9 @@ measures each pair.
 
 ## Background, foreground and state
 
-Beyond brand and feedback, the semantic layer covers the everyday neutrals —
-each named for its role or state, and each remapping per theme: the page
-(`--ds-components-general-background-default`), an area on it (`--ds-components-general-background-default` and its hover),
+Beyond brand and feedback, shared decisions cover the everyday neutrals.
+Each is named for its role or state and remaps per theme: the shared background
+(`--ds-components-general-background-default`) and its hover,
 text (`--ds-components-general-foreground-default`, `--ds-components-general-foreground-secondary`), the disabled state
 (`--ds-components-general-background-disabled`, `--ds-components-general-foreground-disabled`), the interaction overlays
 (`--ds-components-general-background-hover`, `--ds-components-general-background-pressed`) and focus
@@ -121,8 +122,8 @@ An explicit Button override changes Button only.
 
 **Two boundaries.** `--ds-components-general-border-default` is the quiet line between areas:
 dividers, table rules, the edge of a panel. `--ds-components-general-border-control` is the
-boundary that identifies an interactive control — fields, outlined buttons,
-check controls, the switch track — and it reaches 3:1 against the page and
+boundary that identifies an interactive control, such as fields and outlined
+buttons, and it reaches 3:1 against the page and
 against a surface in both themes (WCAG 2.2 SC 1.4.11). Style a divider with the
 first and a control with the second; giving dividers the stronger colour makes
 the page shout, and giving controls the quieter one makes them fail the
@@ -203,6 +204,8 @@ warning status (solid Tag, Count) sit on `--ds-components-general-feedback-warni
 lighter mix of the Burnt Orange, with a **dark** `--ds-components-general-feedback-warning-solid-foreground-default` at
 4.5:1 or more.
 
-**Touch target.** Under a coarse pointer, menu items and menubar triggers keep
-a hit area of at least `--ds-metrics-density-touch-min-target-size` (44 by 44). Visual density
-never reduces the touch target.
+**Touch target.** Compact and regular density expose a 24 by 24 minimum through
+`--ds-metrics-density-compact-min-target-size` and
+`--ds-metrics-density-regular-min-target-size`. Under a coarse pointer, menu
+items and menubar triggers keep at least
+`--ds-metrics-density-touch-min-target-size` (44 by 44).

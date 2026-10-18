@@ -4,6 +4,23 @@ Date: 2026-10-18
 
 ## Current execution status
 
+### Version-3 follow-up
+
+PR #495 contains the approved top-level `palette`, `brand`, `feedback`,
+`metrics`, `typography` and `components` model. Commit `bc891554` adds the
+previously missing Compact density minimum to the runtime CSS of all four web
+adapters. The runtime test now checks all 263 canonical tokens in Light and Dark,
+including references and colour-mix recipes. The token catalog contains 274
+shipped custom properties, of which 263 are design-owned. Local token, Svelte
+CSS, registry, Flutter generation, lint and formatting checks pass. The pinned
+Flutter 3.35 golden comparison still detects the approved Switch styling change
+in the Light and Dark choice images. Those baselines need review before the PR
+can merge. No visual or manual assistive technology verification is claimed.
+
+The public token documentation and the current-status note in ADR 0019 have
+been aligned with the version-3 model. Historical examples in ADR 0002 are
+marked superseded without rewriting that decision's record.
+
 ### Pull request and verification
 
 The reform was squash-merged into `main` in

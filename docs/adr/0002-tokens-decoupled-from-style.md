@@ -3,6 +3,10 @@
 - **Status:** Accepted
 - **Date:** 2026-06-21
 
+The role/state naming rule remains in force. The concrete token paths and
+two-tier model below describe the original decision and were superseded by
+[ADR 0019](./0019-token-model.md). Use ADR 0019 for current paths and modes.
+
 ## Context
 
 The optional theme layer (`tokens.css`, see

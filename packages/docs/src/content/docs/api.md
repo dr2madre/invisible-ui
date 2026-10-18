@@ -92,7 +92,7 @@ never internal classes. The recurring hooks:
 | `data-value` | an item's value, used to scope behaviour and focus |
 
 ```css
-.switch[data-state="checked"] { background: var(--ds-color-primary-500); }
+.switch[data-state="checked"] { background: var(--ds-components-general-action-primary-background-default); }
 .switch[data-disabled] { opacity: 0.5; }
 ```
 
