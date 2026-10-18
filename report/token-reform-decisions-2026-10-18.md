@@ -12,10 +12,12 @@ previously missing Compact density minimum to the runtime CSS of all four web
 adapters. The runtime test now checks all 263 canonical tokens in Light and Dark,
 including references and colour-mix recipes. The token catalog contains 274
 shipped custom properties, of which 263 are design-owned. Local token, Svelte
-CSS, registry, Flutter generation, lint and formatting checks pass. The pinned
-Flutter 3.35 golden comparison still detects the approved Switch styling change
-in the Light and Dark choice images. Those baselines need review before the PR
-can merge. No visual or manual assistive technology verification is claimed.
+CSS, registry, Flutter generation, lint and formatting checks pass. The
+maintainer reviewed the approved Switch styling in the Light and Dark choice
+images. PR #496 regenerated only those two golden images with pinned Flutter
+3.35, passed its full CI and was merged into PR #495. Final CI for PR #495 must
+still pass before merging it. No manual assistive technology verification is
+claimed.
 
 The public token documentation and the current-status note in ADR 0019 have
 been aligned with the version-3 model. Historical examples in ADR 0002 are
