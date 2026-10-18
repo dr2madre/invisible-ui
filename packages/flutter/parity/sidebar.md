@@ -1,6 +1,6 @@
 # Sidebar parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/collapsible` `core/src/navigation-bar` `packages/svelte/src/lib/sidebar` `docs/sidebar-spec.md` `packages/svelte/src/lib/sheet-dialog`
 

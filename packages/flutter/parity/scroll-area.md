@@ -1,6 +1,6 @@
 # ScrollArea parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/scroll-area` `packages/svelte/src/lib/scroll-area`
 
@@ -35,6 +35,7 @@ scope**. Every matched line names the widget test in
 | The viewport stops at `maxHeight` and scrolls | matched | `the viewport stops at maxHeight and scrolls with the keys while it has focus` |
 | The focusable viewport scrolls with the keyboard | adapted | the browser's keys are written out: arrows by 40, Page Up, Page Down and Space by 80 % of the viewport, Home and End to the ends: same test |
 | Horizontal arrows follow the direction | matched | `horizontal arrows follow the direction: right to left, the left arrow moves on` |
+| Right to left, the horizontal thumb starts at the right and a drag moves the content the way the thumb goes | open | the horizontal scroll view follows `Directionality`, and `RawScrollbar` places its thumb from the scroll position, but no widget test drags the horizontal thumb right to left; the web holds it in each adapter with a right-to-left `scrollLeft` |
 | A control inside keeps its keys | matched | `a control inside keeps its keys` |
 | Both axes, each with its own bar | matched | `both axes scroll, each with its own bar` |
 | The thumb drags; the wheel scrolls | matched | `the thumb drags; a wheel scrolls; the focus ring shows from the keyboard` |

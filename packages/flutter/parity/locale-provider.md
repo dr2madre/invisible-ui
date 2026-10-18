@@ -1,6 +1,6 @@
 # LocaleProvider parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/i18n/locale.ts` `packages/svelte/src/lib/i18n`
 
@@ -35,5 +35,5 @@ the shared vectors in `core/src/i18n/__vectors__/locale-direction.json`
 | Nested providers override their subtree | matched | `a given direction wins; nested providers …` |
 | A change applies in place, keeping state | matched | `a changed locale applies in place: state is kept` |
 | Tag canonicalization and the malformed-tag warning | out of scope | a `Locale` is already structured |
-| Without a locale from the app: the page's or app's locale, then the international default (Monday, 24 hours) | adapted | the web reads the page's `lang`; Flutter reads the app's locale from `Localizations` (what `WidgetsApp` resolved from the platform), then `Locale('en', '001')` with `DateSymbols.international`. The shared vectors in `core/src/i18n/__vectors__/default-locale.json` hold the cases: `test/default_locale_test.dart` |
+| Without a locale from the app: the page's or app's locale, then the international default (Monday, 24 hours) | adapted | the web reads the page's `lang` and `dir`, on the root element or the body; Flutter reads the app's locale from `Localizations` (what `WidgetsApp` resolved from the platform), then `Locale('en', '001')` with `DateSymbols.international`. The shared vectors in `core/src/i18n/__vectors__/default-locale.json` hold the cases: `test/default_locale_test.dart` |
 | `lang` on the wrapper for assistive technology | adapted | Flutter passes the locale to the platform through `Localizations`; assistive technology: not tested |

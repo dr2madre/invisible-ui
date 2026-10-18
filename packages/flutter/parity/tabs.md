@@ -1,6 +1,6 @@
 # Tabs parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/tabs` `core/src/internal/collection.ts` `packages/svelte/src/lib/tabs`
 
@@ -33,7 +33,7 @@ the core runs through `connect()`.
 | --- | --- | --- |
 | The first enabled tab is selected by default; a tap selects, reported once | matched | `the first enabled tab is selected by default; a tap selects and reports once; the selection is bold` |
 | Automatic: arrows move and select, skipping disabled tabs, wrapping; Home and End | matched | `automatic: arrows move and select, skipping a disabled tab and wrapping; Home and End jump`, and the shared vectors |
-| Right to left: left moves forward | matched | `right to left: left moves forward and the row is mirrored`; the Svelte adapter passes no direction to the core, the core and the custom elements do |
+| Right to left: left moves forward | matched | `right to left: left moves forward and the row is mirrored`; on the web the core reads the computed direction when no adapter passes one |
 | Manual: arrows move focus only; Enter or Space selects | matched | `manual: arrows move focus only; Enter or Space selects` |
 | Vertical: up and down move, left and right do nothing | matched | `vertical: up and down move, left and right do nothing; the list sits beside the panels`; the styled Svelte Tabs is horizontal only, so the layout follows the core's orientation |
 | One tab stop on the selected tab, then the panel (`tabindex="0"`) | matched | `one tab stop on the selected tab, then the panel` |
