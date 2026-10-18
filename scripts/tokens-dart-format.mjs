@@ -177,7 +177,7 @@ export function dartTokensFormat({ dictionary }) {
   constantsClass(
     "InvisiblePalette",
     "The primitive palette. Components read the roles in [InvisibleColors], never these.",
-    leaves(tree.colors.palette).map(({ path, token }) => ({
+    leaves(tree.palette).map(({ path, token }) => ({
       field: camel(path.join("-")),
       type: "Color",
       value: dartColor(token.$value),
@@ -188,7 +188,7 @@ export function dartTokensFormat({ dictionary }) {
     constantsClass(
       group === "brand" ? "InvisibleBrandColors" : "InvisibleFeedbackColors",
       `Tenant ${group} colours.`,
-      leaves(tree.colors[group]).map(({ path, token }) => ({
+      leaves(tree[group]).map(({ path, token }) => ({
         field: camel(path.join("-")),
         type: "Color",
         value: dartColor(token.$value),
@@ -200,6 +200,16 @@ export function dartTokensFormat({ dictionary }) {
     "InvisibleRadiusTokens",
     "Corner radii, in logical pixels.",
     leaves(tree.metrics.radius).map(({ path, token }) => ({
+      field: camel(path.join("-")),
+      type: "double",
+      value: dartDouble(token.$value),
+    })),
+  );
+
+  constantsClass(
+    "InvisibleSpacingTokens",
+    "Shared spacing dimensions, in logical pixels.",
+    leaves(tree.metrics.spacing).map(({ path, token }) => ({
       field: camel(path.join("-")),
       type: "double",
       value: dartDouble(token.$value),

@@ -1,22 +1,24 @@
 # Design tokens
 
 `packages/tokens/tokens.json` is the canonical source for web and Flutter.
-The version-2 model implements [ADR 0019](adr/0019-token-model.md).
+The version-3 model implements [ADR 0019](adr/0019-token-model.md).
 The migration changes names and ownership, not the existing colour values.
 
 ## Groups and ownership
 
 | Group | Responsibility |
 | --- | --- |
-| `colors.palette` | Named colour families, 11 steps per family, plus White/Grey 0 and Black |
-| `colors.brand` | Tenant brand choices, initially aliases to the palette |
-| `colors.feedback` | Info, success, warning and danger choices, initially palette aliases |
-| `metrics` | Radius and density dimensions |
+| `palette` | Named colour families, 11 steps per family, plus White/Grey 0 and Black |
+| `brand` | Tenant brand choices, initially aliases to the palette |
+| `feedback` | Info, success, warning and danger choices, initially palette aliases |
+| `metrics` | Shared spacing, radius and density dimensions |
 | `typography` | Font sizes, weights and line heights |
 | `components.general` | Shared UI decisions: background, foreground, border, state, focus and contextual action/feedback colours |
 | `components.<name>` | Decisions scoped to one component |
 
-The palette contains 134 entries. Its 132 family steps come from the original
+The top-level `palette`, `brand` and `feedback` groups are already colour
+groups, so they are not nested under a redundant `colors` group. The palette
+contains 134 entries. Its 132 family steps come from the original
 palette table at commit `21f1b047`. The palette demo reads the canonical source;
 it no longer owns a second table of values.
 
@@ -39,7 +41,10 @@ Avatar, Switch, Calendar, Table, Carousel, Navigation Bar and Stepper own their
 backgrounds under `components.<name>.background.default`; these are palette
 references rather than a shared synthetic container layer.
 
-`components.general.background.default` is the shared background.
+`metrics.spacing` owns shared spacing dimensions. Button horizontal and
+vertical padding reference `metrics.spacing.control-padding-x` and
+`metrics.spacing.control-padding-y`; component-only spacing stays under that
+component. `components.general.background.default` is the shared background.
 `components.card.background.default` applies only to Card. Use `background`,
 `foreground` and `border`, not `surface` or `on-primary`. Context comes before
 the property, for example `components.general.action.primary.foreground.default`.
@@ -76,13 +81,13 @@ A canonical path becomes `--ds-` followed by its segments separated by hyphens:
 
 ```css
 :root {
-  --ds-colors-brand-primary-default: var(--ds-colors-palette-cobalt-blue-500);
-  --ds-components-card-background-default: var(--ds-colors-palette-grey-50);
+  --ds-brand-primary-default: var(--ds-palette-cobalt-blue-500);
+  --ds-components-card-background-default: var(--ds-palette-grey-50);
 }
 ```
 
 No old canonical CSS names are retained as aliases. Use
-`packages/tokens/migration-v2.json` to migrate external consumers.
+`packages/tokens/migration-v3.json` to migrate external consumers.
 
 The hand-authored `tokens.css` is identical across four adapters. It retains
 system and explicit themes, colour-mix fallbacks, composed shadows and existing

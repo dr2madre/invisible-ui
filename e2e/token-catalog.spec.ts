@@ -76,7 +76,7 @@ test("a colour specimen paints the value the registry resolved, in both themes",
   // A spread of shapes: a plain palette step, a role that swaps per theme, a
   // role built with color-mix, and a see-through overlay.
   const sample = [
-    "--ds-colors-palette-dioxazine-purple-500",
+    "--ds-palette-dioxazine-purple-500",
     "--ds-components-general-background-default",
     "--ds-components-general-feedback-info-background-default",
     "--ds-components-general-background-hover",

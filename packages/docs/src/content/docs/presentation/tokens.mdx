@@ -25,13 +25,13 @@ per-component knobs that live in the components themselves (see
 import "@invisible-ui/svelte/tokens.css";
 ```
 
-`colors.palette` contains the complete named palette. `colors.brand` and
-`colors.feedback` contain tenant choices. `metrics` and `typography` hold
-dimensions and type settings. `components.general` defines shared UI decisions;
+`palette` contains the complete named palette. `brand` and `feedback` contain
+tenant choices. `metrics` and `typography` hold dimensions and type settings.
+Shared spacing lives in `metrics.spacing`. `components.general` defines shared UI decisions;
 `components.card`, for example, defines Card-specific decisions.
 
-The brand (`--ds-colors-brand-*`) and feedback (`--ds-colors-feedback-*`) tokens reference a
-raw named scale (`--ds-colors-palette-dioxazine-purple-500`, `--ds-colors-palette-alizarin-red-600`, …) taken from the
+The brand (`--ds-brand-*`) and feedback (`--ds-feedback-*`) tokens reference a
+raw named scale (`--ds-palette-dioxazine-purple-500`, `--ds-palette-alizarin-red-600`, …) taken from the
 [color palette](/invisible-ui/presentation/color-palette/) — never a raw value.
 
 The **primary** is Dioxazine Purple and doubles as the **selection / focus**
@@ -44,10 +44,10 @@ by inverting the primary, not a second hue.
 primitives and **remap between light/dark**. Components only ever read these:
 
 ```css
---ds-components-general-action-primary-background-default: var(--ds-colors-brand-primary-default);
---ds-components-general-feedback-danger-solid-background-default: var(--ds-colors-feedback-danger-default);
---ds-components-general-foreground-default: var(--ds-colors-palette-grey-900);            /* light; → --ds-colors-palette-grey-50 in dark */
---ds-components-general-feedback-info-background-default: color-mix(in srgb, var(--ds-colors-feedback-info-default) 8%, var(--ds-colors-palette-grey-0));
+--ds-components-general-action-primary-background-default: var(--ds-brand-primary-default);
+--ds-components-general-feedback-danger-solid-background-default: var(--ds-feedback-danger-default);
+--ds-components-general-foreground-default: var(--ds-palette-grey-900);            /* light; → --ds-palette-grey-50 in dark */
+--ds-components-general-feedback-info-background-default: color-mix(in srgb, var(--ds-feedback-info-default) 8%, var(--ds-palette-grey-0));
 ```
 
 > **Naming rule — decoupled from style.** A semantic token names a **role**
@@ -86,7 +86,7 @@ Override one to restyle that kind of component alone:
 
 ```css
 :root {
-  --ds-components-card-background-default: var(--ds-colors-palette-grey-50); /* example */
+  --ds-components-card-background-default: var(--ds-palette-grey-50); /* example */
 }
 ```
 
@@ -164,9 +164,9 @@ Every such knob is listed in
 
 ## Customizing — in order of effort
 
-1. **Brand** — set `--ds-colors-brand-primary-default` (primary buttons, selection and the
+1. **Brand** — set `--ds-brand-primary-default` (primary buttons, selection and the
    focus ring follow).
-2. **Feedback** — set `--ds-colors-feedback-*`; the status icons and the
+2. **Feedback** — set `--ds-feedback-*`; the status icons and the
    InlineNotification/Notification surfaces re-derive.
 3. **Shared UI** — set the relevant `--ds-components-general-*` background,
    foreground or border. Keep the named palette immutable.

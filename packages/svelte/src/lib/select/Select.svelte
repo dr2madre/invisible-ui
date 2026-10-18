@@ -179,10 +179,10 @@
     /* Shared control metrics (same as Button) + room for the chevron. */
     padding: var(
       --ds-select-padding,
-      var(--ds-metrics-density-regular-control-padding-y, 0.5rem)
-        var(--ds-metrics-density-regular-control-padding-x, 0.875rem)
+      var(--ds-metrics-spacing-control-padding-y, 0.5rem)
+        var(--ds-metrics-spacing-control-padding-x, 0.875rem)
     );
-    padding-inline-end: calc(var(--ds-metrics-density-regular-control-padding-x, 0.875rem) + 1.6em);
+    padding-inline-end: calc(var(--ds-metrics-spacing-control-padding-x, 0.875rem) + 1.6em);
     border: 1px solid var(--ds-components-general-border-control, #757575);
     border-radius: var(--ds-select-radius, var(--ds-metrics-radius-control, 0.5rem));
     background: var(--ds-components-general-background-default, #fff);
@@ -222,7 +222,7 @@
   .select__chevron {
     position: absolute;
     inset-block-start: 50%;
-    inset-inline-end: var(--ds-metrics-density-regular-control-padding-x, 0.875rem);
+    inset-inline-end: var(--ds-metrics-spacing-control-padding-x, 0.875rem);
     translate: 0 -50%;
     display: inline-flex;
     inline-size: var(--ds-select-icon-size, 1.1em);

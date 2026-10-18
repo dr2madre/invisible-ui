@@ -18,10 +18,10 @@ appearance while losing the semantic relationships needed for retheming.
 
 ## Decision
 
-The logical groups are:
+The logical top-level groups are:
 
-- `colors.palette`: exact named colour families and steps.
-- `colors.brand` and `colors.feedback`: tenant-configurable semantic choices.
+- `palette`: exact named colour families and steps.
+- `brand` and `feedback`: tenant-configurable semantic choices.
 - `metrics`: spacing, sizes, border widths, radii, opacity and density.
 - `typography`: font families, sizes, weights and line heights.
 - `components.general`: shared UI defaults by property and context.
@@ -38,7 +38,7 @@ Preserve different functional contexts even when their values happen to match.
 
 This amends the surface and on-* examples of ADR 0002, not its role/state
 principle. Palette primitives retain full colour family names. Light and Dark
-remain modes, never semantic names. The version-2 source places per-mode
+remain modes, never semantic names. The version-3 source places per-mode
 overrides in the repository extension `com.invisible-ui.modes`; `$value` is
 the default Light value. This is not standard DTCG mode support. Exporters
 must resolve the extension explicitly.
@@ -48,6 +48,11 @@ decisions to brand/feedback and palette. Never infer an alias by matching two
 RGB values. Keep colour-mix recipes and alpha as data; browser computed colours
 can verify a result but cannot replace those relationships.
 
+`palette`, `brand` and `feedback` are top-level groups; do not add a redundant
+`colors` parent. Shared spacing dimensions live in `metrics.spacing`.
+Component-only spacing remains under its component; shared spacing values are
+referenced from `metrics.spacing`.
+
 The migration uses no legacy runtime aliases. Update internal consumers and
 publish a mapping for external applications. No new colour, spacing or motion
 values are introduced as part of the rename. The palette's exact original
@@ -56,8 +61,9 @@ values come from ColorPaletteDemo.svelte at baseline commit 21f1b047.
 ## Implementation boundaries
 
 The temporary `reform.tokens.json` has been removed. `tokens.json` is the only
-live source. `migration-v2.json` records old/new canonical paths and CSS names;
-it does not supply runtime aliases.
+live source. `migration-v2.json` records the original migration;
+`migration-v3.json` records the flat colour groups and shared spacing paths.
+Neither manifest supplies runtime aliases.
 
 Preserve the independent density axis and touch-target guarantees. Preserve
 idiomatic platform APIs under ADR 0018, with explicit mappings and no redundant
