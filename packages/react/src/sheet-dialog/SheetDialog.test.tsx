@@ -62,12 +62,12 @@ describe("React SheetDialog (styled)", () => {
 
   it("opens as an edge-anchored modal, named and described, focus moved in", async () => {
     const user = userEvent.setup();
-    render(<Sheet side="left" />);
+    render(<Sheet side="start" />);
 
     await openIt(user);
     const modal = screen.getByRole("dialog");
     expect(modal).toHaveAttribute("aria-modal", "true");
-    expect(modal).toHaveAttribute("data-side", "left");
+    expect(modal).toHaveAttribute("data-side", "start");
     expect(modal).toHaveAccessibleName("Filters");
     expect(modal).toHaveAccessibleDescription("Refine the results.");
     expect(modal.contains(document.activeElement)).toBe(true);
@@ -225,7 +225,7 @@ describe("React SheetDialog (styled)", () => {
 
   it("dismisses a lateral drag toward the anchored edge", async () => {
     const user = userEvent.setup();
-    render(<Sheet side="right" draggable />);
+    render(<Sheet side="end" draggable />);
     await openIt(user);
     const panel = screen.getByRole("dialog");
     stubExtent(panel, "offsetWidth", 320);
@@ -238,7 +238,7 @@ describe("React SheetDialog (styled)", () => {
 
   it("ignores a lateral drag away from the anchored edge", async () => {
     const user = userEvent.setup();
-    render(<Sheet side="right" draggable />);
+    render(<Sheet side="end" draggable />);
     await openIt(user);
     const panel = screen.getByRole("dialog");
     stubExtent(panel, "offsetWidth", 320);

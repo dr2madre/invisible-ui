@@ -2,10 +2,8 @@ import { describe, expect, it } from "vitest";
 import { edge, outward, shouldDismiss } from ".";
 
 describe("edge", () => {
-  it("resolves the physical names to the logical edges and defaults to the end", () => {
+  it("defaults to the end", () => {
     expect(edge(undefined)).toBe("end");
-    expect(edge("right")).toBe("end");
-    expect(edge("left")).toBe("start");
     expect(edge("start")).toBe("start");
     expect(edge("end")).toBe("end");
     expect(edge("top")).toBe("top");

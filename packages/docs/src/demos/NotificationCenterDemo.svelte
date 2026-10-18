@@ -116,7 +116,7 @@
 </script>
 
 <SheetDialog
-  side="right"
+  side="end"
   title={showSettings ? "Notification Settings" : "Notifications"}
   triggerVariant="ghost"
 >
@@ -248,7 +248,7 @@
 
 <style>
   /* A roomier panel than the default — a history list wants width. */
-  :global(.sheet-dialog__panel[data-side="right"]) {
+  :global(.sheet-dialog__panel[data-side="end"]) {
     --ds-sheet-dialog-size: 26rem;
   }
   .nc-section {

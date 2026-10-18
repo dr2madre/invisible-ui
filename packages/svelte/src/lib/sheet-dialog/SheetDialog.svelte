@@ -54,8 +54,7 @@
      * Which edge the panel is anchored to. `start` and `end` follow the reading
      * direction, so the panel slides in from, and is dragged toward, the right
      * edge in left-to-right text and the left edge in right-to-left text.
-     * `left` and `right` are the older names for `start` and `end` and follow
-     * the reading direction the same way. Default `"end"`.
+     * Default `"end"`.
      */
     side?: SheetDialogSide;
     /**
@@ -239,28 +238,23 @@
     outline-offset: -2px;
   }
 
-  /* Start / end (left and right are their older names, and follow the reading
-     direction the same way): full height, fixed width. */
+  /* Start / end, which follow the reading direction: full height, fixed width. */
   .sheet-dialog__panel[data-side="end"],
-  .sheet-dialog__panel[data-side="right"],
-  .sheet-dialog__panel[data-side="start"],
-  .sheet-dialog__panel[data-side="left"] {
+  .sheet-dialog__panel[data-side="start"] {
     inset-block: 0;
     block-size: 100%;
     max-block-size: 100vh;
     inline-size: var(--ds-sheet-dialog-size, 20rem);
     max-inline-size: 100vw;
   }
-  .sheet-dialog__panel[data-side="end"],
-  .sheet-dialog__panel[data-side="right"] {
+  .sheet-dialog__panel[data-side="end"] {
     inset-inline-end: 0;
     inset-inline-start: auto;
     border-inline-end: 0;
     translate: var(--_sheet-drag, 0px) 0;
     animation: sheet-dialog-in-end var(--ds-sheet-dialog-duration, 0.25s) ease;
   }
-  .sheet-dialog__panel[data-side="start"],
-  .sheet-dialog__panel[data-side="left"] {
+  .sheet-dialog__panel[data-side="start"] {
     inset-inline-start: 0;
     inset-inline-end: auto;
     border-inline-start: 0;
@@ -269,13 +263,11 @@
   }
   /* Right to left: the end edge is the left one, so both the drag and the
      slide-in run the other way. */
-  .sheet-dialog__panel[data-side="end"]:dir(rtl),
-  .sheet-dialog__panel[data-side="right"]:dir(rtl) {
+  .sheet-dialog__panel[data-side="end"]:dir(rtl) {
     translate: calc(-1 * var(--_sheet-drag, 0px)) 0;
     animation-name: sheet-dialog-in-start;
   }
-  .sheet-dialog__panel[data-side="start"]:dir(rtl),
-  .sheet-dialog__panel[data-side="left"]:dir(rtl) {
+  .sheet-dialog__panel[data-side="start"]:dir(rtl) {
     translate: var(--_sheet-drag, 0px) 0;
     animation-name: sheet-dialog-in-end;
   }
@@ -352,21 +344,17 @@
     margin-block: 0 0.75rem;
   }
   .sheet-dialog__panel[data-side="end"] .sheet-dialog__handle,
-  .sheet-dialog__panel[data-side="right"] .sheet-dialog__handle,
-  .sheet-dialog__panel[data-side="start"] .sheet-dialog__handle,
-  .sheet-dialog__panel[data-side="left"] .sheet-dialog__handle {
+  .sheet-dialog__panel[data-side="start"] .sheet-dialog__handle {
     position: absolute;
     inset-block: 0;
     block-size: var(--ds-sheet-dialog-handle-width, 2.5rem);
     inline-size: 0.375rem;
     margin-block: auto;
   }
-  .sheet-dialog__panel[data-side="end"] .sheet-dialog__handle,
-  .sheet-dialog__panel[data-side="right"] .sheet-dialog__handle {
+  .sheet-dialog__panel[data-side="end"] .sheet-dialog__handle {
     inset-inline-start: 0.375rem;
   }
-  .sheet-dialog__panel[data-side="start"] .sheet-dialog__handle,
-  .sheet-dialog__panel[data-side="left"] .sheet-dialog__handle {
+  .sheet-dialog__panel[data-side="start"] .sheet-dialog__handle {
     inset-inline-end: 0.375rem;
   }
 

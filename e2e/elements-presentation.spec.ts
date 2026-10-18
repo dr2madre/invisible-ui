@@ -171,7 +171,7 @@ test("Elements Sheet Dialog stays open for inside presses and restores focus", a
     await customElements.whenDefined("ds-sheet-dialog");
     document.body.innerHTML = `
       <ds-sheet-dialog heading="Filters" description="Refine the results."
-        trigger="Open filters" side="right">
+        trigger="Open filters" side="end">
         <button slot="header-actions" type="button">Reset</button>
         <label>Query <input /></label>
         <button slot="footer" type="button">Apply</button>
@@ -183,7 +183,7 @@ test("Elements Sheet Dialog stays open for inside presses and restores focus", a
   const panel = page.getByRole("dialog", { name: "Filters" });
   await expect(panel).toBeVisible();
   await expect(panel).toHaveAccessibleDescription("Refine the results.");
-  await expect(panel).toHaveAttribute("data-side", "right");
+  await expect(panel).toHaveAttribute("data-side", "end");
   await panel.getByRole("button", { name: "Reset" }).click();
   await expect(panel).toBeVisible();
   await page.keyboard.press("Escape");

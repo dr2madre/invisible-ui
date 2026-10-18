@@ -20,7 +20,7 @@ scope**. Every matched line names the widget test in
 | Flutter | Svelte | ADR 0011 meaning |
 | --- | --- | --- |
 | `showInvisibleDialog(builder: (_) => SheetDialog(...))` | the trigger, `open`, `onOpenChange` | opening and closing |
-| `side: SheetDialogSide.top / bottom / start / end` | `side: "top" / "bottom" / "start" / "end"` (`left` and `right` stay as aliases of `start` and `end`) | the edge; start and end follow the reading direction |
+| `side: SheetDialogSide.top / bottom / start / end` | `side: "top" / "bottom" / "start" / "end"` | the edge; start and end follow the reading direction |
 | `draggable` | `draggable` | the grab handle |
 | `size` | `--ds-sheet-dialog-size` | the extent away from the edge |
 | `title`, `description`, `child`, `actions` | `title`, `description`, `children`, `footer` | name, description, body, footer |
@@ -37,7 +37,7 @@ scope**. Every matched line names the widget test in
 | Escape, the close button and an action close it; focus returns | matched | `Escape and the close button close it; focus returns` |
 | The body takes the space left; the footer sits at the far end, set apart by a border | matched | `the footer sits at the bottom, set apart by a border; a notice goes between the body and the footer` |
 | The status area between the body and the footer (ADR 0016) | matched | same test |
-| `end`/`start` anchor to the inline-end/start edge | matched | both name them `end` and `start`, and the placement, the motion and the drag all follow the edge the panel is on; the web keeps `right` and `left` as aliases with the same meaning: `end is the right edge left to right and the left edge right to left; start is the opposite` |
+| `end`/`start` anchor to the inline-end/start edge | matched | both name them `end` and `start`, and the placement, the motion and the drag all follow the edge the panel is on: `end is the right edge left to right and the left edge right to left; start is the opposite` |
 | Top and bottom: full width, 16rem high; sides: full height, 20rem wide; never larger than the screen | matched | same test; `the size grows with the text and stops at the screen` (rem grows with the text size) |
 | No border along the anchored edge, no corner radius | matched | `no border along the anchored edge and square corners` |
 | It slides in from its edge | matched | `it slides in from its edge, mirrored right to left`. Both slide from the edge the panel is on |

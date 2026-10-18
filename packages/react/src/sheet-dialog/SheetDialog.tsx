@@ -25,9 +25,8 @@ export interface SheetDialogProps {
   /**
    * Which edge the panel is anchored to. `start` and `end` follow the reading
    * direction, so the panel slides in from, and is dragged toward, the right
-   * edge in left-to-right text and the left edge in right-to-left text. `left`
-   * and `right` are the older names for `start` and `end` and follow the
-   * reading direction the same way. Default `"end"`.
+   * edge in left-to-right text and the left edge in right-to-left text.
+   * Default `"end"`.
    */
   side?: SheetDialogSide;
   /**

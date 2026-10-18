@@ -35,12 +35,12 @@ describe("Svelte SheetDialog (styled)", () => {
 
   it("opens as an edge-anchored modal, named + described, focus moved in", async () => {
     const user = userEvent.setup();
-    render(Fixture, { props: { side: "left" } });
+    render(Fixture, { props: { side: "start" } });
 
     await user.click(screen.getByRole("button", { name: "Open panel" }));
     const modal = screen.getByRole("dialog");
     expect(modal).toHaveAttribute("aria-modal", "true");
-    expect(modal).toHaveAttribute("data-side", "left");
+    expect(modal).toHaveAttribute("data-side", "start");
     expect(modal).toHaveAccessibleName("Filters");
     expect(modal).toHaveAccessibleDescription("Refine the results.");
     expect(modal.contains(document.activeElement)).toBe(true);
@@ -129,7 +129,7 @@ describe("Svelte SheetDialog (styled)", () => {
 
   it("dismisses a lateral drag toward the anchored edge", async () => {
     const user = userEvent.setup();
-    render(Fixture, { props: { side: "right", draggable: true } });
+    render(Fixture, { props: { side: "end", draggable: true } });
     await user.click(screen.getByRole("button", { name: "Open panel" }));
     const panel = screen.getByRole("dialog");
     stubExtent(panel, "offsetWidth", 320);
@@ -142,7 +142,7 @@ describe("Svelte SheetDialog (styled)", () => {
 
   it("ignores a lateral drag away from the anchored edge", async () => {
     const user = userEvent.setup();
-    render(Fixture, { props: { side: "right", draggable: true } });
+    render(Fixture, { props: { side: "end", draggable: true } });
     await user.click(screen.getByRole("button", { name: "Open panel" }));
     const panel = screen.getByRole("dialog");
     stubExtent(panel, "offsetWidth", 320);
@@ -166,7 +166,7 @@ describe("Svelte SheetDialog (styled)", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("anchors to the end edge by default and keeps the older names as aliases", async () => {
+  it("anchors to the end edge by default", async () => {
     const user = userEvent.setup();
     const { unmount } = render(Fixture, { props: { side: undefined } });
     await user.click(screen.getByRole("button", { name: "Open panel" }));

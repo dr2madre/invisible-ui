@@ -5,8 +5,7 @@ import { createDialog, type CreateDialog, type DialogContext } from "../dialog/c
 
 /**
  * The edge the panel is anchored to. `start` and `end` follow the reading
- * direction; `left` and `right` are their older names and follow it the same
- * way.
+ * direction; `top` and `bottom` never move.
  */
 export type SheetDialogSide = sheet.SheetSide;
 

@@ -31,11 +31,11 @@ const mount = (extra = "") => {
 describe("<ds-sheet-dialog>", () => {
   it("opens as a named native modal anchored to the requested side", async () => {
     const user = userEvent.setup();
-    mount('side="left" description="Refine the results."');
+    mount('side="start" description="Refine the results."');
     await user.click(screen.getByRole("button", { name: "Open filters" }));
     const panel = screen.getByRole("dialog", { name: "Filters" });
     expect(panel.tagName).toBe("DIALOG");
-    expect(panel).toHaveAttribute("data-side", "left");
+    expect(panel).toHaveAttribute("data-side", "start");
     expect(panel).toHaveAccessibleDescription("Refine the results.");
     expect(panel).toHaveFocus();
   });
@@ -125,7 +125,7 @@ describe("<ds-sheet-dialog>", () => {
     const user = userEvent.setup();
     // A cancelled pointer reports (0, 0): on the left side that reads as a
     // long outward drag.
-    const host = mount('side="left" draggable');
+    const host = mount('side="start" draggable');
     await user.click(screen.getByRole("button", { name: "Open filters" }));
     const panel = host.querySelector<HTMLElement>(".sheet-dialog__panel")!;
     Object.defineProperty(panel, "offsetWidth", { configurable: true, value: 400 });

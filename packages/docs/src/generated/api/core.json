@@ -1071,6 +1071,11 @@
       "signature": "i18n_dateTimeFormat: typeof dateTimeFormat"
     },
     {
+      "name": "i18n.elementDirection",
+      "kind": "const",
+      "signature": "i18n_elementDirection: typeof elementDirection"
+    },
+    {
       "name": "i18n.en",
       "kind": "const",
       "signature": "i18n_en: typeof en"
@@ -2396,14 +2401,9 @@
       "signature": "sheetDialog_DISMISS_VELOCITY: typeof DISMISS_VELOCITY"
     },
     {
-      "name": "sheetDialog.SheetEdge",
-      "kind": "type",
-      "signature": "sheetDialog.SheetEdge = type SheetEdge = \"top\" | \"bottom\" | \"start\" | \"end\";"
-    },
-    {
       "name": "sheetDialog.SheetSide",
       "kind": "type",
-      "signature": "sheetDialog.SheetSide = type SheetSide = \"top\" | \"bottom\" | \"start\" | \"end\" | \"left\" | \"right\";"
+      "signature": "sheetDialog.SheetSide = type SheetSide = \"top\" | \"bottom\" | \"start\" | \"end\";"
     },
     {
       "name": "sheetDialog.edge",

@@ -19,8 +19,7 @@ import { localized, onLocaleChange } from "../internal/i18n";
 
 /**
  * The edge the panel is anchored to. `start` and `end` follow the reading
- * direction; `left` and `right` are their older names and follow it the same
- * way.
+ * direction; `top` and `bottom` never move.
  */
 export type SheetDialogSide = sheet.SheetSide;
 
@@ -248,13 +247,7 @@ export class DsSheetDialog extends HTMLElementBase {
 
   #side(): SheetDialogSide {
     const side = this.getAttribute("side");
-    return side === "top" ||
-      side === "bottom" ||
-      side === "start" ||
-      side === "left" ||
-      side === "right"
-      ? side
-      : "end";
+    return side === "top" || side === "bottom" || side === "start" ? side : "end";
   }
 
   #startDrag = (event: PointerEvent) => {
