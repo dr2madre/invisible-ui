@@ -41,7 +41,6 @@ generator. The formatting correction passed in the final CI run.
 The historical progress notes below describe earlier stages. Their statements
 about an uncommitted local candidate and old CSS overrides are superseded by
 the merged implementation and final CI status.
-
 ### Follow-up: flat colour groups and shared spacing
 
 The maintainer confirmed that `spacing` belongs in `metrics` and that a
@@ -52,13 +51,10 @@ at the root. Existing shared control-padding values moved from
 Button references the shared metrics. Component-only spacing remains with its
 component. The migration is recorded in `packages/tokens/migration-v3.json`.
 
-The current worktree has the schema and documentation changes locally. The
-Style Dictionary generated the updated CSS and Flutter tokens. The Flutter
-generated-file check, token registry check, focused token/runtime tests, and
-all 134 script tests pass. The Astro documentation check was unavailable
-because `pnpm` and the Astro executable are not installed in this workspace.
-The historical v2 preparation check passes. No commit, push or merge has been
-made.
+The schema and documentation changes are committed as `cd25a32f` in
+[PR #495](https://github.com/dr2madre/invisible-ui/pull/495). The generated
+Flutter tokens and token registry match the canonical source. Focused token
+model and Switch tests pass. The historical v2 preparation check passes.
 
 ### Activation update
 
