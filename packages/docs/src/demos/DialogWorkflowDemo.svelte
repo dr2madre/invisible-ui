@@ -2,8 +2,8 @@
   // A two-step workflow composed from Dialog. The step lives here, in the
   // application: the dialog lends the regions and never learns about steps.
   import { tick } from "svelte";
-  import Dialog from "@design-system/svelte/Dialog.svelte";
-  import Button from "@design-system/svelte/Button.svelte";
+  import Dialog from "@invisible-ui/svelte/Dialog.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
 
   let step = $state(1);
   let heading = $state();

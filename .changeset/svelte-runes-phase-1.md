@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": patch
+"@invisible-ui/svelte": patch
 ---
 
 Twenty-seven presentational components now use the runes syntax internally:

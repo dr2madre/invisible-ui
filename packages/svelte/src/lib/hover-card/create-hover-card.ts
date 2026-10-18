@@ -1,4 +1,4 @@
-import { hoverCard as core } from "@design-system/core";
+import { hoverCard as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
@@ -35,7 +35,7 @@ export interface CreateHoverCard {
 }
 
 /**
- * Create a headless hover card. ARIA/state live in `@design-system/core`; this
+ * Create a headless hover card. ARIA/state live in `@invisible-ui/core`; this
  * adapter owns the DOM concerns, reusing the shared overlay primitives:
  * open/close on hover **and** focus (with delays), `attachFloating` positioning,
  * and — since the card is non-modal and supplementary — it stays open while the

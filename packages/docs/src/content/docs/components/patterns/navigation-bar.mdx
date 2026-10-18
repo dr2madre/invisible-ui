@@ -29,7 +29,7 @@ application can return to the section root or scroll to the top.
 
 ```svelte
 <script>
-  import NavigationBar from "@design-system/svelte/NavigationBar.svelte";
+  import NavigationBar from "@invisible-ui/svelte/NavigationBar.svelte";
   import HomeIcon from "./HomeIcon.svelte";
   import UserIcon from "./UserIcon.svelte";
 
@@ -54,7 +54,7 @@ slot replaces the lock glyph.
 ```vue
 <script setup>
 import { markRaw, shallowRef } from "vue";
-import { NavigationBar } from "@design-system/vue";
+import { NavigationBar } from "@invisible-ui/vue";
 import HomeIcon from "./HomeIcon.vue";
 
 const section = shallowRef("home");

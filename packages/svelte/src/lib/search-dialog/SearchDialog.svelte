@@ -4,7 +4,7 @@
    * marketed as "command palette"): a search combobox inside a modal dialog.
    * The modal shell (native `<dialog>` + `showModal()`, scroll lock, Escape /
    * backdrop close, focus restore) and the search/filter/keyboard behaviour come from the
-   * headless dialog + combobox (`@design-system/core`); this is the styled
+   * headless dialog + combobox (`@invisible-ui/core`); this is the styled
    * wrapper. A visually-hidden `role="status"` region announces the filtered
    * result count to screen readers.
    *
@@ -280,7 +280,7 @@
 
 <style>
   .search-dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
+    background: var(--ds-dialog-overlay, rgb(27 27 27 / 0.5));
   }
   .search-dialog__panel {
     margin-block-start: var(--ds-search-dialog-inset-top, 12vh);
@@ -292,9 +292,9 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    background: var(--ds-dialog-background, var(--ds-color-background, #fff));
+    color: var(--ds-color-text, #272727);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-search-dialog-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -306,14 +306,14 @@
   /* The panel is flush, so a visible header brings its own inset. */
   .search-dialog__panel > :global(.dialog-header) {
     padding: 0.75rem 1rem;
-    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .search-dialog__search {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
   }
   /* The input drops its own outline, so its row shows the focus ring, inside
      the panel's edge (WCAG 2.4.7). */
@@ -325,7 +325,7 @@
     inline-size: 1.1em;
     block-size: 1.1em;
     flex: none;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .search-dialog__input {
     flex: 1;
@@ -344,7 +344,7 @@
     display: flex;
     justify-content: center;
     padding: 0.75rem;
-    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .search-dialog__list {
     margin: 0;
@@ -358,7 +358,7 @@
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .search-dialog__item-label {
     min-inline-size: 0;
@@ -383,14 +383,14 @@
     box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .search-dialog__item:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
   .search-dialog__empty {
     margin: 0;
     padding: 1.5rem 0.625rem;
     text-align: center;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     cursor: default;
   }
 
@@ -398,7 +398,7 @@
   .search-dialog__panel > :global(.dialog-status) {
     margin: 0;
     padding: 0.75rem 1rem;
-    border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .search-dialog__sr-only {
     position: absolute;

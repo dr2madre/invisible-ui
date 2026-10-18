@@ -12,7 +12,7 @@
    * - `segmented` — items are joined into one control: their individual borders
    *   are dropped and the group draws a single outer border with thin dividers.
    *
-   * Keyboard (the shared rule in `@design-system/core`): with three or more
+   * Keyboard (the shared rule in `@invisible-ui/core`): with three or more
    * toggles the group is one tab stop, and the arrow keys move focus between
    * the enabled toggles, wrapping at the ends. Left and Right follow the
    * reading direction in a horizontal group, Up and Down move in a vertical
@@ -31,7 +31,7 @@
    */
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
-  import { toggleGroup as core } from "@design-system/core";
+  import { toggleGroup as core } from "@invisible-ui/core";
 
   interface Props {
     /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
@@ -108,7 +108,7 @@
      drawing a single outer border with thin dividers. */
   .toggle-group--segmented {
     gap: 0;
-    border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
+    border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757575));
     border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
     overflow: hidden;
     --ds-toggle-border-width: 0;
@@ -120,10 +120,10 @@
      is the toggle itself, or an element that holds it. */
   .toggle-group--segmented[data-orientation="horizontal"]
     > :global(:not(:first-child) .toggle__surface) {
-    border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
+    border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757575));
   }
   .toggle-group--segmented[data-orientation="vertical"]
     > :global(:not(:first-child) .toggle__surface) {
-    border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
+    border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757575));
   }
 </style>

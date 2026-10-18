@@ -24,6 +24,18 @@ describe("Vue LoginForm", () => {
     expect(onSubmit).toHaveBeenCalledWith({ email: "a@b.com", password: "secret" });
   });
 
+  it("names the purpose of the fields for autofill (WCAG 1.3.5)", () => {
+    render(LoginForm);
+    expect(document.querySelector('input[name="email"]')).toHaveAttribute(
+      "autocomplete",
+      "username",
+    );
+    expect(document.querySelector('input[name="password"]')).toHaveAttribute(
+      "autocomplete",
+      "current-password",
+    );
+  });
+
   it("renders social provider buttons when given", () => {
     render(LoginForm, { props: { providers: [{ id: "google", label: "Google" }] } });
     expect(document.body.textContent).toContain("Continue with Google");

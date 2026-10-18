@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "DateRangePicker",
-        "specifier": "@design-system/svelte/DateRangePicker.svelte"
+        "specifier": "@invisible-ui/svelte/DateRangePicker.svelte"
       },
       "props": [
         {
@@ -151,7 +151,7 @@
       "import": {
         "kind": "named",
         "name": "DateRangePicker",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -307,7 +307,7 @@
       "import": {
         "kind": "named",
         "name": "DateRangePicker",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -453,7 +453,7 @@
       "import": {
         "kind": "element",
         "name": "ds-date-range-picker",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

@@ -1,4 +1,4 @@
-import { button as core } from "@design-system/core";
+import { button as core } from "@invisible-ui/core";
 import { computed, toValue, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 

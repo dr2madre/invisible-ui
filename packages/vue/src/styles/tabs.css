@@ -13,7 +13,7 @@
   overflow-x: auto;
   /* The rule is drawn inside the scroll area: a border would sit outside
      the clip, where the tabs' underline could never reach it. */
-  box-shadow: inset 0 -1px 0 var(--ds-color-border, #c7c1b7);
+  box-shadow: inset 0 -1px 0 var(--ds-color-border, #bdbdbd);
 }
 .tabs__tab {
   display: inline-flex;
@@ -25,7 +25,7 @@
   cursor: pointer;
   font: inherit;
   /* Idle tabs use full-strength text (not muted grey). */
-  color: var(--ds-color-text, #282420);
+  color: var(--ds-color-text, #272727);
   border-block-end: 2px solid transparent;
   transition:
     color 120ms ease,
@@ -51,8 +51,8 @@
   font-weight: 600;
   line-height: 1.4;
   border-radius: var(--ds-radius-pill, 999px);
-  color: var(--ds-color-text-secondary, #524c44);
-  background: var(--ds-color-neutral-surface, #f4f2ef);
+  color: var(--ds-color-text-secondary, #515151);
+  background: var(--ds-color-neutral-surface, #f5f5f5);
 }
 /* The count read out as part of the tab's name; the badge itself is hidden
    from assistive technology. */
@@ -77,7 +77,7 @@
      carries the selection color (so the accent can change without recoloring
      the text). */
   font-weight: 700;
-  color: var(--ds-color-text, #282420);
+  color: var(--ds-color-text, #272727);
   border-block-end-color: var(--ds-color-selected, #7a52cc);
 }
 /* The list clips its children, so an outer ring would be cut off:
@@ -92,11 +92,50 @@
 }
 .tabs__panel {
   padding-block: 0.75rem;
-  color: var(--ds-color-text-secondary, #524c44);
+  color: var(--ds-color-text-secondary, #515151);
 }
 /* So can a panel. */
 .tabs__panel:not([hidden]) {
   display: block;
+}
+
+/* Tabs with actions: the tablist and the actions share a row, and the
+   actions wrap below the tablist when the row is too narrow. The panels
+   take a row of their own. */
+.tabs--with-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.25rem 0.5rem;
+}
+.tabs--with-actions > .tabs__list {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+}
+.tabs--with-actions > .tabs__panel {
+  flex-basis: 100%;
+}
+/* Commands such as "add" sit outside the tablist, as ordinary buttons. */
+.tabs__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+/* The target size, density.regular.min-target-size, with no specificity: a
+   control that sets a larger size of its own keeps it. */
+:where(.tabs__actions button, .tabs__actions a[href]) {
+  min-inline-size: var(--ds-min-target-size, 24px);
+  min-block-size: var(--ds-min-target-size, 24px);
+}
+
+/* A coarse pointer gets the touch target, density.touch.min-target-size,
+   on whatever control the actions hold. */
+@media (pointer: coarse) {
+  .tabs__actions :is(button, a[href]) {
+    min-inline-size: var(--ds-min-target-size-touch, 44px);
+    min-block-size: var(--ds-min-target-size-touch, 44px);
+  }
 }
 
 /* Forced colors: the tab row is a scroller, so the ring must be drawn

@@ -1,4 +1,4 @@
-import { pagination as core } from "@design-system/core";
+import { pagination as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createPropsAction, createRootAction } from "../internal/connect";
@@ -47,7 +47,7 @@ export interface CreatePagination {
 /**
  * Create a headless pagination control: previous, the visible page numbers (with
  * ellipsis gaps), and next form a single-select roving collection (like Tabs).
- * Behaviour and accessibility live in `@design-system/core`; this adapter wires
+ * Behaviour and accessibility live in `@invisible-ui/core`; this adapter wires
  * state to a Svelte store, applies connected props via actions, and moves focus.
  */
 export function createPagination(context: core.PaginationContext): CreatePagination {

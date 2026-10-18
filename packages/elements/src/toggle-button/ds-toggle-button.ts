@@ -1,4 +1,4 @@
-import { toggleButton as core } from "@design-system/core";
+import { toggleButton as core } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,

@@ -15,7 +15,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 /** Dependencies the package entry must import, and `define.js` must not. */
-export const EXTERNALS = ["@design-system/core", "@floating-ui/dom"];
+export const EXTERNALS = ["@invisible-ui/core", "@floating-ui/dom"];
 
 const IMPORT_LINE =
   /^(?:import|export)\b[^\n]*?\bfrom\s+["']([^"']+)["']|^import\s+["']([^"']+)["']/gm;
@@ -38,7 +38,7 @@ export function checkElementsDist(root) {
   const define = resolve(dist, "define.js");
   for (const file of [entry, define]) {
     if (!existsSync(file)) {
-      return `[elements-dist] ${file} is missing: run pnpm --filter @design-system/elements build.`;
+      return `[elements-dist] ${file} is missing: run pnpm --filter @invisible-ui/elements build.`;
     }
   }
 

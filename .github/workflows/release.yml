@@ -3,7 +3,7 @@ name: Release
 # DORMANT until you choose to publish. Runs only when triggered manually
 # (Actions tab → Release → Run workflow). To go live later:
 #   1. Remove `private: true` from core/package.json and packages/svelte/package.json
-#      (rename the @design-system scope to the Nozca-ui scope you own on npm, e.g. @nozca-ui/core and @nozca-ui/svelte).
+#      (the packages already use the @invisible-ui scope: register the invisible-ui organisation on npm first).
 #   2. Add the repo secret NPM_TOKEN (npm automation token with publish rights).
 #   3. Enable Settings → Actions → "Allow GitHub Actions to create and approve
 #      pull requests".
@@ -26,13 +26,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
           cache: pnpm
@@ -43,11 +43,11 @@ jobs:
 
       - name: Verify the packed core package as a consumer
         run: |
-          pnpm exec turbo run build --filter=@design-system/core
-          pnpm --filter @design-system/core run smoke
+          pnpm exec turbo run build --filter=@invisible-ui/core
+          pnpm --filter @invisible-ui/core run smoke
 
       - name: Create release PR or publish
-        uses: changesets/action@v1
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
           version: pnpm run version-packages
           publish: pnpm run release

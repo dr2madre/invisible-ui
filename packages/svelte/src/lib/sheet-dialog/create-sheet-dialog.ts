@@ -1,4 +1,4 @@
-import { sheetDialog as sheet } from "@design-system/core";
+import { sheetDialog as sheet } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { writable, type Readable } from "svelte/store";
 import { createDialog, type CreateDialog, type DialogContext } from "../dialog/create-dialog";

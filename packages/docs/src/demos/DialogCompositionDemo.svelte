@@ -1,10 +1,10 @@
 <script>
-  import Combobox from "@design-system/svelte/Combobox.svelte";
-  import ConfirmDialog from "@design-system/svelte/ConfirmDialog.svelte";
-  import Dialog from "@design-system/svelte/Dialog.svelte";
-  import MultiSelect from "@design-system/svelte/MultiSelect.svelte";
-  import TextField from "@design-system/svelte/TextField.svelte";
-  import Tooltip from "@design-system/svelte/Tooltip.svelte";
+  import Combobox from "@invisible-ui/svelte/Combobox.svelte";
+  import ConfirmDialog from "@invisible-ui/svelte/ConfirmDialog.svelte";
+  import Dialog from "@invisible-ui/svelte/Dialog.svelte";
+  import MultiSelect from "@invisible-ui/svelte/MultiSelect.svelte";
+  import TextField from "@invisible-ui/svelte/TextField.svelte";
+  import Tooltip from "@invisible-ui/svelte/Tooltip.svelte";
 
   const cities = [
     { value: "london", label: "London" },
@@ -58,6 +58,6 @@
   }
   .dialog-composition-demo p {
     margin: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
 </style>

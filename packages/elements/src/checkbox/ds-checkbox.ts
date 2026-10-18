@@ -1,4 +1,4 @@
-import { checkbox as core } from "@design-system/core";
+import { checkbox as core } from "@invisible-ui/core";
 import {
   applyDomProps,
   applyProps,

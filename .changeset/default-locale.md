@@ -1,9 +1,9 @@
 ---
-"@design-system/core": minor
-"@design-system/svelte": minor
-"@design-system/vue": minor
-"@design-system/react": minor
-"@design-system/elements": minor
+"@invisible-ui/core": minor
+"@invisible-ui/svelte": minor
+"@invisible-ui/vue": minor
+"@invisible-ui/react": minor
+"@invisible-ui/elements": minor
 ---
 
 Without a locale from the app, components follow the page's language, then

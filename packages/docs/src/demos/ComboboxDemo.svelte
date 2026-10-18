@@ -1,5 +1,5 @@
 <script>
-  import Combobox from "@design-system/svelte/Combobox.svelte";
+  import Combobox from "@invisible-ui/svelte/Combobox.svelte";
 
   const people = [
     { value: "ada", label: "Ada Lovelace" },

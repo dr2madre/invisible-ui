@@ -1,8 +1,8 @@
 ---
-"@design-system/core": patch
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/elements": patch
+"@invisible-ui/core": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/elements": patch
 ---
 
 The calendar shows the right weekday and month names in every time zone.

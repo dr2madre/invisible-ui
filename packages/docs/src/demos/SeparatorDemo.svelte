@@ -1,5 +1,5 @@
 <script>
-  import Separator from "@design-system/svelte/Separator.svelte";
+  import Separator from "@invisible-ui/svelte/Separator.svelte";
 </script>
 
 <div style="inline-size:14rem;">

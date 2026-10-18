@@ -27,7 +27,7 @@ import {
   Switch,
   Tag,
   TextField,
-} from "@design-system/vue";
+} from "@invisible-ui/vue";
 import { navIcons } from "./icons";
 import portrait from "./portrait.svg";
 

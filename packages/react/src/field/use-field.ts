@@ -1,4 +1,4 @@
-import { field as core } from "@design-system/core";
+import { field as core } from "@invisible-ui/core";
 import { useId } from "react";
 import { normalizeProps } from "../normalize";
 
@@ -18,7 +18,7 @@ export interface UseFieldOptions {
 /**
  * Connect the headless field to React. A field ties a label, a control, a
  * description and an error message together: the ids, `aria-describedby`,
- * `aria-invalid` and `aria-required` all come from `@design-system/core`.
+ * `aria-invalid` and `aria-required` all come from `@invisible-ui/core`.
  * Spread `labelProps`, `controlProps`, `descriptionProps` and `errorProps`
  * onto your own parts. Only the base id is kept between renders; every flag
  * is read from the options.

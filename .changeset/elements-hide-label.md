@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": minor
-"@design-system/react": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/react": patch
+"@invisible-ui/vue": patch
 ---
 
 `hide-label` now works on every field element: `<ds-checkbox>`, `<ds-switch>`,

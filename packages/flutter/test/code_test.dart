@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -46,7 +47,7 @@ void main() {
             width: 120,
             child: DefaultTextStyle(
               style: TextStyle(fontSize: 16),
-              child: Code('pnpm --filter @design-system/docs dev'),
+              child: Code('pnpm --filter @invisible-ui/docs dev'),
             ),
           ),
           textScale: 2,
@@ -59,7 +60,7 @@ void main() {
       final box = tester.widget<Container>(find.byType(Container));
       expect((box.decoration! as BoxDecoration).color, colors.neutralSurface);
       expect(
-        find.bySemanticsLabel('pnpm --filter @design-system/docs dev'),
+        find.bySemanticsLabel('pnpm --filter @invisible-ui/docs dev'),
         findsOneWidget,
       );
       await expectLater(tester, meetsGuideline(textContrastGuideline));
@@ -92,6 +93,58 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets('the block sits on the code-block-background token of each '
+        'theme, with no line under the header, and its text keeps contrast '
+        'on it', (tester) async {
+      final semantics = tester.ensureSemantics();
+      for (final theme in [
+        InvisibleThemeData.light(),
+        InvisibleThemeData.dark(),
+      ]) {
+        await tester.pumpWidget(
+          harness(const CodeBlock(code: _sample), theme: theme),
+        );
+        final surface = tester
+            .widgetList<Container>(
+              find.descendant(
+                of: find.byType(CodeBlock),
+                matching: find.byType(Container),
+              ),
+            )
+            .map((box) => box.decoration)
+            .whereType<BoxDecoration>()
+            .first;
+        expect(surface.color, theme.colors.codeBlockBackground);
+        // The card keeps its outer border; no line sets the header apart.
+        final borders = tester
+            .widgetList<Container>(
+              find.descendant(
+                of: find.byType(CodeBlock),
+                matching: find.byType(Container),
+              ),
+            )
+            .map((box) => box.decoration)
+            .whereType<BoxDecoration>()
+            .where((decoration) => decoration.border != null)
+            .toList();
+        expect(borders, [surface]);
+        expect(
+          surface.border,
+          Border.fromBorderSide(BorderSide(color: theme.colors.border)),
+        );
+        await expectLater(tester, meetsGuideline(textContrastGuideline));
+      }
+      expect(
+        InvisibleThemeData.light().colors.codeBlockBackground,
+        const Color(0xFFF5F5F5),
+      );
+      expect(
+        InvisibleThemeData.dark().colors.codeBlockBackground,
+        const Color(0xFF1B1B1B),
+      );
+      semantics.dispose();
+    });
+
     testWidgets('copy writes the code, shows Copied for two seconds and '
         'announces it politely; Enter copies too', (tester) async {
       final copied = _clipboard(tester);
@@ -110,6 +163,38 @@ void main() {
       await tester.pump();
       expect(copied, hasLength(2));
       await tester.pump(copiedDuration);
+    });
+
+    testWidgets('the copy button fills with the text colour at 8 %, 16 % on '
+        'hover, in both themes', (tester) async {
+      Color? fill() =>
+          (tester
+                      .widget<Container>(
+                        find
+                            .ancestor(
+                              of: find.text('Copy'),
+                              matching: find.byType(Container),
+                            )
+                            .first,
+                      )
+                      .decoration!
+                  as BoxDecoration)
+              .color;
+      for (final theme in [
+        InvisibleThemeData.light(),
+        InvisibleThemeData.dark(),
+      ]) {
+        await tester.pumpWidget(
+          harness(const CodeBlock(code: _sample), theme: theme),
+        );
+        expect(fill(), theme.colors.text.withValues(alpha: 0.08));
+        final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+        await mouse.addPointer(location: tester.getCenter(find.text('Copy')));
+        await tester.pump();
+        expect(fill(), theme.colors.text.withValues(alpha: 0.16));
+        await mouse.removePointer();
+        await tester.pump();
+      }
     });
 
     testWidgets('a refused copy shows and announces nothing', (tester) async {

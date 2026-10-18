@@ -16,7 +16,7 @@
   gap: var(--ds-breadcrumb-gap, 0.5rem);
 }
 .breadcrumb__sep {
-  color: var(--ds-breadcrumb-sep-text, var(--ds-color-text-secondary, #524c44));
+  color: var(--ds-breadcrumb-sep-text, var(--ds-color-text-secondary, #515151));
 }
 .breadcrumb__link {
   display: inline-flex;
@@ -39,7 +39,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  color: var(--ds-breadcrumb-current-text, var(--ds-color-text-secondary, #524c44));
+  color: var(--ds-breadcrumb-current-text, var(--ds-color-text-secondary, #515151));
   font-weight: 600;
 }
 .breadcrumb__sr {

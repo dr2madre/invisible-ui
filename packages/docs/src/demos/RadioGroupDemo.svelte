@@ -1,5 +1,5 @@
 <script>
-  import RadioGroup from "@design-system/svelte/RadioGroup.svelte";
+  import RadioGroup from "@invisible-ui/svelte/RadioGroup.svelte";
 </script>
 
 <RadioGroup

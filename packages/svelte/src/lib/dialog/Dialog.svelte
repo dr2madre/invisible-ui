@@ -3,7 +3,7 @@
    * Dialog — a styled modal window (WAI-ARIA dialog pattern). Behaviour and
    * accessibility (open/close, `role="dialog"` + `aria-modal`, labelling via the
    * title, Escape to close) come from the headless dialog
-   * (`@design-system/core`); this adapter adds the modal DOM concerns on the
+   * (`@invisible-ui/core`); this adapter adds the modal DOM concerns on the
    * native `<dialog>` element (`showModal()`: top layer, inert background,
    * `::backdrop`), plus body scroll lock, backdrop light-dismiss and focus
    * management (focus moves into the panel on open and returns to the trigger
@@ -218,7 +218,7 @@
 
 <style>
   .dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
+    background: var(--ds-dialog-overlay, rgb(27 27 27 / 0.5));
   }
   .dialog__panel {
     /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */
@@ -235,10 +235,10 @@
     max-block-size: calc(100vh - 2rem);
     overflow: hidden;
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
+    background: var(--ds-dialog-background, var(--ds-color-background, #fff));
+    color: var(--ds-color-text, #272727);
     line-height: var(--ds-line-height, 1.4);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,

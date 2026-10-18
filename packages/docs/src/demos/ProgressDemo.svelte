@@ -1,6 +1,6 @@
 <script>
-  import Progress from "@design-system/svelte/Progress.svelte";
-  import Button from "@design-system/svelte/Button.svelte";
+  import Progress from "@invisible-ui/svelte/Progress.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
 
   // User-driven completion: the value advances because the user acts,
   // not because the system is working.
@@ -72,6 +72,6 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
 </style>

@@ -35,15 +35,21 @@
             "--ds-color-on-primary",
             "--ds-color-on-secondary",
             "--ds-color-on-status",
+            "--ds-page-background",
+            "--ds-card-background",
+            "--ds-dialog-background",
+            "--ds-popover-background",
+            "--ds-menu-background",
+            "--ds-sidebar-background",
           ],
           dark: ["--ds-color-on-primary", "--ds-color-on-secondary", "--ds-color-on-status"],
         },
         {
           cls: "brand-black",
           varName: "--ds-brand-black",
-          palette: "Warm Grey 950",
+          palette: "Black",
           light: [],
-          dark: [],
+          dark: ["--ds-page-background", "--ds-sidebar-background"],
         },
       ],
     },
@@ -94,21 +100,26 @@
         {
           cls: "neutral-50",
           varName: "--ds-neutral-50",
-          palette: "Warm Grey 50",
-          light: ["--ds-color-neutral-surface", "--ds-color-on-emphasis"],
+          palette: "Grey 50",
+          light: [
+            "--ds-color-neutral-surface",
+            "--ds-color-on-emphasis",
+            "--ds-card-secondary-background",
+            "--ds-code-block-background",
+          ],
           dark: ["--ds-color-text"],
         },
         {
           cls: "neutral-100",
           varName: "--ds-neutral-100",
-          palette: "Warm Grey 100",
+          palette: "Grey 100",
           light: ["--ds-color-surface"],
           dark: ["--ds-color-emphasis-surface"],
         },
         {
           cls: "neutral-200",
           varName: "--ds-neutral-200",
-          palette: "Warm Grey 200",
+          palette: "Grey 200",
           light: [
             "--ds-color-border",
             "--ds-color-surface-hover",
@@ -120,51 +131,69 @@
         {
           cls: "neutral-300",
           varName: "--ds-neutral-300",
-          palette: "Warm Grey 300",
+          palette: "Grey 300",
           light: [],
           dark: ["--ds-color-emphasis-border", "--ds-color-text-secondary"],
         },
         {
           cls: "neutral-400",
           varName: "--ds-neutral-400",
-          palette: "Warm Grey 400",
+          palette: "Grey 400",
           light: ["--ds-color-text-disabled"],
           dark: [],
         },
         {
           cls: "neutral-500",
           varName: "--ds-neutral-500",
-          palette: "Warm Grey 500",
+          palette: "Grey 500",
           light: ["--ds-color-neutral"],
           dark: ["--ds-color-neutral"],
         },
         {
           cls: "neutral-600",
           varName: "--ds-neutral-600",
-          palette: "Warm Grey 600",
+          palette: "Grey 600",
           light: ["--ds-color-text-secondary"],
           dark: ["--ds-color-text-disabled", "--ds-color-surface-hover"],
         },
         {
           cls: "neutral-700",
           varName: "--ds-neutral-700",
-          palette: "Warm Grey 700",
+          palette: "Grey 700",
           light: ["--ds-color-neutral-text", "--ds-color-emphasis-border"],
           dark: ["--ds-color-border", "--ds-color-surface", "--ds-color-neutral-border"],
         },
         {
           cls: "neutral-800",
           varName: "--ds-neutral-800",
-          palette: "Warm Grey 800",
+          palette: "Grey 800",
           light: ["--ds-color-emphasis-surface"],
           dark: ["--ds-color-disabled", "--ds-color-neutral-surface"],
         },
         {
           cls: "neutral-900",
           varName: "--ds-neutral-900",
-          palette: "Warm Grey 900",
+          palette: "Grey 900",
           light: ["--ds-color-text", "--ds-color-on-warning"],
-          dark: ["--ds-color-background", "--ds-color-on-emphasis", "--ds-color-on-warning"],
+          dark: [
+            "--ds-color-background",
+            "--ds-color-on-emphasis",
+            "--ds-color-on-warning",
+            "--ds-card-secondary-background",
+          ],
+        },
+        {
+          cls: "neutral-950",
+          varName: "--ds-neutral-950",
+          palette: "Grey 950",
+          light: [],
+          dark: [
+            "--ds-card-background",
+            "--ds-dialog-background",
+            "--ds-popover-background",
+            "--ds-menu-background",
+            "--ds-code-block-background",
+          ],
         },
       ],
     },
@@ -220,7 +249,7 @@
   }
   .group:not(:last-child) {
     padding-block-end: 1rem;
-    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .group__title {
     margin: 0;
@@ -229,7 +258,7 @@
   .group__note {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .rows {
     display: grid;
@@ -251,7 +280,7 @@
   .swatch__chip {
     aspect-ratio: 1;
     border-radius: var(--ds-radius-control, 0.5rem);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
   }
   .swatch__name {
     font-size: 0.8125rem;
@@ -273,18 +302,18 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .tokcol__empty {
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     opacity: 0.5;
   }
   .token {
     font-size: 0.7rem;
     padding: 0.1rem 0.4rem;
     border-radius: var(--ds-radius-control, 0.5rem);
-    background: var(--ds-color-surface, #e6e0d8);
-    color: var(--ds-color-text, #282420);
+    background: var(--ds-color-surface, #e0e0e0);
+    color: var(--ds-color-text, #272727);
     word-break: break-all;
   }
 
@@ -351,6 +380,9 @@
   }
   .swatch--neutral-900 {
     background: var(--ds-neutral-900);
+  }
+  .swatch--neutral-950 {
+    background: var(--ds-neutral-950);
   }
   .swatch--brand-black {
     background: var(--ds-brand-black);

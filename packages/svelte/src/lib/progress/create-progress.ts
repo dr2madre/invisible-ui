@@ -1,4 +1,4 @@
-import { progress as core } from "@design-system/core";
+import { progress as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction, createRootAction } from "../internal/connect";
@@ -31,7 +31,7 @@ export interface CreateProgress {
 
 /**
  * Create a headless progress bar (WAI-ARIA progressbar pattern). Behaviour and
- * accessibility live in `@design-system/core`; this adapter wires state to a
+ * accessibility live in `@invisible-ui/core`; this adapter wires state to a
  * Svelte store and applies the connected props via actions. The element still
  * needs an accessible name, supplied by the consumer (`aria-label`).
  */

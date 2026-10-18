@@ -2,7 +2,7 @@
 
 Python state drives the React components; their behaviour (keyboard, focus,
 ARIA) runs in the browser as the TS core's JavaScript. See the package README
-for how to make `@design-system/react` resolvable before `reflex run`.
+for how to make `@invisible-ui/react` resolvable before `reflex run`.
 """
 
 import reflex as rx

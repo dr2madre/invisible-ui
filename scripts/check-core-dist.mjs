@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { hashPackageSources } from "./source-hash.mjs";
 
-export const REBUILD = "pnpm --filter @design-system/core build";
+export const REBUILD = "pnpm --filter @invisible-ui/core build";
 
 /**
  * @param {string} root repository root

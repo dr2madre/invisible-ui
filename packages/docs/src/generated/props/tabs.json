@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Tabs",
-        "specifier": "@design-system/svelte/Tabs.svelte"
+        "specifier": "@invisible-ui/svelte/Tabs.svelte"
       },
       "props": [
         {
@@ -56,6 +56,14 @@
           "required": false,
           "description": "Rich content of one panel, rendered once per tab with its `item`.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "actions",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Commands beside the tab list, outside it, such as an \"add\" button.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -63,7 +71,7 @@
       "import": {
         "kind": "named",
         "name": "Tabs",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -122,6 +130,7 @@
         }
       ],
       "slots": [
+        "actions",
         "panel"
       ]
     },
@@ -129,7 +138,7 @@
       "import": {
         "kind": "named",
         "name": "Tabs",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -180,6 +189,14 @@
           "required": false,
           "description": "Rich content of one panel, rendered once per tab; wins over `content`.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Commands beside the tab list, outside it, such as an \"add\" button.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -187,7 +204,7 @@
       "import": {
         "kind": "element",
         "name": "ds-tabs",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

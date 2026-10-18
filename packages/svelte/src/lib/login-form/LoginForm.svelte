@@ -86,23 +86,30 @@
              without a providerIcon, as it did before snippets. -->
         {#snippet providerLeft()}{@render providerIcon?.({ provider: p.id })}{/snippet}
         <Button variant="default" onpress={() => onProvider?.(p.id)} left={providerLeft}>
-          Continue with {p.label}
+          {$t("loginForm.provider", { name: p.label })}
         </Button>
       {/each}
     </div>
-    <div class="login__divider"><span>or</span></div>
+    <div class="login__divider"><span>{$t("loginForm.divider")}</span></div>
   {/if}
 
   <TextField
-    label="Email"
+    label={$t("loginForm.email")}
     type="email"
     name="email"
-    placeholder="you@example.com"
+    autocomplete="username"
+    placeholder={$t("loginForm.emailPlaceholder")}
     bind:value={email}
   />
 
   <div class="login__field">
-    <TextField label="Password" type="password" name="password" bind:value={password} />
+    <TextField
+      label={$t("loginForm.password")}
+      type="password"
+      name="password"
+      autocomplete="current-password"
+      bind:value={password}
+    />
     {#if forgotHref}
       <a class="login__forgot" href={forgotHref}>{resolvedForgotLabel}</a>
     {/if}
@@ -124,7 +131,7 @@
     );
     padding: var(--ds-login-padding, 1.75rem);
     background: var(--ds-login-bg, var(--ds-color-background, #fff));
-    border: 1px solid var(--ds-login-border, var(--ds-color-border, #c7c1b7));
+    border: 1px solid var(--ds-login-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-login-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-login-shadow,
@@ -145,12 +152,12 @@
   .login__heading {
     margin: 0;
     font-size: 1.25rem;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .login__subheading {
     margin: 0.25rem 0 0;
     font-size: 0.875rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .login__providers {
     display: flex;
@@ -161,7 +168,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     font-size: 0.8125rem;
   }
   .login__divider::before,
@@ -169,7 +176,7 @@
     content: "";
     flex: 1;
     block-size: 1px;
-    background: var(--ds-color-border, #c7c1b7);
+    background: var(--ds-color-border, #bdbdbd);
   }
   .login__field {
     display: flex;

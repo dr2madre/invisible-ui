@@ -1,4 +1,4 @@
-import { tooltip as core } from "@design-system/core";
+import { tooltip as core } from "@invisible-ui/core";
 import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useDelayedToggle, type DelayedToggle } from "../internal/delayed-toggle";
 import { useAttachFloating, type Placement } from "../internal/floating";
@@ -25,7 +25,7 @@ export interface UseTooltip extends DelayedToggle {
 }
 
 /**
- * Connect the headless Tooltip to React. ARIA lives in `@design-system/core`
+ * Connect the headless Tooltip to React. ARIA lives in `@invisible-ui/core`
  * (`role="tooltip"`, `aria-describedby` while shown); this hook owns the DOM
  * side: open and close delays, Floating UI positioning, and Escape, which
  * hides it even while hovered (WCAG 1.4.13). The component wires hover, focus

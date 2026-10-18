@@ -86,6 +86,7 @@ describe("<ds-date-range-picker>", () => {
     await user.click(screen.getByRole("button", { name: "Clear range" }));
     expect(seen).toEqual([{ start: null, end: null }]);
     expect(field()).toHaveValue("");
+    expect(field()).toHaveFocus();
     expect(host).not.toHaveAttribute("start");
   });
 

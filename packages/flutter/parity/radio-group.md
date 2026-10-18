@@ -1,10 +1,10 @@
-# RadioButtonGroup parity checklist
+# RadioGroup parity checklist
 
-Reference commit: `0c336bd6e53053c3c9e46ad4d7701879eba50315`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/radio-group` `core/src/internal/collection.ts` `packages/svelte/src/lib/radio-group`
 
-The Flutter `RadioButtonGroup` checked against the Svelte `RadioGroup`
+The Flutter `RadioGroup` checked against the Svelte `RadioGroup`
 (`packages/svelte/src/lib/radio-group/RadioGroup.svelte`) and the headless
 group in `core/src/radio-group`, which follow the
 [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/)
@@ -19,9 +19,9 @@ scope**. Every matched line names the widget test in
 
 | Flutter | Svelte | ADR 0011 meaning |
 | --- | --- | --- |
-| `RadioButtonGroup` | `RadioGroup` | the widgets library's `RadioGroup`, which holds the value of raw radio buttons, is what this widget is built on, so the Flutter widget has another name for now (a rename is pending) |
-| `RadioButtonGroup(value:, onChanged:)` | `value` with `onValueChange` | controlled `value`, change callback |
-| `RadioButtonGroup.uncontrolled(initialValue:)` | `value` unbound | `defaultValue` |
+| `RadioGroup` | `RadioGroup` | the group; the widgets library's `RadioGroup`, which holds the value of raw radio buttons and which this widget is built on, keeps its name: apps tell them apart with the prefixed import (`iu.RadioGroup`) |
+| `RadioGroup(value:, onChanged:)` | `value` with `onValueChange` | controlled `value`, change callback |
+| `RadioGroup.uncontrolled(initialValue:)` | `value` unbound | `defaultValue` |
 | `items: [ChoiceItem(...)]` | `items: [{ value, label?, disabled? }]` | the options |
 | `orientation: Axis.vertical` | `orientation="vertical"` | layout |
 | `enabled: false` | `disabled` | `disabled` |

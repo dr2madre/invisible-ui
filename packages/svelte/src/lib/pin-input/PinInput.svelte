@@ -3,7 +3,7 @@
    * PinInput — a styled OTP / verification-code input: a row of single-character
    * cells. Behaviour and accessibility (per-cell entry, advance/backspace,
    * arrow movement, paste distribution, character filtering) come from the
-   * headless PIN input (`@design-system/core`).
+   * headless PIN input (`@invisible-ui/core`).
    *
    * Provide a `label` for the group's accessible name. Sizing, colors and radius
    * are themeable via `--ds-pin-input-*`.
@@ -142,10 +142,10 @@
     block-size: var(--ds-pin-input-size, 2.75rem);
     text-align: center;
     font-size: var(--ds-pin-input-font-size, 1.25rem);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-pin-input-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .pin-input__cell:focus-visible {
     outline: none;

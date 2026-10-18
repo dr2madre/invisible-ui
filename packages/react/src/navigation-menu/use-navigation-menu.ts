@@ -1,4 +1,4 @@
-import { navigationMenu as core } from "@design-system/core";
+import { navigationMenu as core } from "@invisible-ui/core";
 import {
   useCallback,
   useEffect,
@@ -68,7 +68,7 @@ const focusLost = () => document.activeElement === null || document.activeElemen
 
 /**
  * Connect the headless Navigation Menu to React. State and ARIA live in
- * `@design-system/core`; this hook owns the DOM side: hover opening after a
+ * `@invisible-ui/core`; this hook owns the DOM side: hover opening after a
  * delay and switching at once while a panel is open, Floating UI
  * positioning, closing on an outside press, ArrowDown moving focus into the
  * panel and Escape returning it to the trigger.

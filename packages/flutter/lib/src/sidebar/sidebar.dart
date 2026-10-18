@@ -429,7 +429,7 @@ class _SidebarState<T> extends State<Sidebar<T>> {
               decoration: drawer != null
                   ? const BoxDecoration()
                   : BoxDecoration(
-                      color: colors.background,
+                      color: colors.sidebarBackground,
                       border: Border.all(color: colors.border),
                       borderRadius: BorderRadius.circular(
                         InvisibleRadiusTokens.surface,
@@ -646,6 +646,8 @@ class _ItemButton<T> extends StatelessWidget {
               'reason': reason,
             }),
       placement: TooltipPlacement.end,
+      // The item reads the reason as its hint; the tooltip only shows it.
+      excludeFromSemantics: reason != null,
       child: button,
     );
   }

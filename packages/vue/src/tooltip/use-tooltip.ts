@@ -1,4 +1,4 @@
-import { tooltip as core } from "@design-system/core";
+import { tooltip as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -41,7 +41,7 @@ export interface UseTooltip {
 }
 
 /**
- * Connect the headless Tooltip to Vue. ARIA lives in `@design-system/core`
+ * Connect the headless Tooltip to Vue. ARIA lives in `@invisible-ui/core`
  * (`role="tooltip"`, `aria-describedby` linkage); this composable owns the DOM
  * concerns: open/close delays, `attachFloating` positioning (flip/shift), and
  * WCAG 1.4.13 "content on hover" semantics. The tooltip stays open while

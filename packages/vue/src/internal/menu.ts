@@ -1,8 +1,8 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 
 /**
  * The menu parts DropdownMenu and ContextMenu share: both render the same
- * headless menu (`@design-system/core`), so the DOM lookups and the typeahead
+ * headless menu (`@invisible-ui/core`), so the DOM lookups and the typeahead
  * live here once.
  */
 

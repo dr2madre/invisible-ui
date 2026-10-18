@@ -1,5 +1,5 @@
 <script>
-  import AspectRatio from "@design-system/svelte/AspectRatio.svelte";
+  import AspectRatio from "@invisible-ui/svelte/AspectRatio.svelte";
 </script>
 
 <div style="max-width: 24rem; width: 100%;">
@@ -39,7 +39,7 @@
       color-mix(in srgb, var(--ds-color-primary, #7a52cc) 22%, transparent)
     );
     border-radius: var(--ds-radius-surface, 0.75rem);
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     font-weight: 600;
     font-size: 0.875rem;
   }

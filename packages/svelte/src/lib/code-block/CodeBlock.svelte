@@ -54,7 +54,7 @@
 <figure
   class="code-block"
   role="group"
-  aria-label={language ? `Code: ${language}` : "Code"}
+  aria-label={language ? $t("codeBlock.labelLanguage", { language }) : $t("codeBlock.label")}
   {@attach dropTimer}
 >
   {#if language || copyable}
@@ -81,8 +81,9 @@
     class="code-block__pre"
     tabindex="0"
     role="group"
-    aria-label={language ? `Code sample, ${language}` : "Code sample"}><code
-      class="code-block__code"
+    aria-label={language
+      ? $t("codeBlock.sampleLanguage", { language })
+      : $t("codeBlock.sample")}><code class="code-block__code"
       >{#if children}{@render children()}{:else}{code}{/if}</code
     ></pre>
   <span class="code-block__live" role="status" aria-live="polite">
@@ -93,9 +94,9 @@
 <style>
   .code-block {
     margin: 0;
-    background: var(--ds-code-block-surface, var(--ds-color-surface, #e6e0d8));
-    color: var(--ds-code-block-text, var(--ds-color-text, #282420));
-    border: 1px solid var(--ds-code-block-border, var(--ds-color-border, #c7c1b7));
+    background: var(--ds-code-block-background, var(--ds-color-surface, #e0e0e0));
+    color: var(--ds-code-block-text, var(--ds-color-text, #272727));
+    border: 1px solid var(--ds-code-block-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-code-block-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
   }
@@ -107,7 +108,6 @@
     gap: 0.75rem;
     padding: var(--ds-code-block-header-padding, 0.4rem 0.75rem 0.4rem 1rem);
     font-size: 0.75rem;
-    border-block-end: 1px solid var(--ds-code-block-border, var(--ds-color-border, #c7c1b7));
   }
 
   .code-block__lang {
@@ -123,14 +123,14 @@
     font: inherit;
     font-size: 0.75rem;
     color: inherit;
-    background: var(--ds-code-block-copy-bg, rgba(0, 0, 0, 0.05));
+    background: var(--ds-code-block-copy-bg, color-mix(in srgb, currentColor 8%, transparent));
     border: 1px solid transparent;
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
     transition: background-color 120ms ease;
   }
   .code-block__copy:hover {
-    background: var(--ds-code-block-copy-hover, rgba(0, 0, 0, 0.1));
+    background: var(--ds-code-block-copy-hover, color-mix(in srgb, currentColor 16%, transparent));
   }
   .code-block__copy:focus-visible {
     outline: none;

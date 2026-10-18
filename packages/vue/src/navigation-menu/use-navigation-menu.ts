@@ -1,4 +1,4 @@
-import { navigationMenu as core } from "@design-system/core";
+import { navigationMenu as core } from "@invisible-ui/core";
 import {
   computed,
   nextTick,
@@ -86,7 +86,7 @@ const FOCUSABLE =
 /**
  * Connect the headless navigation menu to Vue. State and ARIA (the open value,
  * whether a press keeps it open, `aria-expanded` / `aria-controls`,
- * `aria-current`, Escape, ArrowDown) live in `@design-system/core`; this
+ * `aria-current`, Escape, ArrowDown) live in `@invisible-ui/core`; this
  * composable owns the DOM concerns through the shared overlay helpers: hover
  * open/close with delays (switching between panels is immediate),
  * `attachFloating` positioning, `onOutsidePointerDown` dismissal, and focus

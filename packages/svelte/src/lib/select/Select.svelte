@@ -141,7 +141,7 @@
     /* wrap (default): the native select already fits its longest option. */
     inline-size: fit-content;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .select:global([data-width="fill"]) {
     inline-size: 100%;
@@ -182,7 +182,7 @@
       var(--ds-control-padding-y, 0.5rem) var(--ds-control-padding-x, 0.875rem)
     );
     padding-inline-end: calc(var(--ds-control-padding-x, 0.875rem) + 1.6em);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-select-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     color: inherit;
@@ -197,7 +197,7 @@
   }
   .select__native--placeholder {
     font-weight: 400;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .select__native:focus-visible {
     outline: none;
@@ -205,8 +205,8 @@
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .select__native:disabled {
-    background: var(--ds-color-disabled, #c7c1b7);
-    color: var(--ds-color-text-disabled, #757067);
+    background: var(--ds-color-disabled, #bdbdbd);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
   /* Invalid: danger border on the control, message underneath. */
@@ -226,7 +226,7 @@
     display: inline-flex;
     inline-size: var(--ds-select-icon-size, 1.1em);
     block-size: var(--ds-select-icon-size, 1.1em);
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     pointer-events: none;
   }
 </style>

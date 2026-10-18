@@ -125,7 +125,7 @@ describe.each([
   it.each([
     ["info", "--ds-color-on-status", "--ds-color-info"],
     ["success", "--ds-color-on-status", "--ds-color-success"],
-    // Warning has its own label fill: the warning colour gives dark text 3.9:1.
+    // Warning has its own label fill: the warning colour gives dark text 3.8:1.
     ["warning", "--ds-color-on-warning", "--ds-color-warning-label-surface"],
     ["danger", "--ds-color-on-status", "--ds-color-danger"],
     ["neutral", "--ds-color-on-status", "--ds-color-neutral"],

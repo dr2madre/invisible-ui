@@ -7,7 +7,7 @@ import { join } from "node:path";
 import { checkElementsDist, importedSpecifiers, EXTERNALS } from "./check-elements-dist.mjs";
 
 const ENTRY_OK = `// src/button/ds-button.ts
-import { button as core } from "@design-system/core";
+import { button as core } from "@invisible-ui/core";
 import { computePosition } from "@floating-ui/dom";
 var DsButton = class extends HTMLElement {};
 export { DsButton };
@@ -27,19 +27,19 @@ function fixture({ entry = ENTRY_OK, define = DEFINE_OK } = {}) {
 }
 
 test("the two externals are the declared dependencies", () => {
-  assert.deepEqual(EXTERNALS, ["@design-system/core", "@floating-ui/dom"]);
+  assert.deepEqual(EXTERNALS, ["@invisible-ui/core", "@floating-ui/dom"]);
 });
 
 test("importedSpecifiers reads bare specifiers only", () => {
   const source = [
-    'import { a } from "@design-system/core";',
+    'import { a } from "@invisible-ui/core";',
     "import './styles.css';",
     'import "@floating-ui/dom";',
     'export { b } from "./chunk-ABC.js";',
     'export * from "/absolute/path.js";',
     'const s = "from \\"not-an-import\\"";',
   ].join("\n");
-  assert.deepEqual(importedSpecifiers(source), ["@design-system/core", "@floating-ui/dom"]);
+  assert.deepEqual(importedSpecifiers(source), ["@invisible-ui/core", "@floating-ui/dom"]);
 });
 
 test("a dist that holds both rules passes", () => {
@@ -52,19 +52,19 @@ test("a package entry that inlines the core is refused, naming the dependency", 
   const f = fixture({
     entry: `import { computePosition } from "@floating-ui/dom";\nvar identityNormalize = (p) => p;\n`,
   });
-  assert.match(checkElementsDist(f.root), /index\.js inlines @design-system\/core/);
+  assert.match(checkElementsDist(f.root), /index\.js inlines @invisible-ui\/core/);
   f.done();
 });
 
 test("a package entry that inlines Floating UI is refused too", () => {
-  const f = fixture({ entry: `import { button } from "@design-system/core";\n` });
+  const f = fixture({ entry: `import { button } from "@invisible-ui/core";\n` });
   assert.match(checkElementsDist(f.root), /inlines @floating-ui\/dom/);
   f.done();
 });
 
 test("a define.js that imports anything is refused: a script tag has no import map", () => {
-  const f = fixture({ define: `import { button } from "@design-system/core";\n` });
-  assert.match(checkElementsDist(f.root), /define\.js imports @design-system\/core/);
+  const f = fixture({ define: `import { button } from "@invisible-ui/core";\n` });
+  assert.match(checkElementsDist(f.root), /define\.js imports @invisible-ui\/core/);
   f.done();
 });
 

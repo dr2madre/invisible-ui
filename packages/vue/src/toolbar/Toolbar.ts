@@ -1,4 +1,4 @@
-import { toolbar as core } from "@design-system/core";
+import { toolbar as core } from "@invisible-ui/core";
 import { defineComponent, h, onBeforeUnmount, onMounted, ref, type PropType } from "vue";
 
 export type ToolbarOrientation = core.ToolbarOrientation;
@@ -85,6 +85,7 @@ export const Toolbar = defineComponent({
         count: list.length,
         orientation: props.orientation,
         direction: root.value && getComputedStyle(root.value).direction === "rtl" ? "rtl" : "ltr",
+        control: core.controlKind(document.activeElement),
       });
       if (next === null) return;
       event.preventDefault();

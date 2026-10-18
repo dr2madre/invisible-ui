@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Notification",
-        "specifier": "@design-system/svelte/Notification.svelte"
+        "specifier": "@invisible-ui/svelte/Notification.svelte"
       },
       "props": [
         {
@@ -143,7 +143,7 @@
       "import": {
         "kind": "named",
         "name": "Notification",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -276,7 +276,7 @@
       "import": {
         "kind": "named",
         "name": "Notification",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -414,7 +414,7 @@
       "import": {
         "kind": "element",
         "name": "ds-notification",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

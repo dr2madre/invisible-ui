@@ -1,4 +1,4 @@
-import { collapsible, navigationBar } from "@design-system/core";
+import { collapsible, navigationBar } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,

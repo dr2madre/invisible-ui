@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Stepper",
-        "specifier": "@design-system/svelte/Stepper.svelte"
+        "specifier": "@invisible-ui/svelte/Stepper.svelte"
       },
       "props": [
         {
@@ -71,7 +71,7 @@
       "import": {
         "kind": "named",
         "name": "Stepper",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -143,7 +143,7 @@
       "import": {
         "kind": "named",
         "name": "Stepper",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -209,7 +209,7 @@
       "import": {
         "kind": "element",
         "name": "ds-stepper",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

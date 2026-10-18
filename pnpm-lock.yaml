@@ -120,7 +120,7 @@ importers:
 
   examples/svelte:
     dependencies:
-      '@design-system/svelte':
+      '@invisible-ui/svelte':
         specifier: workspace:*
         version: link:../../packages/svelte
     devDependencies:
@@ -136,13 +136,13 @@ importers:
 
   examples/vue:
     dependencies:
-      '@design-system/elements':
+      '@invisible-ui/elements':
         specifier: workspace:*
         version: link:../../packages/elements
-      '@design-system/react':
+      '@invisible-ui/react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@design-system/vue':
+      '@invisible-ui/vue':
         specifier: workspace:*
         version: link:../../packages/vue
       react:
@@ -182,10 +182,10 @@ importers:
       '@astrojs/svelte':
         specifier: ^9.0.1
         version: 9.0.1(@types/node@24.13.2)(astro@7.2.8(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.2)(jiti@2.6.1)(yaml@2.9.0))(esbuild@0.28.2)(jiti@2.6.1)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@5.9.3)(yaml@2.9.0)
-      '@design-system/core':
+      '@invisible-ui/core':
         specifier: workspace:*
         version: link:../../core
-      '@design-system/svelte':
+      '@invisible-ui/svelte':
         specifier: workspace:*
         version: link:../svelte
       astro:
@@ -207,7 +207,7 @@ importers:
 
   packages/elements:
     dependencies:
-      '@design-system/core':
+      '@invisible-ui/core':
         specifier: workspace:*
         version: link:../../core
       '@floating-ui/dom':
@@ -241,7 +241,7 @@ importers:
 
   packages/react:
     dependencies:
-      '@design-system/core':
+      '@invisible-ui/core':
         specifier: workspace:*
         version: link:../../core
       '@floating-ui/react-dom':
@@ -293,7 +293,7 @@ importers:
 
   packages/svelte:
     dependencies:
-      '@design-system/core':
+      '@invisible-ui/core':
         specifier: workspace:*
         version: link:../../core
       '@floating-ui/dom':
@@ -339,7 +339,7 @@ importers:
 
   packages/vue:
     dependencies:
-      '@design-system/core':
+      '@invisible-ui/core':
         specifier: workspace:*
         version: link:../../core
       '@floating-ui/dom':

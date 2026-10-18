@@ -80,6 +80,27 @@ Test accessibility at two levels:
 
 Automated semantics tests do not replace VoiceOver, TalkBack or other screen-reader testing.
 
+### Invariants: types first, then a debug assertion
+
+An accessible name, or another essential accessibility invariant, is enforced by the types where they can say it: a required, non-nullable parameter, or a single nullable value whose presence switches the behavior on, so the behavior cannot come without its words. What the types cannot say stays a debug `assert`, which never throws in release builds, and each one has a test that expects the `AssertionError` (`test/accessibility_invariants_test.dart`, unless noted).
+
+Enforced by the types:
+
+- `Button.icon`: `semanticLabel` is a required `String`.
+- `DataGridColumn` and `DataGridCell`: a non-null `secondaryLabel` sets the secondary emphasis; there is no separate `secondary` flag to set without its words.
+- `NavigationDestination` and `SidebarItem`: a non-null `unavailableReason` makes the destination unavailable, so the reason always comes with it.
+- Groups that need a name take it as a required parameter (`RadioGroup`, `CheckboxGroup`, `Toolbar`, `ButtonGroup`, `NavigationMenu`), or fall back to the catalog's name (`NavigationBar`, `Sidebar`).
+
+Left as a debug assertion, with the reason:
+
+- An empty string where words are required (`Button.icon` `semanticLabel`, `secondaryLabel`, `unavailableReason`): a `String` type cannot exclude `''`. The button's test is in `button_test.dart`.
+- A heading level in range (`Card` 2 to 6, `EmptyState` and `ErrorState` 1 to 6, `TableSet` 2 to 6): an `int` cannot carry a range, and an enum would be heavier than the mistake it prevents.
+- A collapsed `Sidebar` needs an icon on every destination: it depends on the contents of the list; release builds keep the labels visible. Tested in `sidebar_test.dart`.
+- At most one current link in a `NavigationMenu`: a rule across items. Tested in `navigation_menu_test.dart`.
+- A `Radio` outside a `RadioGroup` needs a `name`: it depends on where the radio sits in the tree.
+
+`ToggleButton` has no assertion: its `child` is any widget, so the package cannot tell an icon-only toggle from a text one. Its documentation asks for `semanticLabel` on an icon-only toggle.
+
 ## 5. Component API design
 
 Flutter APIs must be idiomatic Flutter APIs. Parity with the web adapters covers behavior and meaning, not necessarily property names ([ADR 0017](./adr/0017-flutter-adapter.md), decision 6).

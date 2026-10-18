@@ -1,6 +1,6 @@
 # RatingGroup parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/rating-group` `packages/svelte/src/lib/radio-group/create-radio-group.ts` `core/src/radio-group`
 
@@ -13,7 +13,7 @@ Docs page: [Rating Group](https://dr2madre.github.io/invisible-ui/components/for
 Each line is **matched**, **adapted** (with the platform reason) or **out of
 scope**. Every matched line names the widget test in
 `test/rating_group_test.dart` that holds it. The keyboard is the shared
-single-choice focus of `RadioButtonGroup`, which runs the navigation
+single-choice focus of `RadioGroup`, which runs the navigation
 vectors in `core/src/select/__vectors__`.
 
 ## Names

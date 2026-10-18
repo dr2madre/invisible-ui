@@ -1,4 +1,4 @@
-import { calendar as core, i18n as coreI18n } from "@design-system/core";
+import { calendar as core, i18n as coreI18n } from "@invisible-ui/core";
 import { computed, defineComponent, h, ref, watch, type PropType, type VNodeChild } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
@@ -71,7 +71,7 @@ const weekdayName = (fmt: Intl.DateTimeFormat, weekday: number) =>
 /**
  * Calendar: the styled, batteries-included calendar (WAI-ARIA date grid).
  * Behaviour, date math and keyboard navigation come from the headless calendar
- * (`@design-system/core`); this layer adds the header (period label, an
+ * (`@invisible-ui/core`); this layer adds the header (period label, an
  * optional view switcher, prev/next/today) and a body per view.
  *
  * Views: `month`, `two-month` (two months side by side), `week`, `three-day`
@@ -281,10 +281,16 @@ export const Calendar = defineComponent({
     const monthName = (month: { year: number; month: number }) =>
       monthFmt.value.format(core.monthDate(month.year, month.month));
 
+    // A day's full date, then its events, its price and its place in a range.
     const dayAria = (iso: string, count: number, price: string | undefined) => {
+      const { t } = i18n.value;
       let aria = dayFmt.value.format(dt(iso));
-      if (count) aria += `, ${count} ${count === 1 ? "event" : "events"}`;
+      if (count) aria += `, ${t("calendar.events", { count })}`;
       if (price) aria += `, ${price}`;
+      if (props.mode === "range") {
+        if (iso === rangeStart.value) aria += `, ${t("calendar.rangeStart")}`;
+        if (iso === rangeEnd.value) aria += `, ${t("calendar.rangeEnd")}`;
+      }
       return aria;
     };
 
@@ -386,11 +392,18 @@ export const Calendar = defineComponent({
                             { start: rangeStart.value, end: rangeEnd.value },
                             cell.date,
                           );
+                        // Every day of a range is selected, not only the
+                        // single value the core knows about.
+                        const rangeSelected =
+                          inSpan ||
+                          (props.mode === "range" &&
+                            (cell.date === rangeStart.value || cell.date === rangeEnd.value));
 
                         return h(
                           "div",
                           {
                             ...api.value.getCellProps(cell.date),
+                            ...(rangeSelected ? { "aria-selected": true } : undefined),
                             key: cell.date,
                             class: "calendar__cell",
                           },

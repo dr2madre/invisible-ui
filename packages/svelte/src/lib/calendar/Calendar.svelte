@@ -28,7 +28,7 @@
   /**
    * Calendar — the styled, batteries-included calendar (WAI-ARIA date grid).
    * Behaviour, date math and keyboard navigation come from the headless
-   * calendar (`@design-system/core`); this layer adds the header (period label,
+   * calendar (`@invisible-ui/core`); this layer adds the header (period label,
    * an optional view switcher, prev/next/today) and the bodies for each view.
    *
    * Views: `month`, `two-month` (two months side by side), `week`,
@@ -40,7 +40,7 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createCalendar, localDate, type CalendarView, type WeekStart } from "./create-calendar";
-  import { calendar as core, i18n, weekStart } from "@design-system/core";
+  import { calendar as core, i18n, weekStart } from "@invisible-ui/core";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -182,8 +182,14 @@
     syncValue,
     syncFocus,
     syncView,
+    syncRange,
     syncConfig,
   } = calendar;
+
+  // Every day of a range is selected for assistive technology.
+  $effect.pre(() => {
+    syncRange(mode === "range" ? { start: rangeStart, end: rangeEnd } : null);
+  });
 
   // Constraints changed after mount reach the machine, and report nothing.
   $effect.pre(() => {
@@ -302,10 +308,15 @@
   const monthLabel = (gm: { year: number; month: number }) =>
     titleFmt.format(core.monthDate(gm.year, gm.month));
 
+  // A day's full date, then its events, its price and its place in a range.
   const dayAria = (iso: string, count: number, price: string | undefined) => {
     let aria = dayFmt.format(localDate(iso));
-    if (count) aria += `, ${count} ${count === 1 ? "event" : "events"}`;
+    if (count) aria += `, ${$t("calendar.events", { count })}`;
     if (price) aria += `, ${price}`;
+    if (mode === "range") {
+      if (iso === rangeStart) aria += `, ${$t("calendar.rangeStart")}`;
+      if (iso === rangeEnd) aria += `, ${$t("calendar.rangeEnd")}`;
+    }
     return aria;
   };
 </script>
@@ -552,7 +563,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
 
   .calendar__header {
@@ -584,8 +595,8 @@
     padding: 0.35rem 0.75rem;
     margin-inline-end: 0.25rem;
     color: inherit;
-    background: var(--ds-color-surface, #e6e0d8);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    background: var(--ds-color-surface, #e0e0e0);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
@@ -597,7 +608,7 @@
     block-size: 2rem;
     color: inherit;
     background: none;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
@@ -642,7 +653,7 @@
     text-align: center;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     text-transform: uppercase;
     padding-block: 0.25rem;
   }
@@ -669,7 +680,7 @@
     cursor: pointer;
   }
   .calendar__day:hover {
-    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f4f2ef));
+    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f5f5f5));
   }
   .calendar__day:focus-visible {
     outline: none;
@@ -680,7 +691,7 @@
      alone carries that, at 8.5:1 against 17.5:1 for a day in the month; an
      opacity on top used to take it to 3.0:1, under the 4.5:1 AA asks. */
   .calendar__day--outside {
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .calendar__day:global([data-today]) .calendar__daynum {
     font-weight: 700;
@@ -745,11 +756,11 @@
     background: var(--ds-color-danger, #be3b50);
   }
   .calendar__dot[data-tone="neutral"] {
-    background: var(--ds-color-text-secondary, #524c44);
+    background: var(--ds-color-text-secondary, #515151);
   }
   .calendar__more {
     font-size: 0.65rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .calendar__price {
     font-size: 0.7rem;
@@ -807,7 +818,7 @@
   .calendar__mini-weekday {
     text-align: center;
     font-size: 0.65rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .calendar__mini-day {
     inline-size: 100%;
@@ -825,7 +836,7 @@
     cursor: pointer;
   }
   .calendar__mini-day:hover {
-    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f4f2ef));
+    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f5f5f5));
   }
   .calendar__mini-day:focus-visible {
     outline: none;
@@ -855,7 +866,7 @@
   }
   .calendar__agenda-col {
     flex-direction: column;
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-radius-surface, 0.75rem);
     overflow: hidden;
   }
@@ -867,9 +878,9 @@
     padding: 0.4rem;
     font: inherit;
     color: inherit;
-    background: var(--ds-color-neutral-surface, #f4f2ef);
+    background: var(--ds-color-neutral-surface, #f5f5f5);
     border: 0;
-    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
     cursor: pointer;
   }
   .calendar__agenda-head:focus-visible {
@@ -891,7 +902,7 @@
   .calendar__agenda-weekday {
     font-size: 0.7rem;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .calendar__agenda-head:global([data-selected]) .calendar__agenda-weekday {
     color: inherit;
@@ -927,7 +938,7 @@
     color: var(--ds-calendar-price, var(--ds-color-success-body-text, #3e7523));
   }
   .calendar__agenda-empty {
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     text-align: center;
   }
 

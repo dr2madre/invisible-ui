@@ -1,4 +1,4 @@
-import { collapsible as core } from "@design-system/core";
+import { collapsible as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -27,7 +27,7 @@ export interface UseCollapsible {
  * Connect the headless collapsible (WAI-ARIA disclosure pattern) to Vue: one
  * trigger button showing or hiding one content region. Behaviour and
  * accessibility (`aria-expanded` / `aria-controls` wiring, disabled handling,
- * the `hidden` content) live in `@design-system/core`; this composable owns the
+ * the `hidden` content) live in `@invisible-ui/core`; this composable owns the
  * resolved state and derives the connected props with `computed(connect)`.
  */
 export function useCollapsible(

@@ -1,6 +1,6 @@
 # Tooltip parity checklist
 
-Reference commit: `bde4433a71312b89d1164c6a1adce57471999a4a`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/tooltip` `packages/svelte/src/lib/tooltip`
 
@@ -36,6 +36,7 @@ that holds it.
 | Hoverable: stays while the pointer is over the tooltip | matched | `it stays while the pointer moves onto it` |
 | Touch and pen: a tap toggles; the trigger still runs | matched | `a tap with a finger toggles it` |
 | Focus never moves into the tooltip | matched | the bubble has no focusable content |
+| A trigger whose own semantics already say the message | adapted | `excludeFromSemantics` shows the message without reading it, used by the Sidebar rail on an unavailable destination: `excludeFromSemantics shows the message without reading it` |
 | `onOpenChange` (core context) | out of scope | the Svelte `Tooltip` component does not expose it |
 
 ## Semantics

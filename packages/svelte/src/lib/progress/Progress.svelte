@@ -4,7 +4,7 @@
    * pattern): a track with a fill that represents a value against a reference
    * — completion of user-driven steps, gamification, analytics. Behaviour and
    * accessibility (role, aria-value*) come from the headless progress
-   * (`@design-system/core`).
+   * (`@invisible-ui/core`).
    *
    * Deliberately no indeterminate state: something that sweeps or spins
    * without a value is *waiting*, and waiting is the Loading family's job
@@ -79,12 +79,12 @@
     inline-size: var(--ds-progress-width, 16rem);
     block-size: var(--ds-progress-height, 0.5rem);
     overflow: hidden;
-    background: var(--ds-progress-track, var(--ds-color-border, #c7c1b7));
+    background: var(--ds-progress-track, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-progress-radius, 999px);
   }
   .progress__indicator {
     block-size: 100%;
-    background: var(--ds-progress-fill, var(--ds-color-text, #282420));
+    background: var(--ds-progress-fill, var(--ds-color-text, #272727));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
@@ -109,10 +109,10 @@
     stroke-width: var(--ds-progress-circle-stroke, 3.5);
   }
   .progress__track {
-    stroke: var(--ds-progress-track, var(--ds-color-border, #c7c1b7));
+    stroke: var(--ds-progress-track, var(--ds-color-border, #bdbdbd));
   }
   .progress__ring {
-    stroke: var(--ds-progress-fill, var(--ds-color-text, #282420));
+    stroke: var(--ds-progress-fill, var(--ds-color-text, #272727));
     stroke-linecap: round;
     transition: stroke-dasharray 200ms ease;
   }

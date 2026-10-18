@@ -29,6 +29,7 @@ export * as treeView from "./tree-view";
 export * as stepper from "./stepper";
 export * as carousel from "./carousel";
 export * as table from "./table";
+export * as grid from "./grid";
 export * as select from "./select";
 export * as menu from "./menu";
 export * as menubar from "./menubar";

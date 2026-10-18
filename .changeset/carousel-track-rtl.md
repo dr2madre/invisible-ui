@@ -1,6 +1,6 @@
 ---
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 The Carousel track moves the other way in right-to-left text, as it does in

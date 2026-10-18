@@ -2,7 +2,7 @@
   /**
    * SheetDialog — a Dialog anchored to an edge of the viewport (the panel
    * pattern variously marketed as "sheet", "side panel" or "drawer"). It is a
-   * dialog in every sense: it reuses the headless dialog (`@design-system/core`)
+   * dialog in every sense: it reuses the headless dialog (`@invisible-ui/core`)
    * and the shared modal adapter unchanged — native `<dialog>` + `showModal()`
    * (top layer, inert background), scroll lock, Escape / backdrop /
    * close-button dismissal, and focus restore.
@@ -206,7 +206,7 @@
 
 <style>
   .sheet-dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
+    background: var(--ds-dialog-overlay, rgb(27 27 27 / 0.5));
   }
   .sheet-dialog__panel[open] {
     position: fixed;
@@ -216,9 +216,9 @@
     flex-direction: column;
     overflow-y: auto;
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    background: var(--ds-dialog-background, var(--ds-color-background, #fff));
+    color: var(--ds-color-text, #272727);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -337,7 +337,7 @@
      the inner edge of a lateral one. Pointer affordance only (aria-hidden). */
   .sheet-dialog__handle {
     border-radius: 999px;
-    background: var(--ds-sheet-dialog-handle, var(--ds-color-border, #c7c1b7));
+    background: var(--ds-sheet-dialog-handle, var(--ds-color-border, #bdbdbd));
     cursor: grab;
     touch-action: none;
   }
@@ -383,7 +383,7 @@
     gap: 0.5rem;
     margin-block-start: 1rem;
     padding-block-start: 1rem;
-    border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
+    border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
     /* Counteract the panel's padding so the border spans full width. */
     margin-inline: calc(-1 * var(--ds-dialog-padding-x, 1.5rem));
     padding-inline: var(--ds-dialog-padding-x, 1.5rem);

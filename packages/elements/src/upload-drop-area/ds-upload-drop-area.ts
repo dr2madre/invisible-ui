@@ -1,4 +1,4 @@
-import { uploadDropArea } from "@design-system/core";
+import { uploadDropArea } from "@invisible-ui/core";
 import {
   boolAttr,
   definePart,

@@ -1,8 +1,8 @@
 ---
-"@design-system/svelte": minor
-"@design-system/react": minor
-"@design-system/vue": minor
-"@design-system/elements": minor
+"@invisible-ui/svelte": minor
+"@invisible-ui/react": minor
+"@invisible-ui/vue": minor
+"@invisible-ui/elements": minor
 ---
 
 `SearchField` can drop its submit button for a filter that applies as you

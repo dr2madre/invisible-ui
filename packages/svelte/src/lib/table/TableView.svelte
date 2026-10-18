@@ -10,6 +10,7 @@
    */
   import { tick, untrack, type Snippet } from "svelte";
   import type { Action } from "svelte/action";
+  import { scrollArea, table as core } from "@invisible-ui/core";
   import Table, { defaultGetRowId, type TableColumnDef, type TableRow } from "./Table.svelte";
   import Pagination from "../pagination/Pagination.svelte";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
@@ -251,10 +252,35 @@
     });
   });
 
-  const viewItems = [
-    { value: "table", label: "Table" },
-    { value: "card", label: "Cards" },
-  ];
+  // A wide table scrolls inside its card, so the card takes focus (and a
+  // name) only while it overflows: the keyboard can then scroll it.
+  const scrollerName = $derived(title || caption || $t("table.viewTable"));
+  const scrollable: Action<HTMLElement, string> = (node, name) => {
+    let label = name;
+    const stop = scrollArea.observeInlineOverflow(node, (overflowing) => {
+      if (overflowing) {
+        node.tabIndex = 0;
+        node.setAttribute("role", "region");
+        node.setAttribute("aria-label", label);
+      } else {
+        node.removeAttribute("tabindex");
+        node.removeAttribute("role");
+        node.removeAttribute("aria-label");
+      }
+    });
+    return {
+      update(next) {
+        label = next;
+        if (node.hasAttribute("aria-label")) node.setAttribute("aria-label", label);
+      },
+      destroy: stop,
+    };
+  };
+
+  const viewItems = $derived([
+    { value: "table", label: $t("table.viewTable") },
+    { value: "card", label: $t("table.viewCards") },
+  ]);
 
   const sentinel: Action<HTMLElement> = (node) => {
     if (typeof IntersectionObserver === "undefined") return;
@@ -289,6 +315,24 @@
   // Zero rows means "no results" only while filters are active and the
   // dataset itself is not empty; an unknown total counts as not empty.
   const noResults = $derived(rows.length === 0 && filtersActive && totalRowCount !== 0);
+
+  // Filtering that changes the row count is announced politely, once. The
+  // first state and counts that change with no filtering behind them stay
+  // silent. The no-results panel is a status of its own, so it is not said
+  // twice.
+  let announcement = $state("");
+  let announced: core.TableResultsMemory | null = null;
+  $effect(() => {
+    const input = { count: rows.length, filtersActive, filterRevision, totalRowCount };
+    untrack(() => {
+      const { memory, message } = core.tableResultsUpdate(announced, input);
+      announced = memory;
+      if (message) {
+        announcement =
+          message.kind === "results" ? $t("table.results", { count: message.count }) : "";
+      }
+    });
+  });
 
   // The built-in clear action unmounts with the panel, so focus would fall
   // to the body. When content returns after that action, the view root
@@ -348,6 +392,7 @@
 </script>
 
 <div class="table-view" tabindex="-1" bind:this={rootEl}>
+  <div class="table-view__sr" role="status" aria-live="polite">{announcement}</div>
   {#if title || allowViewToggle || configurable}
     <header class="table-view__header">
       {#if title}
@@ -358,7 +403,7 @@
           <SegmentedControl
             items={viewItems}
             value={currentView}
-            label="View"
+            label={$t("table.view")}
             hideLabel
             onValueChange={(v) => (currentView = v === "card" ? "card" : "table")}
           />
@@ -460,7 +505,7 @@
       {/each}
     </div>
   {:else}
-    <div class="table-view__card">
+    <div class="table-view__card" use:scrollable={scrollerName}>
       <Table
         columns={shownColumns}
         rows={visibleRows}
@@ -547,7 +592,7 @@
     display: grid;
     justify-items: center;
     padding: 2rem 1rem;
-    border: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+    border: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
   }
   .table-view__header {
@@ -576,13 +621,13 @@
     justify-content: center;
     inline-size: 2.25rem;
     block-size: 2.25rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     border: 1px solid transparent;
     border-radius: var(--ds-radius-control, 0.5rem);
     background: transparent;
   }
   .table-view__settings:hover {
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .table-view__sr {
@@ -605,9 +650,16 @@
   }
   /* The table body sits in a bordered card; the footer (pagination) is outside. */
   .table-view__card {
-    border: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+    border: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
-    overflow: hidden;
+    /* A wide table scrolls inside the card instead of being cut off or
+       widening the page. The card is focusable only while it overflows. */
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .table-view__card:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .table-view__cards-select-all {
     display: grid;
@@ -645,7 +697,7 @@
   }
   .table-view__card-label {
     margin: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     font-size: 0.8125rem;
   }
   .table-view__card-value {
@@ -666,15 +718,15 @@
   .table-view__status {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     min-block-size: 1rem;
   }
   .table-view__load-more {
     font: inherit;
     padding: 0.45rem 1rem;
-    color: var(--ds-color-text, #282420);
-    background: var(--ds-color-surface, #e6e0d8);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    color: var(--ds-color-text, #272727);
+    background: var(--ds-color-surface, #e0e0e0);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }

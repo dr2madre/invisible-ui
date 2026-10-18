@@ -1,4 +1,4 @@
-import { i18n } from "@design-system/core";
+import { i18n } from "@invisible-ui/core";
 import { boolAttr, definePart, emit, HTMLElementBase, nextId, numberAttr } from "../internal/base";
 import { LOCALE_CHANGE_EVENT, localeScope, localized, onLocaleChange } from "../internal/i18n";
 import { hasOpenModal, onModalChange } from "../internal/modal-stack";

@@ -2,7 +2,7 @@ import { defineComponent, h, type PropType } from "vue";
 import { CheckGlyph, Icon } from "../icon/Icon";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import { useDropdownMenu, type MenuEntry, type MenuItem } from "./use-dropdown-menu";
 import { useI18n } from "../i18n/i18n";
 
@@ -20,7 +20,7 @@ export interface DropdownMenuProps {
  * button pattern). A trigger opens a `role="menu"` of action items; behaviour
  * and accessibility (open/close, arrow & Home/End navigation, typeahead,
  * focus moving into the menu and returning to the trigger, Escape/outside to
- * close) come from the headless menu (`@design-system/core`). Popup
+ * close) come from the headless menu (`@invisible-ui/core`). Popup
  * positioning (flip/shift, stays attached on scroll) is handled via
  * `@floating-ui/dom`.
  *

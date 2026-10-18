@@ -5,7 +5,7 @@
    * Behaviour and accessibility (open at pointer, arrow & Home/End navigation,
    * typeahead, roving focus, Enter/click activation, Escape / Tab / outside to
    * close, focus restored on close) come from the headless menu primitive
-   * (`@design-system/core`). Popup positioning (flip/shift against a virtual
+   * (`@invisible-ui/core`). Popup positioning (flip/shift against a virtual
    * anchor at the pointer) uses `@floating-ui/dom`.
    *
    * Wrap the target area in `children`; pass `items`
@@ -84,7 +84,7 @@
 <style>
   .context-menu__trigger {
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .context-menu__trigger:focus-visible {
     outline: none;
@@ -103,15 +103,15 @@
     padding: var(--ds-menu-padding, 0.25rem);
     display: flex;
     flex-direction: column;
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    background: var(--ds-menu-background, var(--ds-color-background, #fff));
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     font: inherit;
   }
 
@@ -142,7 +142,7 @@
     box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .context-menu__item:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
 

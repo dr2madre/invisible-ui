@@ -1,4 +1,4 @@
-import { accordion as core } from "@design-system/core";
+import { accordion as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -46,7 +46,7 @@ const sameSet = (a: string[], b: string[]) =>
 /**
  * Connect the headless accordion (WAI-ARIA accordion pattern) to Vue: single
  * or multiple expansion, arrow-key movement between headers. Behaviour and
- * accessibility live in `@design-system/core`; this composable owns the
+ * accessibility live in `@invisible-ui/core`; this composable owns the
  * resolved state, derives the connected props with `computed(connect)`, and
  * moves DOM focus inside the container (`rootRef`).
  */

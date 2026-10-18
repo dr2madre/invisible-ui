@@ -44,7 +44,15 @@ sanitized. See [Security](/invisible-ui/api/#security).
 ### Accessibility
 
 - Labelled region with previous/next controls and indicator buttons; the active
-  slide is tracked for assistive tech.
+  slide is tracked for assistive tech. The role names, the "N of M" slide names
+  and the indicator names come from the message catalog.
+- Coverflow neighbours are scaled and turned, never faded, so their text keeps
+  its contrast; slides more than two places away are hidden.
+- The built-in slide's title sits on a dark overlay that stays at least 55%
+  black. White text keeps 4.76:1 or better over the lightest image (measured
+  against a white image: 4.76:1 at 55%, 8.52:1 at the 70% base).
+- The slide track, the coverflow and the gallery scroll do not animate under
+  `prefers-reduced-motion`.
 - In right-to-left text Left and Right swap, so the arrows keep following the reading direction; the page's `dir` is read when a key is pressed, with or without a locale provider. The previous and next arrows are mirrored.
 
 ### Example

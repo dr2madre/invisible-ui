@@ -243,6 +243,23 @@ void main() {
         messages.navigationBarAnnouncement,
         _english('navigationBar.announcement'),
       );
+      expect(messages.dataGridTotal, _english('dataGrid.total'));
+      expect(messages.dataGridEmpty, _english('dataGrid.empty'));
+      expect(messages.dataGridEdit, _english('dataGrid.edit'));
+      expect(messages.dataGridDetails, _english('dataGrid.details'));
+      expect(messages.dataGridCell, _english('dataGrid.cell'));
+      expect(messages.dataGridRowHeader, _english('dataGrid.rowHeader'));
+      expect(messages.dataGridColumnTotal, _english('dataGrid.columnTotal'));
+      expect(messages.dataGridRowTotal, _english('dataGrid.rowTotal'));
+      expect(messages.dataGridGrandTotal, _english('dataGrid.grandTotal'));
+      expect(messages.dataGridSeparator, _english('dataGrid.separator'));
+      expect(messages.dataGridError, _english('dataGrid.error'));
+      expect(messages.dataGridDetailsLabel, _english('dataGrid.detailsLabel'));
+      expect(
+        messages.dataGridDetailsShortcut,
+        _english('dataGrid.detailsShortcut'),
+      );
+      expect(messages.dataGridAnnouncement, _english('dataGrid.announcement'));
       expect(messages.treeLoading, _english('tree.loading'));
       expect(messages.treeLoadError, _english('tree.loadError'));
       expect(messages.treeExpand, _english('tree.expand'));

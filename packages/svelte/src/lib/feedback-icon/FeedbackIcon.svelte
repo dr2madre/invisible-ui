@@ -139,6 +139,6 @@
     --_color: var(--ds-color-danger, #be3b50);
   }
   .feedback-icon:global([data-status="neutral"]) {
-    --_color: var(--ds-color-neutral, #5e5951);
+    --_color: var(--ds-color-neutral, #616161);
   }
 </style>

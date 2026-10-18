@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "UploadDropArea",
-        "specifier": "@design-system/svelte/UploadDropArea.svelte"
+        "specifier": "@invisible-ui/svelte/UploadDropArea.svelte"
       },
       "props": [
         {
@@ -79,7 +79,7 @@
       "import": {
         "kind": "named",
         "name": "UploadDropArea",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -149,7 +149,7 @@
       "import": {
         "kind": "named",
         "name": "UploadDropArea",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -231,7 +231,7 @@
       "import": {
         "kind": "element",
         "name": "ds-upload-drop-area",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

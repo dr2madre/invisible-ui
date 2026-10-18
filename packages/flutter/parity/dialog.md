@@ -1,6 +1,6 @@
 # Dialog parity checklist
 
-Reference commit: `0f1ba82071d59bb0a0b68a33210323e17837e24f`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/dialog` `packages/svelte/src/lib/dialog` `packages/elements/src/dialog` `packages/elements/src/internal/modal-stack.ts`
 
@@ -96,7 +96,7 @@ that holds it.
 | A dialog opened from inside another takes focus | matched | `the dialog on top takes focus, Escape closes it alone and focus returns inside the dialog below` |
 | Escape closes only the innermost | matched | same test |
 | Closing returns focus to the element that had it when the dialog opened | matched | same test |
-| Falls back when that element is gone | adapted | the navigator's own focus history decides, since a Flutter dialog has no trigger of its own: `focus falls back when the element that had focus is gone` |
+| Falls back when that element is gone | adapted | the navigator's own focus history decides, since a Flutter dialog has no trigger of its own: `focus falls back when the element that had it is gone` |
 | Closing reacts only to the dialog's own close | matched | only the route's pop closes it; a widget inside cannot close it by accident |
 | The notification region holds toasts while a dialog is open | matched | `the notification region holds toasts while a dialog is open (ADR 0016, case 2)`; the route is a `PopupRoute`, which `ModalObserver` counts |
 | `returnFocusTo` | adapted | `showInvisibleDialog(returnFocus:)` names the focus node, for a dialog opened by something other than a button (ADR 0013); the element that had focus stays the default: `test/sidebar_drawer_test.dart` (`returnFocus names where focus goes when focus was elsewhere at the opening`) |
@@ -106,3 +106,7 @@ that holds it.
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+
+## Background token
+
+The background reads the component token `--ds-dialog-background` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

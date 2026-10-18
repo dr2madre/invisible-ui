@@ -1,4 +1,4 @@
-import { calendar as core, i18n as coreI18n } from "@design-system/core";
+import { calendar as core, i18n as coreI18n } from "@invisible-ui/core";
 import { useMemo, type CSSProperties, type ReactNode } from "react";
 import { useI18n, type TranslateFn } from "../i18n/i18n";
 import type { MessageKey } from "../i18n/messages";

@@ -40,7 +40,7 @@ export interface TextareaProps {
 
 /**
  * Textarea: the styled, batteries-included multi-line text field. Shares the
- * headless text-field wiring (`@design-system/core`) with {@link TextField}:
+ * headless text-field wiring (`@invisible-ui/core`) with {@link TextField}:
  * label association, `aria-describedby` for the hint and error, and
  * `aria-invalid` / `aria-required`. This layer renders a `<textarea>` plus the
  * label, optional description and error message.

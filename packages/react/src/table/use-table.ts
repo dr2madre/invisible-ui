@@ -1,4 +1,4 @@
-import { table as core } from "@design-system/core";
+import { table as core } from "@invisible-ui/core";
 import { useId, useMemo, useState } from "react";
 import { sameList, useControllable } from "../internal/controllable";
 import { fail } from "../internal/dev";
@@ -66,7 +66,7 @@ function assertUniqueSelection(ids: RowId[]): void {
 /**
  * Connect the headless table to React: column sort, column visibility and row
  * selection, plus the native sortable-header semantics (`aria-sort`). The sort
- * logic and comparators live in `@design-system/core`. Each piece of state is
+ * logic and comparators live in `@invisible-ui/core`. Each piece of state is
  * a controllable mirror (ADR 0011): a later prop is reflected without a
  * report, and a user action reports once. Use the connected API's `sortRows`
  * to derive the rows to render.

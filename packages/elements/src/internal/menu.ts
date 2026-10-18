@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import { applyProps, nextId } from "./base";
 import { attachFloating } from "./floating";
 import { CHECK_PATH, pathIcon } from "./icons";
@@ -6,7 +6,7 @@ import { onOutside } from "./outside";
 
 /**
  * The menu parts the menu elements share: `ds-dropdown-menu`, `ds-context-menu`
- * and `ds-menubar` render the same headless menu (`@design-system/core`) under
+ * and `ds-menubar` render the same headless menu (`@invisible-ui/core`) under
  * their own class prefix (`menu__item`, `context-menu__item`, `menubar__item`).
  */
 

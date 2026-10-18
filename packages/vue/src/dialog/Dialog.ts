@@ -51,7 +51,7 @@ export interface DialogProps {
  * Dialog: a styled modal window (WAI-ARIA dialog pattern).
  *
  * Behaviour and accessibility come from the headless dialog
- * (`@design-system/core`); modality comes from the native `<dialog>` element
+ * (`@invisible-ui/core`); modality comes from the native `<dialog>` element
  * via `showModal()`: top layer, inert background, `::backdrop` (ADR 0005),
  * with body scroll lock, backdrop light-dismiss and focus management added by
  * the adapter.

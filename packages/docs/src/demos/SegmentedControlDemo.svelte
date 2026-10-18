@@ -1,5 +1,5 @@
 <script>
-  import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
+  import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
   import HomeIcon from "./icons/HomeIcon.svelte";
   import SearchIcon from "./icons/SearchIcon.svelte";
   import BellIcon from "./icons/BellIcon.svelte";
@@ -70,7 +70,7 @@
     margin: 0 0 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }

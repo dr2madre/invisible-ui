@@ -150,6 +150,35 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets('excludeFromSemantics shows the message without reading it', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      final focus = FocusNode();
+      addTearDown(focus.dispose);
+      await tester.pumpWidget(
+        harness(
+          Tooltip(
+            message: 'Adds a row below',
+            excludeFromSemantics: true,
+            child: Button.icon(
+              onPressed: () {},
+              focusNode: focus,
+              icon: _glyph,
+              semanticLabel: 'Add row',
+            ),
+          ),
+        ),
+      );
+      focus.requestFocus();
+      await pumpFocus(tester);
+      expect(_bubble, findsOneWidget);
+      final data = tester.getSemantics(find.byType(Button)).getSemanticsData();
+      expect(data.label, 'Add row');
+      expect(data.tooltip, isEmpty);
+      semantics.dispose();
+    });
+
     testWidgets('meets the text contrast guideline', (tester) async {
       final semantics = tester.ensureSemantics();
       final focus = FocusNode();

@@ -1,4 +1,4 @@
-import { meter as core } from "@design-system/core";
+import { meter as core } from "@invisible-ui/core";
 import { computed, ref, type ComputedRef } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -29,7 +29,7 @@ export type MeterRange = Pick<MeterContext, "min" | "max" | "low" | "high" | "op
 /**
  * Connect the headless meter (WAI-ARIA meter pattern) to Vue: a gauge of a
  * value within a known range. Behaviour and accessibility live in
- * `@design-system/core`; this composable wires the state to a ref and derives
+ * `@invisible-ui/core`; this composable wires the state to a ref and derives
  * the connected props with `computed(connect)`, like the other composables. The
  * element still needs an accessible name, supplied by the consumer
  * (`aria-label`).

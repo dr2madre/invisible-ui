@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Tag",
-        "specifier": "@design-system/svelte/Tag.svelte"
+        "specifier": "@invisible-ui/svelte/Tag.svelte"
       },
       "props": [
         {
@@ -79,7 +79,7 @@
       "import": {
         "kind": "named",
         "name": "Tag",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -142,7 +142,7 @@
       "import": {
         "kind": "named",
         "name": "Tag",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -224,7 +224,7 @@
       "import": {
         "kind": "element",
         "name": "ds-tag",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

@@ -63,7 +63,7 @@ graph rather than on a separate build step. Run a single package the same
 way, so the dependency still applies:
 
 ```sh
-pnpm exec turbo run test --filter=@design-system/svelte
+pnpm exec turbo run test --filter=@invisible-ui/svelte
 ```
 
 Everything else reads whatever `dist/` happens to hold. A package's own script

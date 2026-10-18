@@ -1,24 +1,25 @@
 import 'dart:ui' show SemanticsValidationResult;
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide RadioGroup;
+import 'package:flutter/widgets.dart' as widgets show RadioGroup;
 
 import '../choice/choice_item.dart';
 import '../field/field.dart';
 import '../internal/value_control.dart';
 import '../radio/radio.dart';
 
-// Sizes the web RadioButtonGroup sets in its own stylesheet.
+// Sizes the web RadioGroup sets in its own stylesheet.
 const double _gap = 8;
 const double _gapHorizontal = 20;
 
 /// A named set of options of which one is chosen, following the WAI-ARIA
-/// radio group pattern, built on the widgets library's [RadioGroup] and
+/// radio group pattern, built on the widgets library's [widgets.RadioGroup] and
 /// [Radio].
 ///
 /// ```dart
 /// import 'package:invisible_ui/invisible_ui.dart' as iu;
 ///
-/// iu.RadioButtonGroup<String>(
+/// iu.RadioGroup<String>(
 ///   label: 'Export',
 ///   items: const [
 ///     iu.ChoiceItem(value: 'month', label: 'This month'),
@@ -35,19 +36,16 @@ const double _gapHorizontal = 20;
 /// direction. Space or a tap chooses the focused option. Options stack
 /// vertically, or wrap in rows when [orientation] is horizontal.
 ///
-/// Controlled, [RadioButtonGroup] shows [value] (null when nothing is
+/// Controlled, [RadioGroup] shows [value] (null when nothing is
 /// chosen) and reports each choice through [onChanged];
-/// [RadioButtonGroup.uncontrolled] keeps its own value. A changed [value] is
+/// [RadioGroup.uncontrolled] keeps its own value. A changed [value] is
 /// shown without calling [onChanged]. Inside a [Form] it validates, saves
 /// and resets like the other value controls: [error] or the [validator]'s
 /// message shows under the options, and a reset restores the default
 /// without reporting it.
-///
-/// The web adapters call it RadioGroup; that name is the widgets library's
-/// value holder this group is built on.
-class RadioButtonGroup<T> extends StatefulWidget {
+class RadioGroup<T> extends StatefulWidget {
   /// A group that shows [value], controlled by the parent.
-  const RadioButtonGroup({
+  const RadioGroup({
     super.key,
     required this.label,
     required this.items,
@@ -66,7 +64,7 @@ class RadioButtonGroup<T> extends StatefulWidget {
        _controlled = true;
 
   /// A group that keeps its own value, starting from [initialValue].
-  const RadioButtonGroup.uncontrolled({
+  const RadioGroup.uncontrolled({
     super.key,
     required this.label,
     required this.items,
@@ -132,14 +130,14 @@ class RadioButtonGroup<T> extends StatefulWidget {
   final bool _controlled;
 
   @override
-  State<RadioButtonGroup<T>> createState() => _RadioButtonGroupState<T>();
+  State<RadioGroup<T>> createState() => _RadioGroupState<T>();
 }
 
-class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
-    with ValueControl<T?, RadioButtonGroup<T>> {
+class _RadioGroupState<T> extends State<RadioGroup<T>>
+    with ValueControl<T?, RadioGroup<T>> {
   // Holds the options' focus nodes, for a tap on the label.
   final FocusNode _options = FocusNode(
-    debugLabel: 'RadioButtonGroup options',
+    debugLabel: 'RadioGroup options',
     canRequestFocus: false,
     skipTraversal: true,
   );
@@ -148,7 +146,7 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
   bool get isControlled => widget._controlled;
 
   @override
-  T? controlledValueOf(RadioButtonGroup<T> widget) => widget.value;
+  T? controlledValueOf(RadioGroup<T> widget) => widget.value;
 
   @override
   T? get initialValueOfWidget => widget.initialValue;
@@ -201,7 +199,7 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
             // The native group's keys invoke VoidCallbackIntent, whose action
             // WidgetsApp provides; this keeps them working without one.
             actions: _groupActions,
-            child: RadioGroup<T>(
+            child: widgets.RadioGroup<T>(
               groupValue: value,
               onChanged: _choose,
               child: Semantics(

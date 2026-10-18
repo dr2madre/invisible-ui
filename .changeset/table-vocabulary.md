@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": minor
+"@invisible-ui/svelte": minor
 ---
 
 The styled table's vocabulary becomes importable the way it already is in the

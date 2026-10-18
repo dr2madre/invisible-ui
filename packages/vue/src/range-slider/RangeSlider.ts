@@ -1,4 +1,4 @@
-import { rangeSlider as core } from "@design-system/core";
+import { rangeSlider as core } from "@invisible-ui/core";
 import { defineComponent, h, onMounted, ref, watch, type PropType } from "vue";
 import { useRangeSlider, type RangeSliderOrientation } from "./use-range-slider";
 import { useFormReset, useLiveDom } from "../internal/form-reset";

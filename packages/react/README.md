@@ -1,6 +1,6 @@
-# @design-system/react
+# @invisible-ui/react
 
-React adapter over the framework-agnostic [`@design-system/core`](../../core).
+React adapter over the framework-agnostic [`@invisible-ui/core`](../../core).
 
 **Status: full catalog.** The adapter started as the proof of concept that
 showed the core drives a second framework. Like the Svelte, Vue and custom
@@ -30,8 +30,8 @@ every public renderable export.
 ## Usage
 
 ```tsx
-import { Button, Checkbox, Combobox, Dialog, Select, Switch } from "@design-system/react";
-import "@design-system/react/styles.css";
+import { Button, Checkbox, Combobox, Dialog, Select, Switch } from "@invisible-ui/react";
+import "@invisible-ui/react/styles.css";
 
 function Example() {
   const [checked, setChecked] = useState(false);
@@ -53,7 +53,7 @@ function Example() {
 }
 ```
 
-Import `@design-system/react/tokens.css` alone if you style the components
+Import `@invisible-ui/react/tokens.css` alone if you style the components
 yourself — it defines the `--ds-*` custom properties everything reads from.
 
 ## How it works
@@ -183,7 +183,7 @@ nothing on the server and mounts in `<body>` once hydrated.
 ## Scripts
 
 ```
-pnpm --filter @design-system/react build      # tsup → dist (ESM + d.ts)
-pnpm --filter @design-system/react test       # vitest + @testing-library/react + axe
-pnpm --filter @design-system/react typecheck
+pnpm --filter @invisible-ui/react build      # tsup → dist (ESM + d.ts)
+pnpm --filter @invisible-ui/react test       # vitest + @testing-library/react + axe
+pnpm --filter @invisible-ui/react typecheck
 ```

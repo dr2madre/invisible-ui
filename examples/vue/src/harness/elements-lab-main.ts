@@ -1,8 +1,8 @@
 // The Elements accessibility lab page (elements-lab.html). Only what HTML
 // cannot say lives here: data assigned as properties, and the application's
 // side of each scenario (filtering, loading, answering a load request).
-import "@design-system/elements/styles.css";
-import "@design-system/elements/define";
+import "@invisible-ui/elements/styles.css";
+import "@invisible-ui/elements/define";
 import type {
   DsDialog,
   DsNavigationMenu,
@@ -16,7 +16,7 @@ import type {
   TableRow,
   TreeLoadRequest,
   TreeNode,
-} from "@design-system/elements";
+} from "@invisible-ui/elements";
 
 const one = <T extends Element>(selector: string) => document.querySelector(selector) as T;
 

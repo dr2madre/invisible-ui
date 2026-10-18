@@ -1,7 +1,7 @@
 ---
-"@design-system/elements": minor
-"@design-system/svelte": patch
-"@design-system/vue": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
 ---
 
 Add the controlled Pagination component to the Elements adapter and record its

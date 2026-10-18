@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "RangeSlider",
-        "specifier": "@design-system/svelte/RangeSlider.svelte"
+        "specifier": "@invisible-ui/svelte/RangeSlider.svelte"
       },
       "props": [
         {
@@ -151,7 +151,7 @@
       "import": {
         "kind": "named",
         "name": "RangeSlider",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -305,7 +305,7 @@
       "import": {
         "kind": "named",
         "name": "RangeSlider",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -451,7 +451,7 @@
       "import": {
         "kind": "element",
         "name": "ds-range-slider",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

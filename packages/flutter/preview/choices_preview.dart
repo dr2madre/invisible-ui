@@ -5,13 +5,13 @@ import 'package:flutter/widget_previews.dart';
 // widgets.dart exports Brightness only from Flutter 3.44 on.
 // ignore: unnecessary_import
 import 'package:flutter/foundation.dart' show Brightness;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide RadioGroup;
 import 'package:invisible_ui/invisible_ui.dart';
 
 import 'preview_sheet.dart';
 
 /// The choice controls in their common states: Checkbox, CheckboxGroup,
-/// Switch, RadioButtonGroup and SegmentedControl.
+/// Switch, RadioGroup and SegmentedControl.
 @Preview(group: 'Choices', name: 'States, light', brightness: Brightness.light)
 @Preview(group: 'Choices', name: 'States, dark', brightness: Brightness.dark)
 Widget choiceStates() => const PreviewSheet(child: _Choices());
@@ -78,7 +78,7 @@ class _Choices extends StatelessWidget {
           gap,
           Switch.uncontrolled(label: 'Sync', enabled: false),
           gap,
-          RadioButtonGroup<String>.uncontrolled(
+          RadioGroup<String>.uncontrolled(
             label: 'Export',
             initialValue: 'month',
             items: [

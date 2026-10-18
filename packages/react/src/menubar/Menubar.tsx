@@ -1,4 +1,4 @@
-import { menu as core, menubar as bar } from "@design-system/core";
+import { menu as core, menubar as bar } from "@invisible-ui/core";
 import { useCallback, useId, useMemo, useRef, useState } from "react";
 import { createPortal, flushSync } from "react-dom";
 import type { MenuEntry } from "../dropdown-menu/DropdownMenu";
@@ -43,7 +43,7 @@ const INITIAL: BarState = { focusedValue: null, ...ALL_CLOSED };
 /**
  * Menubar: a horizontal bar of menus (WAI-ARIA menubar pattern), like an
  * application menu (File, Edit, View). Each top menu is a headless menu
- * (`@design-system/core`) with groups, separators, checkable items and
+ * (`@invisible-ui/core`) with groups, separators, checkable items and
  * submenus (`docs/menu-submenu-spec.md`); the core `menubar` module adds the
  * roving tab stop across the triggers, one open menu at a time, and the left
  * and right arrows: into a submenu on a submenu trigger, to the next top menu

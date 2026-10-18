@@ -1,3 +1,4 @@
+import { scrollArea, table as core } from "@invisible-ui/core";
 import {
   computed,
   defineComponent,
@@ -83,12 +84,6 @@ export interface TableViewProps {
   /** Copy for the no-results state. Defaults to the i18n catalog's message. */
   noResultsLabel?: string;
 }
-
-/** The two body layouts offered by the view switcher. */
-const VIEW_ITEMS = [
-  { value: "table", label: "Table" },
-  { value: "card", label: "Cards" },
-];
 
 /** The sliders glyph on the column-settings trigger. */
 const SettingsGlyph = () =>
@@ -342,6 +337,41 @@ export const TableView = defineComponent({
       () => props.rows.length === 0 && props.filtersActive && props.totalRowCount !== 0,
     );
 
+    // Filtering that changes the row count is announced politely, once. The
+    // first state and counts that change with no filtering behind them stay
+    // silent. The no-results panel is a status of its own, so it is not said
+    // twice.
+    const announcement = ref("");
+    const resultsInput = () => ({
+      count: props.rows.length,
+      filtersActive: props.filtersActive,
+      filterRevision: props.filterRevision,
+      totalRowCount: props.totalRowCount,
+    });
+    let announced = core.tableResultsUpdate(null, resultsInput()).memory;
+    watch(resultsInput, (input) => {
+      const { memory, message } = core.tableResultsUpdate(announced, input);
+      announced = memory;
+      if (message) {
+        announcement.value =
+          message.kind === "results" ? i18n.value.t("table.results", { count: message.count }) : "";
+      }
+    });
+
+    // A wide table scrolls inside its card, so the card takes focus (and a
+    // name) only while it overflows: the keyboard can then scroll it.
+    const scrolls = ref(false);
+    let stopScroller: (() => void) | null = null;
+    const scrollerRef = (node: unknown) => {
+      stopScroller?.();
+      stopScroller =
+        node instanceof HTMLElement
+          ? scrollArea.observeInlineOverflow(node, (overflowing) => (scrolls.value = overflowing))
+          : null;
+      if (!node) scrolls.value = false;
+    };
+    onScopeDispose(() => stopScroller?.());
+
     // Selection needs an id that survives sorting and paging, so the index
     // fallback of the default getRowId is not accepted here. A missing or
     // duplicate id is an error in development; in production the row is
@@ -386,6 +416,10 @@ export const TableView = defineComponent({
       const resolvedLoadMoreLabel = props.loadMoreLabel ?? t("table.loadMore");
       const resolvedLoadingLabel = props.loadingLabel ?? t("table.loading");
       const resolvedConfigLabel = props.configLabel ?? t("table.columns");
+      const viewItems = [
+        { value: "table", label: t("table.viewTable") },
+        { value: "card", label: t("table.viewCards") },
+      ];
 
       const titleKey = props.cardTitleKey ?? props.columns[0]?.key;
       const shownColumns = props.columns.filter((column) => api.value.isColumnVisible(column.key));
@@ -445,9 +479,9 @@ export const TableView = defineComponent({
               h("div", { class: "table-view__controls" }, [
                 props.allowViewToggle
                   ? h(SegmentedControl, {
-                      items: VIEW_ITEMS,
+                      items: viewItems,
                       value: currentView.value,
-                      label: "View",
+                      label: t("table.view"),
                       hideLabel: true,
                       onValueChange: (next: string) =>
                         (currentView.value = next === "card" ? "card" : "table"),
@@ -557,37 +591,49 @@ export const TableView = defineComponent({
                 }),
               ),
             ]
-          : h("div", { class: "table-view__card" }, [
-              h(
-                Table,
-                {
-                  columns: shownColumns,
-                  rows: visibleRows,
-                  sort: api.value.sort,
-                  onSortToggle: toggleSort,
-                  caption: props.caption,
-                  hideCaption: props.hideCaption || Boolean(props.title),
-                  getValue: props.getValue,
-                  getRowId: props.getRowId,
-                  selectionColumn: selectionActive,
-                  isRowSelected: selectionActive
-                    ? (row: TableRow) => rowIsSelected(row)
-                    : undefined,
-                },
-                {
-                  ...(slots.cell ? { cell: slots.cell } : undefined),
-                  ...(selectionActive
-                    ? {
-                        selectionHeader: () =>
-                          props.selectionMode === "multiple"
-                            ? selectAllCheckbox(true)
-                            : h("span", { class: "table-view__sr" }, t("table.selection")),
-                        selectionCell: ({ row }: { row: TableRow }) => rowCheckbox(row),
-                      }
-                    : undefined),
-                },
-              ),
-            ]);
+          : h(
+              "div",
+              {
+                class: "table-view__card",
+                ref: scrollerRef,
+                tabindex: scrolls.value ? 0 : undefined,
+                role: scrolls.value ? "region" : undefined,
+                "aria-label": scrolls.value
+                  ? props.title || props.caption || t("table.viewTable")
+                  : undefined,
+              },
+              [
+                h(
+                  Table,
+                  {
+                    columns: shownColumns,
+                    rows: visibleRows,
+                    sort: api.value.sort,
+                    onSortToggle: toggleSort,
+                    caption: props.caption,
+                    hideCaption: props.hideCaption || Boolean(props.title),
+                    getValue: props.getValue,
+                    getRowId: props.getRowId,
+                    selectionColumn: selectionActive,
+                    isRowSelected: selectionActive
+                      ? (row: TableRow) => rowIsSelected(row)
+                      : undefined,
+                  },
+                  {
+                    ...(slots.cell ? { cell: slots.cell } : undefined),
+                    ...(selectionActive
+                      ? {
+                          selectionHeader: () =>
+                            props.selectionMode === "multiple"
+                              ? selectAllCheckbox(true)
+                              : h("span", { class: "table-view__sr" }, t("table.selection")),
+                          selectionCell: ({ row }: { row: TableRow }) => rowCheckbox(row),
+                        }
+                      : undefined),
+                  },
+                ),
+              ],
+            );
 
       const footer = props.infinite
         ? h("div", { class: "table-view__infinite" }, [
@@ -621,7 +667,16 @@ export const TableView = defineComponent({
             ])
           : null;
 
-      return h("div", { class: "table-view", tabindex: -1, ref: rootRef }, [header, body, footer]);
+      return h("div", { class: "table-view", tabindex: -1, ref: rootRef }, [
+        h(
+          "div",
+          { class: "table-view__sr", role: "status", "aria-live": "polite" },
+          announcement.value,
+        ),
+        header,
+        body,
+        footer,
+      ]);
     };
   },
 });

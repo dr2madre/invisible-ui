@@ -1,4 +1,4 @@
-import type { ElementProps } from "@design-system/core";
+import type { ElementProps } from "@invisible-ui/core";
 
 /**
  * Core props for a Svelte spread: Svelte names DOM events in lower case, so

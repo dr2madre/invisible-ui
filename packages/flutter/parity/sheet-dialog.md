@@ -1,6 +1,6 @@
 # Sheet Dialog parity checklist
 
-Reference commit: `71ede6af6037f9dc1aa5ade2c426bd21abb37943`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/dialog` `packages/svelte/src/lib/sheet-dialog`
 
@@ -54,3 +54,7 @@ scope**. Every matched line names the widget test in
 | The system areas | adapted | a bottom sheet stays above the keyboard; the panel reaches the screen edge it is anchored to |
 | `--ds-sheet-dialog-duration`, `--ds-sheet-dialog-handle` | out of scope | 250 ms and the border role, as the web defaults |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
+
+## Background token
+
+The background reads the component token `--ds-dialog-background` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

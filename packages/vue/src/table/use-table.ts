@@ -1,4 +1,4 @@
-import { table as core } from "@design-system/core";
+import { table as core } from "@invisible-ui/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { fail } from "../internal/dev";
 import { normalizeProps } from "../normalize";
@@ -43,7 +43,7 @@ export interface UseTable {
 /**
  * Connect the headless table to Vue: column sort state and column visibility,
  * plus the native sortable-header semantics (`aria-sort`). The sort logic and
- * comparators live in `@design-system/core`; this composable owns the resolved
+ * comparators live in `@invisible-ui/core`; this composable owns the resolved
  * state (mirroring controlled `sort` / `hiddenColumns` with watches) and derives
  * the connected props with `computed(connect)`. Use the connected API's
  * `sortRows` to derive the rows to render.

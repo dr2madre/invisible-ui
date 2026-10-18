@@ -14,9 +14,9 @@
 
 _by nozcadesign_
 
-A **headless, accessible, multi-framework** component library — built from scratch.
+A **headless, accessible, multi-framework** component library, built from scratch.
 
-> **⚠️ Alpha — in active development.** APIs, design tokens, and package names
+> **⚠️ Alpha: in active development.** APIs, design tokens, and package names
 > may change without notice. Not recommended for production use yet.
 
 > **Status:** The framework-agnostic core and the **Svelte**, **React**,
@@ -26,7 +26,11 @@ A **headless, accessible, multi-framework** component library — built from scr
 > The repository includes light/dark tokens, `vitest`/`vitest-axe` coverage
 > and an Astro docs site with a live Svelte demo per component.
 > **Reflex (Python)** wraps the React components. **Flutter** reimplements
-> the behaviour in Dart on the widgets layer (ADR 0017). The
+> the behaviour in Dart on the widgets layer (ADR 0017), with a minimum of
+> Flutter 3.35. **Data Grid**, the editable grid, is built in `core/` and
+> Flutter; the web adapters follow. Automated checks (unit, interaction, axe,
+> keyboard, contrast) pass everywhere; no component has been checked yet with
+> a screen reader or touch assistive technology (ADR 0018). The
 > [technical roadmap](./docs/technical-roadmap.md) tracks what comes next.
 
 ## What this is
@@ -88,13 +92,13 @@ from the start.
 ## Repository structure
 
 ```
-design-system/
-├── core/                  # @design-system/core — framework-agnostic state, behavior, a11y
+invisible-ui/
+├── core/                  # @invisible-ui/core — framework-agnostic state, behavior, a11y
 ├── packages/
-│   ├── svelte/            # @design-system/svelte — the full Svelte adapter
-│   ├── vue/               # @design-system/vue — the full Vue 3 adapter
-│   ├── react/             # @design-system/react — React adapter (full catalog)
-│   ├── elements/          # @design-system/elements — custom elements (full catalog)
+│   ├── svelte/            # @invisible-ui/svelte — the full Svelte adapter
+│   ├── vue/               # @invisible-ui/vue — the full Vue 3 adapter
+│   ├── react/             # @invisible-ui/react — React adapter (full catalog)
+│   ├── elements/          # @invisible-ui/elements — custom elements (full catalog)
 │   ├── reflex/            # invisible-ui (PyPI-style) — Reflex/Python wrappers over the React build
 │   └── docs/              # the Astro + Starlight docs site
 ├── examples/
@@ -111,7 +115,7 @@ adapters expose it idiomatically. **Svelte**, **React**, **Vue**, **Web
 Components** and **Flutter** carry the full catalog. **React** started as the proof of concept
 that confirmed the core needs no changes to drive another framework, and now
 carries all 81 components. **Reflex**
-wraps the React components so Python apps reuse the same behaviour (ADR 0006) — nothing is re-implemented in Python.
+wraps the React components so Python apps reuse the same behaviour (ADR 0006): nothing is re-implemented in Python.
 
 See [`core/README.md`](./core/README.md) for the primitive contract, state
 ownership and adapter integration model.
@@ -142,8 +146,8 @@ pnpm e2e         # real-browser tests against the built docs site
 Run the framework example apps:
 
 ```bash
-pnpm --filter @design-system/example-svelte dev
-pnpm --filter @design-system/example-vue dev
+pnpm --filter @invisible-ui/example-svelte dev
+pnpm --filter @invisible-ui/example-vue dev
 ```
 
 See [`packages/svelte/README.md`](./packages/svelte/README.md) for styled
@@ -154,8 +158,8 @@ Vue consumers can use the complete native adapter directly:
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { Checkbox, Select } from "@design-system/vue";
-import "@design-system/vue/styles.css";
+import { Checkbox, Select } from "@invisible-ui/vue";
+import "@invisible-ui/vue/styles.css";
 
 const subscribed = ref(false);
 const fruit = ref<string | null>(null);
@@ -190,8 +194,8 @@ every push to `main`: **https://dr2madre.github.io/invisible-ui/** (see
 Run the docs site locally:
 
 ```bash
-pnpm --filter @design-system/docs dev      # dev server
-pnpm --filter @design-system/docs build    # static build
+pnpm --filter @invisible-ui/docs dev      # dev server
+pnpm --filter @invisible-ui/docs build    # static build
 ```
 
 The site's pages live in `packages/docs/src/content/docs/` and the demos in
@@ -212,69 +216,69 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   with themeable `--ds-button-*` tokens, plain (un-boxed) leading/trailing icons
   (default plus, overridable via `left`/`right` slots), and — for `danger` — a
   hazard icon by default so meaning never relies on color alone (WCAG 1.4.1).
-  Imported from `@design-system/svelte/Button.svelte`.
+  Imported from `@invisible-ui/svelte/Button.svelte`.
 - **Button Group** — a labelled `role="group"` that groups related action
   buttons (it holds no selection; each button stays an independent action and
   tab stop — unlike a Radio Group or Segmented Control). A **styled**
   `ButtonGroup.svelte` lays them out horizontally or vertically and, when
   `attached`, joins them into one segmented bar (collapsing inner corners and
   shared borders); spacing is themeable via `--ds-button-group-*`. Imported from
-  `@design-system/svelte/ButtonGroup.svelte`.
+  `@invisible-ui/svelte/ButtonGroup.svelte`.
 - **Toggle Button** — an on/off control built on a native
   `<input type="checkbox">` styled to look like a button
   (`data-state="on" | "off"`), suited to toolbars (e.g. Bold/Italic) — the
   browser owns state, keyboard and form participation. Distinct from a
   **Switch**: a toggle button is an action, a switch is a setting. A **styled**
   `ToggleButton.svelte` realises this with themeable `--ds-toggle-*` tokens,
-  from `@design-system/svelte/ToggleButton.svelte`.
+  from `@invisible-ui/svelte/ToggleButton.svelte`.
 - **Toolbar** — a grouping container (`role="toolbar"`, required `label`) for a
   set of controls (buttons, toggle buttons), optionally divided into groups with
-  a `Separator`. From `@design-system/svelte/Toolbar.svelte`.
+  a `Separator`. From `@invisible-ui/svelte/Toolbar.svelte`.
 - **Separator** — a thin divider; semantic by default (`role="separator"` +
   `aria-orientation`) or `decorative` to hide it from assistive tech.
   Horizontal or vertical, themeable via `--ds-separator-*`. From
-  `@design-system/svelte/Separator.svelte`.
+  `@invisible-ui/svelte/Separator.svelte`.
 - **Avatar** — an account image that falls back to the **initials** of `name`
   when no image is set or the image fails to load. Exposed as a single labelled
   image (`role="img"` + `aria-label`) so it reads the same either way;
   size/shape/colors themeable via `--ds-avatar-*`. From
-  `@design-system/svelte/Avatar.svelte`.
+  `@invisible-ui/svelte/Avatar.svelte`.
 - **Checkbox** — a WAI-ARIA checkbox with tri-state support
   (`checked` / `unchecked` / `indeterminate`), exposing `aria-checked`
   (incl. `mixed`) and `data-state`, activated by click and the Space key. A
   **styled** `Checkbox.svelte` (box + check/dash glyphs, label wired via
   `aria-labelledby`, themeable `--ds-checkbox-*`) is available from
-  `@design-system/svelte/Checkbox.svelte`.
+  `@invisible-ui/svelte/Checkbox.svelte`.
 - **Checkbox Group** — a multi-select group of checkboxes (`role="group"` of
   `role="checkbox"` items): each item is independently Tab-focusable and toggled
   with Space, several can be checked, with per-item and whole-group `disabled`.
   The **styled** `CheckboxGroup.svelte` reuses the checkbox box/check visual and
   requires a group `label`. Imported from
-  `@design-system/svelte/CheckboxGroup.svelte`.
+  `@invisible-ui/svelte/CheckboxGroup.svelte`.
 - **Switch** — a WAI-ARIA switch (`role="switch"` + `aria-checked`). A
   settings-style on/off control; screen readers announce on/off. (Sometimes
   called a "toggle switch" — different from the Toggle Button above.) A
   **styled** `Switch.svelte` (sliding track + thumb, themeable `--ds-switch-*`)
-  is available from `@design-system/svelte/Switch.svelte`.
+  is available from `@invisible-ui/svelte/Switch.svelte`.
 - **Radio Group** — a single-select WAI-ARIA radio group with roving tabindex
   and arrow/Home/End navigation (selection follows focus), exposing
   `aria-checked` and `data-state` per item. A **styled** `RadioGroup.svelte`
   (dot indicator, `items` with optional `label`, themeable `--ds-radio-*`) is
-  available from `@design-system/svelte/RadioGroup.svelte`.
+  available from `@invisible-ui/svelte/RadioGroup.svelte`.
 - **Segmented Control** — the same radio-group semantics, defaulting to a
   horizontal layout and styled as a segmented bar. A **styled**
   `SegmentedControl.svelte` (themeable `--ds-segment-*`) is available from
-  `@design-system/svelte/SegmentedControl.svelte`.
+  `@invisible-ui/svelte/SegmentedControl.svelte`.
 - **Tabs** — a WAI-ARIA tabs widget: a tablist of tabs linked to panels
   (`aria-controls`/`aria-labelledby`), roving tabindex, arrow/Home/End
   navigation, and `automatic` or `manual` activation. A **styled** `Tabs.svelte`
   (underline indicator + panels, themeable `--ds-tabs-*`) is available from
-  `@design-system/svelte/Tabs.svelte`.
+  `@invisible-ui/svelte/Tabs.svelte`.
 - **Accordion** — a WAI-ARIA accordion: header buttons (`aria-expanded`) linked
   to regions, `single` or `multiple` expansion (single optionally collapsible),
   and arrow/Home/End movement between headers. A **styled** `Accordion.svelte`
   (bordered items + rotating chevron, themeable `--ds-accordion-*`) is available
-  from `@design-system/svelte/Accordion.svelte`.
+  from `@invisible-ui/svelte/Accordion.svelte`.
 - **Text Field** — a text-entry primitive that owns the parts that are easy to
   get wrong: id generation and the label / hint / error wiring (`for`,
   `aria-describedby`, `aria-invalid`, `aria-required`) plus the
@@ -284,8 +288,8 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   `tel` / `url` / `number`, with optional description and error message) and
   `Textarea.svelte` (multi-line). A non-empty `error` flips the field to the
   invalid state and announces the message. Imported from
-  `@design-system/svelte/TextField.svelte` and
-  `@design-system/svelte/Textarea.svelte`.
+  `@invisible-ui/svelte/TextField.svelte` and
+  `@invisible-ui/svelte/Textarea.svelte`.
 - **Select** — a styled **native** `<select>`: the browser owns the popup,
   keyboard, typeahead, `required` validation, form participation and the
   platform picker on mobile; the styled layer owns the closed control
@@ -295,14 +299,14 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   rich options and a styled popup use the **Combobox** with the search hidden
   (`searchable={false}`), the custom "advanced select". The headless
   `core/select` primitive remains for fully custom builds (see ADR 0003).
-  Imported from `@design-system/svelte/Select.svelte`.
+  Imported from `@invisible-ui/svelte/Select.svelte`.
 - **Dropdown Menu** — a menu button (WAI-ARIA menu button pattern): a trigger
   opens a `role="menu"` of action items, with arrow / Home / End navigation,
   typeahead, focus moving **into** the menu and returning to the trigger on
   close, and Escape / outside-pointer to dismiss. Headless behaviour in the core
   (`menu`); the **styled** `DropdownMenu.svelte` adds the trigger and the
   elevated popup, themeable via `--ds-menu-*`, positioned with `@floating-ui/dom`
-  (flip/shift). Imported from `@design-system/svelte/DropdownMenu.svelte`.
+  (flip/shift). Imported from `@invisible-ui/svelte/DropdownMenu.svelte`.
 - **Popover** — a non-modal floating panel anchored to a trigger
   (`aria-haspopup="dialog"` / `aria-expanded`). Focus moves into the panel on
   open and returns to the trigger on Escape; outside-press or focus-leave also
@@ -310,20 +314,20 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   `Popover.svelte` adds the elevated panel, themeable via `--ds-popover-*`,
   positioned with `@floating-ui/dom` (flip/shift). Built on the shared overlay
   utilities (`internal/floating.ts`, `internal/dismiss.ts`). Imported from
-  `@design-system/svelte/Popover.svelte`.
+  `@invisible-ui/svelte/Popover.svelte`.
 - **Tooltip** — a descriptive label shown on hover **and** focus
   (`role="tooltip"`, linked via `aria-describedby`), with open/close delays and
   WCAG 1.4.13 semantics (hoverable + Escape-dismissable). Headless behaviour in
   the core (`tooltip`); the **styled** `Tooltip.svelte` adds the label, themeable
   via `--ds-tooltip-*`, positioned with `@floating-ui/dom`. Imported from
-  `@design-system/svelte/Tooltip.svelte`.
+  `@invisible-ui/svelte/Tooltip.svelte`.
 - **Icon** — a standardized SVG wrapper for the system's glyphs (and any icon
   you drop in): a 24×24 viewBox, `1em` sizing (scales with font-size),
   `currentColor`, rounded strokes, and a11y (decorative by default, or `label`
   for a named image). Pass the glyph shapes via the default slot — this is also
   the seam for swapping in a Lucide / FontAwesome / custom icon set uniformly.
   Used internally (e.g. FeedbackIcon) and from
-  `@design-system/svelte/Icon.svelte`.
+  `@invisible-ui/svelte/Icon.svelte`.
 - **FeedbackIcon** — a status icon in a rounded, **tinted** box
   (`info` / `success` / `warning` / `danger` / `neutral`): the box is the status
   color at 15% and the glyph is the full status color. Unlike the headless
@@ -331,7 +335,7 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   communicates the feedback type at a glance, an accessibility aid for alerts.
   Colors are themeable CSS custom properties (`--ds-feedback-*`); the built-in
   icon per status can be overridden via the default slot. Imported from
-  `@design-system/svelte/FeedbackIcon.svelte`.
+  `@invisible-ui/svelte/FeedbackIcon.svelte`.
 - **Alert** — a styled feedback banner composed from the building blocks: a
   FeedbackIcon (status), title, body text, an optional link, an `actions` slot
   for buttons (e.g. Retry / Cancel), and an optional close button. A live region
@@ -339,7 +343,7 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   urgent messages); **not dismissible by default** — set `closable` to render
   the ghost close button. Status is conveyed by color + glyph + surface tint
   (never color alone). Surface colors are themeable (`--ds-alert-*`). Imported
-  from `@design-system/svelte/Alert.svelte`.
+  from `@invisible-ui/svelte/Alert.svelte`.
 - **Notice** — an ephemeral, auto-dismissing Alert for stacked alerts.
   `createNotifier()` is a small store (`show` / `update` / `dismiss` / `clear` /
   `promise`); `NoticeRegion` is a fixed, labelled (`role="region"`)
@@ -355,8 +359,8 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   page) for maximum visibility — recommended for transient info outcomes (saved,
   back online, downtime…). The notice has no presentational wrapper: the
   Alert *is* the live region, and the floating elevation is applied by the
-  region. Imported from `@design-system/svelte` (the notifier) and
-  `@design-system/svelte/NoticeRegion.svelte` / `Notice.svelte`.
+  region. Imported from `@invisible-ui/svelte` (the notifier) and
+  `@invisible-ui/svelte/NoticeRegion.svelte` / `Notice.svelte`.
 - **Loading** — an inline loading indicator with several shapes: pulsing
   `dots`, a `spinner` arc, chat-style `typing` dots, a `morph`ing shape, an
   indeterminate/determinate `bar`, and a `grid` — a dot matrix pulsing in a
@@ -366,7 +370,7 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   loader flashes on fast operations, and `overlay`/`veil` cover a busy region.
   Buttons integrate it via their `loading`/`loadingStatus` props. Themeable via
   `--ds-loading-*`; honors reduced motion. Imported from
-  `@design-system/svelte/Loading.svelte`.
+  `@invisible-ui/svelte/Loading.svelte`.
 
 ### Svelte usage
 
@@ -375,7 +379,7 @@ behavior and accessibility:
 
 ```svelte
 <script>
-  import { createButton, createSwitch } from "@design-system/svelte";
+  import { createButton, createSwitch } from "@invisible-ui/svelte";
 
   const { rootAction: buttonAction } = createButton({ onPress: () => save() });
   const { rootAction: switchAction, state } = createSwitch();
@@ -402,8 +406,8 @@ follows the light/dark theme out of the box) and stays fully themeable through
 
 ```svelte
 <script>
-  import Switch from "@design-system/svelte/Switch.svelte";
-  import Tabs from "@design-system/svelte/Tabs.svelte";
+  import Switch from "@invisible-ui/svelte/Switch.svelte";
+  import Tabs from "@invisible-ui/svelte/Tabs.svelte";
 </script>
 
 <Switch checked onCheckedChange={(on) => console.log(on)}>Wi-Fi</Switch>

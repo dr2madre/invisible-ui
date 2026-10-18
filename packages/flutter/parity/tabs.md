@@ -1,6 +1,6 @@
 # Tabs parity checklist
 
-Reference commit: `ddcb5bf7b51d6d75d5e1606607c9caa5dcb3a0c1`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/tabs` `core/src/internal/collection.ts` `packages/svelte/src/lib/tabs`
 
@@ -25,6 +25,7 @@ the core runs through `connect()`.
 | `activationMode: TabActivationMode.manual` | `activationMode: "manual"` | the activation mode |
 | `orientation: Axis.vertical` | core's `orientation` | the arrow axis and the layout |
 | `items: [TabItem(value:, label:, child:, icon:, count:, iconOnly:, disabled:)]` | `items: [{ value, label, content, icon, count, iconOnly, disabled }]` | the tabs; the panel and the icon are widgets |
+| `actions: [Button.icon(...)]` | `actions` snippet | commands beside the tab list, outside it |
 
 ## Behaviour
 
@@ -40,6 +41,9 @@ the core runs through `connect()`.
 | A disabled tab is out of the Tab order | adapted | the web tab keeps its native button tab stop; a disabled Flutter control takes no focus |
 | Hidden panels keep their state and leave the focus order | matched | `hidden panels keep their state and leave the focus order` |
 | Reflection never reports | matched | `a changed value is shown without a report` |
+| Actions sit after the list, outside the tab bar, and add no tab | matched | `an action is a button outside the tab bar, the tabs are unchanged, and the targets hold` |
+| The arrows never reach an action; Tab from the selected tab does | matched | `the arrows stay in the list; Tab from the selected tab reaches the action` |
+| An "add" action adds and selects a tab and keeps focus | matched | `a press adds and selects a tab, and focus stays on the action` |
 
 ## Semantics
 
@@ -60,5 +64,7 @@ the core runs through `connect()`.
 | Count badge: grey, violet when selected | matched | `_Count` |
 | Focus ring inside the tab, since the row clips | matched | `_Tab` |
 | A narrow row scrolls sideways; a focused tab scrolls into view | matched | `a narrow row scrolls sideways at text scale 2.0 and a focused tab comes into view` |
+| Actions follow the list in the reading direction and wrap below it on a narrow row | matched | `right to left: the action follows the list on its left`, `at text scale 2.0 on a narrow row the action wraps below the list` |
+| Action targets 24 by 24, 44 by 44 under touch | matched | `an action is a button outside the tab bar, …` (24), `the action keeps 44 by 44 under touch`; the target is the action's own, as the web's `:where()` minimum leaves a larger control size alone |
 | Colour changes fade over 120ms, at once under reduced motion | matched | `_Tab`'s `AnimatedContainer` |
 | Targets 24 by 24, 44 by 44 under touch | matched | `semantics: …` (24), `tabs keep 44 by 44 under touch` |

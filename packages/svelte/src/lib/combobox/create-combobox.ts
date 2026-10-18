@@ -1,4 +1,4 @@
-import { combobox as core } from "@design-system/core";
+import { combobox as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createPropsAction } from "../internal/connect";
@@ -69,7 +69,7 @@ const defaultFilter = (items: ComboboxItem[], query: string) => {
 
 /**
  * Create a headless combobox (editable input + filtered listbox). Behaviour and
- * ARIA live in `@design-system/core`; this adapter owns the DOM concerns: text
+ * ARIA live in `@invisible-ui/core`; this adapter owns the DOM concerns: text
  * filtering, popup positioning (`@floating-ui/dom`, flip/shift),
  * close-on-outside-pointer, and keeping the active option scrolled into view.
  * DOM focus stays on the input (activedescendant).

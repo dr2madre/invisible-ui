@@ -1,4 +1,4 @@
-import { i18n, popover as popoverCore } from "@design-system/core";
+import { i18n, popover as popoverCore } from "@invisible-ui/core";
 import { DsCalendar, type CalendarEvent } from "../calendar/ds-calendar";
 import { applyProps, boolAttr, definePart, HTMLElementBase, nextId } from "../internal/base";
 import { attachFloating } from "../internal/floating";

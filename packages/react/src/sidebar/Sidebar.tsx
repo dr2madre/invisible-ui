@@ -1,4 +1,4 @@
-import { collapsible, navigationBar } from "@design-system/core";
+import { collapsible, navigationBar } from "@invisible-ui/core";
 import { useId, useMemo, useState, type ReactNode } from "react";
 import { useI18n } from "../i18n/i18n";
 import { ChevronEndGlyph, ChevronStartGlyph, Icon } from "../icon/Icon";

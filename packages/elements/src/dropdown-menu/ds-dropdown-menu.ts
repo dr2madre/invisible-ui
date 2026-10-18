@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import { boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { chevronIcon } from "../internal/icons";
@@ -15,7 +15,7 @@ export type MenuItemKind = core.MenuItemKind;
  * custom element. Ported from the Vue adapter, class names kept identical.
  *
  * A trigger opens a `role="menu"` of items. Behaviour and ARIA come from the
- * headless menu (`@design-system/core`): arrow keys, Home and End move, Enter,
+ * headless menu (`@invisible-ui/core`): arrow keys, Home and End move, Enter,
  * Space or a click activates, Escape and Tab close. This element owns the DOM
  * concerns: roving focus into the menu and back to the trigger on close,
  * typeahead, positioning with Floating UI and closing on an outside press.

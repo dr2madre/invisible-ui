@@ -1,5 +1,5 @@
 ---
-"@design-system/elements": patch
+"@invisible-ui/elements": patch
 ---
 
 Simpler internals for the web components, with one fix.

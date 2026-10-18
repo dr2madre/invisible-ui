@@ -1,4 +1,4 @@
-import { popover as core } from "@design-system/core";
+import { popover as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
@@ -18,6 +18,8 @@ export interface PopoverContext extends core.PopoverContext {
   offset?: number;
   /** Name for the panel. Defaults to being named by the trigger. */
   label?: string;
+  /** Selector of what takes focus when the panel opens. Defaults to the first focusable. */
+  initialFocus?: string;
 }
 
 export interface CreatePopover {
@@ -41,7 +43,7 @@ const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
- * Create a headless popover. Behaviour/ARIA live in `@design-system/core`; this
+ * Create a headless popover. Behaviour/ARIA live in `@invisible-ui/core`; this
  * adapter owns the DOM concerns, reusing the shared overlay primitives:
  * `attachFloating` (flip/shift positioning) and `onOutsidePointerDown`
  * (outside-press dismiss). Plus focus management — move focus into the panel on
@@ -122,8 +124,11 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
     };
     document.addEventListener("focusin", onFocusIn);
 
-    // Move focus into the panel (first focusable, else the panel itself).
-    const first = node.querySelector<HTMLElement>(FOCUSABLE);
+    // Move focus into the panel: `initialFocus` when it matches, else the
+    // first focusable, else the panel itself.
+    const first =
+      (context.initialFocus ? node.querySelector<HTMLElement>(context.initialFocus) : null) ??
+      node.querySelector<HTMLElement>(FOCUSABLE);
     (first ?? node).focus();
 
     return {

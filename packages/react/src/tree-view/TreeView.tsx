@@ -65,7 +65,7 @@ interface Announcement {
  * roving tabindex, full arrow-key navigation and typeahead (typing moves
  * focus to the next row whose label starts with the typed characters).
  * Behaviour and accessibility come from the headless tree in
- * `@design-system/core`.
+ * `@invisible-ui/core`.
  *
  * Pass a (possibly nested) `nodes` forest. Each node renders a row; parents
  * get a disclosure twistie. Labels default to the node `value`; override them

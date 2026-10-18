@@ -475,6 +475,22 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets(
+      'on a touch platform every item is 44 by 44 with no density chosen',
+      (tester) async {
+        final semantics = tester.ensureSemantics();
+        await tester.pumpWidget(_page(f));
+        await _rightClick(tester, const Offset(40, 30));
+        await expectLater(tester, meetsGuideline(targetGuideline44));
+        await _key(tester, LogicalKeyboardKey.escape);
+        semantics.dispose();
+      },
+      variant: const TargetPlatformVariant({
+        TargetPlatform.android,
+        TargetPlatform.iOS,
+      }),
+    );
+
     testWidgets('text scale 2.0 on a narrow screen keeps the menu inside', (
       tester,
     ) async {

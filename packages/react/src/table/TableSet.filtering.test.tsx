@@ -30,6 +30,11 @@ const setup = (props: Partial<TableSetProps> = {}) => {
   return { ...utils, update };
 };
 
+// The no-results panel is a status of its own; the view's results region is
+// the other one, so the panel is found by where it sits.
+const noResultsPanel = () => document.querySelector(".table-view__no-results [role='status']");
+const announcer = () => document.querySelector(".table-view > .table-view__sr[role='status']");
+
 const bodyNames = () =>
   Array.from(document.querySelectorAll("tbody tr td:first-child")).map((c) => c.textContent);
 
@@ -37,13 +42,13 @@ describe("React TableSet: filtering coordination", () => {
   describe("distinguished states", () => {
     it("keeps a plain empty dataset as an empty table, never no-results", () => {
       setup({ rows: [], filtersActive: true, totalRowCount: 0 });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(noResultsPanel()).not.toBeInTheDocument();
       expect(screen.getByRole("table", { name: "People" })).toBeInTheDocument();
     });
 
     it("shows no-results when filters are active and rows are gone", () => {
       setup({ rows: [], filtersActive: true, totalRowCount: 5, onClearFilters: vi.fn() });
-      const panel = screen.getByRole("status");
+      const panel = noResultsPanel();
       expect(panel).toHaveTextContent("No rows match the current filters");
       expect(screen.getByRole("button", { name: "Clear filters" })).toBeInTheDocument();
       expect(screen.queryByRole("table")).not.toBeInTheDocument();
@@ -51,24 +56,24 @@ describe("React TableSet: filtering coordination", () => {
 
     it("treats an unknown total as not empty", () => {
       setup({ rows: [], filtersActive: true });
-      expect(screen.getByRole("status")).toBeInTheDocument();
+      expect(noResultsPanel()).toBeInTheDocument();
     });
 
     it("offers no clear action without onClearFilters and honours custom copy", () => {
       setup({ rows: [], filtersActive: true, noResultsLabel: "Nobody here" });
-      expect(screen.getByRole("status")).toHaveTextContent("Nobody here");
+      expect(noResultsPanel()).toHaveTextContent("Nobody here");
       expect(screen.queryByRole("button", { name: "Clear filters" })).not.toBeInTheDocument();
     });
 
     it("renders content normally while filters are active and rows exist", () => {
       setup({ filtersActive: true, totalRowCount: 9 });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(noResultsPanel()).not.toBeInTheDocument();
       expect(screen.getByRole("table", { name: "People" })).toBeInTheDocument();
     });
 
     it("shows zero rows without active filters as an empty table", () => {
       setup({ rows: [], totalRowCount: 5 });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(noResultsPanel()).not.toBeInTheDocument();
     });
   });
 
@@ -178,7 +183,7 @@ describe("React TableSet: filtering coordination", () => {
         onSelectedRowIdsChange,
       });
       update({ filtersActive: true, filterRevision: "b", rows: [] });
-      expect(screen.getByRole("status")).toBeInTheDocument();
+      expect(noResultsPanel()).toBeInTheDocument();
       update({ filtersActive: false, rows: [people[0]!, people[4]!] });
       expect(screen.getByRole("checkbox", { name: "Select Ada" })).toBeChecked();
       expect(screen.getByRole("checkbox", { name: "Select Barbara" })).toBeChecked();
@@ -214,12 +219,50 @@ describe("React TableSet: filtering coordination", () => {
       filtersActive: true,
       totalRowCount: 5,
     });
-    expect(screen.getByRole("status")).toBeInTheDocument();
+    expect(noResultsPanel()).toBeInTheDocument();
   });
 
-  it("adds no live region around the table and passes axe", async () => {
+  describe("results announcement", () => {
+    it("announces the result count when filtering changes it, never on first render", () => {
+      const { update } = setup({ totalRowCount: 5 });
+      expect(announcer()).toHaveAttribute("aria-live", "polite");
+      expect(announcer()).toBeEmptyDOMElement();
+
+      update({ filtersActive: true, rows: people.slice(0, 2) });
+      expect(announcer()).toHaveTextContent("2 results");
+      update({ rows: people.slice(0, 1) });
+      expect(announcer()).toHaveTextContent("1 result");
+
+      const region = announcer();
+      update({ rows: [] });
+      // The panel announces the no-results state, so the region does not.
+      expect(announcer()).toBe(region);
+      expect(announcer()).toBeEmptyDOMElement();
+      expect(noResultsPanel()).toHaveTextContent("No rows match the current filters");
+    });
+
+    it("announces a cleared filter and stays silent on other re-renders", () => {
+      const { update } = setup({ filtersActive: true, rows: [] });
+      expect(announcer()).toBeEmptyDOMElement();
+      update({ filtersActive: false, rows: people.slice(0, 3) });
+      expect(announcer()).toHaveTextContent("3 results");
+      update({ rows: people.slice(0, 2) });
+      expect(announcer()).toHaveTextContent("3 results");
+    });
+
+    it("stays silent for rows that arrive with no filtering behind them", () => {
+      const { update } = setup({ rows: people.slice(0, 2) });
+      update({ rows: people });
+      expect(announcer()).toBeEmptyDOMElement();
+    });
+  });
+
+  it("keeps the table outside the live region and passes axe", async () => {
     const { container } = setup({ filtersActive: true, totalRowCount: 9 });
-    expect(container.querySelector("[aria-live]")).toBeNull();
+    const live = container.querySelectorAll("[aria-live]");
+    expect(live).toHaveLength(1);
+    expect(live[0]).toBeEmptyDOMElement();
+    expect(live[0]).not.toContainElement(screen.getByRole("table"));
     expect(await axe(container)).toHaveNoViolations();
   });
 });

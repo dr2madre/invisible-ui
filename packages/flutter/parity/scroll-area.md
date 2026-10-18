@@ -1,6 +1,6 @@
 # ScrollArea parity checklist
 
-Reference commit: `e32e67cd2cc2fb993c9758007c27026cafc20420`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/scroll-area` `packages/svelte/src/lib/scroll-area`
 
@@ -40,6 +40,7 @@ scope**. Every matched line names the widget test in
 | The thumb drags; the wheel scrolls | matched | `the thumb drags; a wheel scrolls; the focus ring shows from the keyboard` |
 | Thumb size and offset from the scroll metrics (`core/src/scroll-area`) | adapted | Flutter's `RawScrollbar` derives them |
 | No platform bar on top of the theme's | matched | the scroll behaviour's own bars are turned off |
+| A scroller that takes focus only while its content is wider than it (`observeInlineOverflow` in `core/src/scroll-area`) | matched | the reference uses it for the Table Set card, not for `ScrollArea`, which is always a tab stop in both adapters. The shared `Scroller` widget takes `focusableOnlyWhenScrollable` for the same rule, and `Table` sets it: `a table wider than its container scrolls sideways and its viewport takes focus; a table that fits adds no tab stop` in `test/table_test.dart` |
 
 ## Semantics
 

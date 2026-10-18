@@ -1,4 +1,4 @@
-import { calendar as core } from "@design-system/core";
+import { calendar as core } from "@invisible-ui/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
@@ -29,6 +29,12 @@ export interface CreateCalendar {
   /** Reflect a controlled `view` prop without reporting a change. */
   syncView: (view: CalendarView) => void;
   /**
+   * The range in `mode="range"` (`null` otherwise). Every day of it, the ends
+   * and those between, is a selected cell, not only the single value the core
+   * knows about.
+   */
+  syncRange: (range: core.DateRange | null) => void;
+  /**
    * Reflect the constraints after mount: `min`, `max`, `weekStartsOn`.
    * Reporting nothing, like any reflection.
    */
@@ -55,7 +61,7 @@ export interface CalendarConfig {
 /**
  * Create a headless calendar (WAI-ARIA date-grid pattern) with roving tabindex
  * and arrow / Home / End / PageUp / PageDown navigation. Behaviour and date
- * math live in `@design-system/core`; this adapter wires state to a Svelte
+ * math live in `@invisible-ui/core`; this adapter wires state to a Svelte
  * store, applies connected props via actions, and moves DOM focus (deferred to
  * the next render so a day in a freshly-shown month can receive focus).
  */
@@ -113,9 +119,34 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
     });
   };
 
-  const api = derived(state, ($state) =>
-    core.connect({ state: $state, setValue, setFocus, setView, focus, normalize: normalizeProps }),
-  );
+  const range = writable<core.DateRange | null>(null);
+  const syncRange = (next: core.DateRange | null) =>
+    range.update((current) =>
+      current?.start === next?.start && current?.end === next?.end && !current === !next
+        ? current
+        : next,
+    );
+
+  const api = derived([state, range], ([$state, $range]) => {
+    const connected = core.connect({
+      state: $state,
+      setValue,
+      setFocus,
+      setView,
+      focus,
+      normalize: normalizeProps,
+    });
+    if (!$range) return connected;
+    return {
+      ...connected,
+      getCellProps: (iso: string) => {
+        const props = connected.getCellProps(iso);
+        return iso === $range.start || iso === $range.end || core.isWithinRange($range, iso)
+          ? { ...props, "aria-selected": true }
+          : props;
+      },
+    };
+  });
 
   const gridAction = createPropsAction(api, (a) => a.gridProps);
   const rowAction = createPropsAction(api, (a) => a.rowProps);
@@ -135,6 +166,7 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
     syncValue,
     syncFocus,
     syncView,
+    syncRange,
     syncConfig,
     gridAction,
     rowAction,

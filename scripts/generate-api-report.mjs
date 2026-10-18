@@ -8,7 +8,7 @@
 // One report per package (packages/docs/src/generated/api/<pkg>.json):
 //
 //   {
-//     "package": "@design-system/core",
+//     "package": "@invisible-ui/core",
 //     "entry": "core/dist/index.d.ts",
 //     "exportMap": { ... },                  // the package.json exports field
 //     "externalReferences": [...],           // import specifiers in the d.ts

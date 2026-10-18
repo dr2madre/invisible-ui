@@ -6,7 +6,7 @@
    * - **`trigger="click"`** (default): a Button opens it intentionally.
    *   Behaviour and accessibility (open/close, `aria-haspopup`/`aria-expanded`
    *   wiring, Escape to close) come from the headless popover
-   *   (`@design-system/core`); the adapter adds Floating-UI positioning
+   *   (`@invisible-ui/core`); the adapter adds Floating-UI positioning
    *   (flip/shift), outside-press + focus-leave dismissal, and focus management
    *   (focus moves into the panel on open, returns to the trigger on Escape).
    * - **`trigger="hover"`** (the pattern formerly shipped as HoverCard): the
@@ -152,9 +152,9 @@
     inline-size: max-content;
     max-inline-size: var(--ds-popover-max-width, 20rem);
     padding: var(--ds-popover-padding, 0.875rem 1rem);
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    background: var(--ds-popover-background, var(--ds-color-background, #fff));
+    color: var(--ds-color-text, #272727);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-popover-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,

@@ -1,6 +1,6 @@
 # Radio parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/radio`
 
@@ -42,7 +42,7 @@ scope's nodes, as the browser finds radios by `name` in a form.
 | Disabled radios are skipped by the arrows and the tab stop | matched | the Flutter 3.35 `RadioGroup` moves onto disabled radios (fixed in later releases); a disabled radio stays out of the group's registry and still shows the group's value. Held by the same test and `a disabled radio still shows the checked state` |
 | Enter | adapted | in an app, Enter checks the focused radio, as Flutter's own `RawRadio` does (the app's `ActivateIntent`); a browser radio ignores Enter or submits the form. The radio group pattern defines no Enter key. `inside a RadioGroup: Enter checks the focused radio in an app, as the native radio does` |
 | Radios of another name form another group | matched | `radios with another name form another group` |
-| Controlled and uncontrolled `checked` | adapted | the group's value lives with the parent, as a `RadioGroup` or `groupValue`; an uncontrolled group with a label is `RadioButtonGroup.uncontrolled` |
+| Controlled and uncontrolled `checked` | adapted | the group's value lives with the parent, as a `RadioGroup` or `groupValue`; an uncontrolled group with a label is `iu.RadioGroup.uncontrolled` |
 
 ## Semantics
 
@@ -56,14 +56,14 @@ scope's nodes, as the browser finds radios by `name` in a form.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| 1.1rem circle with the control border; a dot in the selection text colour when checked | matched | `RadioDot`, shared with `RadioButtonGroup` |
+| 1.1rem circle with the control border; a dot in the selection text colour when checked | matched | `RadioDot`, shared with `iu.RadioGroup` |
 | Focus ring around the circle after keyboard use; disabled dimmed | matched | `ToggleTileBody`, shared with the other choice controls; the ring follows `RawRadio`'s focused state. `the focus ring shows around the focused option after keyboard use` in `test/radio_group_test.dart` |
 
 ## Form reset (ADR 0012)
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| Reset restores the checked default | out of scope | the radio holds no value of its own: the parent's group value is the state, and `RadioButtonGroup` joins a `Form` |
+| Reset restores the checked default | out of scope | the radio holds no value of its own: the parent's group value is the state, and `iu.RadioGroup` joins a `Form` |
 
 ## Density, direction and text scaling
 

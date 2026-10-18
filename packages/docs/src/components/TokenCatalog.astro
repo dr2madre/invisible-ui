@@ -25,6 +25,11 @@ const TIERS: { key: string; title: string; blurb: string }[] = [
     title: "Roles",
     blurb: "What components actually read. Each one names a job, and most swap between themes.",
   },
+  {
+    key: "component",
+    title: "Component backgrounds",
+    blurb: "One background per kind of component. Each points at a role or a palette colour, so one kind can change without the others.",
+  },
   { key: "state", title: "States", blurb: "Overlays laid over a control while it is hovered or pressed." },
   { key: "focus", title: "Focus", blurb: "The ring that shows where the keyboard is, and its measurements." },
   { key: "primitive", title: "Palette", blurb: "The raw scales. Roles point at these; components never do." },

@@ -207,6 +207,30 @@ export const en = {
   // aria-sort (the Flutter adapter).
   "table.sortedAscending": "sorted ascending",
   "table.sortedDescending": "sorted descending",
+  // Data Grid. The header of the totals row and of the Total column.
+  "dataGrid.total": "Total",
+  // The value text of a cell with no value, distinct from 0.
+  "dataGrid.empty": "empty",
+  // The hint of an editable cell, and the details action's name.
+  "dataGrid.edit": "Edit",
+  "dataGrid.details": "Details",
+  // A cell's spoken label on a platform whose cells carry their own context
+  // (the Flutter adapter). The order lives in these messages, so a locale can
+  // reorder the parts; the separator joins the badge, the secondary label and
+  // the error after them.
+  "dataGrid.cell": "{column}, {row}, {value}",
+  "dataGrid.rowHeader": "{row}, Total, {value}",
+  "dataGrid.columnTotal": "{column}, Total, {value}",
+  "dataGrid.rowTotal": "Total, {row}, {value}",
+  "dataGrid.grandTotal": "Total, {value}",
+  "dataGrid.separator": ", ",
+  "dataGrid.error": "Error: {message}",
+  // The details button's name: the action, then the cell's context.
+  "dataGrid.detailsLabel": "Details, {column}, {row}",
+  // The details shortcut, read with the cell's hint.
+  "dataGrid.detailsShortcut": "Details: {shortcut}",
+  // Announced politely when an error appears on commit.
+  "dataGrid.announcement": "{column}, {row}: {message}",
   // Misc
   // The name of the "+N" chip that stands for the avatars left out.
   "avatarGroup.more": {

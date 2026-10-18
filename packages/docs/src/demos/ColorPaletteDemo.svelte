@@ -1,7 +1,7 @@
 <script>
-  import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
-  import Tag from "@design-system/svelte/Tag.svelte";
-  import Icon from "@design-system/svelte/Icon.svelte";
+  import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
+  import Tag from "@invisible-ui/svelte/Tag.svelte";
+  import Icon from "@invisible-ui/svelte/Icon.svelte";
 
   // Color palette (materialui.co-style): tint columns × shade rows. Click a cell
   // to copy its value in the selected format. Values from the maintainer's SVG.
@@ -235,8 +235,10 @@
     { value: "oklch", label: "OKLCH" },
   ];
 
-  // White is not a shade in any hue column, so it lives apart among the neutrals.
+  // White and Black are not shades in any hue column, so they live apart among
+  // the neutrals.
   const white = "#FFFFFF";
+  const black = "#121212";
 
   let fmt = $state("hex");
   let copiedKey = $state(null);
@@ -360,6 +362,25 @@
       </button>
       <figcaption class="extra__name">White</figcaption>
     </figure>
+    <figure class="extra">
+      <button
+        type="button"
+        class="cell cell--black"
+        aria-label={`Black ${black} — click to copy`}
+        title={black}
+        onclick={() => copy(black, "black")}
+      >
+        {#if copiedKey === "black"}
+          <span class="cell__toast">
+            <Tag status="neutral" variant="solid">
+              {#snippet icon()}<Icon><path d="M20 6 9 17l-5-5" /></Icon>{/snippet}
+              Copied to clipboard
+            </Tag>
+          </span>
+        {/if}
+      </button>
+      <figcaption class="extra__name">Black</figcaption>
+    </figure>
   </div>
 </div>
 
@@ -384,7 +405,7 @@
   .toolbar__label {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .cell__toast {
     position: absolute;
@@ -429,7 +450,7 @@
     font-size: 0.6875rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .hue-h {
     text-align: center;
@@ -455,13 +476,14 @@
   .cell--empty {
     background: transparent;
     cursor: default;
-    border: 1px dashed var(--ds-color-border, #c7c1b7);
+    border: 1px dashed var(--ds-color-border, #bdbdbd);
   }
 
-  /* White lives apart from the shade grid, among the neutrals. */
+  /* White and Black live apart from the shade grid, among the neutrals. */
   .extras {
     display: grid;
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.5rem 1rem;
     justify-items: start;
   }
   .extras__label {
@@ -469,7 +491,8 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
+    grid-column: 1 / -1;
   }
   .extra {
     display: grid;
@@ -484,7 +507,13 @@
   .cell--white {
     inline-size: 4rem;
     background: #ffffff;
-    border: 1px solid var(--ds-color-border, #c7c1b7);
-    color: #1c1915;
+    border: 1px solid var(--ds-color-border, #bdbdbd);
+    color: #1b1b1b;
+  }
+  .cell--black {
+    inline-size: 4rem;
+    background: #121212;
+    border: 1px solid var(--ds-color-border, #bdbdbd);
+    color: #f5f5f5;
   }
 </style>

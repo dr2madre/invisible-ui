@@ -56,8 +56,8 @@ try {
   writeFileSync(
     join(consumer, "main.mjs"),
     [
-      'import * as ds from "@design-system/svelte";',
-      'import { createPopover, createTable, normalizeProps } from "@design-system/svelte";',
+      'import * as ds from "@invisible-ui/svelte";',
+      'import { createPopover, createTable, normalizeProps } from "@invisible-ui/svelte";',
       'import { compile } from "svelte/compiler";',
       'import { readFileSync } from "node:fs";',
       'import { createRequire } from "node:module";',
@@ -72,7 +72,7 @@ try {
       "// A subpath component ships as source: it must resolve through the",
       "// export map and compile for SSR with the consumer's own Svelte.",
       "const require = createRequire(import.meta.url);",
-      'const componentPath = require.resolve("@design-system/svelte/TextField.svelte");',
+      'const componentPath = require.resolve("@invisible-ui/svelte/TextField.svelte");',
       'const source = readFileSync(componentPath, "utf8");',
       'const compiled = compile(source, { generate: "server", filename: "TextField.svelte" });',
       'if (!compiled.js.code.length) throw new Error("empty SSR compile output");',
@@ -91,7 +91,7 @@ try {
       'import { readFileSync, readdirSync, statSync } from "node:fs";',
       'import { dirname, join, resolve } from "node:path";',
       "const require = createRequire(import.meta.url);",
-      'const root = dirname(require.resolve("@design-system/svelte/package.json"));',
+      'const root = dirname(require.resolve("@invisible-ui/svelte/package.json"));',
       "const files = [];",
       "const walk = (dir) => {",
       "  for (const entry of readdirSync(dir)) {",
@@ -131,7 +131,7 @@ try {
   writeFileSync(
     join(consumer, "main.ts"),
     [
-      'import { createCheckbox, type CheckboxContext, type CheckboxApi } from "@design-system/svelte";',
+      'import { createCheckbox, type CheckboxContext, type CheckboxApi } from "@invisible-ui/svelte";',
       "const context: CheckboxContext = { checked: true, disabled: false };",
       'if (typeof createCheckbox !== "function" || !context) throw new Error("unreachable");',
       "type Api = CheckboxApi;",

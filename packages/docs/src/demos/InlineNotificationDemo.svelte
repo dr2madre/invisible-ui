@@ -1,5 +1,5 @@
 <script>
-  import InlineNotification from "@design-system/svelte/InlineNotification.svelte";
+  import InlineNotification from "@invisible-ui/svelte/InlineNotification.svelte";
 </script>
 
 <div style="display:grid; gap:0.75rem; inline-size:100%;">

@@ -11,7 +11,7 @@
    */
   import type { Snippet } from "svelte";
   import { toStore } from "svelte/store";
-  import { collapsible as core } from "@design-system/core";
+  import { collapsible as core } from "@invisible-ui/core";
   import Icon from "../icon/Icon.svelte";
   import { createPropsAction } from "../internal/connect";
   import { normalizeProps } from "../normalize";
@@ -73,7 +73,7 @@
     text-align: start;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     background: none;
     border: 0;
     border-radius: var(--ds-radius-control, 0.5rem);

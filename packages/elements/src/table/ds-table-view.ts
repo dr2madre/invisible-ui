@@ -3,8 +3,9 @@ import {
   i18n,
   popover as popoverCore,
   radioGroup as radioCore,
+  scrollArea as scrollAreaCore,
   table as core,
-} from "@design-system/core";
+} from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,
@@ -153,7 +154,7 @@ export class DsTableView extends HTMLElementBase {
   #focusAfterClear = false;
   #rowsAssigned = false;
   /** The row count and filters last announced; `null` before the first render. */
-  #announced: { count: number; filters: string } | null = null;
+  #announced: core.TableResultsMemory | null = null;
   #announcePending = false;
   /** How many rows were rendered when the latest load-more was requested. */
   #loadStart = 0;
@@ -195,6 +196,9 @@ export class DsTableView extends HTMLElementBase {
   #loadMore: HTMLButtonElement | null = null;
   #sentinel: HTMLDivElement | null = null;
   #observer: IntersectionObserver | null = null;
+  /** Stops watching the table card for overflow. */
+  #stopScroller: (() => void) | null = null;
+  #scrollerName = "";
   #pager: HTMLDivElement | null = null;
   #pagination: DsPagination | null = null;
 
@@ -243,6 +247,8 @@ export class DsTableView extends HTMLElementBase {
     this.#closePopover(false);
     this.#observer?.disconnect();
     this.#observer = null;
+    this.#stopScroller?.();
+    this.#stopScroller = null;
   }
 
   attributeChangedCallback(name: string, previous: string | null, next: string | null) {
@@ -850,7 +856,32 @@ export class DsTableView extends HTMLElementBase {
         if (id != null) rendered.add(id);
       }
     }
+    this.#scrollerName = this.getAttribute("heading") || caption || t(this, "table.viewTable");
+    this.#watchScroller();
     return this.#tableCard!;
+  }
+
+  // A wide table scrolls inside its card, so the card takes focus (and a name)
+  // only while it overflows: the keyboard can then scroll it.
+  #watchScroller() {
+    if (this.#stopScroller) {
+      if (this.#tableCard!.hasAttribute("aria-label")) {
+        this.#tableCard!.setAttribute("aria-label", this.#scrollerName);
+      }
+      return;
+    }
+    const card = this.#tableCard!;
+    this.#stopScroller = scrollAreaCore.observeInlineOverflow(card, (overflowing) => {
+      if (overflowing) {
+        card.tabIndex = 0;
+        card.setAttribute("role", "region");
+        card.setAttribute("aria-label", this.#scrollerName);
+      } else {
+        card.removeAttribute("tabindex");
+        card.removeAttribute("role");
+        card.removeAttribute("aria-label");
+      }
+    });
   }
 
   #cards(
@@ -1042,17 +1073,18 @@ export class DsTableView extends HTMLElementBase {
     this.#announcePending = true;
     void Promise.resolve().then(() => {
       this.#announcePending = false;
-      const active = isOn(this.getAttribute("filters-active"));
-      const filters = `${active}|${this.getAttribute("filter-revision") ?? ""}`;
-      const count = this.#rows.length;
-      const previous = this.#announced;
-      this.#announced = { count, filters };
-      if (!previous || previous.count === count) return;
-      if (!active && previous.filters === filters) return;
-      const noResults = count === 0 && active && numberAttr(this, "total-row-count") !== 0;
-      this.#announcer!.textContent = noResults
-        ? (this.getAttribute("no-results-label") ?? t(this, "table.noResults"))
-        : t(this, "table.results", { count });
+      const { memory, message } = core.tableResultsUpdate(this.#announced, {
+        count: this.#rows.length,
+        filtersActive: isOn(this.getAttribute("filters-active")),
+        filterRevision: this.getAttribute("filter-revision") ?? undefined,
+        totalRowCount: numberAttr(this, "total-row-count"),
+      });
+      this.#announced = memory;
+      if (!message) return;
+      this.#announcer!.textContent =
+        message.kind === "no-results"
+          ? (this.getAttribute("no-results-label") ?? t(this, "table.noResults"))
+          : t(this, "table.results", { count: message.count });
     });
   }
 

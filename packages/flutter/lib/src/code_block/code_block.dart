@@ -106,7 +106,6 @@ class _CodeBlockState extends State<CodeBlock> {
     final header = hasLanguage || widget.copyable
         ? Container(
             padding: _headerPadding,
-            decoration: BoxDecoration(border: Border(bottom: border)),
             child: DefaultTextStyle(
               style: theme.textStyle.copyWith(
                 fontSize: _headerSize,
@@ -174,7 +173,7 @@ class _CodeBlockState extends State<CodeBlock> {
         child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            color: colors.surface,
+            color: colors.codeBlockBackground,
             border: Border.fromBorderSide(border),
             borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
           ),
@@ -219,9 +218,9 @@ class _CopyButton extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8.8, vertical: 3.2),
             decoration: BoxDecoration(
-              // The web's black at 5 % and 10 %, from the text colour, so it
-              // reads in dark mode too.
-              color: ink.withValues(alpha: states.hovered ? 0.1 : 0.05),
+              // The text colour at 8 % and 16 %, as on the web, so the hover
+              // shows in both themes.
+              color: ink.withValues(alpha: states.hovered ? 0.16 : 0.08),
               borderRadius: BorderRadius.circular(theme.controlRadius),
             ),
             child: ExcludeSemantics(child: Text(text)),

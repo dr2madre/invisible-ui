@@ -85,7 +85,8 @@ const Duration _reasonExit = Duration(milliseconds: 100);
 /// Windows and Linux. When a badge's label appears or changes, the bar
 /// announces it once, politely; while [modals] reports a modal open, the
 /// announcements wait, and the latest per destination is made after the
-/// last modal closes (ADR 0016).
+/// last modal closes (ADR 0016). A bar shown inside the open modal is on
+/// screen and announces.
 ///
 /// ```dart
 /// import 'package:invisible_ui/invisible_ui.dart' as iu;
@@ -161,6 +162,13 @@ class _NavigationBarState<T> extends State<NavigationBar<T>> {
   void initState() {
     super.initState();
     _announcer.modals = widget.modals;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // A bar shown inside the open modal is on screen and keeps announcing.
+    _announcer.route = ModalRoute.of(context);
   }
 
   @override

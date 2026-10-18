@@ -75,7 +75,7 @@
   }
   .link[data-variant="subtle"] {
     color: inherit;
-    text-decoration-color: var(--ds-color-border, #c7c1b7);
+    text-decoration-color: var(--ds-color-border, #bdbdbd);
   }
   .link:hover {
     color: var(--ds-link-hover, var(--ds-color-secondary-hover, #6840b7));

@@ -25,7 +25,7 @@ export interface AccordionProps {
  * Accordion: the styled, batteries-included accordion (WAI-ARIA accordion
  * pattern): single or multiple expansion, arrow-key movement between headers.
  * Behaviour and accessibility come from the headless accordion
- * (`@design-system/core`); this layer adds bordered items and a rotating
+ * (`@invisible-ui/core`); this layer adds bordered items and a rotating
  * chevron.
  *
  * Each item supplies a header `label` (falling back to `value`) and its panel

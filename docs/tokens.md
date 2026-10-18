@@ -10,16 +10,19 @@ this path.
 
 ## Tiers (ownership)
 
-1. **Primitive** — the raw palette/scale (`palette.blue.600`, `palette.grey.0…950`).
-   _Design-owned._
+1. **Primitive** — the raw palette/scale (`palette.blue.600`, `palette.grey.0…950`,
+   `palette.black`). _Design-owned._
 2. **Semantic (`style`)** — design decisions that reference primitives; the
    brand contract, with interaction **status** in the name
    (`style.primary.default`, `style.primary.hover`, `style.danger.hover`).
    _Design-owned._
-3. **Component** — binds component properties to semantic tokens, never to raw
-   values; aliases the native role vocabulary when a stack mandates one
-   (Material/Carbon). _Frontend-owned_ — for this Svelte stack it's the
-   "free" CSS layer (`tokens.css` + the `--ds-*` component tokens).
+3. **Component** — binds component properties to semantic tokens or primitives,
+   never to raw values; aliases the native role vocabulary when a stack
+   mandates one (Material/Carbon). The background of each kind of component is
+   design-owned and lives in `component.light` and `component.dark` (see
+   [Component backgrounds](#component-backgrounds)). The other knobs are
+   _frontend-owned_: the "free" CSS layer of `--ds-*` component tokens that
+   the components read with a fallback.
 
 The design source also holds the values the components read, so a platform
 without CSS (the Flutter adapter, ADR 0017)
@@ -28,7 +31,9 @@ gets the same theme from the same file:
 | Group | Holds | Becomes in `tokens.css` |
 | --- | --- | --- |
 | `radius` | Corner radii by shape role. | `radius.control` is `--ds-radius-control` |
+| `palette` | The raw colours: the hue scales, the Grey ramp, and Black. | `palette.grey.700` is `--ds-neutral-700`, `palette.black` is `--ds-black` |
 | `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection, the dialog overlay. | `role.dark.color-text` is `--ds-color-text` in the dark theme, `role.dark.dialog-overlay` is `--ds-dialog-overlay` |
+| `component.light`, `component.dark` | The background of each kind of component, per theme. Each one points at a role or a palette colour. | `component.dark.card-background` is `--ds-card-background` in the dark theme |
 | `focus` | Focus ring width, offset and halo width. | `focus.ring-width` is `--ds-focus-ring-width` |
 | `typography` | Line heights, heading weight, heading sizes. | `typography.font-size-h1` is `--ds-font-size-h1` |
 | `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size`, `density.touch.min-target-size` is `--ds-min-target-size-touch` |
@@ -107,12 +112,12 @@ checks the result against `$value` and against `tokens.css`.
 Solid Tag and Count put a text label on a status fill, so the pair is a text
 pair: 4.5:1 (WCAG 1.4.3). White on the info, success, danger and neutral
 colours clears it. The warning colour, `#c96422`, gives the dark
-`color-on-warning` 3.9:1 only, and no palette colour reaches 4.5:1 on it. So
+`color-on-warning` 3.8:1 only, and no palette colour reaches 4.5:1 on it. So
 the warning label has its own fill, `color-warning-label-surface`: the
 warning colour mixed 85% with white, `#d17b43`, on which `color-on-warning`
-measures 4.86:1 in both themes. The warning colour stays as it is for
+measures 4.71:1 in both themes. The warning colour stays as it is for
 glyphs, dots and meter fills, which need 3:1. Without `color-mix()` the fill
-falls back to `--ds-neutral-100` (11.75:1), and the label's text still names
+falls back to `--ds-neutral-100` (11.32:1), and the label's text still names
 the status.
 
 ## Dialog overlay
@@ -125,11 +130,11 @@ its `::backdrop`, and `InvisibleThemeData.dialogOverlay` in Flutter.
 
 | Theme | Overlay | Dimmed page | Dialog surface against the dimmed page | Dialog border against the dimmed page |
 | --- | --- | --- | --- | --- |
-| Light | `rgb(28 25 21 / 0.5)` | `#8e8c8a` | 3.35:1 | 1.87:1 |
-| Dark | `rgb(0 0 0 / 0.6)` | `#100e0d` | 1.25:1 | 1.76:1 |
+| Light | `rgb(27 27 27 / 0.5)` | `#8d8d8d` | 3.32:1 | 1.77:1 |
+| Dark | `rgb(0 0 0 / 0.6)` | `#070707` | 1.17:1 | 1.97:1 |
 
-The dimmed page is the page background with the overlay on top; the dialog
-surface is `color-background` and its border `color-border`. Before the
+The dimmed page is `page-background` with the overlay on top; the dialog
+surface is `dialog-background` and its border `color-border`. Before the
 dark value, the dark theme used the light overlay, which left 1.07:1 between
 the dialog and the dimmed page. How far the overlay sets the dialog apart is
 a theme choice, not an accessibility requirement: the dialog is modal, and
@@ -147,14 +152,98 @@ destination, and the icon stays readable on it.
 
 | Theme | Recipe | Value | Against `color-surface` | Against `color-text` |
 | --- | --- | --- | --- | --- |
-| Light | `color-secondary` 90% with `neutral-0` | `#8763d1` | 3.38:1 | 3.47:1 |
-| Dark | `color-secondary` 75% with `neutral-50` | `#997ad5` | 3.17:1 | 3.08:1 |
+| Light | `color-secondary` 90% with `neutral-0` | `#8763d1` | 3.36:1 | 3.37:1 |
+| Dark | `color-secondary` 74% with `neutral-50` | `#9a7cd7` | 3.03:1 | 3.09:1 |
 
-Without `color-mix()` the light theme falls back to `neutral-400` (3.75:1 and
-3.13:1) and the dark theme to `neutral-300`, which keeps the shape at 4.30:1
+Without `color-mix()` the light theme falls back to `neutral-400` (3.49:1 and
+3.24:1) and the dark theme to `neutral-300`, which keeps the shape at 3.81:1
 against the surface. The bar's other colours are component tokens that fall
 back to existing roles; width, radius, shadow and position are the
 application's and have no token.
+
+## Data grid secondary emphasis
+
+`grid-cell-secondary-surface` is the surface of a data grid cell with the
+secondary emphasis: a cell that is allowed but outside the usual schedule,
+such as a weekend in a timesheet (`docs/editable-grid-spec.md`). It is a
+role of each theme, `--ds-grid-cell-secondary-surface` in the stylesheet and
+`InvisibleColors.gridCellSecondarySurface` in Flutter. The surface adds to
+the cell's visible secondary label and never replaces it, so it needs no
+contrast against the plain cell; the text drawn on it needs 4.5:1.
+
+| Theme | Value | `color-text` | `color-text-secondary` | `color-danger-text` |
+| --- | --- | --- | --- | --- |
+| Light | `neutral-50`, `#f5f5f5` | 13.70:1 | 7.28:1 | 7.87:1 |
+| Dark | `neutral-800`, `#323232` | 11.76:1 | 6.82:1 | 5.69:1 |
+
+An application that styles its own variants apart, such as holidays and
+weekends, maps them onto this role in its theme.
+
+## Component backgrounds
+
+The component tier gives each kind of component its own background, so one
+can change without touching the others. It lives in `component.light` and
+`component.dark` in the design source, as `light` and `dark` name themes
+(ADR 0002). Each token points at a role or a palette colour, never a raw
+value; the parity test fails on a raw value in the source or in the
+stylesheet. The stylesheet declares each one at the end of its theme block,
+and Flutter reads it as a field of `InvisibleColors`.
+
+| Token | Read by | Light | Dark | Flutter |
+| --- | --- | --- | --- | --- |
+| `page-background` | The application, behind everything | `color-background`, White | Black, `#121212` | `pageBackground` |
+| `card-background` | Card | `color-background`, White | Grey 950 | `cardBackground` |
+| `card-secondary-background` | Card with the secondary surface | `color-neutral-surface`, Grey 50 | Grey 900 | `cardSecondaryBackground` |
+| `dialog-background` | Dialog, Sheet, Alert, Confirm, Prompt and Search dialogs | `color-background`, White | Grey 950 | `dialogBackground` |
+| `popover-background` | Popover, Hover Card, the date picker popups, the Navigation Menu panel | `color-background`, White | Grey 950 | `popoverBackground` |
+| `menu-background` | Dropdown Menu, Context Menu, the Menubar menus, and the Select, Combobox and Multi Select listboxes | `color-background`, White | Grey 950 | `menuBackground` |
+| `sidebar-background` | Sidebar | `color-background`, White | Black, `#121212` | `sidebarBackground` |
+| `code-block-background` | Code Block | Grey 50 | Grey 950 | `codeBlockBackground` |
+
+In the stylesheet each token is `--ds-` and its name, and the components
+read it with the background role as fallback:
+`var(--ds-card-background, var(--ds-color-background, #fff))`. The web Select
+opens the platform's own list, so `menu-background` reaches its listbox only
+in Flutter. The components never paint `page-background`: the application
+sets it on its page, as the docs site does.
+
+Black is a palette colour beside White: `palette.black`, `--ds-black`,
+`InvisiblePalette.black`. It is a near black, `#121212`, not pure black.
+
+`color-background` stays the semantic default in both themes: White in the
+light one, Grey 900 in the dark one. Fields, buttons, the Menubar bar and
+the other controls keep reading it, so in the dark theme a control sits one
+step lighter than the card, dialog or menu it is on. The light theme looks
+as it did, with one exception: the Multi Select listbox read
+`color-surface`, Grey 100, and now reads `menu-background`, White, like the
+other listboxes.
+
+### Contrast on the component backgrounds
+
+Measured with the WCAG 2.2 formula. Text needs 4.5:1 (1.4.3); the control
+boundary needs 3:1 (1.4.11). The token catalog publishes the text and
+control boundary pairs for every component background and fails the build
+when one drops below its minimum.
+
+| Background | Value | `color-text` | `color-text-secondary` | `color-control-border` | `color-border` |
+| --- | --- | --- | --- | --- | --- |
+| Light: page, card, dialog, popover, menu, sidebar | White | 14.94:1 | 7.94:1 | 4.61:1 | 1.88:1 |
+| Light: secondary card, code block | Grey 50 | 13.70:1 | 7.28:1 | 4.23:1 | 1.72:1 |
+| Dark: page, sidebar | Black | 17.18:1 | 9.97:1 | 6.99:1 | 1.84:1 |
+| Dark: card, dialog, popover, menu, code block | Grey 950 | 15.80:1 | 9.17:1 | 6.43:1 | 1.69:1 |
+| Dark: secondary card | Grey 900 | 13.70:1 | 7.95:1 | 5.58:1 | 1.46:1 |
+
+Every text and control boundary pair clears its minimum, so no role
+changed. `color-border` is the quiet line between areas and the edge of a
+panel: it identifies no control and carries no state, so WCAG 1.4.11 sets it
+no minimum. On the new dark backgrounds it measures more than on
+`color-background` before, 1.46:1. The focus ring measures 5.72:1 on Grey
+950 and 6.22:1 on Black.
+
+Grey 950 against Black measures 1.09:1, so in the dark theme a card, dialog
+or menu on the page is set apart by `color-border` and, when it floats, by
+the elevation shadow, not by its fill. The code block keeps 15.80:1 for its
+text and the copy button stays above 11:1 at rest and on hover.
 
 ## Naming grammar
 

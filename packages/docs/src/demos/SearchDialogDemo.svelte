@@ -1,5 +1,5 @@
 <script>
-  import SearchDialog from "@design-system/svelte/SearchDialog.svelte";
+  import SearchDialog from "@invisible-ui/svelte/SearchDialog.svelte";
 
   let open = $state(false);
   let chosen = $state("");

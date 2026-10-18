@@ -1,4 +1,4 @@
-import { rangeSlider as core } from "@design-system/core";
+import { rangeSlider as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 
 /**

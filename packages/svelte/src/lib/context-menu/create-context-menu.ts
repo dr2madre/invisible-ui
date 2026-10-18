@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import {
   computePosition,
   flip,
@@ -55,7 +55,7 @@ const TYPEAHEAD_RESET = 500;
 /**
  * Create a headless context menu — a `role="menu"` opened by right-click (or the
  * keyboard context-menu key) at the pointer. It reuses the framework-agnostic
- * `menu` primitive in `@design-system/core` for all behaviour and ARIA (roving
+ * `menu` primitive in `@invisible-ui/core` for all behaviour and ARIA (roving
  * focus, arrow/Home/End navigation, Enter/click activation, Escape/Tab close);
  * this adapter owns the DOM concerns specific to a context menu: positioning the
  * popup against a zero-size virtual anchor at the pointer (`@floating-ui/dom`,

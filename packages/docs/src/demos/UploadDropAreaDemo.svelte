@@ -1,5 +1,5 @@
 <script>
-  import UploadDropArea from "@design-system/svelte/UploadDropArea.svelte";
+  import UploadDropArea from "@invisible-ui/svelte/UploadDropArea.svelte";
 
   let names = $state.raw([]);
 </script>

@@ -2,7 +2,7 @@
   /**
    * Label — a styled form label associated with a control via `for`. Behaviour
    * (the association and preventing text selection on double-click) comes from
-   * the headless label (`@design-system/core`); this layer adds typographic
+   * the headless label (`@invisible-ui/core`); this layer adds typographic
    * styling and an optional required marker.
    *
    * The label text is `children`. Colors are themeable via `--ds-label-*`.
@@ -42,7 +42,7 @@
     font: inherit;
     font-weight: var(--ds-label-font-weight, 500);
     line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-label-color, var(--ds-color-text, #282420));
+    color: var(--ds-label-color, var(--ds-color-text, #272727));
   }
   .label__required {
     color: var(--ds-label-required-color, var(--ds-color-danger-body-text, #be3b50));

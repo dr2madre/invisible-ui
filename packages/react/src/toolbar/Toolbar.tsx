@@ -1,4 +1,4 @@
-import { toolbar as core } from "@design-system/core";
+import { toolbar as core } from "@invisible-ui/core";
 import { useEffect, useRef, type FocusEvent, type KeyboardEvent, type ReactNode } from "react";
 
 export type ToolbarOrientation = core.ToolbarOrientation;
@@ -106,6 +106,7 @@ export function Toolbar({
       count: list.length,
       orientation,
       direction: getComputedStyle(root).direction === "rtl" ? "rtl" : "ltr",
+      control: core.controlKind(document.activeElement),
     });
     if (next === null) return;
     const target = list[next];

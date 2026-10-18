@@ -1,0 +1,53 @@
+{
+  "description": "The data grid's derived totals, language-neutral: sumValues(values) and gridTotals(values) from core/src/grid/totals.ts. Sums skip null; only null values (or none) total null. A sum is rounded to the largest number of decimals among its terms. gridTotals takes one array per body row with one value per data column and gives the row totals, the column totals and the grand total. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "sum": [
+    { "name": "whole numbers", "values": [1, 2, 3], "expect": 6 },
+    { "name": "null values are skipped", "values": [8, null, 0.5], "expect": 8.5 },
+    { "name": "only null values total null", "values": [null, null], "expect": null },
+    { "name": "no values total null", "values": [], "expect": null },
+    { "name": "zero is a value, not null", "values": [0, null], "expect": 0 },
+    { "name": "0.1 + 0.2 is 0.3", "values": [0.1, 0.2], "expect": 0.3 },
+    { "name": "half hours", "values": [7.5, 0.5, 8, 7.5, 7.5], "expect": 31 },
+    { "name": "decimals of the longest term", "values": [1.25, 2.5, 0.05], "expect": 3.8 },
+    { "name": "negative values", "values": [-1.5, 0.5], "expect": -1 },
+    { "name": "a sum of zero is positive zero", "values": [-0.5, 0.5], "expect": 0 },
+    { "name": "0.7 + 0.1 is 0.8", "values": [0.7, 0.1], "expect": 0.8 },
+    { "name": "large values", "values": [1000000, 0.25], "expect": 1000000.25 }
+  ],
+  "grid": [
+    {
+      "name": "a week of hours with empty cells",
+      "values": [
+        [8, 7.5, null],
+        [null, 0.5, null],
+        [0.1, 0.2, null]
+      ],
+      "expect": {
+        "rows": [15.5, 0.5, 0.3],
+        "columns": [8.1, 8.2, null],
+        "grand": 16.3
+      }
+    },
+    {
+      "name": "an empty grid",
+      "values": [
+        [null, null],
+        [null, null]
+      ],
+      "expect": {
+        "rows": [null, null],
+        "columns": [null, null],
+        "grand": null
+      }
+    },
+    {
+      "name": "no rows",
+      "values": [],
+      "expect": {
+        "rows": [],
+        "columns": [],
+        "grand": null
+      }
+    }
+  ]
+}

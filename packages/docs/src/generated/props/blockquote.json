@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Blockquote",
-        "specifier": "@design-system/svelte/Blockquote.svelte"
+        "specifier": "@invisible-ui/svelte/Blockquote.svelte"
       },
       "props": [
         {
@@ -31,7 +31,7 @@
       "import": {
         "kind": "named",
         "name": "Blockquote",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -61,7 +61,7 @@
       "import": {
         "kind": "named",
         "name": "Blockquote",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -95,7 +95,7 @@
       "import": {
         "kind": "element",
         "name": "ds-blockquote",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

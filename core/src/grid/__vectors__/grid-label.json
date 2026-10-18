@@ -1,0 +1,187 @@
+{
+  "description": "The data grid's spoken text, language-neutral: cellLabel(parts, { messages }), detailsLabel(column, row, { messages }) and errorAnnouncement(column, row, message, { messages }) from core/src/grid/label.ts. parts.value is the value text, already formatted. messages override the English catalog per locale with the keys of core/src/i18n/messages.ts; the Italian and Arabic messages below reorder the parts, which the catalog allows. kind defaults to cell. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "locales": {
+    "en": {},
+    "it": {
+      "dataGrid.cell": "{value}, {column}, {row}",
+      "dataGrid.rowHeader": "{row}, totale {value}",
+      "dataGrid.columnTotal": "Totale {column}, {value}",
+      "dataGrid.rowTotal": "Totale {row}, {value}",
+      "dataGrid.grandTotal": "Totale complessivo, {value}",
+      "dataGrid.separator": "; ",
+      "dataGrid.error": "Errore: {message}",
+      "dataGrid.detailsLabel": "Dettagli, {column}, {row}",
+      "dataGrid.announcement": "{column}, {row}: {message}"
+    },
+    "ar": {
+      "dataGrid.cell": "{row}، {column}، {value}",
+      "dataGrid.separator": "، ",
+      "dataGrid.error": "خطأ: {message}"
+    }
+  },
+  "labels": [
+    {
+      "name": "an editable cell",
+      "locale": "en",
+      "parts": { "column": "Monday 6 October", "row": "PX-12 Project X", "value": "5 hours" },
+      "expect": "Monday 6 October, PX-12 Project X, 5 hours"
+    },
+    {
+      "name": "an empty cell reads the empty text",
+      "locale": "en",
+      "parts": { "column": "Monday 6 October", "row": "PX-12 Project X", "value": "empty" },
+      "expect": "Monday 6 October, PX-12 Project X, empty"
+    },
+    {
+      "name": "the secondary label after the value",
+      "locale": "en",
+      "parts": {
+        "column": "Saturday 11 October",
+        "row": "PX-12 Project X",
+        "value": "5 hours",
+        "secondary": "Non-working day"
+      },
+      "expect": "Saturday 11 October, PX-12 Project X, 5 hours, Non-working day"
+    },
+    {
+      "name": "a summary cell with its badge",
+      "locale": "en",
+      "parts": {
+        "column": "Monday 6 October",
+        "row": "PX-12 Project X",
+        "value": "5",
+        "badge": "2 entries"
+      },
+      "expect": "Monday 6 October, PX-12 Project X, 5, 2 entries"
+    },
+    {
+      "name": "every part, in the spec's order",
+      "locale": "en",
+      "parts": {
+        "column": "Sunday 12 October",
+        "row": "PX-12 Project X",
+        "value": "25",
+        "badge": "3 entries",
+        "secondary": "Non-working day",
+        "error": "Enter a number that is at most 24."
+      },
+      "expect": "Sunday 12 October, PX-12 Project X, 25, 3 entries, Non-working day, Error: Enter a number that is at most 24."
+    },
+    {
+      "name": "a column total",
+      "locale": "en",
+      "parts": { "kind": "columnTotal", "column": "Monday 6 October", "value": "8" },
+      "expect": "Monday 6 October, Total, 8"
+    },
+    {
+      "name": "a column total with an error",
+      "locale": "en",
+      "parts": {
+        "kind": "columnTotal",
+        "column": "Monday 6 October",
+        "value": "25",
+        "error": "More than 24 hours on this day"
+      },
+      "expect": "Monday 6 October, Total, 25, Error: More than 24 hours on this day"
+    },
+    {
+      "name": "a row total",
+      "locale": "en",
+      "parts": { "kind": "rowTotal", "row": "PX-12 Project X", "value": "12.5" },
+      "expect": "Total, PX-12 Project X, 12.5"
+    },
+    {
+      "name": "the grand total",
+      "locale": "en",
+      "parts": { "kind": "grandTotal", "value": "40" },
+      "expect": "Total, 40"
+    },
+    {
+      "name": "the row header with its total",
+      "locale": "en",
+      "parts": { "kind": "rowHeader", "row": "PX-12 Project X", "value": "12.5" },
+      "expect": "PX-12 Project X, Total, 12.5"
+    },
+    {
+      "name": "the row header without totals",
+      "locale": "en",
+      "parts": { "kind": "rowHeader", "row": "PX-12 Project X" },
+      "expect": "PX-12 Project X"
+    },
+    {
+      "name": "Italian puts the value first",
+      "locale": "it",
+      "parts": {
+        "column": "lunedì 6 ottobre",
+        "row": "PX-12 Progetto X",
+        "value": "5 ore",
+        "secondary": "Giorno non lavorativo",
+        "error": "Inserisci un numero non superiore a 24."
+      },
+      "expect": "5 ore, lunedì 6 ottobre, PX-12 Progetto X; Giorno non lavorativo; Errore: Inserisci un numero non superiore a 24."
+    },
+    {
+      "name": "Italian column total",
+      "locale": "it",
+      "parts": { "kind": "columnTotal", "column": "lunedì 6 ottobre", "value": "8" },
+      "expect": "Totale lunedì 6 ottobre, 8"
+    },
+    {
+      "name": "Italian grand total",
+      "locale": "it",
+      "parts": { "kind": "grandTotal", "value": "40" },
+      "expect": "Totale complessivo, 40"
+    },
+    {
+      "name": "Italian row header",
+      "locale": "it",
+      "parts": { "kind": "rowHeader", "row": "PX-12 Progetto X", "value": "12,5" },
+      "expect": "PX-12 Progetto X, totale 12,5"
+    },
+    {
+      "name": "Arabic puts the row first, with the Arabic comma",
+      "locale": "ar",
+      "parts": {
+        "column": "الاثنين 6 أكتوبر",
+        "row": "PX-12 المشروع X",
+        "value": "٥",
+        "error": "أدخل رقمًا."
+      },
+      "expect": "PX-12 المشروع X، الاثنين 6 أكتوبر، ٥، خطأ: أدخل رقمًا."
+    }
+  ],
+  "details": [
+    {
+      "name": "the details button names its cell",
+      "locale": "en",
+      "column": "Monday 6 October",
+      "row": "PX-12 Project X",
+      "expect": "Details, Monday 6 October, PX-12 Project X"
+    },
+    {
+      "name": "Italian details button",
+      "locale": "it",
+      "column": "lunedì 6 ottobre",
+      "row": "PX-12 Progetto X",
+      "expect": "Dettagli, lunedì 6 ottobre, PX-12 Progetto X"
+    }
+  ],
+  "announcements": [
+    {
+      "name": "an error on a cell",
+      "locale": "en",
+      "column": "Monday 6 October",
+      "row": "PX-12 Project X",
+      "message": "Enter a number that is at most 24.",
+      "expect": "Monday 6 October, PX-12 Project X: Enter a number that is at most 24."
+    },
+    {
+      "name": "an error on a column total",
+      "locale": "en",
+      "column": "Monday 6 October",
+      "row": "Total",
+      "message": "More than 24 hours on this day",
+      "expect": "Monday 6 October, Total: More than 24 hours on this day"
+    }
+  ]
+}

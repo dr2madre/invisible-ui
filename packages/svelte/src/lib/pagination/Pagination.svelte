@@ -3,7 +3,7 @@
    * Pagination — a styled pager: previous, the visible page numbers (with
    * ellipsis gaps) and next. Behaviour and accessibility (aria-current on the
    * current page, roving tabindex, arrow-key movement, disabled prev/next at
-   * the bounds) come from the headless pagination (`@design-system/core`).
+   * the bounds) come from the headless pagination (`@invisible-ui/core`).
    *
    * Colors, sizing and radius are themeable via `--ds-pagination-*`.
    */
@@ -104,17 +104,17 @@
     min-inline-size: var(--ds-pagination-size, 2rem);
     block-size: var(--ds-pagination-size, 2rem);
     padding: 0 0.5rem;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-pagination-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     font: inherit;
     cursor: pointer;
   }
   .pagination__page:global([data-selected]) {
     background: var(--ds-pagination-active, var(--ds-color-secondary, #7a52cc));
     border-color: var(--ds-pagination-active, var(--ds-color-secondary, #7a52cc));
-    color: var(--ds-pagination-active-text, var(--ds-color-on-emphasis, #f4f2ef));
+    color: var(--ds-pagination-active-text, var(--ds-color-on-emphasis, #f5f5f5));
     font-weight: 600;
   }
   .pagination__control:focus-visible,
@@ -130,7 +130,7 @@
   .pagination__ellipsis {
     min-inline-size: 1.5rem;
     text-align: center;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
 
   /* Forced colors: the fill that marks the current page is flattened away, so

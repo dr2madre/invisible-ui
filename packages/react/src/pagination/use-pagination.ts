@@ -1,4 +1,4 @@
-import { pagination as core, type ElementProps } from "@design-system/core";
+import { pagination as core, type ElementProps } from "@invisible-ui/core";
 import { useCallback, useId, useMemo, useRef } from "react";
 import { useControllable } from "../internal/controllable";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";

@@ -1,5 +1,5 @@
 <script>
-  import Slider from "@design-system/svelte/Slider.svelte";
+  import Slider from "@invisible-ui/svelte/Slider.svelte";
   let value = $state(0);
 </script>
 

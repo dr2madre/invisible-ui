@@ -1,9 +1,9 @@
 <script>
-  import Toolbar from "@design-system/svelte/Toolbar.svelte";
-  import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
-  import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
-  import Combobox from "@design-system/svelte/Combobox.svelte";
-  import Separator from "@design-system/svelte/Separator.svelte";
+  import Toolbar from "@invisible-ui/svelte/Toolbar.svelte";
+  import ToggleButton from "@invisible-ui/svelte/ToggleButton.svelte";
+  import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
+  import Combobox from "@invisible-ui/svelte/Combobox.svelte";
+  import Separator from "@invisible-ui/svelte/Separator.svelte";
   import AlignLeftIcon from "./icons/AlignLeftIcon.svelte";
   import AlignCenterIcon from "./icons/AlignCenterIcon.svelte";
   import AlignRightIcon from "./icons/AlignRightIcon.svelte";

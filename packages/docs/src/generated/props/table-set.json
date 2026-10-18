@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "TableSet",
-        "specifier": "@design-system/svelte/TableSet.svelte"
+        "specifier": "@invisible-ui/svelte/TableSet.svelte"
       },
       "props": [
         {
@@ -367,7 +367,7 @@
       "import": {
         "kind": "named",
         "name": "TableSet",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -717,7 +717,7 @@
       "import": {
         "kind": "named",
         "name": "TableSet",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -1079,7 +1079,7 @@
       "import": {
         "kind": "element",
         "name": "ds-table-set",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

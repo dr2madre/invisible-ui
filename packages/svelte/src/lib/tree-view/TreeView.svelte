@@ -3,7 +3,7 @@
    * TreeView — the styled, batteries-included tree (WAI-ARIA tree pattern):
    * expand/collapse, roving tabindex, full arrow-key navigation and typeahead.
    * Behaviour and accessibility come from the headless tree in
-   * `@design-system/core`.
+   * `@invisible-ui/core`.
    *
    * Selection is single: one node at most is selected, and selecting another
    * replaces it. Typing a character moves focus to the next row whose label
@@ -201,7 +201,7 @@
     padding: var(--ds-tree-padding, 0.25rem);
     list-style: none;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     background: var(--ds-tree-bg, transparent);
     border-radius: var(--ds-tree-radius, var(--ds-radius-surface, 0.75rem));
   }
@@ -221,7 +221,7 @@
     user-select: none;
   }
   .tree__item:hover {
-    background: var(--ds-tree-item-hover, var(--ds-color-neutral-surface, #f4f2ef));
+    background: var(--ds-tree-item-hover, var(--ds-color-neutral-surface, #f5f5f5));
   }
   .tree__icon {
     display: inline-flex;
@@ -230,7 +230,7 @@
     flex: none;
     inline-size: 1.1em;
     block-size: 1.1em;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .tree__icon :global(svg) {
     inline-size: 100%;
@@ -248,7 +248,7 @@
   .tree__load-status {
     min-inline-size: 0;
     margin-inline-start: auto;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     font-size: var(--ds-tree-status-font-size, 0.875rem);
   }
   .tree__load-status--error {
@@ -265,7 +265,7 @@
       --ds-tree-item-selected-bg,
       color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent)
     );
-    color: var(--ds-tree-item-selected-text, var(--ds-color-text, #282420));
+    color: var(--ds-tree-item-selected-text, var(--ds-color-text, #272727));
   }
   .tree__item--selected:hover {
     background: var(

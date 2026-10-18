@@ -1,5 +1,5 @@
 <script>
-  import Link from "@design-system/svelte/Link.svelte";
+  import Link from "@invisible-ui/svelte/Link.svelte";
 </script>
 
 <p style="margin: 0; line-height: 1.7;">

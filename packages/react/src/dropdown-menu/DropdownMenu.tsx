@@ -1,4 +1,4 @@
-import type { menu as core } from "@design-system/core";
+import type { menu as core } from "@invisible-ui/core";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { ChevronGlyph, Icon } from "../icon/Icon";
@@ -28,7 +28,7 @@ export interface DropdownMenuProps {
  * trigger opens a `role="menu"` of items; behaviour and accessibility (arrow,
  * Home and End navigation, typeahead, Escape, Tab and outside press to close,
  * focus moving into the menu and back to the trigger) come from the headless
- * menu (`@design-system/core`). Positioning uses Floating UI.
+ * menu (`@invisible-ui/core`). Positioning uses Floating UI.
  *
  * `items` holds actions, checkable items (`kind: "checkbox" | "radio"` with
  * `checked`), separators, groups and submenus (`{ type: "submenu", value,

@@ -25,6 +25,27 @@ export 'src/collapsible/collapsible.dart' show Collapsible;
 export 'src/combobox/combobox.dart' show ChoiceFilter, Combobox;
 export 'src/context_menu/context_menu.dart' show ContextMenu;
 export 'src/count/count.dart' show Count;
+export 'src/data_grid/data_grid.dart'
+    show
+        DataGrid,
+        DataGridCell,
+        DataGridCellChange,
+        DataGridCellRef,
+        DataGridColumn,
+        DataGridEditor,
+        DataGridRow,
+        DataGridRowTotalPosition,
+        DataGridState,
+        DataGridTotals;
+export 'src/data_grid/data_grid_logic.dart'
+    show
+        DataGridCellKind,
+        GridLabelKind,
+        GridLabelParts,
+        GridTotals,
+        gridCellLabel,
+        gridTotals,
+        sumGridValues;
 export 'src/date_picker/date_picker.dart' show DatePicker, DateRangePicker;
 export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
 export 'src/dialog/dialog_panel.dart' show DialogController, DialogNotice;
@@ -49,7 +70,7 @@ export 'src/loading/loading.dart' show Loading, LoadingVariant;
 export 'src/loading/loading_generation_area.dart'
     show LoadingAreaLabelPosition, LoadingGenerationArea;
 export 'src/login_form/login_form.dart'
-    show LoginCredentials, LoginForm, LoginProvider;
+    show LoginCredentials, LoginForm, LoginFormState, LoginProvider;
 export 'src/menu/menu_entry.dart';
 export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;
@@ -84,7 +105,7 @@ export 'src/popover/popover.dart'
     show Popover, PopoverController, PopoverPlacement;
 export 'src/progress/progress.dart' show Progress, ProgressShape;
 export 'src/radio/radio.dart' show Radio;
-export 'src/radio_group/radio_group.dart' show RadioButtonGroup;
+export 'src/radio_group/radio_group.dart' show RadioGroup;
 export 'src/rating_group/rating_group.dart' show RatingGroup;
 export 'src/scroll_area/scroll_area.dart'
     show ScrollArea, ScrollAreaOrientation;

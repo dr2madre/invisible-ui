@@ -2,7 +2,7 @@
   /**
    * Menubar — a horizontal bar of menus (WAI-ARIA menubar pattern), like an
    * application menu (File / Edit / View). Each menu reuses the headless menu
-   * (`@design-system/core`) for open/close, arrow & Home/End item navigation,
+   * (`@invisible-ui/core`) for open/close, arrow & Home/End item navigation,
    * typeahead, focus moving into the menu and Escape/outside to close; this
    * component adds the menubar coordination: roving tabindex across the triggers,
    * ArrowLeft/Right to move between them (or switch the open menu), Home/End, and
@@ -91,10 +91,10 @@
     display: inline-flex;
     gap: var(--ds-menubar-gap, 0.125rem);
     padding: var(--ds-menubar-padding, 0.25rem);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-menubar-radius, var(--ds-radius-surface, 0.75rem));
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     font: inherit;
   }
 
@@ -123,7 +123,7 @@
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .menubar__trigger:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -137,8 +137,8 @@
     padding: var(--ds-menu-padding, 0.25rem);
     display: flex;
     flex-direction: column;
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    background: var(--ds-menu-background, var(--ds-color-background, #fff));
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -175,7 +175,7 @@
     box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .menubar__item:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: not-allowed;
   }
 

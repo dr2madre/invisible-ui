@@ -46,8 +46,7 @@ export interface CarouselProps {
 }
 
 // Coverflow: each slide moves along the flow by its signed distance from the
-// active one, recedes with a rotation and a downscale, and the far ones fade
-// out. The active slide (offset 0) is centered and upright. The sheet leaves
+// active one, recedes with a rotation and a downscale. The active slide (offset 0) is centered and upright. The sheet leaves
 // these per-slide values to the adapter, since they depend on the index.
 function coverflowStyle(offset: number, vertical: boolean): CSSProperties {
   const abs = Math.abs(offset);
@@ -56,17 +55,18 @@ function coverflowStyle(offset: number, vertical: boolean): CSSProperties {
     : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
   const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
   const scale = Math.max(0, 1 - abs * 0.15);
-  // Coverflow recedes its neighbours on purpose: they fade with distance so
-  // the active slide reads as the one in front. Their text follows the fade,
-  // so a title beside the active slide measures below the AA contrast a body
-  // of text needs. Kept as the effect, decided 2026-08-04.
-  const opacity = abs > 2 ? 0 : Math.max(0, 1 - abs * 0.28);
+  // Neighbours recede by scale and turn only: a fade would take their text
+  // below the AA contrast. Slides past two places are hidden outright.
+  const opacity = abs > 2 ? 0 : 1;
   return {
     transform: `translate(-50%, -50%) ${translate} ${rotate} scale(${scale.toFixed(3)})`,
-    opacity: opacity.toFixed(3),
+    opacity: String(opacity),
     zIndex: 100 - Math.round(abs),
   };
 }
+
+const prefersReducedMotion = () =>
+  typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function ArrowGlyph({ d }: { d: string }) {
   return (
@@ -95,7 +95,7 @@ function ArrowGlyph({ d }: { d: string }) {
  *   `orientation="vertical"` to stack the flow top to bottom.
  *
  * Behaviour and accessibility come from the headless carousel in
- * `@design-system/core`: a labelled group of "N of M" slides, previous and
+ * `@invisible-ui/core`: a labelled group of "N of M" slides, previous and
  * next buttons, slide-picker dots, optional `loop`, and arrow-key
  * navigation. `index` is a controllable mirror (ADR 0011). Themed via
  * `--ds-carousel-*`.
@@ -130,7 +130,11 @@ export function Carousel({
     const node = viewportRef.current;
     if (!node || variant !== "gallery" || typeof node.scrollTo !== "function") return;
     const child = node.querySelectorAll<HTMLElement>(".carousel__slide")[index];
-    if (child) node.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
+    if (child)
+      node.scrollTo({
+        left: child.offsetLeft,
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      });
   }, [index, variant]);
 
   // The track flows with the text, so in right-to-left text the next slide

@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * DatePicker — a date input that opens a `Calendar` in a popover. Composes the
-   * headless popover (`@design-system/core`, via `createPopover`) with the
+   * headless popover (`@invisible-ui/core`, via `createPopover`) with the
    * styled `Calendar`: the readonly field is the trigger (click / Enter / Space
    * to open), focus moves into the calendar, picking a day fills the field and
    * closes the popover, and Escape returns focus to the field.
@@ -15,7 +15,7 @@
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
   import { localDate, type WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
-  import { i18n } from "@design-system/core";
+  import { i18n } from "@invisible-ui/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
   import { formReset } from "../internal/form-reset";
@@ -66,7 +66,11 @@
     onValueChange,
   }: Props = $props();
 
-  const popover = createPopover({ placement: "bottom-start" });
+  const popover = createPopover({
+    placement: "bottom-start",
+    // The selected day, else the one the calendar would focus, not Today.
+    initialFocus: '[data-date][tabindex="0"]',
+  });
   const { triggerAction, contentAction, open: isOpen, setOpen } = popover;
 
   const resolvedLocale = $derived(locale ?? $providerLocale);
@@ -82,15 +86,27 @@
     set: (next) => (value = next),
   });
 
+  // A readonly field gets no click from the keyboard, so these keys open it.
+  const OPEN_KEYS = new Set(["Enter", " ", "ArrowDown"]);
+  let field: HTMLInputElement | undefined = $state();
+  const openFromKey = (event: KeyboardEvent) => {
+    if (!OPEN_KEYS.has(event.key) || $isOpen || disabled) return;
+    event.preventDefault();
+    setOpen(true);
+  };
+
   const pick = (iso: string) => {
     mirror.write(iso);
     onValueChange?.(iso);
     setOpen(false);
+    field?.focus();
   };
 
   const clear = () => {
     mirror.write(null);
     onValueChange?.(null);
+    // The button goes away with the value; focus stays in the control.
+    field?.focus();
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
@@ -121,6 +137,8 @@
       value={displayValue}
       aria-controls={popupId}
       aria-expanded={$isOpen}
+      bind:this={field}
+      onkeydown={openFromKey}
       use:triggerAction
     />
     {#if clearable && value && !disabled}
@@ -160,7 +178,7 @@
     display: inline-flex;
     flex-direction: column;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .date-picker__field {
     display: inline-flex;
@@ -168,7 +186,7 @@
     gap: 0.5rem;
     padding-inline: 0.6rem;
     background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
   }
   .date-picker__field:focus-within {
@@ -180,7 +198,7 @@
   }
   .date-picker__icon {
     display: inline-flex;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   /* Once a date is picked, the icon adopts the selection color. */
   .date-picker__icon--active {
@@ -198,7 +216,7 @@
     cursor: pointer;
   }
   .date-picker__input::placeholder {
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .date-picker__input:disabled {
     cursor: not-allowed;
@@ -212,14 +230,14 @@
     block-size: 1.5rem;
     flex: none;
     padding: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     background: none;
     border: 0;
     border-radius: 50%;
     cursor: pointer;
   }
   .date-picker__clear:hover {
-    background: var(--ds-color-neutral-surface, #f4f2ef);
+    background: var(--ds-color-neutral-surface, #f5f5f5);
   }
   .date-picker__clear:focus-visible {
     outline: none;
@@ -236,8 +254,8 @@
     inline-size: max-content;
     max-inline-size: min(92vw, 22rem);
     padding: var(--ds-popover-padding, 0.875rem 1rem);
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    background: var(--ds-popover-background, var(--ds-color-background, #fff));
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-popover-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,

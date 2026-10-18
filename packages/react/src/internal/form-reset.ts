@@ -1,4 +1,4 @@
-import { formReset as core } from "@design-system/core";
+import { formReset as core } from "@invisible-ui/core";
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { useIsomorphicLayoutEffect } from "./layout-effect";
 

@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "ContextMenu",
-        "specifier": "@design-system/svelte/ContextMenu.svelte"
+        "specifier": "@invisible-ui/svelte/ContextMenu.svelte"
       },
       "props": [
         {
@@ -47,7 +47,7 @@
       "import": {
         "kind": "named",
         "name": "ContextMenu",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -92,7 +92,7 @@
       "import": {
         "kind": "named",
         "name": "ContextMenu",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -142,7 +142,7 @@
       "import": {
         "kind": "element",
         "name": "ds-context-menu",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

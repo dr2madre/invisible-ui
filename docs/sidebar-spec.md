@@ -68,7 +68,7 @@ former name accepted are all unchanged.
 
 | Removed | Use instead |
 | --- | --- |
-| `@design-system/svelte/Menu.svelte`; `Menu` from `@design-system/vue` | `Sidebar.svelte`; `Sidebar` |
+| `@invisible-ui/svelte/Menu.svelte`; `Menu` from `@invisible-ui/vue` | `Sidebar.svelte`; `Sidebar` |
 | `MenuItem` / `MenuEntry` and `MenuSection` (the sidebar aliases) | `SidebarItem` and `SidebarSection` |
 | an override of `menu.label` | an override of `sidebar.label` |
 | `--ds-menu-gap`, `-width`, `-bg`, `-border`, `-item-text` | the `--ds-sidebar-*` token of the same suffix |
@@ -79,7 +79,7 @@ former name accepted are all unchanged.
 | --- | --- | --- |
 | `--ds-sidebar-gap` | none | `--ds-menu-gap` removed |
 | `--ds-sidebar-width` | none | `--ds-menu-width` removed |
-| `--ds-sidebar-bg` | none | `--ds-menu-bg` removed |
+| `--ds-sidebar-background` | none | `--ds-menu-bg` removed |
 | `--ds-sidebar-border` | none | `--ds-menu-border` removed |
 | `--ds-sidebar-item-text` | none | `--ds-menu-item-text` removed |
 | `--ds-sidebar-padding` | `--ds-menu-padding` | **stays canonical** for Dropdown Menu, Context Menu, Menubar |

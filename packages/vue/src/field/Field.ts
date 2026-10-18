@@ -20,7 +20,7 @@ export interface FieldProps {
  * Field: a styled form field that wires a label, control, description and
  * error message together. Behaviour and accessibility (id linking,
  * `aria-describedby`, `aria-invalid` / `aria-required`) come from the headless
- * field (`@design-system/core`).
+ * field (`@invisible-ui/core`).
  *
  * The control goes in the default slot, a scoped slot exposing `controlProps`
  * (spread them onto your control) and `controlId`:

@@ -20,14 +20,17 @@
   /**
    * Tabs — the styled, batteries-included tabs widget (WAI-ARIA tabs pattern):
    * roving tabindex, arrow/Home/End navigation, automatic or manual activation.
-   * Behaviour and accessibility come from the headless tabs (`@design-system/core`);
+   * Behaviour and accessibility come from the headless tabs (`@invisible-ui/core`);
    * this layer adds the underline indicator and panels.
    *
    * Each item supplies a tab `label` (falling back to `value`) and, optionally,
    * its panel `content` as text. For rich panel markup, use the `panel`
    * snippet — it renders once per tab with `{ item }`, so the consumer can put
    * any content in the (correctly wired) panel and switch on `item.value`; the
-   * text `content` is the fallback when the snippet is absent. Colors are
+   * text `content` is the fallback when the snippet is absent. The `actions`
+   * snippet renders commands, such as "add", right after the tab list and
+   * outside it: they are ordinary buttons in the Tab order after the selected
+   * tab, never tabs, and the arrow keys never reach them. Colors are
    * themeable CSS custom properties (`--ds-tabs-*`).
    */
   import { untrack, type Snippet } from "svelte";
@@ -45,6 +48,8 @@
     onValueChange?: (value: string) => void;
     /** Rich content of one panel, rendered once per tab with its `item`. */
     panel?: Snippet<[{ item: TabsItem }]>;
+    /** Commands beside the tab list, outside it, such as an "add" button. */
+    actions?: Snippet;
   }
 
   let {
@@ -54,6 +59,7 @@
     label,
     onValueChange,
     panel,
+    actions,
   }: Props = $props();
 
   // The prop first, then the report (ADR 0011).
@@ -88,7 +94,7 @@
   });
 </script>
 
-<div class="tabs">
+<div class={["tabs", actions && "tabs--with-actions"]}>
   <div class="tabs__list" use:rootAction aria-label={label}>
     {#each items as item (item.value)}
       <button
@@ -110,6 +116,9 @@
       </button>
     {/each}
   </div>
+  {#if actions}
+    <div class="tabs__actions">{@render actions()}</div>
+  {/if}
   {#each items as item (item.value)}
     <div class="tabs__panel" use:panelAction={item.value}>
       <!-- Rich per-panel content via the snippet; falls back to the item's
@@ -129,7 +138,7 @@
     overflow-x: auto;
     /* The rule is drawn inside the scroll area: a border would sit outside
        the clip, where the tabs' underline could never reach it. */
-    box-shadow: inset 0 -1px 0 var(--ds-color-border, #c7c1b7);
+    box-shadow: inset 0 -1px 0 var(--ds-color-border, #bdbdbd);
   }
   .tabs__tab {
     display: inline-flex;
@@ -141,7 +150,7 @@
     cursor: pointer;
     font: inherit;
     /* Idle tabs use full-strength text (not muted grey). */
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     border-block-end: 2px solid transparent;
     transition:
       color 120ms ease,
@@ -167,8 +176,8 @@
     font-weight: 600;
     line-height: 1.4;
     border-radius: var(--ds-radius-pill, 999px);
-    color: var(--ds-color-text-secondary, #524c44);
-    background: var(--ds-color-neutral-surface, #f4f2ef);
+    color: var(--ds-color-text-secondary, #515151);
+    background: var(--ds-color-neutral-surface, #f5f5f5);
   }
   .tabs__tab:global([data-state="active"]) .tabs__tab-count {
     color: var(--ds-color-on-selected, var(--ds-color-on-secondary, #fff));
@@ -179,7 +188,7 @@
        carries the selection color (so the accent can change without recoloring
        the text). */
     font-weight: 700;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     border-block-end-color: var(--ds-color-selected, #7a52cc);
   }
   /* The list clips its children, so an outer ring would be cut off:
@@ -194,7 +203,46 @@
   }
   .tabs__panel {
     padding-block: 0.75rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
+  }
+
+  /* Tabs with actions: the tablist and the actions share a row, and the
+     actions wrap below the tablist when the row is too narrow. The panels
+     take a row of their own. */
+  .tabs--with-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.25rem 0.5rem;
+  }
+  .tabs--with-actions > .tabs__list {
+    flex: 0 1 auto;
+    min-inline-size: 0;
+  }
+  .tabs--with-actions > .tabs__panel {
+    flex-basis: 100%;
+  }
+  /* Commands such as "add" sit outside the tablist, as ordinary buttons. */
+  .tabs__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  /* The target size, density.regular.min-target-size, with no specificity: a
+     control that sets a larger size of its own keeps it. */
+  :where(.tabs__actions) :global(:where(button, a[href])) {
+    min-inline-size: var(--ds-min-target-size, 24px);
+    min-block-size: var(--ds-min-target-size, 24px);
+  }
+
+  /* A coarse pointer gets the touch target, density.touch.min-target-size,
+     on whatever control the actions hold. */
+  @media (pointer: coarse) {
+    .tabs__actions :global(:is(button, a[href])) {
+      min-inline-size: var(--ds-min-target-size-touch, 44px);
+      min-block-size: var(--ds-min-target-size-touch, 44px);
+    }
   }
   /* Forced colors: the tab row is a scroller, so the ring must be drawn
      inside the tab or its top and bottom are clipped away. */

@@ -1,4 +1,4 @@
-import { i18n as coreI18n } from "@design-system/core";
+import { i18n as coreI18n } from "@invisible-ui/core";
 import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { CalendarView, WeekStart } from "../calendar/use-calendar";
@@ -8,7 +8,13 @@ import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
 import { usePopover } from "../popover/use-popover";
 import { useFormReset } from "../internal/form-reset";
-import { dateClearButton, dateFieldIcon, dateHiddenInput } from "../internal/date-field";
+import {
+  dateClearButton,
+  dateFieldIcon,
+  dateHiddenInput,
+  FOCUSED_DAY,
+  openFromKey,
+} from "../internal/date-field";
 
 export interface DateRangePickerProps {
   /** Range start (ISO `YYYY-MM-DD`), or `null`. */
@@ -81,6 +87,7 @@ export const DateRangePicker = defineComponent({
     const i18n = useI18n();
     const { api, open, setOpen, triggerRef, panelRef } = usePopover(() => ({
       placement: "bottom-start",
+      initialFocus: FOCUSED_DAY,
     }));
 
     // An empty string means "nothing selected", the state a text-shaped
@@ -139,6 +146,13 @@ export const DateRangePicker = defineComponent({
       props.onChange?.(nextStart, nextEnd);
     };
 
+    const focusField = () => triggerRef.value?.focus();
+    const onKeydown = openFromKey(
+      () => open.value,
+      () => props.disabled,
+      () => setOpen(true),
+    );
+
     const fieldLabel = () => props.label ?? i18n.value.t("dateRangePicker.label");
 
     return () =>
@@ -158,9 +172,14 @@ export const DateRangePicker = defineComponent({
             "aria-label": fieldLabel(),
             placeholder: props.placeholder ?? i18n.value.t("dateRangePicker.placeholder"),
             value: displayValue.value,
+            onKeydown,
           }),
           props.clearable && start.value && !props.disabled
-            ? dateClearButton(i18n.value.t("dateRangePicker.clear"), () => report(null, null))
+            ? dateClearButton(i18n.value.t("dateRangePicker.clear"), () => {
+                report(null, null);
+                // The button goes away with the value; focus stays in the control.
+                focusField();
+              })
             : null,
         ]),
 
@@ -189,7 +208,10 @@ export const DateRangePicker = defineComponent({
                     label: fieldLabel(),
                     onRangeChange: (nextStart: string | null, nextEnd: string | null) => {
                       report(nextStart, nextEnd);
-                      if (nextStart && nextEnd) setOpen(false);
+                      if (nextStart && nextEnd) {
+                        setOpen(false);
+                        focusField();
+                      }
                     },
                   }),
                 ],

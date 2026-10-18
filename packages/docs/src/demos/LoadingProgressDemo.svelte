@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
-  import Loading from "@design-system/svelte/Loading.svelte";
-  import Progress from "@design-system/svelte/Progress.svelte";
+  import Loading from "@invisible-ui/svelte/Loading.svelte";
+  import Progress from "@invisible-ui/svelte/Progress.svelte";
 
   // System-driven progress: the value advances because the system works.
   let progress = $state(0);
@@ -135,6 +135,6 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
 </style>

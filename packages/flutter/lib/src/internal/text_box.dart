@@ -45,6 +45,7 @@ class TextBox extends StatefulWidget {
     this.actions = const [],
     this.onTextPointerDown,
     this.framed = true,
+    this.editableKey,
   });
 
   /// The text.
@@ -112,6 +113,10 @@ class TextBox extends StatefulWidget {
   /// box leaves them to a row of its own, such as a search dialog's.
   final bool framed;
 
+  /// The key of the editable text, for an owner that places the caret
+  /// itself, such as a data grid cell opened by a press.
+  final GlobalKey<EditableTextState>? editableKey;
+
   @override
   State<TextBox> createState() => _TextBoxState();
 }
@@ -119,8 +124,8 @@ class TextBox extends StatefulWidget {
 class _TextBoxState extends State<TextBox>
     implements TextSelectionGestureDetectorBuilderDelegate {
   @override
-  final GlobalKey<EditableTextState> editableTextKey =
-      GlobalKey<EditableTextState>();
+  late final GlobalKey<EditableTextState> editableTextKey =
+      widget.editableKey ?? GlobalKey<EditableTextState>();
 
   @override
   bool get forcePressEnabled => false;

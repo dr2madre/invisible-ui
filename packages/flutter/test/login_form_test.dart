@@ -83,6 +83,25 @@ void main() {
     semantics.dispose();
   });
 
+  testWidgets('reset empties both fields; the password field holds the '
+      'typed text until then', (tester) async {
+    final login = GlobalKey<LoginFormState>();
+    final reports = <LoginCredentials>[];
+    await tester.pumpWidget(
+      appHarness((_) => LoginForm(key: login, onSubmitted: reports.add)),
+    );
+    await tester.enterText(_field('Email'), 'ada@example.com');
+    await tester.enterText(_field('Password'), 'secret');
+    await tester.tap(find.text('Sign in').last);
+    await tester.pump();
+    expect(reports.single.password, 'secret');
+    expect(_editable(tester, 'Password').controller.text, 'secret');
+    login.currentState!.reset();
+    await tester.pump();
+    expect(_editable(tester, 'Password').controller.text, isEmpty);
+    expect(_editable(tester, 'Email').controller.text, isEmpty);
+  });
+
   testWidgets('providers: "Continue with" buttons above an "or" divider; '
       'the forgotten password link with its callback', (tester) async {
     final providers = <String>[];

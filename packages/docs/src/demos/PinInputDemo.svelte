@@ -1,10 +1,10 @@
 <script>
-  import PinInput from "@design-system/svelte/PinInput.svelte";
+  import PinInput from "@invisible-ui/svelte/PinInput.svelte";
   let value = $state("");
 
   const labelStyle = "font-size: 0.875rem; font-weight: 600;";
   const helpStyle =
-    "margin: 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary, #524c44);";
+    "margin: 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary, #515151);";
   const okStyle =
     "margin: 0; font-size: 0.8125rem; color: var(--ds-color-success-body-text, #3e7523);";
   const errStyle =

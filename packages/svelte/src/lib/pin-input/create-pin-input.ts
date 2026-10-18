@@ -1,4 +1,4 @@
-import { pinInput as core } from "@design-system/core";
+import { pinInput as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
 import { createItemAction, createRootAction } from "../internal/connect";
@@ -32,7 +32,7 @@ export interface CreatePinInput {
 /**
  * Create a headless PIN input (OTP / verification code). Behaviour and
  * accessibility (per-cell entry, advance/backspace, arrows, paste distribution,
- * character filtering) live in `@design-system/core`; this adapter wires state
+ * character filtering) live in `@invisible-ui/core`; this adapter wires state
  * to a Svelte store, applies connected props via actions, moves DOM focus, and
  * fires `onComplete` once every cell is filled.
  */

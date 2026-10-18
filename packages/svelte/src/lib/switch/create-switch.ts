@@ -1,4 +1,4 @@
-import { switchControl as core } from "@design-system/core";
+import { switchControl as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createRootAction } from "../internal/connect";
@@ -29,7 +29,7 @@ export interface CreateSwitch {
  * Create a headless switch (WAI-ARIA switch pattern: role="switch" +
  * aria-checked). Behaves like a toggle, but screen readers announce on/off —
  * preferable for settings. Behaviour and accessibility live in
- * `@design-system/core`.
+ * `@invisible-ui/core`.
  */
 export function createSwitch(context: SwitchContext = {}): CreateSwitch {
   const state = writable<SwitchState>(core.initialState(context));

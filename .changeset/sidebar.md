@@ -1,7 +1,7 @@
 ---
-"@design-system/svelte": minor
-"@design-system/vue": minor
-"@design-system/core": minor
+"@invisible-ui/svelte": minor
+"@invisible-ui/vue": minor
+"@invisible-ui/core": minor
 ---
 
 Sidebar: the application's side navigation under its own name, with collapsible sections, a rail and a drawer.

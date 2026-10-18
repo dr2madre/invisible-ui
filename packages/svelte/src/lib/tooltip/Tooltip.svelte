@@ -2,7 +2,7 @@
   /**
    * Tooltip — a styled descriptive label shown on hover/focus of a trigger
    * (WAI-ARIA `role="tooltip"` linked via `aria-describedby`). Behaviour comes
-   * from the headless tooltip (`@design-system/core`); the adapter adds open/
+   * from the headless tooltip (`@invisible-ui/core`); the adapter adds open/
    * close delays, Floating-UI positioning (flip/shift), and WCAG 1.4.13 "content
    * on hover" semantics (hoverable + Escape-dismissable).
    *
@@ -65,8 +65,8 @@
     padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
     font-size: var(--ds-tooltip-font-size, 0.8125rem);
     line-height: var(--ds-line-height, 1.4);
-    background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #332f2a));
-    color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f4f2ef));
+    background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #323232));
+    color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f5f5f5));
     border-radius: var(--ds-tooltip-radius, var(--ds-radius-control, 0.5rem));
     box-shadow: var(
       --ds-elevation-overlay,

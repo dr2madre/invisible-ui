@@ -1,4 +1,4 @@
-import { sheetDialog as sheet } from "@design-system/core";
+import { sheetDialog as sheet } from "@invisible-ui/core";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import { useDialog, type UseDialog, type UseDialogOptions } from "../dialog/use-dialog";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";

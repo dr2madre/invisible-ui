@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import {
   useCallback,
   useEffect,
@@ -34,7 +34,7 @@ const MOVE_TOLERANCE = 10;
  * ContextMenu: a styled menu summoned on a region by a right click, the
  * keyboard menu key or Shift+F10, or a long press on touch (500 ms, 10 px
  * tolerance), opening a `role="menu"` at the pointer. Behaviour and
- * accessibility come from the headless menu (`@design-system/core`), with the
+ * accessibility come from the headless menu (`@invisible-ui/core`), with the
  * groups, separators, checkable items and submenus Dropdown Menu has
  * (`docs/menu-submenu-spec.md`). The popup is positioned against the point
  * with Floating UI, and closes when the page scrolls under it. Closing by a

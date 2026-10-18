@@ -1,4 +1,4 @@
-import type { ElementProps } from "@design-system/core";
+import type { ElementProps } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { get, type Readable } from "svelte/store";
 

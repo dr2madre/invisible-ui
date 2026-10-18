@@ -1,4 +1,4 @@
-import type { navigationBar } from "@design-system/core";
+import type { navigationBar } from "@invisible-ui/core";
 import type { ReactNode } from "react";
 import { fail } from "../internal/dev";
 

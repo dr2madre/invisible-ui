@@ -14,7 +14,7 @@ Menubar, Popover), the feedback widgets (the notifications, Loading,
 LoadingGenerationArea, EmptyState, ErrorState), Card, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SearchDialog,
 SheetDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
-RadioButtonGroup, SegmentedControl, Select, Combobox, MultiSelect), the
+RadioGroup, SegmentedControl, Select, Combobox, MultiSelect), the
 search field (SearchField), the dates (Calendar, DatePicker,
 DateRangePicker, TimeField), the disclosures and navigation (Collapsible,
 Accordion, Tabs, Breadcrumb, Pagination, Link, Navigation Menu, Navigation
@@ -32,7 +32,7 @@ The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
 
 Some names match widgets in Flutter or Material (`Slider`, `Switch`,
-`Dialog`, `TextField`). The package keeps them: import it with a prefix, as
+`Dialog`, `TextField`, `RadioGroup`). The package keeps them: import it with a prefix, as
 every example below does.
 
 ```dart
@@ -99,8 +99,13 @@ class Editor extends StatelessWidget {
 - **Density and target size.** `density` is `compact`, `regular` (the
   default) or `touch`. The minimum hit area comes from the density's
   `min-target-size` token: 24 by 24 by default, 44 by 44 under `touch`.
-  `minTargetSize: Size(44, 44)` gives 44 by 44 at any density; a smaller
-  size never goes below the token. The tokens define control
+  On Android, iOS and Fuchsia every target keeps 44 by 44 at any density,
+  with no setting: the web gives the same size under a coarse pointer, and
+  Flutter, which has no pointer query, reads the platform from
+  `defaultTargetPlatform`, as Material does for its tap targets
+  (`InvisibleThemeData.touchPlatform`). Density changes the look, never
+  that target. On desktop, `minTargetSize: Size(44, 44)` gives 44 by 44 at
+  any density; a smaller size never goes below the token. The tokens define control
   padding for `regular` only today, so `compact` and `touch` use the regular
   padding until the tokens define theirs.
 - **Messages.** `InvisibleMessages` holds the text the components announce,
@@ -178,7 +183,7 @@ iu.NumberField(
 | Checkbox | Matched, with adaptations listed | [parity/checkbox.md](parity/checkbox.md) | [Checkbox](https://dr2madre.github.io/invisible-ui/components/forms/checkbox/) |
 | CheckboxGroup | Matched, with adaptations listed | [parity/checkbox-group.md](parity/checkbox-group.md) | [Checkbox Group](https://dr2madre.github.io/invisible-ui/components/forms/checkbox-group/) |
 | Switch | Matched, with adaptations listed | [parity/switch.md](parity/switch.md) | [Switch](https://dr2madre.github.io/invisible-ui/components/forms/switch/) |
-| RadioButtonGroup | Matched, with adaptations listed | [parity/radio-group.md](parity/radio-group.md) | [Radio Group](https://dr2madre.github.io/invisible-ui/components/forms/radio-group/) |
+| RadioGroup | Matched, with adaptations listed | [parity/radio-group.md](parity/radio-group.md) | [Radio Group](https://dr2madre.github.io/invisible-ui/components/forms/radio-group/) |
 | SegmentedControl | Matched, with adaptations listed | [parity/segmented-control.md](parity/segmented-control.md) | [Segmented Control](https://dr2madre.github.io/invisible-ui/components/forms/segmented-control/) |
 | Select | Matched, with adaptations listed | [parity/select.md](parity/select.md) | [Select](https://dr2madre.github.io/invisible-ui/components/forms/select/) |
 | Combobox | Matched, with adaptations listed | [parity/combobox.md](parity/combobox.md) | [Combobox](https://dr2madre.github.io/invisible-ui/components/forms/combobox/) |
@@ -201,6 +206,7 @@ iu.NumberField(
 | Tree View | Matched, single selection, with adaptations listed | [parity/tree-view.md](parity/tree-view.md) | [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/) |
 | Table | Matched, with adaptations listed | [parity/table.md](parity/table.md) | [Table](https://dr2madre.github.io/invisible-ui/components/patterns/table/) |
 | TableSet (with the internal Table View) | Matched for spec units 5A to 5C, with adaptations listed | [parity/table-set.md](parity/table-set.md) | [Table Set](https://dr2madre.github.io/invisible-ui/components/patterns/table-set/) |
+| DataGrid | Built from the editable grid spec ahead of the web adapters, with adaptations listed | [parity/data-grid.md](parity/data-grid.md) | [Spec](https://github.com/dr2madre/invisible-ui/blob/main/docs/editable-grid-spec.md) |
 | Carousel | Matched, with adaptations listed | [parity/carousel.md](parity/carousel.md) | [Carousel](https://dr2madre.github.io/invisible-ui/components/data-layout/carousel/) |
 | LoginForm | Matched, with autofill hints and adaptations listed | [parity/login-form.md](parity/login-form.md) | [Login Form](https://dr2madre.github.io/invisible-ui/components/patterns/login-form/) |
 | UploadDropArea | Adapted: the app opens the picker and reports drops | [parity/upload-drop-area.md](parity/upload-drop-area.md) | [Upload Drop Area](https://dr2madre.github.io/invisible-ui/components/forms/upload-drop-area/) |
@@ -257,7 +263,8 @@ multi select's selection rules the vectors in `core/src/multi-select`,
 which the `core/` tests run too.
 
 Table and TableSet run the sort, selection and visibility vectors in
-`core/src/table/__vectors__`, Carousel the navigation and key vectors in
+`core/src/table/__vectors__`, DataGrid the key, totals, active cell and
+label vectors in `core/src/grid/__vectors__`, Carousel the navigation and key vectors in
 `core/src/carousel/__vectors__`, and LocaleProvider the direction vectors
 in `core/src/i18n/__vectors__`.
 
@@ -357,8 +364,10 @@ iu.Combobox<String>(
 - **Popover** holds anything, such as a search field and a list: focus
   moves in when it opens, Escape closes it and returns focus, and inside a
   dialog Escape closes the popover first.
-- **RadioButtonGroup** is the web's RadioGroup, built on the widgets
-  library's `RadioGroup` (which keeps that name) and `iu.Radio`.
+- **RadioGroup** is the web's RadioGroup, built on the widgets library's
+  `RadioGroup` and `iu.Radio`. With the prefixed import, `iu.RadioGroup` is
+  this package's labelled group and `RadioGroup` the widgets library's value
+  holder.
 - **MultiSelect** keeps several options as removable tags (`values:` with
   `onChanged:`): Enter adds and keeps the list open, every addition and
   removal is announced, and removing a tag moves focus to the next remove
@@ -527,6 +536,20 @@ iu.TableSet<Map<String, Object?>>(
   getRowLabel: (row) => row['name']! as String,
 )
 
+iu.DataGrid(
+  label: 'Week 41',
+  columns: days, // iu.DataGridColumn(id:, label:, header:, secondary:)
+  rows: projects, // iu.DataGridRow(id:, code:, name:)
+  cell: (row, day) => iu.DataGridCell(
+    kind: iu.DataGridCellKind.editable,
+    value: hours[(row, day)],
+  ),
+  editor: const iu.DataGridEditor(min: 0, max: 24, step: 0.5),
+  onCellChanged: (change) => setState(
+    () => hours[(change.rowId, change.columnId)] = change.value,
+  ),
+)
+
 iu.UploadDropArea(
   accept: '.pdf,image/*',
   onBrowse: pickFiles, // the app opens the picker, e.g. with file_selector
@@ -548,6 +571,21 @@ iu.UploadDropArea(
   tabs. Each setting is a controllable mirror. Selection needs stable,
   unique ids and `getRowLabel`; the selection is the app's data and is
   never pruned. The view inside stays internal, as on the web.
+- **Data grid.** `iu.DataGrid` is the editable grid of
+  [`docs/editable-grid-spec.md`](https://github.com/dr2madre/invisible-ui/blob/main/docs/editable-grid-spec.md):
+  one tab stop, arrows between cells (mirrored right to left), and number
+  cells edited in place with the Number Field's parsing. Enter, F2 or a
+  digit starts editing, Enter commits and stays, Tab commits and edits the
+  next editable cell, Escape reverts. `onCellChanged` reports once per
+  commit with `previousValue`, after the Total column and the totals row are
+  updated; a draft that does not parse never commits, a number out of range
+  commits with its error. Cells allowed but outside the usual schedule take
+  a visible `secondaryLabel`, which sets the secondary emphasis. `onCellActivated` serves
+  summary cells and `onCellDetails` a details button, a custom semantics
+  action and an optional `detailsShortcut`. Each cell reads one label built
+  from the catalog (`gridCellLabel`, which a card view can use too); the
+  headers, the totals row and the row header column stick while the grid
+  scrolls on both axes.
 - **Carousel.** `iu.Carousel` names its slides "2 of 5", announces each
   move, takes the arrow keys (mirrored right to left) and moves at once
   under reduced motion. It never advances on its own. Coverflow neighbours
@@ -555,6 +593,8 @@ iu.UploadDropArea(
 - **Sign-in.** `iu.LoginForm` puts the email and password fields in an
   `AutofillGroup` with the username, email and password hints, so a
   password manager fills and saves them; labels come from the catalog.
+  The password field keeps what was typed until the form resets: call
+  `LoginFormState.reset()` after a successful sign-in.
 - **Uploads.** `iu.UploadDropArea` adds no dependency: `onBrowse` opens the
   app's picker and returns `iu.UploadFile`s; drops reach it through an
   `iu.UploadDropController` the app wires to its drop plugin, and only then
@@ -632,7 +672,7 @@ iu.PinInput(
   invalid and is announced, and a form reset clears it. For example
   `iu.RatingGroup.uncontrolled(label: 'Rating', validator: (v) => v == null
   ? 'Choose a rating.' : null)`. `iu.Radio` holds no value;
-  `iu.RadioButtonGroup` does, and shows its own error the same way.
+  `iu.RadioGroup` does, and shows its own error the same way.
 - **Sliders.** `Slider` and `RangeSlider` take the keys of a native range
   input: arrows, Page Up and Page Down, Home and End, mirrored right to
   left. A `RangeSlider` value is a `(double, double)` pair whose thumbs

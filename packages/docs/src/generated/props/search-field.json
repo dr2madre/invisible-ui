@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "SearchField",
-        "specifier": "@design-system/svelte/SearchField.svelte"
+        "specifier": "@invisible-ui/svelte/SearchField.svelte"
       },
       "props": [
         {
@@ -119,7 +119,7 @@
       "import": {
         "kind": "named",
         "name": "SearchField",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -247,7 +247,7 @@
       "import": {
         "kind": "named",
         "name": "SearchField",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -361,7 +361,7 @@
       "import": {
         "kind": "element",
         "name": "ds-search-field",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

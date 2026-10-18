@@ -1,4 +1,4 @@
-import { menu as core } from "@design-system/core";
+import { menu as core } from "@invisible-ui/core";
 import { autoUpdate } from "@floating-ui/react-dom";
 import {
   useCallback,
@@ -23,7 +23,7 @@ import { useIsomorphicLayoutEffect } from "./layout-effect";
  * `docs/menu-submenu-spec.md` that the core leaves to the adapter: roving
  * focus, typeahead per level, the hover delay and grace area, submenu
  * placement and the outside press. Keys, roles and states come from
- * `menu.connect` in `@design-system/core`.
+ * `menu.connect` in `@invisible-ui/core`.
  */
 
 export type MenuPrefix = "menu" | "context-menu" | "menubar";

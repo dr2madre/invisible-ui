@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * ScrollArea — a scrollable viewport with custom overlay scrollbars. The
-   * scrollbar geometry comes from the headless scroll area (`@design-system/core`);
+   * scrollbar geometry comes from the headless scroll area (`@invisible-ui/core`);
    * this adapter measures the viewport (scroll + ResizeObserver) and supports
    * dragging the thumb. Native scrollbars are hidden but native keyboard/wheel
    * scrolling is preserved (the focusable viewport scrolls with the arrow keys).
@@ -83,7 +83,7 @@
   .scroll-area {
     position: relative;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .scroll-area__viewport {
     max-inline-size: 100%;
@@ -118,11 +118,11 @@
   .scroll-area__thumb {
     position: absolute;
     border-radius: 999px;
-    background: var(--ds-scroll-area-thumb, var(--ds-color-border, #c7c1b7));
+    background: var(--ds-scroll-area-thumb, var(--ds-color-border, #bdbdbd));
     cursor: default;
   }
   .scroll-area__thumb:hover {
-    background: var(--ds-scroll-area-thumb-hover, var(--ds-color-text-secondary, #524c44));
+    background: var(--ds-scroll-area-thumb-hover, var(--ds-color-text-secondary, #515151));
   }
   .scroll-area__bar--v .scroll-area__thumb {
     inline-size: 100%;

@@ -1,4 +1,4 @@
-import { treeView as core } from "@design-system/core";
+import { treeView as core } from "@invisible-ui/core";
 import {
   computed,
   onScopeDispose,
@@ -57,7 +57,7 @@ export interface UseTreeView {
  * Connect the headless tree (WAI-ARIA tree pattern) to Vue: single selection,
  * roving tabindex, expand/collapse, arrow-key navigation over the visible
  * nodes (mirrored in right-to-left text) and typeahead, which moves focus
- * only.The flattening and navigation logic lives in `@design-system/core`;
+ * only.The flattening and navigation logic lives in `@invisible-ui/core`;
  * this composable owns the resolved state (mirroring controlled `expanded` /
  * `selected` with watches), derives the connected props with
  * `computed(connect)`, and moves DOM focus inside the tree (`rootRef`).

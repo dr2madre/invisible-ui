@@ -40,7 +40,7 @@ const CheckGlyph = () =>
  * Stepper — the styled progress stepper: an ordered sequence of steps showing
  * what is complete, current, and upcoming. Ported from the Svelte adapter.
  * Behaviour (status, linear gating, navigation) comes from the headless stepper
- * in `@design-system/core`; the accessible markup is a labelled `<nav>` wrapping
+ * in `@invisible-ui/core`; the accessible markup is a labelled `<nav>` wrapping
  * an `<ol>`, with the current step marked `aria-current="step"`.
  *
  * Pass `steps` (their labels). In linear mode (default) upcoming steps stay

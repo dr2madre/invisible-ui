@@ -1,4 +1,4 @@
-import { dialog as core, sheetDialog as sheet } from "@design-system/core";
+import { dialog as core, sheetDialog as sheet } from "@invisible-ui/core";
 import {
   applyProps,
   boolAttr,

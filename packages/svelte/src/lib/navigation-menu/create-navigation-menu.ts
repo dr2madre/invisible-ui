@@ -1,4 +1,4 @@
-import { navigationMenu as core } from "@design-system/core";
+import { navigationMenu as core } from "@invisible-ui/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
@@ -90,7 +90,7 @@ const triggerValue = (param: NavigationMenuTriggerParam) =>
   typeof param === "string" ? param : param.value;
 
 /**
- * Create a headless navigation menu. ARIA/state live in `@design-system/core`;
+ * Create a headless navigation menu. ARIA/state live in `@invisible-ui/core`;
  * this adapter owns the DOM concerns, reusing the shared overlay primitives:
  * hover open/close with delays (and immediate switching between panels),
  * `attachFloating` positioning, outside-press dismissal, and focus movement

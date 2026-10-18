@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "TimeField",
-        "specifier": "@design-system/svelte/TimeField.svelte"
+        "specifier": "@invisible-ui/svelte/TimeField.svelte"
       },
       "props": [
         {
@@ -119,7 +119,7 @@
       "import": {
         "kind": "named",
         "name": "TimeField",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -247,7 +247,7 @@
       "import": {
         "kind": "named",
         "name": "TimeField",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -369,7 +369,7 @@
       "import": {
         "kind": "element",
         "name": "ds-time-field",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

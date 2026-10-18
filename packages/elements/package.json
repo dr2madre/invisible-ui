@@ -1,7 +1,7 @@
 {
-  "name": "@design-system/elements",
+  "name": "@invisible-ui/elements",
   "version": "0.1.0-alpha.0",
-  "description": "Web Components adapter for the design system: framework-free custom elements over @design-system/core.",
+  "description": "Web Components adapter for the design system: framework-free custom elements over @invisible-ui/core.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
     "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json"
   },
   "dependencies": {
-    "@design-system/core": "workspace:*",
+    "@invisible-ui/core": "workspace:*",
     "@floating-ui/dom": "^1.7.6"
   },
   "devDependencies": {

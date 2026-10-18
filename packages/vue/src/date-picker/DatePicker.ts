@@ -1,4 +1,4 @@
-import { i18n as coreI18n } from "@design-system/core";
+import { i18n as coreI18n } from "@invisible-ui/core";
 import { computed, defineComponent, h, ref, Teleport, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { WeekStart } from "../calendar/use-calendar";
@@ -6,7 +6,13 @@ import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { usePopover } from "../popover/use-popover";
 import { useFormReset } from "../internal/form-reset";
-import { dateClearButton, dateFieldIcon, dateHiddenInput } from "../internal/date-field";
+import {
+  dateClearButton,
+  dateFieldIcon,
+  dateHiddenInput,
+  FOCUSED_DAY,
+  openFromKey,
+} from "../internal/date-field";
 
 /** Intl date style used for the field display. */
 export type DateStyle = "full" | "long" | "medium" | "short";
@@ -37,7 +43,7 @@ export interface DatePickerProps {
 
 /**
  * DatePicker: a date field that opens a `Calendar` in a popover. It composes
- * the headless popover (`@design-system/core`, via `usePopover`) with the
+ * the headless popover (`@invisible-ui/core`, via `usePopover`) with the
  * styled `Calendar`: the readonly field is the trigger, focus moves into the
  * calendar, picking a day fills the field and closes the popover, and Escape
  * returns focus to the field.
@@ -78,6 +84,7 @@ export const DatePicker = defineComponent({
     const i18n = useI18n();
     const { api, open, setOpen, triggerRef, panelRef } = usePopover(() => ({
       placement: "bottom-start",
+      initialFocus: FOCUSED_DAY,
     }));
 
     // An empty string means "nothing selected", the state a text-shaped
@@ -120,6 +127,13 @@ export const DatePicker = defineComponent({
       props.onValueChange?.(next);
     };
 
+    const focusField = () => triggerRef.value?.focus();
+    const onKeydown = openFromKey(
+      () => open.value,
+      () => props.disabled,
+      () => setOpen(true),
+    );
+
     const fieldLabel = () => props.label ?? i18n.value.t("datePicker.label");
 
     return () =>
@@ -138,9 +152,14 @@ export const DatePicker = defineComponent({
             "aria-label": fieldLabel(),
             placeholder: props.placeholder ?? i18n.value.t("datePicker.placeholder"),
             value: displayValue.value,
+            onKeydown,
           }),
           props.clearable && selected.value && !props.disabled
-            ? dateClearButton(i18n.value.t("datePicker.clear"), () => report(null))
+            ? dateClearButton(i18n.value.t("datePicker.clear"), () => {
+                report(null);
+                // The button goes away with the value; focus stays in the control.
+                focusField();
+              })
             : null,
         ]),
 
@@ -163,6 +182,7 @@ export const DatePicker = defineComponent({
                     onValueChange: (iso: string) => {
                       report(iso);
                       setOpen(false);
+                      focusField();
                     },
                   }),
                 ],

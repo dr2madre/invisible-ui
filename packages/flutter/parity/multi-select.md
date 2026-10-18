@@ -1,6 +1,6 @@
 # MultiSelect parity checklist
 
-Reference commit: `e47db9b6717964787e0d689629f1beb73f18612d`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/multi-select/state.ts` `core/src/multi-select/connect.ts` `core/src/multi-select/types.ts` `packages/svelte/src/lib/multi-select`
 
@@ -79,3 +79,7 @@ scope**. Every matched line names the widget test in
 | Remove buttons meet the target size (24, 44 under touch); labelled; contrast | matched | same test |
 | `--ds-multi-select-*` variables | out of scope | the Flutter theme carries the shared roles |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
+
+## Background token
+
+The background reads the component token `--ds-menu-background` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

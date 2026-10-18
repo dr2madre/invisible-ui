@@ -1,8 +1,8 @@
 ---
-"@design-system/core": minor
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/elements": patch
+"@invisible-ui/core": minor
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/elements": patch
 ---
 
 The headless menu supports submenus, as `docs/menu-submenu-spec.md`

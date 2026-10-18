@@ -26,6 +26,9 @@
    * (`--ds-avatar-group-*`), inheriting the `Avatar` tokens.
    */
   import Avatar from "../avatar/Avatar.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   interface Props {
     /** The people in the group. */
@@ -63,7 +66,7 @@
       data-size={size}
       data-shape={shape}
       role="img"
-      aria-label={`${overflow} more`}
+      aria-label={$t("avatarGroup.more", { count: overflow })}
     >
       <span aria-hidden="true">+{overflow}</span>
     </span>
@@ -110,8 +113,8 @@
     font-weight: 600;
     line-height: 1;
     user-select: none;
-    background: var(--ds-avatar-group-overflow-bg, var(--ds-color-neutral-surface, #f4f2ef));
-    color: var(--ds-avatar-group-overflow-color, var(--ds-color-text-secondary, #524c44));
+    background: var(--ds-avatar-group-overflow-bg, var(--ds-color-neutral-surface, #f5f5f5));
+    color: var(--ds-avatar-group-overflow-color, var(--ds-color-text-secondary, #515151));
   }
   .avatar-group__overflow:global([data-size="sm"]) {
     inline-size: var(--ds-avatar-size, 2rem);

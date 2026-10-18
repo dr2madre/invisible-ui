@@ -1,6 +1,6 @@
 # Time Field parity checklist
 
-Reference commit: `e9cce2f081d9bab90d0a1754a1971d6c567c403c`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/time-field` `packages/svelte/src/lib/time-field` `docs/time-field.md`
 
@@ -29,7 +29,7 @@ sequences also answer the shared vectors in
 | `onValidationChanged(TimeFieldError?)` | `onValidationChange` | adapted: reported after a user edit changes the error, a range error included, so a form follows what the field shows |
 | `hourCycle` (12 or 24), `withSeconds`, `min`, `max`, `label`, `error` | the same names | `hourCycle` defaults to the locale's; `label` to the catalog key `timeField.label` |
 | `enabled: false` | `disabled` | `disabled` |
-| `locale` | the provider's locale | the locale whose hour cycle applies |
+| `locale`, else the app's locale from `Localizations`, else the international default | the provider's locale, else the page's `lang`, else the international default | the locale whose hour cycle applies |
 | `invalid` | `invalid` | adapted: a non-empty `error` marks the field invalid, as on every Flutter field |
 | `description`, `required`, `hideLabel`, `validator`, `onSaved` | none | the field parts every Flutter value control carries |
 | `name` (hidden input) | `name` | adapted: Flutter forms read the value through `onSaved` |
@@ -42,6 +42,7 @@ sequences also answer the shared vectors in
 | Flexible parsing with normalization (`9:30` is `09:30`), atomic rejection, seconds precision | matched | the parse vectors |
 | AM or PM is never assumed for new input; a valid value derives it | matched | `12 hours from the locale: …` and `a 24-hour locale has no period; a new cycle keeps the time` |
 | A new hour cycle keeps the time | matched | `a 24-hour locale has no period; a new cycle keeps the time` |
+| Without `hourCycle` the field takes the locale's cycle; without a locale from the widget or the app, 24 hours, the international default | matched | `12 hours from the locale: …`, `a 24-hour locale has no period; …`; `use Monday and 24 hours without the app's locale`, `follow the app's locale from Localizations`, `follow the LocaleProvider over the app's locale` (`test/default_locale_test.dart`) |
 
 ## Keyboard and pointer
 

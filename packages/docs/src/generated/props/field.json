@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Field",
-        "specifier": "@design-system/svelte/Field.svelte"
+        "specifier": "@invisible-ui/svelte/Field.svelte"
       },
       "props": [
         {
@@ -71,7 +71,7 @@
       "import": {
         "kind": "named",
         "name": "Field",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -132,7 +132,7 @@
       "import": {
         "kind": "named",
         "name": "Field",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -198,7 +198,7 @@
       "import": {
         "kind": "element",
         "name": "ds-field",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

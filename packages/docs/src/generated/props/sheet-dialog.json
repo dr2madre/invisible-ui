@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "SheetDialog",
-        "specifier": "@design-system/svelte/SheetDialog.svelte"
+        "specifier": "@invisible-ui/svelte/SheetDialog.svelte"
       },
       "props": [
         {
@@ -151,7 +151,7 @@
       "import": {
         "kind": "named",
         "name": "SheetDialog",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -278,7 +278,7 @@
       "import": {
         "kind": "named",
         "name": "SheetDialog",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -432,7 +432,7 @@
       "import": {
         "kind": "element",
         "name": "ds-sheet-dialog",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

@@ -26,15 +26,19 @@
    *   either side. Set `orientation="vertical"` to stack the flow top-to-bottom.
    *
    * Behaviour and accessibility come from the headless carousel in
-   * `@design-system/core`: a labelled group of "N of M" slides, previous/next
+   * `@invisible-ui/core`: a labelled group of "N of M" slides, previous/next
    * buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The
    * control needs an accessible name via `label`. Themed via `--ds-carousel-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createCarousel, type CarouselContext } from "./create-carousel";
+  import { derived } from "svelte/store";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t, dir } = getI18n();
+
+  const prefersReducedMotion = () =>
+    typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   interface Props {
     items: CarouselSlide[];
@@ -78,7 +82,14 @@
     onIndexChange: (next) => onIndexChange?.(next),
   }));
 
-  const carousel = createCarousel(context);
+  const carousel = createCarousel(
+    context,
+    derived(t, ($t) => ({
+      carousel: $t("carousel.roleDescription"),
+      slide: $t("carousel.slideRoleDescription"),
+      slideName: (index: number, count: number) => $t("carousel.slide", { index, count }),
+    })),
+  );
   // The slide count, the loop and the orientation follow the props after
   // mount (ADR 0011).
   $effect.pre(() => {
@@ -103,13 +114,17 @@
   $effect.pre(() => {
     if (viewportEl && variant === "gallery" && typeof viewportEl.scrollTo === "function") {
       const child = viewportEl.querySelectorAll<HTMLElement>(".carousel__slide")[$index];
-      if (child) viewportEl.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
+      if (child)
+        viewportEl.scrollTo({
+          left: child.offsetLeft,
+          behavior: prefersReducedMotion() ? "auto" : "smooth",
+        });
     }
   });
 
   // Coverflow: position each slide by its signed distance from the active one —
-  // translate along the flow axis, recede with a rotation + downscale, and fade
-  // out the far ones. The active slide (offset 0) is centered and upright.
+  // translate along the flow axis and recede with a rotation + downscale. The
+  // active slide (offset 0) is centered and upright.
   function coverflowStyle(offset: number): string {
     const abs = Math.abs(offset);
     const vertical = orientation === "vertical";
@@ -118,14 +133,12 @@
       : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
     const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
     const scale = Math.max(0, 1 - abs * 0.15);
-    // Coverflow recedes its neighbours on purpose: they fade with distance so
-    // the active slide reads as the one in front. Their text follows the fade,
-    // so a title beside the active slide measures below the AA contrast a body
-    // of text needs. Kept as the effect, decided 2026-08-04.
-    const opacity = abs > 2 ? 0 : Math.max(0, 1 - abs * 0.28);
+    // Neighbours recede by scale and turn only: a fade would take their text
+    // below the AA contrast. Slides past two places are hidden outright.
+    const opacity = abs > 2 ? 0 : 1;
     return [
       `transform: translate(-50%, -50%) ${translate} ${rotate} scale(${scale.toFixed(3)})`,
-      `opacity: ${opacity.toFixed(3)}`,
+      `opacity: ${opacity}`,
       `z-index: ${100 - Math.round(abs)}`,
     ].join("; ");
   }
@@ -230,7 +243,10 @@ keeps the scoped rule for the vertical coverflow layout. -->
   {#if showIndicators}
     <div class="carousel__indicators" role="group" aria-label={$t("carousel.choose")}>
       {#each items as _item, i (i)}
-        <button class="carousel__dot" use:indicatorAction={i} aria-label={`Go to slide ${i + 1}`}
+        <button
+          class="carousel__dot"
+          use:indicatorAction={i}
+          aria-label={$t("carousel.goTo", { index: i + 1 })}
         ></button>
       {/each}
     </div>
@@ -242,7 +258,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     position: relative;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
 
   /* Positioning context for the arrows so they center on the slides only, not
@@ -269,7 +285,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     display: flex;
     align-items: flex-end;
     aspect-ratio: var(--ds-carousel-aspect, 16 / 9);
-    background-color: var(--ds-carousel-slide-bg, var(--ds-color-neutral-surface, #f4f2ef));
+    background-color: var(--ds-carousel-slide-bg, var(--ds-color-neutral-surface, #f5f5f5));
     background-size: cover;
     background-position: center;
   }
@@ -295,7 +311,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     color: var(--ds-carousel-overlay-text, #fff);
     background: var(
       --ds-carousel-overlay-bg,
-      linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))
+      linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))
     );
   }
   .carousel__title {
@@ -307,7 +323,6 @@ keeps the scoped rule for the vertical coverflow layout. -->
   .carousel__desc {
     margin: 0.35rem 0 0;
     line-height: var(--ds-line-height, 1.4);
-    opacity: 0.95;
   }
 
   /* ---- Gallery mode: scrolling row of items ---- */
@@ -384,6 +399,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     block-size: var(--ds-carousel-coverflow-height, 22rem);
   }
   @media (prefers-reduced-motion: reduce) {
+    .carousel__track,
     .carousel[data-variant="coverflow"] .carousel__slide {
       transition: none;
     }
@@ -400,9 +416,9 @@ keeps the scoped rule for the vertical coverflow layout. -->
     inline-size: var(--ds-carousel-arrow-size, 2.25rem);
     block-size: var(--ds-carousel-arrow-size, 2.25rem);
     font-size: 1.1rem;
-    color: var(--ds-carousel-arrow-text, var(--ds-color-text, #282420));
-    background: var(--ds-carousel-arrow-bg, var(--ds-color-surface, #e6e0d8));
-    border: 1px solid var(--ds-carousel-arrow-border, var(--ds-color-control-border, #757067));
+    color: var(--ds-carousel-arrow-text, var(--ds-color-text, #272727));
+    background: var(--ds-carousel-arrow-bg, var(--ds-color-surface, #e0e0e0));
+    border: 1px solid var(--ds-carousel-arrow-border, var(--ds-color-control-border, #757575));
     border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     cursor: pointer;
@@ -454,7 +470,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     border-radius: 50%;
     /* Each dot is a real button whose whole visible form is this disc, so it
        takes the control boundary colour, not the divider colour. */
-    background: var(--ds-carousel-dot-color, var(--ds-color-control-border, #757067));
+    background: var(--ds-carousel-dot-color, var(--ds-color-control-border, #757575));
     transition: background-color 120ms ease;
   }
   .carousel__dot:global([data-selected]) {

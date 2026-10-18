@@ -1,5 +1,5 @@
 <script>
-  import Blockquote from "@design-system/svelte/Blockquote.svelte";
+  import Blockquote from "@invisible-ui/svelte/Blockquote.svelte";
 </script>
 
 <Blockquote cite="Grace Hopper">

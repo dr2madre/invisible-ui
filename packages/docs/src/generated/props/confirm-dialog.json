@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "ConfirmDialog",
-        "specifier": "@design-system/svelte/ConfirmDialog.svelte"
+        "specifier": "@invisible-ui/svelte/ConfirmDialog.svelte"
       },
       "props": [
         {
@@ -127,7 +127,7 @@
       "import": {
         "kind": "named",
         "name": "ConfirmDialog",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -258,7 +258,7 @@
       "import": {
         "kind": "named",
         "name": "ConfirmDialog",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -388,7 +388,7 @@
       "import": {
         "kind": "element",
         "name": "ds-confirm-dialog",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

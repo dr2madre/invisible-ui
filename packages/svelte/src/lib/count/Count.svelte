@@ -96,7 +96,7 @@
     --_fg: var(--ds-color-on-status, #fff);
   }
   .count:global([data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral, #5e5951);
+    --_bg: var(--ds-color-neutral, #616161);
     --_fg: var(--ds-color-on-status, #fff);
   }
   .count:global([data-status="info"]) {
@@ -109,6 +109,6 @@
   }
   .count:global([data-status="warning"]) {
     --_bg: var(--ds-color-warning-label-surface, #d17b43);
-    --_fg: var(--ds-color-on-warning, #282420);
+    --_fg: var(--ds-color-on-warning, #272727);
   }
 </style>

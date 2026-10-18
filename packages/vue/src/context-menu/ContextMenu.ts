@@ -22,7 +22,7 @@ export interface ContextMenuProps {
  * action items at the pointer. Behaviour and accessibility (arrow / Home / End
  * navigation, typeahead, roving focus, Enter and click activation, Escape /
  * Tab / outside press to close, focus restored on close) come from the
- * headless menu (`@design-system/core`); positioning against a virtual anchor
+ * headless menu (`@invisible-ui/core`); positioning against a virtual anchor
  * at the pointer uses `@floating-ui/dom`.
  *
  * Wrap the target area in the default slot; pass `items`

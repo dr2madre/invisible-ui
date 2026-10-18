@@ -38,6 +38,12 @@ also submits natively to that URL:
 
 <PropsTable component="login-form" />
 
+The fields name their purpose for autofill and assistive technology (WCAG 2.2
+1.3.5): the email field uses `autocomplete="username"` and the password field
+`autocomplete="current-password"`. Every text the form writes, including the
+labels, the placeholder, the divider and the provider buttons, comes from the
+message catalog.
+
 Pass a logo via the `logo` slot and provider glyphs via `provider-icon`. In Svelte
 these are the `logo` and `providerIcon` snippets; `providerIcon` receives `{ provider }`.
 

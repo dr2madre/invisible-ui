@@ -350,6 +350,36 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets('a range changed by the parent is reflected without a '
+        'report', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final reports = <DateRange>[];
+      Widget build(DateRange range) => harness(
+        SizedBox(
+          width: 360,
+          child: Calendar.range(
+            range: range,
+            focusedDate: DateTime(2026, 6, 15),
+            onRangeChanged: reports.add,
+          ),
+        ),
+      );
+      Matcher selected(bool on) =>
+          semanticsWith(hasSelectedState: true, isSelected: on);
+      await tester.pumpWidget(
+        build(DateRange(DateTime(2026, 6, 4), DateTime(2026, 6, 6))),
+      );
+      expect(tester.getSemantics(_day(2026, 6, 5)), selected(true));
+      expect(tester.getSemantics(_day(2026, 6, 21)), selected(false));
+      await tester.pumpWidget(
+        build(DateRange(DateTime(2026, 6, 20), DateTime(2026, 6, 22))),
+      );
+      expect(tester.getSemantics(_day(2026, 6, 5)), selected(false));
+      expect(tester.getSemantics(_day(2026, 6, 21)), selected(true));
+      expect(reports, isEmpty);
+      semantics.dispose();
+    });
+
     testWidgets('two months sit side by side when wide and stack when '
         'narrow; each day shows once', (tester) async {
       Widget build(double width) => harness(

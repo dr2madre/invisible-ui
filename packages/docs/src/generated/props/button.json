@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Button",
-        "specifier": "@design-system/svelte/Button.svelte"
+        "specifier": "@invisible-ui/svelte/Button.svelte"
       },
       "props": [
         {
@@ -135,7 +135,7 @@
       "import": {
         "kind": "named",
         "name": "Button",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -230,7 +230,7 @@
       "import": {
         "kind": "named",
         "name": "Button",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [
         "NativeButtonProps"
@@ -346,7 +346,7 @@
       "import": {
         "kind": "element",
         "name": "ds-button",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

@@ -134,7 +134,7 @@
     padding: var(--ds-empty-state-padding, 3rem 1.5rem);
     max-inline-size: var(--ds-empty-state-max-width, 24rem);
     margin-inline: auto;
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   /* The illustration area: sized for the fallback icon, and a bespoke
      artwork stays within the same footprint unless the theme widens it. */
@@ -151,7 +151,7 @@
   }
   .empty-state__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .empty-state__actions {
     margin-block-start: 0.5rem;

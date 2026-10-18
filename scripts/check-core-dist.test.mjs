@@ -45,7 +45,7 @@ test("a source edit after the build is refused, with the rebuild command", () =>
   const f = fixture();
   f.record();
   writeFileSync(join(f.core, "src/index.ts"), "export const a = 2;\n");
-  assert.match(checkCoreDist(f.root), /other sources.*pnpm --filter @design-system\/core build/);
+  assert.match(checkCoreDist(f.root), /other sources.*pnpm --filter @invisible-ui\/core build/);
   f.done();
 });
 

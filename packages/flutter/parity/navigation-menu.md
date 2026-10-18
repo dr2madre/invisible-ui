@@ -1,6 +1,6 @@
 # Navigation Menu parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/navigation-menu` `packages/svelte/src/lib/navigation-menu`
 
@@ -12,8 +12,9 @@ The Flutter `NavigationMenu` checked against the Svelte `NavigationMenu`
 pattern.
 Docs page: [Navigation Menu](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-menu/).
 
-Each line is **matched**, **adapted** (with the platform reason), **out of
-scope** or **not yet verified**. Every matched line names the widget test in
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(a gap in Flutter, with the reason), **out of scope** or **not yet
+verified**. Every matched line names the widget test in
 `test/navigation_menu_test.dart` that holds it.
 
 ## Names
@@ -23,10 +24,10 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | `NavigationMenu<T>` | `NavigationMenu` | item values are any type `T`; the web uses strings |
 | `label` | `label` | the navigation's accessible name |
 | `items: List<NavigationMenuItem<T>>` | `items: NavigationMenuItem[]` | the bar, in order |
-| `NavigationMenuItem.link(value:, label:, onPressed:, uri:, current:)` | `{ value, label, href }` | a plain link; it opens through the app's callback, `uri` is its announced address |
+| `NavigationMenuItem.link(value:, label:, onPressed:, uri:, current:)` | `{ value, label, href, current }` | a plain link; it opens through the app's callback, `uri` is its announced address |
 | `NavigationMenuItem.panel(value:, label:, links:)` | `{ value, label, links }` | a trigger and its panel |
-| `NavigationMenuLink(label:, onPressed:, description:, uri:, current:)` | `{ label, href, description }` | a link in a panel |
-| `current` on a link | none | the app marks the link of the page on screen. A flag on the link, as Radix's `NavigationMenu.Link active` does, because panel links carry no value a menu-level `value` could name, and the app builds the items for each page anyway. The web has no current-page support (open point) |
+| `NavigationMenuLink(label:, onPressed:, description:, uri:, current:)` | `{ label, href, description, current }` | a link in a panel |
+| `current` on a link | `current` on a link | the app marks the link of the page on screen. A flag on the link, as Radix's `NavigationMenu.Link active` does, because panel links carry no value a menu-level `value` could name, and the app builds the items for each page anyway |
 | `onOpenChanged` | `onValueChange` | reports the open item's value, or null, once per change, after the change |
 | The open panel | `value` in the store | internal, as the Svelte component exposes no `value` prop |
 
@@ -35,11 +36,17 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | At most one panel open | matched | `hover opens after 150 ms, switches at once, …` (Products closes when Resources opens) |
-| A press opens a panel and keeps it open; the next press closes it | adapted | `a click opens a panel and keeps it; Escape and a press outside close a kept panel`, `touch has no hover: a tap toggles the panel`. Approved decision: the web click toggles, so a click on a panel the pointer opened closes it; Flutter keeps it open |
-| The first press on a panel the pointer opened keeps it open, with no timing threshold | adapted | `the first click keeps a panel the pointer opened; leaving then closes nothing; the next click closes it`. Approved decision; the web closes it |
-| A kept panel stays when the pointer leaves; Escape and a press outside close it | adapted | same tests. Approved decision; on the web leaving always closes after 150 ms |
-| Hover on another trigger while a kept panel is open switches at once and the menu stays kept | adapted | `the first click keeps a panel …`. The press asked the menu to stay open, so a switch by hover does not undo it; the web has no kept state |
-| After a press or Escape closes a panel, the resting pointer opens nothing; leaving the trigger re-arms hover | adapted | `after a click closes the panel, the resting pointer opens nothing; leaving the trigger re-arms hover`, `after a Escape closes the panel, …`. Approved decision. Hover opens only on entering a trigger, so no timer or flag is needed; the web behaves the same way for the same reason |
+| A press opens a panel and keeps it open; the next press closes it | matched | `a click opens a panel and keeps it; Escape and a press outside close a kept panel`, `touch has no hover: a tap toggles the panel`. Approved decision; core keeps the panel with its `kept` flag |
+| The first press on a panel the pointer opened keeps it open, with no timing threshold | matched | `the first click keeps a panel the pointer opened; leaving then closes nothing; the next click closes it` |
+| A kept panel stays when the pointer leaves; Escape and a press outside close it | matched | same tests |
+| Hover on another trigger while a kept panel is open switches at once and the menu stays kept | matched | `the first click keeps a panel …`. The press asked the menu to stay open, so a switch by hover does not undo it |
+| After a press or Escape closes a panel, the resting pointer opens nothing; leaving the trigger re-arms hover | matched | `after a click closes the panel, the resting pointer opens nothing; leaving the trigger re-arms hover`, `after a Escape closes the panel, …`. Hover opens only on entering a trigger, on both platforms |
+| A press on a trigger cancels a pending hover | matched | `a click closes what it opened even when the hover delay runs out afterwards` |
+<<<<<<< HEAD
+| Escape on a trigger with nothing open cancels a pending hover | matched | `Escape while the hover delay is pending cancels it; the key still reaches the rest of the app`. Every Escape clears the timer, as on the web, and with nothing open the key still goes on to the app |
+=======
+| Escape on a trigger with nothing open cancels a pending hover | open | Flutter leaves Escape with nothing open to the rest of the app and keeps the hover timer, so a panel still opens when the delay runs out; the web clears the timer on every Escape |
+>>>>>>> origin/main
 | Pointer rest on a trigger opens after 150 ms | matched | `hover opens after 150 ms, switches at once, stays over the panel and closes 150 ms after leaving` |
 | Hover on another trigger while a panel is open switches at once | matched | same test |
 | Leaving the trigger or the panel closes a panel the pointer opened after 150 ms; entering the panel cancels the close | matched | same test |
@@ -50,9 +57,9 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Plain links open through their callback on a tap or Enter, never Space | adapted | `links open through their callbacks by a tap or Enter, never Space; the callbacks are read when pressed`. Flutter has no `href`: a link opens through the app's callback, as `Link` does |
 | A pending hover survives another item going away | matched | `a pending hover survives another item going away; a panel whose item goes away closes without a report` |
 | A panel whose item is removed | adapted | same test. It closes without a report, since no user asked for it; the web keeps the stale value in its store with nothing to show |
-| A link closes the open panel before its callback runs; a plain link in the bar closes an open panel too | adapted | `a link closes the panel before its callback runs, by a tap and by Enter; a plain link closes an open panel too` (`onOpenChanged(null)` comes before the link's callback, ADR 0011). Approved decision; the web closes nothing on activation (open point) |
-| After a link, focus is not returned to the trigger; it stays where the callback puts it | adapted | `a link leaves focus where its callback puts it, never back on the trigger by itself`. Focus inside the panel goes to its scope, so the app can move it into the page it opens. Approved decision |
-| Safety net: focus left nowhere after the callback and the next frame goes to the trigger, if the trigger still exists | adapted | `a link whose callback leaves focus nowhere hands it to the trigger; a trigger that is gone takes nothing`. Flutter's equivalent of focus on the page body is the scope itself holding focus; the trigger takes it only then |
+| A link closes the open panel before its callback runs; a plain link in the bar closes an open panel too | matched | `a link closes the panel before its callback runs, by a tap and by Enter; a plain link closes an open panel too` (`onOpenChanged(null)` comes before the link's callback, ADR 0011). The web closes it before the browser follows the link |
+| After a link, focus is not returned to the trigger; it stays where the callback puts it | matched | `a link leaves focus where its callback puts it, never back on the trigger by itself`. Focus inside the panel goes to its scope, so the app can move it into the page it opens |
+| Safety net: focus left nowhere after the callback and the next frame goes to the trigger, if the trigger still exists | adapted | `a link whose callback leaves focus nowhere hands it to the trigger; a trigger that is gone takes nothing`. The web checks for focus on the page body after one task; Flutter's equivalent is the scope itself holding focus, checked after the next frame |
 
 ## Keyboard
 
@@ -86,9 +93,9 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Links announced as links with their address | matched | same test (`linkUrl`) |
 | A link's description | adapted | read as the link's hint, after its name; on the web it is part of the link's text: same test |
 | Chevron decorative | matched | it sits in excluded semantics |
-| The current link is read as the current page; no other link is | adapted | Flutter semantics have no `aria-current`: the link's value is `InvisibleMessages.navigationMenuCurrent` ("current page"), as Sidebar reads `sidebarCurrent`: `only the current link is read as the current page; its trigger is marked on screen and read as before`, `a plain link in the bar can be the current page`. The web has no current-page support (open point) |
-| The trigger that holds the current link is marked on screen only, with no announcement | adapted | same test; the web has nothing to compare |
-| At most one current link | adapted | debug builds fail an assertion: `two current links fail an assertion` |
+| The current link is read as the current page; no other link is | adapted | the web sets `aria-current="page"`. Flutter semantics have no `aria-current`: the link's value is `InvisibleMessages.navigationMenuCurrent` ("current page"), as Sidebar reads `sidebarCurrent`: `only the current link is read as the current page; its trigger is marked on screen and read as before`, `a plain link in the bar can be the current page` |
+| The trigger that holds the current link is marked on screen only, with no announcement | matched | `only the current link is read as the current page; its trigger is marked on screen and read as before` |
+| At most one current link | adapted | debug builds fail an assertion: `two current links fail an assertion`. The web does not check it |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
 
 ## Look and layout
@@ -99,7 +106,7 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Trigger and top link: padding 8 by 12, bold, radius `radius.control`, `state-hover` on hover and while open | matched | `_BarButton`; the reference stylesheet sets the same roles |
 | Chevron turns half a turn while open; at once under reduced motion | matched | `the chevron turns half a turn when open, at once under reduced motion; the keyboard ring shows` |
 | Focus ring on triggers and links for keyboard focus | matched | same test |
-| Current page look: a 2 px `secondary-body-text` bar under the bar item, along the inline-start edge of a panel link (mirrored right to left), the label in `secondary-body-text`, the panel link tinted 10% `secondary` | adapted | `only the current link is read …`, `the mark of a current panel link sits at the inline-start edge, mirrored right to left`, `right to left at text scale 2.0 under touch: no overflow, labelled 44 by 44 targets`. The bar keeps the state off colour alone, since the labels are already bold; the web has no current-page style |
+| Current page look: a 2 px `secondary-body-text` mark under the bar item and along the inline-start edge of a panel link (mirrored right to left), the label in `secondary-body-text`, the panel link tinted 10% `secondary`, `state-hover` on hover and focus | adapted | `only the current link is read …`, `the mark of a current panel link sits at the inline-start edge, mirrored right to left`, `right to left at text scale 2.0 under touch: no overflow, labelled 44 by 44 targets`. The mark keeps the state off colour alone, as on the web. The web underlines the bar item's label with an offset; Flutter text has no underline offset, so the mark is painted in the padding under the label. The panel mark stops short of the rounded corners, where the web border runs the full height |
 | Panel focus style on a link | adapted | the reference tints the focused link with `state-hover`; Flutter adds the package's focus ring to the tint, since the tint alone is faint |
 | Panel below the trigger at the inline-start edge, gap 8, at least 288 wide | matched | `the panel sits below its trigger at the inline-start edge, at least 288 wide` |
 | Panel flips and shifts to stay 8 inside the window | matched | the shared `AnchoredLayout`; `right to left at text scale 2.0 in a narrow window …` |
@@ -109,3 +116,7 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Targets 24 by 24, 44 by 44 under touch | matched | `semantics: …` (24), `right to left at text scale 2.0 …` (44) |
 | Text contrast | matched | `semantics: …` (`textContrastGuideline`) |
 | `--ds-navmenu-*` theme variables | out of scope | the Flutter theme carries the shared roles; component variables have no Flutter equivalent yet |
+
+## Background token
+
+The background reads the component token `--ds-popover-background` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

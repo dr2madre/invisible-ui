@@ -12,7 +12,7 @@
    * and does nothing when activated. The state and the activation come from
    * the headless navigation bar, shared with the Navigation Bar.
    */
-  import { navigationBar } from "@design-system/core";
+  import { navigationBar } from "@invisible-ui/core";
   import Icon from "../icon/Icon.svelte";
   import Tooltip from "../tooltip/Tooltip.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -125,7 +125,7 @@
     padding: 0.5rem 0.625rem;
     font: inherit;
     text-align: start;
-    color: var(--ds-sidebar-item-text, var(--ds-color-text, #282420));
+    color: var(--ds-sidebar-item-text, var(--ds-color-text, #272727));
     text-decoration: none;
     background: none;
     border: 0;
@@ -159,7 +159,7 @@
     box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
   }
   .sidebar__item[data-unavailable] {
-    color: var(--ds-color-text-disabled, #757067);
+    color: var(--ds-color-text-disabled, #757575);
     cursor: default;
   }
   .sidebar__icon {
@@ -178,7 +178,7 @@
     display: block;
     font-size: 0.8125rem;
     font-weight: 400;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
   }
   .sidebar__status {
     display: inline-flex;

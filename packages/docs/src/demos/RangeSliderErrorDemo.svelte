@@ -1,5 +1,5 @@
 <script>
-  import RangeSlider from "@design-system/svelte/RangeSlider.svelte";
+  import RangeSlider from "@invisible-ui/svelte/RangeSlider.svelte";
   let price = $state.raw([20, 90]);
 </script>
 

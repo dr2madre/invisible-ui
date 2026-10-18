@@ -1,4 +1,4 @@
-import { multiSelect as core } from "@design-system/core";
+import { multiSelect as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createItemAction, createPropsAction } from "../internal/connect";
@@ -84,7 +84,7 @@ function assertUniqueValues(values: string[]): void {
 /**
  * Create a headless multi select (editable input + multiselectable filtered
  * listbox + removable selected values). Behaviour and ARIA live in
- * `@design-system/core`; this adapter owns the DOM concerns: text filtering,
+ * `@invisible-ui/core`; this adapter owns the DOM concerns: text filtering,
  * popup positioning (`@floating-ui/dom`, flip/shift), close-on-outside-pointer
  * and keeping the active option scrolled into view. DOM focus stays on the
  * input (activedescendant).

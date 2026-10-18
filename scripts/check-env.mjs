@@ -42,7 +42,7 @@ export function checkEnvironment(root, { isAlive = alive } = {}) {
     }
     if (pid && isAlive(pid)) {
       problems.push(
-        `a background astro preview (pid ${pid}) is running from packages/docs. Stop it: pnpm --filter @design-system/docs exec astro preview stop. If that finds nothing, the pid was reused: delete packages/docs/.astro/preview.json.`,
+        `a background astro preview (pid ${pid}) is running from packages/docs. Stop it: pnpm --filter @invisible-ui/docs exec astro preview stop. If that finds nothing, the pid was reused: delete packages/docs/.astro/preview.json.`,
       );
     }
   }

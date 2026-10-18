@@ -19,7 +19,7 @@ import {
   UploadDropArea,
   type SidebarSection,
   type TableRow,
-} from "@design-system/vue";
+} from "@invisible-ui/vue";
 
 const droppedNames = ref<string[]>([]);
 

@@ -351,7 +351,12 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
       });
       return KeyEventResult.handled;
     }
-    if (event.logicalKey == LogicalKeyboardKey.escape && _open != null) {
+    if (event.logicalKey == LogicalKeyboardKey.escape) {
+      // Every Escape cancels a pending hover; with nothing open, the key
+      // still reaches the rest of the app.
+      _timer?.cancel();
+      _timer = null;
+      if (_open == null) return KeyEventResult.ignored;
       _set(null);
       return KeyEventResult.handled;
     }
@@ -396,7 +401,7 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
               constraints: const BoxConstraints(minWidth: _panelMinWidth),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.background,
+                  color: colors.popoverBackground,
                   border: Border.all(color: colors.border),
                   borderRadius: BorderRadius.circular(
                     InvisibleRadiusTokens.surface,

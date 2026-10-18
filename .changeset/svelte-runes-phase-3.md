@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": minor
+"@invisible-ui/svelte": minor
 ---
 
 Breaking: named slots are now snippet props, and forwarded events are now callback props. The last 34 components moved to the runes syntax: AlertDialog, Blockquote, Button, Calendar, Card, Carousel, Collapsible, Combobox, ConfirmDialog, Dialog, EmptyState, ErrorState, Field, InlineNotification, Link, LoadingGenerationArea, LoginForm, Notification, Popover, PromptDialog, RangeSlider, SearchDialog, SearchField, SheetDialog, Sidebar, Slider, Table, TableSet, TableView, Tabs, Tag, TextField, TreeView and UploadDropArea. Every component of the package now runs in runes mode. Behaviour, props and callbacks are unchanged; only the way content and events are passed changes (ADR 0015).

@@ -212,6 +212,11 @@ describe("<ds-carousel>", () => {
     expect(second).toHaveAttribute("inert");
   });
 
+  it("never fades a coverflow neighbour, and hides the slides past two places", () => {
+    mount('variant="coverflow"', numbered(6));
+    expect(slides().map((slide) => slide.style.opacity)).toEqual(["1", "1", "1", "0", "0", "0"]);
+  });
+
   it("has no accessibility violations", async () => {
     mount();
     expect(await axe(document.body)).toHaveNoViolations();

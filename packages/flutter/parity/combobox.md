@@ -1,6 +1,6 @@
 # Combobox parity checklist
 
-Reference commit: `e47db9b6717964787e0d689629f1beb73f18612d`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/combobox` `core/src/internal/collection.ts` `packages/svelte/src/lib/combobox`
 
@@ -85,3 +85,7 @@ scope**. Every matched line names the widget test in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Text scale 2.0, right to left, narrow column; the buttons at the inline-end, 44 by 44 under touch | matched | `text scale 2.0 right to left in a narrow column does not overflow; buttons keep 44 by 44 under touch` |
+
+## Background token
+
+The background reads the component token `--ds-menu-background` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

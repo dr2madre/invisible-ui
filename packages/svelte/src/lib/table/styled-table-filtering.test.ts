@@ -5,6 +5,18 @@ import Fixture from "./table-selection.fixture.svelte";
 
 // The fixture's five people rows; filtering happens outside the component,
 // so the tests hand in already-filtered rows.
+const people = [
+  { id: 1, name: "Ada", age: 36, city: "London" },
+  { id: 2, name: "Grace", age: 85, city: "New York" },
+  { id: 3, name: "alan", age: 41, city: "London" },
+  { id: 4, name: "Edsger", age: 60, city: "Rotterdam" },
+  { id: 5, name: "Barbara", age: 80, city: "Boston" },
+];
+// The no-results panel is a status of its own; the view's results region is
+// the other one, so the panel is found by where it sits.
+const noResultsPanel = () => document.querySelector(".table-view__no-results [role='status']");
+const announcer = () => document.querySelector(".table-view > .table-view__sr[role='status']");
+
 const bodyNames = () =>
   Array.from(document.querySelectorAll("tbody tr td:nth-child(2)")).map((c) => c.textContent);
 
@@ -12,7 +24,7 @@ describe("Svelte TableSet — filtering coordination", () => {
   describe("distinguished states", () => {
     it("keeps a plain empty dataset as an empty table, never no-results", () => {
       render(Fixture, { props: { rows: [], filtersActive: true, totalRowCount: 0 } });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(noResultsPanel()).not.toBeInTheDocument();
       expect(screen.getByRole("table", { name: "People" })).toBeInTheDocument();
     });
 
@@ -20,7 +32,7 @@ describe("Svelte TableSet — filtering coordination", () => {
       render(Fixture, {
         props: { rows: [], filtersActive: true, totalRowCount: 5, onClearFilters: vi.fn() },
       });
-      const panel = screen.getByRole("status");
+      const panel = noResultsPanel();
       expect(panel).toHaveTextContent("No rows match the current filters");
       expect(screen.getByRole("button", { name: "Clear filters" })).toBeInTheDocument();
       expect(screen.queryByRole("table")).not.toBeInTheDocument();
@@ -28,26 +40,26 @@ describe("Svelte TableSet — filtering coordination", () => {
 
     it("treats an unknown total as not empty", () => {
       render(Fixture, { props: { rows: [], filtersActive: true } });
-      expect(screen.getByRole("status")).toBeInTheDocument();
+      expect(noResultsPanel()).toBeInTheDocument();
     });
 
     it("offers no clear action without onClearFilters and honours custom copy", () => {
       render(Fixture, {
         props: { rows: [], filtersActive: true, noResultsLabel: "Nobody here" },
       });
-      expect(screen.getByRole("status")).toHaveTextContent("Nobody here");
+      expect(noResultsPanel()).toHaveTextContent("Nobody here");
       expect(screen.queryByRole("button", { name: "Clear filters" })).not.toBeInTheDocument();
     });
 
     it("renders content normally while filters are active and rows exist", () => {
       render(Fixture, { props: { filtersActive: true, totalRowCount: 9 } });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(noResultsPanel()).not.toBeInTheDocument();
       expect(screen.getByRole("table", { name: "People" })).toBeInTheDocument();
     });
 
     it("shows zero rows without active filters as an empty table", () => {
       render(Fixture, { props: { rows: [], totalRowCount: 5 } });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(noResultsPanel()).not.toBeInTheDocument();
     });
   });
 
@@ -182,7 +194,7 @@ describe("Svelte TableSet — filtering coordination", () => {
         },
       });
       await rerender({ filtersActive: true, filterRevision: "b", rows: [] });
-      expect(screen.getByRole("status")).toBeInTheDocument();
+      expect(noResultsPanel()).toBeInTheDocument();
       await rerender({
         filtersActive: false,
         rows: [
@@ -233,12 +245,50 @@ describe("Svelte TableSet — filtering coordination", () => {
         totalRowCount: 5,
       },
     });
-    expect(screen.getByRole("status")).toBeInTheDocument();
+    expect(noResultsPanel()).toBeInTheDocument();
   });
 
-  it("adds no live region around the table and passes axe", async () => {
+  describe("results announcement", () => {
+    it("announces the result count when filtering changes it, never on first render", async () => {
+      const { rerender } = render(Fixture, { props: { totalRowCount: 5 } });
+      expect(announcer()).toHaveAttribute("aria-live", "polite");
+      expect(announcer()?.textContent).toBe("");
+
+      await rerender({ filtersActive: true, rows: people.slice(0, 2) });
+      expect(announcer()).toHaveTextContent("2 results");
+      await rerender({ rows: people.slice(0, 1) });
+      expect(announcer()).toHaveTextContent("1 result");
+
+      const region = announcer();
+      await rerender({ rows: [] });
+      // The panel announces the no-results state, so the region does not.
+      expect(announcer()).toBe(region);
+      expect(announcer()?.textContent).toBe("");
+      expect(noResultsPanel()).toHaveTextContent("No rows match the current filters");
+    });
+
+    it("announces a cleared filter and stays silent on other re-renders", async () => {
+      const { rerender } = render(Fixture, { props: { filtersActive: true, rows: [] } });
+      expect(announcer()?.textContent).toBe("");
+      await rerender({ filtersActive: false, rows: people.slice(0, 3) });
+      expect(announcer()).toHaveTextContent("3 results");
+      await rerender({ rows: people.slice(0, 2) });
+      expect(announcer()).toHaveTextContent("3 results");
+    });
+
+    it("stays silent for rows that arrive with no filtering behind them", async () => {
+      const { rerender } = render(Fixture, { props: { rows: people.slice(0, 2) } });
+      await rerender({ rows: people });
+      expect(announcer()?.textContent).toBe("");
+    });
+  });
+
+  it("keeps the table outside the live region and passes axe", async () => {
     const { container } = render(Fixture, { props: { filtersActive: true, totalRowCount: 9 } });
-    expect(container.querySelector("[aria-live]")).toBeNull();
+    const live = container.querySelectorAll("[aria-live]");
+    expect(live).toHaveLength(1);
+    expect(live[0]?.textContent).toBe("");
+    expect(live[0]).not.toContainElement(screen.getByRole("table"));
     expect(await axe(container)).toHaveNoViolations();
   });
 });

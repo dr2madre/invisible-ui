@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * Button — the styled, batteries-included button. Behaviour and accessibility
-   * come from the headless Button (`@design-system/core`); this layer adds the
+   * come from the headless Button (`@invisible-ui/core`); this layer adds the
    * semantic variants and icon affordances.
    *
    * Variants (semantic, surfaced as `data-variant`):
@@ -284,7 +284,7 @@
      room. */
   .button__status:not(:empty) {
     margin-inline-start: 0.5rem;
-    color: var(--ds-color-text-secondary, #524c44);
+    color: var(--ds-color-text-secondary, #515151);
     font-size: 0.875em;
   }
 
@@ -300,18 +300,18 @@
   /* default: the baseline, medium-emphasis button — white surface + border. */
   .button:global([data-variant="default"]) {
     background: var(--ds-button-bg, var(--ds-color-background, #fff));
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
     border-color: var(
       --ds-button-border,
       color-mix(
         in srgb,
-        var(--ds-color-control-border, #757067) 70%,
+        var(--ds-color-control-border, #757575) 70%,
         var(--ds-color-background, #fff)
       )
     );
   }
   .button:global([data-variant="default"]):hover:not(:disabled) {
-    background: var(--ds-button-bg-hover, var(--ds-color-surface, #e6e0d8));
+    background: var(--ds-button-bg-hover, var(--ds-color-surface, #e0e0e0));
   }
 
   /* primary: the high-emphasis call to action. */
@@ -345,7 +345,7 @@
      (e.g. the Alert "×") have no text to underline. */
   .button:global([data-variant="ghost"]) {
     background: transparent;
-    color: var(--ds-button-ghost-color, var(--ds-color-text, #282420));
+    color: var(--ds-button-ghost-color, var(--ds-color-text, #272727));
   }
   .button:global([data-variant="ghost"]):not(.button--icon-only) {
     text-decoration: underline;

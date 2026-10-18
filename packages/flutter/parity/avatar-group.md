@@ -1,12 +1,12 @@
 # AvatarGroup parity checklist
 
-Reference commit: `e32e67cd2cc2fb993c9758007c27026cafc20420`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/avatar-group`
 
 The Flutter `AvatarGroup` checked against the Svelte `AvatarGroup`
-(`packages/svelte/src/lib/avatar-group/AvatarGroup.svelte`), with the chip
-name of the React adapter, which reads the catalog.
+(`packages/svelte/src/lib/avatar-group/AvatarGroup.svelte`), which reads
+the chip name from the catalog.
 Docs page: [Avatar Group](https://dr2madre.github.io/invisible-ui/components/data-layout/avatar-group/).
 
 Each line is **matched**, **adapted** (with the platform reason) or **out of

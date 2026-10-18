@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "InlineNotification",
-        "specifier": "@design-system/svelte/InlineNotification.svelte"
+        "specifier": "@invisible-ui/svelte/InlineNotification.svelte"
       },
       "props": [
         {
@@ -207,7 +207,7 @@
       "import": {
         "kind": "named",
         "name": "InlineNotification",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -372,7 +372,7 @@
       "import": {
         "kind": "named",
         "name": "InlineNotification",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -558,7 +558,7 @@
       "import": {
         "kind": "element",
         "name": "ds-inline-notification",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

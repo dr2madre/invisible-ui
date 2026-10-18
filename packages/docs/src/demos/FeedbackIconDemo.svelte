@@ -1,5 +1,5 @@
 <script>
-  import FeedbackIcon from "@design-system/svelte/FeedbackIcon.svelte";
+  import FeedbackIcon from "@invisible-ui/svelte/FeedbackIcon.svelte";
 
   const statuses = ["info", "success", "warning", "danger", "neutral"];
 </script>

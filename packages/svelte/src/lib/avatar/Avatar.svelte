@@ -1,9 +1,9 @@
 <script module lang="ts">
-  import { avatar } from "@design-system/core";
+  import { avatar } from "@invisible-ui/core";
 
   /**
    * Up to two initials from a name (first and last word), counted in
-   * user-perceived characters. The logic lives in `@design-system/core`.
+   * user-perceived characters. The logic lives in `@invisible-ui/core`.
    */
   export function initialsOf(name: string): string {
     return avatar.initialsOf(name);
@@ -58,8 +58,8 @@
     overflow: hidden;
     inline-size: var(--ds-avatar-size, 2.5rem);
     block-size: var(--ds-avatar-size, 2.5rem);
-    background-color: var(--ds-avatar-bg, var(--ds-color-surface, #e6e0d8));
-    color: var(--ds-avatar-color, var(--ds-color-text, #282420));
+    background-color: var(--ds-avatar-bg, var(--ds-color-surface, #e0e0e0));
+    color: var(--ds-avatar-color, var(--ds-color-text, #272727));
     font-weight: 600;
     line-height: 1;
     user-select: none;

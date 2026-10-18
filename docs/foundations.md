@@ -9,14 +9,14 @@ primitives through the `data-*` hooks they expose (e.g. `data-state`,
 Everything is expressed as **overridable CSS custom properties**, so you can
 keep them, retheme them, or ignore them entirely.
 
-> Nothing here is bundled into `@design-system/core` or the adapters. Copy what
+> Nothing here is bundled into `@invisible-ui/core` or the adapters. Copy what
 > you want into your app's global stylesheet and change the values freely.
 
 The visual layer is documented separately:
 
 - **Color palette** — the raw colors (HEX / OKLCH) and the per-hue scale
   (Dioxazine Purple brand, Cobalt Blue / Sap Green / Burnt Orange / Alizarin Red
-  feedback, Warm Grey neutrals). See the docs site,
+  feedback, Grey neutrals). See the docs site,
   `presentation/color-palette`.
 - **[Tokens](./tokens.md)** — the canonical token model and the two-tier
   `tokens.css` layer (primitives → semantic `--ds-color-*` roles) the components

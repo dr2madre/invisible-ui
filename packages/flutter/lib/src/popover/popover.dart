@@ -360,7 +360,7 @@ class _PopoverState extends State<Popover> {
       constraints: BoxConstraints(maxWidth: widget._maxWidth),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: colors.background,
+          color: colors.popoverBackground,
           border: Border.all(color: colors.border),
           borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
           boxShadow: overlayShadow(theme.brightness),

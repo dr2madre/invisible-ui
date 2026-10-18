@@ -1,8 +1,8 @@
 ---
-"@design-system/core": patch
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/elements": patch
+"@invisible-ui/core": patch
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/elements": patch
 ---
 
 A disabled menu trigger now carries `data-disabled` from the core, next to

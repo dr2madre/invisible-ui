@@ -1,6 +1,6 @@
 # Card parity checklist
 
-Reference commit: `0c336bd6e53053c3c9e46ad4d7701879eba50315`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/card`
 
@@ -50,3 +50,7 @@ that holds it.
 | The title is a heading at `headingLevel`, 3 by default | matched | same test |
 | Contrast and labelled targets, light and dark | matched | `contrast and labelled targets, light`, `… dark` |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+
+## Background token
+
+The background reads the component token `--ds-card-background` (`--ds-card-secondary-background` for the secondary card) on the web and `InvisibleColors.cardBackground` (`cardSecondaryBackground`) in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

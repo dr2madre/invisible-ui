@@ -1,7 +1,7 @@
 // The docs site and the examples are the project's own consumers. They resolve
 // the packages through the workspace, so an import that only works because the
 // source happens to be next door would pass their build and fail everybody
-// else's. This checks every `@design-system/*` specifier they use against the
+// else's. This checks every `@invisible-ui/*` specifier they use against the
 // target package's own `exports` map: what a consumer cannot import, the docs
 // and the examples must not import either.
 import { specifiersOf, withoutQuery } from "./specifiers.mjs";
@@ -14,11 +14,11 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 /** The consumers, and the package directories they may import from. */
 const CONSUMERS = ["packages/docs/src", "examples"];
 const PACKAGE_DIRS = {
-  "@design-system/core": "core",
-  "@design-system/svelte": "packages/svelte",
-  "@design-system/vue": "packages/vue",
-  "@design-system/react": "packages/react",
-  "@design-system/elements": "packages/elements",
+  "@invisible-ui/core": "core",
+  "@invisible-ui/svelte": "packages/svelte",
+  "@invisible-ui/vue": "packages/vue",
+  "@invisible-ui/react": "packages/react",
+  "@invisible-ui/elements": "packages/elements",
 };
 
 // Stylesheets and prose count: the docs site imports a package's tokens from
@@ -48,11 +48,11 @@ const known = Object.fromEntries(
 );
 const failures = [];
 
-/** Every `@design-system/*` specifier a consumer file names. */
+/** Every `@invisible-ui/*` specifier a consumer file names. */
 const ours = (text) =>
   specifiersOf(text)
     .specifiers.map(withoutQuery)
-    .filter((specifier) => specifier.startsWith("@design-system/"));
+    .filter((specifier) => specifier.startsWith("@invisible-ui/"));
 
 const seen = new Set();
 for (const root of CONSUMERS) {

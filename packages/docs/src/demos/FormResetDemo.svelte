@@ -4,12 +4,12 @@
    * defaults exactly as the native form beside it does, reports nothing, and a
    * consumer can replace the whole restore by cancelling the reset event.
    */
-  import Button from "@design-system/svelte/Button.svelte";
-  import Checkbox from "@design-system/svelte/Checkbox.svelte";
-  import Select from "@design-system/svelte/Select.svelte";
-  import Switch from "@design-system/svelte/Switch.svelte";
-  import TextField from "@design-system/svelte/TextField.svelte";
-  import PinInput from "@design-system/svelte/PinInput.svelte";
+  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Checkbox from "@invisible-ui/svelte/Checkbox.svelte";
+  import Select from "@invisible-ui/svelte/Select.svelte";
+  import Switch from "@invisible-ui/svelte/Switch.svelte";
+  import TextField from "@invisible-ui/svelte/TextField.svelte";
+  import PinInput from "@invisible-ui/svelte/PinInput.svelte";
 
   const fruit = [
     { value: "apple", label: "Apple" },
@@ -78,7 +78,7 @@
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
-    color: var(--ds-color-text, #282420);
+    color: var(--ds-color-text, #272727);
   }
   .form-reset-demo form {
     display: grid;
@@ -109,7 +109,7 @@
   .form-reset-demo select {
     max-inline-size: 100%;
     box-sizing: border-box;
-    border: 1px solid var(--ds-color-control-border, #757067);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     padding: 0.35rem 0.5rem;
     font: inherit;
@@ -132,9 +132,9 @@
     min-block-size: 2.25rem;
     padding: 0.4rem 0.9rem;
     font: inherit;
-    color: var(--ds-color-text, #282420);
-    background: var(--ds-color-surface, #e6e0d8);
-    border: 1px solid var(--ds-color-control-border, #757067);
+    color: var(--ds-color-text, #272727);
+    background: var(--ds-color-surface, #e0e0e0);
+    border: 1px solid var(--ds-color-control-border, #757575);
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }

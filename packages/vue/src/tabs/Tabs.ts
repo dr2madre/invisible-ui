@@ -1,4 +1,4 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, type PropType, type SlotsType, type VNode } from "vue";
 import { Icon } from "../icon/Icon";
 import { useTabs, type ActivationMode, type TabItem } from "./use-tabs";
 
@@ -35,13 +35,16 @@ export interface TabsProps {
  * Tabs: the styled, batteries-included tabs widget (WAI-ARIA tabs pattern):
  * roving tabindex, arrow/Home/End navigation, automatic or manual activation.
  * Behaviour and accessibility come from the headless tabs
- * (`@design-system/core`); this layer adds the underline indicator and panels.
+ * (`@invisible-ui/core`); this layer adds the underline indicator and panels.
  *
  * Each item supplies a tab `label` (falling back to `value`) and, optionally,
  * its panel `content` as text. For rich panel markup, use the scoped `panel`
  * slot; it renders once per tab with the `item`, so the consumer can put any
  * content in the (correctly wired) panel and switch on `item.value`. The text
- * `content` is the fallback when the slot is absent.
+ * `content` is the fallback when the slot is absent. The `actions` slot
+ * renders commands, such as "add", right after the tab list and outside it:
+ * they are ordinary buttons in the Tab order after the selected tab, never
+ * tabs, and the arrow keys never reach them.
  *
  * The selected tab binds two ways: `v-model` (the idiomatic Vue form) or the
  * `value` prop plus `onValueChange`, matching the other controlled components.
@@ -60,6 +63,12 @@ export const Tabs = defineComponent({
   emits: {
     "update:modelValue": (value: string) => typeof value === "string",
   },
+  slots: Object as SlotsType<{
+    /** Rich content of one panel, rendered once per tab with its `item`. */
+    panel?: (props: { item: TabsItem }) => VNode[];
+    /** Commands beside the tab list, outside it, such as an "add" button. */
+    actions?: () => VNode[];
+  }>,
   setup(props, { emit, slots }) {
     const { api, listRef } = useTabs(() => ({
       items: props.items,
@@ -72,7 +81,7 @@ export const Tabs = defineComponent({
     }));
 
     return () =>
-      h("div", { class: "tabs" }, [
+      h("div", { class: slots.actions ? "tabs tabs--with-actions" : "tabs" }, [
         h(
           "div",
           { ...api.value.rootProps, class: "tabs__list", ref: listRef, "aria-label": props.label },
@@ -101,6 +110,7 @@ export const Tabs = defineComponent({
             ),
           ),
         ),
+        slots.actions ? h("div", { class: "tabs__actions" }, slots.actions()) : null,
         ...props.items.map((item) =>
           h(
             "div",

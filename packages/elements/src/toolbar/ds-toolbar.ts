@@ -1,4 +1,4 @@
-import { toolbar as core } from "@design-system/core";
+import { toolbar as core } from "@invisible-ui/core";
 import { boolAttr, HTMLElementBase } from "../internal/base";
 
 export type ToolbarOrientation = core.ToolbarOrientation;
@@ -123,6 +123,7 @@ export class DsToolbar extends HTMLElementBase {
       count: list.length,
       orientation: this.#orientation(),
       direction: getComputedStyle(this.#root!).direction === "rtl" ? "rtl" : "ltr",
+      control: core.controlKind(document.activeElement),
     });
     if (next === null) return;
     event.preventDefault();

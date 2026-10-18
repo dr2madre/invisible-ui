@@ -1,6 +1,6 @@
 ---
-"@design-system/core": minor
-"@design-system/svelte": minor
+"@invisible-ui/core": minor
+"@invisible-ui/svelte": minor
 ---
 
 Form reset restores the current default, silently (ADR 0012). Every

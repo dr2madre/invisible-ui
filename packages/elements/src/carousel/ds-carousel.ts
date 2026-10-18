@@ -1,4 +1,4 @@
-import { carousel as core } from "@design-system/core";
+import { carousel as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { localized, onLocaleChange, t } from "../internal/i18n";
 import { SVG_NS } from "../internal/icons";
@@ -53,7 +53,7 @@ const reducedMotion = () =>
  * active item centered and its neighbours receding.
  *
  * Behaviour and accessibility come from the headless carousel in
- * `@design-system/core` (WAI-ARIA carousel pattern): a named group of "N of M"
+ * `@invisible-ui/core` (WAI-ARIA carousel pattern): a named group of "N of M"
  * slides, previous and next buttons, slide-picker dots, an optional `loop` and
  * arrow-key navigation along the `orientation`. A slide out of view is hidden
  * from assistive technology and inert. The carousel does not rotate on its own.
@@ -289,7 +289,7 @@ export class DsCarousel extends HTMLElementBase {
   }
 
   // Coverflow: each slide moves along the flow by its signed distance from the
-  // active one, recedes with a rotation and a downscale, and the far ones fade.
+  // active one and recedes with a rotation and a downscale.
   #coverflow(slide: HTMLElement, offset: number) {
     const abs = Math.abs(offset);
     const vertical = this.#orientation() === "vertical";
@@ -298,11 +298,11 @@ export class DsCarousel extends HTMLElementBase {
       : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
     const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
     const scale = Math.max(0, 1 - abs * 0.15);
-    // The neighbours fade on purpose, as in the other adapters (decided
-    // 2026-08-04): their text measures below AA beside the active slide.
-    const opacity = abs > 2 ? 0 : Math.max(0, 1 - abs * 0.28);
+    // Neighbours recede by scale and turn only: a fade would take their text
+    // below the AA contrast. Slides past two places are hidden outright.
+    const opacity = abs > 2 ? 0 : 1;
     slide.style.transform = `translate(-50%, -50%) ${translate} ${rotate} scale(${scale.toFixed(3)})`;
-    slide.style.opacity = opacity.toFixed(3);
+    slide.style.opacity = String(opacity);
     slide.style.zIndex = String(100 - Math.round(abs));
   }
 

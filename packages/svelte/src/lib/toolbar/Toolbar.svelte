@@ -14,7 +14,7 @@
    */
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
-  import { toolbar as core } from "@design-system/core";
+  import { toolbar as core } from "@invisible-ui/core";
 
   interface Props {
     label: string;
@@ -83,6 +83,7 @@
       count: list.length,
       orientation,
       direction: root && getComputedStyle(root).direction === "rtl" ? "rtl" : "ltr",
+      control: core.controlKind(document.activeElement),
     });
     if (next === null) return;
     event.preventDefault();
@@ -146,7 +147,7 @@
     align-items: center;
     gap: var(--ds-toolbar-gap, 0.375rem);
     padding: var(--ds-toolbar-padding, 0.25rem);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-toolbar-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
   }

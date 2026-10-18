@@ -15,7 +15,7 @@ There is no styled wrapper, timer, fetch, cache, retry executor or
 query-library dependency in the library.
 
 ```ts
-import { asyncContent } from "@design-system/core";
+import { asyncContent } from "@invisible-ui/core";
 
 const view = asyncContent.deriveAsyncView({
   status, // "idle" | "loading" | "success" | "error"
@@ -51,7 +51,7 @@ to `idle`.
 
 ```svelte
 <script>
-  import { asyncContent } from "@design-system/core";
+  import { asyncContent } from "@invisible-ui/core";
   let status = $state("idle");
   let content = $state(null);
   let lastResultEmpty = $state(false);
@@ -81,7 +81,7 @@ to `idle`.
 
 ```vue
 <script setup lang="ts">
-import { asyncContent } from "@design-system/core";
+import { asyncContent } from "@invisible-ui/core";
 import { computed, ref } from "vue";
 
 const status = ref<asyncContent.AsyncStatus>("idle");

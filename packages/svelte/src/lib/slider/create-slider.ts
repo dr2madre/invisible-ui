@@ -1,4 +1,4 @@
-import { slider as core } from "@design-system/core";
+import { slider as core } from "@invisible-ui/core";
 import { get, derived, writable, type Readable } from "svelte/store";
 import { stableId } from "../internal/stable-id";
 

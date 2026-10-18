@@ -1,5 +1,5 @@
 <script>
-  import Textarea from "@design-system/svelte/Textarea.svelte";
+  import Textarea from "@invisible-ui/svelte/Textarea.svelte";
 </script>
 
 <!-- A native <textarea>: multi-line and user-resizable (drag the bottom-right

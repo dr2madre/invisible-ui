@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "ButtonGroup",
-        "specifier": "@design-system/svelte/ButtonGroup.svelte"
+        "specifier": "@invisible-ui/svelte/ButtonGroup.svelte"
       },
       "props": [
         {
@@ -47,7 +47,7 @@
       "import": {
         "kind": "named",
         "name": "ButtonGroup",
-        "specifier": "@design-system/vue"
+        "specifier": "@invisible-ui/vue"
       },
       "props": [
         {
@@ -92,7 +92,7 @@
       "import": {
         "kind": "named",
         "name": "ButtonGroup",
-        "specifier": "@design-system/react"
+        "specifier": "@invisible-ui/react"
       },
       "extends": [],
       "props": [
@@ -142,7 +142,7 @@
       "import": {
         "kind": "element",
         "name": "ds-button-group",
-        "specifier": "@design-system/elements/define"
+        "specifier": "@invisible-ui/elements/define"
       },
       "attributes": [
         {

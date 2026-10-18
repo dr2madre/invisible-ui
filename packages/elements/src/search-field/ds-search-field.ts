@@ -1,4 +1,4 @@
-import { textField as core } from "@design-system/core";
+import { textField as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";

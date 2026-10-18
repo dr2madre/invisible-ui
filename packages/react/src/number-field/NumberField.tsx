@@ -1,4 +1,4 @@
-import { numberField as core } from "@design-system/core";
+import { numberField as core } from "@invisible-ui/core";
 import { useId, useRef } from "react";
 import { useI18n } from "../i18n/i18n";
 import { cx } from "../internal/cx";

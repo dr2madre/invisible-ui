@@ -1,6 +1,6 @@
 # Multi-framework adapters roadmap
 
-Tracks the effort to prove the framework-agnostic `@design-system/core` with
+Tracks the effort to prove the framework-agnostic `@invisible-ui/core` with
 adapters beyond Svelte. This is technical-roadmap item **#6 (second framework
 adapter)** expanded into a concrete plan. For what comes *after* (Web
 Components, Vue, Flutter tokens, Rust): `docs/next-adapter-strategy.md`.
@@ -67,7 +67,7 @@ always close over current state — no listener bookkeeping.
 and Dialog (`packages/react`, 99 tests incl. axe, SSR and hydration). Part B: the same six as
 Reflex wrappers (`packages/reflex`, importable as `invisible_ui`; 8 render
 tests) — thin `rx.Component` subclasses over the React build, per ADR 0006.
-Until `@design-system/react` is published to npm, a consuming Reflex app must
+Until `@invisible-ui/react` is published to npm, a consuming Reflex app must
 make the package resolvable itself (see the package README); the example app
 lives in `examples/reflex`.
 
@@ -104,8 +104,8 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 
 ## Part A — React adapter (`packages/react`)
 
-1. **Scaffold** — `@design-system/react`, ESM, `tsup` build; peer deps
-   `react`/`react-dom` (`^18 || ^19`); deps `@design-system/core` (workspace),
+1. **Scaffold** — `@invisible-ui/react`, ESM, `tsup` build; peer deps
+   `react`/`react-dom` (`^18 || ^19`); deps `@invisible-ui/core` (workspace),
    `@floating-ui/react-dom`. Vitest + `@testing-library/react` + `vitest-axe`.
    Picked up by the existing `packages/*` workspace glob.
 2. **`src/normalize.ts`** — the near-identity seam described above.
@@ -127,12 +127,12 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
    ported to a co-located CSS file, class names kept identical for visual parity.
 6. **Tests** — port the behavioural assertions from the Svelte suite (role/name,
    keyboard, controlled callbacks, `data-state`, `axe()`), green under
-   `pnpm --filter @design-system/react test`.
+   `pnpm --filter @invisible-ui/react test`.
 
 ## Part B — Reflex adapter (`packages/reflex`, Python)
 
 1. **Wrap the React build** — each PoC component becomes an `rx.Component`
-   subclass with `library = "@design-system/react"`, `tag = "Select"` (etc.),
+   subclass with `library = "@invisible-ui/react"`, `tag = "Select"` (etc.),
    typed component vars mirroring the React props, and event triggers mapping to
    `onValueChange`/`onCheckedChange`/…
 2. **Package** — `packages/reflex/pyproject.toml` (Python, outside the pnpm
@@ -153,14 +153,14 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 - `packages/reflex/` — `pyproject.toml`, `invisible_ui/*.py`.
 - `examples/reflex/` — minimal Reflex app.
 - `docs/adr/0006-python-adapter-wraps-react.md`.
-- Root `package.json` release list — add `@design-system/react`.
+- Root `package.json` release list — add `@invisible-ui/react`.
 
 ## Verification
 
-1. `pnpm --filter @design-system/core build` (consumed by the React adapter).
-2. `pnpm --filter @design-system/react build` — clean ESM + `.d.ts`.
-3. `pnpm --filter @design-system/react test` — vitest + axe green for the 5.
-4. `pnpm --filter @design-system/example-react dev` — manually keyboard-drive
+1. `pnpm --filter @invisible-ui/core build` (consumed by the React adapter).
+2. `pnpm --filter @invisible-ui/react build` — clean ESM + `.d.ts`.
+3. `pnpm --filter @invisible-ui/react test` — vitest + axe green for the 5.
+4. `pnpm --filter @invisible-ui/example-react dev` — manually keyboard-drive
    Select (arrows/typeahead/Escape) and Dialog (focus trap, Escape) in a browser.
 5. `cd examples/reflex && reflex run` — components render and `on_value_change`
    fires into Python state.

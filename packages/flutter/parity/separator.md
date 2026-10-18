@@ -1,6 +1,6 @@
 # Separator parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `packages/svelte/src/lib/separator`
 

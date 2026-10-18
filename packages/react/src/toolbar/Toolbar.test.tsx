@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
@@ -266,5 +266,38 @@ describe("React Toolbar (toggle group children)", () => {
     // The pressed toggle's hidden form input is not a stop on the way.
     expect(control("Redo")).toHaveFocus();
     expect(control("Bold")).toHaveAttribute("aria-pressed", "true");
+  });
+});
+
+describe("React Toolbar with a text field", () => {
+  const Field = () => (
+    <Toolbar label="Find">
+      <button type="button">Bold</button>
+      <input type="text" aria-label="Search" />
+      <button type="button">Italic</button>
+    </Toolbar>
+  );
+
+  it("leaves the caret keys to the text field", () => {
+    render(<Field />);
+    const input = screen.getByRole("textbox", { name: "Search" });
+    input.focus();
+    for (const key of ["ArrowLeft", "ArrowRight", "Home", "End"]) {
+      // fireEvent returns false when a handler cancelled the event.
+      expect(fireEvent.keyDown(input, { key })).toBe(true);
+      expect(input).toHaveFocus();
+    }
+  });
+
+  it("still moves in and out of the field from the buttons beside it", () => {
+    render(<Field />);
+    const bold = screen.getByRole("button", { name: "Bold" });
+    bold.focus();
+    fireEvent.keyDown(bold, { key: "ArrowRight" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
+    const italic = screen.getByRole("button", { name: "Italic" });
+    italic.focus();
+    fireEvent.keyDown(italic, { key: "ArrowLeft" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
   });
 });

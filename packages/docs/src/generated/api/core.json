@@ -1,5 +1,5 @@
 {
-  "package": "@design-system/core",
+  "package": "@invisible-ui/core",
   "entry": "core/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -824,6 +824,146 @@
       "name": "formReset.onFormReset",
       "kind": "const",
       "signature": "formReset_onFormReset: typeof onFormReset"
+    },
+    {
+      "name": "grid",
+      "kind": "namespace",
+      "signature": "namespace grid"
+    },
+    {
+      "name": "grid.CellLabelKind",
+      "kind": "type",
+      "signature": "grid.CellLabelKind = type CellLabelKind = \"cell\" | \"rowHeader\" | \"columnTotal\" | \"rowTotal\" | \"grandTotal\";"
+    },
+    {
+      "name": "grid.CellLabelParts",
+      "kind": "type",
+      "signature": "grid.CellLabelParts = interface CellLabelParts { /** Defaults to `cell`. */ kind?: CellLabelKind; /** The column label (\"Monday 6 October\"); not used by `rowHeader`, `rowTotal` and `grandTotal`. */ column?: string; /** The row label (\"PX-12 Project X\"); not used by `columnTotal` and `grandTotal`. */ row?: string; /** The value text. A `rowHeader` without one is the row label alone (no totals). */ value?: string; badge?: string; secondary?: string; error?: string; }"
+    },
+    {
+      "name": "grid.CellPos",
+      "kind": "type",
+      "signature": "grid.CellPos = interface CellPos { row: number; column: number; }"
+    },
+    {
+      "name": "grid.GridCell",
+      "kind": "type",
+      "signature": "grid.GridCell = interface GridCell { kind: GridCellKind; /** Hours, or any number. `null` is \"no value\", distinct from 0. */ value: number | null; /** Summary cells: visible and announced text, e.g. \"2 entries\". */ badge?: string; /** Secondary emphasis: still editable; shown by style and by the visible `secondaryLabel`. */ secondary?: boolean; /** Required when `secondary`; the application's own words, e.g. \"Non-working day\". */ secondaryLabel?: string; /** The application's validation message, e.g. \"More than 24 hours on this day\". */ error?: string; }"
+    },
+    {
+      "name": "grid.GridCellKind",
+      "kind": "type",
+      "signature": "grid.GridCellKind = type GridCellKind = \"editable\" | \"summary\" | \"readonly\";"
+    },
+    {
+      "name": "grid.GridCellRef",
+      "kind": "type",
+      "signature": "grid.GridCellRef = interface GridCellRef { rowId: string; columnId: string; }"
+    },
+    {
+      "name": "grid.GridCommand",
+      "kind": "type",
+      "signature": "grid.GridCommand = type GridCommand = { type: \"move\"; to: CellPos; } | { type: \"edit\"; seed: \"select\" | \"end\" | \"replace\" | \"clear\"; text?: string; } | { type: \"commit\"; then: \"stay\"; } | { type: \"commit\"; then: \"next\" | \"previous\"; to: CellPos; } | { type: \"commit\"; then: \"leave\"; forward: boolean; } | { type: \"cancel\"; } | { type: \"activate\"; } | { type: \"details\"; commitFirst: boolean; } | { type: \"step\"; direction: 1 | -1; } | { type: \"none\"; };"
+    },
+    {
+      "name": "grid.GridIds",
+      "kind": "type",
+      "signature": "grid.GridIds = interface GridIds { rowIds: readonly string[]; columnIds: readonly string[]; }"
+    },
+    {
+      "name": "grid.GridKey",
+      "kind": "type",
+      "signature": "grid.GridKey = interface GridKey { key: string; ctrl: boolean; meta: boolean; alt: boolean; shift: boolean; /** Whether an input method is composing text. */ composing: boolean; }"
+    },
+    {
+      "name": "grid.GridKeyOptions",
+      "kind": "type",
+      "signature": "grid.GridKeyOptions = interface GridKeyOptions { direction: \"ltr\" | \"rtl\"; /** Body rows fully visible in the scroll area, measured by the adapter. */ pageRows: number; /** Whether a typed character starts editing: the locale's digits, separator and sign. */ accepts(char: string): boolean; /** The details shortcut. The grid has no default. */ detailsShortcut?: GridShortcut; }"
+    },
+    {
+      "name": "grid.GridMessages",
+      "kind": "type",
+      "signature": "grid.GridMessages = interface GridMessages { /** Resolved locale, for plural rules. Defaults to the catalog's. */ locale?: string; /** Consumer catalog overrides. */ messages?: Messages; /** * An adapter's own translator, already bound to its locale and overrides. * Given, it wins over `locale` and `messages`. */ translate?: (key: MessageKey, vars?: Record<string, string | number>) => string; }"
+    },
+    {
+      "name": "grid.GridMode",
+      "kind": "type",
+      "signature": "grid.GridMode = type GridMode = \"navigate\" | \"edit\";"
+    },
+    {
+      "name": "grid.GridShape",
+      "kind": "type",
+      "signature": "grid.GridShape = interface GridShape { rowCount: number; columnCount: number; kindAt(pos: CellPos): GridCellKind; hasDetails(pos: CellPos): boolean; }"
+    },
+    {
+      "name": "grid.GridShortcut",
+      "kind": "type",
+      "signature": "grid.GridShortcut = type GridShortcut = Omit<GridKey, \"composing\">;"
+    },
+    {
+      "name": "grid.GridTotals",
+      "kind": "type",
+      "signature": "grid.GridTotals = interface GridTotals { /** One per body row: the row total. */ rows: (number | null)[]; /** One per data column: the column total. */ columns: (number | null)[]; /** The sum of every body value. */ grand: number | null; }"
+    },
+    {
+      "name": "grid.acceptsCharacter",
+      "kind": "const",
+      "signature": "grid_acceptsCharacter: typeof acceptsCharacter"
+    },
+    {
+      "name": "grid.cellLabel",
+      "kind": "const",
+      "signature": "grid_cellLabel: typeof cellLabel"
+    },
+    {
+      "name": "grid.clampActive",
+      "kind": "const",
+      "signature": "grid_clampActive: typeof clampActive"
+    },
+    {
+      "name": "grid.detailsLabel",
+      "kind": "const",
+      "signature": "grid_detailsLabel: typeof detailsLabel"
+    },
+    {
+      "name": "grid.errorAnnouncement",
+      "kind": "const",
+      "signature": "grid_errorAnnouncement: typeof errorAnnouncement"
+    },
+    {
+      "name": "grid.gridKeyCommand",
+      "kind": "const",
+      "signature": "grid_gridKeyCommand: typeof gridKeyCommand"
+    },
+    {
+      "name": "grid.gridTotals",
+      "kind": "const",
+      "signature": "grid_gridTotals: typeof gridTotals"
+    },
+    {
+      "name": "grid.initialActive",
+      "kind": "const",
+      "signature": "grid_initialActive: typeof initialActive"
+    },
+    {
+      "name": "grid.matchesShortcut",
+      "kind": "const",
+      "signature": "grid_matchesShortcut: typeof matchesShortcut"
+    },
+    {
+      "name": "grid.nextEditable",
+      "kind": "const",
+      "signature": "grid_nextEditable: typeof nextEditable"
+    },
+    {
+      "name": "grid.resolveActive",
+      "kind": "const",
+      "signature": "grid_resolveActive: typeof resolveActive"
+    },
+    {
+      "name": "grid.sumValues",
+      "kind": "const",
+      "signature": "grid_sumValues: typeof sumValues"
     },
     {
       "name": "hoverCard",
@@ -2126,6 +2266,11 @@
       "signature": "scrollArea_hasOverflow: typeof hasOverflow"
     },
     {
+      "name": "scrollArea.observeInlineOverflow",
+      "kind": "const",
+      "signature": "scrollArea_observeInlineOverflow: typeof observeInlineOverflow"
+    },
+    {
       "name": "scrollArea.scrollByThumbDrag",
       "kind": "const",
       "signature": "scrollArea_scrollByThumbDrag: typeof scrollByThumbDrag"
@@ -2476,6 +2621,26 @@
       "signature": "table.TableContext = interface TableContext { columns: TableColumn[]; /** Initial sort. Defaults to none. */ sort?: SortState | null; /** Initially hidden column keys. Defaults to none. */ hiddenColumns?: string[]; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the sort changes (including cleared to `null`). */ onSortChange?: (sort: SortState | null) => void; /** Called whenever the hidden-column set changes. */ onHiddenColumnsChange?: (hidden: string[]) => void; /** How rows can be selected. Defaults to `\"none\"`. */ selectionMode?: SelectionMode; /** Initially selected row ids. Defaults to none. */ selectedRowIds?: RowId[]; /** Called whenever the selected row ids change. */ onSelectedRowIdsChange?: (ids: RowId[]) => void; }"
     },
     {
+      "name": "table.TableResultsInput",
+      "kind": "type",
+      "signature": "table.TableResultsInput = interface TableResultsInput { /** The number of rows supplied, already filtered. */ count: number; /** Whether the consumer's filters are active. */ filtersActive: boolean; /** The consumer's filter revision, when it keeps one. */ filterRevision?: string | number; /** The unfiltered row count when known; `0` means the dataset is empty. */ totalRowCount?: number; }"
+    },
+    {
+      "name": "table.TableResultsMemory",
+      "kind": "type",
+      "signature": "table.TableResultsMemory = interface TableResultsMemory { count: number; filters: string; }"
+    },
+    {
+      "name": "table.TableResultsMessage",
+      "kind": "type",
+      "signature": "table.TableResultsMessage = type TableResultsMessage = { kind: \"results\"; count: number; } | { kind: \"no-results\"; };"
+    },
+    {
+      "name": "table.TableResultsUpdate",
+      "kind": "type",
+      "signature": "table.TableResultsUpdate = interface TableResultsUpdate { /** Pass this back with the next state. */ memory: TableResultsMemory; /** `null` when the change needs no announcement. */ message: TableResultsMessage | null; }"
+    },
+    {
       "name": "table.TableState",
       "kind": "type",
       "signature": "table.TableState = interface TableState { columns: TableColumn[]; /** The active sort, or `null` when unsorted. */ sort: SortState | null; /** Keys of columns hidden via configuration. */ hiddenColumns: string[]; /** How rows can be selected. */ selectionMode: SelectionMode; /** Ids of the selected rows, in the order they were selected. */ selectedRowIds: RowId[]; /** Base id (styling/labelling hook). */ id: string; }"
@@ -2514,6 +2679,11 @@
       "name": "table.sortRows",
       "kind": "const",
       "signature": "table_sortRows: typeof sortRows"
+    },
+    {
+      "name": "table.tableResultsUpdate",
+      "kind": "const",
+      "signature": "table_tableResultsUpdate: typeof tableResultsUpdate"
     },
     {
       "name": "table.toggleHidden",
@@ -2901,6 +3071,16 @@
       "signature": "namespace toolbar"
     },
     {
+      "name": "toolbar.ToolbarControlKind",
+      "kind": "type",
+      "signature": "toolbar.ToolbarControlKind = type ToolbarControlKind = \"text\" | \"multiline\" | \"other\";"
+    },
+    {
+      "name": "toolbar.ToolbarControlLike",
+      "kind": "type",
+      "signature": "toolbar.ToolbarControlLike = interface ToolbarControlLike { tagName: string; type?: string; readOnly?: boolean; isContentEditable?: boolean; }"
+    },
+    {
       "name": "toolbar.ToolbarDirection",
       "kind": "type",
       "signature": "toolbar.ToolbarDirection = type ToolbarDirection = \"ltr\" | \"rtl\";"
@@ -2908,7 +3088,7 @@
     {
       "name": "toolbar.ToolbarMoveOptions",
       "kind": "type",
-      "signature": "toolbar.ToolbarMoveOptions = interface ToolbarMoveOptions { /** The key the user pressed. */ key: string; /** Index of the control that has focus. */ index: number; /** How many controls the toolbar holds. */ count: number; orientation?: ToolbarOrientation; /** Defaults to `\"ltr\"`. In right-to-left text the arrows swap sides. */ direction?: ToolbarDirection; }"
+      "signature": "toolbar.ToolbarMoveOptions = interface ToolbarMoveOptions { /** The key the user pressed. */ key: string; /** Index of the control that has focus. */ index: number; /** How many controls the toolbar holds. */ count: number; orientation?: ToolbarOrientation; /** Defaults to `\"ltr\"`. In right-to-left text the arrows swap sides. */ direction?: ToolbarDirection; /** * The kind of control that has focus (see `controlKind`). A control that * needs a key for itself keeps it: the toolbar does not move focus then. * Defaults to `\"other\"`. */ control?: ToolbarControlKind; }"
     },
     {
       "name": "toolbar.ToolbarOrientation",
@@ -2916,9 +3096,14 @@
       "signature": "toolbar.ToolbarOrientation = type ToolbarOrientation = \"horizontal\" | \"vertical\";"
     },
     {
+      "name": "toolbar.controlKind",
+      "kind": "const",
+      "signature": "toolbar_controlKind: typeof controlKind"
+    },
+    {
       "name": "toolbar.nextIndex",
       "kind": "function",
-      "signature": "declare function nextIndex#e702ba57({ key, index, count, orientation, direction, }: ToolbarMoveOptions): number | null;"
+      "signature": "declare function nextIndex#34668541({ key, index, count, orientation, direction, control, }: ToolbarMoveOptions): number | null;"
     },
     {
       "name": "tooltip",

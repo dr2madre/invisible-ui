@@ -183,14 +183,24 @@ void main() {
       );
     });
 
-    testWidgets('the rail tooltip gives back the name and the reason', (
-      tester,
-    ) async {
+    testWidgets('the rail tooltip gives back the name and the reason, and '
+        'the reason is read once', (tester) async {
       final semantics = tester.ensureSemantics();
       await tester.pumpWidget(harness(_sidebar(collapsed: true)));
+      final tooltip = tester.widget<Tooltip>(
+        find.ancestor(
+          of: find.bySemanticsLabel('Reports'),
+          matching: find.byType(Tooltip),
+        ),
+      );
+      expect(tooltip.message, 'Reports: Ask an administrator for access');
+      final data = _node(tester, 'Reports').getSemanticsData();
+      expect(data.hint, _reason);
+      expect(data.tooltip, isEmpty, reason: 'the hint already reads it');
       expect(
-        _node(tester, 'Reports').tooltip,
-        'Reports: Ask an administrator for access',
+        '${data.label} ${data.hint} ${data.tooltip}'.split(_reason),
+        hasLength(2),
+        reason: 'the reason appears once in what is read',
       );
       semantics.dispose();
     });

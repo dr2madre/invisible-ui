@@ -1,5 +1,5 @@
 <script>
-  import Stepper from "@design-system/svelte/Stepper.svelte";
+  import Stepper from "@invisible-ui/svelte/Stepper.svelte";
 
   let current = $state(1);
 

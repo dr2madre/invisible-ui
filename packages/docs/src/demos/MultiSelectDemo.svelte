@@ -1,5 +1,5 @@
 <script>
-  import MultiSelect from "@design-system/svelte/MultiSelect.svelte";
+  import MultiSelect from "@invisible-ui/svelte/MultiSelect.svelte";
 
   const items = [
     { value: "ada", label: "Ada Lovelace" },
@@ -41,9 +41,9 @@
   .multi-select-demo__submit {
     font: inherit;
     padding: 0.45rem 1rem;
-    color: var(--ds-color-text, #282420);
-    background: var(--ds-color-surface, #e6e0d8);
-    border: 1px solid var(--ds-color-border, #c7c1b7);
+    color: var(--ds-color-text, #272727);
+    background: var(--ds-color-surface, #e0e0e0);
+    border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }

@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { scrollArea, table as core } from "@invisible-ui/core";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Card } from "../card/Card";
 import { Checkbox, type CheckboxProps } from "../checkbox/Checkbox";
 import { EmptyState } from "../empty-state/EmptyState";
@@ -266,6 +267,39 @@ export function TableView({
   // dataset itself is not empty; an unknown total counts as not empty.
   const noResults = rows.length === 0 && filtersActive && totalRowCount !== 0;
 
+  // Filtering that changes the row count is announced politely, once. The
+  // first state and counts that change with no filtering behind them stay
+  // silent. The no-results panel is a status of its own, so it is not said
+  // twice.
+  const [announcement, setAnnouncement] = useState("");
+  const announced = useRef<core.TableResultsMemory | null>(null);
+  const rowCount = rows.length;
+  useEffect(() => {
+    const { memory, message } = core.tableResultsUpdate(announced.current, {
+      count: rowCount,
+      filtersActive,
+      filterRevision,
+      totalRowCount,
+    });
+    announced.current = memory;
+    if (message) {
+      setAnnouncement(
+        message.kind === "results" ? t("table.results", { count: message.count }) : "",
+      );
+    }
+  }, [rowCount, filtersActive, filterRevision, totalRowCount, t]);
+
+  // A wide table scrolls inside its card, so the card takes focus (and a name)
+  // only while it overflows: the keyboard can then scroll it.
+  const scrollerName = title || caption || t("table.viewTable");
+  const [scrolls, setScrolls] = useState(false);
+  const stopScroller = useRef<(() => void) | null>(null);
+  const scrollerRef = useCallback((node: HTMLDivElement | null) => {
+    stopScroller.current?.();
+    stopScroller.current = node ? scrollArea.observeInlineOverflow(node, setScrolls) : null;
+    if (!node) setScrolls(false);
+  }, []);
+
   // The built-in clear action unmounts with the panel, so focus would fall to
   // the body. When content returns after that action, the view root takes it.
   const rootRef = useRef<HTMLDivElement>(null);
@@ -369,6 +403,9 @@ export function TableView({
 
   return (
     <div className="table-view" tabIndex={-1} ref={rootRef}>
+      <div className="table-view__sr" role="status" aria-live="polite">
+        {announcement}
+      </div>
       {title || allowViewToggle || configurable ? (
         <header className="table-view__header">
           {title ? <TitleTag className="table-view__title">{title}</TitleTag> : null}
@@ -466,7 +503,13 @@ export function TableView({
           </div>
         </>
       ) : (
-        <div className="table-view__card">
+        <div
+          className="table-view__card"
+          ref={scrollerRef}
+          tabIndex={scrolls ? 0 : undefined}
+          role={scrolls ? "region" : undefined}
+          aria-label={scrolls ? scrollerName : undefined}
+        >
           <Table
             columns={shownColumns}
             rows={visibleRows}

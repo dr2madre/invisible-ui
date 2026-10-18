@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/vue";
+import { fireEvent, render, screen, waitFor } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { defineComponent, h } from "vue";
 import { describe, expect, it } from "vitest";
@@ -210,5 +210,40 @@ describe("Vue Toolbar (DOM changes)", () => {
     expect(control("Bold")).toHaveFocus();
     await user.tab();
     expect(screen.getByRole("toolbar").contains(document.activeElement)).toBe(false);
+  });
+});
+
+describe("Vue Toolbar with a text field", () => {
+  const Field = defineComponent({
+    setup: () => () =>
+      h(Toolbar, { label: "Find" }, () => [
+        h("button", { type: "button" }, "Bold"),
+        h("input", { type: "text", "aria-label": "Search" }),
+        h("button", { type: "button" }, "Italic"),
+      ]),
+  });
+
+  it("leaves the caret keys to the text field", () => {
+    render(Field);
+    const input = screen.getByRole("textbox", { name: "Search" });
+    input.focus();
+    for (const key of ["ArrowLeft", "ArrowRight", "Home", "End"]) {
+      const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      input.dispatchEvent(event);
+      expect(event.defaultPrevented).toBe(false);
+      expect(input).toHaveFocus();
+    }
+  });
+
+  it("still moves in and out of the field from the buttons beside it", async () => {
+    render(Field);
+    const bold = screen.getByRole("button", { name: "Bold" });
+    bold.focus();
+    await fireEvent.keyDown(bold, { key: "ArrowRight" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
+    const italic = screen.getByRole("button", { name: "Italic" });
+    italic.focus();
+    await fireEvent.keyDown(italic, { key: "ArrowLeft" });
+    expect(screen.getByRole("textbox", { name: "Search" })).toHaveFocus();
   });
 });

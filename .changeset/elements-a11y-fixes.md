@@ -1,9 +1,9 @@
 ---
-"@design-system/elements": minor
-"@design-system/core": minor
-"@design-system/svelte": patch
-"@design-system/vue": patch
-"@design-system/react": patch
+"@invisible-ui/elements": minor
+"@invisible-ui/core": minor
+"@invisible-ui/svelte": patch
+"@invisible-ui/vue": patch
+"@invisible-ui/react": patch
 ---
 
 Accessibility fixes across the web components, with the shared stylesheets

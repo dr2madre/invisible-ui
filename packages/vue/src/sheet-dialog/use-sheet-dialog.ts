@@ -1,4 +1,4 @@
-import { sheetDialog as sheet } from "@design-system/core";
+import { sheetDialog as sheet } from "@invisible-ui/core";
 import { computed, onScopeDispose, ref, toValue, type MaybeRefOrGetter, type Ref } from "vue";
 import { useDialog, type UseDialog, type UseDialogOptions } from "../dialog/use-dialog";
 

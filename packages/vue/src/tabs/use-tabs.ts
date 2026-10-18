@@ -1,4 +1,4 @@
-import { tabs as core } from "@design-system/core";
+import { tabs as core } from "@invisible-ui/core";
 import {
   computed,
   ref,
@@ -42,7 +42,7 @@ export interface UseTabs {
 /**
  * Connect the headless tabs (WAI-ARIA tabs pattern) to Vue: roving tabindex,
  * arrow/Home/End navigation, automatic or manual activation. Behaviour and
- * accessibility live in `@design-system/core`; this composable owns the
+ * accessibility live in `@invisible-ui/core`; this composable owns the
  * resolved state, derives the connected props with `computed(connect)`, and
  * moves DOM focus inside the tab list (`listRef`).
  */

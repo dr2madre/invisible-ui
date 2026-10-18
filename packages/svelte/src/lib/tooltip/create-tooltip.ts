@@ -1,4 +1,4 @@
-import { tooltip as core } from "@design-system/core";
+import { tooltip as core } from "@invisible-ui/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
@@ -39,7 +39,7 @@ export interface CreateTooltip {
 export type TooltipOptions = Pick<TooltipContext, "placement" | "openDelay" | "closeDelay">;
 
 /**
- * Create a headless tooltip. Behaviour/ARIA live in `@design-system/core`; this
+ * Create a headless tooltip. Behaviour/ARIA live in `@invisible-ui/core`; this
  * adapter owns the DOM concerns: open/close delays, show on hover **and** focus,
  * Floating-UI positioning (flip/shift), and WCAG 1.4.13 "content on hover"
  * semantics — the tooltip stays open while hovered (hoverable) and is dismissed

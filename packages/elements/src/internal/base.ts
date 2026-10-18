@@ -1,4 +1,4 @@
-import type { DomProps, ElementProps } from "@design-system/core";
+import type { DomProps, ElementProps } from "@invisible-ui/core";
 
 /**
  * Custom-element classes are evaluated when the package is imported. Node has

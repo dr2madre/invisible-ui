@@ -1,4 +1,4 @@
-import { stepper as core } from "@design-system/core";
+import { stepper as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { localized, onLocaleChange } from "../internal/i18n";
 import { SVG_NS } from "../internal/icons";

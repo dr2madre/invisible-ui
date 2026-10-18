@@ -3,7 +3,7 @@
    * Meter — a styled gauge (WAI-ARIA meter pattern): a track with a fill that
    * reflects a value within a known range (e.g. disk usage, battery). Behaviour
    * and accessibility (role, aria-value*, low/medium/high banding) come from the
-   * headless meter (`@design-system/core`); this layer adds the track, fill and
+   * headless meter (`@invisible-ui/core`); this layer adds the track, fill and
    * per-level colors.
    *
    * Provide a `label` for the accessible name. Colors, height and radius are
@@ -64,7 +64,7 @@
     inline-size: var(--ds-meter-width, 16rem);
     block-size: var(--ds-meter-height, 0.5rem);
     overflow: hidden;
-    background: var(--ds-meter-track, var(--ds-color-border, #c7c1b7));
+    background: var(--ds-meter-track, var(--ds-color-border, #bdbdbd));
     border-radius: var(--ds-meter-radius, 999px);
   }
   .meter__indicator {

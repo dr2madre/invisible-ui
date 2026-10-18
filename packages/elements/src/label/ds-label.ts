@@ -1,4 +1,4 @@
-import { label as core } from "@design-system/core";
+import { label as core } from "@invisible-ui/core";
 import { applyProps, boolAttr, HTMLElementBase } from "../internal/base";
 
 /**

@@ -31,9 +31,11 @@ Each item ships as its own PR. Checkboxes track progress.
   the packages are `private: true` and the workflow is
   `workflow_dispatch`-only, so nothing publishes by accident. To go live later,
   follow the checklist at
-  the top of `.github/workflows/release.yml` (unset `private`, own the npm
-  scope to the Invisible UI scope you own — e.g. `@invisible-ui/*` — add `NPM_TOKEN`,
-  flip the trigger to `push`).
+  the top of `.github/workflows/release.yml` (unset `private`, register the
+  `invisible-ui` organisation on npm, add `NPM_TOKEN`, flip the trigger to
+  `push`). The packages already use the `@invisible-ui/*` scope (renamed from
+  `@design-system/*` on 2026-10-17); registering the npm organisation is still
+  a task before publishing.
 - [x] **2. Lint / format / hooks** — ESLint 9 flat config (js +
   typescript-eslint + eslint-plugin-svelte + eslint-plugin-react-hooks +
   prettier compat) + Prettier
@@ -73,7 +75,7 @@ Each item ships as its own PR. Checkboxes track progress.
   parity batches landed in PRs #193–#199 (ADR 0010). The original
   proof of concept started in **React**
   (`packages/react`): Button, Checkbox, Switch, Select, Combobox and
-  Dialog over the existing `@design-system/core`, with the near-identity
+  Dialog over the existing `@invisible-ui/core`, with the near-identity
   `normalizeProps` seam, a `useX()` hook per component, a minimal
   `LocaleProvider`, ported CSS (class names identical to Svelte, tokens guarded
   by a parity test) and tests incl. axe, SSR and hydration. **Confirmed:** the core needed *no*
@@ -163,8 +165,8 @@ Each item ships as its own PR. Checkboxes track progress.
   Empty State, Error State, Card, the dialog family (Dialog, Alert Dialog
   and Confirm Dialog, with the ADR 0016 status area and dialogs on top) and
   the first part of Timelog's second wave: Checkbox, Checkbox Group, Switch,
-  Radio Group (`RadioButtonGroup`, since the widgets library has a
-  `RadioGroup`), Segmented Control, Select, Combobox and Popover, then the
+  Radio Group (`RadioGroup`, told apart from the widgets library's
+  `RadioGroup` by the prefixed import), Segmented Control, Select, Combobox and Popover, then the
   dates: Calendar (month and two-month views, single and range), Date
   Picker, Date Range Picker and Time Field, then the disclosures and
   navigation: Collapsible, Accordion, Tabs (automatic and manual
@@ -221,8 +223,12 @@ Each item ships as its own PR. Checkboxes track progress.
   keys, spoken names and badge announcements against the shared vectors in
   `core/src/navigation-bar/__vectors__`, read by the core and the Flutter
   tests. The specs for the section header and the colour swatch come next.
-  The editable grid spec, for every platform, is in
-  [`docs/editable-grid-spec.md`](./editable-grid-spec.md).
+  The editable grid of wave 2 is in core and Flutter, built from
+  [`docs/editable-grid-spec.md`](./editable-grid-spec.md): `core/src/grid`
+  runs its key table, totals, active cell and spoken labels against the
+  shared vectors in `core/src/grid/__vectors__`, read by the core and the
+  Flutter tests, and `iu.DataGrid` carries Timelog's weekly timesheet. The
+  web adapters come next.
   The navigation bar spec, for every platform, is in
   [`docs/navigation-bar-spec.md`](./navigation-bar-spec.md).
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
