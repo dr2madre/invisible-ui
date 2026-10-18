@@ -94,11 +94,9 @@ void main() {
       }
     });
 
-    test('density keeps the sizes the source leaves undefined as null', () {
-      expect(InvisibleDensityTokens.regular.controlPaddingY, 8);
-      expect(InvisibleDensityTokens.regular.controlPaddingX, 14);
-      expect(InvisibleDensityTokens.compact.controlPaddingY, isNull);
-      expect(InvisibleDensityTokens.touch.controlPaddingX, isNull);
+    test('control padding is shared while density keeps its target sizes', () {
+      expect(InvisibleSpacingTokens.controlPaddingY, 8);
+      expect(InvisibleSpacingTokens.controlPaddingX, 14);
       expect(InvisibleDensityTokens.compact.minTargetSize, 24);
       expect(InvisibleDensityTokens.regular.minTargetSize, 24);
       expect(InvisibleDensityTokens.touch.minTargetSize, 44);

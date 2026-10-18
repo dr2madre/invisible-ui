@@ -1,8 +1,8 @@
 # Link parity checklist
 
-Reference commit: `5df411f6ee7583b84e5a6d5cbd113ff147043f7d`
+Reference commit: `cd25a32fb29a63e2931ed22abfe8284b28513622`
 
-Reference review (2026-10-18): checked the token-model change in the Svelte
+Reference review (2026-10-19): checked the version-3 token hierarchy in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
