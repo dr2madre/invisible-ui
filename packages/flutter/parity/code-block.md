@@ -52,10 +52,6 @@ test in `test/code_test.dart` that holds it.
 | No line between the header and the code: spacing alone sets the header apart | matched | `the block sits on the code-block-background token …` |
 | Monospace at 0.875 rem, line height 1.6, 1 rem padding | matched | `the code shows …` |
 | Wide code scrolls sideways; the focus ring inside the scroller | matched | `the scroller takes focus …` (the scroller is `ScrollArea`'s) |
-<<<<<<< HEAD
 | The copy button's fill: the text colour at 8 %, 16 % on hover, so the hover shows in both themes | matched | `the copy button fills with the text colour at 8 %, 16 % on hover, in both themes` |
-=======
-| The copy button's fill: the text colour at 8 %, 16 % on hover, so the hover shows in both themes | open | Flutter tints with the text colour at 5 % and 10 %, the web's earlier amounts; no test holds the fill |
->>>>>>> origin/main
 | Text scale 2.0, right to left | matched | `highlighted text replaces …` |
 | Copy button target 24 by 24 | matched | `the code shows …` |

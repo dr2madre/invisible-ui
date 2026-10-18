@@ -42,11 +42,7 @@ verified**. Every matched line names the widget test in
 | Hover on another trigger while a kept panel is open switches at once and the menu stays kept | matched | `the first click keeps a panel …`. The press asked the menu to stay open, so a switch by hover does not undo it |
 | After a press or Escape closes a panel, the resting pointer opens nothing; leaving the trigger re-arms hover | matched | `after a click closes the panel, the resting pointer opens nothing; leaving the trigger re-arms hover`, `after a Escape closes the panel, …`. Hover opens only on entering a trigger, on both platforms |
 | A press on a trigger cancels a pending hover | matched | `a click closes what it opened even when the hover delay runs out afterwards` |
-<<<<<<< HEAD
 | Escape on a trigger with nothing open cancels a pending hover | matched | `Escape while the hover delay is pending cancels it; the key still reaches the rest of the app`. Every Escape clears the timer, as on the web, and with nothing open the key still goes on to the app |
-=======
-| Escape on a trigger with nothing open cancels a pending hover | open | Flutter leaves Escape with nothing open to the rest of the app and keeps the hover timer, so a panel still opens when the delay runs out; the web clears the timer on every Escape |
->>>>>>> origin/main
 | Pointer rest on a trigger opens after 150 ms | matched | `hover opens after 150 ms, switches at once, stays over the panel and closes 150 ms after leaving` |
 | Hover on another trigger while a panel is open switches at once | matched | same test |
 | Leaving the trigger or the panel closes a panel the pointer opened after 150 ms; entering the panel cancels the close | matched | same test |
