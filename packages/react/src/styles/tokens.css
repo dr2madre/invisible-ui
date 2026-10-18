@@ -1,37 +1,16 @@
 /**
- * Design tokens — two tiers, accessibility-first.
+ * Runtime tokens for the version-3 model in packages/tokens/tokens.json.
+ * Palette colours are primitives. Brand and feedback are tenant choices.
+ * Metrics and typography hold shared dimensions and type values.
+ * Components.general defines shared UI decisions; components.<name> defines
+ * values scoped to one component. Names describe a property, role or state.
  *
- * Tier 1 — PRIMITIVES: the raw palette, reduced to three groups, listed in the
- * order you most likely customize them:
- *   1. Brand    (--ds-brand-*)    — your product's primary / secondary.
- *   2. Feedback (--ds-feedback-*) — info / success / warning / danger.
- *   3. Neutrals (--ds-neutral-*)  — the UI grays (text, surfaces, borders).
- * Customizing the brand is usually enough; feedback and neutrals are there if
- * you need them.
- *
- * Tier 2 — SEMANTIC (--ds-color-*): role-based tokens the components consume.
- * They reference the primitives and remap between light/dark. Tinted surfaces
- * are derived from the feedback hue via color-mix, so changing a feedback color
- * cascades to its Alert/Notification surface automatically.
- *
- * Component backgrounds (--ds-components-page-background-default, --ds-components-card-background-default,
- * --ds-components-dialog-background-default…) sit at the end of each theme block. Each points at
- * a role or a primitive, so one kind of component can change on its own.
- *
- * NAMING — headless, decoupled from style. A semantic token names a ROLE
- * (primary, surface, border, text…) or a STATE (hover, pressed, disabled,
- * focus…). It NEVER describes appearance. So there is no "muted", "soft" or
- * "subtle": that surface is `--ds-components-general-background-default`, the hover overlay is
- * `--ds-components-general-background-hover`. A word like "mute" is only allowed when it is a genuine
- * state (a muted microphone), never as a visual adjective. Consumers stay free
- * to restyle a role without the name lying about how it looks.
- *
- * Theme follows prefers-color-scheme; force it per subtree with
- * [data-theme="light|dark"]. Defaults meet WCAG 2 AA (text 4.5:1, UI/icon glyph
- * 3:1) — re-check contrast if you change the brand or feedback hues.
+ * This stylesheet also contains frontend-only values and CSS fallbacks.
+ * Light and Dark follow the system preference or [data-theme="light|dark"].
+ * Re-check contrast when overriding brand or feedback colours.
  */
 
-/* =============== Tier 1 — primitives (the 3 customizable groups) =========== */
+/* Palette, brand and feedback colours. */
 :root {
   /* 0) Palette scale — the raw named primitives, taken from the project color
         palette (family + weight). The brand and feedback base tokens below
@@ -50,7 +29,7 @@
   --ds-brand-primary-hover: var(--ds-palette-dioxazine-purple-600);
   --ds-brand-secondary-default: var(
     --ds-palette-dioxazine-purple-500
-  ); /* legacy alias — same hue as primary */
+  ); /* separate tenant choice, initially the same hue as primary */
   --ds-brand-secondary-hover: var(--ds-palette-dioxazine-purple-600);
   --ds-brand-white: var(--ds-palette-grey-0); /* lightest UI point — white #fff */
   --ds-brand-black: var(--ds-palette-black); /* darkest UI point — black #121212 */
@@ -88,9 +67,7 @@
   --ds-palette-black: #121212;
 }
 
-/* =============== Tier 2 — non-color roles (shape & type) ================== *
- * Radius named for the shape's role, not its size — same in light/dark.
- * Elevation remaps per theme and lives in the semantic blocks below.        */
+/* Shared metrics and typography. Elevation remaps per theme below. */
 :root {
   --ds-metrics-radius-control: 0.5rem; /* buttons, inputs, the close button */
   --ds-metrics-radius-container: 0.75rem; /* alerts, notifications, cards */
@@ -100,10 +77,10 @@
      Combobox line up at the same height + font when placed side by side. */
   --ds-metrics-spacing-control-padding-y: 0.5rem;
   --ds-metrics-spacing-control-padding-x: 0.875rem;
-  /* The side of the smallest square hit area a control keeps, whatever its
-     painted size: 24 by 24 meets WCAG 2.5.8. The touch size is the target a
-     coarse pointer gets, 44 by 44, read under `@media (pointer: coarse)`.
-     Visual density never lowers either. */
+  /* Compact and regular keep a 24 by 24 minimum hit area, regardless of
+     painted size. Touch keeps 44 by 44 under `@media (pointer: coarse)`.
+     Visual density never lowers these minimums. */
+  --ds-metrics-density-compact-min-target-size: 24px;
   --ds-metrics-density-regular-min-target-size: 24px; /* smallest hit area a control keeps */
   --ds-metrics-density-touch-min-target-size: 44px; /* the same under a coarse pointer */
 
@@ -181,7 +158,7 @@
   font-size: var(--ds-typography-font-size-h6);
 }
 
-/* =============== Tier 2 — semantic (light) ================================= */
+/* Shared and component decisions in Light. */
 :root,
 [data-theme="light"] {
   color-scheme: light;
@@ -391,7 +368,7 @@
   --ds-components-code-block-background-default: var(--ds-palette-grey-50);
 }
 
-/* =============== Tier 2 — semantic (dark) ================================= */
+/* Shared and component decisions in Dark. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;

@@ -119,7 +119,9 @@ Run `pnpm tokens:build` for generated CSS and Dart, and `pnpm tokens:registry`
 after changing runtime styles. Run `pnpm tokens:check` and `pnpm tokens:test`.
 
 `scripts/token-runtime.test.mjs` compares every canonical token with the shipped
-CSS in both modes, checks recipe identity, automatic Dark mode and adapter parity.
+CSS in both modes, including density, alias expressions and mix recipes. It also
+checks automatic Dark mode and adapter parity. The two selection tokens retain
+explicit CSS fallbacks; their primary references match the canonical model.
 `scripts/token-model.test.mjs` checks the pinned migration values, complete palette,
 alias graph and tenant overrides. Existing contrast tests remain separate.
 These checks do not constitute manual accessibility or visual verification.
