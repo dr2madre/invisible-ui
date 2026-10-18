@@ -154,7 +154,7 @@
     padding: var(--ds-menu-padding, 0.25rem);
     display: flex;
     flex-direction: column;
-    background: var(--ds-color-background, #fff);
+    background: var(--ds-menu-background, var(--ds-color-background, #fff));
     border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(

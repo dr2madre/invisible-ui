@@ -24,7 +24,8 @@ OKLCH), so a weight change reads as a predictable lightness change.
 - **Feedback** — Cobalt Blue (info), Sap Green (success), Burnt Orange
   (warning), Alizarin Red (danger).
 - **Neutrals** — the **Grey** ramp carries text, surfaces and borders;
-  **White** sits apart at the light end. **Warm Grey** stays in the palette as
+  **White** sits apart at the light end and **Black**, `#121212`, a near
+  black, at the dark end. **Warm Grey** stays in the palette as
   a hue of its own; it no longer carries the interface, because its warmth
   read as brown in the dark theme.
 
@@ -32,7 +33,8 @@ OKLCH), so a weight change reads as a predictable lightness change.
 
 The palette feeds the primitive tokens in `tokens.css`. The brand and feedback
 base tokens reference a raw named scale drawn from these hues; the neutrals map
-the Grey ramp onto `--ds-neutral-0` … `--ds-neutral-950`. Each of those
+the Grey ramp onto `--ds-neutral-0` … `--ds-neutral-950`, and Black onto
+`--ds-black`. Each of those
 tokens, with its current value, is listed in the token catalog: the raw scales
 under [Palette](/invisible-ui/presentation/token-catalog/#tk-primitive), and the
 base tokens that point into them under

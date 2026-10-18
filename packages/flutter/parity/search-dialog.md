@@ -60,3 +60,7 @@ scope**. Every matched line names the widget test in
 | A trigger button inside the component | adapted | Flutter opens dialogs as routes: the app's own button or shortcut calls `showInvisibleDialog` |
 | `--ds-search-dialog-*` variables | out of scope | the Flutter theme carries the shared roles |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
+
+## Background token
+
+The background reads the component token `--ds-dialog-background` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

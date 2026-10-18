@@ -129,3 +129,7 @@ scope**. Every matched line names the test that holds it, in
 | Colours `background`, `border`, `text`, `text-disabled`, `text-secondary`, `control-border`; radii `radius.control` and `radius.surface` | matched | the reference sets them in its stylesheet; same roles |
 | Elevation `--ds-elevation-overlay` | adapted | the role lives in `tokens.css` only; the Flutter values copy its numbers until it moves into `tokens.json` |
 | Reduced motion: no chevron turn; submenus open at once; the 100 ms delay and grace area stay | matched | `no motion under reduced motion` |
+
+## Background token
+
+The background reads the component token `--ds-menu-background` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

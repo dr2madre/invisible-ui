@@ -34,6 +34,38 @@ void main() {
       expect(InvisibleColors.dark.dialogOverlay, const Color(0x99000000));
     });
 
+    test('each kind of component has its own background', () {
+      const light = InvisibleColors.light;
+      const dark = InvisibleColors.dark;
+      for (final colour in [
+        light.pageBackground,
+        light.cardBackground,
+        light.dialogBackground,
+        light.popoverBackground,
+        light.menuBackground,
+        light.sidebarBackground,
+      ]) {
+        expect(colour, light.background);
+      }
+      expect(light.cardSecondaryBackground, light.neutralSurface);
+      expect(light.codeBlockBackground, InvisiblePalette.grey50);
+      expect(InvisiblePalette.black, const Color(0xFF121212));
+      expect(dark.pageBackground, InvisiblePalette.black);
+      expect(dark.sidebarBackground, InvisiblePalette.black);
+      for (final colour in [
+        dark.cardBackground,
+        dark.dialogBackground,
+        dark.popoverBackground,
+        dark.menuBackground,
+        dark.codeBlockBackground,
+      ]) {
+        expect(colour, InvisiblePalette.grey950);
+      }
+      expect(dark.cardSecondaryBackground, InvisiblePalette.grey900);
+      // The semantic default stays where it was.
+      expect(dark.background, InvisiblePalette.grey900);
+    });
+
     test('the touch target is 44 at least', () {
       expect(InvisibleDensityTokens.touch.minTargetSize, 44);
     });

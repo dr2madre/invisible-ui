@@ -35,15 +35,21 @@
             "--ds-color-on-primary",
             "--ds-color-on-secondary",
             "--ds-color-on-status",
+            "--ds-page-background",
+            "--ds-card-background",
+            "--ds-dialog-background",
+            "--ds-popover-background",
+            "--ds-menu-background",
+            "--ds-sidebar-background",
           ],
           dark: ["--ds-color-on-primary", "--ds-color-on-secondary", "--ds-color-on-status"],
         },
         {
           cls: "brand-black",
           varName: "--ds-brand-black",
-          palette: "Grey 950",
+          palette: "Black",
           light: [],
-          dark: [],
+          dark: ["--ds-page-background", "--ds-sidebar-background"],
         },
       ],
     },
@@ -95,7 +101,12 @@
           cls: "neutral-50",
           varName: "--ds-neutral-50",
           palette: "Grey 50",
-          light: ["--ds-color-neutral-surface", "--ds-color-on-emphasis"],
+          light: [
+            "--ds-color-neutral-surface",
+            "--ds-color-on-emphasis",
+            "--ds-card-secondary-background",
+            "--ds-code-block-background",
+          ],
           dark: ["--ds-color-text"],
         },
         {
@@ -164,7 +175,25 @@
           varName: "--ds-neutral-900",
           palette: "Grey 900",
           light: ["--ds-color-text", "--ds-color-on-warning"],
-          dark: ["--ds-color-background", "--ds-color-on-emphasis", "--ds-color-on-warning"],
+          dark: [
+            "--ds-color-background",
+            "--ds-color-on-emphasis",
+            "--ds-color-on-warning",
+            "--ds-card-secondary-background",
+          ],
+        },
+        {
+          cls: "neutral-950",
+          varName: "--ds-neutral-950",
+          palette: "Grey 950",
+          light: [],
+          dark: [
+            "--ds-card-background",
+            "--ds-dialog-background",
+            "--ds-popover-background",
+            "--ds-menu-background",
+            "--ds-code-block-background",
+          ],
         },
       ],
     },
@@ -351,6 +380,9 @@
   }
   .swatch--neutral-900 {
     background: var(--ds-neutral-900);
+  }
+  .swatch--neutral-950 {
+    background: var(--ds-neutral-950);
   }
   .swatch--brand-black {
     background: var(--ds-brand-black);

@@ -543,7 +543,7 @@ class MenuPanel<T> extends StatelessWidget {
             child: DecoratedBox(
               key: session.panelKey(path.length),
               decoration: BoxDecoration(
-                color: theme.colors.background,
+                color: theme.colors.menuBackground,
                 border: Border.all(
                   color: theme.colors.border,
                   width: _panelBorder,

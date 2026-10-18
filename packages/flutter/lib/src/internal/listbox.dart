@@ -234,7 +234,7 @@ class _ListboxPopupState<T> extends State<ListboxPopup<T>> {
             ),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: colors.background,
+                color: colors.menuBackground,
                 border: Border.all(color: colors.border, width: _panelBorder),
                 borderRadius: BorderRadius.circular(
                   InvisibleRadiusTokens.surface,

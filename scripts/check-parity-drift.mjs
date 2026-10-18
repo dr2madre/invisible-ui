@@ -129,11 +129,11 @@ export function checkDrift(root) {
       rows.push(`- \`${file}\`: up to date with \`${commit.slice(0, 8)}\``);
       continue;
     }
-    // A commit cannot name itself, so a change that updates the reference and
-    // its checklist together counts as reviewed.
-    const changed = git(root, ["show", "--name-only", "--format=", last]).stdout.split("\n");
-    if (changed.includes(file)) {
-      rows.push(`- \`${file}\`: updated with the reference in \`${last.slice(0, 8)}\``);
+    // A commit cannot name itself, so a checklist edited in the change that
+    // touched the reference, or after it, counts as reviewed.
+    const edited = git(root, ["log", "-1", "--format=%H", "--", file]).stdout;
+    if (edited && git(root, ["merge-base", "--is-ancestor", last, edited]).status === 0) {
+      rows.push(`- \`${file}\`: updated with the reference in \`${edited.slice(0, 8)}\``);
       continue;
     }
     stale.add(name);

@@ -54,6 +54,45 @@ primitives and **remap between light/dark**. Components only ever read these:
 > `--ds-color-surface`, the hover overlay is `--ds-state-hover`. See ADR 0002
 > (tokens decoupled from style) in the repository's `docs/adr/`.
 
+**Tier 3 — component.** Per-component tokens that point at a role or a
+primitive, never at a raw value. The background of each kind of component is
+one of them, so one kind can change without the others (see
+[Component backgrounds](#component-backgrounds)); the other knobs live in the
+components themselves.
+
+## Component backgrounds
+
+Each kind of component reads its own background token. In the light theme
+they point at the page role, except the secondary card and the code block,
+which take the lightest grey. In the dark theme the page and the sidebar
+take Black, a near black; cards, dialogs, popovers, menus and code blocks
+take Grey 950, and the secondary card Grey 900.
+
+| Token | Read by |
+| --- | --- |
+| `--ds-page-background` | The application's page; no component paints it |
+| `--ds-card-background` | Card |
+| `--ds-card-secondary-background` | Card with the secondary surface |
+| `--ds-dialog-background` | Dialog, Sheet, Alert, Confirm, Prompt and Search dialogs |
+| `--ds-popover-background` | Popover, Hover Card, date picker popups, Navigation Menu panel |
+| `--ds-menu-background` | Dropdown Menu, Context Menu, Menubar menus, Combobox and Multi Select listboxes |
+| `--ds-sidebar-background` | Sidebar |
+| `--ds-code-block-background` | Code Block |
+
+Override one to restyle that kind of component alone:
+
+```css
+:root {
+  --ds-card-background: var(--ds-neutral-50); /* example */
+}
+```
+
+`--ds-color-background` stays the default for everything else: fields,
+buttons and the other controls. Body text, supporting text and the control
+boundary keep their contrast minimums on every component background in both
+themes; the [token catalog](/invisible-ui/presentation/token-catalog/#tk-contrast)
+measures each pair.
+
 ## Surface, text and state roles
 
 Beyond brand and feedback, the semantic layer covers the everyday neutrals —

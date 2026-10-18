@@ -63,7 +63,7 @@
   box-sizing: border-box;
   min-inline-size: var(--ds-navmenu-content-width, 18rem);
   padding: var(--ds-navmenu-content-padding, 0.5rem);
-  background: var(--ds-color-background, #fff);
+  background: var(--ds-popover-background, var(--ds-color-background, #fff));
   border: 1px solid var(--ds-color-border, #bdbdbd);
   border-radius: var(--ds-navmenu-content-radius, var(--ds-radius-surface, 0.75rem));
   box-shadow: var(

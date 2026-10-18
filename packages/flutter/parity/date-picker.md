@@ -83,3 +83,7 @@ Each line is **matched**, **adapted** (with the platform reason), **open**
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Reset restores the current default, reports nothing; a controlled value becomes the default | matched | `a form reset restores the default silently; a controlled value becomes the default; the validator shows its message` |
+
+## Background token
+
+The background reads the component token `--ds-popover-background` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

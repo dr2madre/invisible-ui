@@ -429,7 +429,7 @@ class _SidebarState<T> extends State<Sidebar<T>> {
               decoration: drawer != null
                   ? const BoxDecoration()
                   : BoxDecoration(
-                      color: colors.background,
+                      color: colors.sidebarBackground,
                       border: Border.all(color: colors.border),
                       borderRadius: BorderRadius.circular(
                         InvisibleRadiusTokens.surface,

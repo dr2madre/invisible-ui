@@ -175,7 +175,7 @@ class Card extends StatelessWidget {
       explicitChildNodes: true,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: secondary ? c.neutralSurface : c.background,
+          color: secondary ? c.cardSecondaryBackground : c.cardBackground,
           border: Border.all(color: c.border),
           borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
         ),

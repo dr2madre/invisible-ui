@@ -2,7 +2,7 @@
 
 .code-block {
   margin: 0;
-  background: var(--ds-code-block-surface, var(--ds-color-surface, #e0e0e0));
+  background: var(--ds-code-block-background, var(--ds-color-surface, #e0e0e0));
   color: var(--ds-code-block-text, var(--ds-color-text, #272727));
   border: 1px solid var(--ds-code-block-border, var(--ds-color-border, #bdbdbd));
   border-radius: var(--ds-code-block-radius, var(--ds-radius-surface, 0.75rem));

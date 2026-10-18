@@ -132,7 +132,7 @@
     inline-size: var(--ds-sidebar-width, 15rem);
     max-inline-size: 100%;
     padding: var(--ds-sidebar-padding, var(--ds-menu-padding, 0.75rem));
-    background: var(--ds-sidebar-bg, var(--ds-color-background, #fff));
+    background: var(--ds-sidebar-background, var(--ds-color-background, #fff));
     border: 1px solid var(--ds-sidebar-border, var(--ds-color-border, #bdbdbd));
     border-radius: var(
       --ds-sidebar-radius,

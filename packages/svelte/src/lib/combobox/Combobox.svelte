@@ -462,7 +462,7 @@
     list-style: none;
     max-block-size: var(--ds-select-max-height, 16rem);
     overflow-y: auto;
-    background: var(--ds-color-background, #fff);
+    background: var(--ds-menu-background, var(--ds-color-background, #fff));
     border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-select-listbox-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(

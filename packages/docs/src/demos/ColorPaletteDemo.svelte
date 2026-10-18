@@ -235,8 +235,10 @@
     { value: "oklch", label: "OKLCH" },
   ];
 
-  // White is not a shade in any hue column, so it lives apart among the neutrals.
+  // White and Black are not shades in any hue column, so they live apart among
+  // the neutrals.
   const white = "#FFFFFF";
+  const black = "#121212";
 
   let fmt = $state("hex");
   let copiedKey = $state(null);
@@ -360,6 +362,25 @@
       </button>
       <figcaption class="extra__name">White</figcaption>
     </figure>
+    <figure class="extra">
+      <button
+        type="button"
+        class="cell cell--black"
+        aria-label={`Black ${black} — click to copy`}
+        title={black}
+        onclick={() => copy(black, "black")}
+      >
+        {#if copiedKey === "black"}
+          <span class="cell__toast">
+            <Tag status="neutral" variant="solid">
+              {#snippet icon()}<Icon><path d="M20 6 9 17l-5-5" /></Icon>{/snippet}
+              Copied to clipboard
+            </Tag>
+          </span>
+        {/if}
+      </button>
+      <figcaption class="extra__name">Black</figcaption>
+    </figure>
   </div>
 </div>
 
@@ -458,10 +479,11 @@
     border: 1px dashed var(--ds-color-border, #bdbdbd);
   }
 
-  /* White lives apart from the shade grid, among the neutrals. */
+  /* White and Black live apart from the shade grid, among the neutrals. */
   .extras {
     display: grid;
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.5rem 1rem;
     justify-items: start;
   }
   .extras__label {
@@ -470,6 +492,7 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--ds-color-text-secondary, #515151);
+    grid-column: 1 / -1;
   }
   .extra {
     display: grid;
@@ -486,5 +509,11 @@
     background: #ffffff;
     border: 1px solid var(--ds-color-border, #bdbdbd);
     color: #1b1b1b;
+  }
+  .cell--black {
+    inline-size: 4rem;
+    background: #121212;
+    border: 1px solid var(--ds-color-border, #bdbdbd);
+    color: #f5f5f5;
   }
 </style>

@@ -30,6 +30,7 @@ abstract final class InvisiblePalette {
   static const Color grey800 = Color(0xFF323232);
   static const Color grey900 = Color(0xFF272727);
   static const Color grey950 = Color(0xFF1B1B1B);
+  static const Color black = Color(0xFF121212);
 }
 
 /// The semantic style tier: brand and feedback colours.
@@ -138,8 +139,9 @@ final class InvisibleColorMix {
   }
 }
 
-/// The colour roles the components read, per theme. Mixed roles hold the
-/// resolved value; [InvisibleColorMixes] keeps their recipes.
+/// The colour roles and the component backgrounds the components read, per
+/// theme. Mixed roles hold the resolved value; [InvisibleColorMixes] keeps
+/// their recipes.
 final class InvisibleColors {
   const InvisibleColors({
     required this.background,
@@ -201,7 +203,14 @@ final class InvisibleColors {
     required this.dialogOverlay,
     required this.navigationBarCurrentIndicator,
     required this.gridCellSecondarySurface,
-    required this.codeBlockSurface,
+    required this.pageBackground,
+    required this.cardBackground,
+    required this.cardSecondaryBackground,
+    required this.dialogBackground,
+    required this.popoverBackground,
+    required this.menuBackground,
+    required this.sidebarBackground,
+    required this.codeBlockBackground,
   });
 
   static const InvisibleColors light = InvisibleColors(
@@ -264,7 +273,14 @@ final class InvisibleColors {
     dialogOverlay: Color(0x801B1B1B),
     navigationBarCurrentIndicator: Color(0xFF8763D1),
     gridCellSecondarySurface: Color(0xFFF5F5F5),
-    codeBlockSurface: Color(0xFFF5F5F5),
+    pageBackground: Color(0xFFFFFFFF),
+    cardBackground: Color(0xFFFFFFFF),
+    cardSecondaryBackground: Color(0xFFF5F5F5),
+    dialogBackground: Color(0xFFFFFFFF),
+    popoverBackground: Color(0xFFFFFFFF),
+    menuBackground: Color(0xFFFFFFFF),
+    sidebarBackground: Color(0xFFFFFFFF),
+    codeBlockBackground: Color(0xFFF5F5F5),
   );
 
   static const InvisibleColors dark = InvisibleColors(
@@ -327,7 +343,14 @@ final class InvisibleColors {
     dialogOverlay: Color(0x99000000),
     navigationBarCurrentIndicator: Color(0xFF9A7CD7),
     gridCellSecondarySurface: Color(0xFF323232),
-    codeBlockSurface: Color(0xFF1B1B1B),
+    pageBackground: Color(0xFF121212),
+    cardBackground: Color(0xFF1B1B1B),
+    cardSecondaryBackground: Color(0xFF272727),
+    dialogBackground: Color(0xFF1B1B1B),
+    popoverBackground: Color(0xFF1B1B1B),
+    menuBackground: Color(0xFF1B1B1B),
+    sidebarBackground: Color(0xFF121212),
+    codeBlockBackground: Color(0xFF1B1B1B),
   );
 
   /// `color-background`.
@@ -507,8 +530,29 @@ final class InvisibleColors {
   /// `grid-cell-secondary-surface`.
   final Color gridCellSecondarySurface;
 
-  /// `code-block-surface`.
-  final Color codeBlockSurface;
+  /// `page-background`.
+  final Color pageBackground;
+
+  /// `card-background`.
+  final Color cardBackground;
+
+  /// `card-secondary-background`.
+  final Color cardSecondaryBackground;
+
+  /// `dialog-background`.
+  final Color dialogBackground;
+
+  /// `popover-background`.
+  final Color popoverBackground;
+
+  /// `menu-background`.
+  final Color menuBackground;
+
+  /// `sidebar-background`.
+  final Color sidebarBackground;
+
+  /// `code-block-background`.
+  final Color codeBlockBackground;
 
   /// A copy with the given roles replaced.
   InvisibleColors copyWith({
@@ -571,7 +615,14 @@ final class InvisibleColors {
     Color? dialogOverlay,
     Color? navigationBarCurrentIndicator,
     Color? gridCellSecondarySurface,
-    Color? codeBlockSurface,
+    Color? pageBackground,
+    Color? cardBackground,
+    Color? cardSecondaryBackground,
+    Color? dialogBackground,
+    Color? popoverBackground,
+    Color? menuBackground,
+    Color? sidebarBackground,
+    Color? codeBlockBackground,
   }) {
     return InvisibleColors(
       background: background ?? this.background,
@@ -635,7 +686,15 @@ final class InvisibleColors {
           navigationBarCurrentIndicator ?? this.navigationBarCurrentIndicator,
       gridCellSecondarySurface:
           gridCellSecondarySurface ?? this.gridCellSecondarySurface,
-      codeBlockSurface: codeBlockSurface ?? this.codeBlockSurface,
+      pageBackground: pageBackground ?? this.pageBackground,
+      cardBackground: cardBackground ?? this.cardBackground,
+      cardSecondaryBackground:
+          cardSecondaryBackground ?? this.cardSecondaryBackground,
+      dialogBackground: dialogBackground ?? this.dialogBackground,
+      popoverBackground: popoverBackground ?? this.popoverBackground,
+      menuBackground: menuBackground ?? this.menuBackground,
+      sidebarBackground: sidebarBackground ?? this.sidebarBackground,
+      codeBlockBackground: codeBlockBackground ?? this.codeBlockBackground,
     );
   }
 
@@ -699,7 +758,14 @@ final class InvisibleColors {
     dialogOverlay,
     navigationBarCurrentIndicator,
     gridCellSecondarySurface,
-    codeBlockSurface,
+    pageBackground,
+    cardBackground,
+    cardSecondaryBackground,
+    dialogBackground,
+    popoverBackground,
+    menuBackground,
+    sidebarBackground,
+    codeBlockBackground,
   ];
 
   @override

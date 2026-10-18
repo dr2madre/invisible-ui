@@ -187,8 +187,8 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
     collect(tokens, []);
     expect(names.length).toBeGreaterThan(0);
     for (const name of names) {
-      // role.light and role.dark are the theme groups, not part of the name.
-      const own = name.replace(/^role\.(light|dark)\./, "role.");
+      // light and dark are the theme groups, not part of the name.
+      const own = name.replace(/^(role|component)\.(light|dark)\./, "$1.");
       expect(own, name).not.toMatch(appearance);
     }
     // The dialog scrim is a role of each theme, --ds-dialog-overlay in both.
@@ -196,17 +196,63 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
     expect(lookup("dark", "--ds-dialog-overlay")).toBeDefined();
     expect(keysOf("role.light")).toContain("dialog-overlay");
     expect(keysOf("role.dark")).toContain("dialog-overlay");
-    // The code block surface is a role of each theme as well.
-    expect(lookup("light", "--ds-code-block-surface")).toBe("var(--ds-neutral-50)");
-    expect(lookup("dark", "--ds-code-block-surface")).toBe("var(--ds-neutral-950)");
-    expect(val("role.light.code-block-surface")).toBe(val("palette.grey.50"));
-    expect(val("role.dark.code-block-surface")).toBe(val("palette.grey.950"));
   });
 
   it("palette.grey.* matches the --ds-neutral-* ramp", () => {
     for (const weight of keysOf("palette.grey")) {
       expect(val(`palette.grey.${weight}`)).toBe(cssVar(`neutral-${weight}`));
     }
+  });
+
+  it("palette.black matches --ds-black, a near black", () => {
+    expect(val("palette.black")).toBe("#121212");
+    expect(val("palette.black")).toBe(cssVar("black"));
+  });
+
+  // The component tier: one background per kind of component, each pointing
+  // at a role or a palette colour, never a raw value.
+  describe("component tier", () => {
+    it("both themes list the same component tokens", () => {
+      expect(keysOf("component.dark")).toEqual(keysOf("component.light"));
+      expect(keysOf("component.light")).toEqual([
+        "page-background",
+        "card-background",
+        "card-secondary-background",
+        "dialog-background",
+        "popover-background",
+        "menu-background",
+        "sidebar-background",
+        "code-block-background",
+      ]);
+    });
+
+    it.each(["light", "dark"] as const)(
+      "component.%s.* points at a role or a palette colour, in the source and the stylesheet",
+      (mode) => {
+        for (const key of keysOf(`component.${mode}`)) {
+          const path = `component.${mode}.${key}`;
+          const source = walk(path).$value;
+          expect(source, path).toMatch(new RegExp(`^\\{(role\\.${mode}|palette)\\.[\\w.-]+\\}$`));
+          const expression = lookup(mode, `--ds-${key}`);
+          expect(expression, `--ds-${key}`).toMatch(
+            /^var\(--ds-(color-[\w-]+|neutral-\d+|black)\)$/,
+          );
+          const actual = tokenColor(path);
+          expect(hexOf(actual.c), path).toBe(hexOf(color(mode, expression!).c));
+        }
+      },
+    );
+
+    it("the dark page and sidebar take Black; the floating surfaces take Grey 950", () => {
+      expect(val("component.dark.page-background")).toBe(val("palette.black"));
+      expect(val("component.dark.sidebar-background")).toBe(val("palette.black"));
+      for (const key of ["card", "dialog", "popover", "menu", "code-block"]) {
+        expect(val(`component.dark.${key}-background`), key).toBe(val("palette.grey.950"));
+      }
+      expect(val("component.dark.card-secondary-background")).toBe(val("palette.grey.900"));
+      expect(val("component.light.code-block-background")).toBe(val("palette.grey.50"));
+      expect(val("component.light.card-secondary-background")).toBe(val("palette.grey.50"));
+    });
   });
 
   it("radius.* matches --ds-radius-*", () => {
@@ -231,10 +277,12 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
   });
 
   it.each(["light", "dark"] as const)(
-    "every colour role of the %s theme has a role token",
+    "every colour of the %s theme has a role or component token",
     (mode) => {
       const declared = [...lightDecls.keys(), ...(mode === "dark" ? darkDecls.keys() : [])];
-      const roles = new Set(keysOf(`role.${mode}`).map((key) => `--ds-${key}`));
+      const roles = new Set(
+        [...keysOf(`role.${mode}`), ...keysOf(`component.${mode}`)].map((key) => `--ds-${key}`),
+      );
       for (const name of new Set(declared)) {
         if (!NOT_IN_ROLE_TIER.has(name)) expect(roles.has(name), name).toBe(true);
       }

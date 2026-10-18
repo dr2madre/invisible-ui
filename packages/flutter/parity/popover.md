@@ -72,3 +72,7 @@ that holds it.
 | Below by default, 6 px gap (8 px for hover), flips; start and end follow the reading direction | matched | `below by default; flips above near the bottom; start and end follow the reading direction` |
 | Twelve Floating UI placements | adapted | four sides, aligned to the trigger's inline-start as the web's default placements; no consumer needs the aligned variants |
 | Narrow window at text scale 2.0 | matched | `a region picker fits a narrow window at text scale 2.0` |
+
+## Background token
+
+The background reads the component token `--ds-popover-background` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

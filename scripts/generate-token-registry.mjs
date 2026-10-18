@@ -235,10 +235,11 @@ const isJustAValue = (text) =>
 
 const TIERS = [
   { tier: "primitive", test: (n) => /^--ds-(neutral|purple|red|orange|green|blue)-\d+$/.test(n) },
-  { tier: "primitive", test: (n) => n.startsWith("--ds-pastel-") },
+  { tier: "primitive", test: (n) => n.startsWith("--ds-pastel-") || n === "--ds-black" },
   { tier: "brand", test: (n) => n.startsWith("--ds-brand-") },
   { tier: "feedback", test: (n) => n.startsWith("--ds-feedback-") },
   { tier: "semantic", test: (n) => n.startsWith("--ds-color-") },
+  { tier: "component", test: (n) => /^--ds-[\w-]+-background$/.test(n) },
   { tier: "state", test: (n) => n.startsWith("--ds-state-") },
   { tier: "focus", test: (n) => n.startsWith("--ds-focus-") },
   { tier: "radius", test: (n) => n.startsWith("--ds-radius-") },
@@ -258,11 +259,16 @@ const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other
  * typography and regular density tiers name the property itself:
  * `role.dark.color-text` is `--ds-color-text`, `focus.ring-width` is
  * `--ds-focus-ring-width`, `role.dark.dialog-overlay` is `--ds-dialog-overlay`.
- * The touch target is `--ds-min-target-size-touch`.
+ * The component tier does the same: `component.dark.card-background` is
+ * `--ds-card-background`. `palette.black` is `--ds-black`. The touch target
+ * is `--ds-min-target-size-touch`.
  */
 function cssNameForDtcg(path) {
   const parts = path.split(".");
-  if (parts[0] === "role" && parts.length === 3) return `--ds-${parts[2]}`;
+  if ((parts[0] === "role" || parts[0] === "component") && parts.length === 3) {
+    return `--ds-${parts[2]}`;
+  }
+  if (path === "palette.black") return "--ds-black";
   if (parts[0] === "focus" && parts.length === 2) return `--ds-focus-${parts[1]}`;
   if (parts[0] === "typography" && parts.length === 2) return `--ds-${parts[1]}`;
   if (parts[0] === "density" && parts[1] === "regular" && parts.length === 3) {
@@ -718,6 +724,26 @@ const PAIRINGS = [
     min: 3,
     what: "the focus ring against a surface",
   },
+  // The text and the control boundary on each component background.
+  ...[
+    ["--ds-page-background", "the page background"],
+    ["--ds-card-background", "a card"],
+    ["--ds-card-secondary-background", "a secondary card"],
+    ["--ds-dialog-background", "a dialog"],
+    ["--ds-popover-background", "a popover"],
+    ["--ds-menu-background", "a menu"],
+    ["--ds-sidebar-background", "a sidebar"],
+    ["--ds-code-block-background", "a code block"],
+  ].flatMap(([back, where]) => [
+    { front: "--ds-color-text", back, min: 4.5, what: `body text on ${where}` },
+    { front: "--ds-color-text-secondary", back, min: 4.5, what: `supporting text on ${where}` },
+    {
+      front: "--ds-color-control-border",
+      back,
+      min: 3,
+      what: `a control's boundary against ${where}`,
+    },
+  ]),
 ];
 
 // Pages that document token values literally. A line there must say what the

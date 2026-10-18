@@ -168,7 +168,7 @@
     inline-size: 100%;
     max-inline-size: var(--ds-dialog-max-width, 28rem);
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
-    background: var(--ds-color-background, #fff);
+    background: var(--ds-dialog-background, var(--ds-color-background, #fff));
     color: var(--ds-color-text, #272727);
     border: 1px solid var(--ds-color-border, #bdbdbd);
     border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
