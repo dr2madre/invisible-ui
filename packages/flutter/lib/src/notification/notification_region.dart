@@ -537,7 +537,7 @@ class _ToastSlotState extends State<_ToastSlot>
     final notice = widget.notice;
     Widget toast = DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
         boxShadow: overlayShadow(theme.brightness),
       ),
       child: InlineNotification(

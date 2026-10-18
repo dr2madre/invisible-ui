@@ -23,7 +23,7 @@
         width="72"
         height="72"
         fill="none"
-        stroke="var(--ds-color-text-secondary)"
+        stroke="var(--ds-components-general-foreground-secondary)"
         stroke-width="1.25"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -39,7 +39,7 @@
   <!-- Compact size for panels and cards, a learning cue in the
        children, and a documentation link in the action group. -->
   <div
-    style="border: 1px solid var(--ds-color-border, #bdbdbd); border-radius: 0.75rem; inline-size: 100%;"
+    style="border: 1px solid var(--ds-components-general-border-default, #bdbdbd); border-radius: 0.75rem; inline-size: 100%;"
   >
     <EmptyState
       size="sm"
@@ -49,7 +49,9 @@
         { label: "Learn more", href: "https://en.wikipedia.org/wiki/Bookmark_(digital)" },
       ]}
     >
-      <p style="margin: 0; font-size: 0.875rem; color: var(--ds-color-text-secondary, #515151);">
+      <p
+        style="margin: 0; font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary, #515151);"
+      >
         Star any component and it appears here.
       </p>
     </EmptyState>

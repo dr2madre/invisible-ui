@@ -191,7 +191,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     final textStyle = theme.textStyle.copyWith(
       color: color,
       fontSize: fontSize * _labelEm,
-      height: InvisibleTypographyTokens.lineHeightTight,
+      height: InvisibleTypographyTokens.lineHeightHeading,
     );
     final texts = [
       if (widget.showLabel) label,

@@ -117,19 +117,23 @@
   gap: 0.3rem;
   margin: var(--ds-loading-generation-area-zone-margin, 0.75rem);
   padding: var(--ds-loading-generation-area-zone-padding, 0.5rem 0.75rem);
-  border-radius: var(--ds-radius-control, 0.5rem);
-  background: color-mix(in srgb, var(--ds-color-background, #fff) 78%, transparent);
-  color: var(--ds-color-text, #272727);
+  border-radius: var(--ds-metrics-radius-control, 0.5rem);
+  background: color-mix(
+    in srgb,
+    var(--ds-components-general-background-default, #fff) 78%,
+    transparent
+  );
+  color: var(--ds-components-general-foreground-default, #272727);
   text-align: center;
   font-size: var(--ds-loading-label-size, 0.8125em);
-  line-height: var(--ds-line-height, 1.4);
+  line-height: var(--ds-typography-line-height-default, 1.4);
 }
 .loading-generation-area__value {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 .loading-generation-area__detail {
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
   font-variant-numeric: tabular-nums;
 }
 

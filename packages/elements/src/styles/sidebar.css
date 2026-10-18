@@ -12,9 +12,15 @@ nav.sidebar {
   inline-size: var(--ds-sidebar-width, 15rem);
   max-inline-size: 100%;
   padding: var(--ds-sidebar-padding, var(--ds-menu-padding, 0.75rem));
-  background: var(--ds-sidebar-background, var(--ds-color-background, #fff));
-  border: 1px solid var(--ds-sidebar-border, var(--ds-color-border, #bdbdbd));
-  border-radius: var(--ds-sidebar-radius, var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem)));
+  background: var(
+    --ds-components-sidebar-background-default,
+    var(--ds-components-general-background-default, #fff)
+  );
+  border: 1px solid var(--ds-sidebar-border, var(--ds-components-general-border-default, #bdbdbd));
+  border-radius: var(
+    --ds-sidebar-radius,
+    var(--ds-menu-radius, var(--ds-metrics-radius-container, 0.75rem))
+  );
 }
 
 nav.sidebar.sidebar--collapsed {
@@ -31,7 +37,7 @@ nav.sidebar .sidebar__group {
   font: inherit;
   background: none;
   border: 0;
-  border-radius: var(--ds-radius-control, 0.5rem);
+  border-radius: var(--ds-metrics-radius-control, 0.5rem);
   cursor: pointer;
 }
 
@@ -40,7 +46,7 @@ nav.sidebar .sidebar__rail-toggle {
   align-items: center;
   justify-content: center;
   padding: 0.375rem;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 
 nav.sidebar .sidebar__group {
@@ -56,19 +62,22 @@ nav.sidebar .sidebar__group {
   text-align: start;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 
 nav.sidebar .sidebar__rail-toggle:hover,
 nav.sidebar .sidebar__group:hover {
-  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 
 nav.sidebar .sidebar__rail-toggle:focus-visible,
 nav.sidebar .sidebar__group:focus-visible,
 nav.sidebar .sidebar__item:focus-visible {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+  box-shadow: var(
+    --ds-focus-ring-shadow,
+    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+  );
 }
 
 nav.sidebar .sidebar__section-label {
@@ -78,7 +87,7 @@ nav.sidebar .sidebar__section-label {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 
 nav.sidebar .sidebar__list {
@@ -100,11 +109,11 @@ nav.sidebar .sidebar__item {
   padding: 0.5rem 0.625rem;
   font: inherit;
   text-align: start;
-  color: var(--ds-sidebar-item-text, var(--ds-color-text, #272727));
+  color: var(--ds-sidebar-item-text, var(--ds-components-general-foreground-default, #272727));
   text-decoration: none;
   background: none;
   border: 0;
-  border-radius: var(--ds-sidebar-item-radius, var(--ds-radius-control, 0.5rem));
+  border-radius: var(--ds-sidebar-item-radius, var(--ds-metrics-radius-control, 0.5rem));
   cursor: pointer;
 }
 
@@ -114,12 +123,16 @@ nav.sidebar .sidebar__list--collapsed .sidebar__item {
 }
 
 nav.sidebar .sidebar__item:hover {
-  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 
 nav.sidebar .sidebar__item--active {
-  color: var(--ds-color-secondary-body-text, #7a52cc);
-  background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
+  color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+  background: color-mix(
+    in srgb,
+    var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+    transparent
+  );
   font-weight: 600;
 }
 
@@ -135,7 +148,7 @@ nav.sidebar .sidebar__list--collapsed .sidebar__item--active::before {
 }
 
 nav.sidebar .sidebar__item[data-unavailable] {
-  color: var(--ds-color-text-disabled, #757575);
+  color: var(--ds-components-general-foreground-disabled, #757575);
   cursor: default;
 }
 
@@ -163,7 +176,7 @@ nav.sidebar .sidebar__reason {
   display: block;
   font-size: 0.8125rem;
   font-weight: 400;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 
 nav.sidebar .sidebar__status {
@@ -183,10 +196,16 @@ nav.sidebar .sidebar__badge {
   font-size: 0.6875rem;
   font-weight: 600;
   line-height: 1;
-  color: var(--ds-sidebar-badge-text, var(--ds-color-on-status, #fff));
+  color: var(
+    --ds-sidebar-badge-text,
+    var(--ds-components-general-feedback-solid-foreground-default, #fff)
+  );
   white-space: nowrap;
-  background: var(--ds-sidebar-badge-surface, var(--ds-color-danger, #be3b50));
-  border-radius: var(--ds-radius-pill, 999px);
+  background: var(
+    --ds-sidebar-badge-surface,
+    var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+  );
+  border-radius: var(--ds-metrics-radius-pill, 999px);
 }
 
 nav.sidebar .sidebar__badge--dot {
@@ -231,7 +250,7 @@ nav.sidebar .sidebar__live {
 nav.sidebar .sidebar__footer {
   margin-block-start: auto;
   padding-block-start: 0.5rem;
-  border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
+  border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
 }
 
 /* Forced colors drop backgrounds: the badge keeps a border, so a dot stays

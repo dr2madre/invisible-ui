@@ -284,7 +284,7 @@ What changes per platform is the semantics, see
 ## Pointer, touch and focus
 
 - **Target size.** Every destination's hit area is at least
-  `--ds-min-target-size` (24 by 24) and at least `--ds-min-target-size-touch`
+  `--ds-metrics-density-regular-min-target-size` (24 by 24) and at least `--ds-metrics-density-touch-min-target-size`
   (44 by 44) under `@media (pointer: coarse)`. In Flutter it follows
   `minTargetSize`: 44 by 44 under `touch`, on Android, iOS and Fuchsia at
   any density, and under Timelog's explicit setting.
@@ -293,7 +293,7 @@ What changes per platform is the semantics, see
 - **Press.** A press activates on release, inside the target. A long press
   on an unavailable destination shows its reason; on any other destination
   it does nothing (the label is already visible).
-- **Hover.** A hover tint from `--ds-state-hover`, for pointer devices only.
+- **Hover.** A hover tint from `--ds-components-general-background-hover`, for pointer devices only.
 - **Focus ring.** The token focus ring on keyboard focus only
   (`:focus-visible`, Flutter's `highlightMode` traditional). It surrounds
   the whole destination, so it stays visible beside the current mark and
@@ -304,7 +304,7 @@ What changes per platform is the semantics, see
 | State | Visible | Web | Flutter |
 | --- | --- | --- | --- |
 | Current | Indicator shape behind the icon, label weight 600 | `aria-current="page"` | `selected: true` plus the position and current text, see below |
-| Unavailable | A status glyph at the icon's inline-end bottom corner (a lock by default, replaceable by the app), the reason in a tooltip on focus and hover, label and icon in `--ds-color-text-disabled` | `aria-disabled="true"`, focusable, reason in `aria-describedby` | `enabled: false` with the reason in the hint, kept focusable |
+| Unavailable | A status glyph at the icon's inline-end bottom corner (a lock by default, replaceable by the app), the reason in a tooltip on focus and hover, label and icon in `--ds-components-general-foreground-disabled` | `aria-disabled="true"`, focusable, reason in `aria-describedby` | `enabled: false` with the reason in the hint, kept focusable |
 | Badge | Count or dot glyph at the icon's inline-end top edge | Badge text inside the destination's name | Badge text inside the label |
 | Focus | Focus ring | `:focus-visible` | `highlightMode` |
 
@@ -465,13 +465,13 @@ where a component needs its own value.
 
 | Token | Role | Source |
 | --- | --- | --- |
-| `--ds-navigation-bar-surface` | Container surface | Falls back to `--ds-color-surface` |
-| `--ds-navigation-bar-item-text` | Destination label and icon | Falls back to `--ds-color-text-secondary` |
-| `--ds-navigation-bar-item-current-text` | Current label and icon | Falls back to `--ds-color-secondary-body-text`, the role of Sidebar's current item |
-| `--ds-navigation-bar-current-indicator` | The current mark | New, light and dark values in `packages/tokens/tokens.json`, 3:1 against the surface |
+| `--ds-navigation-bar-surface` | Container surface | Falls back to `--ds-components-general-background-default` |
+| `--ds-navigation-bar-item-text` | Destination label and icon | Falls back to `--ds-components-general-foreground-secondary` |
+| `--ds-navigation-bar-item-current-text` | Current label and icon | Falls back to `--ds-components-general-action-secondary-body-foreground-default`, the role of Sidebar's current item |
+| `--ds-components-navigation-bar-current-indicator-background-default` | The current mark | New, light and dark values in `packages/tokens/tokens.json`, 3:1 against the surface |
 | `--ds-navigation-bar-badge-surface`, `--ds-navigation-bar-badge-text` | Badge | Fall back to the Count roles |
 | `--ds-navigation-bar-gap`, `--ds-navigation-bar-item-padding` | Spacing | Fall back to the spacing scale |
-| Focus ring, `--ds-state-hover`, `--ds-color-text-disabled`, `--ds-min-target-size`, `--ds-min-target-size-touch` | Shared | Existing |
+| Focus ring, `--ds-components-general-background-hover`, `--ds-components-general-foreground-disabled`, `--ds-metrics-density-regular-min-target-size`, `--ds-metrics-density-touch-min-target-size` | Shared | Existing |
 
 No token for width, maximum width, radius, elevation, shadow or position:
 those are the application's (the floating pill is a theme or app style, as

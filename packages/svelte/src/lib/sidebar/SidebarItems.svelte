@@ -125,11 +125,11 @@
     padding: 0.5rem 0.625rem;
     font: inherit;
     text-align: start;
-    color: var(--ds-sidebar-item-text, var(--ds-color-text, #272727));
+    color: var(--ds-sidebar-item-text, var(--ds-components-general-foreground-default, #272727));
     text-decoration: none;
     background: none;
     border: 0;
-    border-radius: var(--ds-sidebar-item-radius, var(--ds-radius-control, 0.5rem));
+    border-radius: var(--ds-sidebar-item-radius, var(--ds-metrics-radius-control, 0.5rem));
     cursor: pointer;
   }
   .sidebar__list--collapsed .sidebar__item {
@@ -137,11 +137,15 @@
     padding-inline: 0.375rem;
   }
   .sidebar__item:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .sidebar__item--active {
-    color: var(--ds-color-secondary-body-text, #7a52cc);
-    background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
+    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    background: color-mix(
+      in srgb,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      transparent
+    );
     font-weight: 600;
   }
   /* The rail shows no label, so its weight cannot mark the current item: a
@@ -156,10 +160,13 @@
   }
   .sidebar__item:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+    box-shadow: var(
+      --ds-focus-ring-shadow,
+      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    );
   }
   .sidebar__item[data-unavailable] {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: default;
   }
   .sidebar__icon {
@@ -178,7 +185,7 @@
     display: block;
     font-size: 0.8125rem;
     font-weight: 400;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .sidebar__status {
     display: inline-flex;
@@ -196,10 +203,16 @@
     font-size: 0.6875rem;
     font-weight: 600;
     line-height: 1;
-    color: var(--ds-sidebar-badge-text, var(--ds-color-on-status, #fff));
+    color: var(
+      --ds-sidebar-badge-text,
+      var(--ds-components-general-feedback-solid-foreground-default, #fff)
+    );
     white-space: nowrap;
-    background: var(--ds-sidebar-badge-surface, var(--ds-color-danger, #be3b50));
-    border-radius: var(--ds-radius-pill, 999px);
+    background: var(
+      --ds-sidebar-badge-surface,
+      var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+    );
+    border-radius: var(--ds-metrics-radius-pill, 999px);
   }
   .sidebar__badge--dot {
     min-inline-size: 0;

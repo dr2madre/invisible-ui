@@ -136,7 +136,7 @@
     display: grid;
     gap: var(--ds-rating-label-gap, 0.5rem);
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .rating__label {
     font-size: 0.875rem;
@@ -157,7 +157,7 @@
     position: relative;
     display: inline-flex;
     /* Darker outline so empty stars stay visible. */
-    color: var(--ds-rating-empty-color, var(--ds-neutral-400, #757575));
+    color: var(--ds-rating-empty-color, var(--ds-colors-palette-grey-400, #757575));
     cursor: pointer;
   }
   .rating--disabled .rating__star {
@@ -169,13 +169,16 @@
   /* Hover preview: a neutral grey fill (not the selection color) showing the
      stars about to be set. */
   .rating__star--preview {
-    color: var(--ds-rating-preview-color, var(--ds-neutral-300, #9e9e9e));
+    color: var(--ds-rating-preview-color, var(--ds-colors-palette-grey-300, #9e9e9e));
   }
   .rating__star--preview :global(svg) {
     fill: currentColor;
   }
   .rating__star--filled {
-    color: var(--ds-rating-color, var(--ds-color-secondary, #7a52cc));
+    color: var(
+      --ds-rating-color,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+    );
   }
   .rating__star--filled :global(svg) {
     fill: currentColor;
@@ -206,7 +209,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .rating__star:has(.rating__input:focus-visible) {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

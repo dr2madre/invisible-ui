@@ -76,10 +76,10 @@ test("a colour specimen paints the value the registry resolved, in both themes",
   // A spread of shapes: a plain palette step, a role that swaps per theme, a
   // role built with color-mix, and a see-through overlay.
   const sample = [
-    "--ds-purple-500",
-    "--ds-color-surface",
-    "--ds-color-info-surface",
-    "--ds-state-hover",
+    "--ds-colors-palette-dioxazine-purple-500",
+    "--ds-components-general-background-default",
+    "--ds-components-general-feedback-info-background-default",
+    "--ds-components-general-background-hover",
   ]
     .map((name) => colours.find((token) => token.name === name))
     .filter((token): token is Token => Boolean(token));
@@ -127,7 +127,9 @@ test("a token with a dark override paints differently in the two panes", async (
 
 test("the light column stays light while the page itself is dark", async ({ page }) => {
   await page.goto(PAGE);
-  const token = registry.tokens.find((entry) => entry.name === "--ds-color-surface")!;
+  const token = registry.tokens.find(
+    (entry) => entry.name === "--ds-components-general-background-default",
+  )!;
   const card = page.locator(`[data-tk-token][data-name="${token.name}"]`);
   const read = (theme: string) =>
     card

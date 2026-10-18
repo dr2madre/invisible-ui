@@ -4,11 +4,11 @@
 
   const labelStyle = "font-size: 0.875rem; font-weight: 600;";
   const helpStyle =
-    "margin: 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary, #515151);";
+    "margin: 0; font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary, #515151);";
   const okStyle =
-    "margin: 0; font-size: 0.8125rem; color: var(--ds-color-success-body-text, #3e7523);";
+    "margin: 0; font-size: 0.8125rem; color: var(--ds-components-general-feedback-success-body-foreground-default, #3e7523);";
   const errStyle =
-    "margin: 0; font-size: 0.8125rem; color: var(--ds-color-danger-body-text, #be3b50);";
+    "margin: 0; font-size: 0.8125rem; color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.5rem;">

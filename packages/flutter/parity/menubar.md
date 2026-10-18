@@ -102,4 +102,4 @@ scope**. Every matched line names the test that holds it, in
 
 ## Background token
 
-The background reads the component token `--ds-menu-background` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--ds-components-menu-background-default` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

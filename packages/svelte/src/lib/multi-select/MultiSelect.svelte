@@ -268,7 +268,7 @@
     inline-size: var(--ds-multi-select-width, 100%);
     max-inline-size: var(--ds-multi-select-max-width, 24rem);
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .multi-select__label {
     font-size: var(--ds-multi-select-label-size, 0.875rem);
@@ -281,9 +281,9 @@
     align-items: center;
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-radius-control, 0.5rem);
-    background: var(--ds-color-background, #fff);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    background: var(--ds-components-general-background-default, #fff);
   }
   .multi-select__control:focus-within {
     box-shadow: var(--ds-focus-ring-shadow);
@@ -293,7 +293,7 @@
     cursor: not-allowed;
   }
   .multi-select__control--readonly {
-    background: var(--ds-color-neutral-surface, #f5f5f5);
+    background: var(--ds-components-general-feedback-neutral-background-default, #f5f5f5);
   }
   .multi-select__values {
     display: inline-flex;
@@ -347,9 +347,12 @@
     list-style: none;
     max-block-size: min(18rem, 50vh);
     overflow: auto;
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-radius-surface, 0.75rem);
-    background: var(--ds-menu-background, var(--ds-color-background, #fff));
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-metrics-radius-container, 0.75rem);
+    background: var(
+      --ds-components-menu-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -364,14 +367,15 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.5rem;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   /* Focus stays in the input, so a ring marks the active option (WCAG 2.4.7,
      1.4.11); the tint alone is too faint. */
   .multi-select__option:global([data-active]) {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-focus-ring-color, #8e6cd4);
   }
   .multi-select__option:global([data-disabled]) {
     opacity: 0.5;
@@ -380,7 +384,7 @@
   .multi-select__check {
     inline-size: 1em;
     block-size: 1em;
-    color: var(--ds-color-selected, #7a52cc);
+    color: var(--ds-components-general-selection-background-default, #7a52cc);
     visibility: hidden;
     flex: none;
   }
@@ -392,14 +396,14 @@
   }
   .multi-select__empty {
     padding: 0.4rem 0.5rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   /* Forced colors: the active option is marked by a tint alone, and tints flatten away.
      Keyboard focus stays in the input, so the list must show which
      option it is on. The list scrolls, so the ring goes inside. */
   @media (forced-colors: active) {
     .multi-select__option:global([data-active]) {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: -2px;
     }
   }

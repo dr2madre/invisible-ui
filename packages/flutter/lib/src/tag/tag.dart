@@ -127,7 +127,7 @@ class Tag extends StatelessWidget {
         style: theme.textStyle.copyWith(
           fontSize: fontSize,
           fontWeight: FontWeight.w500,
-          height: InvisibleTypographyTokens.lineHeightTight,
+          height: InvisibleTypographyTokens.lineHeightHeading,
           color: paint.foreground,
         ),
         child: Container(

@@ -140,7 +140,10 @@ void main() {
       final theme = InvisibleThemeData.light(fontFamily: 'Inter');
       expect(theme.textStyle.fontFamily, 'Inter');
       expect(theme.textStyle.fontSize, 16);
-      expect(theme.textStyle.height, InvisibleTypographyTokens.lineHeight);
+      expect(
+        theme.textStyle.height,
+        InvisibleTypographyTokens.lineHeightDefault,
+      );
       expect(InvisibleThemeData.light().textStyle.fontFamily, isNull);
     });
 
@@ -167,10 +170,10 @@ void main() {
       expect(theme.copyWith(), theme);
       expect(theme.hashCode, InvisibleThemeData.light().hashCode);
       final changed = theme.copyWith(
-        colors: theme.colors.copyWith(primary: InvisiblePalette.blue500),
+        colors: theme.colors.copyWith(primary: InvisiblePalette.cobaltBlue500),
         messages: const InvisibleMessages(loadingLabel: 'Caricamento…'),
       );
-      expect(changed.colors.primary, InvisiblePalette.blue500);
+      expect(changed.colors.primary, InvisiblePalette.cobaltBlue500);
       expect(changed.colors.text, theme.colors.text);
       expect(changed.messages.loadingLabel, 'Caricamento…');
       expect(changed.focusRing, theme.focusRing);

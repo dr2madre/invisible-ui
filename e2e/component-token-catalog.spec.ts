@@ -30,7 +30,7 @@ test("every knob in the registry has a card on the page", async ({ page }) => {
 
 test("a knob that follows a role resolves in both panes", async ({ page }) => {
   // --ds-calendar-range-band is never defined anywhere: it falls back through
-  // --ds-color-selected, which keeps the same purple in both themes, so what
+  // --ds-components-general-selection-background-default, which keeps the same purple in both themes, so what
   // is checked is that both panes resolve through the chain.
   await page.goto(PAGE);
   const card = page.locator('[data-ctk-token][data-name="--ds-calendar-range-band"]');

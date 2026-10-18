@@ -277,7 +277,7 @@ class _FeedbackStateState extends State<_FeedbackState> {
             style: text.copyWith(
               fontSize: small ? 16 : 20,
               fontWeight: FontWeight.w700,
-              height: InvisibleTypographyTokens.lineHeightTight,
+              height: InvisibleTypographyTokens.lineHeightHeading,
             ),
           ),
         ),

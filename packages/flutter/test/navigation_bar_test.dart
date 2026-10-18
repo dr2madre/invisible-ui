@@ -620,7 +620,7 @@ void main() {
             .widgetList<DecoratedBox>(find.byType(DecoratedBox))
             .map((box) => box.decoration)
             .whereType<BoxDecoration>()
-            .any((d) => d.color == colors.surface),
+            .any((d) => d.color == colors.navigationBarBackground),
         isTrue,
       );
       bool tinted() => tester

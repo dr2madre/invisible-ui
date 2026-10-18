@@ -104,17 +104,26 @@
     min-inline-size: var(--ds-pagination-size, 2rem);
     block-size: var(--ds-pagination-size, 2rem);
     padding: 0 0.5rem;
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-pagination-radius, var(--ds-radius-control, 0.5rem));
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #272727);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-pagination-radius, var(--ds-metrics-radius-control, 0.5rem));
+    background: var(--ds-components-general-background-default, #fff);
+    color: var(--ds-components-general-foreground-default, #272727);
     font: inherit;
     cursor: pointer;
   }
   .pagination__page:global([data-selected]) {
-    background: var(--ds-pagination-active, var(--ds-color-secondary, #7a52cc));
-    border-color: var(--ds-pagination-active, var(--ds-color-secondary, #7a52cc));
-    color: var(--ds-pagination-active-text, var(--ds-color-on-emphasis, #f5f5f5));
+    background: var(
+      --ds-pagination-active,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+    );
+    border-color: var(
+      --ds-pagination-active,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+    );
+    color: var(
+      --ds-pagination-active-text,
+      var(--ds-components-general-emphasis-foreground-default, #f5f5f5)
+    );
     font-weight: 600;
   }
   .pagination__control:focus-visible,
@@ -130,7 +139,7 @@
   .pagination__ellipsis {
     min-inline-size: 1.5rem;
     text-align: center;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
 
   /* Forced colors: the fill that marks the current page is flattened away, so

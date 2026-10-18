@@ -73,18 +73,21 @@
     text-align: start;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     background: none;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .sidebar__group:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .sidebar__group:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+    box-shadow: var(
+      --ds-focus-ring-shadow,
+      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    );
   }
   .sidebar__chevron {
     display: inline-flex;

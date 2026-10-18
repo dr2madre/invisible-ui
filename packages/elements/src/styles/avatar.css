@@ -8,8 +8,8 @@
   overflow: hidden;
   inline-size: var(--ds-avatar-size, 2.5rem);
   block-size: var(--ds-avatar-size, 2.5rem);
-  background-color: var(--ds-avatar-bg, var(--ds-color-surface, #e0e0e0));
-  color: var(--ds-avatar-color, var(--ds-color-text, #272727));
+  background-color: var(--ds-avatar-bg, var(--ds-components-avatar-background-default, #e0e0e0));
+  color: var(--ds-avatar-color, var(--ds-components-general-foreground-default, #272727));
   font-weight: 600;
   line-height: 1;
   user-select: none;
@@ -33,7 +33,7 @@
   border-radius: 50%;
 }
 .avatar[data-shape="square"] {
-  border-radius: var(--ds-avatar-radius, var(--ds-radius-control, 0.5rem));
+  border-radius: var(--ds-avatar-radius, var(--ds-metrics-radius-control, 0.5rem));
 }
 
 .avatar__img {

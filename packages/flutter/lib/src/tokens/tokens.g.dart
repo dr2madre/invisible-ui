@@ -8,16 +8,75 @@
 
 import 'dart:ui';
 
+/// Button dimensions and typography.
+abstract final class InvisibleButtonTokens {
+  static const double radius = 8.0;
+  static const double spacingX = 14.0;
+  static const double spacingY = 8.0;
+  static const double spacingGap = 8.0;
+  static const double typographyLineHeight = 1.2;
+  static const FontWeight typographyFontWeight = FontWeight.w500;
+  static const double opacityDisabled = 0.5;
+}
+
 /// The primitive palette. Components read the roles in [InvisibleColors], never
 /// these.
 abstract final class InvisiblePalette {
-  static const Color purple500 = Color(0xFF7A52CC);
-  static const Color purple600 = Color(0xFF6840B7);
-  static const Color blue500 = Color(0xFF4067B6);
-  static const Color orange500 = Color(0xFFC96422);
-  static const Color green600 = Color(0xFF3E7523);
-  static const Color red600 = Color(0xFFBE3B50);
-  static const Color red700 = Color(0xFFAB2E42);
+  static const Color dioxazinePurple50 = Color(0xFFF1ECFA);
+  static const Color dioxazinePurple100 = Color(0xFFD4C7EF);
+  static const Color dioxazinePurple200 = Color(0xFFB8A1E6);
+  static const Color dioxazinePurple300 = Color(0xFFA284DD);
+  static const Color dioxazinePurple400 = Color(0xFF8D6AD4);
+  static const Color dioxazinePurple500 = Color(0xFF7A52CC);
+  static const Color dioxazinePurple600 = Color(0xFF6840B7);
+  static const Color dioxazinePurple700 = Color(0xFF563795);
+  static const Color dioxazinePurple800 = Color(0xFF442780);
+  static const Color dioxazinePurple900 = Color(0xFF34186E);
+  static const Color dioxazinePurple950 = Color(0xFF230A56);
+  static const Color cobaltBlue50 = Color(0xFFE9EEFA);
+  static const Color cobaltBlue100 = Color(0xFFBCCDF1);
+  static const Color cobaltBlue200 = Color(0xFF8FACE8);
+  static const Color cobaltBlue300 = Color(0xFF6B8FD7);
+  static const Color cobaltBlue400 = Color(0xFF527ACC);
+  static const Color cobaltBlue500 = Color(0xFF4067B6);
+  static const Color cobaltBlue600 = Color(0xFF3A5CA0);
+  static const Color cobaltBlue700 = Color(0xFF324D83);
+  static const Color cobaltBlue800 = Color(0xFF273B65);
+  static const Color cobaltBlue900 = Color(0xFF1D2D4D);
+  static const Color cobaltBlue950 = Color(0xFF0F1B34);
+  static const Color burntOrange50 = Color(0xFFFAEBE1);
+  static const Color burntOrange100 = Color(0xFFF7DDCC);
+  static const Color burntOrange200 = Color(0xFFEEBB99);
+  static const Color burntOrange300 = Color(0xFFE7A071);
+  static const Color burntOrange400 = Color(0xFFDD7734);
+  static const Color burntOrange500 = Color(0xFFC96422);
+  static const Color burntOrange600 = Color(0xFFBC5716);
+  static const Color burntOrange700 = Color(0xFFA4460A);
+  static const Color burntOrange800 = Color(0xFF873602);
+  static const Color burntOrange900 = Color(0xFF582200);
+  static const Color burntOrange950 = Color(0xFF3E1800);
+  static const Color sapGreen50 = Color(0xFFEAF5E4);
+  static const Color sapGreen100 = Color(0xFFC6E3B7);
+  static const Color sapGreen200 = Color(0xFFAAD693);
+  static const Color sapGreen300 = Color(0xFF94C37D);
+  static const Color sapGreen400 = Color(0xFF73A958);
+  static const Color sapGreen500 = Color(0xFF508B32);
+  static const Color sapGreen600 = Color(0xFF3E7523);
+  static const Color sapGreen700 = Color(0xFF306217);
+  static const Color sapGreen800 = Color(0xFF224D0C);
+  static const Color sapGreen900 = Color(0xFF143404);
+  static const Color sapGreen950 = Color(0xFF0D2301);
+  static const Color alizarinRed50 = Color(0xFFFAECEE);
+  static const Color alizarinRed100 = Color(0xFFEFC7CD);
+  static const Color alizarinRed200 = Color(0xFFE5A1AC);
+  static const Color alizarinRed300 = Color(0xFFE67F90);
+  static const Color alizarinRed400 = Color(0xFFE65C73);
+  static const Color alizarinRed500 = Color(0xFFD54D63);
+  static const Color alizarinRed600 = Color(0xFFBE3B50);
+  static const Color alizarinRed700 = Color(0xFFAB2E42);
+  static const Color alizarinRed800 = Color(0xFF881A2B);
+  static const Color alizarinRed900 = Color(0xFF6A0F1D);
+  static const Color alizarinRed950 = Color(0xFF4E0410);
   static const Color grey0 = Color(0xFFFFFFFF);
   static const Color grey50 = Color(0xFFF5F5F5);
   static const Color grey100 = Color(0xFFE0E0E0);
@@ -31,14 +90,84 @@ abstract final class InvisiblePalette {
   static const Color grey900 = Color(0xFF272727);
   static const Color grey950 = Color(0xFF1B1B1B);
   static const Color black = Color(0xFF121212);
+  static const Color magentaPink50 = Color(0xFFFAECF5);
+  static const Color magentaPink100 = Color(0xFFEFC7E2);
+  static const Color magentaPink200 = Color(0xFFE5A1CE);
+  static const Color magentaPink300 = Color(0xFFE67FC4);
+  static const Color magentaPink400 = Color(0xFFE65CB8);
+  static const Color magentaPink500 = Color(0xFFD54DA8);
+  static const Color magentaPink600 = Color(0xFFBE3B92);
+  static const Color magentaPink700 = Color(0xFFAB2E82);
+  static const Color magentaPink800 = Color(0xFF881A63);
+  static const Color magentaPink900 = Color(0xFF6A0F4C);
+  static const Color magentaPink950 = Color(0xFF500537);
+  static const Color naplesYellow50 = Color(0xFFFFFAE7);
+  static const Color naplesYellow100 = Color(0xFFFEF0B6);
+  static const Color naplesYellow200 = Color(0xFFFEE285);
+  static const Color naplesYellow300 = Color(0xFFF9D574);
+  static const Color naplesYellow400 = Color(0xFFE8BA4F);
+  static const Color naplesYellow500 = Color(0xFFDFA124);
+  static const Color naplesYellow600 = Color(0xFFC8830C);
+  static const Color naplesYellow700 = Color(0xFFAD6B08);
+  static const Color naplesYellow800 = Color(0xFF915200);
+  static const Color naplesYellow900 = Color(0xFF633501);
+  static const Color naplesYellow950 = Color(0xFF432400);
+  static const Color limeGreen50 = Color(0xFFF9FBE7);
+  static const Color limeGreen100 = Color(0xFFF0F4C3);
+  static const Color limeGreen200 = Color(0xFFE6EE9C);
+  static const Color limeGreen300 = Color(0xFFDCE775);
+  static const Color limeGreen400 = Color(0xFFC8D547);
+  static const Color limeGreen500 = Color(0xFFADBB23);
+  static const Color limeGreen600 = Color(0xFF8A9613);
+  static const Color limeGreen700 = Color(0xFF6F790B);
+  static const Color limeGreen800 = Color(0xFF545C05);
+  static const Color limeGreen900 = Color(0xFF363D02);
+  static const Color limeGreen950 = Color(0xFF262B00);
+  static const Color viridianGreen50 = Color(0xFFE6F5F3);
+  static const Color viridianGreen100 = Color(0xFFB3E0DC);
+  static const Color viridianGreen200 = Color(0xFF80CBC4);
+  static const Color viridianGreen300 = Color(0xFF4DB6AC);
+  static const Color viridianGreen400 = Color(0xFF26A69A);
+  static const Color viridianGreen500 = Color(0xFF00897B);
+  static const Color viridianGreen600 = Color(0xFF007265);
+  static const Color viridianGreen700 = Color(0xFF005D50);
+  static const Color viridianGreen800 = Color(0xFF014439);
+  static const Color viridianGreen900 = Color(0xFF00352C);
+  static const Color viridianGreen950 = Color(0xFF00241E);
+  static const Color ceruleanBlue50 = Color(0xFFE1F5FE);
+  static const Color ceruleanBlue100 = Color(0xFFB2DEF2);
+  static const Color ceruleanBlue200 = Color(0xFF8ACCEA);
+  static const Color ceruleanBlue300 = Color(0xFF63B9E1);
+  static const Color ceruleanBlue400 = Color(0xFF3DA4D4);
+  static const Color ceruleanBlue500 = Color(0xFF2790C1);
+  static const Color ceruleanBlue600 = Color(0xFF197AA7);
+  static const Color ceruleanBlue700 = Color(0xFF0E668F);
+  static const Color ceruleanBlue800 = Color(0xFF054664);
+  static const Color ceruleanBlue900 = Color(0xFF033349);
+  static const Color ceruleanBlue950 = Color(0xFF00202E);
+  static const Color warmGrey50 = Color(0xFFF4F2EF);
+  static const Color warmGrey100 = Color(0xFFE6E0D8);
+  static const Color warmGrey200 = Color(0xFFC7C1B7);
+  static const Color warmGrey300 = Color(0xFFA8A297);
+  static const Color warmGrey400 = Color(0xFF757067);
+  static const Color warmGrey500 = Color(0xFF5E5951);
+  static const Color warmGrey600 = Color(0xFF524C44);
+  static const Color warmGrey700 = Color(0xFF413C36);
+  static const Color warmGrey800 = Color(0xFF332F2A);
+  static const Color warmGrey900 = Color(0xFF282420);
+  static const Color warmGrey950 = Color(0xFF1C1915);
 }
 
-/// The semantic style tier: brand and feedback colours.
-abstract final class InvisibleStyleColors {
+/// Tenant brand colours.
+abstract final class InvisibleBrandColors {
   static const Color primaryDefault = Color(0xFF7A52CC);
   static const Color primaryHover = Color(0xFF6840B7);
   static const Color secondaryDefault = Color(0xFF7A52CC);
   static const Color secondaryHover = Color(0xFF6840B7);
+}
+
+/// Tenant feedback colours.
+abstract final class InvisibleFeedbackColors {
   static const Color infoDefault = Color(0xFF4067B6);
   static const Color successDefault = Color(0xFF3E7523);
   static const Color warningDefault = Color(0xFFC96422);
@@ -49,25 +178,22 @@ abstract final class InvisibleStyleColors {
 /// Corner radii, in logical pixels.
 abstract final class InvisibleRadiusTokens {
   static const double control = 8.0;
-  static const double surface = 12.0;
+  static const double container = 12.0;
   static const double pill = 999.0;
 }
 
-/// The focus indicator: a solid ring and a translucent halo around it. The
-/// colours are color-focus-ring and color-focus-halo in the role tier. Sizes in
-/// logical pixels.
+/// Focus dimensions in logical pixels.
 abstract final class InvisibleFocusTokens {
   static const double ringWidth = 2.0;
   static const double ringOffset = 2.0;
   static const double haloWidth = 3.0;
 }
 
-/// Line heights, heading weight and heading sizes, from a 100% root font size.
-/// Font sizes in logical pixels.
+/// Typography. Font sizes in logical pixels.
 abstract final class InvisibleTypographyTokens {
-  static const double lineHeight = 1.4;
-  static const double lineHeightTight = 1.2;
-  static const FontWeight headingWeight = FontWeight.w700;
+  static const double lineHeightDefault = 1.4;
+  static const double lineHeightHeading = 1.2;
+  static const FontWeight fontWeightHeading = FontWeight.w700;
   static const double fontSizeH1 = 38.0;
   static const double fontSizeH2 = 32.0;
   static const double fontSizeH3 = 28.0;
@@ -76,11 +202,7 @@ abstract final class InvisibleTypographyTokens {
   static const double fontSizeH6 = 16.0;
 }
 
-/// Control sizing per density level. regular is the default and matches
-/// tokens.css. min-target-size is the side of the smallest square hit area a
-/// control keeps, whatever its painted size: 24 by 24 under compact and regular
-/// (WCAG 2.5.8), 44 by 44 under touch, which the web reads under a coarse
-/// pointer. Visual density never reduces the touch target.
+/// Control dimensions by density.
 ///
 /// A size that the source leaves undefined for a level is null.
 final class InvisibleDensityTokens {
@@ -150,8 +272,30 @@ final class InvisibleColors {
     required this.textDisabled,
     required this.border,
     required this.controlBorder,
-    required this.surface,
-    required this.surfaceHover,
+    required this.avatarBackground,
+    required this.switchBackground,
+    required this.stepperBackground,
+    required this.navigationBarBackground,
+    required this.buttonBackground,
+    required this.buttonHover,
+    required this.buttonForeground,
+    required this.buttonBorder,
+    required this.buttonPrimaryBackground,
+    required this.buttonPrimaryHover,
+    required this.buttonPrimaryForeground,
+    required this.buttonPrimaryBorder,
+    required this.buttonSecondaryBackground,
+    required this.buttonSecondaryHover,
+    required this.buttonSecondaryForeground,
+    required this.buttonSecondaryBorder,
+    required this.buttonGhostBackground,
+    required this.buttonGhostHover,
+    required this.buttonGhostForeground,
+    required this.buttonGhostBorder,
+    required this.buttonDangerBackground,
+    required this.buttonDangerHover,
+    required this.buttonDangerForeground,
+    required this.buttonDangerBorder,
     required this.disabled,
     required this.stateHover,
     required this.statePressed,
@@ -220,8 +364,55 @@ final class InvisibleColors {
     textDisabled: Color(0xFF757575),
     border: Color(0xFFBDBDBD),
     controlBorder: Color(0xFF757575),
-    surface: Color(0xFFE0E0E0),
-    surfaceHover: Color(0xFFBDBDBD),
+    avatarBackground: Color(0xFFE0E0E0),
+    switchBackground: Color(0xFFE0E0E0),
+    stepperBackground: Color(0xFFE0E0E0),
+    navigationBarBackground: Color(0xFFE0E0E0),
+    buttonBackground: Color(0xFFFFFFFF),
+    buttonHover: Color(0x0F000000),
+    buttonForeground: Color(0xFF272727),
+    buttonBorder: Color.from(
+      alpha: 1.0,
+      red: 0.6211764705882353,
+      green: 0.6211764705882353,
+      blue: 0.6211764705882353,
+    ),
+    buttonPrimaryBackground: Color(0xFF7A52CC),
+    buttonPrimaryHover: Color(0xFF6840B7),
+    buttonPrimaryForeground: Color(0xFFFFFFFF),
+    buttonPrimaryBorder: Color(0x00000000),
+    buttonSecondaryBackground: Color(0xFFEBE5F7),
+    buttonSecondaryHover: Color.from(
+      alpha: 1.0,
+      red: 0.8748235294117648,
+      green: 0.8371764705882353,
+      blue: 0.952,
+    ),
+    buttonSecondaryForeground: Color(0xFF6840B7),
+    buttonSecondaryBorder: Color.from(
+      alpha: 0.55,
+      red: 0.47843137254901963,
+      green: 0.3215686274509804,
+      blue: 0.8,
+    ),
+    buttonGhostBackground: Color(0x00000000),
+    buttonGhostHover: Color(0x0F000000),
+    buttonGhostForeground: Color(0xFF272727),
+    buttonGhostBorder: Color(0x00000000),
+    buttonDangerBackground: Color(0xFFF9EBEE),
+    buttonDangerHover: Color.from(
+      alpha: 1.0,
+      red: 0.9541176470588236,
+      green: 0.8616470588235294,
+      blue: 0.8764705882352942,
+    ),
+    buttonDangerForeground: Color(0xFFAB2E42),
+    buttonDangerBorder: Color.from(
+      alpha: 0.35,
+      red: 0.7450980392156864,
+      green: 0.23137254901960785,
+      blue: 0.3137254901960784,
+    ),
     disabled: Color(0xFFBDBDBD),
     stateHover: Color(0x0F000000),
     statePressed: Color(0x1F000000),
@@ -290,8 +481,55 @@ final class InvisibleColors {
     textDisabled: Color(0xFF515151),
     border: Color(0xFF414141),
     controlBorder: Color(0xFF9E9E9E),
-    surface: Color(0xFF414141),
-    surfaceHover: Color(0xFF515151),
+    avatarBackground: Color(0xFF414141),
+    switchBackground: Color(0xFF414141),
+    stepperBackground: Color(0xFF414141),
+    navigationBarBackground: Color(0xFF414141),
+    buttonBackground: Color(0xFF272727),
+    buttonHover: Color(0x17FFFFFF),
+    buttonForeground: Color(0xFFF5F5F5),
+    buttonBorder: Color.from(
+      alpha: 1.0,
+      red: 0.4796078431372549,
+      green: 0.4796078431372549,
+      blue: 0.4796078431372549,
+    ),
+    buttonPrimaryBackground: Color(0xFF7A52CC),
+    buttonPrimaryHover: Color(0xFF6840B7),
+    buttonPrimaryForeground: Color(0xFFFFFFFF),
+    buttonPrimaryBorder: Color(0x00000000),
+    buttonSecondaryBackground: Color(0xFF332D40),
+    buttonSecondaryHover: Color.from(
+      alpha: 1.0,
+      red: 0.2310588235294118,
+      green: 0.19341176470588237,
+      blue: 0.30823529411764705,
+    ),
+    buttonSecondaryForeground: Color(0xFFFFFFFF),
+    buttonSecondaryBorder: Color.from(
+      alpha: 0.55,
+      red: 0.47843137254901963,
+      green: 0.3215686274509804,
+      blue: 0.8,
+    ),
+    buttonGhostBackground: Color(0x00000000),
+    buttonGhostHover: Color(0x17FFFFFF),
+    buttonGhostForeground: Color(0xFFF5F5F5),
+    buttonGhostBorder: Color(0x00000000),
+    buttonDangerBackground: Color(0xFF422B2E),
+    buttonDangerHover: Color.from(
+      alpha: 1.0,
+      red: 0.2595294117647059,
+      green: 0.16705882352941176,
+      blue: 0.18188235294117647,
+    ),
+    buttonDangerForeground: Color(0xFFFFFFFF),
+    buttonDangerBorder: Color.from(
+      alpha: 0.35,
+      red: 0.7450980392156864,
+      green: 0.23137254901960785,
+      blue: 0.3137254901960784,
+    ),
     disabled: Color(0xFF323232),
     stateHover: Color(0x17FFFFFF),
     statePressed: Color(0x29FFFFFF),
@@ -353,205 +591,271 @@ final class InvisibleColors {
     codeBlockBackground: Color(0xFF1B1B1B),
   );
 
-  /// `color-background`.
+  /// `components.general.background.default`.
   final Color background;
 
-  /// `color-text`.
+  /// `components.general.foreground.default`.
   final Color text;
 
-  /// `color-text-secondary`.
+  /// `components.general.foreground.secondary`.
   final Color textSecondary;
 
-  /// `color-text-disabled`.
+  /// `components.general.foreground.disabled`.
   final Color textDisabled;
 
-  /// `color-border`.
+  /// `components.general.border.default`.
   final Color border;
 
-  /// `color-control-border`.
+  /// `components.general.border.control`.
   final Color controlBorder;
 
-  /// `color-surface`.
-  final Color surface;
+  /// `components.avatar.background.default`.
+  final Color avatarBackground;
 
-  /// `color-surface-hover`.
-  final Color surfaceHover;
+  /// `components.switch.background.default`.
+  final Color switchBackground;
 
-  /// `color-disabled`.
+  /// `components.stepper.background.default`.
+  final Color stepperBackground;
+
+  /// `components.navigation-bar.background.default`.
+  final Color navigationBarBackground;
+
+  /// `components.button.background.default`.
+  final Color buttonBackground;
+
+  /// `components.button.background.hover`.
+  final Color buttonHover;
+
+  /// `components.button.foreground.default`.
+  final Color buttonForeground;
+
+  /// `components.button.border.default`.
+  final Color buttonBorder;
+
+  /// `components.button.background.primary.default`.
+  final Color buttonPrimaryBackground;
+
+  /// `components.button.background.primary.hover`.
+  final Color buttonPrimaryHover;
+
+  /// `components.button.foreground.primary.default`.
+  final Color buttonPrimaryForeground;
+
+  /// `components.button.border.primary.default`.
+  final Color buttonPrimaryBorder;
+
+  /// `components.button.background.secondary.default`.
+  final Color buttonSecondaryBackground;
+
+  /// `components.button.background.secondary.hover`.
+  final Color buttonSecondaryHover;
+
+  /// `components.button.foreground.secondary.default`.
+  final Color buttonSecondaryForeground;
+
+  /// `components.button.border.secondary.default`.
+  final Color buttonSecondaryBorder;
+
+  /// `components.button.background.ghost.default`.
+  final Color buttonGhostBackground;
+
+  /// `components.button.background.ghost.hover`.
+  final Color buttonGhostHover;
+
+  /// `components.button.foreground.ghost.default`.
+  final Color buttonGhostForeground;
+
+  /// `components.button.border.ghost.default`.
+  final Color buttonGhostBorder;
+
+  /// `components.button.background.danger.default`.
+  final Color buttonDangerBackground;
+
+  /// `components.button.background.danger.hover`.
+  final Color buttonDangerHover;
+
+  /// `components.button.foreground.danger.default`.
+  final Color buttonDangerForeground;
+
+  /// `components.button.border.danger.default`.
+  final Color buttonDangerBorder;
+
+  /// `components.general.background.disabled`.
   final Color disabled;
 
-  /// `state-hover`.
+  /// `components.general.background.hover`.
   final Color stateHover;
 
-  /// `state-pressed`.
+  /// `components.general.background.pressed`.
   final Color statePressed;
 
-  /// `color-focus-ring`.
+  /// `components.general.focus.ring.color`.
   final Color focusRing;
 
-  /// `color-focus-halo`.
+  /// `components.general.focus.halo.color`.
   final Color focusHalo;
 
-  /// `color-primary`.
+  /// `components.general.action.primary.background.default`.
   final Color primary;
 
-  /// `color-primary-hover`.
+  /// `components.general.action.primary.background.hover`.
   final Color primaryHover;
 
-  /// `color-on-primary`.
+  /// `components.general.action.primary.foreground.default`.
   final Color onPrimary;
 
-  /// `color-secondary`.
+  /// `components.general.action.secondary.background.default`.
   final Color secondary;
 
-  /// `color-secondary-hover`.
+  /// `components.general.action.secondary.background.hover`.
   final Color secondaryHover;
 
-  /// `color-on-secondary`.
+  /// `components.general.action.secondary.foreground.default`.
   final Color onSecondary;
 
-  /// `color-info`.
+  /// `components.general.feedback.info.solid.background.default`.
   final Color info;
 
-  /// `color-success`.
+  /// `components.general.feedback.success.solid.background.default`.
   final Color success;
 
-  /// `color-warning`.
+  /// `components.general.feedback.warning.solid.background.default`.
   final Color warning;
 
-  /// `color-danger`.
+  /// `components.general.feedback.danger.solid.background.default`.
   final Color danger;
 
-  /// `color-danger-hover`.
+  /// `components.general.feedback.danger.solid.background.hover`.
   final Color dangerHover;
 
-  /// `color-neutral`.
+  /// `components.general.feedback.neutral.solid.background.default`.
   final Color neutral;
 
-  /// `color-on-status`.
+  /// `components.general.feedback.solid.foreground.default`.
   final Color onStatus;
 
-  /// `color-on-warning`.
+  /// `components.general.feedback.warning.solid.foreground.default`.
   final Color onWarning;
 
-  /// `color-warning-label-surface`.
+  /// `components.general.feedback.warning.label.background.default`.
   final Color warningLabelSurface;
 
-  /// `color-info-surface`.
+  /// `components.general.feedback.info.background.default`.
   final Color infoSurface;
 
-  /// `color-info-border`.
+  /// `components.general.feedback.info.border.default`.
   final Color infoBorder;
 
-  /// `color-success-surface`.
+  /// `components.general.feedback.success.background.default`.
   final Color successSurface;
 
-  /// `color-success-border`.
+  /// `components.general.feedback.success.border.default`.
   final Color successBorder;
 
-  /// `color-warning-surface`.
+  /// `components.general.feedback.warning.background.default`.
   final Color warningSurface;
 
-  /// `color-warning-border`.
+  /// `components.general.feedback.warning.border.default`.
   final Color warningBorder;
 
-  /// `color-danger-surface`.
+  /// `components.general.feedback.danger.background.default`.
   final Color dangerSurface;
 
-  /// `color-danger-border`.
+  /// `components.general.feedback.danger.border.default`.
   final Color dangerBorder;
 
-  /// `color-destructive-surface`.
+  /// `components.general.action.danger.background.default`.
   final Color destructiveSurface;
 
-  /// `color-on-destructive-surface`.
+  /// `components.general.action.danger.foreground.default`.
   final Color onDestructiveSurface;
 
-  /// `color-secondary-surface`.
+  /// `components.general.action.secondary.contextual.background.default`.
   final Color secondarySurface;
 
-  /// `color-on-secondary-surface`.
+  /// `components.general.action.secondary.contextual.foreground.default`.
   final Color onSecondarySurface;
 
-  /// `color-neutral-surface`.
+  /// `components.general.feedback.neutral.background.default`.
   final Color neutralSurface;
 
-  /// `color-neutral-border`.
+  /// `components.general.feedback.neutral.border.default`.
   final Color neutralBorder;
 
-  /// `color-info-text`.
+  /// `components.general.feedback.info.foreground.default`.
   final Color infoText;
 
-  /// `color-success-text`.
+  /// `components.general.feedback.success.foreground.default`.
   final Color successText;
 
-  /// `color-warning-text`.
+  /// `components.general.feedback.warning.foreground.default`.
   final Color warningText;
 
-  /// `color-danger-text`.
+  /// `components.general.feedback.danger.foreground.default`.
   final Color dangerText;
 
-  /// `color-selected-text`.
+  /// `components.general.selection.contextual.foreground.default`.
   final Color selectedText;
 
-  /// `color-neutral-text`.
+  /// `components.general.feedback.neutral.foreground.default`.
   final Color neutralText;
 
-  /// `color-secondary-body-text`.
+  /// `components.general.action.secondary.body.foreground.default`.
   final Color secondaryBodyText;
 
-  /// `color-danger-body-text`.
+  /// `components.general.feedback.danger.body.foreground.default`.
   final Color dangerBodyText;
 
-  /// `color-success-body-text`.
+  /// `components.general.feedback.success.body.foreground.default`.
   final Color successBodyText;
 
-  /// `color-emphasis-surface`.
+  /// `components.general.emphasis.background.default`.
   final Color emphasisSurface;
 
-  /// `color-on-emphasis`.
+  /// `components.general.emphasis.foreground.default`.
   final Color onEmphasis;
 
-  /// `color-emphasis-border`.
+  /// `components.general.emphasis.border.default`.
   final Color emphasisBorder;
 
-  /// `color-selected`.
+  /// `components.general.selection.background.default`.
   final Color selected;
 
-  /// `color-on-selected`.
+  /// `components.general.selection.foreground.default`.
   final Color onSelected;
 
-  /// `dialog-overlay`.
+  /// `components.dialog.overlay.default`.
   final Color dialogOverlay;
 
-  /// `navigation-bar-current-indicator`.
+  /// `components.navigation-bar.current-indicator.background.default`.
   final Color navigationBarCurrentIndicator;
 
-  /// `grid-cell-secondary-surface`.
+  /// `components.data-grid.cell.secondary.background.default`.
   final Color gridCellSecondarySurface;
 
-  /// `page-background`.
+  /// `components.page.background.default`.
   final Color pageBackground;
 
-  /// `card-background`.
+  /// `components.card.background.default`.
   final Color cardBackground;
 
-  /// `card-secondary-background`.
+  /// `components.card.secondary.background.default`.
   final Color cardSecondaryBackground;
 
-  /// `dialog-background`.
+  /// `components.dialog.background.default`.
   final Color dialogBackground;
 
-  /// `popover-background`.
+  /// `components.popover.background.default`.
   final Color popoverBackground;
 
-  /// `menu-background`.
+  /// `components.menu.background.default`.
   final Color menuBackground;
 
-  /// `sidebar-background`.
+  /// `components.sidebar.background.default`.
   final Color sidebarBackground;
 
-  /// `code-block-background`.
+  /// `components.code-block.background.default`.
   final Color codeBlockBackground;
 
   /// A copy with the given roles replaced.
@@ -562,8 +866,30 @@ final class InvisibleColors {
     Color? textDisabled,
     Color? border,
     Color? controlBorder,
-    Color? surface,
-    Color? surfaceHover,
+    Color? avatarBackground,
+    Color? switchBackground,
+    Color? stepperBackground,
+    Color? navigationBarBackground,
+    Color? buttonBackground,
+    Color? buttonHover,
+    Color? buttonForeground,
+    Color? buttonBorder,
+    Color? buttonPrimaryBackground,
+    Color? buttonPrimaryHover,
+    Color? buttonPrimaryForeground,
+    Color? buttonPrimaryBorder,
+    Color? buttonSecondaryBackground,
+    Color? buttonSecondaryHover,
+    Color? buttonSecondaryForeground,
+    Color? buttonSecondaryBorder,
+    Color? buttonGhostBackground,
+    Color? buttonGhostHover,
+    Color? buttonGhostForeground,
+    Color? buttonGhostBorder,
+    Color? buttonDangerBackground,
+    Color? buttonDangerHover,
+    Color? buttonDangerForeground,
+    Color? buttonDangerBorder,
     Color? disabled,
     Color? stateHover,
     Color? statePressed,
@@ -631,8 +957,40 @@ final class InvisibleColors {
       textDisabled: textDisabled ?? this.textDisabled,
       border: border ?? this.border,
       controlBorder: controlBorder ?? this.controlBorder,
-      surface: surface ?? this.surface,
-      surfaceHover: surfaceHover ?? this.surfaceHover,
+      avatarBackground: avatarBackground ?? this.avatarBackground,
+      switchBackground: switchBackground ?? this.switchBackground,
+      stepperBackground: stepperBackground ?? this.stepperBackground,
+      navigationBarBackground:
+          navigationBarBackground ?? this.navigationBarBackground,
+      buttonBackground: buttonBackground ?? this.buttonBackground,
+      buttonHover: buttonHover ?? this.buttonHover,
+      buttonForeground: buttonForeground ?? this.buttonForeground,
+      buttonBorder: buttonBorder ?? this.buttonBorder,
+      buttonPrimaryBackground:
+          buttonPrimaryBackground ?? this.buttonPrimaryBackground,
+      buttonPrimaryHover: buttonPrimaryHover ?? this.buttonPrimaryHover,
+      buttonPrimaryForeground:
+          buttonPrimaryForeground ?? this.buttonPrimaryForeground,
+      buttonPrimaryBorder: buttonPrimaryBorder ?? this.buttonPrimaryBorder,
+      buttonSecondaryBackground:
+          buttonSecondaryBackground ?? this.buttonSecondaryBackground,
+      buttonSecondaryHover: buttonSecondaryHover ?? this.buttonSecondaryHover,
+      buttonSecondaryForeground:
+          buttonSecondaryForeground ?? this.buttonSecondaryForeground,
+      buttonSecondaryBorder:
+          buttonSecondaryBorder ?? this.buttonSecondaryBorder,
+      buttonGhostBackground:
+          buttonGhostBackground ?? this.buttonGhostBackground,
+      buttonGhostHover: buttonGhostHover ?? this.buttonGhostHover,
+      buttonGhostForeground:
+          buttonGhostForeground ?? this.buttonGhostForeground,
+      buttonGhostBorder: buttonGhostBorder ?? this.buttonGhostBorder,
+      buttonDangerBackground:
+          buttonDangerBackground ?? this.buttonDangerBackground,
+      buttonDangerHover: buttonDangerHover ?? this.buttonDangerHover,
+      buttonDangerForeground:
+          buttonDangerForeground ?? this.buttonDangerForeground,
+      buttonDangerBorder: buttonDangerBorder ?? this.buttonDangerBorder,
       disabled: disabled ?? this.disabled,
       stateHover: stateHover ?? this.stateHover,
       statePressed: statePressed ?? this.statePressed,
@@ -705,8 +1063,30 @@ final class InvisibleColors {
     textDisabled,
     border,
     controlBorder,
-    surface,
-    surfaceHover,
+    avatarBackground,
+    switchBackground,
+    stepperBackground,
+    navigationBarBackground,
+    buttonBackground,
+    buttonHover,
+    buttonForeground,
+    buttonBorder,
+    buttonPrimaryBackground,
+    buttonPrimaryHover,
+    buttonPrimaryForeground,
+    buttonPrimaryBorder,
+    buttonSecondaryBackground,
+    buttonSecondaryHover,
+    buttonSecondaryForeground,
+    buttonSecondaryBorder,
+    buttonGhostBackground,
+    buttonGhostHover,
+    buttonGhostForeground,
+    buttonGhostBorder,
+    buttonDangerBackground,
+    buttonDangerHover,
+    buttonDangerForeground,
+    buttonDangerBorder,
     disabled,
     stateHover,
     statePressed,
@@ -787,6 +1167,36 @@ final class InvisibleColors {
 /// The recipes of the mixed colour roles, by [InvisibleColors] field name.
 abstract final class InvisibleColorMixes {
   static const Map<String, InvisibleColorMix> light = {
+    'buttonBorder': InvisibleColorMix(
+      base: Color(0xFF757575),
+      amount: 0.7,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFF9E9E9E),
+    ),
+    'buttonSecondaryHover': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.24,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFFDFD5F3),
+    ),
+    'buttonSecondaryBorder': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.55,
+      mixWith: Color(0x00000000),
+      value: Color(0x8C7A52CC),
+    ),
+    'buttonDangerHover': InvisibleColorMix(
+      base: Color(0xFFBE3B50),
+      amount: 0.18,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFFF3DCE0),
+    ),
+    'buttonDangerBorder': InvisibleColorMix(
+      base: Color(0xFFBE3B50),
+      amount: 0.35,
+      mixWith: Color(0x00000000),
+      value: Color(0x59BE3B50),
+    ),
     'focusRing': InvisibleColorMix(
       base: Color(0xFF7A52CC),
       amount: 0.85,
@@ -904,6 +1314,36 @@ abstract final class InvisibleColorMixes {
   };
 
   static const Map<String, InvisibleColorMix> dark = {
+    'buttonBorder': InvisibleColorMix(
+      base: Color(0xFF9E9E9E),
+      amount: 0.7,
+      mixWith: Color(0xFF272727),
+      value: Color(0xFF7A7A7A),
+    ),
+    'buttonSecondaryHover': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.24,
+      mixWith: Color(0xFF272727),
+      value: Color(0xFF3B314F),
+    ),
+    'buttonSecondaryBorder': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.55,
+      mixWith: Color(0x00000000),
+      value: Color(0x8C7A52CC),
+    ),
+    'buttonDangerHover': InvisibleColorMix(
+      base: Color(0xFFBE3B50),
+      amount: 0.18,
+      mixWith: Color(0xFF272727),
+      value: Color(0xFF422B2E),
+    ),
+    'buttonDangerBorder': InvisibleColorMix(
+      base: Color(0xFFBE3B50),
+      amount: 0.35,
+      mixWith: Color(0x00000000),
+      value: Color(0x59BE3B50),
+    ),
     'focusRing': InvisibleColorMix(
       base: Color(0xFF7A52CC),
       amount: 0.7,

@@ -63,7 +63,7 @@
   {/snippet}
 
   {#if items.length === 0}
-    <p style="color: var(--ds-color-text-secondary);">No notifications.</p>
+    <p style="color: var(--ds-components-general-foreground-secondary);">No notifications.</p>
   {:else}
     <div style="display: grid; gap: 0.25rem;">
       {#each items as item (item.id)}
@@ -79,7 +79,8 @@
           {#snippet icon()}<Icon><path d={ICONS[item.topic]} /></Icon>{/snippet}
           <span style="display: grid; gap: 0.15rem;">
             <span>{item.text}</span>
-            <span style="font-size: 0.75rem; color: var(--ds-color-text-secondary);"
+            <span
+              style="font-size: 0.75rem; color: var(--ds-components-general-foreground-secondary);"
               >{item.time}</span
             >
           </span>

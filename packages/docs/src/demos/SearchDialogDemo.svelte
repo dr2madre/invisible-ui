@@ -32,12 +32,12 @@
       {#snippet trigger()}<span>Search…</span>{/snippet}
     </SearchDialog>
     {#if chosen}
-      <span style="font-size: 0.875rem; color: var(--ds-color-text-secondary);">
+      <span style="font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);">
         Selected: “{chosen}”.
       </span>
     {/if}
   </div>
-  <span style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
+  <span style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);">
     Also opens with <kbd>⌘S</kbd> / <kbd>Ctrl+S</kbd> — the shortcut is wired by the demo, not built into
     the component.
   </span>

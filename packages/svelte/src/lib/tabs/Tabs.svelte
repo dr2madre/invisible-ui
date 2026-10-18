@@ -138,7 +138,7 @@
     overflow-x: auto;
     /* The rule is drawn inside the scroll area: a border would sit outside
        the clip, where the tabs' underline could never reach it. */
-    box-shadow: inset 0 -1px 0 var(--ds-color-border, #bdbdbd);
+    box-shadow: inset 0 -1px 0 var(--ds-components-general-border-default, #bdbdbd);
   }
   .tabs__tab {
     display: inline-flex;
@@ -150,7 +150,7 @@
     cursor: pointer;
     font: inherit;
     /* Idle tabs use full-strength text (not muted grey). */
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
     border-block-end: 2px solid transparent;
     transition:
       color 120ms ease,
@@ -175,27 +175,31 @@
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1.4;
-    border-radius: var(--ds-radius-pill, 999px);
-    color: var(--ds-color-text-secondary, #515151);
-    background: var(--ds-color-neutral-surface, #f5f5f5);
+    border-radius: var(--ds-metrics-radius-pill, 999px);
+    color: var(--ds-components-general-foreground-secondary, #515151);
+    background: var(--ds-components-general-feedback-neutral-background-default, #f5f5f5);
   }
   .tabs__tab:global([data-state="active"]) .tabs__tab-count {
-    color: var(--ds-color-on-selected, var(--ds-color-on-secondary, #fff));
-    background: var(--ds-color-selected, #7a52cc);
+    color: var(
+      --ds-components-general-selection-foreground-default,
+      var(--ds-components-general-action-secondary-foreground-default, #fff)
+    );
+    background: var(--ds-components-general-selection-background-default, #7a52cc);
   }
   .tabs__tab:global([data-state="active"]) {
     /* Selected tab: the label stays the normal text color; only the underline
        carries the selection color (so the accent can change without recoloring
        the text). */
     font-weight: 700;
-    color: var(--ds-color-text, #272727);
-    border-block-end-color: var(--ds-color-selected, #7a52cc);
+    color: var(--ds-components-general-foreground-default, #272727);
+    border-block-end-color: var(--ds-components-general-selection-background-default, #7a52cc);
   }
   /* The list clips its children, so an outer ring would be cut off:
      the ring is drawn inside the tab instead. */
   .tabs__tab:global(:focus-visible) {
     outline: none;
-    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-focus-ring-color, #8e6cd4);
   }
   .tabs__tab:global([data-disabled]) {
     opacity: 0.5;
@@ -203,7 +207,7 @@
   }
   .tabs__panel {
     padding-block: 0.75rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
 
   /* Tabs with actions: the tablist and the actions share a row, and the
@@ -232,16 +236,16 @@
   /* The target size, density.regular.min-target-size, with no specificity: a
      control that sets a larger size of its own keeps it. */
   :where(.tabs__actions) :global(:where(button, a[href])) {
-    min-inline-size: var(--ds-min-target-size, 24px);
-    min-block-size: var(--ds-min-target-size, 24px);
+    min-inline-size: var(--ds-metrics-density-regular-min-target-size, 24px);
+    min-block-size: var(--ds-metrics-density-regular-min-target-size, 24px);
   }
 
   /* A coarse pointer gets the touch target, density.touch.min-target-size,
      on whatever control the actions hold. */
   @media (pointer: coarse) {
     .tabs__actions :global(:is(button, a[href])) {
-      min-inline-size: var(--ds-min-target-size-touch, 44px);
-      min-block-size: var(--ds-min-target-size-touch, 44px);
+      min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+      min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
     }
   }
   /* Forced colors: the tab row is a scroller, so the ring must be drawn

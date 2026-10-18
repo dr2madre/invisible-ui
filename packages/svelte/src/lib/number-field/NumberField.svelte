@@ -222,7 +222,7 @@
     inline-size: var(--ds-field-width, 18rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
 
   .field__label {
@@ -230,10 +230,10 @@
     font-weight: 600;
   }
   .number-field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
   }
   .field__required {
-    color: var(--ds-color-danger-body-text, #be3b50);
+    color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
   }
 
   .number-field__group {
@@ -247,8 +247,8 @@
     inline-size: 100%;
     min-inline-size: 0;
     padding: var(--ds-field-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-control-border, #757575);
-    background: var(--ds-color-background, #fff);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    background: var(--ds-components-general-background-default, #fff);
     color: inherit;
     font: inherit;
     font-variant-numeric: tabular-nums;
@@ -263,19 +263,28 @@
   }
   .field__control:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #8e6cd4);
+    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .field__control:global([data-invalid]) {
-    border-color: var(--ds-color-danger, #be3b50);
+    border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
     box-shadow:
-      0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #be3b50),
-      0 0 0 calc(var(--ds-focus-ring-width, 2px) + var(--ds-focus-halo-width, 3px))
-        color-mix(in srgb, var(--ds-color-danger, #be3b50) 30%, transparent);
+      0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+        var(--ds-components-general-feedback-danger-solid-background-default, #be3b50),
+      0 0 0
+        calc(
+          var(--ds-components-general-focus-ring-width, 2px) +
+            var(--ds-components-general-focus-halo-width, 3px)
+        )
+        color-mix(
+          in srgb,
+          var(--ds-components-general-feedback-danger-solid-background-default, #be3b50) 30%,
+          transparent
+        );
   }
   .field__control:global([data-disabled]) {
-    background: var(--ds-color-disabled, #bdbdbd);
-    color: var(--ds-color-text-disabled, #757575);
+    background: var(--ds-components-general-background-disabled, #bdbdbd);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -283,44 +292,44 @@
     box-sizing: border-box;
     min-inline-size: 2.25rem;
     padding: 0 0.6rem;
-    border: 1px solid var(--ds-color-control-border, #757575);
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #272727);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    background: var(--ds-components-general-background-default, #fff);
+    color: var(--ds-components-general-foreground-default, #272727);
     font: inherit;
     font-size: 1.05em;
     line-height: 1;
     cursor: pointer;
   }
   .number-field__spin--decrement {
-    border-start-start-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
-    border-end-start-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+    border-start-start-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-end-start-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
   }
   .number-field__spin--increment {
-    border-start-end-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
-    border-end-end-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+    border-start-end-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-end-end-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
   }
   .number-field__spin:hover:not(:disabled) {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .number-field__spin:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #8e6cd4);
+    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .number-field__spin:disabled {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
   .number-field--disabled .number-field__spin {
-    background: var(--ds-color-disabled, #bdbdbd);
+    background: var(--ds-components-general-background-disabled, #bdbdbd);
   }
 
   .field__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .field__error {
     margin: 0;
-    color: var(--ds-color-danger-body-text, #be3b50);
+    color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
   }
 </style>

@@ -549,7 +549,7 @@ class MenuPanel<T> extends StatelessWidget {
                   width: _panelBorder,
                 ),
                 borderRadius: BorderRadius.circular(
-                  InvisibleRadiusTokens.surface,
+                  InvisibleRadiusTokens.container,
                 ),
                 boxShadow: overlayShadow(theme.brightness),
               ),
@@ -557,7 +557,7 @@ class MenuPanel<T> extends StatelessWidget {
                 padding: const EdgeInsets.all(_panelBorder),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(
-                    InvisibleRadiusTokens.surface - _panelBorder,
+                    InvisibleRadiusTokens.container - _panelBorder,
                   ),
                   child: ListenableBuilder(
                     listenable: session,

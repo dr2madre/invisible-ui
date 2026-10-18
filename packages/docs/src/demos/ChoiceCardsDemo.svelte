@@ -58,17 +58,17 @@
     gap: 0.5rem;
   }
   .choice__card {
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-surface, 0.75rem);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-container, 0.75rem);
   }
   .choice__card:hover {
-    background: var(--ds-state-hover);
+    background: var(--ds-components-general-background-hover);
   }
   /* Selection is a border weight and an inset outline as well as the radio's
      own checked state, so it never rests on colour alone. */
   .choice__card[data-selected] {
-    border-color: var(--ds-color-primary);
-    box-shadow: inset 0 0 0 1px var(--ds-color-primary);
+    border-color: var(--ds-components-general-action-primary-background-default);
+    box-shadow: inset 0 0 0 1px var(--ds-components-general-action-primary-background-default);
   }
   .choice__card:focus-within {
     outline: none;
@@ -89,6 +89,6 @@
   }
   .choice__description {
     font-size: 0.875rem;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
 </style>

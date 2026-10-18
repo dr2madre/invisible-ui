@@ -46,21 +46,24 @@
     /* The accent bar is decoration with no semantic role, so it reads the
        neutral primitive directly rather than inventing a role for a look. */
     border-inline-start: var(--ds-blockquote-border-width, 3px) solid
-      var(--ds-blockquote-accent, var(--ds-neutral-400, #757575));
-    color: var(--ds-blockquote-text, var(--ds-color-text-secondary, #515151));
+      var(--ds-blockquote-accent, var(--ds-colors-palette-grey-400, #757575));
+    color: var(--ds-blockquote-text, var(--ds-components-general-foreground-secondary, #515151));
   }
 
   .blockquote__quote {
     margin: 0;
     font-style: var(--ds-blockquote-font-style, italic);
-    line-height: var(--ds-line-height, 1.4);
+    line-height: var(--ds-typography-line-height-default, 1.4);
   }
 
   .blockquote__cite {
     margin-block-start: 0.5rem;
     font-size: 0.875rem;
     font-style: normal;
-    color: var(--ds-blockquote-cite-text, var(--ds-color-text-secondary, #515151));
+    color: var(
+      --ds-blockquote-cite-text,
+      var(--ds-components-general-foreground-secondary, #515151)
+    );
   }
   /* The conventional em dash before an attribution. */
   .blockquote__cite::before {

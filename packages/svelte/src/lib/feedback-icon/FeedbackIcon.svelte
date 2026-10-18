@@ -97,7 +97,7 @@
     /* Default breathing room around the glyph; themeable. With border-box the
        padding carves a definite content box the SVG can fill (no circular %). */
     padding: var(--ds-feedback-icon-padding, 0.375rem);
-    border-radius: var(--ds-feedback-icon-radius, var(--ds-radius-control, 0.5rem));
+    border-radius: var(--ds-feedback-icon-radius, var(--ds-metrics-radius-control, 0.5rem));
     /* Glyph at full status color; box tinted with the same color at 15%. */
     color: var(--_color);
     background: color-mix(in srgb, var(--_color) 15%, transparent);
@@ -111,7 +111,10 @@
   /* Solid box: full status color with a contrasting glyph. */
   .feedback-icon:global([data-box="solid"]) {
     background: var(--_color);
-    color: var(--ds-feedback-icon-on-solid, var(--ds-color-on-status, #ffffff));
+    color: var(
+      --ds-feedback-icon-on-solid,
+      var(--ds-components-general-feedback-solid-foreground-default, #ffffff)
+    );
   }
   /* Full circle. */
   .feedback-icon:global([data-shape="round"]) {
@@ -127,18 +130,18 @@
 
   /* Status is a dynamic attribute, so the value part must be :global. */
   .feedback-icon:global([data-status="info"]) {
-    --_color: var(--ds-color-info, #4067b6);
+    --_color: var(--ds-components-general-feedback-info-solid-background-default, #4067b6);
   }
   .feedback-icon:global([data-status="success"]) {
-    --_color: var(--ds-color-success, #3e7523);
+    --_color: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
   }
   .feedback-icon:global([data-status="warning"]) {
-    --_color: var(--ds-color-warning, #c96422);
+    --_color: var(--ds-components-general-feedback-warning-solid-background-default, #c96422);
   }
   .feedback-icon:global([data-status="danger"]) {
-    --_color: var(--ds-color-danger, #be3b50);
+    --_color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
   }
   .feedback-icon:global([data-status="neutral"]) {
-    --_color: var(--ds-color-neutral, #616161);
+    --_color: var(--ds-components-general-feedback-neutral-solid-background-default, #616161);
   }
 </style>

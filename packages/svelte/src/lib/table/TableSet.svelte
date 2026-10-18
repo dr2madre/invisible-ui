@@ -364,12 +364,12 @@
   .table-set__tabs {
     display: inline-flex;
     gap: 0.25rem;
-    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
+    border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
   .table-set__tab {
     font: inherit;
     padding: 0.5rem 0.9rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     background: none;
     border: 0;
     border-block-end: 2px solid transparent;
@@ -377,11 +377,17 @@
     cursor: pointer;
   }
   .table-set__tab:hover {
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .table-set__tab:global([data-state="active"]) {
-    color: var(--ds-tabs-active, var(--ds-color-primary, #7a52cc));
-    border-block-end-color: var(--ds-tabs-active, var(--ds-color-primary, #7a52cc));
+    color: var(
+      --ds-tabs-active,
+      var(--ds-components-general-action-primary-background-default, #7a52cc)
+    );
+    border-block-end-color: var(
+      --ds-tabs-active,
+      var(--ds-components-general-action-primary-background-default, #7a52cc)
+    );
     font-weight: 600;
   }
   .table-set__tab:global(:focus-visible) {

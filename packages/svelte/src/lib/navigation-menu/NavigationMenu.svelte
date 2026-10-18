@@ -105,7 +105,7 @@
 <style>
   .navmenu {
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .navmenu__list {
     display: flex;
@@ -127,7 +127,7 @@
     gap: 0.25rem;
     padding: var(--ds-navmenu-trigger-padding, 0.5rem 0.75rem);
     border: 0;
-    border-radius: var(--ds-navmenu-radius, var(--ds-radius-control, 0.5rem));
+    border-radius: var(--ds-navmenu-radius, var(--ds-metrics-radius-control, 0.5rem));
     background: transparent;
     color: inherit;
     font: inherit;
@@ -138,7 +138,7 @@
   .navmenu__trigger:hover,
   .navmenu__toplink:hover,
   .navmenu__trigger:global([data-state="open"]) {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .navmenu__trigger:focus-visible,
   .navmenu__toplink:focus-visible {
@@ -149,7 +149,7 @@
     display: inline-flex;
     inline-size: 1em;
     block-size: 1em;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .navmenu__trigger:global([data-state="open"]) .navmenu__chevron {
@@ -165,9 +165,12 @@
     box-sizing: border-box;
     min-inline-size: var(--ds-navmenu-content-width, 18rem);
     padding: var(--ds-navmenu-content-padding, 0.5rem);
-    background: var(--ds-popover-background, var(--ds-color-background, #fff));
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-navmenu-content-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(
+      --ds-components-popover-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-navmenu-content-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -185,23 +188,23 @@
     display: grid;
     gap: 0.125rem;
     padding: 0.5rem 0.625rem;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     color: inherit;
     text-decoration: none;
   }
   .navmenu__link:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .navmenu__link:focus-visible {
     outline: none;
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .navmenu__link-label {
     font-weight: 600;
   }
   .navmenu__link-desc {
     font-size: 0.875rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
 
   /* The current page: the link the app marks, and the trigger whose panel
@@ -210,21 +213,26 @@
      edge in a panel. The attribute comes from the action, so it is global. */
   .navmenu__trigger:global([data-current]),
   .navmenu__toplink:global([data-current]) {
-    color: var(--ds-color-secondary-body-text, #7a52cc);
+    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
     text-decoration: underline 2px;
     text-underline-offset: 0.35em;
   }
   .navmenu__link:global([data-current]) {
     /* The bar takes its width from the padding, so the label does not move. */
     padding-inline-start: calc(0.625rem - 2px);
-    border-inline-start: 2px solid var(--ds-color-secondary-body-text, #7a52cc);
-    background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
+    border-inline-start: 2px solid
+      var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    background: color-mix(
+      in srgb,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      transparent
+    );
   }
   .navmenu__link:global([data-current]) .navmenu__link-label {
-    color: var(--ds-color-secondary-body-text, #7a52cc);
+    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
   }
   .navmenu__link:global([data-current]):hover,
   .navmenu__link:global([data-current]):focus-visible {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
 </style>

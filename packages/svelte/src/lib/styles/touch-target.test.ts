@@ -4,12 +4,12 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 // A coarse pointer gets the touch target from the token,
-// density.touch.min-target-size as --ds-min-target-size-touch: 44 by 44 for
+// density.touch.min-target-size as --ds-metrics-density-touch-min-target-size: 44 by 44 for
 // every menu item and menubar trigger, as in the other adapters' sheets.
 
 const read = (rel: string) => readFileSync(fileURLToPath(new URL(rel, import.meta.url)), "utf8");
 
-const TOKEN = "var(--ds-min-target-size-touch, 44px)";
+const TOKEN = "var(--ds-metrics-density-touch-min-target-size, 44px)";
 
 describe("touch target under a coarse pointer", () => {
   it.each([

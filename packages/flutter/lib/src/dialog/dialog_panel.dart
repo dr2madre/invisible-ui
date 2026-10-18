@@ -626,7 +626,7 @@ class _DialogPanelState extends State<DialogPanel> {
     );
 
     final radius =
-        widget.radius ?? BorderRadius.circular(InvisibleRadiusTokens.surface);
+        widget.radius ?? BorderRadius.circular(InvisibleRadiusTokens.container);
     final panel = DecoratedBox(
       decoration: BoxDecoration(
         color: c.dialogBackground,
@@ -740,7 +740,7 @@ class _DialogHeader extends StatelessWidget {
     final c = theme.colors;
     final small = theme.textStyle.copyWith(
       fontSize: 14,
-      height: InvisibleTypographyTokens.lineHeightTight,
+      height: InvisibleTypographyTokens.lineHeightHeading,
       color: c.textSecondary,
     );
     final block = Column(
@@ -762,7 +762,7 @@ class _DialogHeader extends StatelessWidget {
                 color: c.text,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                height: InvisibleTypographyTokens.lineHeightTight,
+                height: InvisibleTypographyTokens.lineHeightHeading,
               ),
             ),
           ),

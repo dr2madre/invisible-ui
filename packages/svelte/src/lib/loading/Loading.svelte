@@ -207,7 +207,11 @@
   }
   /* Veil: a translucent backdrop that also blocks interaction while busy. */
   .loading--veil {
-    background: color-mix(in srgb, var(--ds-color-background, #fff) 65%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--ds-components-general-background-default, #fff) 65%,
+      transparent
+    );
   }
   /* The indicator sits in its own box so text (or anything else) can be laid
      out beside it without touching the dots' internal spacing. */
@@ -220,7 +224,7 @@
   .loading__dot {
     inline-size: var(--ds-loading-size, 0.3em);
     block-size: var(--ds-loading-size, 0.3em);
-    border-radius: var(--ds-radius-pill, 999px);
+    border-radius: var(--ds-metrics-radius-pill, 999px);
     background: currentColor;
     animation: loading-pulse var(--ds-loading-duration, 1.2s) ease-in-out infinite;
   }
@@ -249,7 +253,7 @@
     inline-size: 100%;
     block-size: var(--ds-loading-bar-height, 3px);
     background: color-mix(in srgb, currentColor 20%, transparent);
-    border-radius: var(--ds-radius-pill, 999px);
+    border-radius: var(--ds-metrics-radius-pill, 999px);
     overflow: hidden;
   }
   .loading__segment {
@@ -273,12 +277,12 @@
     display: inline-flex;
     gap: 0.75em;
     font-size: var(--ds-loading-label-size, 0.8125em);
-    line-height: var(--ds-line-height-tight, 1.2);
+    line-height: var(--ds-typography-line-height-heading, 1.2);
   }
   /* Live status message line (visible + announced). */
   .loading__status {
     font-size: var(--ds-loading-label-size, 0.8125em);
-    line-height: var(--ds-line-height-tight, 1.2);
+    line-height: var(--ds-typography-line-height-heading, 1.2);
   }
   .loading[data-variant="bar"] .loading__label {
     inline-size: 100%;

@@ -116,4 +116,4 @@ verified**. Every matched line names the widget test in
 
 ## Background token
 
-The background reads the component token `--ds-popover-background` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--ds-components-popover-background-default` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

@@ -151,7 +151,7 @@ const rule = (sheet: string, selector: string) => {
   return css.match(new RegExp(`(?:^|\\n|,\\s*)${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
 };
 const RING =
-  /box-shadow:\s*inset 0 0 0 var\(--ds-focus-ring-width, 2px\) var\(--ds-color-focus-ring/;
+  /box-shadow:\s*inset 0 0 0\s+var\(\s*--ds-components-general-focus-ring-width,\s*2px\s*\)\s+var\(\s*--ds-components-general-focus-ring-color/;
 
 describe("selection in forced colors", () => {
   it("marks the calendar's selected days and range with system colours", () => {
@@ -178,7 +178,7 @@ describe("selection in forced colors", () => {
 describe("the calendar range and year view", () => {
   it("closes the in-range band with lines in the selection colour", () => {
     expect(rule("calendar.css", ".calendar__day[data-in-range]")).toMatch(
-      /border-block-color:\s*var\(--ds-color-selected/,
+      /border-block-color:\s*var\(--ds-components-general-selection-background-default/,
     );
   });
 
@@ -193,7 +193,7 @@ describe("the calendar range and year view", () => {
 describe("the messages a control renders for itself", () => {
   it("styles the error like the text field's, glyph included", () => {
     expect(rule("field.css", ".field__message.field__error")).toMatch(
-      /color:\s*var\(--ds-field-error-color, var\(--ds-color-danger-body-text/,
+      /color:\s*var\(\s*--ds-field-error-color,\s*var\(\s*--ds-components-general-feedback-danger-body-foreground-default/,
     );
     expect(rule("field.css", ".field__message .field__msg-icon")).toMatch(/flex:\s*none/);
   });
@@ -202,7 +202,7 @@ describe("the messages a control renders for itself", () => {
 describe("a table row that takes focus", () => {
   it("shows a focus ring inside the row", () => {
     expect(read("./table-set.css")).toMatch(
-      /\.table-view tbody tr\[tabindex="-1"\]:focus-visible,[^{]*\{[^}]*outline:\s*var\(--ds-focus-ring-width/,
+      /\.table-view tbody tr\[tabindex="-1"\]:focus-visible,[^{]*\{[^}]*outline:\s*var\(--ds-components-general-focus-ring-width/,
     );
   });
 });

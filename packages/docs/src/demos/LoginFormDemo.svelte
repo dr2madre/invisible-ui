@@ -14,7 +14,9 @@
   onSubmit={(v) => (result = `Signing in as ${v.email}`)}
 />
 {#if result}
-  <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--ds-color-text-secondary);">
+  <p
+    style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);"
+  >
     {result}
   </p>
 {/if}

@@ -330,7 +330,7 @@ class _TableViewState<T> extends State<TableView<T>> {
     }
 
     final border = Border.all(color: theme.colors.border);
-    final radius = BorderRadius.circular(InvisibleRadiusTokens.surface);
+    final radius = BorderRadius.circular(InvisibleRadiusTokens.container);
 
     final Widget body;
     if (noResults) {

@@ -1,6 +1,6 @@
 :root {
   color-scheme: light dark;
-  background: var(--ds-color-background);
+  background: var(--ds-components-general-background-default);
 }
 
 * {
@@ -14,11 +14,15 @@ body {
   background:
     radial-gradient(
       circle at 15% 0%,
-      color-mix(in srgb, var(--ds-color-primary) 12%, transparent),
+      color-mix(
+        in srgb,
+        var(--ds-components-general-action-primary-background-default) 12%,
+        transparent
+      ),
       transparent 32rem
     ),
-    var(--ds-color-background);
-  color: var(--ds-color-text);
+    var(--ds-components-general-background-default);
+  color: var(--ds-components-general-foreground-default);
   font-family: var(--ds-font-sans);
 }
 
@@ -53,7 +57,7 @@ select {
 .eyebrow,
 .step {
   margin: 0 0 0.75rem;
-  color: var(--ds-color-primary);
+  color: var(--ds-components-general-action-primary-background-default);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -63,7 +67,7 @@ select {
 .lede {
   max-width: 42rem;
   margin: 1.5rem 0 0;
-  color: var(--ds-color-text-secondary);
+  color: var(--ds-components-general-foreground-secondary);
   font-size: 1.125rem;
   line-height: 1.65;
 }
@@ -78,10 +82,15 @@ select {
 .panel {
   min-width: 0;
   padding: clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid var(--ds-color-border);
-  border-radius: var(--ds-radius-surface);
-  background: color-mix(in srgb, var(--ds-color-background) 92%, var(--ds-color-surface));
-  box-shadow: 0 1rem 3rem color-mix(in srgb, var(--ds-color-text) 7%, transparent);
+  border: 1px solid var(--ds-components-general-border-default);
+  border-radius: var(--ds-metrics-radius-container);
+  background: color-mix(
+    in srgb,
+    var(--ds-components-general-background-default) 92%,
+    var(--ds-components-general-background-default)
+  );
+  box-shadow: 0 1rem 3rem
+    color-mix(in srgb, var(--ds-components-general-foreground-default) 7%, transparent);
 }
 
 .panel__heading {
@@ -89,7 +98,7 @@ select {
   grid-template-columns: auto 1fr;
   gap: 1rem;
   padding-block-end: 1.5rem;
-  border-block-end: 1px solid var(--ds-color-border);
+  border-block-end: 1px solid var(--ds-components-general-border-default);
 }
 
 .panel__heading h2,
@@ -103,7 +112,7 @@ select {
 
 .panel__heading p:not(.step) {
   margin-block-start: 0.35rem;
-  color: var(--ds-color-text-secondary);
+  color: var(--ds-components-general-foreground-secondary);
   line-height: 1.5;
 }
 
@@ -131,9 +140,9 @@ select {
 .selection {
   margin: 1rem 0 0;
   padding: 0.75rem 1rem;
-  border-radius: var(--ds-radius-control);
-  background: var(--ds-color-surface);
-  color: var(--ds-color-text-secondary);
+  border-radius: var(--ds-metrics-radius-control);
+  background: var(--ds-components-general-background-default);
+  color: var(--ds-components-general-foreground-secondary);
   font-size: 0.875rem;
 }
 

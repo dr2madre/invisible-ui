@@ -41,10 +41,13 @@
     gap: 0.2em;
     font: inherit;
     font-weight: var(--ds-label-font-weight, 500);
-    line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-label-color, var(--ds-color-text, #272727));
+    line-height: var(--ds-typography-line-height-heading, 1.2);
+    color: var(--ds-label-color, var(--ds-components-general-foreground-default, #272727));
   }
   .label__required {
-    color: var(--ds-label-required-color, var(--ds-color-danger-body-text, #be3b50));
+    color: var(
+      --ds-label-required-color,
+      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+    );
   }
 </style>

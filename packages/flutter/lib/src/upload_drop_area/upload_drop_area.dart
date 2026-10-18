@@ -308,7 +308,7 @@ class _UploadDropAreaState extends State<UploadDropArea> {
           child: FocusRingPainter(
             visible: states.focusVisible,
             ring: theme.focusRing,
-            radius: InvisibleRadiusTokens.surface,
+            radius: InvisibleRadiusTokens.container,
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(
@@ -323,7 +323,7 @@ class _UploadDropAreaState extends State<UploadDropArea> {
                       )
                     : colors.background,
                 borderRadius: BorderRadius.circular(
-                  InvisibleRadiusTokens.surface,
+                  InvisibleRadiusTokens.container,
                 ),
               ),
               foregroundDecoration: _DashedBorder(
@@ -570,7 +570,7 @@ class _DashedBorderPainter extends BoxPainter {
       ..addRRect(
         RRect.fromRectAndRadius(
           rect,
-          const Radius.circular(InvisibleRadiusTokens.surface - _border / 2),
+          const Radius.circular(InvisibleRadiusTokens.container - _border / 2),
         ),
       );
     final paint = Paint()

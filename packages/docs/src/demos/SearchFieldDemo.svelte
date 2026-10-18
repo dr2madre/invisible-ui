@@ -36,6 +36,6 @@
   }
   .search-demo__status {
     margin: 0;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
 </style>

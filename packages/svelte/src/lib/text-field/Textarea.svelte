@@ -192,7 +192,7 @@
     inline-size: var(--ds-field-width, 18rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
 
   .field__label {
@@ -213,18 +213,18 @@
     white-space: nowrap;
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
   }
   .field__required {
-    color: var(--ds-color-danger-body-text, #be3b50);
+    color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
   }
 
   .field__control {
     inline-size: 100%;
     box-sizing: border-box;
     padding: var(--ds-field-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
     color: inherit;
     font: inherit;
     resize: vertical;
@@ -233,42 +233,43 @@
     background:
       repeating-linear-gradient(
           -45deg,
-          var(--ds-field-grip-color, var(--ds-color-control-border, #757575)) 0 1px,
+          var(--ds-field-grip-color, var(--ds-components-general-border-control, #757575)) 0 1px,
           transparent 1px 3px
         )
         bottom var(--ds-field-grip-inset, 3px) right var(--ds-field-grip-inset, 3px) / 9px 9px
         no-repeat,
-      var(--ds-color-background, #fff);
+      var(--ds-components-general-background-default, #fff);
     transition:
       border-color 120ms ease,
       box-shadow 120ms ease;
   }
   .field__control::placeholder {
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .field__control:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #8e6cd4);
+    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
 
   .field__control:global([data-invalid]) {
-    border-color: var(--ds-color-danger, #be3b50);
+    border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
   }
   .field__control:global([data-invalid]):focus-visible {
-    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #be3b50);
+    box-shadow: 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
   }
 
   .field__control:global([data-disabled]) {
-    background: var(--ds-color-disabled, #bdbdbd);
-    color: var(--ds-color-text-disabled, #757575);
+    background: var(--ds-components-general-background-disabled, #bdbdbd);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
   /* Help and error text match the control's (placeholder) text size. */
   .field__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .field__error,
   .field__success {
@@ -278,16 +279,16 @@
     gap: 0.35rem;
   }
   .field__error {
-    color: var(--ds-color-danger-body-text, #be3b50);
+    color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
   }
   .field__success {
-    color: var(--ds-color-success-body-text, #3e7523);
+    color: var(--ds-components-general-feedback-success-body-foreground-default, #3e7523);
   }
   .field__msg-icon {
     display: inline-flex;
     flex: none;
   }
   .field--success .field__control {
-    border-color: var(--ds-color-success, #3e7523);
+    border-color: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
   }
 </style>

@@ -261,7 +261,7 @@ class _NavigationBarState<T> extends State<NavigationBar<T>> {
     // Every destination as tall as the tallest, so each one's hit area
     // fills the bar.
     final Widget bar = DecoratedBox(
-      decoration: BoxDecoration(color: theme.colors.surface),
+      decoration: BoxDecoration(color: theme.colors.navigationBarBackground),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -741,7 +741,7 @@ class _DestinationFace<T> extends StatelessWidget {
 
     final style = theme.textStyle.copyWith(
       fontSize: _labelSize,
-      height: InvisibleTypographyTokens.lineHeightTight,
+      height: InvisibleTypographyTokens.lineHeightHeading,
       color: color,
       fontWeight: current ? FontWeight.w600 : null,
     );

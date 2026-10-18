@@ -57,4 +57,4 @@ scope**. Every matched line names the widget test in
 
 ## Background token
 
-The background reads the component token `--ds-dialog-background` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--ds-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

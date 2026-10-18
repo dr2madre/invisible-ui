@@ -1,6 +1,10 @@
 # Field parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `5df411f6ee7583b84e5a6d5cbd113ff147043f7d`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/field` `packages/svelte/src/lib/field`
 

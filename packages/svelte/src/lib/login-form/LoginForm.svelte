@@ -130,9 +130,9 @@
       var(--ds-login-width, 22rem)
     );
     padding: var(--ds-login-padding, 1.75rem);
-    background: var(--ds-login-bg, var(--ds-color-background, #fff));
-    border: 1px solid var(--ds-login-border, var(--ds-color-border, #bdbdbd));
-    border-radius: var(--ds-login-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(--ds-login-bg, var(--ds-components-general-background-default, #fff));
+    border: 1px solid var(--ds-login-border, var(--ds-components-general-border-default, #bdbdbd));
+    border-radius: var(--ds-login-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-login-shadow,
       var(
@@ -152,12 +152,12 @@
   .login__heading {
     margin: 0;
     font-size: 1.25rem;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .login__subheading {
     margin: 0.25rem 0 0;
     font-size: 0.875rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .login__providers {
     display: flex;
@@ -168,7 +168,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     font-size: 0.8125rem;
   }
   .login__divider::before,
@@ -176,7 +176,7 @@
     content: "";
     flex: 1;
     block-size: 1px;
-    background: var(--ds-color-border, #bdbdbd);
+    background: var(--ds-components-general-border-default, #bdbdbd);
   }
   .login__field {
     display: flex;
@@ -186,7 +186,7 @@
   .login__forgot {
     align-self: flex-end;
     font-size: 0.8125rem;
-    color: var(--ds-color-secondary-body-text, #7a52cc);
+    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
     /* Underlined so it doesn't rely on color alone, and a visible focus ring. */
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -194,7 +194,10 @@
   }
   .login__forgot:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+    box-shadow: var(
+      --ds-focus-ring-shadow,
+      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    );
     outline-offset: 2px;
   }
 </style>

@@ -175,7 +175,9 @@ class _CodeBlockState extends State<CodeBlock> {
           decoration: BoxDecoration(
             color: colors.codeBlockBackground,
             border: Border.fromBorderSide(border),
-            borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+            borderRadius: BorderRadius.circular(
+              InvisibleRadiusTokens.container,
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

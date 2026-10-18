@@ -56,7 +56,7 @@ class Label extends StatelessWidget {
       semanticsLabel: text,
       style: theme.textStyle.copyWith(
         fontWeight: FontWeight.w500,
-        height: InvisibleTypographyTokens.lineHeightTight,
+        height: InvisibleTypographyTokens.lineHeightHeading,
         color: enabled ? colors.text : colors.textDisabled,
       ),
     );

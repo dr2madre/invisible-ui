@@ -35,11 +35,19 @@
     /* Light, transparent gradient from the selection color to the primary. */
     background: linear-gradient(
       135deg,
-      color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 22%, transparent),
-      color-mix(in srgb, var(--ds-color-primary, #7a52cc) 22%, transparent)
+      color-mix(
+        in srgb,
+        var(--ds-components-general-action-secondary-background-default, #7a52cc) 22%,
+        transparent
+      ),
+      color-mix(
+        in srgb,
+        var(--ds-components-general-action-primary-background-default, #7a52cc) 22%,
+        transparent
+      )
     );
-    border-radius: var(--ds-radius-surface, 0.75rem);
-    color: var(--ds-color-text, #272727);
+    border-radius: var(--ds-metrics-radius-container, 0.75rem);
+    color: var(--ds-components-general-foreground-default, #272727);
     font-weight: 600;
     font-size: 0.875rem;
   }

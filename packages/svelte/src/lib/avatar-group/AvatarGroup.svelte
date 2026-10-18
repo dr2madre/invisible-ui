@@ -89,7 +89,7 @@
        non-zero value; the ring color should match the background the group sits
        on so it only separates avatars and stays invisible at the outer edge. */
     box-shadow: 0 0 0 var(--ds-avatar-group-ring-width, 0)
-      var(--ds-avatar-group-ring-color, var(--ds-color-background, #fff));
+      var(--ds-avatar-group-ring-color, var(--ds-components-general-background-default, #fff));
   }
   .avatar-group__item:not(:first-child) {
     margin-inline-start: var(--ds-avatar-group-overlap, -0.625rem);
@@ -113,8 +113,14 @@
     font-weight: 600;
     line-height: 1;
     user-select: none;
-    background: var(--ds-avatar-group-overflow-bg, var(--ds-color-neutral-surface, #f5f5f5));
-    color: var(--ds-avatar-group-overflow-color, var(--ds-color-text-secondary, #515151));
+    background: var(
+      --ds-avatar-group-overflow-bg,
+      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+    );
+    color: var(
+      --ds-avatar-group-overflow-color,
+      var(--ds-components-general-foreground-secondary, #515151)
+    );
   }
   .avatar-group__overflow:global([data-size="sm"]) {
     inline-size: var(--ds-avatar-size, 2rem);
@@ -130,6 +136,6 @@
     border-radius: 50%;
   }
   .avatar-group__overflow:global([data-shape="square"]) {
-    border-radius: var(--ds-avatar-radius, var(--ds-radius-control, 0.5rem));
+    border-radius: var(--ds-avatar-radius, var(--ds-metrics-radius-control, 0.5rem));
   }
 </style>

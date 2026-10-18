@@ -57,7 +57,7 @@ export interface ButtonProps {
  * renders the button and the confirmation side by side; extra attributes
  * still go to the `<button>`.
  *
- * Colours and sizing are themeable via `--ds-button-*`.
+ * Colours and sizing are themeable via `--ds-components-button-*`.
  */
 export const Button = defineComponent({
   name: "Button",
