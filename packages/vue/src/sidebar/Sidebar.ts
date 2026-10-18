@@ -289,7 +289,8 @@ export const Sidebar = defineComponent({
             reason: unavailable.reason,
           })
         : entry.label;
-      return h(Tooltip, { text, placement: "right" }, { default: () => node });
+      const placement = i18n.value.dir === "rtl" ? "left" : "right";
+      return h(Tooltip, { text, placement }, { default: () => node });
     };
 
     const list = (section: SidebarSection, sectionIndex: number) =>
@@ -387,7 +388,7 @@ export const Sidebar = defineComponent({
     // The drawer's edge follows the writing direction, so one `side` value is
     // right in both directions.
     const sheetSide = computed<SheetDialogSide>(() =>
-      (props.side === "inline-start") === (i18n.value.dir === "rtl") ? "right" : "left",
+      props.side === "inline-start" ? "start" : "end",
     );
 
     return () => {

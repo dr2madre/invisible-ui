@@ -1,6 +1,6 @@
 # Pagination parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/pagination` `core/src/internal/collection.ts` `packages/svelte/src/lib/pagination`
 

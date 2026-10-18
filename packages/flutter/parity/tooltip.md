@@ -29,6 +29,7 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | Hover shows after the open delay, leaving hides after the close delay | matched | `hover shows it after the wait and hides it after leaving` |
 | Delays follow the props after mount | matched | `the delays follow the widget` |
 | Keyboard focus shows at once; leaving focus hides | matched | `keyboard focus shows it at once; leaving focus hides it` |

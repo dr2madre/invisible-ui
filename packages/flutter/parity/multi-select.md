@@ -34,6 +34,7 @@ scope**. Every matched line names the widget test in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | Typing filters and opens the list on the first enabled match | matched | `typing opens and filters; Enter adds, empties the text, keeps the list open and announces the addition` |
 | Enter adds the highlighted option, empties the text and keeps the list open | matched | same test |
 | Down and Up open on the first enabled option, skip disabled ones and wrap | matched | `Down opens on the first enabled option; arrows skip a disabled one and wrap`; the vectors in `core/src/select` |

@@ -35,7 +35,7 @@
   import { derived } from "svelte/store";
   import { getI18n } from "../i18n/create-i18n";
 
-  const { t } = getI18n();
+  const { t, dir } = getI18n();
 
   const prefersReducedMotion = () =>
     typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -128,10 +128,13 @@
   function coverflowStyle(offset: number): string {
     const abs = Math.abs(offset);
     const vertical = orientation === "vertical";
+    // The row flows with the text: in right-to-left text the next slide sits
+    // to the left and turns the other way.
+    const across = $dir === "rtl" ? -offset : offset;
     const translate = vertical
       ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-      : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
-    const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
+      : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+    const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
     const scale = Math.max(0, 1 - abs * 0.15);
     // Neighbours recede by scale and turn only: a fade would take their text
     // below the AA contrast. Slides past two places are hidden outright.
@@ -163,10 +166,12 @@ keeps the scoped rule for the vertical coverflow layout. -->
       bind:this={viewportEl}
       use:viewportAction
     >
+      <!-- The track flows with the text, so in right-to-left text the next slide
+           sits to the left and the track moves the other way. -->
       <div
         class="carousel__track"
         style={variant === "slide"
-          ? `transform: translateX(calc(-1 * ${$index} * 100%))`
+          ? `transform: translateX(calc(${$dir === "rtl" ? 1 : -1} * ${$index} * 100%))`
           : undefined}
       >
         {#each items as item, i (i)}
@@ -426,6 +431,11 @@ keeps the scoped rule for the vertical coverflow layout. -->
   }
   .carousel__arrow--next {
     inset-inline-end: var(--ds-carousel-arrow-offset, 0.5rem);
+  }
+  /* The arrows sit at the inline start and end and point there: they mirror in
+     right-to-left text. */
+  .carousel__arrow:dir(rtl) {
+    scale: -1 1;
   }
   .carousel__arrow:focus-visible {
     outline: none;

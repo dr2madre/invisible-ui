@@ -58,50 +58,64 @@ export const NavigationMenu = defineComponent({
       onLinkClick,
     } = useNavigationMenu(() => ({ onValueChange: props.onValueChange }));
 
+    // Each panel takes the direction of its trigger.
+    const triggers = new Map<string, HTMLElement>();
+    const trackTrigger = (key: string, node: HTMLElement | null) => {
+      if (node) triggers.set(key, node);
+      else triggers.delete(key);
+      setTriggerRef(key, node);
+    };
+
     const panel = (item: NavigationMenuItem) => {
       const contentProps = api.value.getContentProps(item.value);
-      return scopedTeleport(teleportDisabled.value, i18n.value, null, [
-        h(
-          "div",
-          {
-            ...contentProps,
-            ref: contentRef,
-            class: "navmenu__content",
-            onKeydown: [
-              contentProps.onKeydown,
-              (event: KeyboardEvent) => onContentKeydown(item.value, event),
+      return scopedTeleport(
+        teleportDisabled.value,
+        i18n.value,
+        null,
+        [
+          h(
+            "div",
+            {
+              ...contentProps,
+              ref: contentRef,
+              class: "navmenu__content",
+              onKeydown: [
+                contentProps.onKeydown,
+                (event: KeyboardEvent) => onContentKeydown(item.value, event),
+              ],
+              onPointerenter: () => hold(),
+              onPointerleave: () => scheduleClose(),
+            },
+            [
+              h(
+                "ul",
+                { class: "navmenu__links" },
+                (item.links ?? []).map((link, index) => {
+                  const linkProps = api.value.getLinkProps({ current: link.current });
+                  return h("li", { key: `${index}:${link.href}` }, [
+                    h(
+                      "a",
+                      {
+                        ...linkProps,
+                        class: "navmenu__link",
+                        href: link.href,
+                        onClick: [linkProps.onClick, () => onLinkClick(item.value)],
+                      },
+                      [
+                        h("span", { class: "navmenu__link-label" }, link.label),
+                        link.description
+                          ? h("span", { class: "navmenu__link-desc" }, link.description)
+                          : null,
+                      ],
+                    ),
+                  ]);
+                }),
+              ),
             ],
-            onPointerenter: () => hold(),
-            onPointerleave: () => scheduleClose(),
-          },
-          [
-            h(
-              "ul",
-              { class: "navmenu__links" },
-              (item.links ?? []).map((link, index) => {
-                const linkProps = api.value.getLinkProps({ current: link.current });
-                return h("li", { key: `${index}:${link.href}` }, [
-                  h(
-                    "a",
-                    {
-                      ...linkProps,
-                      class: "navmenu__link",
-                      href: link.href,
-                      onClick: [linkProps.onClick, () => onLinkClick(item.value)],
-                    },
-                    [
-                      h("span", { class: "navmenu__link-label" }, link.label),
-                      link.description
-                        ? h("span", { class: "navmenu__link-desc" }, link.description)
-                        : null,
-                    ],
-                  ),
-                ]);
-              }),
-            ),
-          ],
-        ),
-      ]);
+          ),
+        ],
+        triggers.get(item.value) ?? null,
+      );
     };
 
     const disclosure = (item: NavigationMenuItem) => {
@@ -113,7 +127,7 @@ export const NavigationMenu = defineComponent({
           "button",
           {
             ...triggerProps,
-            ref: (node) => setTriggerRef(item.value, (node as HTMLElement | null) ?? null),
+            ref: (node) => trackTrigger(item.value, (node as HTMLElement | null) ?? null),
             class: "navmenu__trigger",
             type: "button",
             // A pending hover open must not undo what the press decides.

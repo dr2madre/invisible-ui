@@ -1,6 +1,6 @@
 import { useMemo, useRef, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import { CheckGlyph, ChevronGlyph, CloseGlyph, Icon, SearchGlyph } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useCombobox, type ComboboxItem } from "./use-combobox";
@@ -79,7 +79,7 @@ export function Combobox({
   onInputValueChange,
   icon,
 }: ComboboxProps) {
-  const { t } = useI18n();
+  const { t, dir: contextDir } = useI18n();
 
   const combobox = useCombobox({
     items,
@@ -126,6 +126,8 @@ export function Combobox({
   // mount, and it goes to the dialog the control sits in when there is one.
   const rootEl = useRef<HTMLDivElement | null>(null);
   const portalHost = usePortalHost(rootEl);
+  // The listbox leaves the tree, so it carries the direction of the control.
+  const dir = useAnchorDirection(rootEl, contextDir);
 
   // The chevron toggles the list (showing all options when opening), so a
   // selected value can be changed without clearing it first. iOS Safari can
@@ -142,7 +144,13 @@ export function Combobox({
   };
 
   const listbox = (
-    <ul {...api.listboxProps} ref={listboxRef} className="combobox__listbox" style={floatingStyles}>
+    <ul
+      {...api.listboxProps}
+      ref={listboxRef}
+      className="combobox__listbox"
+      style={floatingStyles}
+      dir={dir}
+    >
       {visible.length > 0 ? (
         visible.map((item) => {
           const optionIcon = iconByValue.get(item.value);

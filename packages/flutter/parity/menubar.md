@@ -1,6 +1,6 @@
 # Menubar parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/menu` `core/src/menubar` `packages/svelte/src/lib/menubar` `docs/menu-submenu-spec.md`
 
@@ -39,6 +39,7 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | One tab stop on the bar, following the trigger that had focus last | matched | `the bar is one tab stop` |
 | Left and right move between triggers, wrapping, disabled ones included | matched | `<direction>: the arrows move between triggers, wrapping, and reach a disabled one`; vectors |
 | Right to left mirrors the arrows | matched | the `rtl` variants of both arrow tests; vectors: `RTL: …` |

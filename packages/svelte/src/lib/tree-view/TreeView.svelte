@@ -303,6 +303,12 @@
   .tree__twistie--open {
     transform: rotate(90deg);
   }
+  /* The arrow points to the inline end: it mirrors in right-to-left text. The
+     open turn is a transform, which applies before the mirror, so it still
+     points down. */
+  .tree__twistie:dir(rtl) {
+    scale: -1 1;
+  }
   .tree__twistie-spacer {
     display: inline-block;
     flex: none;

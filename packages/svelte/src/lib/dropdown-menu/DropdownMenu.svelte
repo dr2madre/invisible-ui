@@ -15,7 +15,7 @@
   import { untrack } from "svelte";
   import { menu as core } from "@invisible-ui/core";
   import { createDropdownMenu, type MenuEntry } from "./create-dropdown-menu";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
@@ -68,7 +68,13 @@
     </span>
   </button>
 
-  <div class="menu__popup" lang={$i18nLocale} dir={$i18nDir} use:portal use:menuAction>
+  <div
+    class="menu__popup"
+    lang={$i18nLocale}
+    use:followDirection={{ fallback: $i18nDir, open: menu.open }}
+    use:portal
+    use:menuAction
+  >
     {#each items as entry, index (entryKey(entry, index))}
       {#if core.isSeparator(entry)}
         <div class="menu__separator" {...$api.separatorProps}></div>

@@ -21,7 +21,7 @@
    * `--ds-navmenu-*`.
    */
   import { createNavigationMenu, type NavigationMenuItem } from "./create-navigation-menu";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
@@ -64,7 +64,7 @@
             <div
               class="navmenu__content"
               lang={$i18nLocale}
-              dir={$i18nDir}
+              use:followDirection={{ fallback: $i18nDir }}
               use:portal
               use:contentAction={item.value}
             >

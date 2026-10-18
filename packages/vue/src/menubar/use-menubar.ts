@@ -1,6 +1,8 @@
+import { menubar as bar } from "@invisible-ui/core";
 import {
   computed,
   effectScope,
+  nextTick,
   onScopeDispose,
   ref,
   toValue,
@@ -105,8 +107,6 @@ export function useMenubar(options: MaybeRefOrGetter<UseMenubarOptions>): UseMen
     resolved.value.menus.map((config) => ({ ...config, menu: dropdownFor(config.value) })),
   );
 
-  const count = () => resolved.value.menus.length;
-
   const focusedIndex = ref(0);
 
   // Build the dropdowns of the current list (in setup, the first time), stop
@@ -135,58 +135,41 @@ export function useMenubar(options: MaybeRefOrGetter<UseMenubarOptions>): UseMen
 
   const openIndex = () => menus.value.findIndex((entry) => entry.menu.open.value);
 
-  const closeAllExcept = (keep: number) => {
-    menus.value.forEach((entry, index) => {
-      if (index !== keep && entry.menu.open.value) entry.menu.api.value.closeMenu();
+  const focusTrigger = (index: number) => {
+    focusedIndex.value = index;
+    const trigger = (menus.value[index]?.menu.triggerRef as Ref<HTMLElement | null> | undefined)
+      ?.value;
+    trigger?.focus();
+    // A menu closed in the same step hands focus back to its own trigger once
+    // the DOM updates; the trigger the bar chose keeps it (APG menubar).
+    void nextTick(() => {
+      if (trigger?.isConnected && document.activeElement !== trigger) trigger.focus();
     });
   };
 
-  const openAt = (index: number) => {
-    closeAllExcept(index);
-    menus.value[index]?.menu.api.value.openMenu("first");
-  };
-
-  const focusTrigger = (index: number) => {
-    focusedIndex.value = index;
-    (menus.value[index]?.menu.triggerRef as Ref<HTMLElement | null> | undefined)?.value?.focus();
-  };
-
-  const move = (from: number, direction: 1 | -1) => {
-    const total = count();
-    if (total === 0) return;
-    const next = (from + direction + total) % total;
-    focusedIndex.value = next;
-    if (openIndex() !== -1) openAt(next);
-    else focusTrigger(next);
-  };
+  // Key routing, which top menu opens or takes focus, and right-to-left
+  // mirroring live in the core menubar, as in the other adapters. It is
+  // rebuilt per call so it always sees the current menus and open menu.
+  const barApi = () =>
+    bar.connect({
+      state: {
+        menus: resolved.value.menus.map((menu) => ({
+          value: menu.value,
+          disabled: menu.disabled,
+        })),
+        focusedIndex: focusedIndex.value,
+        openIndex: openIndex(),
+      },
+      setFocusedIndex: (index) => {
+        focusedIndex.value = index;
+      },
+      openMenu: (index) => menus.value[index]?.menu.api.value.openMenu("first"),
+      closeMenu: (index) => menus.value[index]?.menu.api.value.closeMenu(),
+      focusTrigger,
+    });
 
   const onMenubarKeydown = (event: KeyboardEvent) => {
-    const open = openIndex();
-    const from = open !== -1 ? open : focusedIndex.value;
-    switch (event.key) {
-      case "ArrowRight":
-        event.preventDefault();
-        move(from, 1);
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        move(from, -1);
-        break;
-      // Home/End move between triggers only while closed; an open menu uses
-      // them to jump between its own items.
-      case "Home":
-        if (open === -1) {
-          event.preventDefault();
-          focusTrigger(0);
-        }
-        break;
-      case "End":
-        if (open === -1) {
-          event.preventDefault();
-          focusTrigger(count() - 1);
-        }
-        break;
-    }
+    (barApi().menubarProps.onKeyDown as (event: Event) => void)(event);
   };
 
   return {
@@ -197,8 +180,7 @@ export function useMenubar(options: MaybeRefOrGetter<UseMenubarOptions>): UseMen
     },
     onMenubarKeydown,
     onTriggerPointerenter: (index: number) => {
-      const open = openIndex();
-      if (open !== -1 && open !== index) openAt(index);
+      (barApi().getTriggerProps(index).onPointerEnter as () => void)();
     },
   };
 }

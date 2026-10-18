@@ -1,6 +1,6 @@
 # Context Menu parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/menu` `core/src/internal/submenu-geometry.ts` `packages/svelte/src/lib/context-menu` `docs/menu-submenu-spec.md`
 
@@ -38,11 +38,12 @@ scope**. Every matched line names the test that holds it, in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | A secondary click opens the menu at the pointer, focusing the first enabled item | matched | `a secondary click opens the menu at the pointer, on its first item` |
-| Placement `right-start`, 2 px from the point, flipping and shifting with 8 px padding | adapted | the menu opens toward the inline-end of the point and flips toward the inline-start, through the submenu placement rule (`placeSubmenu`, held by the shared placement vectors): `a secondary click opens…`, `rtl: the menu opens toward the inline-end of the pointer`, `near the edge the menu flips toward the inline-start`. The web placement stays on the right in right-to-left pages; the Flutter one mirrors, as the submenus do |
+| Placement toward the inline-end (`right-start`, `left-start` in right to left), 2 px from the point, flipping and shifting with 8 px padding | matched | the menu opens toward the inline-end of the point and flips toward the inline-start, through the submenu placement rule (`placeSubmenu`, held by the shared placement vectors): `a secondary click opens…`, `rtl: the menu opens toward the inline-end of the pointer`, `near the edge the menu flips toward the inline-start`. Both mirror in right-to-left text, as the submenus do |
 | Opening again while open moves the menu to the new point and focuses the first item | matched | `opening again moves the menu to the new point` |
 | Touch: a long press of 500 ms opens at the press; a move of more than 10 px or an early lift cancels it | matched | `a long press with a finger opens the menu at the press`, `a finger that moves more than 10 px or lifts early opens nothing` |
-| The keyboard menu key and Shift+F10 open the menu at the region's top-left corner | adapted | `<direction>: Shift+F10 opens…`, `<direction>: the context menu key opens…`. The browser fires `contextmenu` for both keys; Flutter maps them with `Shortcuts`. The corner is the inline-start one, so the top-right corner in right to left |
+| The keyboard menu key and Shift+F10 open the menu at the region's inline-start top corner | adapted | `<direction>: Shift+F10 opens…`, `<direction>: the context menu key opens…`. The browser fires `contextmenu` for both keys; Flutter maps them with `Shortcuts`. On both, the corner is the top-right one in right to left |
 | The region is focusable (`tabindex="0"`) and shows a focus ring for keyboard focus | matched | `the region shows a focus ring for keyboard focus` |
 | A disabled menu opens by nothing | matched | `a disabled region opens by nothing` |
 | Scrolling the page under an open menu closes it | matched | `RawMenuAnchor` closes its root when an enclosing `Scrollable` scrolls, and the session closes with it (`rootClosed`); not a separate test |

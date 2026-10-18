@@ -26,7 +26,7 @@ export interface ContextMenuContext {
   onSelect?: (value: string) => void;
   /** Called whenever the open state changes. */
   onOpenChange?: (open: boolean) => void;
-  /** Preferred placement relative to the pointer. Default `"right-start"`. */
+  /** Preferred placement relative to the pointer. Default `"right-start"`, `"left-start"` in right-to-left text. */
   placement?: Placement;
 }
 
@@ -69,7 +69,6 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
   const state = writable<MenuState>(
     core.initialState({ ...context, id: context.id ?? stableId("ds-menu") }),
   );
-  const placement: Placement = context.placement ?? "right-start";
 
   const setOpen = (open: boolean) => {
     const current = get(state);
@@ -103,9 +102,10 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
 
   let menuEl: HTMLElement | null = null;
   // Viewport coordinates of the last open request: the pointer, or the focused
-  // trigger's top-left when summoned from the keyboard. The popup is positioned
-  // against a zero-size virtual anchor at this point.
-  let point = { x: 0, y: 0 };
+  // trigger's inline-start top corner when summoned from the keyboard. The popup
+  // is positioned against a zero-size virtual anchor at this point, and opens
+  // toward the inline end: to the left in right-to-left text.
+  let point = { x: 0, y: 0, rtl: false };
 
   const reposition = () => {
     if (!menuEl) return;
@@ -121,6 +121,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
         bottom: point.y,
       }),
     };
+    const placement: Placement = context.placement ?? (point.rtl ? "left-start" : "right-start");
     computePosition(anchor, menuEl, {
       placement,
       strategy: "fixed",
@@ -150,25 +151,26 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
   };
 
   /** Open (or re-summon) the menu at a viewport point, focusing the first item. */
-  const openAt = (x: number, y: number) => {
+  const openAt = (x: number, y: number, rtl: boolean) => {
     const current = get(state);
     if (current.disabled) return;
-    point = { x, y };
+    point = { x, y, rtl };
     setActiveValue(core.firstEnabled(core.itemsOf(current.items)));
     if (current.open) reposition();
     else setOpen(true);
   };
 
   const triggerAction: Action<HTMLElement> = (node) => {
+    const rtl = () => getComputedStyle(node).direction === "rtl";
     const onContextMenu = (event: MouseEvent) => {
       event.preventDefault();
       // The keyboard menu key / Shift+F10 fire `contextmenu` with no pointer, so
-      // fall back to the trigger's top-left corner.
+      // fall back to the trigger's inline-start top corner.
       if (event.clientX === 0 && event.clientY === 0) {
         const rect = node.getBoundingClientRect();
-        openAt(rect.left, rect.top);
+        openAt(rtl() ? rect.right : rect.left, rect.top, rtl());
       } else {
-        openAt(event.clientX, event.clientY);
+        openAt(event.clientX, event.clientY, rtl());
       }
     };
     node.addEventListener("contextmenu", onContextMenu);
@@ -181,7 +183,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     const onPointerDown = (event: PointerEvent) => {
       if (event.pointerType !== "touch") return;
       start = { x: event.clientX, y: event.clientY };
-      pressTimer = setTimeout(() => openAt(event.clientX, event.clientY), LONG_PRESS);
+      pressTimer = setTimeout(() => openAt(event.clientX, event.clientY, rtl()), LONG_PRESS);
     };
     const cancelPress = () => clearTimeout(pressTimer);
     const onPointerMove = (event: PointerEvent) => {

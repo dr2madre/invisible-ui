@@ -1,6 +1,6 @@
 # Sidebar parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/collapsible` `core/src/navigation-bar` `packages/svelte/src/lib/sidebar` `docs/sidebar-spec.md` `packages/svelte/src/lib/sheet-dialog`
 
@@ -146,7 +146,7 @@ destinations, `test/sidebar_status_test.dart`.
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | The navigation sits in a modal Sheet Dialog named like the navigation | matched | `a modal sheet named like the navigation, at the inline-start edge, with labels and no rail toggle` |
-| The drawer comes from the inline-start edge, mirrored right to left | matched | same test |
+| The drawer comes from the inline-start edge, mirrored right to left | matched | same test; on the web the drawer passes `start` or `end`, the sheet's only lateral sides |
 | Escape closes it | matched | same test |
 | The drawer shows the labels and no rail toggle, whatever `collapsed` says | matched | same test |
 | Following a destination closes the drawer and reports once | adapted | ADR 0011: the drawer closes first, then `onSelected` reports: `following a destination closes the drawer first, then reports; focus returns to the button that opened it` |

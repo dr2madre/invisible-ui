@@ -1,6 +1,7 @@
 export {
   canonicalLocale,
   DEFAULT_LOCALE,
+  elementDirection,
   localeDirection,
   localeHourCycle,
   localeWeekStart,

@@ -258,7 +258,7 @@
     {
       "name": "calendar.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#c515c0e7 { state: CalendarState; setValue: (iso: string) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Move DOM focus to the day with the given ISO date (adapter-provided). */ focus?: (iso: string) => void; normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#5a131b7a { state: CalendarState; setValue: (iso: string) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Move DOM focus to the day with the given ISO date (adapter-provided). */ focus?: (iso: string) => void; /** * Reading direction. Omitted, each key press reads the computed `direction` * of the day, so a `dir` set anywhere above counts. In right-to-left text the * next day sits to the left, so ArrowLeft and ArrowRight swap. */ direction?: \"ltr\" | \"rtl\"; normalize?: Normalize; }"
     },
     {
       "name": "calendar.DateRange",
@@ -298,7 +298,7 @@
     {
       "name": "calendar.connect",
       "kind": "function",
-      "signature": "declare function connect#d790424d({ state, setValue, setFocus, setView, focus, normalize, }: ConnectOptions#c515c0e7): CalendarApi;"
+      "signature": "declare function connect#404694f0({ state, setValue, setFocus, setView, focus, direction, normalize, }: ConnectOptions#5a131b7a): CalendarApi;"
     },
     {
       "name": "calendar.dayId",
@@ -433,7 +433,7 @@
     {
       "name": "carousel.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#c2f132c2 { /** Current resolved state. */ state: CarouselState; /** Request a new current index; the adapter owns how state updates. */ setIndex: (index: number) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#b5f1a104 { /** Current resolved state. */ state: CarouselState; /** Request a new current index; the adapter owns how state updates. */ setIndex: (index: number) => void; /** * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "carousel.Orientation",
@@ -458,7 +458,7 @@
     {
       "name": "carousel.connect",
       "kind": "function",
-      "signature": "declare function connect#e0789c37({ state, setIndex, direction, normalize, }: ConnectOptions#c2f132c2): CarouselApi;"
+      "signature": "declare function connect#e0789c37({ state, setIndex, direction, normalize, }: ConnectOptions#b5f1a104): CarouselApi;"
     },
     {
       "name": "carousel.initialState",
@@ -1071,6 +1071,11 @@
       "signature": "i18n_dateTimeFormat: typeof dateTimeFormat"
     },
     {
+      "name": "i18n.elementDirection",
+      "kind": "const",
+      "signature": "i18n_elementDirection: typeof elementDirection"
+    },
+    {
       "name": "i18n.en",
       "kind": "const",
       "signature": "i18n_en: typeof en"
@@ -1403,7 +1408,7 @@
     {
       "name": "menubar.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#31130def { state: MenubarState; /** Request a new tab stop among the triggers. */ setFocusedIndex: (index: number) => void; /** Open the top menu at `index`, focusing its first item (the menu's `openMenu(\"first\")`). */ openMenu: (index: number) => void; /** Close the top menu at `index` with every level of it (the menu's `closeMenu()`). */ closeMenu: (index: number) => void; /** Move DOM focus to the trigger at `index`. */ focusTrigger: (index: number) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text ArrowLeft * goes to the next top menu and ArrowRight to the previous one, so the keys * keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#3eea842f { state: MenubarState; /** Request a new tab stop among the triggers. */ setFocusedIndex: (index: number) => void; /** Open the top menu at `index`, focusing its first item (the menu's `openMenu(\"first\")`). */ openMenu: (index: number) => void; /** Close the top menu at `index` with every level of it (the menu's `closeMenu()`). */ closeMenu: (index: number) => void; /** Move DOM focus to the trigger at `index`. */ focusTrigger: (index: number) => void; /** * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text ArrowLeft * goes to the next top menu and ArrowRight to the previous one, so the keys * keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; normalize?: Normalize; }"
     },
     {
       "name": "menubar.MenubarApi",
@@ -1423,7 +1428,7 @@
     {
       "name": "menubar.connect",
       "kind": "function",
-      "signature": "declare function connect#66498871({ state, setFocusedIndex, openMenu, closeMenu, focusTrigger, direction, normalize, }: ConnectOptions#31130def): MenubarApi;"
+      "signature": "declare function connect#66498871({ state, setFocusedIndex, openMenu, closeMenu, focusTrigger, direction, normalize, }: ConnectOptions#3eea842f): MenubarApi;"
     },
     {
       "name": "meter",
@@ -1883,7 +1888,7 @@
     {
       "name": "pagination.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#43edbfb0 { /** Current resolved state. */ state: PaginationState; /** Request a new page; the adapter owns how state updates. */ setPage: (page: number) => void; /** Move DOM focus to the control with the given value (adapter-provided). */ focus?: (value: string) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#2fb85f2e { /** Current resolved state. */ state: PaginationState; /** Request a new page; the adapter owns how state updates. */ setPage: (page: number) => void; /** Move DOM focus to the control with the given value (adapter-provided). */ focus?: (value: string) => void; /** * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "pagination.PageItem",
@@ -1913,7 +1918,7 @@
     {
       "name": "pagination.connect",
       "kind": "function",
-      "signature": "declare function connect#b768233a({ state, setPage, focus, direction, normalize, }: ConnectOptions#43edbfb0): PaginationApi;"
+      "signature": "declare function connect#b768233a({ state, setPage, focus, direction, normalize, }: ConnectOptions#2fb85f2e): PaginationApi;"
     },
     {
       "name": "pagination.initialState",
@@ -2381,6 +2386,41 @@
       "signature": "triggerId#158668af: (baseId: string) => string"
     },
     {
+      "name": "sheetDialog",
+      "kind": "namespace",
+      "signature": "namespace sheetDialog"
+    },
+    {
+      "name": "sheetDialog.DISMISS_DISTANCE_RATIO",
+      "kind": "const",
+      "signature": "sheetDialog_DISMISS_DISTANCE_RATIO: typeof DISMISS_DISTANCE_RATIO"
+    },
+    {
+      "name": "sheetDialog.DISMISS_VELOCITY",
+      "kind": "const",
+      "signature": "sheetDialog_DISMISS_VELOCITY: typeof DISMISS_VELOCITY"
+    },
+    {
+      "name": "sheetDialog.SheetSide",
+      "kind": "type",
+      "signature": "sheetDialog.SheetSide = type SheetSide = \"top\" | \"bottom\" | \"start\" | \"end\";"
+    },
+    {
+      "name": "sheetDialog.edge",
+      "kind": "const",
+      "signature": "sheetDialog_edge: typeof edge"
+    },
+    {
+      "name": "sheetDialog.outward",
+      "kind": "const",
+      "signature": "sheetDialog_outward: typeof outward"
+    },
+    {
+      "name": "sheetDialog.shouldDismiss",
+      "kind": "const",
+      "signature": "sheetDialog_shouldDismiss: typeof shouldDismiss"
+    },
+    {
       "name": "slider",
       "kind": "namespace",
       "signature": "namespace slider"
@@ -2673,7 +2713,7 @@
     {
       "name": "tabs.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#bd325ef2 { /** Current resolved state. */ state: TabsState; /** Request a new selected value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Move DOM focus to the tab with the given value (adapter-provided). */ focus?: (value: string) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#0deef469 { /** Current resolved state. */ state: TabsState; /** Request a new selected value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Move DOM focus to the tab with the given value (adapter-provided). */ focus?: (value: string) => void; /** * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "tabs.Orientation",
@@ -2703,7 +2743,7 @@
     {
       "name": "tabs.connect",
       "kind": "function",
-      "signature": "declare function connect#5bafe566({ state, setValue, focus, direction, normalize, }: ConnectOptions#bd325ef2): TabsApi;"
+      "signature": "declare function connect#5bafe566({ state, setValue, focus, direction, normalize, }: ConnectOptions#0deef469): TabsApi;"
     },
     {
       "name": "tabs.firstEnabled",

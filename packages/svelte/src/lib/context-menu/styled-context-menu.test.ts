@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import { tick } from "svelte";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./context-menu.fixture.svelte";
 
@@ -120,5 +120,47 @@ describe("Svelte ContextMenu (styled)", () => {
     await rerender({ disabled: true });
     await openAt();
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
+});
+
+// jsdom has no layout: the viewport measures 1024 by 768, and the region the
+// text sits in 100 by 50 at (10, 20).
+const placeRegion = () => {
+  const root = document.documentElement;
+  Object.defineProperty(root, "clientWidth", { configurable: true, value: 1024 });
+  Object.defineProperty(root, "clientHeight", { configurable: true, value: 768 });
+  const rect = { x: 10, y: 20, left: 10, top: 20, right: 110, bottom: 70, width: 100, height: 50 };
+  let el: Element | null = screen.getByText("Right-click here");
+  while (el && el !== document.body) {
+    el.getBoundingClientRect = () => ({ ...rect, toJSON: () => rect }) as DOMRect;
+    el = el.parentElement;
+  }
+};
+const menuLeft = () => screen.getByRole("menu").style.left;
+
+describe("Svelte ContextMenu in right-to-left text", () => {
+  afterEach(() => {
+    const root = document.documentElement as unknown as Record<string, unknown>;
+    delete root.clientWidth;
+    delete root.clientHeight;
+    document.documentElement.removeAttribute("dir");
+  });
+
+  it("opens toward the inline end, from the inline-start corner on the keyboard", async () => {
+    render(Fixture);
+    placeRegion();
+    await openAt(40, 40);
+    await vi.waitFor(() => expect(menuLeft()).toBe("42px"));
+    await fireEvent.keyDown(screen.getByRole("menu"), { key: "Escape" });
+    await openAt(0, 0);
+    await vi.waitFor(() => expect(menuLeft()).toBe("12px"));
+    await fireEvent.keyDown(screen.getByRole("menu"), { key: "Escape" });
+
+    document.documentElement.dir = "rtl";
+    await openAt(40, 40);
+    await vi.waitFor(() => expect(menuLeft()).toBe("38px"));
+    await fireEvent.keyDown(screen.getByRole("menu"), { key: "Escape" });
+    await openAt(0, 0);
+    await vi.waitFor(() => expect(menuLeft()).toBe("108px"));
   });
 });

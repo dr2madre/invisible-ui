@@ -50,7 +50,12 @@
     renderTrigger?: boolean;
     /** CSS selector for the element focus returns to when there is no trigger. */
     returnFocusTo?: string;
-    /** Which edge the panel is anchored to. */
+    /**
+     * Which edge the panel is anchored to. `start` and `end` follow the reading
+     * direction, so the panel slides in from, and is dragged toward, the right
+     * edge in left-to-right text and the left edge in right-to-left text.
+     * Default `"end"`.
+     */
     side?: SheetDialogSide;
     /**
      * Show a grab handle and enable the drag-to-dismiss gesture. Available on the
@@ -92,7 +97,7 @@
     triggerVariant = "default",
     renderTrigger = true,
     returnFocusTo,
-    side = "right",
+    side = "end",
     draggable = false,
     open = $bindable(false),
     title,
@@ -146,18 +151,6 @@
 
   const resolvedCloseLabel = $derived(closeLabel ?? $t("sheetDialog.close"));
   const hasHandle = $derived(draggable && side !== "top");
-  const dragTransform = $derived(
-    $dragOffset === 0
-      ? undefined
-      : side === "bottom"
-        ? `translateY(${$dragOffset}px)`
-        : side === "right"
-          ? `translateX(${$dragOffset}px)`
-          : side === "left"
-            ? `translateX(${-$dragOffset}px)`
-            : undefined,
-  );
-
   /** Show a notice in the status area and return its id (ADR 0016). */
   export function notify(options: DialogNoticeOptions): string {
     return sheet.notify(options);
@@ -184,7 +177,7 @@
   <dialog
     class={["sheet-dialog__panel", $dragging && "sheet-dialog__panel--dragging"]}
     data-side={side}
-    style:transform={dragTransform}
+    style:--_sheet-drag={$dragOffset === 0 ? undefined : `${$dragOffset}px`}
     use:contentAction
   >
     {#if hasHandle}
@@ -230,8 +223,10 @@
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
-    /* Snap-home transition after a released drag; disabled while dragging. */
-    transition: transform var(--ds-sheet-dialog-duration, 0.25s) ease;
+    /* Snap-home transition after a released drag; disabled while dragging. The
+       drag itself is the outward distance in --_sheet-drag, which the rules
+       below turn into a move toward the anchored edge. */
+    transition: translate var(--ds-sheet-dialog-duration, 0.25s) ease;
   }
   .sheet-dialog__panel--dragging {
     transition: none;
@@ -243,26 +238,38 @@
     outline-offset: -2px;
   }
 
-  /* Left / right: full height, fixed width. */
-  .sheet-dialog__panel[data-side="right"],
-  .sheet-dialog__panel[data-side="left"] {
+  /* Start / end, which follow the reading direction: full height, fixed width. */
+  .sheet-dialog__panel[data-side="end"],
+  .sheet-dialog__panel[data-side="start"] {
     inset-block: 0;
     block-size: 100%;
     max-block-size: 100vh;
     inline-size: var(--ds-sheet-dialog-size, 20rem);
     max-inline-size: 100vw;
   }
-  .sheet-dialog__panel[data-side="right"] {
+  .sheet-dialog__panel[data-side="end"] {
     inset-inline-end: 0;
     inset-inline-start: auto;
     border-inline-end: 0;
-    animation: sheet-dialog-in-right var(--ds-sheet-dialog-duration, 0.25s) ease;
+    translate: var(--_sheet-drag, 0px) 0;
+    animation: sheet-dialog-in-end var(--ds-sheet-dialog-duration, 0.25s) ease;
   }
-  .sheet-dialog__panel[data-side="left"] {
+  .sheet-dialog__panel[data-side="start"] {
     inset-inline-start: 0;
     inset-inline-end: auto;
     border-inline-start: 0;
-    animation: sheet-dialog-in-left var(--ds-sheet-dialog-duration, 0.25s) ease;
+    translate: calc(-1 * var(--_sheet-drag, 0px)) 0;
+    animation: sheet-dialog-in-start var(--ds-sheet-dialog-duration, 0.25s) ease;
+  }
+  /* Right to left: the end edge is the left one, so both the drag and the
+     slide-in run the other way. */
+  .sheet-dialog__panel[data-side="end"]:dir(rtl) {
+    translate: calc(-1 * var(--_sheet-drag, 0px)) 0;
+    animation-name: sheet-dialog-in-start;
+  }
+  .sheet-dialog__panel[data-side="start"]:dir(rtl) {
+    translate: var(--_sheet-drag, 0px) 0;
+    animation-name: sheet-dialog-in-end;
   }
 
   /* Top / bottom: full width, fixed height. */
@@ -284,15 +291,18 @@
     inset-block-end: 0;
     inset-block-start: auto;
     border-block-end: 0;
+    translate: 0 var(--_sheet-drag, 0px);
     animation: sheet-dialog-in-bottom var(--ds-sheet-dialog-duration, 0.25s) ease;
   }
 
-  @keyframes sheet-dialog-in-right {
+  /* A panel at the end edge slides in from the right in left-to-right text, and
+     the animation name swaps for right-to-left text above. */
+  @keyframes sheet-dialog-in-end {
     from {
       transform: translateX(100%);
     }
   }
-  @keyframes sheet-dialog-in-left {
+  @keyframes sheet-dialog-in-start {
     from {
       transform: translateX(-100%);
     }
@@ -308,8 +318,10 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .sheet-dialog__panel {
+    .sheet-dialog__panel,
+    .sheet-dialog__panel[open] {
       animation: none;
+      transition: none;
     }
   }
 
@@ -331,18 +343,18 @@
     block-size: 0.375rem;
     margin-block: 0 0.75rem;
   }
-  .sheet-dialog__panel[data-side="right"] .sheet-dialog__handle,
-  .sheet-dialog__panel[data-side="left"] .sheet-dialog__handle {
+  .sheet-dialog__panel[data-side="end"] .sheet-dialog__handle,
+  .sheet-dialog__panel[data-side="start"] .sheet-dialog__handle {
     position: absolute;
     inset-block: 0;
     block-size: var(--ds-sheet-dialog-handle-width, 2.5rem);
     inline-size: 0.375rem;
     margin-block: auto;
   }
-  .sheet-dialog__panel[data-side="right"] .sheet-dialog__handle {
+  .sheet-dialog__panel[data-side="end"] .sheet-dialog__handle {
     inset-inline-start: 0.375rem;
   }
-  .sheet-dialog__panel[data-side="left"] .sheet-dialog__handle {
+  .sheet-dialog__panel[data-side="start"] .sheet-dialog__handle {
     inset-inline-end: 0.375rem;
   }
 

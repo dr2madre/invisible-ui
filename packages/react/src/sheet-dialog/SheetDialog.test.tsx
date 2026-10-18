@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRef, type ComponentProps } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Button } from "../button/Button";
 import type { DialogHandle } from "../dialog/use-dialog-handle";
@@ -62,12 +62,12 @@ describe("React SheetDialog (styled)", () => {
 
   it("opens as an edge-anchored modal, named and described, focus moved in", async () => {
     const user = userEvent.setup();
-    render(<Sheet side="left" />);
+    render(<Sheet side="start" />);
 
     await openIt(user);
     const modal = screen.getByRole("dialog");
     expect(modal).toHaveAttribute("aria-modal", "true");
-    expect(modal).toHaveAttribute("data-side", "left");
+    expect(modal).toHaveAttribute("data-side", "start");
     expect(modal).toHaveAccessibleName("Filters");
     expect(modal).toHaveAccessibleDescription("Refine the results.");
     expect(modal.contains(document.activeElement)).toBe(true);
@@ -134,7 +134,7 @@ describe("React SheetDialog (styled)", () => {
     expect(handleOf(screen.getByRole("dialog"))).toBeNull();
   });
 
-  it("tracks a bottom drag on the panel transform", async () => {
+  it("tracks a bottom drag on the panel's drag distance", async () => {
     const user = userEvent.setup();
     render(<Sheet side="bottom" draggable />);
     await openIt(user);
@@ -143,7 +143,56 @@ describe("React SheetDialog (styled)", () => {
     pointer(handleOf(panel), "pointerdown", { y: 100 });
     expect(panel).toHaveClass("sheet-dialog__panel--dragging");
     pointer(window, "pointermove", { y: 140 });
-    expect(panel.style.transform).toBe("translateY(40px)");
+    expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("40px");
+  });
+
+  it("anchors to the end edge by default and accepts start", async () => {
+    const user = userEvent.setup();
+    const { unmount } = render(<Sheet />);
+    await openIt(user);
+    expect(screen.getByRole("dialog")).toHaveAttribute("data-side", "end");
+    unmount();
+    render(<Sheet side="start" />);
+    await openIt(user);
+    expect(screen.getByRole("dialog")).toHaveAttribute("data-side", "start");
+  });
+
+  describe("in right-to-left text", () => {
+    beforeEach(() => document.documentElement.setAttribute("dir", "rtl"));
+    afterEach(() => document.documentElement.removeAttribute("dir"));
+
+    it("drags an end panel toward the left edge, and not toward the right", async () => {
+      const user = userEvent.setup();
+      render(<Sheet side="end" draggable />);
+      await openIt(user);
+      const panel = screen.getByRole("dialog");
+      stubExtent(panel, "offsetWidth", 320);
+
+      // Slow moves, so only the distance decides.
+      pointer(handleOf(panel), "pointerdown", { x: 500 }, 0);
+      pointer(window, "pointermove", { x: 460 }, 1000);
+      expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("40px");
+      pointer(window, "pointermove", { x: 560 }, 2000);
+      expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("0px");
+      pointer(window, "pointerup", { x: 560 }, 3000);
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+      pointer(handleOf(panel), "pointerdown", { x: 500 }, 4000);
+      pointer(window, "pointerup", { x: 400 }, 5000);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+
+    it("drags a start panel toward the right edge", async () => {
+      const user = userEvent.setup();
+      render(<Sheet side="start" draggable />);
+      await openIt(user);
+      const panel = screen.getByRole("dialog");
+      stubExtent(panel, "offsetWidth", 320);
+
+      pointer(handleOf(panel), "pointerdown", { x: 100 });
+      pointer(window, "pointerup", { x: 200 });
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
   });
 
   it("dismisses a bottom drag released past the distance threshold", async () => {
@@ -170,13 +219,13 @@ describe("React SheetDialog (styled)", () => {
     pointer(window, "pointermove", { y: 150 }, Number.MAX_SAFE_INTEGER);
     pointer(window, "pointerup", { y: 150 }); // 50 < 25% of 400, slow
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(panel.style.transform).toBe("");
+    expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("");
     expect(panel).not.toHaveClass("sheet-dialog__panel--dragging");
   });
 
   it("dismisses a lateral drag toward the anchored edge", async () => {
     const user = userEvent.setup();
-    render(<Sheet side="right" draggable />);
+    render(<Sheet side="end" draggable />);
     await openIt(user);
     const panel = screen.getByRole("dialog");
     stubExtent(panel, "offsetWidth", 320);
@@ -189,7 +238,7 @@ describe("React SheetDialog (styled)", () => {
 
   it("ignores a lateral drag away from the anchored edge", async () => {
     const user = userEvent.setup();
-    render(<Sheet side="right" draggable />);
+    render(<Sheet side="end" draggable />);
     await openIt(user);
     const panel = screen.getByRole("dialog");
     stubExtent(panel, "offsetWidth", 320);

@@ -2,7 +2,7 @@ import { useRef, type PointerEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "../i18n/i18n";
 import type { Placement } from "../internal/floating";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import { useTooltip } from "./use-tooltip";
 
 export interface TooltipProps {
@@ -44,6 +44,7 @@ export function Tooltip({
     closeDelay,
   });
   const host = usePortalHost(triggerRef);
+  const popupDir = useAnchorDirection(triggerRef, dir);
   // Touch has no hover: the tap owns touch, so the tooltip does not flash.
   const touch = useRef(false);
 
@@ -77,7 +78,7 @@ export function Tooltip({
               ref={tooltipRef}
               className="tooltip__content"
               lang={locale}
-              dir={dir}
+              dir={popupDir}
               onPointerEnter={hold}
               onPointerLeave={() => hide()}
             >

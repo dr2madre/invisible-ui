@@ -1,4 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
+import { directionOf } from "../internal/direction";
 import { canGoNext, canGoPrev, clampIndex, nextIndex, prevIndex } from "./state";
 import type { CarouselState } from "./types";
 
@@ -37,7 +38,7 @@ export interface ConnectOptions {
   /** Request a new current index; the adapter owns how state updates. */
   setIndex: (index: number) => void;
   /**
-   * Reading direction. Defaults to `"ltr"`. In right-to-left text the left and
+   * Reading direction. Omitted, each key press reads the computed `direction` of the control, so a `dir` set anywhere above counts. In right-to-left text the left and
    * right arrows swap meaning, so they keep following the visual order.
    */
   direction?: "ltr" | "rtl";
@@ -55,7 +56,7 @@ export interface ConnectOptions {
 export function connect({
   state,
   setIndex,
-  direction = "ltr",
+  direction,
   normalize = identityNormalize,
 }: ConnectOptions): CarouselApi {
   const { index, count, orientation, id } = state;
@@ -67,9 +68,13 @@ export function connect({
   const next = () => go(nextIndex(state));
   const prev = () => go(prevIndex(state));
 
-  const rtl = direction === "rtl";
-  const forwardKey = orientation === "vertical" ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight";
-  const backKey = orientation === "vertical" ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft";
+  const keysFor = (event: Event) => {
+    const rtl = (direction ?? directionOf(event)) === "rtl";
+    return {
+      forwardKey: orientation === "vertical" ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight",
+      backKey: orientation === "vertical" ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft",
+    };
+  };
 
   return {
     index,
@@ -85,6 +90,7 @@ export function connect({
       "data-orientation": orientation,
       onKeyDown: (event: Event) => {
         const key = (event as KeyboardEvent).key;
+        const { forwardKey, backKey } = keysFor(event);
         if (key === forwardKey) {
           event.preventDefault();
           next();
