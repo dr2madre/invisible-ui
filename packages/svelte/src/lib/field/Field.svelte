@@ -96,23 +96,32 @@
   .field__label {
     font: inherit;
     font-weight: var(--ds-field-label-weight, 500);
-    color: var(--ds-field-label-color, var(--ds-color-text, #272727));
+    color: var(--ds-field-label-color, var(--ds-components-general-foreground-default, #272727));
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
   }
   .field__required {
-    color: var(--ds-field-required-color, var(--ds-color-danger-body-text, #be3b50));
+    color: var(
+      --ds-field-required-color,
+      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+    );
     margin-inline-start: 0.15em;
   }
   .field__description {
     margin: 0;
     font-size: 0.875em;
-    color: var(--ds-field-description-color, var(--ds-color-text-secondary, #515151));
+    color: var(
+      --ds-field-description-color,
+      var(--ds-components-general-foreground-secondary, #515151)
+    );
   }
   .field__error {
     margin: 0;
     font-size: 0.875em;
-    color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #be3b50));
+    color: var(
+      --ds-field-error-color,
+      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+    );
   }
 </style>

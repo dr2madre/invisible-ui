@@ -71,7 +71,7 @@
     border-radius: 0.75rem;
     /* The pastel background stays light in both themes, so the ink must
        stay dark too: the theme text role would flip to light in dark mode. */
-    color: var(--ds-neutral-900, #272727);
+    color: var(--ds-colors-palette-grey-900, #272727);
   }
   .slide__title {
     font-weight: 700;
@@ -86,6 +86,6 @@
     padding: 0.75rem;
     border-radius: 0.75rem;
     /* Same fixed ink as the slides: the covers are always pastel. */
-    color: var(--ds-neutral-900, #272727);
+    color: var(--ds-colors-palette-grey-900, #272727);
   }
 </style>

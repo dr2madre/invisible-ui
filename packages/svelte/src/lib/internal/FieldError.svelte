@@ -36,7 +36,10 @@
     align-items: center;
     gap: 0.35rem;
     margin: 0.25rem 0 0;
-    color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #be3b50));
+    color: var(
+      --ds-field-error-color,
+      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+    );
   }
   .field__msg-icon {
     display: inline-flex;

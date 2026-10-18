@@ -235,7 +235,7 @@ class _MenubarState<T> extends State<Menubar<T>> {
           decoration: BoxDecoration(
             color: theme.colors.background,
             border: Border.all(color: theme.colors.border, width: _borderWidth),
-            borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+            borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
           ),
           child: Padding(
             padding: const EdgeInsets.all(_barPadding),

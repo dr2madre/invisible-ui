@@ -14,7 +14,7 @@ export interface SeparatorProps {
  * is hidden from assistive tech.
  *
  * Color and thickness are themeable CSS custom properties (`--ds-separator-*`,
- * falling back to `--ds-color-border`).
+ * falling back to `--ds-components-general-border-default`).
  */
 export function Separator({ orientation = "horizontal", decorative = false }: SeparatorProps) {
   return (

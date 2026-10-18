@@ -163,4 +163,4 @@ destinations, `test/sidebar_status_test.dart`.
 
 ## Background token
 
-The background reads the component token `--ds-sidebar-background` on the web and `InvisibleColors.sidebarBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--ds-components-sidebar-background-default` on the web and `InvisibleColors.sidebarBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

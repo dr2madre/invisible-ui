@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 // A coarse pointer gets the touch target from the token,
-// density.touch.min-target-size as --ds-min-target-size-touch, never a
+// density.touch.min-target-size as --ds-metrics-density-touch-min-target-size, never a
 // literal: visual density never reduces it. The Vue and Elements copies are
 // byte-identical to these sheets (styles-parity tests).
 
@@ -28,7 +28,7 @@ const coarseBlocks = (css: string) => {
   return out;
 };
 
-const TOKEN = "var(--ds-min-target-size-touch, 44px)";
+const TOKEN = "var(--ds-metrics-density-touch-min-target-size, 44px)";
 
 describe("touch target under a coarse pointer", () => {
   it("is set by the menus, the navigation bar and the tabs actions", () => {

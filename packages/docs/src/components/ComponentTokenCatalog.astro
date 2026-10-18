@@ -188,20 +188,20 @@ const counts = {
   .ctk-filter input {
     font: inherit;
     padding: 0.45rem 0.6rem;
-    color: var(--ds-color-text);
-    background: var(--ds-color-background);
-    border: 1px solid var(--ds-color-control-border);
-    border-radius: var(--ds-radius-control);
+    color: var(--ds-components-general-foreground-default);
+    background: var(--ds-components-general-background-default);
+    border: 1px solid var(--ds-components-general-border-control);
+    border-radius: var(--ds-metrics-radius-control);
     min-block-size: 2.75rem;
   }
   .ctk-filter input:focus-visible {
-    outline: var(--ds-focus-ring-width) solid var(--ds-color-focus-ring);
+    outline: var(--ds-components-general-focus-ring-width) solid var(--ds-components-general-focus-ring-color);
     outline-offset: 2px;
   }
   .ctk-count {
     margin: 0 0 1rem;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .ctk-group {
     margin-block-end: 2rem;
@@ -209,7 +209,7 @@ const counts = {
   .ctk-group-count {
     font-size: 0.8125rem;
     font-weight: 400;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .ctk-list {
     display: grid;
@@ -224,8 +224,8 @@ const counts = {
     gap: 0.45rem;
     align-content: start;
     padding: 0.8rem;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-surface);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-container);
   }
   .ctk-card h4 {
     margin: 0;
@@ -237,7 +237,7 @@ const counts = {
   .ctk-role {
     margin: 0;
     font-size: 0.78rem;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .ctk-tags {
     display: flex;
@@ -252,8 +252,8 @@ const counts = {
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-pill);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-pill);
   }
   .ctk-panes {
     display: grid;
@@ -265,24 +265,24 @@ const counts = {
     gap: 0.2rem;
     padding: 0.3rem;
     margin: 0;
-    background: var(--ds-color-background);
-    color: var(--ds-color-text);
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    background: var(--ds-components-general-background-default);
+    color: var(--ds-components-general-foreground-default);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
   }
   .ctk-pane figcaption {
     font-size: 0.65rem;
   }
   .ctk-plate {
     display: grid;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
     overflow: hidden;
     background-image:
-      linear-gradient(45deg, var(--ds-color-surface) 25%, transparent 25%),
-      linear-gradient(-45deg, var(--ds-color-surface) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, var(--ds-color-surface) 75%),
-      linear-gradient(-45deg, transparent 75%, var(--ds-color-surface) 75%);
+      linear-gradient(45deg, var(--ds-colors-palette-grey-100) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--ds-colors-palette-grey-100) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--ds-colors-palette-grey-100) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--ds-colors-palette-grey-100) 75%);
     background-size: 0.75rem 0.75rem;
     background-position:
       0 0,
@@ -302,7 +302,7 @@ const counts = {
   }
   .ctk-facts dt {
     font-weight: 600;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .ctk-facts dd {
     margin: 0;

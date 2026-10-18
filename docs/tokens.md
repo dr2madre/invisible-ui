@@ -1,297 +1,120 @@
-# Design tokens — canonical model & interop
+# Design tokens
 
-Tokens follow a **canonical, technology-agnostic model**; each stack realizes it
-in its own vocabulary. The design-owned tiers live in a single machine-readable
-source, **`packages/tokens/tokens.json`** (W3C **DTCG** format), and
-**Style Dictionary** generates platform outputs from it. `packages/tokens` is a
-plain folder, outside the pnpm workspace: it holds data, no code, and nothing
-installs it. Apps that read the file directly, such as Markdown Funk, point at
-this path.
+`packages/tokens/tokens.json` is the canonical source for web and Flutter.
+The version-2 model implements [ADR 0019](adr/0019-token-model.md).
+The migration changes names and ownership, not the existing colour values.
 
-## Tiers (ownership)
+## Groups and ownership
 
-1. **Primitive** — the raw palette/scale (`palette.blue.600`, `palette.grey.0…950`,
-   `palette.black`). _Design-owned._
-2. **Semantic (`style`)** — design decisions that reference primitives; the
-   brand contract, with interaction **status** in the name
-   (`style.primary.default`, `style.primary.hover`, `style.danger.hover`).
-   _Design-owned._
-3. **Component** — binds component properties to semantic tokens or primitives,
-   never to raw values; aliases the native role vocabulary when a stack
-   mandates one (Material/Carbon). The background of each kind of component is
-   design-owned and lives in `component.light` and `component.dark` (see
-   [Component backgrounds](#component-backgrounds)). The other knobs are
-   _frontend-owned_: the "free" CSS layer of `--ds-*` component tokens that
-   the components read with a fallback.
+| Group | Responsibility |
+| --- | --- |
+| `colors.palette` | Named colour families, 11 steps per family, plus White/Grey 0 and Black |
+| `colors.brand` | Tenant brand choices, initially aliases to the palette |
+| `colors.feedback` | Info, success, warning and danger choices, initially palette aliases |
+| `metrics` | Radius and density dimensions |
+| `typography` | Font sizes, weights and line heights |
+| `components.general` | Shared UI decisions: background, foreground, border, state, focus and contextual action/feedback colours |
+| `components.<name>` | Decisions scoped to one component |
 
-The design source also holds the values the components read, so a platform
-without CSS (the Flutter adapter, ADR 0017)
-gets the same theme from the same file:
+The palette contains 134 entries. Its 132 family steps come from the original
+palette table at commit `21f1b047`. The palette demo reads the canonical source;
+it no longer owns a second table of values.
 
-| Group | Holds | Becomes in `tokens.css` |
-| --- | --- | --- |
-| `radius` | Corner radii by shape role. | `radius.control` is `--ds-radius-control` |
-| `palette` | The raw colours: the hue scales, the Grey ramp, and Black. | `palette.grey.700` is `--ds-neutral-700`, `palette.black` is `--ds-black` |
-| `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection, the dialog overlay. | `role.dark.color-text` is `--ds-color-text` in the dark theme, `role.dark.dialog-overlay` is `--ds-dialog-overlay` |
-| `component.light`, `component.dark` | The background of each kind of component, per theme. Each one points at a role or a palette colour. | `component.dark.card-background` is `--ds-card-background` in the dark theme |
-| `focus` | Focus ring width, offset and halo width. | `focus.ring-width` is `--ds-focus-ring-width` |
-| `typography` | Line heights, heading weight, heading sizes. | `typography.font-size-h1` is `--ds-font-size-h1` |
-| `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size`, `density.touch.min-target-size` is `--ds-min-target-size-touch` |
+Dependencies point from component decisions to general decisions, then to
+brand/feedback or palette. Equal RGB values do not justify merging roles.
+For example, a solid action foreground and a contextual action foreground
+have different responsibilities even when a theme gives them the same colour.
 
-- **Roles.** A role that `tokens.css` points at another token keeps the
-  reference (`{palette.grey.900}`, `{style.danger.hover}`). A role that
-  `tokens.css` builds with `color-mix()` holds the computed sRGB value to the
-  nearest 8-bit channel, because DTCG has no colour mixing, and carries the mix
-  itself as a recipe (see [Mix recipes](#mix-recipes)). A translucent role
-  (`state-hover`, `color-focus-halo`) uses the DTCG colour object, which keeps
-  the exact alpha. The dark focus ring is a role like the light one:
-  `role.dark.color-focus-ring` holds `#a286db` and its mix (ADR 0002: the
-  theme, not the token name, says it is dark).
-- **Density.** `regular` is the default and holds the values the web renders
-  today. `min-target-size` is the side of the smallest square hit area a
-  control keeps, whatever its painted size: 24 under `compact` and `regular`
-  (WCAG 2.5.8), 44 under `touch`. `compact` and `touch` hold only that value
-  for now: no other compact or touch size has been decided. The stylesheet
-  renders the regular level, `--ds-min-target-size` (24px), and the touch
-  target, `--ds-min-target-size-touch` (44px), with no per-density selector.
-  The component sheets read the touch target under
-  `@media (pointer: coarse)`: menu items, context menu items and menubar
-  triggers keep at least 44 by 44 there. Components still write their own
-  24px minimum; `--ds-min-target-size` is there for consumer styles to read.
-- **Visual density never reduces the touch target.** A density level
-  changes how tight controls look, never the hit area: a coarse pointer
-  keeps 44 by 44 on the web, and the Flutter theme never lowers
-  `minTargetSize` below the level's token.
+## Background and foreground
 
-## Mix recipes
+There is no `components.general.container` group. Button owns its properties:
+`components.button.background.default`, `.background.hover`,
+`.foreground.default`, `.border.default`, `.radius`, `.spacing.x` and `.spacing.y`.
+Variant names qualify properties, for example
+`components.button.background.primary.default`.
+Default and Ghost hover both alias `components.general.background.hover`.
+Changing a Button token does not modify the shared token it references.
 
-Each colour that `tokens.css` builds with `color-mix()` keeps the resolved
-colour in `$value` and the mix it comes from under `$extensions`, with the
-key `com.invisible-ui.mix`. That covers the mixed roles of `role.light` and
-`role.dark`, the dark focus ring included:
+Avatar, Switch, Calendar, Table, Carousel, Navigation Bar and Stepper own their
+backgrounds under `components.<name>.background.default`; these are palette
+references rather than a shared synthetic container layer.
 
-```json
-"color-info-surface": {
-  "$value": "#f0f3f9",
-  "$extensions": {
-    "com.invisible-ui.mix": {
-      "space": "srgb",
-      "base": "{style.info.default}",
-      "amount": 0.08,
-      "with": "{palette.grey.0}"
-    }
-  }
+`components.general.background.default` is the shared background.
+`components.card.background.default` applies only to Card. Use `background`,
+`foreground` and `border`, not `surface` or `on-primary`. Context comes before
+the property, for example `components.general.action.primary.foreground.default`.
+
+In Light, page, card, dialog, popover, menu and sidebar backgrounds reference
+the shared background. The secondary card and code block use Grey 50.
+In Dark, page and sidebar use Black, other containers use Grey 950, and the
+secondary card uses Grey 900. These explicit component choices remain distinct
+from the general background.
+
+## Modes and recipes
+
+The file uses DTCG token values and references. The repository extension
+`com.invisible-ui.modes` supplies mode overrides; it is not standard DTCG mode
+support. `$value` is Light. A leaf's `dark` override replaces its value and mix
+recipe. Light and Dark are not segments of public token names.
+
+`com.invisible-ui.mix` stores an sRGB recipe with `base`, `with`, `amount` and
+`space`. `amount` is the fraction of `base`. `$value` stores the resolved colour;
+the recipe preserves the dependency for retheming. Alpha is retained.
+
+`scripts/token-model.mjs` validates references, types, dependency direction and
+cycles, resolves modes, and applies explicit tenant overrides. Palette overrides
+are rejected. Other overrides can be literals or compatible aliases.
+
+Keep the distinct solid and contextual feedback pairs. In particular, warning
+labels use a separate fill for readable dark text. Dialog overlay retains its
+alpha, the navigation current indicator retains its mix, and the data-grid
+secondary background remains an independent component decision.
+
+## Web names and overrides
+
+A canonical path becomes `--ds-` followed by its segments separated by hyphens:
+
+```css
+:root {
+  --ds-colors-brand-primary-default: var(--ds-colors-palette-cobalt-blue-500);
+  --ds-components-card-background-default: var(--ds-colors-palette-grey-50);
 }
 ```
 
-The fields read in the order of the CSS: `color-mix(in srgb,
-var(--ds-feedback-info) 8%, var(--ds-neutral-0))`.
+No old canonical CSS names are retained as aliases. Use
+`packages/tokens/migration-v2.json` to migrate external consumers.
 
-| Field | Holds |
-| --- | --- |
-| `space` | The colour space of the mix. Every recipe today is `srgb`. |
-| `base` | The first colour, as a token reference. |
-| `amount` | The share of `base` in the mix, from 0 to 1. `with` takes the rest. |
-| `with` | The second colour: a token reference, or `transparent` (the focus halo). |
+The hand-authored `tokens.css` is identical across four adapters. It retains
+system and explicit themes, colour-mix fallbacks, composed shadows and existing
+frontend-only values. The registry distinguishes these from design-owned tokens.
+Component-local CSS knobs with fallbacks are not all canonical DTCG tokens;
+their inventory remains in the component token catalog. The canonical migration
+does not silently promote platform-specific layout properties into shared data.
 
-A reference names the token the stylesheet reads. A role that `tokens.css`
-mixes from another role points at that role in the same theme
-(`{role.dark.color-secondary}`); one that mixes a brand, feedback or neutral
-primitive points at `style` or `palette`.
+## Flutter
 
-The recipe is there so a platform without `color-mix()` can recolour its
-tints. The Flutter adapter (ADR 0017) builds its theme from the resolved
-values; an app that overrides a brand or feedback colour recomputes each
-role whose recipe reads that colour, as the stylesheet does at runtime.
-To recompute, mix each channel in sRGB with premultiplied alpha, then round
-to the nearest 8-bit value. The parity test does this for every recipe and
-checks the result against `$value` and against `tokens.css`.
+The generator reads the same canonical model and explicitly resolves both modes.
+`InvisiblePalette` uses full family names. `InvisibleBrandColors` and
+`InvisibleFeedbackColors` replace the former combined style class.
+Radius, typography and density remain typed constants.
 
-## Status label fills
+`InvisibleColors` keeps idiomatic platform field names, with exactly one
+canonical source per field in `scripts/token-platform-bindings.mjs`. Generated
+field comments show that path. These bindings are not legacy token aliases.
+`InvisibleColorMixes` retains recipes. `InvisibleColors.copyWith` replaces
+explicit fields; it does not automatically re-theme all dependent fields.
 
-Solid Tag and Count put a text label on a status fill, so the pair is a text
-pair: 4.5:1 (WCAG 1.4.3). White on the info, success, danger and neutral
-colours clears it. The warning colour, `#c96422`, gives the dark
-`color-on-warning` 3.8:1 only, and no palette colour reaches 4.5:1 on it. So
-the warning label has its own fill, `color-warning-label-surface`: the
-warning colour mixed 85% with white, `#d17b43`, on which `color-on-warning`
-measures 4.71:1 in both themes. The warning colour stays as it is for
-glyphs, dots and meter fills, which need 3:1. Without `color-mix()` the fill
-falls back to `--ds-neutral-100` (11.32:1), and the label's text still names
-the status.
+Density remains independent of Light/Dark. Compact and regular minimum targets
+remain 24 logical pixels, touch targets 44. Undefined density dimensions remain
+null in Flutter rather than receiving invented defaults.
 
-## Dialog overlay
+## Build and verification
 
-`dialog-overlay` is the scrim between a modal dialog and the page below. It
-is a role of each theme, `role.light.dialog-overlay` and
-`role.dark.dialog-overlay`, as `light` and `dark` name themes, never tokens
-(ADR 0002). It is `--ds-dialog-overlay` in the stylesheet, which every dialog sheet reads for
-its `::backdrop`, and `InvisibleThemeData.dialogOverlay` in Flutter.
+Run `pnpm tokens:build` for generated CSS and Dart, and `pnpm tokens:registry`
+after changing runtime styles. Run `pnpm tokens:check` and `pnpm tokens:test`.
 
-| Theme | Overlay | Dimmed page | Dialog surface against the dimmed page | Dialog border against the dimmed page |
-| --- | --- | --- | --- | --- |
-| Light | `rgb(27 27 27 / 0.5)` | `#8d8d8d` | 3.32:1 | 1.77:1 |
-| Dark | `rgb(0 0 0 / 0.6)` | `#070707` | 1.17:1 | 1.97:1 |
-
-The dimmed page is `page-background` with the overlay on top; the dialog
-surface is `dialog-background` and its border `color-border`. Before the
-dark value, the dark theme used the light overlay, which left 1.07:1 between
-the dialog and the dimmed page. How far the overlay sets the dialog apart is
-a theme choice, not an accessibility requirement: the dialog is modal, and
-its name, focus and inert background do not depend on the overlay.
-
-## Navigation bar current indicator
-
-`navigation-bar-current-indicator` is the shape behind the current
-destination's icon in a Navigation Bar (`docs/navigation-bar-spec.md`). It is
-a role of each theme, `--ds-navigation-bar-current-indicator` in the
-stylesheet and `InvisibleColors.navigationBarCurrentIndicator` in Flutter.
-The icon on it is drawn in `color-text`, so the role has to reach 3:1 against
-both the surface and the text (WCAG 1.4.11): the shape marks the current
-destination, and the icon stays readable on it.
-
-| Theme | Recipe | Value | Against `color-surface` | Against `color-text` |
-| --- | --- | --- | --- | --- |
-| Light | `color-secondary` 90% with `neutral-0` | `#8763d1` | 3.36:1 | 3.37:1 |
-| Dark | `color-secondary` 74% with `neutral-50` | `#9a7cd7` | 3.03:1 | 3.09:1 |
-
-Without `color-mix()` the light theme falls back to `neutral-400` (3.49:1 and
-3.24:1) and the dark theme to `neutral-300`, which keeps the shape at 3.81:1
-against the surface. The bar's other colours are component tokens that fall
-back to existing roles; width, radius, shadow and position are the
-application's and have no token.
-
-## Data grid secondary emphasis
-
-`grid-cell-secondary-surface` is the surface of a data grid cell with the
-secondary emphasis: a cell that is allowed but outside the usual schedule,
-such as a weekend in a timesheet (`docs/editable-grid-spec.md`). It is a
-role of each theme, `--ds-grid-cell-secondary-surface` in the stylesheet and
-`InvisibleColors.gridCellSecondarySurface` in Flutter. The surface adds to
-the cell's visible secondary label and never replaces it, so it needs no
-contrast against the plain cell; the text drawn on it needs 4.5:1.
-
-| Theme | Value | `color-text` | `color-text-secondary` | `color-danger-text` |
-| --- | --- | --- | --- | --- |
-| Light | `neutral-50`, `#f5f5f5` | 13.70:1 | 7.28:1 | 7.87:1 |
-| Dark | `neutral-800`, `#323232` | 11.76:1 | 6.82:1 | 5.69:1 |
-
-An application that styles its own variants apart, such as holidays and
-weekends, maps them onto this role in its theme.
-
-## Component backgrounds
-
-The component tier gives each kind of component its own background, so one
-can change without touching the others. It lives in `component.light` and
-`component.dark` in the design source, as `light` and `dark` name themes
-(ADR 0002). Each token points at a role or a palette colour, never a raw
-value; the parity test fails on a raw value in the source or in the
-stylesheet. The stylesheet declares each one at the end of its theme block,
-and Flutter reads it as a field of `InvisibleColors`.
-
-| Token | Read by | Light | Dark | Flutter |
-| --- | --- | --- | --- | --- |
-| `page-background` | The application, behind everything | `color-background`, White | Black, `#121212` | `pageBackground` |
-| `card-background` | Card | `color-background`, White | Grey 950 | `cardBackground` |
-| `card-secondary-background` | Card with the secondary surface | `color-neutral-surface`, Grey 50 | Grey 900 | `cardSecondaryBackground` |
-| `dialog-background` | Dialog, Sheet, Alert, Confirm, Prompt and Search dialogs | `color-background`, White | Grey 950 | `dialogBackground` |
-| `popover-background` | Popover, Hover Card, the date picker popups, the Navigation Menu panel | `color-background`, White | Grey 950 | `popoverBackground` |
-| `menu-background` | Dropdown Menu, Context Menu, the Menubar menus, and the Select, Combobox and Multi Select listboxes | `color-background`, White | Grey 950 | `menuBackground` |
-| `sidebar-background` | Sidebar | `color-background`, White | Black, `#121212` | `sidebarBackground` |
-| `code-block-background` | Code Block | Grey 50 | Grey 950 | `codeBlockBackground` |
-
-In the stylesheet each token is `--ds-` and its name, and the components
-read it with the background role as fallback:
-`var(--ds-card-background, var(--ds-color-background, #fff))`. The web Select
-opens the platform's own list, so `menu-background` reaches its listbox only
-in Flutter. The components never paint `page-background`: the application
-sets it on its page, as the docs site does.
-
-Black is a palette colour beside White: `palette.black`, `--ds-black`,
-`InvisiblePalette.black`. It is a near black, `#121212`, not pure black.
-
-`color-background` stays the semantic default in both themes: White in the
-light one, Grey 900 in the dark one. Fields, buttons, the Menubar bar and
-the other controls keep reading it, so in the dark theme a control sits one
-step lighter than the card, dialog or menu it is on. The light theme looks
-as it did, with one exception: the Multi Select listbox read
-`color-surface`, Grey 100, and now reads `menu-background`, White, like the
-other listboxes.
-
-### Contrast on the component backgrounds
-
-Measured with the WCAG 2.2 formula. Text needs 4.5:1 (1.4.3); the control
-boundary needs 3:1 (1.4.11). The token catalog publishes the text and
-control boundary pairs for every component background and fails the build
-when one drops below its minimum.
-
-| Background | Value | `color-text` | `color-text-secondary` | `color-control-border` | `color-border` |
-| --- | --- | --- | --- | --- | --- |
-| Light: page, card, dialog, popover, menu, sidebar | White | 14.94:1 | 7.94:1 | 4.61:1 | 1.88:1 |
-| Light: secondary card, code block | Grey 50 | 13.70:1 | 7.28:1 | 4.23:1 | 1.72:1 |
-| Dark: page, sidebar | Black | 17.18:1 | 9.97:1 | 6.99:1 | 1.84:1 |
-| Dark: card, dialog, popover, menu, code block | Grey 950 | 15.80:1 | 9.17:1 | 6.43:1 | 1.69:1 |
-| Dark: secondary card | Grey 900 | 13.70:1 | 7.95:1 | 5.58:1 | 1.46:1 |
-
-Every text and control boundary pair clears its minimum, so no role
-changed. `color-border` is the quiet line between areas and the edge of a
-panel: it identifies no control and carries no state, so WCAG 1.4.11 sets it
-no minimum. On the new dark backgrounds it measures more than on
-`color-background` before, 1.46:1. The focus ring measures 5.72:1 on Grey
-950 and 6.22:1 on Black.
-
-Grey 950 against Black measures 1.09:1, so in the dark theme a card, dialog
-or menu on the page is set apart by `color-border` and, when it floats, by
-the elevation shadow, not by its fill. The code block keeps 15.80:1 for its
-text and the copy button stays above 11:1 at rest and on hover.
-
-## Naming grammar
-
-```
---[domain]-[component]-[variant]-[status]--[property]
-```
-
-Domain optional; component generic (`style`) or specific; variant/status
-optional; property after a double dash. Canonical states:
-`default · hover · active · focus · disabled · selected`.
-
-## Source of truth & build
-
-- Edit **`packages/tokens/tokens.json`** first. It exports everywhere.
-- Generate CSS variables and the Dart tokens with:
-
-  ```sh
-  pnpm tokens:build
-  ```
-
-  → `packages/svelte/dist/tokens/tokens.generated.css`
-  (`--ds-style-primary-default`, `--ds-palette-blue-600`, …), and
-  `packages/flutter/lib/src/tokens/tokens.g.dart`: typed constants for the
-  palette, the style tier, the radii, the focus ring, the type scale and the
-  density levels, the roles as a light and a dark `InvisibleColors`, and the
-  mix recipes as `InvisibleColorMixes`. The Dart format is
-  `scripts/tokens-dart-format.mjs`. The Dart file is committed, because a git
-  consumer of the Flutter package runs no build step, and
-  `pnpm tokens:check` fails when it differs from what the source produces.
-  A density level that leaves a size undefined holds null there.
-
-- A **parity test** (`packages/svelte/src/lib/styles/tokens-parity.test.ts`)
-  resolves every token in the source, works out the value `tokens.css` gives
-  the same property in the same theme (following `var()` and doing the
-  `color-mix()` arithmetic), and asserts the two are equal. It also fails when
-  the stylesheet gains a colour role the source lacks.
-- The token registry (`pnpm tokens:check`) fails when a token in the source
-  has no property in the stylesheet, except the density sizes the
-  stylesheet does not render (the compact level). It leaves the mix recipes out: its entries already carry the
-  stylesheet's `color-mix()` expressions.
-
-## Why the runtime stays in `tokens.css`
-
-The stylesheet is hand-authored and ships as it is in all four adapters. It
-keeps what CSS can do at runtime and DTCG cannot express: light and dark
-remapping through `prefers-color-scheme` and `[data-theme]`, tinted surfaces
-mixed from the feedback hue with `color-mix()` (so a brand or feedback
-override recolours its tints), the fallback for engines without `color-mix()`,
-the composed focus shadow and the elevation shadows. The source holds the
-resolved values of the same roles and their mix recipes, and the parity test
-keeps the two equal.
+`scripts/token-runtime.test.mjs` compares every canonical token with the shipped
+CSS in both modes, checks recipe identity, automatic Dark mode and adapter parity.
+`scripts/token-model.test.mjs` checks the pinned migration values, complete palette,
+alias graph and tenant overrides. Existing contrast tests remain separate.
+These checks do not constitute manual accessibility or visual verification.

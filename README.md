@@ -213,7 +213,7 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   action on the brand's secondary color, `ghost` is a reduced-affordance
   low-emphasis button, `danger` is destructive. A **styled** `Button.svelte`
   realises these
-  with themeable `--ds-button-*` tokens, plain (un-boxed) leading/trailing icons
+  with themeable `--ds-components-button-*` tokens, plain (un-boxed) leading/trailing icons
   (default plus, overridable via `left`/`right` slots), and — for `danger` — a
   hazard icon by default so meaning never relies on color alone (WCAG 1.4.1).
   Imported from `@invisible-ui/svelte/Button.svelte`.

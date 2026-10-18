@@ -130,7 +130,7 @@
     container-type: inline-size;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .stepper__list {
     display: flex;
@@ -168,7 +168,7 @@
     margin-inline: 0.25rem;
     background-image: radial-gradient(
       circle,
-      var(--ds-step-connector-color, var(--ds-color-border, #bdbdbd)) 0 42%,
+      var(--ds-step-connector-color, var(--ds-components-general-border-default, #bdbdbd)) 0 42%,
       transparent 48%
     );
     background-size: var(--ds-step-connector-dot-gap, 5px) 100%;
@@ -179,7 +179,11 @@
   .stepper__step[data-status="current"] .stepper__connector {
     background-image: radial-gradient(
       circle,
-      var(--ds-step-connector-active, var(--ds-color-secondary, #7a52cc)) 0 42%,
+      var(
+          --ds-step-connector-active,
+          var(--ds-components-general-action-secondary-background-default, #7a52cc)
+        )
+        0 42%,
       transparent 48%
     );
   }
@@ -227,7 +231,7 @@
     text-align: start;
     background: none;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .stepper__trigger:disabled {
@@ -250,9 +254,16 @@
     font-weight: 600;
     line-height: 1;
     border-radius: 50%;
-    border: 2px solid var(--ds-step-indicator-border, var(--ds-color-border, #bdbdbd));
-    color: var(--ds-step-indicator-text, var(--ds-color-text-secondary, #515151));
-    background: var(--ds-step-indicator-bg, var(--ds-color-surface, #e0e0e0));
+    border: 2px solid
+      var(--ds-step-indicator-border, var(--ds-components-general-border-default, #bdbdbd));
+    color: var(
+      --ds-step-indicator-text,
+      var(--ds-components-general-foreground-secondary, #515151)
+    );
+    background: var(
+      --ds-step-indicator-bg,
+      var(--ds-components-stepper-background-default, #e0e0e0)
+    );
     transition:
       background-color 120ms ease,
       border-color 120ms ease,
@@ -260,9 +271,15 @@
   }
   /* Completed: light gray filled circle with a dark check. */
   .stepper__step[data-status="complete"] .stepper__indicator {
-    background: var(--ds-step-complete-bg, var(--ds-color-surface, #e0e0e0));
-    border-color: var(--ds-step-complete-border, var(--ds-color-border, #bdbdbd));
-    color: var(--ds-step-complete-text, var(--ds-color-text, #272727));
+    background: var(
+      --ds-step-complete-bg,
+      var(--ds-components-stepper-background-default, #e0e0e0)
+    );
+    border-color: var(
+      --ds-step-complete-border,
+      var(--ds-components-general-border-default, #bdbdbd)
+    );
+    color: var(--ds-step-complete-text, var(--ds-components-general-foreground-default, #272727));
   }
   /* Current: filled with the selection color. */
   /* Current step: the shared selected look — faint selection fill, selection
@@ -270,17 +287,31 @@
   .stepper__step[data-status="current"] .stepper__indicator {
     background: var(
       --ds-step-current-bg,
-      color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent)
+      color-mix(
+        in srgb,
+        var(--ds-components-general-selection-background-default, #7a52cc) 10%,
+        transparent
+      )
     );
-    border-color: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 35%, transparent);
-    color: var(--ds-step-current-text, var(--ds-color-selected, #7a52cc));
+    border-color: color-mix(
+      in srgb,
+      var(--ds-components-general-selection-background-default, #7a52cc) 35%,
+      transparent
+    );
+    color: var(
+      --ds-step-current-text,
+      var(--ds-components-general-selection-background-default, #7a52cc)
+    );
   }
   /* Upcoming: no fill, dashed near-black ring. */
   .stepper__step[data-status="upcoming"] .stepper__indicator {
     background: transparent;
     border-style: dashed;
-    border-color: var(--ds-step-upcoming-border, var(--ds-color-text, #272727));
-    color: var(--ds-step-upcoming-text, var(--ds-color-text, #272727));
+    border-color: var(
+      --ds-step-upcoming-border,
+      var(--ds-components-general-foreground-default, #272727)
+    );
+    color: var(--ds-step-upcoming-text, var(--ds-components-general-foreground-default, #272727));
   }
 
   .stepper__text {
@@ -305,13 +336,13 @@
      and never pushes the page sideways. */
   .stepper__label {
     font-weight: 600;
-    line-height: var(--ds-line-height-tight, 1.2);
+    line-height: var(--ds-typography-line-height-heading, 1.2);
     overflow-wrap: anywhere;
   }
   .stepper__description {
     overflow-wrap: anywhere;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #515151);
-    line-height: var(--ds-line-height, 1.4);
+    color: var(--ds-components-general-foreground-secondary, #515151);
+    line-height: var(--ds-typography-line-height-default, 1.4);
   }
 </style>

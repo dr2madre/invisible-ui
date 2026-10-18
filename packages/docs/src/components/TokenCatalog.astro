@@ -182,8 +182,8 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     <h3 id="tk-contrast">Contrast of the pairs components actually use</h3>
     <p class="tk-group-blurb">
       Measured from the stylesheet, not from a screenshot. Normal text needs 4.5:1 and a boundary or a
-      glyph needs 3:1. The boundary measured here is <code>--ds-color-control-border</code>, the one
-      that identifies a control; the generic <code>--ds-color-border</code> draws dividers and panel
+      glyph needs 3:1. The boundary measured here is <code>--ds-components-general-border-control</code>, the one
+      that identifies a control; the generic <code>--ds-components-general-border-default</code> draws dividers and panel
       edges, which the criterion does not cover. A pair that does not reach its target is named below
       the table as well, so the result never depends on reading a colour.
     </p>
@@ -303,20 +303,20 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   .tk-filter input {
     font: inherit;
     padding: 0.45rem 0.6rem;
-    color: var(--ds-color-text);
-    background: var(--ds-color-background);
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    color: var(--ds-components-general-foreground-default);
+    background: var(--ds-components-general-background-default);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
     min-block-size: 2.75rem;
   }
   .tk-filter input:focus-visible {
-    outline: var(--ds-focus-ring-width) solid var(--ds-color-focus-ring);
+    outline: var(--ds-components-general-focus-ring-width) solid var(--ds-components-general-focus-ring-color);
     outline-offset: 2px;
   }
   .tk-count {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .tk-jump ul {
     display: flex;
@@ -333,13 +333,13 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     padding: 0.35rem 0.7rem;
     font-size: 0.8125rem;
     text-decoration: none;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-pill);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-pill);
     min-block-size: 2.25rem;
   }
   .tk-jump-count {
     font-variant-numeric: tabular-nums;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .tk-group {
     margin-block-end: 2.5rem;
@@ -360,8 +360,8 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     gap: 0.5rem;
     align-content: start;
     padding: 0.85rem;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-surface);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-container);
   }
   .tk-card h4 {
     margin: 0;
@@ -373,7 +373,7 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   .tk-role {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .tk-tags {
     display: flex;
@@ -387,9 +387,9 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     margin: 0;
     padding: 0.4rem 0.6rem;
     font-size: 0.75rem;
-    border: 1px solid var(--ds-color-border);
-    border-inline-start: 3px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-inline-start: 3px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
   }
   .tk-deprecated code {
     overflow-wrap: anywhere;
@@ -399,8 +399,8 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-pill);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-pill);
   }
   .tk-specimens {
     display: grid;
@@ -412,10 +412,10 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     gap: 0.3rem;
     padding: 0.4rem;
     margin: 0;
-    background: var(--ds-color-background);
-    color: var(--ds-color-text);
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    background: var(--ds-components-general-background-default);
+    color: var(--ds-components-general-foreground-default);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
   }
   .tk-pane figcaption {
     display: grid;
@@ -430,24 +430,24 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   .tk-pane code {
     font-size: 0.6875rem;
     overflow-wrap: anywhere;
-    color: var(--ds-color-text);
-    background: var(--ds-color-surface);
-    border-color: var(--ds-color-border);
+    color: var(--ds-components-general-foreground-default);
+    background: var(--ds-colors-palette-grey-100);
+    border-color: var(--ds-components-general-border-default);
   }
   /* The plate sits under the specimen. Its chequerboard shows through a
      see-through token, so 30% purple does not read as solid. */
   .tk-plate {
     display: grid;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
     overflow: hidden;
   }
   .tk-plate--color {
     background-image:
-      linear-gradient(45deg, var(--ds-color-surface) 25%, transparent 25%),
-      linear-gradient(-45deg, var(--ds-color-surface) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, var(--ds-color-surface) 75%),
-      linear-gradient(-45deg, transparent 75%, var(--ds-color-surface) 75%);
+      linear-gradient(45deg, var(--ds-colors-palette-grey-100) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--ds-colors-palette-grey-100) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--ds-colors-palette-grey-100) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--ds-colors-palette-grey-100) 75%);
     background-size: 0.75rem 0.75rem;
     background-position:
       0 0,
@@ -475,11 +475,11 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   }
   .tk-specimen--radius,
   .tk-specimen--shadow {
-    background-color: var(--ds-color-surface);
-    border: 1px solid var(--ds-color-border);
+    background-color: var(--ds-colors-palette-grey-100);
+    border: 1px solid var(--ds-components-general-border-default);
   }
   .tk-specimen--size {
-    background-color: var(--ds-color-text-secondary);
+    background-color: var(--ds-components-general-foreground-secondary);
     min-block-size: 0.75rem;
   }
   .tk-specimen--text,
@@ -495,7 +495,7 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   }
   .tk-facts dt {
     font-weight: 600;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .tk-facts dd {
     margin: 0;
@@ -515,20 +515,20 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   .tk-table caption {
     text-align: start;
     padding-block-end: 0.4rem;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .tk-table th,
   .tk-table td {
     text-align: start;
     padding: 0.4rem 0.6rem;
-    border-block-end: 1px solid var(--ds-color-border);
+    border-block-end: 1px solid var(--ds-components-general-border-default);
     vertical-align: top;
   }
   .tk-pair {
     display: block;
     font-weight: 400;
     font-size: 0.6875rem;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .tk-verdict {
     display: block;
@@ -537,8 +537,8 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   .tk-open {
     padding: 0.85rem;
     margin-block-start: 1rem;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-surface);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-container);
   }
   .tk-open h4 {
     margin-block: 0 0.4rem;

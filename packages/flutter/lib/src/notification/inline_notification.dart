@@ -194,7 +194,7 @@ class _InlineNotificationState extends State<InlineNotification> {
             widget.title,
             style: text.copyWith(
               fontWeight: FontWeight.w600,
-              height: InvisibleTypographyTokens.lineHeightTight,
+              height: InvisibleTypographyTokens.lineHeightHeading,
             ),
           ),
         ?body,
@@ -223,7 +223,7 @@ class _InlineNotificationState extends State<InlineNotification> {
         border: border == null
             ? null
             : Border.all(color: border, width: _borderWidth),
-        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
       ),
       child: Stack(
         children: [

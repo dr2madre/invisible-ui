@@ -156,7 +156,7 @@
     inline-size: 100%;
     border-collapse: collapse;
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
     font-size: var(--ds-table-font-size, 0.9375rem);
   }
 
@@ -184,16 +184,17 @@
     font-weight: 600;
     background: var(--ds-table-header-background, transparent);
     /* Medium-dark header labels (not full black). */
-    color: var(--ds-table-header-text, var(--ds-color-text-secondary, #515151));
+    color: var(--ds-table-header-text, var(--ds-components-general-foreground-secondary, #515151));
     /* Same height as body rows: identical padding + a 1px border (not thicker). */
     padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
     border-block-end: var(--ds-table-header-border, 1px) solid
-      var(--ds-table-border, var(--ds-color-border, #bdbdbd));
+      var(--ds-table-border, var(--ds-components-general-border-default, #bdbdbd));
     white-space: nowrap;
   }
   .table__td {
     padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
-    border-block-end: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
+    border-block-end: 1px solid
+      var(--ds-table-border, var(--ds-components-general-border-default, #bdbdbd));
   }
   .table__th[data-align="end"],
   .table__td[data-align="end"] {
@@ -220,12 +221,19 @@
   }
 
   .table__row:hover {
-    background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f5f5f5));
+    background: var(
+      --ds-table-row-hover,
+      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+    );
   }
   .table__row[data-selected] {
     background: var(
       --ds-table-row-selected,
-      color-mix(in srgb, var(--ds-color-selected, #7a52cc) 8%, transparent)
+      color-mix(
+        in srgb,
+        var(--ds-components-general-selection-background-default, #7a52cc) 8%,
+        transparent
+      )
     );
   }
 
@@ -261,9 +269,15 @@
   /* The actively-sorted column reads as "selected": header label + icon adopt
      the selection color so the current sort is unmistakable. */
   .table__th[data-sort-direction] {
-    color: var(--ds-table-sort-active, var(--ds-color-secondary-body-text, #7a52cc));
+    color: var(
+      --ds-table-sort-active,
+      var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc)
+    );
   }
   .table__th[data-sort-direction] .table__sort-icon {
-    color: var(--ds-table-sort-active, var(--ds-color-secondary, #7a52cc));
+    color: var(
+      --ds-table-sort-active,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+    );
   }
 </style>

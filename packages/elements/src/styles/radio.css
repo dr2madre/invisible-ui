@@ -8,5 +8,5 @@
 
 .radio {
   font: inherit;
-  color: var(--ds-color-text, #272727);
+  color: var(--ds-components-general-foreground-default, #272727);
 }

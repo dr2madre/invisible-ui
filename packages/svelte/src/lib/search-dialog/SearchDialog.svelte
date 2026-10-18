@@ -280,7 +280,7 @@
 
 <style>
   .search-dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(27 27 27 / 0.5));
+    background: var(--ds-components-dialog-overlay-default, rgb(27 27 27 / 0.5));
   }
   .search-dialog__panel {
     margin-block-start: var(--ds-search-dialog-inset-top, 12vh);
@@ -292,10 +292,13 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--ds-dialog-background, var(--ds-color-background, #fff));
-    color: var(--ds-color-text, #272727);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-search-dialog-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(
+      --ds-components-dialog-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    color: var(--ds-components-general-foreground-default, #272727);
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-search-dialog-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -306,26 +309,27 @@
   /* The panel is flush, so a visible header brings its own inset. */
   .search-dialog__panel > :global(.dialog-header) {
     padding: 0.75rem 1rem;
-    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
+    border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
   .search-dialog__search {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
+    border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
   /* The input drops its own outline, so its row shows the focus ring, inside
      the panel's edge (WCAG 2.4.7). */
   .search-dialog__search:focus-within {
-    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-focus-ring-color, #8e6cd4);
   }
   .search-dialog__search-icon {
     display: inline-flex;
     inline-size: 1.1em;
     block-size: 1.1em;
     flex: none;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .search-dialog__input {
     flex: 1;
@@ -344,7 +348,7 @@
     display: flex;
     justify-content: center;
     padding: 0.75rem;
-    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
+    border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
   .search-dialog__list {
     margin: 0;
@@ -358,7 +362,7 @@
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .search-dialog__item-label {
     min-inline-size: 0;
@@ -372,25 +376,26 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0.625rem;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: pointer;
     user-select: none;
   }
   /* Focus stays in the input, so a ring marks the active result (WCAG 2.4.7,
      1.4.11); the tint alone is too faint. */
   .search-dialog__item:global([data-active]) {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-focus-ring-color, #8e6cd4);
   }
   .search-dialog__item:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
   .search-dialog__empty {
     margin: 0;
     padding: 1.5rem 0.625rem;
     text-align: center;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     cursor: default;
   }
 
@@ -398,7 +403,7 @@
   .search-dialog__panel > :global(.dialog-status) {
     margin: 0;
     padding: 0.75rem 1rem;
-    border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
+    border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
   .search-dialog__sr-only {
     position: absolute;
@@ -416,7 +421,7 @@
      option it is on. The list scrolls, so the ring goes inside. */
   @media (forced-colors: active) {
     .search-dialog__item:global([data-active]) {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: -2px;
     }
   }

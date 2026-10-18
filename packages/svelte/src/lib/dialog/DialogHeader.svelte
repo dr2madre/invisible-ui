@@ -128,8 +128,8 @@
     grid-row: 1;
     margin-block-end: 0.25rem;
     font-size: 0.875rem;
-    line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-color-text-secondary, #515151);
+    line-height: var(--ds-typography-line-height-heading, 1.2);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .dialog-header__title {
     grid-column: 3;
@@ -137,7 +137,7 @@
     margin: 0;
     font-size: 1.125rem;
     font-weight: 600;
-    line-height: var(--ds-line-height-tight, 1.2);
+    line-height: var(--ds-typography-line-height-heading, 1.2);
   }
   /* Kept in the accessibility tree (it names the dialog), removed from view. */
   .dialog-header__title--hidden {
@@ -157,8 +157,8 @@
     grid-row: 3;
     margin: 0;
     font-size: 0.875rem;
-    line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-color-text-secondary, #515151);
+    line-height: var(--ds-typography-line-height-heading, 1.2);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .dialog-header__actions {
     grid-column: 4;
@@ -180,13 +180,13 @@
     font-size: 1.25rem;
     padding: 0;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     background: transparent;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     cursor: pointer;
   }
   .dialog-header__close:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
     color: inherit;
   }
   .dialog-header__close:focus-visible {

@@ -22,12 +22,12 @@
 .table-set__tabs {
   display: inline-flex;
   gap: 0.25rem;
-  border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
+  border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
 }
 .table-set__tab {
   font: inherit;
   padding: 0.5rem 0.9rem;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
   background: none;
   border: 0;
   border-block-end: 2px solid transparent;
@@ -35,11 +35,17 @@
   cursor: pointer;
 }
 .table-set__tab:hover {
-  color: var(--ds-color-text, #272727);
+  color: var(--ds-components-general-foreground-default, #272727);
 }
 .table-set__tab[data-state="active"] {
-  color: var(--ds-tabs-active, var(--ds-color-primary, #7a52cc));
-  border-block-end-color: var(--ds-tabs-active, var(--ds-color-primary, #7a52cc));
+  color: var(
+    --ds-tabs-active,
+    var(--ds-components-general-action-primary-background-default, #7a52cc)
+  );
+  border-block-end-color: var(
+    --ds-tabs-active,
+    var(--ds-components-general-action-primary-background-default, #7a52cc)
+  );
   font-weight: 600;
 }
 .table-set__tab:focus-visible {
@@ -61,15 +67,16 @@
    loaded it goes away; the ring shows where focus landed (WCAG 2.4.7). */
 .table-view tbody tr[tabindex="-1"]:focus-visible,
 .table-view [role="listitem"][tabindex="-1"]:focus-visible {
-  outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #8e6cd4);
-  outline-offset: calc(-1 * var(--ds-focus-ring-width, 2px));
+  outline: var(--ds-components-general-focus-ring-width, 2px) solid
+    var(--ds-components-general-focus-ring-color, #8e6cd4);
+  outline-offset: calc(-1 * var(--ds-components-general-focus-ring-width, 2px));
 }
 .table-view__no-results {
   display: grid;
   justify-items: center;
   padding: 2rem 1rem;
-  border: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
-  border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
+  border: 1px solid var(--ds-table-border, var(--ds-components-general-border-default, #bdbdbd));
+  border-radius: var(--ds-table-radius, var(--ds-metrics-radius-container, 0.75rem));
 }
 .table-view__header {
   display: flex;
@@ -97,14 +104,14 @@
   justify-content: center;
   inline-size: 2.25rem;
   block-size: 2.25rem;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
   border: 1px solid transparent;
-  border-radius: var(--ds-radius-control, 0.5rem);
+  border-radius: var(--ds-metrics-radius-control, 0.5rem);
   background: transparent;
 }
 .table-view__settings:hover {
-  color: var(--ds-color-text, #272727);
-  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  color: var(--ds-components-general-foreground-default, #272727);
+  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 .table-view__sr {
   position: absolute;
@@ -126,8 +133,8 @@
 }
 /* The table body sits in a bordered card; the footer (pagination) is outside. */
 .table-view__card {
-  border: 1px solid var(--ds-table-border, var(--ds-color-border, #bdbdbd));
-  border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
+  border: 1px solid var(--ds-table-border, var(--ds-components-general-border-default, #bdbdbd));
+  border-radius: var(--ds-table-radius, var(--ds-metrics-radius-container, 0.75rem));
   /* A wide table scrolls inside the card instead of being cut off or widening
      the page. The adapter makes the card focusable only while it overflows. */
   overflow-x: auto;
@@ -173,7 +180,7 @@
 }
 .table-view__card-label {
   margin: 0;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
   font-size: 0.8125rem;
 }
 .table-view__card-value {
@@ -194,16 +201,16 @@
 .table-view__status {
   margin: 0;
   font-size: 0.8125rem;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
   min-block-size: 1rem;
 }
 .table-view__load-more {
   font: inherit;
   padding: 0.45rem 1rem;
-  color: var(--ds-color-text, #272727);
-  background: var(--ds-color-surface, #e0e0e0);
-  border: 1px solid var(--ds-color-border, #bdbdbd);
-  border-radius: var(--ds-radius-control, 0.5rem);
+  color: var(--ds-components-general-foreground-default, #272727);
+  background: var(--ds-components-table-background-default, #e0e0e0);
+  border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+  border-radius: var(--ds-metrics-radius-control, 0.5rem);
   cursor: pointer;
 }
 .table-view__load-more:focus-visible {

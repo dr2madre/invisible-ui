@@ -191,7 +191,7 @@ class LoginFormState extends State<LoginForm> {
         decoration: BoxDecoration(
           color: colors.background,
           border: Border.all(color: colors.border),
-          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
           boxShadow: overlayShadow(theme.brightness),
         ),
         child: Form(
@@ -216,7 +216,7 @@ class LoginFormState extends State<LoginForm> {
                           color: colors.text,
                           fontSize: _headingSize,
                           fontWeight: FontWeight.w700,
-                          height: InvisibleTypographyTokens.lineHeightTight,
+                          height: InvisibleTypographyTokens.lineHeightHeading,
                         ),
                       ),
                     ),

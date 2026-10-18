@@ -8,6 +8,8 @@
 
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { modeTokens, resolveTokens, setToken } from "./token-model.mjs";
+import { colorFields } from "./token-platform-bindings.mjs";
 
 export const DART_FORMAT = "invisible-ui/dart";
 
@@ -82,8 +84,38 @@ const MIX = "com.invisible-ui.mix";
 export function dartTokensFormat({ dictionary }) {
   // Style Dictionary resolves the references inside $extensions as well, but
   // drops group descriptions: those come from the source file itself.
-  const tree = dictionary.tokens;
   const source = JSON.parse(readFileSync(resolve(dictionary.allTokens[0].filePath), "utf8"));
+  const resolved = resolveTokens(source);
+  const tree = {};
+  for (const [path, token] of modeTokens(source))
+    setToken(tree, path, { ...token, $value: resolved.get(path) });
+  const colors = Object.fromEntries(
+    ["light", "dark"].map((mode) => {
+      const values = resolveTokens(source, { mode });
+      const tokens = modeTokens(source, mode);
+      const valueOf = (value) =>
+        typeof value === "string" && value.startsWith("{") ? values.get(value.slice(1, -1)) : value;
+      return [
+        mode,
+        Object.fromEntries(
+          Object.entries(colorFields).map(([field, path]) => {
+            const recipe = tokens.get(path).$extensions?.[MIX];
+            return [
+              field,
+              {
+                $value: values.get(path),
+                $extensions: recipe
+                  ? {
+                      [MIX]: { ...recipe, base: valueOf(recipe.base), with: valueOf(recipe.with) },
+                    }
+                  : {},
+              },
+            ];
+          }),
+        ),
+      ];
+    }),
+  );
 
   const out = [];
   const push = (...rows) => out.push(...rows);
@@ -114,30 +146,44 @@ export function dartTokensFormat({ dictionary }) {
   };
 
   constantsClass(
+    "InvisibleButtonTokens",
+    "Button dimensions and typography.",
+    leaves(tree.components.button)
+      .filter(({ token }) => token.$type !== "color")
+      .map(({ path, token }) => ({
+        field: camel(path.join("-")),
+        type: token.$type === "fontWeight" ? "FontWeight" : "double",
+        value:
+          token.$type === "fontWeight" ? `FontWeight.w${token.$value}` : dartDouble(token.$value),
+      })),
+  );
+
+  constantsClass(
     "InvisiblePalette",
     "The primitive palette. Components read the roles in [InvisibleColors], never these.",
-    leaves(tree.palette).map(({ path, token }) => ({
+    leaves(tree.colors.palette).map(({ path, token }) => ({
       field: camel(path.join("-")),
       type: "Color",
       value: dartColor(token.$value),
     })),
   );
 
-  constantsClass(
-    "InvisibleStyleColors",
-    "The semantic style tier: brand and feedback colours.",
-    leaves(tree.style).map(({ path, token }) => ({
-      field: camel(path.join("-")),
-      type: "Color",
-      value: dartColor(token.$value),
-      description: token.$description,
-    })),
-  );
+  for (const group of ["brand", "feedback"])
+    constantsClass(
+      group === "brand" ? "InvisibleBrandColors" : "InvisibleFeedbackColors",
+      `Tenant ${group} colours.`,
+      leaves(tree.colors[group]).map(({ path, token }) => ({
+        field: camel(path.join("-")),
+        type: "Color",
+        value: dartColor(token.$value),
+        description: token.$description,
+      })),
+    );
 
   constantsClass(
     "InvisibleRadiusTokens",
     "Corner radii, in logical pixels.",
-    leaves(tree.radius).map(({ path, token }) => ({
+    leaves(tree.metrics.radius).map(({ path, token }) => ({
       field: camel(path.join("-")),
       type: "double",
       value: dartDouble(token.$value),
@@ -146,17 +192,19 @@ export function dartTokensFormat({ dictionary }) {
 
   constantsClass(
     "InvisibleFocusTokens",
-    source.focus.$description + " Sizes in logical pixels.",
-    leaves(tree.focus).map(({ path, token }) => ({
-      field: camel(path.join("-")),
-      type: "double",
-      value: dartDouble(token.$value),
-    })),
+    "Focus dimensions in logical pixels.",
+    leaves(tree.components.general.focus)
+      .filter(({ token }) => token.$type === "dimension")
+      .map(({ path, token }) => ({
+        field: camel(path.join("-")),
+        type: "double",
+        value: dartDouble(token.$value),
+      })),
   );
 
   constantsClass(
     "InvisibleTypographyTokens",
-    source.typography.$description + " Font sizes in logical pixels.",
+    "Typography. Font sizes in logical pixels.",
     leaves(tree.typography).map(({ path, token }) =>
       token.$type === "fontWeight"
         ? { field: camel(path.join("-")), type: "FontWeight", value: `FontWeight.w${token.$value}` }
@@ -166,11 +214,11 @@ export function dartTokensFormat({ dictionary }) {
 
   // Density: one instance per level. A size a level leaves undefined in the
   // source is null here, never filled in.
-  const levels = children(tree.density);
+  const levels = children(tree.metrics.density);
   const fields = [...new Set(levels.flatMap(([, level]) => children(level).map(([key]) => key)))];
   const always = fields.filter((key) => levels.every(([, level]) => isToken(level[key])));
   push(
-    doc(source.density.$description, ""),
+    doc("Control dimensions by density.", ""),
     "///",
     doc("A size that the source leaves undefined for a level is null.", ""),
     "final class InvisibleDensityTokens {",
@@ -242,11 +290,8 @@ export function dartTokensFormat({ dictionary }) {
 
   // Roles and component backgrounds: one class, a light and a dark instance.
   // The component tier follows the roles, one field per component token.
-  const themes = children(tree.role);
-  const colorsOf = (theme) => [
-    ...children(tree.role[theme]),
-    ...children(tree.component?.[theme] ?? {}),
-  ];
+  const themes = children(colors);
+  const colorsOf = (theme) => children(colors[theme]);
   const roleKeys = colorsOf(themes[0][0]).map(([key]) => key);
   for (const [theme] of themes) {
     const keys = colorsOf(theme).map(([key]) => key);
@@ -275,7 +320,7 @@ export function dartTokensFormat({ dictionary }) {
     );
   }
   roleKeys.forEach((key) => {
-    push(`  /// \`${key}\`.`, `  final Color ${roleName(key)};`, "");
+    push(`  /// \`${colorFields[key]}\`.`, `  final Color ${roleName(key)};`, "");
   });
   push(
     "  /// A copy with the given roles replaced.",

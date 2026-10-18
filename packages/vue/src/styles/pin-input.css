@@ -9,16 +9,16 @@
   block-size: var(--ds-pin-input-size, 2.75rem);
   text-align: center;
   font-size: var(--ds-pin-input-font-size, 1.25rem);
-  border: 1px solid var(--ds-color-control-border, #757575);
-  border-radius: var(--ds-pin-input-radius, var(--ds-radius-control, 0.5rem));
-  background: var(--ds-color-background, #fff);
-  color: var(--ds-color-text, #272727);
+  border: 1px solid var(--ds-components-general-border-control, #757575);
+  border-radius: var(--ds-pin-input-radius, var(--ds-metrics-radius-control, 0.5rem));
+  background: var(--ds-components-general-background-default, #fff);
+  color: var(--ds-components-general-foreground-default, #272727);
 }
 .pin-input__cell:focus-visible {
   outline: none;
   box-shadow: var(--ds-focus-ring-shadow);
   outline-offset: 1px;
-  border-color: var(--ds-color-focus-ring, #8e6cd4);
+  border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
 }
 .pin-input__cell[data-disabled] {
   opacity: 0.5;
@@ -27,16 +27,18 @@
 
 /* Validation states color the cell borders (and ring on focus). */
 .pin-input[data-invalid] .pin-input__cell {
-  border-color: var(--ds-color-danger, #be3b50);
+  border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
 }
 .pin-input[data-invalid] .pin-input__cell:focus-visible {
-  border-color: var(--ds-color-danger, #be3b50);
-  box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #be3b50);
+  border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+  box-shadow: 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+    var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
 }
 .pin-input[data-success] .pin-input__cell {
-  border-color: var(--ds-color-success, #3e7523);
+  border-color: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
 }
 .pin-input[data-success] .pin-input__cell:focus-visible {
-  border-color: var(--ds-color-success, #3e7523);
-  box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-success, #3e7523);
+  border-color: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
+  box-shadow: 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+    var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
 }

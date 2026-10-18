@@ -33,8 +33,8 @@ OKLCH), so a weight change reads as a predictable lightness change.
 
 The palette feeds the primitive tokens in `tokens.css`. The brand and feedback
 base tokens reference a raw named scale drawn from these hues; the neutrals map
-the Grey ramp onto `--ds-neutral-0` … `--ds-neutral-950`, and Black onto
-`--ds-black`. Each of those
+the Grey ramp onto `--ds-colors-palette-grey-0` … `--ds-colors-palette-grey-950`, and Black onto
+`--ds-colors-palette-black`. Each of those
 tokens, with its current value, is listed in the token catalog: the raw scales
 under [Palette](/invisible-ui/presentation/token-catalog/#tk-primitive), and the
 base tokens that point into them under
@@ -49,9 +49,9 @@ To retheme, set your own values for the same names; the semantic
 ```css
 /* example */
 :root {
-  --ds-neutral-0: #ffffff;
-  --ds-neutral-900: #101828;
-  --ds-purple-500: #1f6feb;
+  --ds-colors-palette-grey-0: #ffffff;
+  --ds-colors-palette-grey-900: #101828;
+  --ds-colors-palette-dioxazine-purple-500: #1f6feb;
 }
 ```
 

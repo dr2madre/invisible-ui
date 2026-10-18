@@ -308,7 +308,7 @@ class _SelectState<T> extends State<Select<T>>
                     child: Text(
                       chosen?.label ?? placeholder,
                       style: theme.textStyle.copyWith(
-                        height: InvisibleTypographyTokens.lineHeightTight,
+                        height: InvisibleTypographyTokens.lineHeightHeading,
                         color: !widget.enabled
                             ? colors.textDisabled
                             : chosen == null

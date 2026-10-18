@@ -10,9 +10,9 @@ void main() {
       expect(InvisibleColors.dark.background, InvisiblePalette.grey900);
       expect(
         InvisibleColors.light.primary,
-        InvisibleStyleColors.primaryDefault,
+        InvisibleBrandColors.primaryDefault,
       );
-      expect(InvisibleColors.dark.danger, InvisibleStyleColors.dangerDefault);
+      expect(InvisibleColors.dark.danger, InvisibleFeedbackColors.dangerDefault);
     });
 
     test('translucent roles keep their alpha', () {
@@ -24,7 +24,7 @@ void main() {
     test('the dark focus ring is its own role, mixed from the secondary', () {
       expect(InvisibleColors.dark.focusRing, const Color(0xFFA286DB));
       final mix = InvisibleColorMixes.dark['focusRing']!;
-      expect(mix.base, InvisibleStyleColors.secondaryDefault);
+      expect(mix.base, InvisibleBrandColors.secondaryDefault);
       expect(mix.amount, 0.7);
       expect(mix.mixWith, InvisiblePalette.grey0);
     });
@@ -105,13 +105,13 @@ void main() {
       expect(InvisibleRadiusTokens.control, 8);
       expect(InvisibleFocusTokens.ringWidth, 2);
       expect(InvisibleTypographyTokens.fontSizeH1, 38);
-      expect(InvisibleTypographyTokens.headingWeight, FontWeight.w700);
+      expect(InvisibleTypographyTokens.fontWeightHeading, FontWeight.w700);
     });
 
     test('colour sets compare by value', () {
       expect(InvisibleColors.light.copyWith(), InvisibleColors.light);
       expect(
-        InvisibleColors.light.copyWith(primary: InvisiblePalette.blue500),
+        InvisibleColors.light.copyWith(primary: InvisiblePalette.cobaltBlue500),
         isNot(InvisibleColors.light),
       );
     });

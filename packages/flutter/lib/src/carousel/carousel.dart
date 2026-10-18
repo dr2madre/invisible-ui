@@ -472,7 +472,7 @@ class _SlideTrack extends StatelessWidget {
   Widget build(BuildContext context) {
     final mirror = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+      borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
       child: TweenAnimationBuilder<double>(
         tween: Tween(end: index.toDouble()),
         duration: reducedMotion(context) ? Duration.zero : _transition,
@@ -589,10 +589,10 @@ class _GalleryViewportState extends State<_GalleryViewport> {
       child: FocusRingPainter(
         visible: _focusVisible,
         ring: theme.focusRing,
-        radius: InvisibleRadiusTokens.surface,
+        radius: InvisibleRadiusTokens.container,
         inside: true,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
           child: SingleChildScrollView(
             controller: widget.controller,
             scrollDirection: Axis.horizontal,
@@ -684,7 +684,7 @@ class _DefaultSlide extends StatelessWidget {
         decoration: BoxDecoration(
           color: theme.colors.neutralSurface,
           borderRadius: square
-              ? BorderRadius.circular(InvisibleRadiusTokens.surface)
+              ? BorderRadius.circular(InvisibleRadiusTokens.container)
               : null,
           image: image == null
               ? null
@@ -716,7 +716,7 @@ class _DefaultSlide extends StatelessWidget {
                           color: onBand,
                           fontSize: square ? 16.8 : _titleSize,
                           fontWeight: FontWeight.w700,
-                          height: InvisibleTypographyTokens.lineHeightTight,
+                          height: InvisibleTypographyTokens.lineHeightHeading,
                         ),
                       ),
                     if (description != null && description.isNotEmpty)

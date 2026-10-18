@@ -60,11 +60,11 @@
     <p class="demo__caption">Overlay pattern — busy region (built-in overlay + veil)</p>
     <div
       aria-busy="true"
-      style="position: relative; inline-size: 16rem; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; overflow: hidden; color: var(--ds-color-primary);"
+      style="position: relative; inline-size: 16rem; border: 1px solid var(--ds-components-general-border-default); border-radius: 0.75rem; overflow: hidden; color: var(--ds-components-general-action-primary-background-default);"
     >
-      <div style="padding: 1rem; color: var(--ds-color-text);">
+      <div style="padding: 1rem; color: var(--ds-components-general-foreground-default);">
         <p style="margin: 0; font-weight: 600;">Team activity</p>
-        <p style="margin: 0.25rem 0 0; color: var(--ds-color-text-secondary);">
+        <p style="margin: 0.25rem 0 0; color: var(--ds-components-general-foreground-secondary);">
           12 updates this week
         </p>
       </div>
@@ -76,13 +76,13 @@
   <section>
     <p class="demo__caption">Overlay without veil + no-flash delay (the UploadDropArea pattern)</p>
     <p
-      style="margin: -0.25rem 0 0.625rem; font-size: 0.8125rem; color: var(--ds-color-text-secondary);"
+      style="margin: -0.25rem 0 0.625rem; font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
     >
       Press it: the spinner appears only after 150 ms, so a fast action never flashes one.
     </p>
     <div
       aria-busy={busy}
-      style="position: relative; inline-size: 16rem; display: flex; justify-content: center; padding: 1.25rem; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; color: var(--ds-color-secondary);"
+      style="position: relative; inline-size: 16rem; display: flex; justify-content: center; padding: 1.25rem; border: 1px solid var(--ds-components-general-border-default); border-radius: 0.75rem; color: var(--ds-components-general-action-secondary-background-default);"
     >
       <Button variant="primary" onpress={runTask}>Run a ~1.2s task</Button>
       {#if busy}
@@ -114,6 +114,6 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
 </style>

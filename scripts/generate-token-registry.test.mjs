@@ -45,9 +45,12 @@ test("a declaration is attributed to the block it sits in, not the one after it"
 
 test("a fallback's family is read through one alias hop", () => {
   assert.equal(shapeOfValue("0.75rem"), "size");
-  assert.equal(shapeOfValue("var(--ds-color-primary, #7a52cc)"), "color");
   assert.equal(
-    shapeOfValue("var(--ds-control-padding-x, 0.75rem)", () => "0.75rem"),
+    shapeOfValue("var(--ds-components-general-action-primary-background-default, #7a52cc)"),
+    "color",
+  );
+  assert.equal(
+    shapeOfValue("var(--ds-metrics-density-regular-control-padding-x, 0.75rem)", () => "0.75rem"),
     "size",
   );
   // Nothing to read: neither a family nor a wrong guess.

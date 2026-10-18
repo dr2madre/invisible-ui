@@ -78,7 +78,7 @@
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .form-reset-demo form {
     display: grid;
@@ -109,11 +109,11 @@
   .form-reset-demo select {
     max-inline-size: 100%;
     box-sizing: border-box;
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     padding: 0.35rem 0.5rem;
     font: inherit;
-    background: var(--ds-color-background, #fff);
+    background: var(--ds-components-general-background-default, #fff);
     color: inherit;
   }
   .form-reset-demo input[type="checkbox"] {
@@ -132,10 +132,10 @@
     min-block-size: 2.25rem;
     padding: 0.4rem 0.9rem;
     font: inherit;
-    color: var(--ds-color-text, #272727);
-    background: var(--ds-color-surface, #e0e0e0);
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-radius-control, 0.5rem);
+    color: var(--ds-components-general-foreground-default, #272727);
+    background: var(--ds-components-general-background-default, #e0e0e0);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .form-reset-demo__status {

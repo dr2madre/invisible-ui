@@ -438,7 +438,7 @@ Flutter names, per ADR 0017 §2: `onCellChanged`, `onCellActivated`,
   cell label from `core/src/grid`. The grid has no breakpoint of its own.
 - **Tokens.** The grid reuses the Table's surface, border, header and
   density tokens; the error colour comes from the existing role tokens. The
-  secondary emphasis gets a role token, `--ds-grid-cell-secondary-surface`,
+  secondary emphasis gets a role token, `--ds-components-data-grid-cell-secondary-background-default`,
   defined in `packages/tokens/tokens.json` for each theme and documented in
   `docs/tokens.md`. ADR 0002 applies: no token or prop is named after an
   appearance.

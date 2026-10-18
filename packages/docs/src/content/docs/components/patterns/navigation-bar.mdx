@@ -213,7 +213,7 @@ product. Neither is the default.
 - Icons are decorative and hidden from assistive technology.
 - Labels wrap onto more lines and never truncate; the bar grows taller.
 - Every destination is at least 24 by 24, and 44 by 44 under a coarse
-  pointer (`--ds-min-target-size-touch`).
+  pointer (`--ds-metrics-density-touch-min-target-size`).
 - No motion: the current mark changes at once.
 
 What VoiceOver, TalkBack, NVDA and Narrator say is not tested yet.
@@ -223,6 +223,6 @@ What VoiceOver, TalkBack, NVDA and Narrator say is not tested yet.
 Each destination carries `data-current` when it is the current one and
 `data-unavailable` when it is unavailable. Themeable via
 `--ds-navigation-bar-surface`, `--ds-navigation-bar-item-text`,
-`--ds-navigation-bar-item-current-text`, `--ds-navigation-bar-current-indicator`,
+`--ds-navigation-bar-item-current-text`, `--ds-components-navigation-bar-current-indicator-background-default`,
 `--ds-navigation-bar-badge-surface`, `--ds-navigation-bar-badge-text`,
 `--ds-navigation-bar-gap` and `--ds-navigation-bar-item-padding`.

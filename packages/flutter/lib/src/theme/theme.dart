@@ -256,7 +256,7 @@ class InvisibleThemeData {
   TextStyle get textStyle => TextStyle(
     fontFamily: fontFamily,
     fontSize: 16,
-    height: InvisibleTypographyTokens.lineHeight,
+    height: InvisibleTypographyTokens.lineHeightDefault,
   );
 
   /// The text style of code and keys: [monoFontFamily], or the web's
@@ -265,7 +265,7 @@ class InvisibleThemeData {
     fontFamily: monoFontFamily ?? _monoStack.first,
     fontFamilyFallback: _monoStack,
     fontSize: 16,
-    height: InvisibleTypographyTokens.lineHeight,
+    height: InvisibleTypographyTokens.lineHeightDefault,
   );
 
   /// A copy with the given parts replaced.

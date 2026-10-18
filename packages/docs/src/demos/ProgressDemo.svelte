@@ -22,7 +22,9 @@
         </Button>
         <Button variant="ghost" onpress={() => (done = 0)} disabled={done === 0}>Reset</Button>
       </div>
-      <p style="margin: 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
+      <p
+        style="margin: 0; font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      >
         {done} of {STEPS.length} steps completed
       </p>
     </div>
@@ -34,7 +36,7 @@
       <div>
         <Progress value={7} max={10} label="Achievements unlocked" />
         <p
-          style="margin: 0.375rem 0 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary);"
+          style="margin: 0.375rem 0 0; font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
         >
           7 of 10 achievements
         </p>
@@ -42,7 +44,7 @@
       <div>
         <Progress value={82} label="Profile completeness" />
         <p
-          style="margin: 0.375rem 0 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary);"
+          style="margin: 0.375rem 0 0; font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
         >
           82% profile complete
         </p>
@@ -72,6 +74,6 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
 </style>

@@ -225,22 +225,28 @@
     gap: 0.5rem;
     padding: var(--ds-upload-drop-area-padding, 2rem 1.5rem);
     text-align: center;
-    color: var(--ds-upload-drop-area-text, var(--ds-color-text-secondary, #515151));
-    background: var(--ds-upload-drop-area-bg, var(--ds-color-background, #fff));
+    color: var(
+      --ds-upload-drop-area-text,
+      var(--ds-components-general-foreground-secondary, #515151)
+    );
+    background: var(
+      --ds-upload-drop-area-bg,
+      var(--ds-components-general-background-default, #fff)
+    );
     border: var(--ds-upload-drop-area-border-width, 2px) dashed
-      var(--ds-upload-drop-area-border, var(--ds-color-control-border, #757575));
-    border-radius: var(--ds-upload-drop-area-radius, var(--ds-radius-surface, 0.75rem));
+      var(--ds-upload-drop-area-border, var(--ds-components-general-border-control, #757575));
+    border-radius: var(--ds-upload-drop-area-radius, var(--ds-metrics-radius-container, 0.75rem));
     cursor: pointer;
     transition:
       border-color 120ms ease,
       background-color 120ms ease;
   }
   .upload-drop-area:global([data-dragover]) {
-    border-color: var(--ds-color-secondary, #7a52cc);
+    border-color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
     background: color-mix(
       in srgb,
-      var(--ds-color-secondary, #7a52cc) 8%,
-      var(--ds-color-background, #fff)
+      var(--ds-components-general-action-secondary-background-default, #7a52cc) 8%,
+      var(--ds-components-general-background-default, #fff)
     );
   }
   .upload-drop-area--disabled {
@@ -250,13 +256,16 @@
   /* The opening spinner is a Loading overlay (veil off); tint it and scale it
      up a little via the font-size it keys off. */
   .upload-drop-area--opening :global(.loading--overlay) {
-    color: var(--ds-color-secondary, #7a52cc);
+    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
     font-size: 1.5rem;
   }
   .upload-drop-area__icon {
     /* Neutral (not the selection color) — the selection color is reserved for
        selected states; here a soft grey reads as a quiet affordance. */
-    color: var(--ds-upload-drop-area-icon, var(--ds-color-text-secondary, #515151));
+    color: var(
+      --ds-upload-drop-area-icon,
+      var(--ds-components-general-foreground-secondary, #515151)
+    );
   }
   .upload-drop-area__icon :global(svg) {
     inline-size: 2em;
@@ -264,7 +273,7 @@
   }
   /* The action word ("browse") reads as the clickable action (link-like, underlined). */
   .upload-drop-area__action {
-    color: var(--ds-color-secondary-body-text, #7a52cc);
+    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -275,7 +284,10 @@
     align-items: center;
     gap: 0.35rem;
     margin: 0.25rem 0 0;
-    color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #be3b50));
+    color: var(
+      --ds-field-error-color,
+      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+    );
   }
   .field__msg-icon {
     display: inline-flex;
@@ -283,7 +295,7 @@
   }
   .upload-drop-area__caption {
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   /* Visually hidden but focusable: focus lands on the input, ring on the label. */
   .upload-drop-area__input {
@@ -299,13 +311,16 @@
   }
   .upload-drop-area:focus-within {
     border-style: solid;
-    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+    box-shadow: var(
+      --ds-focus-ring-shadow,
+      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    );
   }
   /* Forced colors: the focus sits on the hidden file input, and shadows
      are dropped, so the visible area carries the ring itself. */
   @media (forced-colors: active) {
     .upload-drop-area:focus-within {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

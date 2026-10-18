@@ -404,7 +404,7 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
                   color: colors.popoverBackground,
                   border: Border.all(color: colors.border),
                   borderRadius: BorderRadius.circular(
-                    InvisibleRadiusTokens.surface,
+                    InvisibleRadiusTokens.container,
                   ),
                   boxShadow: overlayShadow(theme.brightness),
                 ),

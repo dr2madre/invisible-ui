@@ -237,7 +237,7 @@ class _Track extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: on ? colors.secondary : colors.surface,
+        color: on ? colors.secondary : colors.switchBackground,
         border: Border.all(color: colors.controlBorder),
         borderRadius: BorderRadius.circular(InvisibleRadiusTokens.pill),
       ),

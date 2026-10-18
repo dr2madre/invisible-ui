@@ -143,7 +143,7 @@
     white-space: nowrap;
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
   }
 
   /* The native input is the accessible, focusable control; visually hidden, with
@@ -164,12 +164,12 @@
   .switch {
     inline-size: var(--ds-switch-width, 2.5rem);
     block-size: var(--ds-switch-height, 1.5rem);
-    border-radius: var(--ds-radius-pill, 999px);
+    border-radius: var(--ds-metrics-radius-pill, 999px);
     /* The track carries a boundary in both states: it is what makes the
        control visible against the page, and the two states keep the same
        shape. It is drawn inside the track, so no size changes with it. */
-    background: var(--ds-color-surface, #e0e0e0);
-    box-shadow: inset 0 0 0 1px var(--ds-color-control-border, #757575);
+    background: var(--ds-components-switch-background-default, #e0e0e0);
+    box-shadow: inset 0 0 0 1px var(--ds-components-general-border-control, #757575);
     position: relative;
     flex: none;
     transition: background-color 120ms ease;
@@ -183,23 +183,23 @@
     block-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
     border-radius: 50%;
     /* The thumb is always white (it sits on the track in both states). */
-    background: var(--ds-switch-thumb, var(--ds-neutral-0, #ffffff));
+    background: var(--ds-switch-thumb, var(--ds-colors-palette-grey-0, #ffffff));
     /* A rim in the boundary colour keeps the thumb separable from the light
        off track, where the white alone would disappear. */
-    box-shadow: 0 0 0 1px var(--ds-color-control-border, #757575);
+    box-shadow: 0 0 0 1px var(--ds-components-general-border-control, #757575);
     transition: inset-inline-start 150ms ease;
   }
 
   .switch__input:checked + .switch {
-    background: var(--ds-color-secondary, #7a52cc);
+    background: var(--ds-components-general-action-secondary-background-default, #7a52cc);
   }
   /* The boundary is repeated here: a second box-shadow would replace it. */
   .switch__input:focus-visible + .switch {
     outline: none;
     box-shadow:
-      inset 0 0 0 1px var(--ds-color-control-border, #757575),
+      inset 0 0 0 1px var(--ds-components-general-border-control, #757575),
       var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-focus-ring-offset, 2px);
+    outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
   }
   .switch__input:checked + .switch::after {
     /* Logical, so the thumb stays on the track in right-to-left text. */
@@ -233,7 +233,10 @@
   /* ON sits on the left (revealed when the thumb slides right). */
   .switch--onoff .switch__on {
     inset-inline-start: 0.5rem;
-    color: var(--ds-switch-onoff-on-text, var(--ds-color-on-secondary, #fff));
+    color: var(
+      --ds-switch-onoff-on-text,
+      var(--ds-components-general-action-secondary-foreground-default, #fff)
+    );
     opacity: 0;
   }
   /* OFF sits on the right (shown while off, thumb on the left). The off track
@@ -241,7 +244,10 @@
      light theme, light in the dark one. */
   .switch--onoff .switch__off {
     inset-inline-end: 0.5rem;
-    color: var(--ds-switch-onoff-off-text, var(--ds-color-text, #272727));
+    color: var(
+      --ds-switch-onoff-off-text,
+      var(--ds-components-general-foreground-default, #272727)
+    );
     opacity: 1;
   }
   .switch__input:checked + .switch--onoff .switch__on {
@@ -260,7 +266,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .switch__input:focus-visible + .switch {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

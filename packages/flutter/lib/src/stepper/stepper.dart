@@ -304,7 +304,7 @@ class _StepTrigger extends StatelessWidget {
                           item.label,
                           style: theme.textStyle.copyWith(
                             fontWeight: FontWeight.w600,
-                            height: InvisibleTypographyTokens.lineHeightTight,
+                            height: InvisibleTypographyTokens.lineHeightHeading,
                             color: colors.text,
                           ),
                         ),
@@ -342,7 +342,7 @@ class _Indicator extends StatelessWidget {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final (fill, border, text) = switch (status) {
-      StepStatus.complete => (colors.surface, colors.border, colors.text),
+      StepStatus.complete => (colors.stepperBackground, colors.border, colors.text),
       StepStatus.current => (
         colors.selected.withValues(alpha: _currentTint),
         colors.selected.withValues(alpha: _currentBorder),

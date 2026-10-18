@@ -83,7 +83,7 @@
   }
   .workflow-demo__text {
     margin: 0;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   .workflow-demo__field {
     display: grid;

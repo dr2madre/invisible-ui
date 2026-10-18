@@ -70,7 +70,7 @@
     margin: 0 0 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }

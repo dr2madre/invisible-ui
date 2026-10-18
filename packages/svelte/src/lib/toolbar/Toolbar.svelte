@@ -147,9 +147,9 @@
     align-items: center;
     gap: var(--ds-toolbar-gap, 0.375rem);
     padding: var(--ds-toolbar-padding, 0.25rem);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-toolbar-radius, var(--ds-radius-control, 0.5rem));
-    background: var(--ds-color-background, #fff);
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-toolbar-radius, var(--ds-metrics-radius-control, 0.5rem));
+    background: var(--ds-components-general-background-default, #fff);
   }
   .toolbar:global([data-orientation="vertical"]) {
     flex-direction: column;
@@ -161,6 +161,6 @@
   .toolbar:global([data-flat]) {
     --ds-toggle-border: transparent;
     --ds-toggle-bg: transparent;
-    --ds-toggle-bg-hover: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    --ds-toggle-bg-hover: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
 </style>

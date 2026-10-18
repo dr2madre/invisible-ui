@@ -6,7 +6,7 @@
 .menu {
   display: inline-block;
   font: inherit;
-  color: var(--ds-color-text, #272727);
+  color: var(--ds-components-general-foreground-default, #272727);
 }
 
 .menu__trigger {
@@ -14,9 +14,9 @@
   align-items: center;
   gap: 0.5rem;
   padding: var(--ds-menu-trigger-padding, 0.5rem 0.75rem);
-  border: 1px solid var(--ds-color-control-border, #757575);
-  border-radius: var(--ds-menu-radius, var(--ds-radius-control, 0.5rem));
-  background: var(--ds-color-background, #fff);
+  border: 1px solid var(--ds-components-general-border-control, #757575);
+  border-radius: var(--ds-menu-radius, var(--ds-metrics-radius-control, 0.5rem));
+  background: var(--ds-components-general-background-default, #fff);
   color: inherit;
   font: inherit;
   font-weight: 600;
@@ -25,19 +25,19 @@
 }
 .menu__trigger:focus-visible {
   outline: none;
-  border-color: var(--ds-color-focus-ring, #8e6cd4);
+  border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
   box-shadow: var(--ds-focus-ring-shadow);
 }
 .menu__trigger[data-disabled] {
-  background: var(--ds-color-disabled, #bdbdbd);
-  color: var(--ds-color-text-disabled, #757575);
+  background: var(--ds-components-general-background-disabled, #bdbdbd);
+  color: var(--ds-components-general-foreground-disabled, #757575);
   cursor: not-allowed;
 }
 .menu__chevron {
   display: inline-flex;
   inline-size: 1.1em;
   block-size: 1.1em;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
   transition: rotate 150ms ease;
 }
 .menu__trigger[data-state="open"] .menu__chevron {
@@ -54,9 +54,12 @@
   padding: var(--ds-menu-padding, 0.25rem);
   display: flex;
   flex-direction: column;
-  background: var(--ds-menu-background, var(--ds-color-background, #fff));
-  border: 1px solid var(--ds-color-border, #bdbdbd);
-  border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
+  background: var(
+    --ds-components-menu-background-default,
+    var(--ds-components-general-background-default, #fff)
+  );
+  border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+  border-radius: var(--ds-menu-popup-radius, var(--ds-metrics-radius-container, 0.75rem));
   box-shadow: var(
     --ds-elevation-overlay,
     0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -70,13 +73,13 @@
 .menu__separator {
   block-size: 1px;
   margin: 0.3rem 0.15rem;
-  background: var(--ds-color-border, #bdbdbd);
+  background: var(--ds-components-general-border-default, #bdbdbd);
 }
 .menu__group-label {
   padding: 0.35rem 0.55rem 0.2rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 /* The tick sits in a fixed column so labels line up whether or not an item
    is currently on. */
@@ -96,7 +99,7 @@
   inline-size: 100%;
   padding: 0.45rem 0.55rem;
   border: 0;
-  border-radius: var(--ds-radius-control, 0.5rem);
+  border-radius: var(--ds-metrics-radius-control, 0.5rem);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -106,17 +109,18 @@
 /* Highlight on pointer hover (desktop) or keyboard focus only, never just
    because an item is the roving-active one on open (no grey on tap). */
 .menu__item:hover {
-  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
    marks the focused item. The menu clips, so the ring goes inside. */
 .menu__item:focus-visible {
   outline: none;
-  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-  box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+  box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+    var(--ds-components-general-focus-ring-color, #8e6cd4);
 }
 .menu__item[data-disabled] {
-  color: var(--ds-color-text-disabled, #757575);
+  color: var(--ds-components-general-foreground-disabled, #757575);
   cursor: not-allowed;
 }
 
@@ -136,7 +140,7 @@
   overflow-y: auto;
 }
 .menu__item[data-kind="submenu"][data-state="open"] {
-  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 /* The chevron points to the inline end, where the submenu opens. */
 .menu__submenu-chevron {
@@ -145,7 +149,7 @@
   inline-size: 1em;
   block-size: 1em;
   margin-inline-start: auto;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 .menu__submenu-chevron:dir(rtl) {
   scale: -1 1;
@@ -155,8 +159,8 @@
    44 by 44 at least, for every item and submenu trigger. */
 @media (pointer: coarse) {
   .menu__item {
-    min-block-size: var(--ds-min-target-size-touch, 44px);
-    min-inline-size: var(--ds-min-target-size-touch, 44px);
+    min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+    min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
   }
 }
 
