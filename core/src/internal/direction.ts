@@ -1,4 +1,4 @@
-import type { Dir } from "../i18n/locale";
+import { elementDirection, type Dir } from "../i18n/locale";
 
 /**
  * The computed reading direction of the element a key event reached, so a
@@ -6,7 +6,5 @@ import type { Dir } from "../i18n/locale";
  * provider. Without a DOM, or without a current target, it is `"ltr"`.
  */
 export function directionOf(event: Event): Dir {
-  const el = event.currentTarget as Element | null;
-  const style = el?.ownerDocument?.defaultView?.getComputedStyle(el);
-  return style?.direction === "rtl" ? "rtl" : "ltr";
+  return elementDirection(event.currentTarget as Element | null) ?? "ltr";
 }

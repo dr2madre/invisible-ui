@@ -10,7 +10,10 @@ import { scopedTeleport } from "./locale-teleport";
 const scope = { locale: "en", dir: "ltr" as const, t: (key: string) => key };
 
 const Harness = defineComponent({
-  props: { inDialog: { type: Boolean, default: false } },
+  props: {
+    inDialog: { type: Boolean, default: false },
+    wrapperDir: { type: String, default: undefined },
+  },
   setup(props) {
     const anchor = ref<HTMLElement | null>(null);
     const mounted = ref(false);
@@ -26,7 +29,7 @@ const Harness = defineComponent({
       const trigger = h("button", { ref: anchor }, "anchor");
       return props.inDialog
         ? h("dialog", { open: true, "data-testid": "dialog" }, [trigger, overlay])
-        : h("div", [trigger, overlay]);
+        : h("div", { dir: props.wrapperDir }, [trigger, overlay]);
     };
   },
 });
@@ -46,5 +49,11 @@ describe("scopedTeleport", () => {
     render(Harness, { props: { inDialog: true } });
     await Promise.resolve();
     expect(overlay().closest("dialog")).not.toBeNull();
+  });
+
+  it("takes the direction of the element that opens it, so a plain wrapper's dir counts", async () => {
+    render(Harness, { props: { wrapperDir: "rtl" } });
+    await Promise.resolve();
+    expect(overlay().closest("[dir]")).toHaveAttribute("dir", "rtl");
   });
 });

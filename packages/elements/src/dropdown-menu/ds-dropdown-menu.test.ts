@@ -212,3 +212,17 @@ describe("<ds-dropdown-menu> disabled look", () => {
     expect(trigger).not.toHaveAttribute("data-disabled");
   });
 });
+
+describe("<ds-dropdown-menu> in a plain dir wrapper", () => {
+  // The popup stays inside the element, so it takes the wrapper's direction
+  // with the trigger, and the arrows read it there.
+  it("opens with the trigger's direction", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<div dir="rtl"><ds-dropdown-menu label="Actions"></ds-dropdown-menu></div>`;
+    (document.querySelector("ds-dropdown-menu") as DsDropdownMenu).items = ITEMS;
+    await user.click(trigger());
+    const menu = screen.getByRole("menu");
+    expect(getComputedStyle(menu).direction).toBe("rtl");
+    expect(menu.closest("[dir]")).toHaveAttribute("dir", "rtl");
+  });
+});

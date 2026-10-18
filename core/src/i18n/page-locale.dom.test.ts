@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it } from "vitest";
-import { pageLocale, subscribePageLocale } from "./locale";
+import { elementDirection, pageLocale, subscribePageLocale } from "./locale";
 
 describe("pageLocale", () => {
   const root = document.documentElement;
@@ -69,5 +69,20 @@ describe("subscribePageLocale", () => {
     root.removeAttribute("lang");
     root.removeAttribute("dir");
     root.removeAttribute("class");
+  });
+});
+
+describe("elementDirection", () => {
+  it("reads the computed direction, so a plain wrapper's dir counts", () => {
+    document.body.innerHTML = `<div dir="rtl"><button>in</button></div><button>out</button>`;
+    const [inside, outside] = document.querySelectorAll("button");
+    expect(elementDirection(inside)).toBe("rtl");
+    expect(elementDirection(outside)).toBe("ltr");
+    document.body.innerHTML = "";
+  });
+
+  it("is null without an element in a document", () => {
+    expect(elementDirection(null)).toBeNull();
+    expect(elementDirection(document.createElement("div"))).toBeNull();
   });
 });

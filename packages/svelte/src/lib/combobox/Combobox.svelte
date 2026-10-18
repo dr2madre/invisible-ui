@@ -16,7 +16,7 @@
   import { createCombobox, type ComboboxItem } from "./create-combobox";
   import { formReset } from "../internal/form-reset";
   import { ignoreGhostClicks } from "../internal/ghost-click";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -268,7 +268,7 @@
     role="listbox"
     aria-labelledby={core.labelId($comboboxState.id)}
     lang={$i18nLocale}
-    dir={$i18nDir}
+    use:followDirection={{ fallback: $i18nDir, open: $comboboxState.open }}
     use:portal
     use:listboxAction
   >

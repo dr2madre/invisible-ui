@@ -146,6 +146,18 @@ export function pageLocale(start?: Element | null): PageLocale {
   };
 }
 
+/**
+ * The computed reading direction of `el`, so a `dir` anywhere above it counts:
+ * a locale provider, the page, or a plain wrapper. A popup moved out of that
+ * tree takes its direction from the element that opens it. `null` without an
+ * element in a document.
+ */
+export function elementDirection(el: Element | null | undefined): Dir | null {
+  const view = el?.isConnected ? el.ownerDocument.defaultView : null;
+  if (!el || !view) return null;
+  return view.getComputedStyle(el).direction === "rtl" ? "rtl" : "ltr";
+}
+
 const pageListeners = new Set<() => void>();
 let pageObserver: MutationObserver | undefined;
 

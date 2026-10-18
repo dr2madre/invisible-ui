@@ -40,7 +40,8 @@ strings live in the English catalog (`en`); see `MessageKey` for the keys.
   logs a warning and falls back to the default.
 - **Direction**: pass `dir` to force it; without it, the direction derives
   from the locale (`ar`, `he`, `fa`, … become `rtl`). Overlays that render in
-  a portal keep the scope's `lang` and `dir`.
+  a portal keep the scope's `lang`, and take the direction of the control that
+  opens them, so a `dir` on a plain wrapper around the control counts too.
 - **Plural messages**: a count message can be overridden with an object of
   CLDR plural categories, selected by the locale — `other` is required:
 

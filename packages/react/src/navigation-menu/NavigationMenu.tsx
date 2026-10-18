@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { ChevronGlyph, Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import { useNavigationMenu } from "./use-navigation-menu";
 
 /** A link inside a navigation menu panel. */
@@ -57,6 +57,7 @@ export function NavigationMenu({ label, items, value = null, onValueChange }: Na
   const { locale, dir } = useI18n();
   const navRef = useRef<HTMLElement>(null);
   const host = usePortalHost(navRef);
+  const popupDir = useAnchorDirection(navRef, dir);
   const nav = useNavigationMenu({ value, onValueChange });
 
   return (
@@ -85,7 +86,7 @@ export function NavigationMenu({ label, items, value = null, onValueChange }: Na
                       <div
                         className="navmenu__content"
                         lang={locale}
-                        dir={dir}
+                        dir={popupDir}
                         {...nav.getContentProps(item.value)}
                         ref={nav.contentRef}
                       >

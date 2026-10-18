@@ -4,7 +4,7 @@ import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
 import type { Placement } from "../internal/floating";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import { useHoverPreview } from "./use-hover-preview";
 import { usePopover } from "./use-popover";
 
@@ -110,6 +110,7 @@ function ClickPopover({
     onOpenChange,
   });
   const host = usePortalHost(triggerRef);
+  const popupDir = useAnchorDirection(triggerRef, dir);
 
   return (
     <>
@@ -123,7 +124,7 @@ function ClickPopover({
               ref={panelRef}
               className="popover__content"
               lang={locale}
-              dir={dir}
+              dir={popupDir}
             >
               {children}
             </div>,
@@ -160,6 +161,7 @@ function HoverPopover({
     onOpenChange,
   });
   const host = usePortalHost(triggerRef);
+  const popupDir = useAnchorDirection(triggerRef, dir);
   // Touch has no hover: the tap owns touch, so the card does not flash.
   const touch = useRef(false);
 
@@ -204,7 +206,7 @@ function HoverPopover({
               ref={cardRef}
               className="popover__content"
               lang={locale}
-              dir={dir}
+              dir={popupDir}
               onPointerEnter={hold}
               onPointerLeave={() => hide()}
             >

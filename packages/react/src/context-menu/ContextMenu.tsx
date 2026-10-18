@@ -12,7 +12,7 @@ import { createPortal } from "react-dom";
 import { useI18n } from "../i18n/i18n";
 import { pointAnchor, positionFloating } from "../internal/floating";
 import { MenuPopup, useMenu } from "../internal/menu";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import type { MenuEntry } from "../dropdown-menu/DropdownMenu";
 
 export interface ContextMenuProps {
@@ -49,8 +49,9 @@ export function ContextMenu({
   label,
   children,
 }: ContextMenuProps) {
-  const { t, locale, dir } = useI18n();
+  const { t, locale, dir: contextDir } = useI18n();
   const regionRef = useRef<HTMLDivElement>(null);
+  const dir = useAnchorDirection(regionRef, contextDir);
   const host = usePortalHost(regionRef);
   // The point the menu opens at, the popup it positions, and the element that
   // had focus before it opened.
