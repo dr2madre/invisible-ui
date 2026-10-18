@@ -183,7 +183,7 @@ class _SegmentedControlState<T> extends State<SegmentedControl<T>>
 
     final Widget bar = DecoratedBox(
       decoration: BoxDecoration(
-        border: Border.all(color: theme.colors.controlBorder),
+        border: Border.all(color: theme.colors.segmentedControlBorder),
         borderRadius: BorderRadius.circular(theme.controlRadius),
       ),
       child: ClipRRect(

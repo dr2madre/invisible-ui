@@ -15,7 +15,6 @@ const double _gap = 8;
 const double _iconSize = 18.4;
 const double _checkStroke = 2.5;
 const double _onTint = 0.1;
-const double _onBorder = 0.35;
 const double _disabledOpacity = 0.5;
 const double _errorGap = 6;
 const double _errorGlyphGap = 5.6;
@@ -244,10 +243,10 @@ class _ToggleButtonState extends State<ToggleButton>
                   ? null
                   : Border.all(
                       color: on
-                          ? colors.selected.withValues(alpha: _onBorder)
+                          ? colors.toggleButtonSelectedBorder
                           : flat
                           ? const Color(0x00000000)
-                          : colors.controlBorder,
+                          : colors.toggleButtonBorder,
                     ),
               borderRadius: BorderRadius.circular(radius),
             ),

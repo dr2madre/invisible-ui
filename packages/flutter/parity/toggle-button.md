@@ -6,6 +6,10 @@ Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
+Reference review (2026-10-19): the resting border is the toggle border, the
+default Button border; a pressed toggle takes the selected toggle border, the
+selection colour mixed 70% with the background. Flutter reads the same tokens.
+
 Reference paths: `core/src/toggle-button` `packages/svelte/src/lib/toggle-button`
 
 The Flutter `ToggleButton` checked against the Svelte `ToggleButton`
@@ -57,7 +61,7 @@ scope**. Every matched line names the widget test in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| 2.25rem surface, control border and radius; on: a tint and border of the selection colour and selection-coloured content | matched | `check shows a tick only while on, at the inline start; on takes the selection colour` |
+| 2.25rem surface, the toggle border (the default Button border) and radius; on: a tint of the selection colour, the selected toggle border and selection-coloured content | matched | `check shows a tick only while on, at the inline start; on takes the selection colour` and `the border is the toggle border at rest and the selected border when on, in both themes` |
 | `check`: a leading tick only while on, at the inline start in both directions | matched | same test |
 | Hover keeps the rest background | matched | no hover change, as the default `--ds-toggle-bg-hover` |
 | Focus ring on keyboard focus | matched | `the ring shows on keyboard focus; 44 by 44 under touch; text scale 2.0 grows the surface` |

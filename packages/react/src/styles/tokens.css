@@ -1123,6 +1123,13 @@
     var(--ds-colors-feedback-danger-default) 18%,
     var(--ds-components-general-background-default)
   );
+  --ds-components-toggle-button-border-default: var(--ds-components-button-border-default);
+  --ds-components-toggle-button-border-selected: color-mix(
+    in srgb,
+    var(--ds-components-general-selection-background-default) 70%,
+    var(--ds-components-general-background-default)
+  );
+  --ds-components-segmented-control-border-default: var(--ds-components-button-border-default);
 }
 [data-theme="dark"] {
   --ds-components-avatar-background-default: var(--ds-colors-palette-grey-700);
@@ -1194,6 +1201,13 @@
     var(--ds-colors-feedback-danger-default) 18%,
     var(--ds-components-general-background-default)
   );
+  --ds-components-toggle-button-border-default: var(--ds-components-button-border-default);
+  --ds-components-toggle-button-border-selected: color-mix(
+    in srgb,
+    var(--ds-components-general-selection-background-default) 70%,
+    var(--ds-components-general-background-default)
+  );
+  --ds-components-segmented-control-border-default: var(--ds-components-button-border-default);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -1268,5 +1282,12 @@
       var(--ds-colors-feedback-danger-default) 18%,
       var(--ds-components-general-background-default)
     );
+    --ds-components-toggle-button-border-default: var(--ds-components-button-border-default);
+    --ds-components-toggle-button-border-selected: color-mix(
+      in srgb,
+      var(--ds-components-general-selection-background-default) 70%,
+      var(--ds-components-general-background-default)
+    );
+    --ds-components-segmented-control-border-default: var(--ds-components-button-border-default);
   }
 }

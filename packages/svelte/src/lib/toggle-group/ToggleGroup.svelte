@@ -108,7 +108,7 @@
      drawing a single outer border with thin dividers. */
   .toggle-group--segmented {
     gap: 0;
-    border: 1px solid var(--ds-toggle-border, var(--ds-components-general-border-control, #757575));
+    border: 1px solid var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
     border-radius: var(--ds-toggle-group-radius, var(--ds-metrics-radius-control, 0.5rem));
     overflow: hidden;
     --ds-toggle-border-width: 0;
@@ -121,11 +121,11 @@
   .toggle-group--segmented[data-orientation="horizontal"]
     > :global(:not(:first-child) .toggle__surface) {
     border-inline-start: 1px solid
-      var(--ds-toggle-border, var(--ds-components-general-border-control, #757575));
+      var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
   }
   .toggle-group--segmented[data-orientation="vertical"]
     > :global(:not(:first-child) .toggle__surface) {
     border-block-start: 1px solid
-      var(--ds-toggle-border, var(--ds-components-general-border-control, #757575));
+      var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
   }
 </style>

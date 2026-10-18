@@ -6,6 +6,9 @@ Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
+Reference review (2026-10-19): the outer border is the segmented control
+border, the default Button border. Flutter reads the same token.
+
 Reference paths: `core/src/radio-group` `packages/svelte/src/lib/segmented-control`
 
 The Flutter `SegmentedControl` checked against the Svelte
@@ -50,6 +53,7 @@ scope**. Every matched line names the widget test in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The outer border in the segmented control border, the default Button border | matched | `the outer border is the segmented control border, in both themes` |
 | The chosen segment tinted | matched | `a tap chooses, reports once through onSelected, and the choice is bold as well as tinted` |
 | The chosen segment's label bold | adapted | the web shows the choice by colour only; Timelog's definition of done forbids that, so the label is bold too: same test |
 | Focus ring inside the segment | matched | `_Segment`, an inside border as the web's inset ring |

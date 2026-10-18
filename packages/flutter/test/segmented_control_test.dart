@@ -191,6 +191,36 @@ void main() {
     );
   });
 
+  testWidgets('the outer border is the segmented control border, in both '
+      'themes', (tester) async {
+    for (final theme in [
+      InvisibleThemeData.light(),
+      InvisibleThemeData.dark(),
+    ]) {
+      await tester.pumpWidget(
+        harness(
+          const SegmentedControl<String>.uncontrolled(
+            label: 'Filter',
+            items: _filters,
+          ),
+          theme: theme,
+        ),
+      );
+      final outline = tester
+          .widgetList<DecoratedBox>(find.byType(DecoratedBox))
+          .map((box) => box.decoration)
+          .whereType<BoxDecoration>()
+          .map((decoration) => decoration.border)
+          .whereType<Border>()
+          .single;
+      expect(outline.top.color, theme.colors.segmentedControlBorder);
+      expect(
+        theme.colors.segmentedControlBorder.toARGB32(),
+        theme.colors.buttonBorder.toARGB32(),
+      );
+    }
+  });
+
   testWidgets('a narrow bar scrolls sideways and a focused segment comes into '
       'view, at text scale 2.0', (tester) async {
     await tester.pumpWidget(

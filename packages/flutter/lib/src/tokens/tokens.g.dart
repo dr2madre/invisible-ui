@@ -296,6 +296,9 @@ final class InvisibleColors {
     required this.buttonDangerHover,
     required this.buttonDangerForeground,
     required this.buttonDangerBorder,
+    required this.toggleButtonBorder,
+    required this.toggleButtonSelectedBorder,
+    required this.segmentedControlBorder,
     required this.disabled,
     required this.stateHover,
     required this.statePressed,
@@ -413,6 +416,9 @@ final class InvisibleColors {
       green: 0.23137254901960785,
       blue: 0.3137254901960784,
     ),
+    toggleButtonBorder: Color(0xFF9E9E9E),
+    toggleButtonSelectedBorder: Color(0xFFA286DB),
+    segmentedControlBorder: Color(0xFF9E9E9E),
     disabled: Color(0xFFBDBDBD),
     stateHover: Color(0x0F000000),
     statePressed: Color(0x1F000000),
@@ -530,6 +536,9 @@ final class InvisibleColors {
       green: 0.23137254901960785,
       blue: 0.3137254901960784,
     ),
+    toggleButtonBorder: Color(0xFF7A7A7A),
+    toggleButtonSelectedBorder: Color(0xFF61459B),
+    segmentedControlBorder: Color(0xFF7A7A7A),
     disabled: Color(0xFF323232),
     stateHover: Color(0x17FFFFFF),
     statePressed: Color(0x29FFFFFF),
@@ -680,6 +689,15 @@ final class InvisibleColors {
 
   /// `components.button.border.danger.default`.
   final Color buttonDangerBorder;
+
+  /// `components.toggle-button.border.default`.
+  final Color toggleButtonBorder;
+
+  /// `components.toggle-button.border.selected`.
+  final Color toggleButtonSelectedBorder;
+
+  /// `components.segmented-control.border.default`.
+  final Color segmentedControlBorder;
 
   /// `components.general.background.disabled`.
   final Color disabled;
@@ -890,6 +908,9 @@ final class InvisibleColors {
     Color? buttonDangerHover,
     Color? buttonDangerForeground,
     Color? buttonDangerBorder,
+    Color? toggleButtonBorder,
+    Color? toggleButtonSelectedBorder,
+    Color? segmentedControlBorder,
     Color? disabled,
     Color? stateHover,
     Color? statePressed,
@@ -991,6 +1012,11 @@ final class InvisibleColors {
       buttonDangerForeground:
           buttonDangerForeground ?? this.buttonDangerForeground,
       buttonDangerBorder: buttonDangerBorder ?? this.buttonDangerBorder,
+      toggleButtonBorder: toggleButtonBorder ?? this.toggleButtonBorder,
+      toggleButtonSelectedBorder:
+          toggleButtonSelectedBorder ?? this.toggleButtonSelectedBorder,
+      segmentedControlBorder:
+          segmentedControlBorder ?? this.segmentedControlBorder,
       disabled: disabled ?? this.disabled,
       stateHover: stateHover ?? this.stateHover,
       statePressed: statePressed ?? this.statePressed,
@@ -1087,6 +1113,9 @@ final class InvisibleColors {
     buttonDangerHover,
     buttonDangerForeground,
     buttonDangerBorder,
+    toggleButtonBorder,
+    toggleButtonSelectedBorder,
+    segmentedControlBorder,
     disabled,
     stateHover,
     statePressed,
@@ -1196,6 +1225,12 @@ abstract final class InvisibleColorMixes {
       amount: 0.35,
       mixWith: Color(0x00000000),
       value: Color(0x59BE3B50),
+    ),
+    'toggleButtonSelectedBorder': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.7,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFFA286DB),
     ),
     'focusRing': InvisibleColorMix(
       base: Color(0xFF7A52CC),
@@ -1343,6 +1378,12 @@ abstract final class InvisibleColorMixes {
       amount: 0.35,
       mixWith: Color(0x00000000),
       value: Color(0x59BE3B50),
+    ),
+    'toggleButtonSelectedBorder': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.7,
+      mixWith: Color(0xFF272727),
+      value: Color(0xFF61459B),
     ),
     'focusRing': InvisibleColorMix(
       base: Color(0xFF7A52CC),

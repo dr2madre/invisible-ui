@@ -8974,6 +8974,44 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-components-segmented-control-border-default",
+      "id": "components-segmented-control-border-default",
+      "tier": "component",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 1132,
+        "dtcg": "components.segmented-control.border.default"
+      },
+      "expressions": {
+        "light": "var(--ds-components-button-border-default)",
+        "darkMedia": "var(--ds-components-button-border-default)",
+        "darkAttr": "var(--ds-components-button-border-default)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-components-button-border-default"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#9e9e9e",
+        "dark": "#7a7a7a"
+      },
+      "hasAlpha": false,
+      "purpose": "Outer border of a segmented control: the default Button border.",
+      "group": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-components-sidebar-background-default",
       "id": "components-sidebar-background-default",
       "tier": "component",
@@ -9122,6 +9160,80 @@
       },
       "hasAlpha": false,
       "purpose": "Default background of table.",
+      "group": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-components-toggle-button-border-default",
+      "id": "components-toggle-button-border-default",
+      "tier": "component",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 1126,
+        "dtcg": "components.toggle-button.border.default"
+      },
+      "expressions": {
+        "light": "var(--ds-components-button-border-default)",
+        "darkMedia": "var(--ds-components-button-border-default)",
+        "darkAttr": "var(--ds-components-button-border-default)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-components-button-border-default"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#9e9e9e",
+        "dark": "#7a7a7a"
+      },
+      "hasAlpha": false,
+      "purpose": "Resting border of a toggle button: the default Button border.",
+      "group": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-components-toggle-button-border-selected",
+      "id": "components-toggle-button-border-selected",
+      "tier": "component",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 1127,
+        "dtcg": "components.toggle-button.border.selected"
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#a286db",
+        "dark": "#61459b"
+      },
+      "hasAlpha": false,
+      "purpose": "Border of a pressed toggle button: the selection colour, mixed with the background as the default Button border is.",
       "group": null,
       "stability": "alpha",
       "replacedBy": null
@@ -38062,10 +38174,8 @@
         "toggle-button",
         "toggle-group"
       ],
-      "category": "color",
-      "categories": [
-        "color"
-      ],
+      "category": "other",
+      "categories": [],
       "properties": [
         "border",
         "border-block-start",
@@ -38078,10 +38188,10 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-components-general-border-control, #757575)"
+        "var(--ds-components-toggle-button-border-default)"
       ],
       "parents": [
-        "--ds-components-general-border-control"
+        "--ds-components-toggle-button-border-default"
       ],
       "sites": [
         {
@@ -38089,112 +38199,112 @@
           "file": "packages/elements/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-button/ToggleButton.svelte",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-general-border-control, #757575)"
+          "fallback": "var(--ds-components-toggle-button-border-default)"
         }
       ],
       "purpose": null,
@@ -41183,12 +41293,12 @@
     }
   ],
   "counts": {
-    "total": 273,
+    "total": 276,
     "byTier": {
       "brand": 6,
       "feedback": 5,
       "primitive": 139,
-      "component": 46,
+      "component": 49,
       "semantic": 57,
       "elevation": 1,
       "focus": 1,
@@ -41196,14 +41306,14 @@
       "sizing": 4,
       "radius": 3
     },
-    "withDarkOverride": 98,
-    "designOwned": 262,
-    "colors": 243
+    "withDarkOverride": 101,
+    "designOwned": 265,
+    "colors": 246
   },
   "adapters": {
-    "svelte": 273,
-    "vue": 273,
-    "react": 273,
-    "elements": 273
+    "svelte": 276,
+    "vue": 276,
+    "react": 276,
+    "elements": 276
   }
 }

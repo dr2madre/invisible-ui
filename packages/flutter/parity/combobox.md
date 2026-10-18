@@ -2,6 +2,11 @@
 
 Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
+Reference review (2026-10-19): the hidden sizer now takes part in the layout
+only with `width="wrap"`; in the other modes the input takes the room the
+control leaves. Flutter has no sizer: the field takes its parent's width, as
+the `width` line says.
+
 Reference paths: `core/src/combobox` `core/src/internal/collection.ts` `packages/svelte/src/lib/combobox`
 
 The Flutter `Combobox` checked against the Svelte `Combobox`

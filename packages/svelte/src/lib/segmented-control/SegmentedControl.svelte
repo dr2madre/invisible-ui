@@ -180,7 +180,7 @@
   .segmented {
     display: inline-flex;
     justify-self: start;
-    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border: 1px solid var(--ds-components-segmented-control-border-default);
     border-radius: var(--ds-segment-radius, var(--ds-metrics-radius-control, 0.5rem));
     /* Segments that cannot fit scroll inside the control instead of
        widening the page; focusing a clipped segment scrolls it into view. */

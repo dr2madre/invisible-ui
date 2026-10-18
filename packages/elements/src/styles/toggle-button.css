@@ -30,7 +30,7 @@
   block-size: var(--ds-toggle-size, 2.25rem);
   padding: 0 var(--ds-toggle-padding-inline, 0.5rem);
   border: var(--ds-toggle-border-width, 1px) solid
-    var(--ds-toggle-border, var(--ds-components-general-border-control, #757575));
+    var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
   border-radius: var(--ds-toggle-radius, var(--ds-metrics-radius-control, 0.5rem));
   background: var(--ds-toggle-bg, var(--ds-components-general-background-default, #fff));
   color: var(--ds-components-general-foreground-default, #272727);
@@ -64,11 +64,7 @@
     transparent
   );
   color: var(--ds-components-general-selection-background-default, #7a52cc);
-  border-color: color-mix(
-    in srgb,
-    var(--ds-components-general-selection-background-default, #7a52cc) 35%,
-    transparent
-  );
+  border-color: var(--ds-components-toggle-button-border-selected);
 }
 .toggle:disabled .toggle__surface {
   opacity: 0.5;
