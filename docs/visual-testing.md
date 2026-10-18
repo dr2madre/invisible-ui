@@ -126,8 +126,10 @@ The Flutter adapter has its own reference images, written by Flutter's
   DropdownMenu open, CodeBlock, Navigation Bar and a small Data Grid.
 - `test/golden/flutter_test_config.dart` loads Roboto from the Flutter SDK
   before the tests run, so text renders in a real font instead of the test
-  font's boxes. The theme sets it for body and code text: the SDK ships no
-  monospace font. Colours come from the theme tokens, animations are off.
+  font's boxes. Code keeps the theme's monospace stack, which ends in
+  `monospace`: the config loads the system's default monospace font under
+  that name, as `fc-match` reports it on the Linux runner. Colours come from
+  the theme tokens, animations are off.
 - The tests carry the `golden` tag. `packages/flutter/dart_test.yaml` skips
   the tag on macOS and Windows, because text renders differently on each
   operating system and the images come from Linux.

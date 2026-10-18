@@ -9,18 +9,12 @@ import 'package:invisible_ui/invisible_ui.dart';
 const String goldenFontFamily = 'Roboto';
 
 /// The theme of a golden: the tokens of [brightness], with the loaded font
-/// for every text. The SDK ships no monospace font, so code shows in Roboto
-/// too: its golden holds the layout and the colours, not the mono face.
+/// for text. Code keeps the theme's monospace stack, which resolves to the
+/// system's default monospace font.
 InvisibleThemeData goldenTheme(Brightness brightness) =>
     brightness == Brightness.dark
-    ? InvisibleThemeData.dark(
-        fontFamily: goldenFontFamily,
-        monoFontFamily: goldenFontFamily,
-      )
-    : InvisibleThemeData.light(
-        fontFamily: goldenFontFamily,
-        monoFontFamily: goldenFontFamily,
-      );
+    ? InvisibleThemeData.dark(fontFamily: goldenFontFamily)
+    : InvisibleThemeData.light(fontFamily: goldenFontFamily);
 
 /// Pumps [home] on a page of [size] in [brightness]: an app with a navigator
 /// for dialogs and menus, the page background and text colour of the theme,
