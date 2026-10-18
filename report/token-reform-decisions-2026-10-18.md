@@ -23,6 +23,16 @@ checklists. The complete Chromium catalog accessibility sweep passes locally
 (2 tests), as do the rebuilt site and Astro documentation check (zero errors,
 warnings or hints). CI must confirm the complete result.
 
+The second CI run passed Flutter stable, Chromium, Firefox and parity drift,
+but Flutter 3.35 golden comparison found subpixel border differences in Button,
+Card and Dialog. The six failures share Button borders: the token generator had
+rounded mixed Button colors to eight-bit channels before Flutter painted them.
+The generator now keeps the source's fractional channels for Button mixes;
+other roles retain their existing representation. The generated-file check,
+Dart formatter, token tests and notification tests pass locally. The pinned
+Flutter 3.35 golden comparison must confirm this change in CI; golden images
+were not updated.
+
 The historical progress notes below describe earlier stages. Their statements
 about an uncommitted local candidate and old CSS overrides are superseded by
 the committed implementation and this PR status.

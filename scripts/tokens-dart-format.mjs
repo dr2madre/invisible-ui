@@ -37,6 +37,22 @@ function dartColor(value) {
   throw new Error(`Unsupported colour value: ${JSON.stringify(value)}`);
 }
 
+// A mixed color can carry fractional channels. Keep that precision in Flutter
+// so painting a one-pixel border does not change when the token is renamed.
+function dartRoleColor(key, token) {
+  const value = token.$value;
+  if (!key.startsWith("button") || !token.$extensions?.[MIX] || !Array.isArray(value?.components))
+    return dartColor(value);
+  return [
+    "Color.from(",
+    `      alpha: ${doubleLiteral(value.alpha ?? 1)},`,
+    `      red: ${doubleLiteral(value.components[0])},`,
+    `      green: ${doubleLiteral(value.components[1])},`,
+    `      blue: ${doubleLiteral(value.components[2])},`,
+    "    )",
+  ].join("\n");
+}
+
 /** A DTCG number, or a dimension in logical pixels from a 16px root size. */
 function dartDouble(value) {
   if (typeof value === "number") return doubleLiteral(value);
@@ -314,7 +330,7 @@ export function dartTokensFormat({ dictionary }) {
   for (const [theme] of themes) {
     push(
       `  static const InvisibleColors ${camel(theme)} = InvisibleColors(`,
-      ...colorsOf(theme).map(([key, token]) => `    ${roleName(key)}: ${dartColor(token.$value)},`),
+      ...colorsOf(theme).map(([key, token]) => `    ${roleName(key)}: ${dartRoleColor(key, token)},`),
       "  );",
       "",
     );
