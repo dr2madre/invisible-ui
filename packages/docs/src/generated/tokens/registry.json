@@ -427,7 +427,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 979,
+        "line": 1009,
         "dtcg": "colors.palette.alizarin-red.100"
       },
       "expressions": {
@@ -463,7 +463,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 980,
+        "line": 1010,
         "dtcg": "colors.palette.alizarin-red.200"
       },
       "expressions": {
@@ -499,7 +499,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 981,
+        "line": 1011,
         "dtcg": "colors.palette.alizarin-red.300"
       },
       "expressions": {
@@ -535,7 +535,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 982,
+        "line": 1012,
         "dtcg": "colors.palette.alizarin-red.400"
       },
       "expressions": {
@@ -571,7 +571,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 978,
+        "line": 1008,
         "dtcg": "colors.palette.alizarin-red.50"
       },
       "expressions": {
@@ -607,7 +607,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 983,
+        "line": 1013,
         "dtcg": "colors.palette.alizarin-red.500"
       },
       "expressions": {
@@ -715,7 +715,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 984,
+        "line": 1014,
         "dtcg": "colors.palette.alizarin-red.800"
       },
       "expressions": {
@@ -751,7 +751,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 985,
+        "line": 1015,
         "dtcg": "colors.palette.alizarin-red.900"
       },
       "expressions": {
@@ -787,7 +787,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 986,
+        "line": 1016,
         "dtcg": "colors.palette.alizarin-red.950"
       },
       "expressions": {
@@ -859,7 +859,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 959,
+        "line": 989,
         "dtcg": "colors.palette.burnt-orange.100"
       },
       "expressions": {
@@ -895,7 +895,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 960,
+        "line": 990,
         "dtcg": "colors.palette.burnt-orange.200"
       },
       "expressions": {
@@ -931,7 +931,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 961,
+        "line": 991,
         "dtcg": "colors.palette.burnt-orange.300"
       },
       "expressions": {
@@ -967,7 +967,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 962,
+        "line": 992,
         "dtcg": "colors.palette.burnt-orange.400"
       },
       "expressions": {
@@ -1003,7 +1003,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 958,
+        "line": 988,
         "dtcg": "colors.palette.burnt-orange.50"
       },
       "expressions": {
@@ -1075,7 +1075,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 963,
+        "line": 993,
         "dtcg": "colors.palette.burnt-orange.600"
       },
       "expressions": {
@@ -1111,7 +1111,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 964,
+        "line": 994,
         "dtcg": "colors.palette.burnt-orange.700"
       },
       "expressions": {
@@ -1147,7 +1147,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 965,
+        "line": 995,
         "dtcg": "colors.palette.burnt-orange.800"
       },
       "expressions": {
@@ -1183,7 +1183,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 966,
+        "line": 996,
         "dtcg": "colors.palette.burnt-orange.900"
       },
       "expressions": {
@@ -1219,7 +1219,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 967,
+        "line": 997,
         "dtcg": "colors.palette.burnt-orange.950"
       },
       "expressions": {
@@ -1255,7 +1255,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1032,
+        "line": 1062,
         "dtcg": "colors.palette.cerulean-blue.100"
       },
       "expressions": {
@@ -1291,7 +1291,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1033,
+        "line": 1063,
         "dtcg": "colors.palette.cerulean-blue.200"
       },
       "expressions": {
@@ -1327,7 +1327,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1034,
+        "line": 1064,
         "dtcg": "colors.palette.cerulean-blue.300"
       },
       "expressions": {
@@ -1363,7 +1363,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1035,
+        "line": 1065,
         "dtcg": "colors.palette.cerulean-blue.400"
       },
       "expressions": {
@@ -1399,7 +1399,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1031,
+        "line": 1061,
         "dtcg": "colors.palette.cerulean-blue.50"
       },
       "expressions": {
@@ -1435,7 +1435,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1036,
+        "line": 1066,
         "dtcg": "colors.palette.cerulean-blue.500"
       },
       "expressions": {
@@ -1471,7 +1471,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1037,
+        "line": 1067,
         "dtcg": "colors.palette.cerulean-blue.600"
       },
       "expressions": {
@@ -1507,7 +1507,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1038,
+        "line": 1068,
         "dtcg": "colors.palette.cerulean-blue.700"
       },
       "expressions": {
@@ -1543,7 +1543,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1039,
+        "line": 1069,
         "dtcg": "colors.palette.cerulean-blue.800"
       },
       "expressions": {
@@ -1579,7 +1579,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1040,
+        "line": 1070,
         "dtcg": "colors.palette.cerulean-blue.900"
       },
       "expressions": {
@@ -1615,7 +1615,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1041,
+        "line": 1071,
         "dtcg": "colors.palette.cerulean-blue.950"
       },
       "expressions": {
@@ -1651,7 +1651,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 949,
+        "line": 979,
         "dtcg": "colors.palette.cobalt-blue.100"
       },
       "expressions": {
@@ -1687,7 +1687,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 950,
+        "line": 980,
         "dtcg": "colors.palette.cobalt-blue.200"
       },
       "expressions": {
@@ -1723,7 +1723,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 951,
+        "line": 981,
         "dtcg": "colors.palette.cobalt-blue.300"
       },
       "expressions": {
@@ -1759,7 +1759,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 952,
+        "line": 982,
         "dtcg": "colors.palette.cobalt-blue.400"
       },
       "expressions": {
@@ -1795,7 +1795,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 948,
+        "line": 978,
         "dtcg": "colors.palette.cobalt-blue.50"
       },
       "expressions": {
@@ -1867,7 +1867,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 953,
+        "line": 983,
         "dtcg": "colors.palette.cobalt-blue.600"
       },
       "expressions": {
@@ -1903,7 +1903,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 954,
+        "line": 984,
         "dtcg": "colors.palette.cobalt-blue.700"
       },
       "expressions": {
@@ -1939,7 +1939,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 955,
+        "line": 985,
         "dtcg": "colors.palette.cobalt-blue.800"
       },
       "expressions": {
@@ -1975,7 +1975,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 956,
+        "line": 986,
         "dtcg": "colors.palette.cobalt-blue.900"
       },
       "expressions": {
@@ -2011,7 +2011,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 957,
+        "line": 987,
         "dtcg": "colors.palette.cobalt-blue.950"
       },
       "expressions": {
@@ -2047,7 +2047,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 940,
+        "line": 970,
         "dtcg": "colors.palette.dioxazine-purple.100"
       },
       "expressions": {
@@ -2083,7 +2083,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 941,
+        "line": 971,
         "dtcg": "colors.palette.dioxazine-purple.200"
       },
       "expressions": {
@@ -2119,7 +2119,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 942,
+        "line": 972,
         "dtcg": "colors.palette.dioxazine-purple.300"
       },
       "expressions": {
@@ -2155,7 +2155,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 943,
+        "line": 973,
         "dtcg": "colors.palette.dioxazine-purple.400"
       },
       "expressions": {
@@ -2191,7 +2191,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 939,
+        "line": 969,
         "dtcg": "colors.palette.dioxazine-purple.50"
       },
       "expressions": {
@@ -2299,7 +2299,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 944,
+        "line": 974,
         "dtcg": "colors.palette.dioxazine-purple.700"
       },
       "expressions": {
@@ -2335,7 +2335,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 945,
+        "line": 975,
         "dtcg": "colors.palette.dioxazine-purple.800"
       },
       "expressions": {
@@ -2371,7 +2371,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 946,
+        "line": 976,
         "dtcg": "colors.palette.dioxazine-purple.900"
       },
       "expressions": {
@@ -2407,7 +2407,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 947,
+        "line": 977,
         "dtcg": "colors.palette.dioxazine-purple.950"
       },
       "expressions": {
@@ -2875,7 +2875,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1010,
+        "line": 1040,
         "dtcg": "colors.palette.lime-green.100"
       },
       "expressions": {
@@ -2911,7 +2911,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1011,
+        "line": 1041,
         "dtcg": "colors.palette.lime-green.200"
       },
       "expressions": {
@@ -2947,7 +2947,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1012,
+        "line": 1042,
         "dtcg": "colors.palette.lime-green.300"
       },
       "expressions": {
@@ -2983,7 +2983,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1013,
+        "line": 1043,
         "dtcg": "colors.palette.lime-green.400"
       },
       "expressions": {
@@ -3019,7 +3019,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1009,
+        "line": 1039,
         "dtcg": "colors.palette.lime-green.50"
       },
       "expressions": {
@@ -3055,7 +3055,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1014,
+        "line": 1044,
         "dtcg": "colors.palette.lime-green.500"
       },
       "expressions": {
@@ -3091,7 +3091,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1015,
+        "line": 1045,
         "dtcg": "colors.palette.lime-green.600"
       },
       "expressions": {
@@ -3127,7 +3127,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1016,
+        "line": 1046,
         "dtcg": "colors.palette.lime-green.700"
       },
       "expressions": {
@@ -3163,7 +3163,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1017,
+        "line": 1047,
         "dtcg": "colors.palette.lime-green.800"
       },
       "expressions": {
@@ -3199,7 +3199,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1018,
+        "line": 1048,
         "dtcg": "colors.palette.lime-green.900"
       },
       "expressions": {
@@ -3235,7 +3235,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1019,
+        "line": 1049,
         "dtcg": "colors.palette.lime-green.950"
       },
       "expressions": {
@@ -3271,7 +3271,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 988,
+        "line": 1018,
         "dtcg": "colors.palette.magenta-pink.100"
       },
       "expressions": {
@@ -3307,7 +3307,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 989,
+        "line": 1019,
         "dtcg": "colors.palette.magenta-pink.200"
       },
       "expressions": {
@@ -3343,7 +3343,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 990,
+        "line": 1020,
         "dtcg": "colors.palette.magenta-pink.300"
       },
       "expressions": {
@@ -3379,7 +3379,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 991,
+        "line": 1021,
         "dtcg": "colors.palette.magenta-pink.400"
       },
       "expressions": {
@@ -3415,7 +3415,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 987,
+        "line": 1017,
         "dtcg": "colors.palette.magenta-pink.50"
       },
       "expressions": {
@@ -3451,7 +3451,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 992,
+        "line": 1022,
         "dtcg": "colors.palette.magenta-pink.500"
       },
       "expressions": {
@@ -3487,7 +3487,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 993,
+        "line": 1023,
         "dtcg": "colors.palette.magenta-pink.600"
       },
       "expressions": {
@@ -3523,7 +3523,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 994,
+        "line": 1024,
         "dtcg": "colors.palette.magenta-pink.700"
       },
       "expressions": {
@@ -3559,7 +3559,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 995,
+        "line": 1025,
         "dtcg": "colors.palette.magenta-pink.800"
       },
       "expressions": {
@@ -3595,7 +3595,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 996,
+        "line": 1026,
         "dtcg": "colors.palette.magenta-pink.900"
       },
       "expressions": {
@@ -3631,7 +3631,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 997,
+        "line": 1027,
         "dtcg": "colors.palette.magenta-pink.950"
       },
       "expressions": {
@@ -3667,7 +3667,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 999,
+        "line": 1029,
         "dtcg": "colors.palette.naples-yellow.100"
       },
       "expressions": {
@@ -3703,7 +3703,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1000,
+        "line": 1030,
         "dtcg": "colors.palette.naples-yellow.200"
       },
       "expressions": {
@@ -3739,7 +3739,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1001,
+        "line": 1031,
         "dtcg": "colors.palette.naples-yellow.300"
       },
       "expressions": {
@@ -3775,7 +3775,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1002,
+        "line": 1032,
         "dtcg": "colors.palette.naples-yellow.400"
       },
       "expressions": {
@@ -3811,7 +3811,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 998,
+        "line": 1028,
         "dtcg": "colors.palette.naples-yellow.50"
       },
       "expressions": {
@@ -3847,7 +3847,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1003,
+        "line": 1033,
         "dtcg": "colors.palette.naples-yellow.500"
       },
       "expressions": {
@@ -3883,7 +3883,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1004,
+        "line": 1034,
         "dtcg": "colors.palette.naples-yellow.600"
       },
       "expressions": {
@@ -3919,7 +3919,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1005,
+        "line": 1035,
         "dtcg": "colors.palette.naples-yellow.700"
       },
       "expressions": {
@@ -3955,7 +3955,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1006,
+        "line": 1036,
         "dtcg": "colors.palette.naples-yellow.800"
       },
       "expressions": {
@@ -3991,7 +3991,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1007,
+        "line": 1037,
         "dtcg": "colors.palette.naples-yellow.900"
       },
       "expressions": {
@@ -4027,7 +4027,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1008,
+        "line": 1038,
         "dtcg": "colors.palette.naples-yellow.950"
       },
       "expressions": {
@@ -4063,7 +4063,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 969,
+        "line": 999,
         "dtcg": "colors.palette.sap-green.100"
       },
       "expressions": {
@@ -4099,7 +4099,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 970,
+        "line": 1000,
         "dtcg": "colors.palette.sap-green.200"
       },
       "expressions": {
@@ -4135,7 +4135,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 971,
+        "line": 1001,
         "dtcg": "colors.palette.sap-green.300"
       },
       "expressions": {
@@ -4171,7 +4171,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 972,
+        "line": 1002,
         "dtcg": "colors.palette.sap-green.400"
       },
       "expressions": {
@@ -4207,7 +4207,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 968,
+        "line": 998,
         "dtcg": "colors.palette.sap-green.50"
       },
       "expressions": {
@@ -4243,7 +4243,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 973,
+        "line": 1003,
         "dtcg": "colors.palette.sap-green.500"
       },
       "expressions": {
@@ -4315,7 +4315,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 974,
+        "line": 1004,
         "dtcg": "colors.palette.sap-green.700"
       },
       "expressions": {
@@ -4351,7 +4351,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 975,
+        "line": 1005,
         "dtcg": "colors.palette.sap-green.800"
       },
       "expressions": {
@@ -4387,7 +4387,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 976,
+        "line": 1006,
         "dtcg": "colors.palette.sap-green.900"
       },
       "expressions": {
@@ -4423,7 +4423,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 977,
+        "line": 1007,
         "dtcg": "colors.palette.sap-green.950"
       },
       "expressions": {
@@ -4459,7 +4459,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1021,
+        "line": 1051,
         "dtcg": "colors.palette.viridian-green.100"
       },
       "expressions": {
@@ -4495,7 +4495,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1022,
+        "line": 1052,
         "dtcg": "colors.palette.viridian-green.200"
       },
       "expressions": {
@@ -4531,7 +4531,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1023,
+        "line": 1053,
         "dtcg": "colors.palette.viridian-green.300"
       },
       "expressions": {
@@ -4567,7 +4567,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1024,
+        "line": 1054,
         "dtcg": "colors.palette.viridian-green.400"
       },
       "expressions": {
@@ -4603,7 +4603,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1020,
+        "line": 1050,
         "dtcg": "colors.palette.viridian-green.50"
       },
       "expressions": {
@@ -4639,7 +4639,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1025,
+        "line": 1055,
         "dtcg": "colors.palette.viridian-green.500"
       },
       "expressions": {
@@ -4675,7 +4675,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1026,
+        "line": 1056,
         "dtcg": "colors.palette.viridian-green.600"
       },
       "expressions": {
@@ -4711,7 +4711,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1027,
+        "line": 1057,
         "dtcg": "colors.palette.viridian-green.700"
       },
       "expressions": {
@@ -4747,7 +4747,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1028,
+        "line": 1058,
         "dtcg": "colors.palette.viridian-green.800"
       },
       "expressions": {
@@ -4783,7 +4783,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1029,
+        "line": 1059,
         "dtcg": "colors.palette.viridian-green.900"
       },
       "expressions": {
@@ -4819,7 +4819,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1030,
+        "line": 1060,
         "dtcg": "colors.palette.viridian-green.950"
       },
       "expressions": {
@@ -4855,7 +4855,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1043,
+        "line": 1073,
         "dtcg": "colors.palette.warm-grey.100"
       },
       "expressions": {
@@ -4891,7 +4891,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1044,
+        "line": 1074,
         "dtcg": "colors.palette.warm-grey.200"
       },
       "expressions": {
@@ -4927,7 +4927,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1045,
+        "line": 1075,
         "dtcg": "colors.palette.warm-grey.300"
       },
       "expressions": {
@@ -4963,7 +4963,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1046,
+        "line": 1076,
         "dtcg": "colors.palette.warm-grey.400"
       },
       "expressions": {
@@ -4999,7 +4999,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1042,
+        "line": 1072,
         "dtcg": "colors.palette.warm-grey.50"
       },
       "expressions": {
@@ -5035,7 +5035,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1047,
+        "line": 1077,
         "dtcg": "colors.palette.warm-grey.500"
       },
       "expressions": {
@@ -5071,7 +5071,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1048,
+        "line": 1078,
         "dtcg": "colors.palette.warm-grey.600"
       },
       "expressions": {
@@ -5107,7 +5107,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1049,
+        "line": 1079,
         "dtcg": "colors.palette.warm-grey.700"
       },
       "expressions": {
@@ -5143,7 +5143,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1050,
+        "line": 1080,
         "dtcg": "colors.palette.warm-grey.800"
       },
       "expressions": {
@@ -5179,7 +5179,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1051,
+        "line": 1081,
         "dtcg": "colors.palette.warm-grey.900"
       },
       "expressions": {
@@ -5215,7 +5215,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1052,
+        "line": 1082,
         "dtcg": "colors.palette.warm-grey.950"
       },
       "expressions": {
@@ -5251,7 +5251,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1057,
+        "line": 1087,
         "dtcg": "components.avatar.background.default"
       },
       "expressions": {
@@ -5289,7 +5289,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1083,
+        "line": 1113,
         "dtcg": "components.button.background.danger.default"
       },
       "expressions": {
@@ -5327,7 +5327,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1121,
+        "line": 1147,
         "dtcg": "components.button.background.danger.hover"
       },
       "expressions": {
@@ -5363,7 +5363,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1064,
+        "line": 1094,
         "dtcg": "components.button.background.default"
       },
       "expressions": {
@@ -5402,7 +5402,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1095,
+        "line": 1125,
         "dtcg": "components.button.background.ghost.default"
       },
       "expressions": {
@@ -5438,7 +5438,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1089,
+        "line": 1119,
         "dtcg": "components.button.background.ghost.hover"
       },
       "expressions": {
@@ -5476,7 +5476,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1065,
+        "line": 1095,
         "dtcg": "components.button.background.hover"
       },
       "expressions": {
@@ -5514,7 +5514,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1068,
+        "line": 1098,
         "dtcg": "components.button.background.primary.default"
       },
       "expressions": {
@@ -5554,7 +5554,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1071,
+        "line": 1101,
         "dtcg": "components.button.background.primary.hover"
       },
       "expressions": {
@@ -5594,7 +5594,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1077,
+        "line": 1107,
         "dtcg": "components.button.background.secondary.default"
       },
       "expressions": {
@@ -5632,7 +5632,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1116,
+        "line": 1142,
         "dtcg": "components.button.background.secondary.hover"
       },
       "expressions": {
@@ -5668,7 +5668,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1111,
+        "line": 1137,
         "dtcg": "components.button.border.danger.default"
       },
       "expressions": {
@@ -5704,17 +5704,19 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1101,
+        "line": 1131,
         "dtcg": "components.button.border.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--ds-components-general-border-control) 70%, var(--ds-components-general-background-default) )",
-        "darkMedia": "color-mix( in srgb, var(--ds-components-general-border-control) 70%, var(--ds-components-general-background-default) )",
-        "darkAttr": "color-mix( in srgb, var(--ds-components-general-border-control) 70%, var(--ds-components-general-background-default) )",
+        "light": "var(--ds-components-general-border-action)",
+        "darkMedia": "var(--ds-components-general-border-action)",
+        "darkAttr": "var(--ds-components-general-border-action)",
         "fallbackLight": null,
         "fallbackDark": null
       },
-      "aliasChain": [],
+      "aliasChain": [
+        "--ds-components-general-border-action"
+      ],
       "adapters": [
         "svelte",
         "vue",
@@ -5726,7 +5728,7 @@
         "dark": "#7a7a7a"
       },
       "hasAlpha": false,
-      "purpose": "border.default",
+      "purpose": "components.button.border.default",
       "group": null,
       "stability": "alpha",
       "replacedBy": null
@@ -5740,7 +5742,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1097,
+        "line": 1127,
         "dtcg": "components.button.border.ghost.default"
       },
       "expressions": {
@@ -5776,7 +5778,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1096,
+        "line": 1126,
         "dtcg": "components.button.border.primary.default"
       },
       "expressions": {
@@ -5812,7 +5814,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1106,
+        "line": 1132,
         "dtcg": "components.button.border.secondary.default"
       },
       "expressions": {
@@ -5848,7 +5850,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1086,
+        "line": 1116,
         "dtcg": "components.button.foreground.danger.default"
       },
       "expressions": {
@@ -5888,7 +5890,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1066,
+        "line": 1096,
         "dtcg": "components.button.foreground.default"
       },
       "expressions": {
@@ -5927,7 +5929,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1090,
+        "line": 1120,
         "dtcg": "components.button.foreground.ghost.default"
       },
       "expressions": {
@@ -5966,7 +5968,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1074,
+        "line": 1104,
         "dtcg": "components.button.foreground.primary.default"
       },
       "expressions": {
@@ -6005,7 +6007,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1080,
+        "line": 1110,
         "dtcg": "components.button.foreground.secondary.default"
       },
       "expressions": {
@@ -6046,7 +6048,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1067,
+        "line": 1097,
         "dtcg": "components.button.foreground.supporting"
       },
       "expressions": {
@@ -6085,7 +6087,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1100,
+        "line": 1130,
         "dtcg": "components.button.opacity.disabled"
       },
       "expressions": {
@@ -6121,7 +6123,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1091,
+        "line": 1121,
         "dtcg": "components.button.radius"
       },
       "expressions": {
@@ -6159,7 +6161,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1098,
+        "line": 1128,
         "dtcg": "components.button.spacing.gap"
       },
       "expressions": {
@@ -6195,7 +6197,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1092,
+        "line": 1122,
         "dtcg": "components.button.spacing.x"
       },
       "expressions": {
@@ -6233,7 +6235,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1093,
+        "line": 1123,
         "dtcg": "components.button.spacing.y"
       },
       "expressions": {
@@ -6271,7 +6273,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1099,
+        "line": 1129,
         "dtcg": "components.button.typography.font-weight"
       },
       "expressions": {
@@ -6307,7 +6309,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1094,
+        "line": 1124,
         "dtcg": "components.button.typography.line-height"
       },
       "expressions": {
@@ -6345,7 +6347,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1059,
+        "line": 1089,
         "dtcg": "components.calendar.background.default"
       },
       "expressions": {
@@ -6383,7 +6385,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 393,
+        "line": 403,
         "dtcg": "components.card.background.default"
       },
       "expressions": {
@@ -6422,7 +6424,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 394,
+        "line": 404,
         "dtcg": "components.card.secondary.background.default"
       },
       "expressions": {
@@ -6461,7 +6463,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1061,
+        "line": 1091,
         "dtcg": "components.carousel.background.default"
       },
       "expressions": {
@@ -6499,7 +6501,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 401,
+        "line": 411,
         "dtcg": "components.code-block.background.default"
       },
       "expressions": {
@@ -6537,7 +6539,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 388,
+        "line": 398,
         "dtcg": "components.data-grid.cell.secondary.background.default"
       },
       "expressions": {
@@ -6575,7 +6577,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 397,
+        "line": 407,
         "dtcg": "components.dialog.background.default"
       },
       "expressions": {
@@ -6614,7 +6616,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 378,
+        "line": 388,
         "dtcg": "components.dialog.overlay.default"
       },
       "expressions": {
@@ -6650,7 +6652,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 310,
+        "line": 320,
         "dtcg": "components.general.action.danger.background.default"
       },
       "expressions": {
@@ -6686,7 +6688,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 315,
+        "line": 325,
         "dtcg": "components.general.action.danger.foreground.default"
       },
       "expressions": {
@@ -6725,7 +6727,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 226,
+        "line": 236,
         "dtcg": "components.general.action.primary.background.default"
       },
       "expressions": {
@@ -6764,7 +6766,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 227,
+        "line": 237,
         "dtcg": "components.general.action.primary.background.hover"
       },
       "expressions": {
@@ -6803,7 +6805,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 228,
+        "line": 238,
         "dtcg": "components.general.action.primary.foreground.default"
       },
       "expressions": {
@@ -6841,7 +6843,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 229,
+        "line": 239,
         "dtcg": "components.general.action.secondary.background.default"
       },
       "expressions": {
@@ -6880,7 +6882,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 232,
+        "line": 242,
         "dtcg": "components.general.action.secondary.background.hover"
       },
       "expressions": {
@@ -6919,7 +6921,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 361,
+        "line": 371,
         "dtcg": "components.general.action.secondary.body.foreground.default"
       },
       "expressions": {
@@ -6959,7 +6961,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 318,
+        "line": 328,
         "dtcg": "components.general.action.secondary.contextual.background.default"
       },
       "expressions": {
@@ -6995,7 +6997,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 323,
+        "line": 333,
         "dtcg": "components.general.action.secondary.contextual.foreground.default"
       },
       "expressions": {
@@ -7035,7 +7037,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 233,
+        "line": 243,
         "dtcg": "components.general.action.secondary.foreground.default"
       },
       "expressions": {
@@ -7111,7 +7113,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 199,
+        "line": 209,
         "dtcg": "components.general.background.disabled"
       },
       "expressions": {
@@ -7149,7 +7151,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 200,
+        "line": 210,
         "dtcg": "components.general.background.hover"
       },
       "expressions": {
@@ -7185,7 +7187,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 201,
+        "line": 211,
         "dtcg": "components.general.background.pressed"
       },
       "expressions": {
@@ -7208,6 +7210,42 @@
       },
       "hasAlpha": true,
       "purpose": "The overlay laid over a control while it is being pressed.",
+      "group": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It has to reach 3:1 on the page and on a surface; the generic border above stays the quieter line between areas (dividers, table rules, panel edges).",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-components-general-border-action",
+      "id": "components-general-border-action",
+      "tier": "semantic",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 199,
+        "dtcg": "components.general.border.action"
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-components-general-border-control) 70%, var(--ds-components-general-background-default) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-components-general-border-control) 70%, var(--ds-components-general-background-default) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-components-general-border-control) 70%, var(--ds-components-general-background-default) )",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#9e9e9e",
+        "dark": "#7a7a7a"
+      },
+      "hasAlpha": false,
+      "purpose": "Boundary of button-like controls: the control border mixed 70% with the background.",
       "group": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It has to reach 3:1 on the page and on a surface; the generic border above stays the quieter line between areas (dividers, table rules, panel edges).",
       "stability": "alpha",
       "replacedBy": null
@@ -7289,6 +7327,42 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-components-general-border-selected",
+      "id": "components-general-border-selected",
+      "tier": "semantic",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 204,
+        "dtcg": "components.general.border.selected"
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#a286db",
+        "dark": "#61459b"
+      },
+      "hasAlpha": false,
+      "purpose": "Boundary of a selected button-like control: the selection colour mixed 70% with the background.",
+      "group": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It has to reach 3:1 on the page and on a surface; the generic border above stays the quieter line between areas (dividers, table rules, panel edges).",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-components-general-emphasis-background-default",
       "id": "components-general-emphasis-background-default",
       "tier": "semantic",
@@ -7297,7 +7371,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 371,
+        "line": 381,
         "dtcg": "components.general.emphasis.background.default"
       },
       "expressions": {
@@ -7335,7 +7409,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 373,
+        "line": 383,
         "dtcg": "components.general.emphasis.border.default"
       },
       "expressions": {
@@ -7373,7 +7447,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 372,
+        "line": 382,
         "dtcg": "components.general.emphasis.foreground.default"
       },
       "expressions": {
@@ -7411,7 +7485,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 297,
+        "line": 307,
         "dtcg": "components.general.feedback.danger.background.default"
       },
       "expressions": {
@@ -7447,7 +7521,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 364,
+        "line": 374,
         "dtcg": "components.general.feedback.danger.body.foreground.default"
       },
       "expressions": {
@@ -7487,7 +7561,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 302,
+        "line": 312,
         "dtcg": "components.general.feedback.danger.border.default"
       },
       "expressions": {
@@ -7523,7 +7597,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 346,
+        "line": 356,
         "dtcg": "components.general.feedback.danger.foreground.default"
       },
       "expressions": {
@@ -7559,7 +7633,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 244,
+        "line": 254,
         "dtcg": "components.general.feedback.danger.solid.background.default"
       },
       "expressions": {
@@ -7598,7 +7672,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 247,
+        "line": 257,
         "dtcg": "components.general.feedback.danger.solid.background.hover"
       },
       "expressions": {
@@ -7637,7 +7711,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 267,
+        "line": 277,
         "dtcg": "components.general.feedback.info.background.default"
       },
       "expressions": {
@@ -7673,7 +7747,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 272,
+        "line": 282,
         "dtcg": "components.general.feedback.info.border.default"
       },
       "expressions": {
@@ -7709,7 +7783,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 331,
+        "line": 341,
         "dtcg": "components.general.feedback.info.foreground.default"
       },
       "expressions": {
@@ -7745,7 +7819,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 235,
+        "line": 245,
         "dtcg": "components.general.feedback.info.solid.background.default"
       },
       "expressions": {
@@ -7784,7 +7858,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 326,
+        "line": 336,
         "dtcg": "components.general.feedback.neutral.background.default"
       },
       "expressions": {
@@ -7822,7 +7896,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 327,
+        "line": 337,
         "dtcg": "components.general.feedback.neutral.border.default"
       },
       "expressions": {
@@ -7860,7 +7934,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 356,
+        "line": 366,
         "dtcg": "components.general.feedback.neutral.foreground.default"
       },
       "expressions": {
@@ -7898,7 +7972,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 250,
+        "line": 260,
         "dtcg": "components.general.feedback.neutral.solid.background.default"
       },
       "expressions": {
@@ -7936,7 +8010,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 253,
+        "line": 263,
         "dtcg": "components.general.feedback.solid.foreground.default"
       },
       "expressions": {
@@ -7974,7 +8048,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 277,
+        "line": 287,
         "dtcg": "components.general.feedback.success.background.default"
       },
       "expressions": {
@@ -8010,7 +8084,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 367,
+        "line": 377,
         "dtcg": "components.general.feedback.success.body.foreground.default"
       },
       "expressions": {
@@ -8050,7 +8124,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 282,
+        "line": 292,
         "dtcg": "components.general.feedback.success.border.default"
       },
       "expressions": {
@@ -8086,7 +8160,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 336,
+        "line": 346,
         "dtcg": "components.general.feedback.success.foreground.default"
       },
       "expressions": {
@@ -8122,7 +8196,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 238,
+        "line": 248,
         "dtcg": "components.general.feedback.success.solid.background.default"
       },
       "expressions": {
@@ -8161,7 +8235,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 287,
+        "line": 297,
         "dtcg": "components.general.feedback.warning.background.default"
       },
       "expressions": {
@@ -8197,7 +8271,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 292,
+        "line": 302,
         "dtcg": "components.general.feedback.warning.border.default"
       },
       "expressions": {
@@ -8233,7 +8307,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 341,
+        "line": 351,
         "dtcg": "components.general.feedback.warning.foreground.default"
       },
       "expressions": {
@@ -8269,7 +8343,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 260,
+        "line": 270,
         "dtcg": "components.general.feedback.warning.label.background.default"
       },
       "expressions": {
@@ -8305,7 +8379,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 241,
+        "line": 251,
         "dtcg": "components.general.feedback.warning.solid.background.default"
       },
       "expressions": {
@@ -8344,7 +8418,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 254,
+        "line": 264,
         "dtcg": "components.general.feedback.warning.solid.foreground.default"
       },
       "expressions": {
@@ -8382,7 +8456,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 211,
+        "line": 221,
         "dtcg": "components.general.focus.halo.color"
       },
       "expressions": {
@@ -8418,7 +8492,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 210,
+        "line": 220,
         "dtcg": "components.general.focus.halo.width"
       },
       "expressions": {
@@ -8454,7 +8528,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 202,
+        "line": 212,
         "dtcg": "components.general.focus.ring.color"
       },
       "expressions": {
@@ -8490,7 +8564,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 209,
+        "line": 219,
         "dtcg": "components.general.focus.ring.offset"
       },
       "expressions": {
@@ -8526,7 +8600,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 208,
+        "line": 218,
         "dtcg": "components.general.focus.ring.width"
       },
       "expressions": {
@@ -8716,7 +8790,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 351,
+        "line": 361,
         "dtcg": "components.general.selection.contextual.foreground.default"
       },
       "expressions": {
@@ -8791,7 +8865,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 399,
+        "line": 409,
         "dtcg": "components.menu.background.default"
       },
       "expressions": {
@@ -8830,7 +8904,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1062,
+        "line": 1092,
         "dtcg": "components.navigation-bar.background.default"
       },
       "expressions": {
@@ -8868,7 +8942,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 381,
+        "line": 391,
         "dtcg": "components.navigation-bar.current-indicator.background.default"
       },
       "expressions": {
@@ -8904,7 +8978,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 392,
+        "line": 402,
         "dtcg": "components.page.background.default"
       },
       "expressions": {
@@ -8943,7 +9017,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 398,
+        "line": 408,
         "dtcg": "components.popover.background.default"
       },
       "expressions": {
@@ -8982,18 +9056,18 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1132,
+        "line": 1155,
         "dtcg": "components.segmented-control.border.default"
       },
       "expressions": {
-        "light": "var(--ds-components-button-border-default)",
-        "darkMedia": "var(--ds-components-button-border-default)",
-        "darkAttr": "var(--ds-components-button-border-default)",
+        "light": "var(--ds-components-general-border-action)",
+        "darkMedia": "var(--ds-components-general-border-action)",
+        "darkAttr": "var(--ds-components-general-border-action)",
         "fallbackLight": null,
         "fallbackDark": null
       },
       "aliasChain": [
-        "--ds-components-button-border-default"
+        "--ds-components-general-border-action"
       ],
       "adapters": [
         "svelte",
@@ -9006,7 +9080,7 @@
         "dark": "#7a7a7a"
       },
       "hasAlpha": false,
-      "purpose": "Outer border of a segmented control: the default Button border.",
+      "purpose": "Outer border of a segmented control.",
       "group": null,
       "stability": "alpha",
       "replacedBy": null
@@ -9020,7 +9094,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 400,
+        "line": 410,
         "dtcg": "components.sidebar.background.default"
       },
       "expressions": {
@@ -9059,7 +9133,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1063,
+        "line": 1093,
         "dtcg": "components.stepper.background.default"
       },
       "expressions": {
@@ -9097,7 +9171,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1058,
+        "line": 1088,
         "dtcg": "components.switch.background.default"
       },
       "expressions": {
@@ -9135,7 +9209,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1060,
+        "line": 1090,
         "dtcg": "components.table.background.default"
       },
       "expressions": {
@@ -9173,18 +9247,18 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1126,
+        "line": 1152,
         "dtcg": "components.toggle-button.border.default"
       },
       "expressions": {
-        "light": "var(--ds-components-button-border-default)",
-        "darkMedia": "var(--ds-components-button-border-default)",
-        "darkAttr": "var(--ds-components-button-border-default)",
+        "light": "var(--ds-components-general-border-action)",
+        "darkMedia": "var(--ds-components-general-border-action)",
+        "darkAttr": "var(--ds-components-general-border-action)",
         "fallbackLight": null,
         "fallbackDark": null
       },
       "aliasChain": [
-        "--ds-components-button-border-default"
+        "--ds-components-general-border-action"
       ],
       "adapters": [
         "svelte",
@@ -9197,7 +9271,7 @@
         "dark": "#7a7a7a"
       },
       "hasAlpha": false,
-      "purpose": "Resting border of a toggle button: the default Button border.",
+      "purpose": "Resting border of a toggle button.",
       "group": null,
       "stability": "alpha",
       "replacedBy": null
@@ -9211,17 +9285,19 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 1127,
+        "line": 1153,
         "dtcg": "components.toggle-button.border.selected"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
-        "darkMedia": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
-        "darkAttr": "color-mix( in srgb, var(--ds-components-general-selection-background-default) 70%, var(--ds-components-general-background-default) )",
+        "light": "var(--ds-components-general-border-selected)",
+        "darkMedia": "var(--ds-components-general-border-selected)",
+        "darkAttr": "var(--ds-components-general-border-selected)",
         "fallbackLight": null,
         "fallbackDark": null
       },
-      "aliasChain": [],
+      "aliasChain": [
+        "--ds-components-general-border-selected"
+      ],
       "adapters": [
         "svelte",
         "vue",
@@ -9233,7 +9309,45 @@
         "dark": "#61459b"
       },
       "hasAlpha": false,
-      "purpose": "Border of a pressed toggle button: the selection colour, mixed with the background as the default Button border is.",
+      "purpose": "Border of a pressed toggle button.",
+      "group": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-components-toggle-group-border-default",
+      "id": "components-toggle-group-border-default",
+      "tier": "component",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 1154,
+        "dtcg": "components.toggle-group.border.default"
+      },
+      "expressions": {
+        "light": "var(--ds-components-general-border-action)",
+        "darkMedia": "var(--ds-components-general-border-action)",
+        "darkAttr": "var(--ds-components-general-border-action)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-components-general-border-action"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#9e9e9e",
+        "dark": "#7a7a7a"
+      },
+      "hasAlpha": false,
+      "purpose": "Outer border and dividers of a segmented toggle group.",
       "group": null,
       "stability": "alpha",
       "replacedBy": null
@@ -9247,7 +9361,7 @@
       "specimenKind": "shadow",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 375,
+        "line": 385,
         "dtcg": null
       },
       "expressions": {
@@ -9283,7 +9397,7 @@
       "specimenKind": "shadow",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 216,
+        "line": 226,
         "dtcg": null
       },
       "expressions": {
@@ -38188,10 +38302,12 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-components-toggle-button-border-default)"
+        "var(--ds-components-toggle-button-border-default)",
+        "var(--ds-components-toggle-group-border-default)"
       ],
       "parents": [
-        "--ds-components-toggle-button-border-default"
+        "--ds-components-toggle-button-border-default",
+        "--ds-components-toggle-group-border-default"
       ],
       "sites": [
         {
@@ -38206,21 +38322,21 @@
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "react",
@@ -38234,21 +38350,21 @@
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "svelte",
@@ -38262,21 +38378,21 @@
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "vue",
@@ -38290,21 +38406,21 @@
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
-          "fallback": "var(--ds-components-toggle-button-border-default)"
+          "fallback": "var(--ds-components-toggle-group-border-default)"
         }
       ],
       "purpose": null,
@@ -41293,27 +41409,27 @@
     }
   ],
   "counts": {
-    "total": 276,
+    "total": 279,
     "byTier": {
       "brand": 6,
       "feedback": 5,
       "primitive": 139,
-      "component": 49,
-      "semantic": 57,
+      "component": 50,
+      "semantic": 59,
       "elevation": 1,
       "focus": 1,
       "typography": 11,
       "sizing": 4,
       "radius": 3
     },
-    "withDarkOverride": 101,
-    "designOwned": 265,
-    "colors": 246
+    "withDarkOverride": 104,
+    "designOwned": 268,
+    "colors": 249
   },
   "adapters": {
-    "svelte": 276,
-    "vue": 276,
-    "react": 276,
-    "elements": 276
+    "svelte": 279,
+    "vue": 279,
+    "react": 279,
+    "elements": 279
   }
 }

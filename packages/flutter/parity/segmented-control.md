@@ -7,7 +7,8 @@ reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference review (2026-10-19): the outer border is the segmented control
-border, the default Button border. Flutter reads the same token.
+border, which points at the shared action border, as the default Button border
+does. Flutter reads the same token.
 
 Reference paths: `core/src/radio-group` `packages/svelte/src/lib/segmented-control`
 

@@ -355,7 +355,7 @@ void main() {
     final italic = tester.getRect(find.text('Italic'));
     expect(italic.left, greaterThan(bold.right));
     expect(bold.top, moreOrLessEquals(italic.top));
-    final border = InvisibleColors.light.toggleButtonBorder;
+    final border = InvisibleColors.light.toggleGroupBorder;
     final outline = tester
         .widgetList<DecoratedBox>(find.byType(DecoratedBox))
         .map((box) => box.decoration)

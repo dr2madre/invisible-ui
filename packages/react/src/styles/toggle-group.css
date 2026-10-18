@@ -25,7 +25,7 @@
    borders/radius and drawing a single outer border with thin dividers. */
 .toggle-group--segmented {
   gap: 0;
-  border: 1px solid var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
+  border: 1px solid var(--ds-toggle-border, var(--ds-components-toggle-group-border-default));
   border-radius: var(--ds-toggle-group-radius, var(--ds-metrics-radius-control, 0.5rem));
   overflow: hidden;
   --ds-toggle-border-width: 0;
@@ -37,9 +37,9 @@
    is the toggle itself, or the custom element that holds it. */
 .toggle-group--segmented[data-orientation="horizontal"] > :not(:first-child) .toggle__surface {
   border-inline-start: 1px solid
-    var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
+    var(--ds-toggle-border, var(--ds-components-toggle-group-border-default));
 }
 .toggle-group--segmented[data-orientation="vertical"] > :not(:first-child) .toggle__surface {
   border-block-start: 1px solid
-    var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
+    var(--ds-toggle-border, var(--ds-components-toggle-group-border-default));
 }

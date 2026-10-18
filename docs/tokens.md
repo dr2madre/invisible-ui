@@ -33,6 +33,10 @@ There is no `components.general.container` group. Button owns its properties:
 Variant names qualify properties, for example
 `components.button.background.primary.default`.
 Default and Ghost hover both alias `components.general.background.hover`.
+The default Button, Toggle Button, Toggle Group and Segmented Control borders
+alias `components.general.border.action`, the control border mixed 70% with the
+background. A pressed Toggle Button aliases `components.general.border.selected`,
+the selection colour with the same recipe.
 Changing a Button token does not modify the shared token it references.
 
 Avatar, Switch, Calendar, Table, Carousel, Navigation Bar and Stepper own their

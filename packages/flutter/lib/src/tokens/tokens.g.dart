@@ -272,6 +272,8 @@ final class InvisibleColors {
     required this.textDisabled,
     required this.border,
     required this.controlBorder,
+    required this.actionBorder,
+    required this.selectedBorder,
     required this.avatarBackground,
     required this.switchBackground,
     required this.stepperBackground,
@@ -298,6 +300,7 @@ final class InvisibleColors {
     required this.buttonDangerBorder,
     required this.toggleButtonBorder,
     required this.toggleButtonSelectedBorder,
+    required this.toggleGroupBorder,
     required this.segmentedControlBorder,
     required this.disabled,
     required this.stateHover,
@@ -367,6 +370,8 @@ final class InvisibleColors {
     textDisabled: Color(0xFF757575),
     border: Color(0xFFBDBDBD),
     controlBorder: Color(0xFF757575),
+    actionBorder: Color(0xFF9E9E9E),
+    selectedBorder: Color(0xFFA286DB),
     avatarBackground: Color(0xFFE0E0E0),
     switchBackground: Color(0xFFE0E0E0),
     stepperBackground: Color(0xFFE0E0E0),
@@ -374,12 +379,7 @@ final class InvisibleColors {
     buttonBackground: Color(0xFFFFFFFF),
     buttonHover: Color(0x0F000000),
     buttonForeground: Color(0xFF272727),
-    buttonBorder: Color.from(
-      alpha: 1.0,
-      red: 0.6211764705882353,
-      green: 0.6211764705882353,
-      blue: 0.6211764705882353,
-    ),
+    buttonBorder: Color(0xFF9E9E9E),
     buttonPrimaryBackground: Color(0xFF7A52CC),
     buttonPrimaryHover: Color(0xFF6840B7),
     buttonPrimaryForeground: Color(0xFFFFFFFF),
@@ -418,6 +418,7 @@ final class InvisibleColors {
     ),
     toggleButtonBorder: Color(0xFF9E9E9E),
     toggleButtonSelectedBorder: Color(0xFFA286DB),
+    toggleGroupBorder: Color(0xFF9E9E9E),
     segmentedControlBorder: Color(0xFF9E9E9E),
     disabled: Color(0xFFBDBDBD),
     stateHover: Color(0x0F000000),
@@ -487,6 +488,8 @@ final class InvisibleColors {
     textDisabled: Color(0xFF515151),
     border: Color(0xFF414141),
     controlBorder: Color(0xFF9E9E9E),
+    actionBorder: Color(0xFF7A7A7A),
+    selectedBorder: Color(0xFF61459B),
     avatarBackground: Color(0xFF414141),
     switchBackground: Color(0xFF414141),
     stepperBackground: Color(0xFF414141),
@@ -494,12 +497,7 @@ final class InvisibleColors {
     buttonBackground: Color(0xFF272727),
     buttonHover: Color(0x17FFFFFF),
     buttonForeground: Color(0xFFF5F5F5),
-    buttonBorder: Color.from(
-      alpha: 1.0,
-      red: 0.4796078431372549,
-      green: 0.4796078431372549,
-      blue: 0.4796078431372549,
-    ),
+    buttonBorder: Color(0xFF7A7A7A),
     buttonPrimaryBackground: Color(0xFF7A52CC),
     buttonPrimaryHover: Color(0xFF6840B7),
     buttonPrimaryForeground: Color(0xFFFFFFFF),
@@ -538,6 +536,7 @@ final class InvisibleColors {
     ),
     toggleButtonBorder: Color(0xFF7A7A7A),
     toggleButtonSelectedBorder: Color(0xFF61459B),
+    toggleGroupBorder: Color(0xFF7A7A7A),
     segmentedControlBorder: Color(0xFF7A7A7A),
     disabled: Color(0xFF323232),
     stateHover: Color(0x17FFFFFF),
@@ -618,6 +617,12 @@ final class InvisibleColors {
   /// `components.general.border.control`.
   final Color controlBorder;
 
+  /// `components.general.border.action`.
+  final Color actionBorder;
+
+  /// `components.general.border.selected`.
+  final Color selectedBorder;
+
   /// `components.avatar.background.default`.
   final Color avatarBackground;
 
@@ -695,6 +700,9 @@ final class InvisibleColors {
 
   /// `components.toggle-button.border.selected`.
   final Color toggleButtonSelectedBorder;
+
+  /// `components.toggle-group.border.default`.
+  final Color toggleGroupBorder;
 
   /// `components.segmented-control.border.default`.
   final Color segmentedControlBorder;
@@ -884,6 +892,8 @@ final class InvisibleColors {
     Color? textDisabled,
     Color? border,
     Color? controlBorder,
+    Color? actionBorder,
+    Color? selectedBorder,
     Color? avatarBackground,
     Color? switchBackground,
     Color? stepperBackground,
@@ -910,6 +920,7 @@ final class InvisibleColors {
     Color? buttonDangerBorder,
     Color? toggleButtonBorder,
     Color? toggleButtonSelectedBorder,
+    Color? toggleGroupBorder,
     Color? segmentedControlBorder,
     Color? disabled,
     Color? stateHover,
@@ -978,6 +989,8 @@ final class InvisibleColors {
       textDisabled: textDisabled ?? this.textDisabled,
       border: border ?? this.border,
       controlBorder: controlBorder ?? this.controlBorder,
+      actionBorder: actionBorder ?? this.actionBorder,
+      selectedBorder: selectedBorder ?? this.selectedBorder,
       avatarBackground: avatarBackground ?? this.avatarBackground,
       switchBackground: switchBackground ?? this.switchBackground,
       stepperBackground: stepperBackground ?? this.stepperBackground,
@@ -1015,6 +1028,7 @@ final class InvisibleColors {
       toggleButtonBorder: toggleButtonBorder ?? this.toggleButtonBorder,
       toggleButtonSelectedBorder:
           toggleButtonSelectedBorder ?? this.toggleButtonSelectedBorder,
+      toggleGroupBorder: toggleGroupBorder ?? this.toggleGroupBorder,
       segmentedControlBorder:
           segmentedControlBorder ?? this.segmentedControlBorder,
       disabled: disabled ?? this.disabled,
@@ -1089,6 +1103,8 @@ final class InvisibleColors {
     textDisabled,
     border,
     controlBorder,
+    actionBorder,
+    selectedBorder,
     avatarBackground,
     switchBackground,
     stepperBackground,
@@ -1115,6 +1131,7 @@ final class InvisibleColors {
     buttonDangerBorder,
     toggleButtonBorder,
     toggleButtonSelectedBorder,
+    toggleGroupBorder,
     segmentedControlBorder,
     disabled,
     stateHover,
@@ -1196,11 +1213,17 @@ final class InvisibleColors {
 /// The recipes of the mixed colour roles, by [InvisibleColors] field name.
 abstract final class InvisibleColorMixes {
   static const Map<String, InvisibleColorMix> light = {
-    'buttonBorder': InvisibleColorMix(
+    'actionBorder': InvisibleColorMix(
       base: Color(0xFF757575),
       amount: 0.7,
       mixWith: Color(0xFFFFFFFF),
       value: Color(0xFF9E9E9E),
+    ),
+    'selectedBorder': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.7,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFFA286DB),
     ),
     'buttonSecondaryHover': InvisibleColorMix(
       base: Color(0xFF7A52CC),
@@ -1225,12 +1248,6 @@ abstract final class InvisibleColorMixes {
       amount: 0.35,
       mixWith: Color(0x00000000),
       value: Color(0x59BE3B50),
-    ),
-    'toggleButtonSelectedBorder': InvisibleColorMix(
-      base: Color(0xFF7A52CC),
-      amount: 0.7,
-      mixWith: Color(0xFFFFFFFF),
-      value: Color(0xFFA286DB),
     ),
     'focusRing': InvisibleColorMix(
       base: Color(0xFF7A52CC),
@@ -1349,11 +1366,17 @@ abstract final class InvisibleColorMixes {
   };
 
   static const Map<String, InvisibleColorMix> dark = {
-    'buttonBorder': InvisibleColorMix(
+    'actionBorder': InvisibleColorMix(
       base: Color(0xFF9E9E9E),
       amount: 0.7,
       mixWith: Color(0xFF272727),
       value: Color(0xFF7A7A7A),
+    ),
+    'selectedBorder': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.7,
+      mixWith: Color(0xFF272727),
+      value: Color(0xFF61459B),
     ),
     'buttonSecondaryHover': InvisibleColorMix(
       base: Color(0xFF7A52CC),
@@ -1378,12 +1401,6 @@ abstract final class InvisibleColorMixes {
       amount: 0.35,
       mixWith: Color(0x00000000),
       value: Color(0x59BE3B50),
-    ),
-    'toggleButtonSelectedBorder': InvisibleColorMix(
-      base: Color(0xFF7A52CC),
-      amount: 0.7,
-      mixWith: Color(0xFF272727),
-      value: Color(0xFF61459B),
     ),
     'focusRing': InvisibleColorMix(
       base: Color(0xFF7A52CC),

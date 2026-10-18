@@ -6,9 +6,10 @@ Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
-Reference review (2026-10-19): the resting border is the toggle border, the
-default Button border; a pressed toggle takes the selected toggle border, the
-selection colour mixed 70% with the background. Flutter reads the same tokens.
+Reference review (2026-10-19): the resting border is the toggle border, which
+points at the shared action border, as the default Button border does; a
+pressed toggle takes the selected toggle border, which points at the shared
+selected border. Flutter reads the same tokens.
 
 Reference paths: `core/src/toggle-button` `packages/svelte/src/lib/toggle-button`
 
