@@ -212,9 +212,7 @@ abstract final class InvisibleTypographyTokens {
 ///
 /// A size that the source leaves undefined for a level is null.
 final class InvisibleDensityTokens {
-  const InvisibleDensityTokens._({
-    required this.minTargetSize,
-  });
+  const InvisibleDensityTokens._({required this.minTargetSize});
 
   static const compact = InvisibleDensityTokens._(minTargetSize: 24.0);
   static const regular = InvisibleDensityTokens._(minTargetSize: 24.0);
