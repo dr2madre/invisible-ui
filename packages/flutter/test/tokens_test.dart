@@ -12,7 +12,10 @@ void main() {
         InvisibleColors.light.primary,
         InvisibleBrandColors.primaryDefault,
       );
-      expect(InvisibleColors.dark.danger, InvisibleFeedbackColors.dangerDefault);
+      expect(
+        InvisibleColors.dark.danger,
+        InvisibleFeedbackColors.dangerDefault,
+      );
     });
 
     test('translucent roles keep their alpha', () {

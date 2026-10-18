@@ -140,7 +140,10 @@ void main() {
       final theme = InvisibleThemeData.light(fontFamily: 'Inter');
       expect(theme.textStyle.fontFamily, 'Inter');
       expect(theme.textStyle.fontSize, 16);
-      expect(theme.textStyle.height, InvisibleTypographyTokens.lineHeightDefault);
+      expect(
+        theme.textStyle.height,
+        InvisibleTypographyTokens.lineHeightDefault,
+      );
       expect(InvisibleThemeData.light().textStyle.fontFamily, isNull);
     });
 

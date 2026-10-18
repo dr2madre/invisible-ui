@@ -4,6 +4,29 @@ Date: 2026-10-18
 
 ## Current execution status
 
+### Pull request and verification
+
+The reform is committed as `5df411f6` and published in
+[PR #493](https://github.com/dr2madre/invisible-ui/pull/493). It is awaiting
+passing GitHub checks and the required maintainer review before squash merge.
+The first CI run passed the main verification job, Firefox and WebKit. It found
+five Dart formatting differences, a stale Flutter parity checklist set, one
+Flutter inverted-notification close-glyph color regression and a token-catalog
+contrast failure in Chromium. The two flaky Chromium component tests passed on
+retry. This follow-up formats the Dart files, restores the close-glyph color,
+and makes the catalog value chips transparent in both themes. The targeted
+Flutter notification test passes locally. Dart formatting now passes with no
+changes. The 59 affected Flutter parity checklists now reference `5df411f6`;
+the source review found token styling changes, with only token-name comments
+outside Svelte style blocks. The parity-drift check passes for all 80
+checklists. The complete Chromium catalog accessibility sweep passes locally
+(2 tests), as do the rebuilt site and Astro documentation check (zero errors,
+warnings or hints). CI must confirm the complete result.
+
+The historical progress notes below describe earlier stages. Their statements
+about an uncommitted local candidate and old CSS overrides are superseded by
+the committed implementation and this PR status.
+
 ### Activation update
 
 ### Component ownership correction
@@ -28,7 +51,7 @@ full workspace tests (Core 2372, React 1519, Vue 1513, Elements 1372, Svelte
 1707 passed with 3 skipped), lint and typecheck. Documentation reports zero
 errors and warnings. API manifests/report, token registry and evidence register
 checks pass. Browser visual comparison has not been run.
-No commit, push, merge or visual-baseline update.
+No visual-baseline update was made for this correction.
 
 Follow-up: the maintainer identified that Default Button still used the
 container background on hover. Its fallback now uses

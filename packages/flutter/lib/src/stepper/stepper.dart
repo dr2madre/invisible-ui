@@ -342,7 +342,11 @@ class _Indicator extends StatelessWidget {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final (fill, border, text) = switch (status) {
-      StepStatus.complete => (colors.stepperBackground, colors.border, colors.text),
+      StepStatus.complete => (
+        colors.stepperBackground,
+        colors.border,
+        colors.text,
+      ),
       StepStatus.current => (
         colors.selected.withValues(alpha: _currentTint),
         colors.selected.withValues(alpha: _currentBorder),
