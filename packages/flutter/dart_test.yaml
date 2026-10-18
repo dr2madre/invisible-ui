@@ -1,0 +1,15 @@
+# Golden tests compare pixels, and text renders differently on each operating
+# system. Their reference images come from the Linux CI job, so they run on
+# Linux only. Regenerate them as docs/visual-testing.md describes.
+tags:
+  golden:
+
+on_os:
+  mac-os:
+    tags:
+      golden:
+        skip: "Reference images come from Linux; see docs/visual-testing.md."
+  windows:
+    tags:
+      golden:
+        skip: "Reference images come from Linux; see docs/visual-testing.md."

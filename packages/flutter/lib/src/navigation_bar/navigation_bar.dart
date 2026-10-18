@@ -757,7 +757,9 @@ class _DestinationFace<T> extends StatelessWidget {
           decoration: current
               ? BoxDecoration(
                   color: colors.navigationBarCurrentIndicator,
-                  borderRadius: BorderRadius.circular(indicatorHeight / 2),
+                  borderRadius: BorderRadius.circular(
+                    InvisibleRadiusTokens.pill,
+                  ),
                   border: highContrast
                       ? Border.all(color: colors.text, width: _currentBorder)
                       : null,
@@ -818,7 +820,7 @@ class _Badge extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: colors.danger,
-        borderRadius: BorderRadius.circular(_badgeMin),
+        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.pill),
         border: highContrast ? Border.all(color: colors.text) : null,
       ),
       child: Text(

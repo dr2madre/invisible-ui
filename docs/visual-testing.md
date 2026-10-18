@@ -112,3 +112,42 @@ upload a `visual-report` artifact with the side-by-side diffs.
 > from a dispatch with `update: true`, never from a local run, whose fonts
 > would not match the container's. Until that pull request is merged, a
 > comparison run fails on those specs for want of a baseline.
+
+## Flutter golden tests
+
+The Flutter adapter has its own reference images, written by Flutter's
+`matchesGoldenFile` rather than by Playwright.
+
+- `packages/flutter/test/golden/components_golden_test.dart` pumps each
+  component in the light and the dark theme and compares the whole page,
+  popups included, with `test/golden/goldens/<name>.png`. The set: Button
+  variants and states, TextField with an error, Checkbox, RadioGroup and
+  Switch, Select closed, Tabs, Card default and secondary, Dialog open,
+  DropdownMenu open, CodeBlock, Navigation Bar and a small Data Grid.
+- `test/golden/flutter_test_config.dart` loads Roboto from the Flutter SDK
+  before the tests run, so text renders in a real font instead of the test
+  font's boxes. Code keeps the theme's monospace stack, which ends in
+  `monospace`: the config loads the system's default monospace font under
+  that name, as `fc-match` reports it on the Linux runner. Colours come from
+  the theme tokens, animations are off.
+- The tests carry the `golden` tag. `packages/flutter/dart_test.yaml` skips
+  the tag on macOS and Windows, because text renders differently on each
+  operating system and the images come from Linux.
+- The lower-bound job of `.github/workflows/flutter.yml` (Linux, Flutter
+  3.35.7) compares them on every run; the stable job leaves them out, since
+  another Flutter version may render differently. A failed comparison
+  uploads the differences as the `golden-failures` artifact.
+
+To (re)generate the images:
+
+1. Dispatch **Flutter** on the branch with `update-goldens: true`.
+2. The workflow runs `flutter test --update-goldens --tags golden` with the
+   pinned Flutter and pushes `packages/flutter/test/golden/goldens/` to the
+   `test/flutter-golden-images` branch (nothing when the images are
+   unchanged).
+3. Open a pull request from that branch, review the images, and merge.
+
+The same command on a Linux machine with Flutter 3.35.7 gives the same
+images, but the committed ones come from CI. Until the first images are
+merged, the comparison step reports that there is nothing to compare and
+passes.

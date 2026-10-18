@@ -285,6 +285,7 @@ class FieldBox extends StatelessWidget {
     this.enabled = true,
     this.invalid = false,
     this.focused = false,
+    this.padding,
   });
 
   /// The content, usually a row of text and icons.
@@ -298,6 +299,11 @@ class FieldBox extends StatelessWidget {
 
   /// Shows the focus border and ring.
   final bool focused;
+
+  /// The padding inside the border, in place of the field's own. A control
+  /// the web sizes from the control padding tokens passes
+  /// [InvisibleThemeData.controlPadding].
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -333,7 +339,7 @@ class FieldBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius),
           ),
           child: Padding(
-            padding: _padding,
+            padding: padding ?? _padding,
             child: IconTheme(
               data: IconThemeData(
                 color: colors.textSecondary,

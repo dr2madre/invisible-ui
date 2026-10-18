@@ -7,6 +7,13 @@ name: Flutter
 # Two Flutter versions: the package's lower bound (Flutter 3.35, Dart 3.9) and
 # the current stable. The widget previews use preview groups, which arrived
 # after Flutter 3.35, so the lower-bound job analyzes lib/ and test/ only.
+#
+# Golden tests (tag `golden`) compare pixels, and text renders differently on
+# each operating system and Flutter version. They run in the lower-bound job
+# only, on Linux with the pinned Flutter, against images that job produced.
+# To (re)generate the images, dispatch this workflow with `update-goldens`:
+# it pushes them to the `test/flutter-golden-images` branch, ready for a pull
+# request. See docs/visual-testing.md.
 
 on:
   pull_request:
@@ -295,6 +302,11 @@ on:
       - "docs/editable-grid-spec.md"
       - ".github/workflows/flutter.yml"
   workflow_dispatch:
+    inputs:
+      update-goldens:
+        description: "Regenerate the golden images and push them to test/flutter-golden-images"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -342,7 +354,64 @@ jobs:
         run: flutter analyze ${{ matrix.analyze }}
 
       - name: Test
-        run: flutter test
+        run: flutter test --exclude-tags golden
+
+      # Until the first images are committed there is nothing to compare;
+      # once some exist, a test whose image is missing fails.
+      - name: Compare golden images
+        if: matrix.name == 'lower bound' && !inputs.update-goldens
+        run: |
+          if ! ls test/golden/goldens/*.png >/dev/null 2>&1; then
+            echo "::warning::No golden images yet: dispatch this workflow with update-goldens."
+            exit 0
+          fi
+          flutter test --tags golden
+
+      - name: Upload golden differences
+        if: failure() && matrix.name == 'lower bound'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: golden-failures
+          path: packages/flutter/test/golden/failures/
+          retention-days: 7
+
+  # Writes the golden images with the lower bound's pinned Flutter, the
+  # version the comparison above runs, and pushes them to their own branch.
+  goldens-update:
+    name: Update golden images
+    if: inputs.update-goldens
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: stable
+          flutter-version: 3.35.7
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Regenerate golden images
+        run: flutter test --update-goldens --tags golden
+
+      - name: Push the images to the test/flutter-golden-images branch
+        run: |
+          git config user.name "dr2madre"
+          git config user.email "48051639+dr2madre@users.noreply.github.com"
+          images='test/golden/goldens'
+          if [ -z "$(git status --porcelain --untracked-files=all -- "$images")" ]; then
+            echo "Golden images unchanged; nothing to push."
+            exit 0
+          fi
+          git checkout -B test/flutter-golden-images
+          git add -- "$images"
+          git commit -m "test(flutter): refresh golden images from the pinned Flutter"
+          git push --force origin test/flutter-golden-images
 
   # Blocks (ADR 0017, amended): a parity checklist checked against an older
   # state of its reference component than the one on this branch fails the

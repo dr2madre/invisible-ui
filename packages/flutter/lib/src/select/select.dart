@@ -12,6 +12,7 @@ import '../internal/roving.dart';
 import '../internal/text_box.dart';
 import '../internal/value_control.dart';
 import '../theme/theme.dart';
+import '../tokens/tokens.g.dart';
 
 const double _gap = 8;
 
@@ -294,6 +295,9 @@ class _SelectState<T> extends State<Select<T>>
               enabled: widget.enabled,
               invalid: invalid,
               focused: _focusVisible,
+              // The web trigger shares the Button's control metrics: the
+              // control padding and the tight line height.
+              padding: theme.controlPadding,
               child: Row(
                 children: [
                   if (chosen?.icon case final icon?) ...[
@@ -304,6 +308,7 @@ class _SelectState<T> extends State<Select<T>>
                     child: Text(
                       chosen?.label ?? placeholder,
                       style: theme.textStyle.copyWith(
+                        height: InvisibleTypographyTokens.lineHeightTight,
                         color: !widget.enabled
                             ? colors.textDisabled
                             : chosen == null
