@@ -184,6 +184,58 @@ void main() {
     }
   });
 
+  testWidgets('the fill and the label are the toggle colours at rest and '
+      'the selected colours when on, in both themes', (tester) async {
+    BoxDecoration surface(WidgetTester tester) =>
+        tester
+                .widget<AnimatedContainer>(
+                  find.ancestor(
+                    of: find.text('Bold'),
+                    matching: find.byType(AnimatedContainer),
+                  ),
+                )
+                .decoration!
+            as BoxDecoration;
+    Color? label(WidgetTester tester) =>
+        DefaultTextStyle.of(tester.element(find.text('Bold'))).style.color;
+    for (final theme in [
+      InvisibleThemeData.light(),
+      InvisibleThemeData.dark(),
+    ]) {
+      final colors = theme.colors;
+      for (final value in [false, true]) {
+        await tester.pumpWidget(
+          harness(
+            ToggleButton(value: value, child: const Text('Bold')),
+            theme: theme,
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          surface(tester).color,
+          value
+              ? colors.toggleButtonSelectedBackground
+              : colors.toggleButtonBackground,
+        );
+        expect(
+          label(tester),
+          value
+              ? colors.toggleButtonSelectedForeground
+              : colors.toggleButtonForeground,
+        );
+      }
+      // At rest it takes the default Button fill and label.
+      expect(
+        colors.toggleButtonBackground.toARGB32(),
+        colors.buttonBackground.toARGB32(),
+      );
+      expect(
+        colors.toggleButtonForeground.toARGB32(),
+        colors.buttonForeground.toARGB32(),
+      );
+    }
+  });
+
   testWidgets('controlled: a changed value is shown, never reported; the '
       'callback is read at the press', (tester) async {
     final first = <bool>[];

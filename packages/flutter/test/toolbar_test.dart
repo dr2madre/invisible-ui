@@ -330,7 +330,7 @@ void main() {
         ),
       );
       await tester.pumpWidget(build(flat: false));
-      expect(surface(tester, 'B').color, colors.background);
+      expect(surface(tester, 'B').color, colors.toggleButtonBackground);
       expect(
         (surface(tester, 'B').border! as Border).top.color,
         colors.toggleButtonBorder,

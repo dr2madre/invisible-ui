@@ -39,6 +39,41 @@ background. A pressed Toggle Button aliases `components.general.border.selected`
 the selection colour with the same recipe.
 Changing a Button token does not modify the shared token it references.
 
+The default Button fill aliases `components.general.background.action`, which
+is transparent in both themes, and its label aliases
+`components.general.foreground.action`. A Toggle Button at rest points at the
+same two tokens, so Toggle Group items match the default Button too. A pressed
+Toggle Button and the selected Segmented Control segment alias
+`components.general.background.selected` and
+`components.general.foreground.selected`.
+
+## Dark contrast
+
+Dark reproduces the Light contrast of each pair below against the page
+background: White in Light, Black `#121212` in Dark. Each Dark value is the
+nearest palette step or a recorded mix. Ratios are WCAG 2 contrast ratios.
+
+| Pair | Light | Dark before | Dark now |
+| --- | --- | --- | --- |
+| Default border on the page (`general.border.action`) | `#9e9e9e` 2.68 | `#7a7a7a` 4.36 | control border 42% with the background, `#595959` 2.67 |
+| Default fill (`general.background.action`) | none | Grey 900 `#272727` 1.25 | none |
+| Default and toggle label on the page (`general.foreground.action`) | Grey 900 14.94 | Grey 50 17.18 | Grey 100 `#e0e0e0` 14.19 |
+| Secondary fill on the page | `#ebe5f7` 1.23 | `#332d40` 1.42 | primary 23% with Black, `#2a213d` 1.23 |
+| Secondary border on the page | primary at 55% 2.60 | primary at 55% 2.30 | primary at 72% 2.59 |
+| Secondary label on the page | Purple 600 6.99 | White 18.73 | `#a990dc` 6.88 |
+| Secondary label on its fill | 5.68 | 13.21 | 5.57 |
+| Selected fill on the page (`general.background.selected`) | selection at 10% 1.14 | selection at 10% 1.08 | selection at 16% 1.14 |
+| Selected label on the page (`general.foreground.selected`) | `#7a52cc` 5.38 | `#7a52cc` 3.48 | `#a990dc` 6.88 |
+| Selected label on the selected fill | 4.71 | 3.24 | 6.02 |
+| Primary label on the primary fill | 5.38 | 5.38 | 5.38, unchanged |
+
+The selected label in Dark is the selection text colour, the colour of the
+checked Checkbox glyph. The selection colour itself reaches 3.24:1 on the Dark
+selected fill, under the 4.5:1 text minimum, so the label cannot take it.
+The Dark secondary fill and label changed after the reform; the migration
+manifest keeps the reform values, and `scripts/token-model.test.mjs` lists
+these two entries as changed on purpose.
+
 Avatar, Switch, Calendar, Table, Carousel, Navigation Bar and Stepper own their
 backgrounds under `components.<name>.background.default`; these are palette
 references rather than a shared synthetic container layer.

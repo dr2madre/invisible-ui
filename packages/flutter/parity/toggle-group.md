@@ -10,6 +10,11 @@ Reference review (2026-10-19): the segmented group draws its outer border and
 the lines between toggles in the toggle group border, which points at the
 shared action border, as the default Button border does.
 
+Reference review (2026-10-19, Dark contrast): the toggles of a group are Toggle
+Buttons, so they take the toggle fill and label at rest and the shared
+selected fill and label when on, in both themes. Nothing changed in the group
+itself.
+
 Reference paths: `packages/svelte/src/lib/toggle-group`
 
 The Flutter `ToggleGroup` checked against the Svelte `ToggleGroup`

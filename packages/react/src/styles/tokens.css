@@ -206,6 +206,16 @@
     var(--ds-components-general-selection-background-default) 70%,
     var(--ds-components-general-background-default)
   );
+  --ds-components-general-background-action: transparent;
+  --ds-components-general-background-selected: color-mix(
+    in srgb,
+    var(--ds-components-general-selection-background-default) 10%,
+    transparent
+  );
+  --ds-components-general-foreground-action: var(--ds-components-general-foreground-default);
+  --ds-components-general-foreground-selected: var(
+    --ds-components-general-selection-background-default
+  );
   --ds-components-general-background-disabled: var(--ds-colors-palette-grey-200);
   --ds-components-general-background-hover: rgb(0 0 0 / 0.06);
   --ds-components-general-background-pressed: rgb(0 0 0 / 0.12);
@@ -324,7 +334,7 @@
   );
   --ds-components-general-action-danger-foreground-default: var(--ds-colors-feedback-danger-hover);
   /* The secondary action's fill and its label: the secondary button. A quiet
-     tint of the primary; the label flips to white on dark surfaces. */
+     tint of the primary; in Dark the fill and label keep the Light contrast. */
   --ds-components-general-action-secondary-contextual-background-default: color-mix(
     in srgb,
     var(--ds-components-general-action-primary-background-default) 15%,
@@ -424,13 +434,23 @@
     --ds-components-general-border-control: var(--ds-colors-palette-grey-300);
     --ds-components-general-border-action: color-mix(
       in srgb,
-      var(--ds-components-general-border-control) 70%,
+      var(--ds-components-general-border-control) 42%,
       var(--ds-components-general-background-default)
     );
     --ds-components-general-border-selected: color-mix(
       in srgb,
       var(--ds-components-general-selection-background-default) 70%,
       var(--ds-components-general-background-default)
+    );
+    --ds-components-general-background-action: transparent;
+    --ds-components-general-background-selected: color-mix(
+      in srgb,
+      var(--ds-components-general-selection-background-default) 16%,
+      transparent
+    );
+    --ds-components-general-foreground-action: var(--ds-colors-palette-grey-100);
+    --ds-components-general-foreground-selected: var(
+      --ds-components-general-selection-contextual-foreground-default
     );
     --ds-components-general-background-disabled: var(--ds-colors-palette-grey-800);
     --ds-components-general-background-hover: rgb(255 255 255 / 0.09);
@@ -530,11 +550,11 @@
     --ds-components-general-action-danger-foreground-default: var(--ds-colors-palette-grey-0);
     --ds-components-general-action-secondary-contextual-background-default: color-mix(
       in srgb,
-      var(--ds-components-general-action-primary-background-default) 15%,
-      var(--ds-colors-palette-grey-900)
+      var(--ds-components-general-action-primary-background-default) 23%,
+      var(--ds-colors-palette-black)
     );
     --ds-components-general-action-secondary-contextual-foreground-default: var(
-      --ds-colors-palette-grey-0
+      --ds-components-general-action-secondary-body-foreground-default
     );
     --ds-components-general-feedback-neutral-background-default: var(--ds-colors-palette-grey-800);
     --ds-components-general-feedback-neutral-border-default: var(--ds-colors-palette-grey-700);
@@ -620,13 +640,23 @@
   --ds-components-general-border-control: var(--ds-colors-palette-grey-300);
   --ds-components-general-border-action: color-mix(
     in srgb,
-    var(--ds-components-general-border-control) 70%,
+    var(--ds-components-general-border-control) 42%,
     var(--ds-components-general-background-default)
   );
   --ds-components-general-border-selected: color-mix(
     in srgb,
     var(--ds-components-general-selection-background-default) 70%,
     var(--ds-components-general-background-default)
+  );
+  --ds-components-general-background-action: transparent;
+  --ds-components-general-background-selected: color-mix(
+    in srgb,
+    var(--ds-components-general-selection-background-default) 16%,
+    transparent
+  );
+  --ds-components-general-foreground-action: var(--ds-colors-palette-grey-100);
+  --ds-components-general-foreground-selected: var(
+    --ds-components-general-selection-contextual-foreground-default
   );
   --ds-components-general-background-disabled: var(--ds-colors-palette-grey-800);
   --ds-components-general-background-hover: rgb(255 255 255 / 0.09);
@@ -722,11 +752,11 @@
   --ds-components-general-action-danger-foreground-default: var(--ds-colors-palette-grey-0);
   --ds-components-general-action-secondary-contextual-background-default: color-mix(
     in srgb,
-    var(--ds-components-general-action-primary-background-default) 15%,
-    var(--ds-colors-palette-grey-900)
+    var(--ds-components-general-action-primary-background-default) 23%,
+    var(--ds-colors-palette-black)
   );
   --ds-components-general-action-secondary-contextual-foreground-default: var(
-    --ds-colors-palette-grey-0
+    --ds-components-general-action-secondary-body-foreground-default
   );
   --ds-components-general-feedback-neutral-background-default: var(--ds-colors-palette-grey-800);
   --ds-components-general-feedback-neutral-border-default: var(--ds-colors-palette-grey-700);
@@ -1091,9 +1121,9 @@
   --ds-components-carousel-background-default: var(--ds-colors-palette-grey-100);
   --ds-components-navigation-bar-background-default: var(--ds-colors-palette-grey-100);
   --ds-components-stepper-background-default: var(--ds-colors-palette-grey-100);
-  --ds-components-button-background-default: var(--ds-components-general-background-default);
+  --ds-components-button-background-default: var(--ds-components-general-background-action);
   --ds-components-button-background-hover: var(--ds-components-general-background-hover);
-  --ds-components-button-foreground-default: var(--ds-components-general-foreground-default);
+  --ds-components-button-foreground-default: var(--ds-components-general-foreground-action);
   --ds-components-button-foreground-supporting: var(--ds-components-general-foreground-secondary);
   --ds-components-button-background-primary-default: var(
     --ds-components-general-action-primary-background-default
@@ -1153,6 +1183,20 @@
   --ds-components-toggle-button-border-selected: var(--ds-components-general-border-selected);
   --ds-components-toggle-group-border-default: var(--ds-components-general-border-action);
   --ds-components-segmented-control-border-default: var(--ds-components-general-border-action);
+  --ds-components-toggle-button-background-default: var(--ds-components-general-background-action);
+  --ds-components-toggle-button-background-selected: var(
+    --ds-components-general-background-selected
+  );
+  --ds-components-toggle-button-foreground-default: var(--ds-components-general-foreground-action);
+  --ds-components-toggle-button-foreground-selected: var(
+    --ds-components-general-foreground-selected
+  );
+  --ds-components-segmented-control-background-selected: var(
+    --ds-components-general-background-selected
+  );
+  --ds-components-segmented-control-foreground-selected: var(
+    --ds-components-general-foreground-selected
+  );
 }
 [data-theme="dark"] {
   --ds-components-avatar-background-default: var(--ds-colors-palette-grey-700);
@@ -1162,9 +1206,9 @@
   --ds-components-carousel-background-default: var(--ds-colors-palette-grey-700);
   --ds-components-navigation-bar-background-default: var(--ds-colors-palette-grey-700);
   --ds-components-stepper-background-default: var(--ds-colors-palette-grey-700);
-  --ds-components-button-background-default: var(--ds-components-general-background-default);
+  --ds-components-button-background-default: var(--ds-components-general-background-action);
   --ds-components-button-background-hover: var(--ds-components-general-background-hover);
-  --ds-components-button-foreground-default: var(--ds-components-general-foreground-default);
+  --ds-components-button-foreground-default: var(--ds-components-general-foreground-action);
   --ds-components-button-foreground-supporting: var(--ds-components-general-foreground-secondary);
   --ds-components-button-background-primary-default: var(
     --ds-components-general-action-primary-background-default
@@ -1202,7 +1246,7 @@
   --ds-components-button-border-default: var(--ds-components-general-border-action);
   --ds-components-button-border-secondary-default: color-mix(
     in srgb,
-    var(--ds-components-general-action-primary-background-default) 55%,
+    var(--ds-components-general-action-primary-background-default) 72%,
     transparent
   );
   --ds-components-button-border-danger-default: color-mix(
@@ -1224,6 +1268,20 @@
   --ds-components-toggle-button-border-selected: var(--ds-components-general-border-selected);
   --ds-components-toggle-group-border-default: var(--ds-components-general-border-action);
   --ds-components-segmented-control-border-default: var(--ds-components-general-border-action);
+  --ds-components-toggle-button-background-default: var(--ds-components-general-background-action);
+  --ds-components-toggle-button-background-selected: var(
+    --ds-components-general-background-selected
+  );
+  --ds-components-toggle-button-foreground-default: var(--ds-components-general-foreground-action);
+  --ds-components-toggle-button-foreground-selected: var(
+    --ds-components-general-foreground-selected
+  );
+  --ds-components-segmented-control-background-selected: var(
+    --ds-components-general-background-selected
+  );
+  --ds-components-segmented-control-foreground-selected: var(
+    --ds-components-general-foreground-selected
+  );
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -1234,9 +1292,9 @@
     --ds-components-carousel-background-default: var(--ds-colors-palette-grey-700);
     --ds-components-navigation-bar-background-default: var(--ds-colors-palette-grey-700);
     --ds-components-stepper-background-default: var(--ds-colors-palette-grey-700);
-    --ds-components-button-background-default: var(--ds-components-general-background-default);
+    --ds-components-button-background-default: var(--ds-components-general-background-action);
     --ds-components-button-background-hover: var(--ds-components-general-background-hover);
-    --ds-components-button-foreground-default: var(--ds-components-general-foreground-default);
+    --ds-components-button-foreground-default: var(--ds-components-general-foreground-action);
     --ds-components-button-foreground-supporting: var(--ds-components-general-foreground-secondary);
     --ds-components-button-background-primary-default: var(
       --ds-components-general-action-primary-background-default
@@ -1276,7 +1334,7 @@
     --ds-components-button-border-default: var(--ds-components-general-border-action);
     --ds-components-button-border-secondary-default: color-mix(
       in srgb,
-      var(--ds-components-general-action-primary-background-default) 55%,
+      var(--ds-components-general-action-primary-background-default) 72%,
       transparent
     );
     --ds-components-button-border-danger-default: color-mix(
@@ -1298,5 +1356,23 @@
     --ds-components-toggle-button-border-selected: var(--ds-components-general-border-selected);
     --ds-components-toggle-group-border-default: var(--ds-components-general-border-action);
     --ds-components-segmented-control-border-default: var(--ds-components-general-border-action);
+    --ds-components-toggle-button-background-default: var(
+      --ds-components-general-background-action
+    );
+    --ds-components-toggle-button-background-selected: var(
+      --ds-components-general-background-selected
+    );
+    --ds-components-toggle-button-foreground-default: var(
+      --ds-components-general-foreground-action
+    );
+    --ds-components-toggle-button-foreground-selected: var(
+      --ds-components-general-foreground-selected
+    );
+    --ds-components-segmented-control-background-selected: var(
+      --ds-components-general-background-selected
+    );
+    --ds-components-segmented-control-foreground-selected: var(
+      --ds-components-general-foreground-selected
+    );
   }
 }

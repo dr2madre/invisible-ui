@@ -11,6 +11,12 @@ points at the shared action border, as the default Button border does; a
 pressed toggle takes the selected toggle border, which points at the shared
 selected border. Flutter reads the same tokens.
 
+Reference review (2026-10-19, Dark contrast): at rest the toggle takes the
+default Button fill and label, which point at the shared action fill (none)
+and action label; pressed, it takes the shared selected fill and selected
+label. In Dark these keep the Light contrast with the page. Flutter reads the
+same tokens.
+
 Reference paths: `core/src/toggle-button` `packages/svelte/src/lib/toggle-button`
 
 The Flutter `ToggleButton` checked against the Svelte `ToggleButton`
@@ -63,6 +69,7 @@ scope**. Every matched line names the widget test in
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | 2.25rem surface, the toggle border (the default Button border) and radius; on: a tint of the selection colour, the selected toggle border and selection-coloured content | matched | `check shows a tick only while on, at the inline start; on takes the selection colour` and `the border is the toggle border at rest and the selected border when on, in both themes` |
+| At rest the default Button fill (none) and label; on: the shared selected fill and label, in both themes | matched | `the fill and the label are the toggle colours at rest and the selected colours when on, in both themes` |
 | `check`: a leading tick only while on, at the inline start in both directions | matched | same test |
 | Hover keeps the rest background | matched | no hover change, as the default `--ds-toggle-bg-hover` |
 | Focus ring on keyboard focus | matched | `the ring shows on keyboard focus; 44 by 44 under touch; text scale 2.0 grows the surface` |

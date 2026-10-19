@@ -18,7 +18,6 @@ const double _paddingX = 14.4;
 const double _iconOnlyPadding = 7.2;
 const double _stackedLabelSize = 12;
 const double _iconEm = 1.15;
-const double _checkedTint = 0.1;
 const double _disabledOpacity = 0.5;
 
 /// A bar of segments of which one is chosen, a compact single choice such
@@ -312,7 +311,9 @@ class _SegmentState<T> extends State<_Segment<T>> {
     final item = widget.item;
     final checked = widget.checked;
     final fontSize = theme.textStyle.fontSize!;
-    final foreground = checked ? colors.secondaryBodyText : colors.text;
+    final foreground = checked
+        ? colors.segmentedControlSelectedForeground
+        : colors.text;
     final icon = item.icon;
     final showLabel = !widget.iconOnly;
 
@@ -361,9 +362,7 @@ class _SegmentState<T> extends State<_Segment<T>> {
 
     final surface = DecoratedBox(
       decoration: BoxDecoration(
-        color: checked
-            ? colors.secondary.withValues(alpha: _checkedTint)
-            : null,
+        color: checked ? colors.segmentedControlSelectedBackground : null,
         border: widget.divider
             ? BorderDirectional(
                 start: widget.horizontal ? divider : BorderSide.none,

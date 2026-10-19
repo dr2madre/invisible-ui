@@ -22,9 +22,17 @@ test("the reform has 132 exact palette steps plus White and Black", () => {
   assert.equal(validateTokenModel(tree), tokenEntries(tree).length);
 });
 
+// Values changed on purpose after the reform. The manifest stays pinned to the
+// reform baseline; docs/tokens.md records why each one changed.
+const changedAfterReform = new Set([
+  // Dark secondary Button fill and label keep the Light contrast with the page.
+  "role.dark.color-secondary-surface",
+  "role.dark.color-on-secondary-surface",
+]);
+
 test("all migration values and recipe references are preserved in both modes", () => {
   for (const entry of manifest.entries) {
-    if (entry.retired) continue;
+    if (entry.retired || changedAfterReform.has(entry.from)) continue;
     const token = modeTokens(tree, entry.mode ?? "light").get(entry.to);
     assert.deepEqual(token.$value, entry.after.$value, entry.from);
     assert.deepEqual(

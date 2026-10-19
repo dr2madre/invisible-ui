@@ -32,8 +32,8 @@
   border: var(--ds-toggle-border-width, 1px) solid
     var(--ds-toggle-border, var(--ds-components-toggle-button-border-default));
   border-radius: var(--ds-toggle-radius, var(--ds-metrics-radius-control, 0.5rem));
-  background: var(--ds-toggle-bg, var(--ds-components-general-background-default, #fff));
-  color: var(--ds-components-general-foreground-default, #272727);
+  background: var(--ds-toggle-bg, var(--ds-components-toggle-button-background-default));
+  color: var(--ds-components-toggle-button-foreground-default);
   transition:
     background-color 120ms ease,
     border-color 120ms ease,
@@ -48,7 +48,7 @@
 .toggle:hover .toggle__surface {
   background: var(
     --ds-toggle-bg-hover,
-    var(--ds-toggle-bg, var(--ds-components-general-background-default, #fff))
+    var(--ds-toggle-bg, var(--ds-components-toggle-button-background-default))
   );
 }
 .toggle:focus-visible .toggle__surface {
@@ -58,12 +58,8 @@
    content (mirrors the standalone Checkbox: no weight change, which would
    shift width). */
 .toggle[aria-pressed="true"] .toggle__surface {
-  background: color-mix(
-    in srgb,
-    var(--ds-components-general-selection-background-default, #7a52cc) 10%,
-    transparent
-  );
-  color: var(--ds-components-general-selection-background-default, #7a52cc);
+  background: var(--ds-components-toggle-button-background-selected);
+  color: var(--ds-components-toggle-button-foreground-selected);
   border-color: var(--ds-components-toggle-button-border-selected);
 }
 .toggle:disabled .toggle__surface {
