@@ -1,28 +1,24 @@
-export function buttonColorTokens(appearance) {
-  const output = { Light: {}, Dark: {} };
-  for (const [theme, variants] of Object.entries(appearance.themes)) {
-    for (const [variant, states] of Object.entries(variants)) {
-      for (const [state, style] of Object.entries(states)) {
-        for (const property of ["background", "foreground", "border"]) {
-          output[theme === "light" ? "Light" : "Dark"][
-            `component/button/${variant}/${state}/${property}`
-          ] = { type: "COLOR", value: style[property] };
-        }
-      }
-    }
-  }
-  return output;
+// Mixed token colours are stored as 8-bit hex, while the browser renders the
+// exact mix: a token matches the capture when it is within one 8-bit step.
+export const COLOR_TOLERANCE = 1 / 255;
+
+/** The exported token variable a Button paint binds to. */
+export function buttonTokenName(variant, state, property, styles) {
+  const name = styles.paints[variant.toLowerCase()]?.[state.toLowerCase()]?.[property];
+  if (!name) throw new Error(`No Button token for ${variant}/${state}/${property}`);
+  return name;
 }
 
-export function buttonPaint(variant, state, property, appearance, variables, bind) {
-  const name = `component/button/${variant.toLowerCase()}/${state.toLowerCase()}/${property}`;
+export function buttonPaint(variant, state, property, styles, variables, bind) {
+  const name = buttonTokenName(variant, state, property, styles);
   const variable = variables.get(name);
-  if (!variable) throw new Error(`Missing generated Button colour: ${name}`);
-  const { r, g, b } = appearance.themes.light[variant.toLowerCase()][state.toLowerCase()][property];
-  return bind({ type: "SOLID", color: { r, g, b } }, "color", variable);
+  if (!variable)
+    throw new Error(`Missing token variable ${name}. Run the update with Components and tokens.`);
+  // The bound variable supplies the colour; this placeholder is replaced on binding.
+  return bind({ type: "SOLID", color: { r: 0, g: 0, b: 0 } }, "color", variable);
 }
 
-export function verifyButtonColors(board, appearance, variables, collection) {
+export function verifyButtonColors(board, appearance, variables, collection, styles) {
   const byId = new Map([...variables.values()].map((variable) => [variable.id, variable]));
   const components = board.findAll(
     (node) =>
@@ -31,17 +27,17 @@ export function verifyButtonColors(board, appearance, variables, collection) {
   );
   const names = new Set();
   let checked = 0;
-  const same = (actual, expected, context) => {
-    if (typeof actual !== "number" || Math.abs(actual - expected) > 0.00001)
+  const same = (actual, expected, context, tolerance = 0.00001) => {
+    if (typeof actual !== "number" || Math.abs(actual - expected) > tolerance)
       throw new Error(`Button colour verification failed: ${context}`);
   };
-  function paintColor(paints, modeId) {
+  function paintColor(paints, modeId, token) {
     if (paints.length !== 1 || paints[0].type !== "SOLID" || paints[0].visible === false)
       throw new Error("Button requires one visible solid paint per property");
     const paint = paints[0];
-    let value = paint.boundVariables?.color
-      ? byId.get(paint.boundVariables.color.id)?.valuesByMode[modeId]
-      : paint.color;
+    if (byId.get(paint.boundVariables?.color?.id)?.name !== token)
+      throw new Error(`Button paint is not bound to ${token}`);
+    let value = byId.get(paint.boundVariables.color.id).valuesByMode[modeId];
     const seen = new Set();
     while (value?.type === "VARIABLE_ALIAS") {
       if (seen.has(value.id)) throw new Error("Circular Button colour alias");
@@ -50,7 +46,7 @@ export function verifyButtonColors(board, appearance, variables, collection) {
     }
     if (!value) throw new Error("Unresolved Button colour");
     // The bound RGBA variable owns alpha; the paint may expose that same alpha.
-    return { ...value, a: paint.boundVariables?.color ? (value.a ?? 1) : (paint.opacity ?? 1) };
+    return { ...value, a: value.a ?? 1 };
   }
   for (const component of components) {
     const match = /^Variant=([^,]+), State=(.+)$/.exec(component.name);
@@ -74,12 +70,17 @@ export function verifyButtonColors(board, appearance, variables, collection) {
       const icon = component.children.find((node) => node.name === "Icon");
       if (icon) properties.push([icon.fills, "foreground"]);
       for (const [paints, property] of properties) {
-        const actual = paintColor(paints, mode.modeId);
+        const actual = paintColor(
+          paints,
+          mode.modeId,
+          buttonTokenName(variant, state, property, styles),
+        );
         for (const channel of ["r", "g", "b", "a"])
           same(
             actual[channel],
             expected[property][channel],
             `${variant}/${state}/${theme}/${property}/${channel}`,
+            COLOR_TOLERANCE,
           );
       }
       same(component.opacity, expected.opacity, `${variant}/${state}/opacity`);
