@@ -234,16 +234,16 @@ class _ListboxPopupState<T> extends State<ListboxPopup<T>> {
             ),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: colors.background,
+                color: colors.menuBackground,
                 border: Border.all(color: colors.border, width: _panelBorder),
                 borderRadius: BorderRadius.circular(
-                  InvisibleRadiusTokens.surface,
+                  InvisibleRadiusTokens.container,
                 ),
                 boxShadow: overlayShadow(theme.brightness),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(
-                  InvisibleRadiusTokens.surface - _panelBorder,
+                  InvisibleRadiusTokens.container - _panelBorder,
                 ),
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(_panelPadding),

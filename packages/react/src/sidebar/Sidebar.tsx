@@ -96,7 +96,7 @@ const lock = (
  * headless navigation bar, shared with the Navigation Bar.
  */
 function SidebarItems({ items, value, collapsed, onSelect, onNavigate }: ItemsProps) {
-  const { t } = useI18n();
+  const { t, dir } = useI18n();
   const id = `ds-sidebar-items-${useId()}`;
   return (
     <ul className={cx("sidebar__list", collapsed && "sidebar__list--collapsed")}>
@@ -162,7 +162,7 @@ function SidebarItems({ items, value, collapsed, onSelect, onNavigate }: ItemsPr
                       })
                     : item.label
                 }
-                placement="right"
+                placement={dir === "rtl" ? "left" : "right"}
               >
                 {control}
               </Tooltip>
@@ -382,7 +382,7 @@ export function Sidebar({
   logo,
   footer,
 }: SidebarProps) {
-  const { t, dir } = useI18n();
+  const { t } = useI18n();
   const [collapsed, setCollapsed] = useControllable(collapsedProp, onCollapsedChange);
   const [open, setOpen] = useControllable(openProp, onOpenChange);
 
@@ -444,13 +444,12 @@ export function Sidebar({
 
   if (mode === "drawer") {
     // The drawer's edge follows the writing direction.
-    const start = side === "inline-start";
     return (
       <SheetDialog
         open={open}
         renderTrigger={renderTrigger}
         returnFocusTo={returnFocusTo}
-        side={start === (dir === "rtl") ? "right" : "left"}
+        side={side === "inline-start" ? "start" : "end"}
         title={title ?? resolvedLabel}
         trigger={trigger ?? t("sidebar.open")}
         onOpenChange={setOpen}

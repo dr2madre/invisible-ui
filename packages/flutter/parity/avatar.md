@@ -1,6 +1,10 @@
 # Avatar parity checklist
 
-Reference commit: `e32e67cd2cc2fb993c9758007c27026cafc20420`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/avatar` `packages/svelte/src/lib/avatar`
 

@@ -5,7 +5,7 @@ import { ChevronGlyph, Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { attachFloating, ignoreGhostClicks } from "../internal/floating";
 import { MenuPopup, useMenu } from "../internal/menu";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 
 export type MenuEntry = core.MenuEntry;
 export type MenuItem = core.MenuItem;
@@ -39,8 +39,9 @@ export interface DropdownMenuProps {
  * `--ds-menu-*`.
  */
 export function DropdownMenu({ label, items, disabled = false, onSelect }: DropdownMenuProps) {
-  const { locale, dir } = useI18n();
+  const { locale, dir: contextDir } = useI18n();
   const rootRef = useRef<HTMLDivElement>(null);
+  const dir = useAnchorDirection(rootRef, contextDir);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const host = usePortalHost(rootRef);
   const { api, setOpenPath, dismiss } = useMenu({

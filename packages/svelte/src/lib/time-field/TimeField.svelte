@@ -201,28 +201,28 @@
     padding: 0.4rem 0.6rem;
     font: inherit;
     font-variant-numeric: tabular-nums;
-    color: var(--ds-color-text, #272727);
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-radius-control, 0.5rem);
+    color: var(--ds-components-general-foreground-default, #272727);
+    background: var(--ds-components-general-background-default, #fff);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
   }
   .time-field:focus-within {
-    border-color: var(--ds-color-focus-ring, #8e6cd4);
+    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .time-field--disabled {
     opacity: 0.55;
   }
   .time-field--invalid {
-    border-color: var(--ds-color-danger, #be3b50);
+    border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
   }
 
   .time-field__separator {
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .time-field__segment {
     padding: 0.05rem 0.2rem;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: text;
     outline: none;
     min-inline-size: 1.4em;
@@ -237,15 +237,21 @@
   /* Highlight the active segment on any focus (including touch), so it's always
      clear which part is being edited — `:focus-visible` alone misses touch. */
   .time-field__segment:focus {
-    background: var(--ds-time-field-focus-bg, var(--ds-color-secondary, #7a52cc));
-    color: var(--ds-time-field-focus-text, var(--ds-color-on-secondary, #ffffff));
+    background: var(
+      --ds-time-field-focus-bg,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+    );
+    color: var(
+      --ds-time-field-focus-text,
+      var(--ds-components-general-action-secondary-foreground-default, #ffffff)
+    );
   }
   .time-field__segment--placeholder {
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .time-field__error {
     margin: 0;
-    color: var(--ds-color-danger, #be3b50);
+    color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
     font-size: 0.875rem;
   }
 </style>

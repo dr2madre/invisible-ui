@@ -212,8 +212,8 @@ pnpm tokens:figma
 
 The command reads the canonical [`packages/tokens/tokens.json`](./packages/tokens/tokens.json)
 and writes the import files under [`packages/tokens/figma/`](./packages/tokens/figma/).
-It converts dimensions to pixels, keeps aliases, and maps the two theme role
-sets to the same Figma variable names. See the
+It converts dimensions to pixels, keeps aliases, and gives each canonical token
+one Figma variable name with a Light and a Dark value. See the
 [Figma tokens guide](https://dr2madre.github.io/invisible-ui/presentation/figma/)
 for the import sequence, supported transformations, and synchronization rules.
 
@@ -229,7 +229,7 @@ for the import sequence, supported transformations, and synchronization rules.
   action on the brand's secondary color, `ghost` is a reduced-affordance
   low-emphasis button, `danger` is destructive. A **styled** `Button.svelte`
   realises these
-  with themeable `--ds-button-*` tokens, plain (un-boxed) leading/trailing icons
+  with themeable `--ds-components-button-*` tokens, plain (un-boxed) leading/trailing icons
   (default plus, overridable via `left`/`right` slots), and — for `danger` — a
   hazard icon by default so meaning never relies on color alone (WCAG 1.4.1).
   Imported from `@invisible-ui/svelte/Button.svelte`.

@@ -1,6 +1,6 @@
 # Confirm Dialog parity checklist
 
-Reference commit: `71ede6af6037f9dc1aa5ade2c426bd21abb37943`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/dialog` `packages/svelte/src/lib/dialog` `packages/svelte/src/lib/confirm-dialog`
 
@@ -43,3 +43,7 @@ that holds it.
 | Text scale 2.0, narrow, right to left | matched | `text scale 2.0 on a narrow screen, right to left: no overflow, the close button at the inline-end` |
 | A trigger button inside the component | adapted | Flutter opens dialogs as routes: the app's own button calls `showInvisibleDialog` |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+
+## Background token
+
+The background reads the component token `--ds-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

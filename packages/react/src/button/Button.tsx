@@ -76,7 +76,7 @@ export interface ButtonProps extends NativeButtonProps {
  * outside the `<button>`, so the button's name never changes, and it is a live
  * region present from the first render, so it is in the page before it speaks.
  *
- * Colours and sizing are themeable via `--ds-button-*`.
+ * Colours and sizing are themeable via `--ds-components-button-*`.
  */
 export const Button = /* @__PURE__ */ forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {

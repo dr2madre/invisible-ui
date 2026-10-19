@@ -1,6 +1,10 @@
 # Accordion parity checklist
 
-Reference commit: `ddcb5bf7b51d6d75d5e1606607c9caa5dcb3a0c1`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/accordion` `packages/svelte/src/lib/accordion`
 
@@ -57,7 +61,7 @@ shared vectors in `core/src/accordion/__vectors__`
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Bordered box, sections divided, chevron turning a quarter turn toward the content | matched | `right to left: the chevron sits at the inline-end and turns toward the content; text scale 2.0 in a narrow column` |
-| The chevron mirrors right to left and turns the other way | adapted | the web chevron does not mirror; under right-to-left it points to the inline-end as the submenu chevron does: same test |
+| The chevron mirrors right to left and turns the other way | matched | the web chevron mirrors through `:dir(rtl)` in the sheet; under right-to-left it points to the inline-end as the submenu chevron does: same test |
 | The chevron turns at once under reduced motion | matched | the shared `DisclosureTrigger`, held by the Collapsible test `the chevron turns at once under reduced motion` |
 | Focus ring inside the header, since the box clips | matched | `DisclosureTrigger(ringInside: true)` |
 | Width `16rem` | adapted | the width the parent gives, 256 when it is open |

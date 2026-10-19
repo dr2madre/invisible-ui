@@ -25,7 +25,7 @@
         width="3.5rem"
         height="3.5rem"
         fill="none"
-        stroke="var(--ds-color-text-secondary)"
+        stroke="var(--ds-components-general-foreground-secondary)"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"

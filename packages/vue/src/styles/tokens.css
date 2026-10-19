@@ -14,11 +14,15 @@
  * are derived from the feedback hue via color-mix, so changing a feedback color
  * cascades to its Alert/Notification surface automatically.
  *
+ * Component backgrounds (--ds-components-page-background-default, --ds-components-card-background-default,
+ * --ds-components-dialog-background-default…) sit at the end of each theme block. Each points at
+ * a role or a primitive, so one kind of component can change on its own.
+ *
  * NAMING — headless, decoupled from style. A semantic token names a ROLE
  * (primary, surface, border, text…) or a STATE (hover, pressed, disabled,
  * focus…). It NEVER describes appearance. So there is no "muted", "soft" or
- * "subtle": that surface is `--ds-color-surface`, the hover overlay is
- * `--ds-state-hover`. A word like "mute" is only allowed when it is a genuine
+ * "subtle": that surface is `--ds-components-general-background-default`, the hover overlay is
+ * `--ds-components-general-background-hover`. A word like "mute" is only allowed when it is a genuine
  * state (a muted microphone), never as a visual adjective. Consumers stay free
  * to restyle a role without the name lying about how it looks.
  *
@@ -32,29 +36,31 @@
   /* 0) Palette scale — the raw named primitives, taken from the project color
         palette (family + weight). The brand and feedback base tokens below
         reference these — never a raw value. */
-  --ds-red-600: #be3b50; /* Alizarin Red 600 */
-  --ds-red-700: #ab2e42; /* Alizarin Red 700 */
-  --ds-orange-500: #c96422; /* Burnt Orange 500 */
-  --ds-green-600: #3e7523; /* Sap Green 600 */
-  --ds-blue-500: #4067b6; /* Cobalt Blue 500 */
-  --ds-purple-500: #7a52cc; /* Dioxazine Purple 500 */
-  --ds-purple-600: #6840b7; /* Dioxazine Purple 600 */
+  --ds-colors-palette-alizarin-red-600: #be3b50; /* Alizarin Red 600 */
+  --ds-colors-palette-alizarin-red-700: #ab2e42; /* Alizarin Red 700 */
+  --ds-colors-palette-burnt-orange-500: #c96422; /* Burnt Orange 500 */
+  --ds-colors-palette-sap-green-600: #3e7523; /* Sap Green 600 */
+  --ds-colors-palette-cobalt-blue-500: #4067b6; /* Cobalt Blue 500 */
+  --ds-colors-palette-dioxazine-purple-500: #7a52cc; /* Dioxazine Purple 500 */
+  --ds-colors-palette-dioxazine-purple-600: #6840b7; /* Dioxazine Purple 600 */
 
   /* 1) Brand — customize first. White text sits on these, so keep them dark
         enough for 4.5:1 when used as button fills. */
-  --ds-brand-primary: var(--ds-purple-500);
-  --ds-brand-primary-hover: var(--ds-purple-600);
-  --ds-brand-secondary: var(--ds-purple-500); /* legacy alias — same hue as primary */
-  --ds-brand-secondary-hover: var(--ds-purple-600);
-  --ds-brand-white: var(--ds-neutral-0); /* lightest UI point — white #fff */
-  --ds-brand-black: var(--ds-neutral-950); /* darkest UI point — grey 950 */
+  --ds-colors-brand-primary-default: var(--ds-colors-palette-dioxazine-purple-500);
+  --ds-colors-brand-primary-hover: var(--ds-colors-palette-dioxazine-purple-600);
+  --ds-colors-brand-secondary-default: var(
+    --ds-colors-palette-dioxazine-purple-500
+  ); /* legacy alias — same hue as primary */
+  --ds-colors-brand-secondary-hover: var(--ds-colors-palette-dioxazine-purple-600);
+  --ds-brand-white: var(--ds-colors-palette-grey-0); /* lightest UI point — white #fff */
+  --ds-brand-black: var(--ds-colors-palette-black); /* darkest UI point — black #121212 */
 
   /* 2) Feedback hues. */
-  --ds-feedback-info: var(--ds-blue-500);
-  --ds-feedback-success: var(--ds-green-600);
-  --ds-feedback-warning: var(--ds-orange-500);
-  --ds-feedback-danger: var(--ds-red-600);
-  --ds-feedback-danger-hover: var(--ds-red-700);
+  --ds-colors-feedback-info-default: var(--ds-colors-palette-cobalt-blue-500);
+  --ds-colors-feedback-success-default: var(--ds-colors-palette-sap-green-600);
+  --ds-colors-feedback-warning-default: var(--ds-colors-palette-burnt-orange-500);
+  --ds-colors-feedback-danger-default: var(--ds-colors-palette-alizarin-red-600);
+  --ds-colors-feedback-danger-hover: var(--ds-colors-palette-alizarin-red-700);
 
   /* Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive
      backgrounds and lightened status tints. */
@@ -65,44 +71,53 @@
   --ds-pastel-yellow: oklch(84.1% 0.151 98); /* #E5CB44 */
 
   /* 3) Neutrals (UI) — the palette's "Grey" 0–950 ramp. */
-  --ds-neutral-0: #ffffff;
-  --ds-neutral-50: #f5f5f5;
-  --ds-neutral-100: #e0e0e0;
-  --ds-neutral-200: #bdbdbd;
-  --ds-neutral-300: #9e9e9e;
-  --ds-neutral-400: #757575;
-  --ds-neutral-500: #616161;
-  --ds-neutral-600: #515151;
-  --ds-neutral-700: #414141;
-  --ds-neutral-800: #323232;
-  --ds-neutral-900: #272727;
-  --ds-neutral-950: #1b1b1b;
+  --ds-colors-palette-grey-0: #ffffff;
+  --ds-colors-palette-grey-50: #f5f5f5;
+  --ds-colors-palette-grey-100: #e0e0e0;
+  --ds-colors-palette-grey-200: #bdbdbd;
+  --ds-colors-palette-grey-300: #9e9e9e;
+  --ds-colors-palette-grey-400: #757575;
+  --ds-colors-palette-grey-500: #616161;
+  --ds-colors-palette-grey-600: #515151;
+  --ds-colors-palette-grey-700: #414141;
+  --ds-colors-palette-grey-800: #323232;
+  --ds-colors-palette-grey-900: #272727;
+  --ds-colors-palette-grey-950: #1b1b1b;
+  /* Black sits apart at the dark end, as white does at the light end: a near
+     black, not pure black. */
+  --ds-colors-palette-black: #121212;
 }
 
 /* =============== Tier 2 — non-color roles (shape & type) ================== *
  * Radius named for the shape's role, not its size — same in light/dark.
  * Elevation remaps per theme and lives in the semantic blocks below.        */
 :root {
-  --ds-radius-control: 0.5rem; /* buttons, inputs, the close button */
-  --ds-radius-surface: 0.75rem; /* alerts, notifications, cards */
-  --ds-radius-pill: 999px; /* fully rounded — toggles, chips */
+  --ds-metrics-radius-control: 0.5rem; /* buttons, inputs, the close button */
+  --ds-metrics-radius-container: 0.75rem; /* alerts, notifications, cards */
+  --ds-metrics-radius-pill: 999px; /* fully rounded — toggles, chips */
 
   /* Shared control sizing so Button / Select / SegmentedControl / TextField /
      Combobox line up at the same height + font when placed side by side. */
-  --ds-control-padding-y: 0.5rem;
-  --ds-control-padding-x: 0.875rem;
+  --ds-metrics-density-regular-control-padding-y: 0.5rem;
+  --ds-metrics-density-regular-control-padding-x: 0.875rem;
   /* The side of the smallest square hit area a control keeps, whatever its
      painted size: 24 by 24 meets WCAG 2.5.8. The touch size is the target a
      coarse pointer gets, 44 by 44, read under `@media (pointer: coarse)`.
      Visual density never lowers either. */
-  --ds-min-target-size: 24px; /* smallest hit area a control keeps */
-  --ds-min-target-size-touch: 44px; /* the same under a coarse pointer */
+  --ds-metrics-density-regular-min-target-size: 24px; /* smallest hit area a control keeps */
+  --ds-metrics-density-touch-min-target-size: 44px; /* the same under a coarse pointer */
 
   /* Selection color (checked/selected states). Alias of the secondary (violet);
      distinct in name from the primary ACTION color, even if both are violet in
      this theme. */
-  --ds-color-selected: var(--ds-color-primary, #7a52cc);
-  --ds-color-on-selected: var(--ds-color-on-secondary, #fff);
+  --ds-components-general-selection-background-default: var(
+    --ds-components-general-action-primary-background-default,
+    #7a52cc
+  );
+  --ds-components-general-selection-foreground-default: var(
+    --ds-components-general-action-secondary-foreground-default,
+    #fff
+  );
 
   /* Type — system font stacks (native feel, no web-font download, no layout
      shift). Named by role: sans for UI text, mono for code/numeric. */
@@ -114,18 +129,18 @@
 
   /* Line heights (unitless). Base for body copy; tight for the more compact
      display/UI text — every heading level plus subtitles, buttons and labels. */
-  --ds-line-height: 1.4; /* 140% — base / body */
-  --ds-line-height-tight: 1.2; /* 120% — headings, subtitles, buttons, labels */
+  --ds-typography-line-height-default: 1.4; /* 140% — base / body */
+  --ds-typography-line-height-heading: 1.2; /* 120% — headings, subtitles, buttons, labels */
 
   /* Heading scale (rem, from the 100% base). Bold by default; override a token
      to re-scale, or a component (e.g. a dialog title) can set its own size. */
-  --ds-heading-weight: 700;
-  --ds-font-size-h1: 2.375rem; /* 38px */
-  --ds-font-size-h2: 2rem; /* 32px */
-  --ds-font-size-h3: 1.75rem; /* 28px */
-  --ds-font-size-h4: 1.5rem; /* 24px */
-  --ds-font-size-h5: 1.25rem; /* 20px */
-  --ds-font-size-h6: 1rem; /* 16px */
+  --ds-typography-font-weight-heading: 700;
+  --ds-typography-font-size-h1: 2.375rem; /* 38px */
+  --ds-typography-font-size-h2: 2rem; /* 32px */
+  --ds-typography-font-size-h3: 1.75rem; /* 28px */
+  --ds-typography-font-size-h4: 1.5rem; /* 24px */
+  --ds-typography-font-size-h5: 1.25rem; /* 20px */
+  --ds-typography-font-size-h6: 1rem; /* 16px */
 }
 
 /* Base presentation layer — the default typography, applied once at the root
@@ -138,32 +153,32 @@
      here in rem. */
   font-size: 100%;
   font-family: var(--ds-font-sans);
-  line-height: var(--ds-line-height);
+  line-height: var(--ds-typography-line-height-default);
 }
 
 /* Heading defaults — bold, tight line-height, sizes from the tokens above. Zero
    specificity, so a component class or consumer rule overrides them freely. */
 :where(h1, h2, h3, h4, h5, h6) {
-  font-weight: var(--ds-heading-weight);
-  line-height: var(--ds-line-height-tight);
+  font-weight: var(--ds-typography-font-weight-heading);
+  line-height: var(--ds-typography-line-height-heading);
 }
 :where(h1) {
-  font-size: var(--ds-font-size-h1);
+  font-size: var(--ds-typography-font-size-h1);
 }
 :where(h2) {
-  font-size: var(--ds-font-size-h2);
+  font-size: var(--ds-typography-font-size-h2);
 }
 :where(h3) {
-  font-size: var(--ds-font-size-h3);
+  font-size: var(--ds-typography-font-size-h3);
 }
 :where(h4) {
-  font-size: var(--ds-font-size-h4);
+  font-size: var(--ds-typography-font-size-h4);
 }
 :where(h5) {
-  font-size: var(--ds-font-size-h5);
+  font-size: var(--ds-typography-font-size-h5);
 }
 :where(h6) {
-  font-size: var(--ds-font-size-h6);
+  font-size: var(--ds-typography-font-size-h6);
 }
 
 /* =============== Tier 2 — semantic (light) ================================= */
@@ -171,149 +186,219 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --ds-color-background: var(--ds-neutral-0);
-  --ds-color-text: var(--ds-neutral-900);
-  --ds-color-text-secondary: var(--ds-neutral-600);
-  --ds-color-text-disabled: var(--ds-neutral-400);
-  --ds-color-border: var(--ds-neutral-200);
+  --ds-components-general-background-default: var(--ds-colors-palette-grey-0);
+  --ds-components-general-foreground-default: var(--ds-colors-palette-grey-900);
+  --ds-components-general-foreground-secondary: var(--ds-colors-palette-grey-600);
+  --ds-components-general-foreground-disabled: var(--ds-colors-palette-grey-400);
+  --ds-components-general-border-default: var(--ds-colors-palette-grey-200);
   /* The boundary that identifies an interactive control: fields, outlined
      buttons, check controls, the switch track. It has to reach 3:1 on the page
      and on a surface; the generic border above stays the quieter line between
      areas (dividers, table rules, panel edges). */
-  --ds-color-control-border: var(--ds-neutral-400);
-  --ds-color-surface: var(--ds-neutral-100);
-  --ds-color-surface-hover: var(--ds-neutral-200);
-  --ds-color-disabled: var(--ds-neutral-200);
-  --ds-state-hover: rgb(0 0 0 / 0.06);
-  --ds-state-pressed: rgb(0 0 0 / 0.12);
-  --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
+  --ds-components-general-border-control: var(--ds-colors-palette-grey-400);
+  --ds-components-general-background-disabled: var(--ds-colors-palette-grey-200);
+  --ds-components-general-background-hover: rgb(0 0 0 / 0.06);
+  --ds-components-general-background-pressed: rgb(0 0 0 / 0.12);
+  --ds-components-general-focus-ring-color: color-mix(
+    in srgb,
+    var(--ds-colors-brand-secondary-default) 85%,
+    var(--ds-colors-palette-grey-0)
+  );
   /* Focus indicator: a solid inner ring + a transparent halo of the same color. */
-  --ds-focus-ring-width: 2px;
-  --ds-focus-ring-offset: 2px;
-  --ds-focus-halo-width: 3px;
-  --ds-color-focus-halo: color-mix(in srgb, var(--ds-color-focus-ring) 30%, transparent);
+  --ds-components-general-focus-ring-width: 2px;
+  --ds-components-general-focus-ring-offset: 2px;
+  --ds-components-general-focus-halo-width: 3px;
+  --ds-components-general-focus-halo-color: color-mix(
+    in srgb,
+    var(--ds-components-general-focus-ring-color) 30%,
+    transparent
+  );
   --ds-focus-ring-shadow:
-    0 0 0 var(--ds-focus-ring-width) var(--ds-color-focus-ring),
-    0 0 0 calc(var(--ds-focus-ring-width) + var(--ds-focus-halo-width)) var(--ds-color-focus-halo);
+    0 0 0 var(--ds-components-general-focus-ring-width)
+      var(--ds-components-general-focus-ring-color),
+    0 0 0
+      calc(
+        var(--ds-components-general-focus-ring-width) +
+          var(--ds-components-general-focus-halo-width)
+      )
+      var(--ds-components-general-focus-halo-color);
 
-  --ds-color-primary: var(--ds-brand-primary);
-  --ds-color-primary-hover: var(--ds-brand-primary-hover);
-  --ds-color-on-primary: var(--ds-neutral-0);
-  --ds-color-secondary: var(--ds-brand-secondary);
-  --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
-  --ds-color-on-secondary: var(--ds-neutral-0);
+  --ds-components-general-action-primary-background-default: var(--ds-colors-brand-primary-default);
+  --ds-components-general-action-primary-background-hover: var(--ds-colors-brand-primary-hover);
+  --ds-components-general-action-primary-foreground-default: var(--ds-colors-palette-grey-0);
+  --ds-components-general-action-secondary-background-default: var(
+    --ds-colors-brand-secondary-default
+  );
+  --ds-components-general-action-secondary-background-hover: var(--ds-colors-brand-secondary-hover);
+  --ds-components-general-action-secondary-foreground-default: var(--ds-colors-palette-grey-0);
 
-  --ds-color-info: var(--ds-feedback-info);
-  --ds-color-success: var(--ds-feedback-success);
-  --ds-color-warning: var(--ds-feedback-warning);
-  --ds-color-danger: var(--ds-feedback-danger);
-  --ds-color-danger-hover: var(--ds-feedback-danger-hover);
-  --ds-color-neutral: var(--ds-neutral-500);
-  --ds-color-on-status: var(--ds-neutral-0);
-  --ds-color-on-warning: var(--ds-neutral-900);
+  --ds-components-general-feedback-info-solid-background-default: var(
+    --ds-colors-feedback-info-default
+  );
+  --ds-components-general-feedback-success-solid-background-default: var(
+    --ds-colors-feedback-success-default
+  );
+  --ds-components-general-feedback-warning-solid-background-default: var(
+    --ds-colors-feedback-warning-default
+  );
+  --ds-components-general-feedback-danger-solid-background-default: var(
+    --ds-colors-feedback-danger-default
+  );
+  --ds-components-general-feedback-danger-solid-background-hover: var(
+    --ds-colors-feedback-danger-hover
+  );
+  --ds-components-general-feedback-neutral-solid-background-default: var(
+    --ds-colors-palette-grey-500
+  );
+  --ds-components-general-feedback-solid-foreground-default: var(--ds-colors-palette-grey-0);
+  --ds-components-general-feedback-warning-solid-foreground-default: var(
+    --ds-colors-palette-grey-900
+  );
   /* The fill behind a text label with the warning status (solid Tag, Count).
      The warning colour itself gives its dark text 3.8:1 only; this mix gives
      it 4.7:1, and the warning colour stays as it is everywhere else. */
-  --ds-color-warning-label-surface: color-mix(
+  --ds-components-general-feedback-warning-label-background-default: color-mix(
     in srgb,
-    var(--ds-feedback-warning) 85%,
-    var(--ds-neutral-0)
+    var(--ds-colors-feedback-warning-default) 85%,
+    var(--ds-colors-palette-grey-0)
   );
 
   /* Tinted surfaces derived from the feedback hue, mixed into the page. */
-  --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 8%, var(--ds-neutral-0));
-  --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 30%, var(--ds-neutral-0));
-  --ds-color-success-surface: color-mix(
+  --ds-components-general-feedback-info-background-default: color-mix(
     in srgb,
-    var(--ds-feedback-success) 8%,
-    var(--ds-neutral-0)
+    var(--ds-colors-feedback-info-default) 8%,
+    var(--ds-colors-palette-grey-0)
   );
-  --ds-color-success-border: color-mix(
+  --ds-components-general-feedback-info-border-default: color-mix(
     in srgb,
-    var(--ds-feedback-success) 30%,
-    var(--ds-neutral-0)
+    var(--ds-colors-feedback-info-default) 30%,
+    var(--ds-colors-palette-grey-0)
   );
-  --ds-color-warning-surface: color-mix(
+  --ds-components-general-feedback-success-background-default: color-mix(
     in srgb,
-    var(--ds-feedback-warning) 8%,
-    var(--ds-neutral-0)
+    var(--ds-colors-feedback-success-default) 8%,
+    var(--ds-colors-palette-grey-0)
   );
-  --ds-color-warning-border: color-mix(
+  --ds-components-general-feedback-success-border-default: color-mix(
     in srgb,
-    var(--ds-feedback-warning) 30%,
-    var(--ds-neutral-0)
+    var(--ds-colors-feedback-success-default) 30%,
+    var(--ds-colors-palette-grey-0)
   );
-  --ds-color-danger-surface: color-mix(in srgb, var(--ds-feedback-danger) 8%, var(--ds-neutral-0));
-  --ds-color-danger-border: color-mix(in srgb, var(--ds-feedback-danger) 30%, var(--ds-neutral-0));
+  --ds-components-general-feedback-warning-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-warning-default) 8%,
+    var(--ds-colors-palette-grey-0)
+  );
+  --ds-components-general-feedback-warning-border-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-warning-default) 30%,
+    var(--ds-colors-palette-grey-0)
+  );
+  --ds-components-general-feedback-danger-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 8%,
+    var(--ds-colors-palette-grey-0)
+  );
+  --ds-components-general-feedback-danger-border-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 30%,
+    var(--ds-colors-palette-grey-0)
+  );
   /* The destructive action's fill and its label: the danger button. Distinct
-     from --ds-color-danger-surface, which is the status tint under a message.
+     from --ds-components-general-feedback-danger-background-default, which is the status tint under a message.
      "danger" names the feedback status; "destructive" names the action. */
-  --ds-color-destructive-surface: color-mix(
+  --ds-components-general-action-danger-background-default: color-mix(
     in srgb,
-    var(--ds-feedback-danger) 10%,
-    var(--ds-neutral-0)
+    var(--ds-colors-feedback-danger-default) 10%,
+    var(--ds-colors-palette-grey-0)
   );
-  --ds-color-on-destructive-surface: var(--ds-feedback-danger-hover);
+  --ds-components-general-action-danger-foreground-default: var(--ds-colors-feedback-danger-hover);
   /* The secondary action's fill and its label: the secondary button. A quiet
      tint of the primary; the label flips to white on dark surfaces. */
-  --ds-color-secondary-surface: color-mix(
+  --ds-components-general-action-secondary-contextual-background-default: color-mix(
     in srgb,
-    var(--ds-color-primary) 15%,
-    var(--ds-neutral-0)
+    var(--ds-components-general-action-primary-background-default) 15%,
+    var(--ds-colors-palette-grey-0)
   );
-  --ds-color-on-secondary-surface: var(--ds-color-primary-hover);
-  --ds-color-neutral-surface: var(--ds-neutral-50);
-  --ds-color-neutral-border: var(--ds-neutral-200);
+  --ds-components-general-action-secondary-contextual-foreground-default: var(
+    --ds-components-general-action-primary-background-hover
+  );
+  --ds-components-general-feedback-neutral-background-default: var(--ds-colors-palette-grey-50);
+  --ds-components-general-feedback-neutral-border-default: var(--ds-colors-palette-grey-200);
 
   /* Status label text for use ON the tinted *-surface tokens (e.g. soft Tag).
      Dark, saturated in light mode so small text clears WCAG AA 4.5:1. */
-  --ds-color-info-text: color-mix(in srgb, var(--ds-feedback-info) 48%, var(--ds-neutral-900));
-  --ds-color-success-text: color-mix(
+  --ds-components-general-feedback-info-foreground-default: color-mix(
     in srgb,
-    var(--ds-feedback-success) 52%,
-    var(--ds-neutral-900)
+    var(--ds-colors-feedback-info-default) 48%,
+    var(--ds-colors-palette-grey-900)
   );
-  --ds-color-warning-text: color-mix(
+  --ds-components-general-feedback-success-foreground-default: color-mix(
     in srgb,
-    var(--ds-feedback-warning) 42%,
-    var(--ds-neutral-900)
+    var(--ds-colors-feedback-success-default) 52%,
+    var(--ds-colors-palette-grey-900)
   );
-  --ds-color-danger-text: color-mix(in srgb, var(--ds-feedback-danger) 58%, var(--ds-neutral-900));
-  --ds-color-selected-text: color-mix(
+  --ds-components-general-feedback-warning-foreground-default: color-mix(
     in srgb,
-    var(--ds-color-secondary) 55%,
-    var(--ds-neutral-900)
+    var(--ds-colors-feedback-warning-default) 42%,
+    var(--ds-colors-palette-grey-900)
   );
-  --ds-color-neutral-text: var(--ds-neutral-700);
+  --ds-components-general-feedback-danger-foreground-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 58%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-selection-contextual-foreground-default: color-mix(
+    in srgb,
+    var(--ds-components-general-action-secondary-background-default) 55%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-neutral-foreground-default: var(--ds-colors-palette-grey-700);
 
   /* Status and brand colours painted as text on the page background, as
      opposed to the *-text tokens above, which sit on a tinted *-surface. The
      light theme keeps the base colours, which clear AA on the background. */
-  --ds-color-secondary-body-text: var(--ds-color-secondary);
-  --ds-color-danger-body-text: var(--ds-color-danger);
-  --ds-color-success-body-text: var(--ds-color-success);
+  --ds-components-general-action-secondary-body-foreground-default: var(
+    --ds-components-general-action-secondary-background-default
+  );
+  --ds-components-general-feedback-danger-body-foreground-default: var(
+    --ds-components-general-feedback-danger-solid-background-default
+  );
+  --ds-components-general-feedback-success-body-foreground-default: var(
+    --ds-components-general-feedback-success-solid-background-default
+  );
 
-  --ds-color-emphasis-surface: var(--ds-neutral-800);
-  --ds-color-on-emphasis: var(--ds-neutral-50);
-  --ds-color-emphasis-border: var(--ds-neutral-700);
+  --ds-components-general-emphasis-background-default: var(--ds-colors-palette-grey-800);
+  --ds-components-general-emphasis-foreground-default: var(--ds-colors-palette-grey-50);
+  --ds-components-general-emphasis-border-default: var(--ds-colors-palette-grey-700);
 
   --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   /* The scrim behind a modal dialog (the dialog-overlay role). How far it
      sets the dialog apart from the page is a theme choice: docs/tokens.md. */
-  --ds-dialog-overlay: rgb(27 27 27 / 0.5);
+  --ds-components-dialog-overlay-default: rgb(27 27 27 / 0.5);
   /* The shape behind a navigation bar's current destination: 3:1 against the
      surface and against the text, so the shape and the icon on it both read. */
-  --ds-navigation-bar-current-indicator: color-mix(
+  --ds-components-navigation-bar-current-indicator-background-default: color-mix(
     in srgb,
-    var(--ds-color-secondary) 90%,
-    var(--ds-neutral-0)
+    var(--ds-components-general-action-secondary-background-default) 90%,
+    var(--ds-colors-palette-grey-0)
   );
   /* A data grid cell with the secondary emphasis: allowed, outside the usual
      schedule. The text keeps 4.5:1 on it; the cell's label carries the meaning. */
-  --ds-grid-cell-secondary-surface: var(--ds-neutral-50);
-  /* The surface of a code block (the code-block-surface role): the lightest
-     grey here, the darkest short of black in the dark theme. */
-  --ds-code-block-surface: var(--ds-neutral-50);
+  --ds-components-data-grid-cell-secondary-background-default: var(--ds-colors-palette-grey-50);
+
+  /* Component backgrounds: one per kind of component, so each can change
+     without the others. Each points at a role or a palette colour. */
+  --ds-components-page-background-default: var(--ds-components-general-background-default);
+  --ds-components-card-background-default: var(--ds-components-general-background-default);
+  --ds-components-card-secondary-background-default: var(
+    --ds-components-general-feedback-neutral-background-default
+  );
+  --ds-components-dialog-background-default: var(--ds-components-general-background-default);
+  --ds-components-popover-background-default: var(--ds-components-general-background-default);
+  --ds-components-menu-background-default: var(--ds-components-general-background-default);
+  --ds-components-sidebar-background-default: var(--ds-components-general-background-default);
+  --ds-components-code-block-background-default: var(--ds-colors-palette-grey-50);
 }
 
 /* =============== Tier 2 — semantic (dark) ================================= */
@@ -321,263 +406,367 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --ds-color-background: var(--ds-neutral-900);
-    --ds-color-text: var(--ds-neutral-50);
-    --ds-color-text-secondary: var(--ds-neutral-200);
-    --ds-color-text-disabled: var(--ds-neutral-600);
-    --ds-color-border: var(--ds-neutral-700);
-    --ds-color-control-border: var(--ds-neutral-300);
-    --ds-color-surface: var(--ds-neutral-700);
-    --ds-color-surface-hover: var(--ds-neutral-600);
-    --ds-color-disabled: var(--ds-neutral-800);
-    --ds-state-hover: rgb(255 255 255 / 0.09);
-    --ds-state-pressed: rgb(255 255 255 / 0.16);
-    --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
-
-    --ds-color-primary: var(--ds-brand-primary);
-    --ds-color-primary-hover: var(--ds-brand-primary-hover);
-    --ds-color-on-primary: var(--ds-neutral-0);
-    --ds-color-secondary: var(--ds-brand-secondary);
-    --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
-    --ds-color-on-secondary: var(--ds-neutral-0);
-
-    --ds-color-info: var(--ds-feedback-info);
-    --ds-color-success: var(--ds-feedback-success);
-    --ds-color-warning: var(--ds-feedback-warning);
-    --ds-color-danger: var(--ds-feedback-danger);
-    --ds-color-danger-hover: var(--ds-feedback-danger-hover);
-    --ds-color-neutral: var(--ds-neutral-500);
-    --ds-color-on-status: var(--ds-neutral-0);
-    --ds-color-on-warning: var(--ds-neutral-900);
-    --ds-color-warning-label-surface: color-mix(
+    --ds-components-general-background-default: var(--ds-colors-palette-grey-900);
+    --ds-components-general-foreground-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-foreground-secondary: var(--ds-colors-palette-grey-200);
+    --ds-components-general-foreground-disabled: var(--ds-colors-palette-grey-600);
+    --ds-components-general-border-default: var(--ds-colors-palette-grey-700);
+    --ds-components-general-border-control: var(--ds-colors-palette-grey-300);
+    --ds-components-general-background-disabled: var(--ds-colors-palette-grey-800);
+    --ds-components-general-background-hover: rgb(255 255 255 / 0.09);
+    --ds-components-general-background-pressed: rgb(255 255 255 / 0.16);
+    --ds-components-general-focus-ring-color: color-mix(
       in srgb,
-      var(--ds-feedback-warning) 85%,
-      var(--ds-neutral-0)
+      var(--ds-colors-brand-secondary-default) 70%,
+      var(--ds-colors-palette-grey-0)
     );
 
-    --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
-    --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));
-    --ds-color-success-surface: color-mix(
-      in srgb,
-      var(--ds-feedback-success) 22%,
-      var(--ds-neutral-900)
+    --ds-components-general-action-primary-background-default: var(
+      --ds-colors-brand-primary-default
     );
-    --ds-color-success-border: color-mix(
-      in srgb,
-      var(--ds-feedback-success) 45%,
-      var(--ds-neutral-900)
+    --ds-components-general-action-primary-background-hover: var(--ds-colors-brand-primary-hover);
+    --ds-components-general-action-primary-foreground-default: var(--ds-colors-palette-grey-0);
+    --ds-components-general-action-secondary-background-default: var(
+      --ds-colors-brand-secondary-default
     );
-    --ds-color-warning-surface: color-mix(
-      in srgb,
-      var(--ds-feedback-warning) 22%,
-      var(--ds-neutral-900)
+    --ds-components-general-action-secondary-background-hover: var(
+      --ds-colors-brand-secondary-hover
     );
-    --ds-color-warning-border: color-mix(
-      in srgb,
-      var(--ds-feedback-warning) 45%,
-      var(--ds-neutral-900)
+    --ds-components-general-action-secondary-foreground-default: var(--ds-colors-palette-grey-0);
+
+    --ds-components-general-feedback-info-solid-background-default: var(
+      --ds-colors-feedback-info-default
     );
-    --ds-color-danger-surface: color-mix(
-      in srgb,
-      var(--ds-feedback-danger) 22%,
-      var(--ds-neutral-900)
+    --ds-components-general-feedback-success-solid-background-default: var(
+      --ds-colors-feedback-success-default
     );
-    --ds-color-danger-border: color-mix(
-      in srgb,
-      var(--ds-feedback-danger) 45%,
-      var(--ds-neutral-900)
+    --ds-components-general-feedback-warning-solid-background-default: var(
+      --ds-colors-feedback-warning-default
     );
-    --ds-color-destructive-surface: color-mix(
-      in srgb,
-      var(--ds-feedback-danger) 18%,
-      var(--ds-neutral-900)
+    --ds-components-general-feedback-danger-solid-background-default: var(
+      --ds-colors-feedback-danger-default
     );
-    --ds-color-on-destructive-surface: var(--ds-neutral-0);
-    --ds-color-secondary-surface: color-mix(
-      in srgb,
-      var(--ds-color-primary) 15%,
-      var(--ds-neutral-900)
+    --ds-components-general-feedback-danger-solid-background-hover: var(
+      --ds-colors-feedback-danger-hover
     );
-    --ds-color-on-secondary-surface: var(--ds-neutral-0);
-    --ds-color-neutral-surface: var(--ds-neutral-800);
-    --ds-color-neutral-border: var(--ds-neutral-700);
+    --ds-components-general-feedback-neutral-solid-background-default: var(
+      --ds-colors-palette-grey-500
+    );
+    --ds-components-general-feedback-solid-foreground-default: var(--ds-colors-palette-grey-0);
+    --ds-components-general-feedback-warning-solid-foreground-default: var(
+      --ds-colors-palette-grey-900
+    );
+    --ds-components-general-feedback-warning-label-background-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-warning-default) 85%,
+      var(--ds-colors-palette-grey-0)
+    );
+
+    --ds-components-general-feedback-info-background-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-info-default) 22%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-feedback-info-border-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-info-default) 45%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-feedback-success-background-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-success-default) 22%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-feedback-success-border-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-success-default) 45%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-feedback-warning-background-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-warning-default) 22%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-feedback-warning-border-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-warning-default) 45%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-feedback-danger-background-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-danger-default) 22%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-feedback-danger-border-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-danger-default) 45%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-action-danger-background-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-danger-default) 18%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-action-danger-foreground-default: var(--ds-colors-palette-grey-0);
+    --ds-components-general-action-secondary-contextual-background-default: color-mix(
+      in srgb,
+      var(--ds-components-general-action-primary-background-default) 15%,
+      var(--ds-colors-palette-grey-900)
+    );
+    --ds-components-general-action-secondary-contextual-foreground-default: var(
+      --ds-colors-palette-grey-0
+    );
+    --ds-components-general-feedback-neutral-background-default: var(--ds-colors-palette-grey-800);
+    --ds-components-general-feedback-neutral-border-default: var(--ds-colors-palette-grey-700);
 
     /* Light, saturated status label text on the dark tinted *-surface tokens. */
-    --ds-color-info-text: color-mix(in srgb, var(--ds-feedback-info) 42%, var(--ds-neutral-50));
-    --ds-color-success-text: color-mix(
+    --ds-components-general-feedback-info-foreground-default: color-mix(
       in srgb,
-      var(--ds-feedback-success) 50%,
-      var(--ds-neutral-50)
+      var(--ds-colors-feedback-info-default) 42%,
+      var(--ds-colors-palette-grey-50)
     );
-    --ds-color-warning-text: color-mix(
+    --ds-components-general-feedback-success-foreground-default: color-mix(
       in srgb,
-      var(--ds-feedback-warning) 58%,
-      var(--ds-neutral-50)
+      var(--ds-colors-feedback-success-default) 50%,
+      var(--ds-colors-palette-grey-50)
     );
-    --ds-color-danger-text: color-mix(in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50));
-    --ds-color-selected-text: color-mix(
+    --ds-components-general-feedback-warning-foreground-default: color-mix(
       in srgb,
-      var(--ds-color-secondary) 62%,
-      var(--ds-neutral-50)
+      var(--ds-colors-feedback-warning-default) 58%,
+      var(--ds-colors-palette-grey-50)
     );
-    --ds-color-neutral-text: var(--ds-neutral-200);
+    --ds-components-general-feedback-danger-foreground-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-danger-default) 48%,
+      var(--ds-colors-palette-grey-50)
+    );
+    --ds-components-general-selection-contextual-foreground-default: color-mix(
+      in srgb,
+      var(--ds-components-general-action-secondary-background-default) 62%,
+      var(--ds-colors-palette-grey-50)
+    );
+    --ds-components-general-feedback-neutral-foreground-default: var(--ds-colors-palette-grey-200);
 
     /* On the dark background the base colours measure below 3:1, so the text
        forms lighten: 5.6:1 for the brand, 6.7:1 danger, 6.8:1 success. */
-    --ds-color-secondary-body-text: color-mix(
+    --ds-components-general-action-secondary-body-foreground-default: color-mix(
       in srgb,
-      var(--ds-color-secondary) 62%,
-      var(--ds-neutral-50)
+      var(--ds-components-general-action-secondary-background-default) 62%,
+      var(--ds-colors-palette-grey-50)
     );
-    --ds-color-danger-body-text: color-mix(
+    --ds-components-general-feedback-danger-body-foreground-default: color-mix(
       in srgb,
-      var(--ds-feedback-danger) 48%,
-      var(--ds-neutral-50)
+      var(--ds-colors-feedback-danger-default) 48%,
+      var(--ds-colors-palette-grey-50)
     );
-    --ds-color-success-body-text: color-mix(
+    --ds-components-general-feedback-success-body-foreground-default: color-mix(
       in srgb,
-      var(--ds-feedback-success) 50%,
-      var(--ds-neutral-50)
+      var(--ds-colors-feedback-success-default) 50%,
+      var(--ds-colors-palette-grey-50)
     );
 
-    --ds-color-emphasis-surface: var(--ds-neutral-100);
-    --ds-color-on-emphasis: var(--ds-neutral-900);
-    --ds-color-emphasis-border: var(--ds-neutral-300);
+    --ds-components-general-emphasis-background-default: var(--ds-colors-palette-grey-100);
+    --ds-components-general-emphasis-foreground-default: var(--ds-colors-palette-grey-900);
+    --ds-components-general-emphasis-border-default: var(--ds-colors-palette-grey-300);
 
     --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-    --ds-dialog-overlay: rgb(0 0 0 / 0.6);
-    --ds-navigation-bar-current-indicator: color-mix(
+    --ds-components-dialog-overlay-default: rgb(0 0 0 / 0.6);
+    --ds-components-navigation-bar-current-indicator-background-default: color-mix(
       in srgb,
-      var(--ds-color-secondary) 74%,
-      var(--ds-neutral-50)
+      var(--ds-components-general-action-secondary-background-default) 74%,
+      var(--ds-colors-palette-grey-50)
     );
-    --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
-    --ds-code-block-surface: var(--ds-neutral-950);
+    --ds-components-data-grid-cell-secondary-background-default: var(--ds-colors-palette-grey-800);
+
+    --ds-components-page-background-default: var(--ds-colors-palette-black);
+    --ds-components-card-background-default: var(--ds-colors-palette-grey-950);
+    --ds-components-card-secondary-background-default: var(--ds-colors-palette-grey-900);
+    --ds-components-dialog-background-default: var(--ds-colors-palette-grey-950);
+    --ds-components-popover-background-default: var(--ds-colors-palette-grey-950);
+    --ds-components-menu-background-default: var(--ds-colors-palette-grey-950);
+    --ds-components-sidebar-background-default: var(--ds-colors-palette-black);
+    --ds-components-code-block-background-default: var(--ds-colors-palette-grey-950);
   }
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --ds-color-background: var(--ds-neutral-900);
-  --ds-color-text: var(--ds-neutral-50);
-  --ds-color-text-secondary: var(--ds-neutral-200);
-  --ds-color-text-disabled: var(--ds-neutral-600);
-  --ds-color-border: var(--ds-neutral-700);
-  --ds-color-control-border: var(--ds-neutral-300);
-  --ds-color-surface: var(--ds-neutral-700);
-  --ds-color-surface-hover: var(--ds-neutral-600);
-  --ds-color-disabled: var(--ds-neutral-800);
-  --ds-state-hover: rgb(255 255 255 / 0.09);
-  --ds-state-pressed: rgb(255 255 255 / 0.16);
-  --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
-
-  --ds-color-primary: var(--ds-brand-primary);
-  --ds-color-primary-hover: var(--ds-brand-primary-hover);
-  --ds-color-on-primary: var(--ds-neutral-0);
-  --ds-color-secondary: var(--ds-brand-secondary);
-  --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
-  --ds-color-on-secondary: var(--ds-neutral-0);
-
-  --ds-color-info: var(--ds-feedback-info);
-  --ds-color-success: var(--ds-feedback-success);
-  --ds-color-warning: var(--ds-feedback-warning);
-  --ds-color-danger: var(--ds-feedback-danger);
-  --ds-color-danger-hover: var(--ds-feedback-danger-hover);
-  --ds-color-neutral: var(--ds-neutral-500);
-  --ds-color-on-status: var(--ds-neutral-0);
-  --ds-color-on-warning: var(--ds-neutral-900);
-  --ds-color-warning-label-surface: color-mix(
+  --ds-components-general-background-default: var(--ds-colors-palette-grey-900);
+  --ds-components-general-foreground-default: var(--ds-colors-palette-grey-50);
+  --ds-components-general-foreground-secondary: var(--ds-colors-palette-grey-200);
+  --ds-components-general-foreground-disabled: var(--ds-colors-palette-grey-600);
+  --ds-components-general-border-default: var(--ds-colors-palette-grey-700);
+  --ds-components-general-border-control: var(--ds-colors-palette-grey-300);
+  --ds-components-general-background-disabled: var(--ds-colors-palette-grey-800);
+  --ds-components-general-background-hover: rgb(255 255 255 / 0.09);
+  --ds-components-general-background-pressed: rgb(255 255 255 / 0.16);
+  --ds-components-general-focus-ring-color: color-mix(
     in srgb,
-    var(--ds-feedback-warning) 85%,
-    var(--ds-neutral-0)
+    var(--ds-colors-brand-secondary-default) 70%,
+    var(--ds-colors-palette-grey-0)
   );
 
-  --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
-  --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));
-  --ds-color-success-surface: color-mix(
-    in srgb,
-    var(--ds-feedback-success) 22%,
-    var(--ds-neutral-900)
+  --ds-components-general-action-primary-background-default: var(--ds-colors-brand-primary-default);
+  --ds-components-general-action-primary-background-hover: var(--ds-colors-brand-primary-hover);
+  --ds-components-general-action-primary-foreground-default: var(--ds-colors-palette-grey-0);
+  --ds-components-general-action-secondary-background-default: var(
+    --ds-colors-brand-secondary-default
   );
-  --ds-color-success-border: color-mix(
-    in srgb,
-    var(--ds-feedback-success) 45%,
-    var(--ds-neutral-900)
+  --ds-components-general-action-secondary-background-hover: var(--ds-colors-brand-secondary-hover);
+  --ds-components-general-action-secondary-foreground-default: var(--ds-colors-palette-grey-0);
+
+  --ds-components-general-feedback-info-solid-background-default: var(
+    --ds-colors-feedback-info-default
   );
-  --ds-color-warning-surface: color-mix(
-    in srgb,
-    var(--ds-feedback-warning) 22%,
-    var(--ds-neutral-900)
+  --ds-components-general-feedback-success-solid-background-default: var(
+    --ds-colors-feedback-success-default
   );
-  --ds-color-warning-border: color-mix(
-    in srgb,
-    var(--ds-feedback-warning) 45%,
-    var(--ds-neutral-900)
+  --ds-components-general-feedback-warning-solid-background-default: var(
+    --ds-colors-feedback-warning-default
   );
-  --ds-color-danger-surface: color-mix(
-    in srgb,
-    var(--ds-feedback-danger) 22%,
-    var(--ds-neutral-900)
+  --ds-components-general-feedback-danger-solid-background-default: var(
+    --ds-colors-feedback-danger-default
   );
-  --ds-color-danger-border: color-mix(
-    in srgb,
-    var(--ds-feedback-danger) 45%,
-    var(--ds-neutral-900)
+  --ds-components-general-feedback-danger-solid-background-hover: var(
+    --ds-colors-feedback-danger-hover
   );
-  --ds-color-destructive-surface: color-mix(
-    in srgb,
-    var(--ds-feedback-danger) 18%,
-    var(--ds-neutral-900)
+  --ds-components-general-feedback-neutral-solid-background-default: var(
+    --ds-colors-palette-grey-500
   );
-  --ds-color-on-destructive-surface: var(--ds-neutral-0);
-  --ds-color-secondary-surface: color-mix(
-    in srgb,
-    var(--ds-color-primary) 15%,
-    var(--ds-neutral-900)
+  --ds-components-general-feedback-solid-foreground-default: var(--ds-colors-palette-grey-0);
+  --ds-components-general-feedback-warning-solid-foreground-default: var(
+    --ds-colors-palette-grey-900
   );
-  --ds-color-on-secondary-surface: var(--ds-neutral-0);
-  --ds-color-neutral-surface: var(--ds-neutral-800);
-  --ds-color-neutral-border: var(--ds-neutral-700);
+  --ds-components-general-feedback-warning-label-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-warning-default) 85%,
+    var(--ds-colors-palette-grey-0)
+  );
+
+  --ds-components-general-feedback-info-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-info-default) 22%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-info-border-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-info-default) 45%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-success-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-success-default) 22%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-success-border-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-success-default) 45%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-warning-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-warning-default) 22%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-warning-border-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-warning-default) 45%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-danger-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 22%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-feedback-danger-border-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 45%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-action-danger-background-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 18%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-action-danger-foreground-default: var(--ds-colors-palette-grey-0);
+  --ds-components-general-action-secondary-contextual-background-default: color-mix(
+    in srgb,
+    var(--ds-components-general-action-primary-background-default) 15%,
+    var(--ds-colors-palette-grey-900)
+  );
+  --ds-components-general-action-secondary-contextual-foreground-default: var(
+    --ds-colors-palette-grey-0
+  );
+  --ds-components-general-feedback-neutral-background-default: var(--ds-colors-palette-grey-800);
+  --ds-components-general-feedback-neutral-border-default: var(--ds-colors-palette-grey-700);
 
   /* Light, saturated status label text on the dark tinted *-surface tokens. */
-  --ds-color-info-text: color-mix(in srgb, var(--ds-feedback-info) 42%, var(--ds-neutral-50));
-  --ds-color-success-text: color-mix(in srgb, var(--ds-feedback-success) 50%, var(--ds-neutral-50));
-  --ds-color-warning-text: color-mix(in srgb, var(--ds-feedback-warning) 58%, var(--ds-neutral-50));
-  --ds-color-danger-text: color-mix(in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50));
-  --ds-color-selected-text: color-mix(in srgb, var(--ds-color-secondary) 62%, var(--ds-neutral-50));
+  --ds-components-general-feedback-info-foreground-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-info-default) 42%,
+    var(--ds-colors-palette-grey-50)
+  );
+  --ds-components-general-feedback-success-foreground-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-success-default) 50%,
+    var(--ds-colors-palette-grey-50)
+  );
+  --ds-components-general-feedback-warning-foreground-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-warning-default) 58%,
+    var(--ds-colors-palette-grey-50)
+  );
+  --ds-components-general-feedback-danger-foreground-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 48%,
+    var(--ds-colors-palette-grey-50)
+  );
+  --ds-components-general-selection-contextual-foreground-default: color-mix(
+    in srgb,
+    var(--ds-components-general-action-secondary-background-default) 62%,
+    var(--ds-colors-palette-grey-50)
+  );
   /* On the dark background the base colours measure below 3:1, so the text
      forms lighten, exactly as in the system-scheme block above. */
-  --ds-color-secondary-body-text: color-mix(
+  --ds-components-general-action-secondary-body-foreground-default: color-mix(
     in srgb,
-    var(--ds-color-secondary) 62%,
-    var(--ds-neutral-50)
+    var(--ds-components-general-action-secondary-background-default) 62%,
+    var(--ds-colors-palette-grey-50)
   );
-  --ds-color-danger-body-text: color-mix(
+  --ds-components-general-feedback-danger-body-foreground-default: color-mix(
     in srgb,
-    var(--ds-feedback-danger) 48%,
-    var(--ds-neutral-50)
+    var(--ds-colors-feedback-danger-default) 48%,
+    var(--ds-colors-palette-grey-50)
   );
-  --ds-color-success-body-text: color-mix(
+  --ds-components-general-feedback-success-body-foreground-default: color-mix(
     in srgb,
-    var(--ds-feedback-success) 50%,
-    var(--ds-neutral-50)
+    var(--ds-colors-feedback-success-default) 50%,
+    var(--ds-colors-palette-grey-50)
   );
-  --ds-color-neutral-text: var(--ds-neutral-200);
+  --ds-components-general-feedback-neutral-foreground-default: var(--ds-colors-palette-grey-200);
 
-  --ds-color-emphasis-surface: var(--ds-neutral-100);
-  --ds-color-on-emphasis: var(--ds-neutral-900);
-  --ds-color-emphasis-border: var(--ds-neutral-300);
+  --ds-components-general-emphasis-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-general-emphasis-foreground-default: var(--ds-colors-palette-grey-900);
+  --ds-components-general-emphasis-border-default: var(--ds-colors-palette-grey-300);
 
   --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-  --ds-dialog-overlay: rgb(0 0 0 / 0.6);
-  --ds-navigation-bar-current-indicator: color-mix(
+  --ds-components-dialog-overlay-default: rgb(0 0 0 / 0.6);
+  --ds-components-navigation-bar-current-indicator-background-default: color-mix(
     in srgb,
-    var(--ds-color-secondary) 74%,
-    var(--ds-neutral-50)
+    var(--ds-components-general-action-secondary-background-default) 74%,
+    var(--ds-colors-palette-grey-50)
   );
-  --ds-grid-cell-secondary-surface: var(--ds-neutral-800);
-  --ds-code-block-surface: var(--ds-neutral-950);
+  --ds-components-data-grid-cell-secondary-background-default: var(--ds-colors-palette-grey-800);
+
+  --ds-components-page-background-default: var(--ds-colors-palette-black);
+  --ds-components-card-background-default: var(--ds-colors-palette-grey-950);
+  --ds-components-card-secondary-background-default: var(--ds-colors-palette-grey-900);
+  --ds-components-dialog-background-default: var(--ds-colors-palette-grey-950);
+  --ds-components-popover-background-default: var(--ds-colors-palette-grey-950);
+  --ds-components-menu-background-default: var(--ds-colors-palette-grey-950);
+  --ds-components-sidebar-background-default: var(--ds-colors-palette-black);
+  --ds-components-code-block-background-default: var(--ds-colors-palette-grey-950);
 }
 
 /* =============== Fallback: no color-mix() (pre-2023 engines) ============== *
@@ -589,80 +778,140 @@
      filled button, so each mix falls back to the nearest plain primitive. */
   :root,
   [data-theme="light"] {
-    --ds-color-info-surface: var(--ds-neutral-50);
-    --ds-color-success-surface: var(--ds-neutral-50);
-    --ds-color-warning-surface: var(--ds-neutral-50);
-    --ds-color-danger-surface: var(--ds-neutral-50);
-    --ds-color-info-border: var(--ds-feedback-info);
-    --ds-color-success-border: var(--ds-feedback-success);
-    --ds-color-warning-border: var(--ds-feedback-warning);
-    --ds-color-danger-border: var(--ds-feedback-danger);
-    --ds-color-destructive-surface: var(--ds-neutral-50);
-    --ds-color-secondary-surface: var(--ds-neutral-50);
-    --ds-navigation-bar-current-indicator: var(--ds-neutral-400);
+    --ds-components-general-feedback-info-background-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-feedback-success-background-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-feedback-warning-background-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-feedback-danger-background-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-feedback-info-border-default: var(--ds-colors-feedback-info-default);
+    --ds-components-general-feedback-success-border-default: var(
+      --ds-colors-feedback-success-default
+    );
+    --ds-components-general-feedback-warning-border-default: var(
+      --ds-colors-feedback-warning-default
+    );
+    --ds-components-general-feedback-danger-border-default: var(
+      --ds-colors-feedback-danger-default
+    );
+    --ds-components-general-action-danger-background-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-action-secondary-contextual-background-default: var(
+      --ds-colors-palette-grey-50
+    );
+    --ds-components-navigation-bar-current-indicator-background-default: var(
+      --ds-colors-palette-grey-400
+    );
     /* The dark label text keeps 4.5:1 on a neutral fill; the word carries the status. */
-    --ds-color-warning-label-surface: var(--ds-neutral-100);
-    --ds-color-info-text: var(--ds-neutral-900);
-    --ds-color-success-text: var(--ds-neutral-900);
-    --ds-color-warning-text: var(--ds-neutral-900);
-    --ds-color-danger-text: var(--ds-neutral-900);
-    --ds-color-selected-text: var(--ds-neutral-900);
-    --ds-color-focus-ring: var(--ds-color-secondary);
+    --ds-components-general-feedback-warning-label-background-default: var(
+      --ds-colors-palette-grey-100
+    );
+    --ds-components-general-feedback-info-foreground-default: var(--ds-colors-palette-grey-900);
+    --ds-components-general-feedback-success-foreground-default: var(--ds-colors-palette-grey-900);
+    --ds-components-general-feedback-warning-foreground-default: var(--ds-colors-palette-grey-900);
+    --ds-components-general-feedback-danger-foreground-default: var(--ds-colors-palette-grey-900);
+    --ds-components-general-selection-contextual-foreground-default: var(
+      --ds-colors-palette-grey-900
+    );
+    --ds-components-general-focus-ring-color: var(
+      --ds-components-general-action-secondary-background-default
+    );
     /* No halo without color-mix: the solid inner ring still marks focus. */
-    --ds-color-focus-halo: transparent;
+    --ds-components-general-focus-halo-color: transparent;
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --ds-color-info-surface: var(--ds-neutral-800);
-      --ds-color-success-surface: var(--ds-neutral-800);
-      --ds-color-warning-surface: var(--ds-neutral-800);
-      --ds-color-danger-surface: var(--ds-neutral-800);
-      --ds-color-info-border: var(--ds-feedback-info);
-      --ds-color-success-border: var(--ds-feedback-success);
-      --ds-color-warning-border: var(--ds-feedback-warning);
-      --ds-color-danger-border: var(--ds-feedback-danger);
-      --ds-color-destructive-surface: var(--ds-neutral-800);
-      --ds-color-secondary-surface: var(--ds-neutral-800);
-      --ds-navigation-bar-current-indicator: var(--ds-neutral-300);
-      --ds-color-warning-label-surface: var(--ds-neutral-100);
-      --ds-color-info-text: var(--ds-neutral-50);
-      --ds-color-success-text: var(--ds-neutral-50);
-      --ds-color-warning-text: var(--ds-neutral-50);
-      --ds-color-danger-text: var(--ds-neutral-50);
-      --ds-color-selected-text: var(--ds-neutral-50);
-      --ds-color-secondary-body-text: var(--ds-neutral-50);
-      --ds-color-danger-body-text: var(--ds-neutral-50);
-      --ds-color-success-body-text: var(--ds-neutral-50);
+      --ds-components-general-feedback-info-background-default: var(--ds-colors-palette-grey-800);
+      --ds-components-general-feedback-success-background-default: var(
+        --ds-colors-palette-grey-800
+      );
+      --ds-components-general-feedback-warning-background-default: var(
+        --ds-colors-palette-grey-800
+      );
+      --ds-components-general-feedback-danger-background-default: var(--ds-colors-palette-grey-800);
+      --ds-components-general-feedback-info-border-default: var(--ds-colors-feedback-info-default);
+      --ds-components-general-feedback-success-border-default: var(
+        --ds-colors-feedback-success-default
+      );
+      --ds-components-general-feedback-warning-border-default: var(
+        --ds-colors-feedback-warning-default
+      );
+      --ds-components-general-feedback-danger-border-default: var(
+        --ds-colors-feedback-danger-default
+      );
+      --ds-components-general-action-danger-background-default: var(--ds-colors-palette-grey-800);
+      --ds-components-general-action-secondary-contextual-background-default: var(
+        --ds-colors-palette-grey-800
+      );
+      --ds-components-navigation-bar-current-indicator-background-default: var(
+        --ds-colors-palette-grey-300
+      );
+      --ds-components-general-feedback-warning-label-background-default: var(
+        --ds-colors-palette-grey-100
+      );
+      --ds-components-general-feedback-info-foreground-default: var(--ds-colors-palette-grey-50);
+      --ds-components-general-feedback-success-foreground-default: var(--ds-colors-palette-grey-50);
+      --ds-components-general-feedback-warning-foreground-default: var(--ds-colors-palette-grey-50);
+      --ds-components-general-feedback-danger-foreground-default: var(--ds-colors-palette-grey-50);
+      --ds-components-general-selection-contextual-foreground-default: var(
+        --ds-colors-palette-grey-50
+      );
+      --ds-components-general-action-secondary-body-foreground-default: var(
+        --ds-colors-palette-grey-50
+      );
+      --ds-components-general-feedback-danger-body-foreground-default: var(
+        --ds-colors-palette-grey-50
+      );
+      --ds-components-general-feedback-success-body-foreground-default: var(
+        --ds-colors-palette-grey-50
+      );
       /* The pastel violet is the flat stand-in for the lightened ring. */
-      --ds-color-focus-ring: var(--ds-pastel-violet);
-      --ds-color-focus-halo: transparent;
+      --ds-components-general-focus-ring-color: var(--ds-pastel-violet);
+      --ds-components-general-focus-halo-color: transparent;
     }
   }
 
   [data-theme="dark"] {
-    --ds-color-info-surface: var(--ds-neutral-800);
-    --ds-color-success-surface: var(--ds-neutral-800);
-    --ds-color-warning-surface: var(--ds-neutral-800);
-    --ds-color-danger-surface: var(--ds-neutral-800);
-    --ds-color-info-border: var(--ds-feedback-info);
-    --ds-color-success-border: var(--ds-feedback-success);
-    --ds-color-warning-border: var(--ds-feedback-warning);
-    --ds-color-danger-border: var(--ds-feedback-danger);
-    --ds-color-destructive-surface: var(--ds-neutral-800);
-    --ds-color-secondary-surface: var(--ds-neutral-800);
-    --ds-navigation-bar-current-indicator: var(--ds-neutral-300);
-    --ds-color-warning-label-surface: var(--ds-neutral-100);
-    --ds-color-info-text: var(--ds-neutral-50);
-    --ds-color-success-text: var(--ds-neutral-50);
-    --ds-color-warning-text: var(--ds-neutral-50);
-    --ds-color-danger-text: var(--ds-neutral-50);
-    --ds-color-selected-text: var(--ds-neutral-50);
-    --ds-color-secondary-body-text: var(--ds-neutral-50);
-    --ds-color-danger-body-text: var(--ds-neutral-50);
-    --ds-color-success-body-text: var(--ds-neutral-50);
-    --ds-color-focus-ring: var(--ds-pastel-violet);
-    --ds-color-focus-halo: transparent;
+    --ds-components-general-feedback-info-background-default: var(--ds-colors-palette-grey-800);
+    --ds-components-general-feedback-success-background-default: var(--ds-colors-palette-grey-800);
+    --ds-components-general-feedback-warning-background-default: var(--ds-colors-palette-grey-800);
+    --ds-components-general-feedback-danger-background-default: var(--ds-colors-palette-grey-800);
+    --ds-components-general-feedback-info-border-default: var(--ds-colors-feedback-info-default);
+    --ds-components-general-feedback-success-border-default: var(
+      --ds-colors-feedback-success-default
+    );
+    --ds-components-general-feedback-warning-border-default: var(
+      --ds-colors-feedback-warning-default
+    );
+    --ds-components-general-feedback-danger-border-default: var(
+      --ds-colors-feedback-danger-default
+    );
+    --ds-components-general-action-danger-background-default: var(--ds-colors-palette-grey-800);
+    --ds-components-general-action-secondary-contextual-background-default: var(
+      --ds-colors-palette-grey-800
+    );
+    --ds-components-navigation-bar-current-indicator-background-default: var(
+      --ds-colors-palette-grey-300
+    );
+    --ds-components-general-feedback-warning-label-background-default: var(
+      --ds-colors-palette-grey-100
+    );
+    --ds-components-general-feedback-info-foreground-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-feedback-success-foreground-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-feedback-warning-foreground-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-feedback-danger-foreground-default: var(--ds-colors-palette-grey-50);
+    --ds-components-general-selection-contextual-foreground-default: var(
+      --ds-colors-palette-grey-50
+    );
+    --ds-components-general-action-secondary-body-foreground-default: var(
+      --ds-colors-palette-grey-50
+    );
+    --ds-components-general-feedback-danger-body-foreground-default: var(
+      --ds-colors-palette-grey-50
+    );
+    --ds-components-general-feedback-success-body-foreground-default: var(
+      --ds-colors-palette-grey-50
+    );
+    --ds-components-general-focus-ring-color: var(--ds-pastel-violet);
+    --ds-components-general-focus-halo-color: transparent;
   }
 }
 
@@ -682,6 +931,342 @@
  */
 @media (forced-colors: active) {
   :focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid Highlight !important;
+    outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight !important;
+  }
+}
+
+:root {
+  --ds-colors-palette-dioxazine-purple-50: #f1ecfa; /* Dioxazine Purple 50. */
+  --ds-colors-palette-dioxazine-purple-100: #d4c7ef; /* Dioxazine Purple 100. */
+  --ds-colors-palette-dioxazine-purple-200: #b8a1e6; /* Dioxazine Purple 200. */
+  --ds-colors-palette-dioxazine-purple-300: #a284dd; /* Dioxazine Purple 300. */
+  --ds-colors-palette-dioxazine-purple-400: #8d6ad4; /* Dioxazine Purple 400. */
+  --ds-colors-palette-dioxazine-purple-700: #563795; /* Dioxazine Purple 700. */
+  --ds-colors-palette-dioxazine-purple-800: #442780; /* Dioxazine Purple 800. */
+  --ds-colors-palette-dioxazine-purple-900: #34186e; /* Dioxazine Purple 900. */
+  --ds-colors-palette-dioxazine-purple-950: #230a56; /* Dioxazine Purple 950. */
+  --ds-colors-palette-cobalt-blue-50: #e9eefa; /* Cobalt Blue 50. */
+  --ds-colors-palette-cobalt-blue-100: #bccdf1; /* Cobalt Blue 100. */
+  --ds-colors-palette-cobalt-blue-200: #8face8; /* Cobalt Blue 200. */
+  --ds-colors-palette-cobalt-blue-300: #6b8fd7; /* Cobalt Blue 300. */
+  --ds-colors-palette-cobalt-blue-400: #527acc; /* Cobalt Blue 400. */
+  --ds-colors-palette-cobalt-blue-600: #3a5ca0; /* Cobalt Blue 600. */
+  --ds-colors-palette-cobalt-blue-700: #324d83; /* Cobalt Blue 700. */
+  --ds-colors-palette-cobalt-blue-800: #273b65; /* Cobalt Blue 800. */
+  --ds-colors-palette-cobalt-blue-900: #1d2d4d; /* Cobalt Blue 900. */
+  --ds-colors-palette-cobalt-blue-950: #0f1b34; /* Cobalt Blue 950. */
+  --ds-colors-palette-burnt-orange-50: #faebe1; /* Burnt Orange 50. */
+  --ds-colors-palette-burnt-orange-100: #f7ddcc; /* Burnt Orange 100. */
+  --ds-colors-palette-burnt-orange-200: #eebb99; /* Burnt Orange 200. */
+  --ds-colors-palette-burnt-orange-300: #e7a071; /* Burnt Orange 300. */
+  --ds-colors-palette-burnt-orange-400: #dd7734; /* Burnt Orange 400. */
+  --ds-colors-palette-burnt-orange-600: #bc5716; /* Burnt Orange 600. */
+  --ds-colors-palette-burnt-orange-700: #a4460a; /* Burnt Orange 700. */
+  --ds-colors-palette-burnt-orange-800: #873602; /* Burnt Orange 800. */
+  --ds-colors-palette-burnt-orange-900: #582200; /* Burnt Orange 900. */
+  --ds-colors-palette-burnt-orange-950: #3e1800; /* Burnt Orange 950. */
+  --ds-colors-palette-sap-green-50: #eaf5e4; /* Sap Green 50. */
+  --ds-colors-palette-sap-green-100: #c6e3b7; /* Sap Green 100. */
+  --ds-colors-palette-sap-green-200: #aad693; /* Sap Green 200. */
+  --ds-colors-palette-sap-green-300: #94c37d; /* Sap Green 300. */
+  --ds-colors-palette-sap-green-400: #73a958; /* Sap Green 400. */
+  --ds-colors-palette-sap-green-500: #508b32; /* Sap Green 500. */
+  --ds-colors-palette-sap-green-700: #306217; /* Sap Green 700. */
+  --ds-colors-palette-sap-green-800: #224d0c; /* Sap Green 800. */
+  --ds-colors-palette-sap-green-900: #143404; /* Sap Green 900. */
+  --ds-colors-palette-sap-green-950: #0d2301; /* Sap Green 950. */
+  --ds-colors-palette-alizarin-red-50: #faecee; /* Alizarin Red 50. */
+  --ds-colors-palette-alizarin-red-100: #efc7cd; /* Alizarin Red 100. */
+  --ds-colors-palette-alizarin-red-200: #e5a1ac; /* Alizarin Red 200. */
+  --ds-colors-palette-alizarin-red-300: #e67f90; /* Alizarin Red 300. */
+  --ds-colors-palette-alizarin-red-400: #e65c73; /* Alizarin Red 400. */
+  --ds-colors-palette-alizarin-red-500: #d54d63; /* Alizarin Red 500. */
+  --ds-colors-palette-alizarin-red-800: #881a2b; /* Alizarin Red 800. */
+  --ds-colors-palette-alizarin-red-900: #6a0f1d; /* Alizarin Red 900. */
+  --ds-colors-palette-alizarin-red-950: #4e0410; /* Alizarin Red 950. */
+  --ds-colors-palette-magenta-pink-50: #faecf5; /* Magenta Pink 50. */
+  --ds-colors-palette-magenta-pink-100: #efc7e2; /* Magenta Pink 100. */
+  --ds-colors-palette-magenta-pink-200: #e5a1ce; /* Magenta Pink 200. */
+  --ds-colors-palette-magenta-pink-300: #e67fc4; /* Magenta Pink 300. */
+  --ds-colors-palette-magenta-pink-400: #e65cb8; /* Magenta Pink 400. */
+  --ds-colors-palette-magenta-pink-500: #d54da8; /* Magenta Pink 500. */
+  --ds-colors-palette-magenta-pink-600: #be3b92; /* Magenta Pink 600. */
+  --ds-colors-palette-magenta-pink-700: #ab2e82; /* Magenta Pink 700. */
+  --ds-colors-palette-magenta-pink-800: #881a63; /* Magenta Pink 800. */
+  --ds-colors-palette-magenta-pink-900: #6a0f4c; /* Magenta Pink 900. */
+  --ds-colors-palette-magenta-pink-950: #500537; /* Magenta Pink 950. */
+  --ds-colors-palette-naples-yellow-50: #fffae7; /* Naples Yellow 50. */
+  --ds-colors-palette-naples-yellow-100: #fef0b6; /* Naples Yellow 100. */
+  --ds-colors-palette-naples-yellow-200: #fee285; /* Naples Yellow 200. */
+  --ds-colors-palette-naples-yellow-300: #f9d574; /* Naples Yellow 300. */
+  --ds-colors-palette-naples-yellow-400: #e8ba4f; /* Naples Yellow 400. */
+  --ds-colors-palette-naples-yellow-500: #dfa124; /* Naples Yellow 500. */
+  --ds-colors-palette-naples-yellow-600: #c8830c; /* Naples Yellow 600. */
+  --ds-colors-palette-naples-yellow-700: #ad6b08; /* Naples Yellow 700. */
+  --ds-colors-palette-naples-yellow-800: #915200; /* Naples Yellow 800. */
+  --ds-colors-palette-naples-yellow-900: #633501; /* Naples Yellow 900. */
+  --ds-colors-palette-naples-yellow-950: #432400; /* Naples Yellow 950. */
+  --ds-colors-palette-lime-green-50: #f9fbe7; /* Lime Green 50. */
+  --ds-colors-palette-lime-green-100: #f0f4c3; /* Lime Green 100. */
+  --ds-colors-palette-lime-green-200: #e6ee9c; /* Lime Green 200. */
+  --ds-colors-palette-lime-green-300: #dce775; /* Lime Green 300. */
+  --ds-colors-palette-lime-green-400: #c8d547; /* Lime Green 400. */
+  --ds-colors-palette-lime-green-500: #adbb23; /* Lime Green 500. */
+  --ds-colors-palette-lime-green-600: #8a9613; /* Lime Green 600. */
+  --ds-colors-palette-lime-green-700: #6f790b; /* Lime Green 700. */
+  --ds-colors-palette-lime-green-800: #545c05; /* Lime Green 800. */
+  --ds-colors-palette-lime-green-900: #363d02; /* Lime Green 900. */
+  --ds-colors-palette-lime-green-950: #262b00; /* Lime Green 950. */
+  --ds-colors-palette-viridian-green-50: #e6f5f3; /* Viridian Green 50. */
+  --ds-colors-palette-viridian-green-100: #b3e0dc; /* Viridian Green 100. */
+  --ds-colors-palette-viridian-green-200: #80cbc4; /* Viridian Green 200. */
+  --ds-colors-palette-viridian-green-300: #4db6ac; /* Viridian Green 300. */
+  --ds-colors-palette-viridian-green-400: #26a69a; /* Viridian Green 400. */
+  --ds-colors-palette-viridian-green-500: #00897b; /* Viridian Green 500. */
+  --ds-colors-palette-viridian-green-600: #007265; /* Viridian Green 600. */
+  --ds-colors-palette-viridian-green-700: #005d50; /* Viridian Green 700. */
+  --ds-colors-palette-viridian-green-800: #014439; /* Viridian Green 800. */
+  --ds-colors-palette-viridian-green-900: #00352c; /* Viridian Green 900. */
+  --ds-colors-palette-viridian-green-950: #00241e; /* Viridian Green 950. */
+  --ds-colors-palette-cerulean-blue-50: #e1f5fe; /* Cerulean Blue 50. */
+  --ds-colors-palette-cerulean-blue-100: #b2def2; /* Cerulean Blue 100. */
+  --ds-colors-palette-cerulean-blue-200: #8accea; /* Cerulean Blue 200. */
+  --ds-colors-palette-cerulean-blue-300: #63b9e1; /* Cerulean Blue 300. */
+  --ds-colors-palette-cerulean-blue-400: #3da4d4; /* Cerulean Blue 400. */
+  --ds-colors-palette-cerulean-blue-500: #2790c1; /* Cerulean Blue 500. */
+  --ds-colors-palette-cerulean-blue-600: #197aa7; /* Cerulean Blue 600. */
+  --ds-colors-palette-cerulean-blue-700: #0e668f; /* Cerulean Blue 700. */
+  --ds-colors-palette-cerulean-blue-800: #054664; /* Cerulean Blue 800. */
+  --ds-colors-palette-cerulean-blue-900: #033349; /* Cerulean Blue 900. */
+  --ds-colors-palette-cerulean-blue-950: #00202e; /* Cerulean Blue 950. */
+  --ds-colors-palette-warm-grey-50: #f4f2ef; /* Warm Grey 50. */
+  --ds-colors-palette-warm-grey-100: #e6e0d8; /* Warm Grey 100. */
+  --ds-colors-palette-warm-grey-200: #c7c1b7; /* Warm Grey 200. */
+  --ds-colors-palette-warm-grey-300: #a8a297; /* Warm Grey 300. */
+  --ds-colors-palette-warm-grey-400: #757067; /* Warm Grey 400. */
+  --ds-colors-palette-warm-grey-500: #5e5951; /* Warm Grey 500. */
+  --ds-colors-palette-warm-grey-600: #524c44; /* Warm Grey 600. */
+  --ds-colors-palette-warm-grey-700: #413c36; /* Warm Grey 700. */
+  --ds-colors-palette-warm-grey-800: #332f2a; /* Warm Grey 800. */
+  --ds-colors-palette-warm-grey-900: #282420; /* Warm Grey 900. */
+  --ds-colors-palette-warm-grey-950: #1c1915; /* Warm Grey 950. */
+}
+
+:root,
+[data-theme="light"] {
+  --ds-components-avatar-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-switch-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-calendar-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-table-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-carousel-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-navigation-bar-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-stepper-background-default: var(--ds-colors-palette-grey-100);
+  --ds-components-button-background-default: var(--ds-components-general-background-default);
+  --ds-components-button-background-hover: var(--ds-components-general-background-hover);
+  --ds-components-button-foreground-default: var(--ds-components-general-foreground-default);
+  --ds-components-button-foreground-supporting: var(--ds-components-general-foreground-secondary);
+  --ds-components-button-background-primary-default: var(
+    --ds-components-general-action-primary-background-default
+  );
+  --ds-components-button-background-primary-hover: var(
+    --ds-components-general-action-primary-background-hover
+  );
+  --ds-components-button-foreground-primary-default: var(
+    --ds-components-general-action-primary-foreground-default
+  );
+  --ds-components-button-background-secondary-default: var(
+    --ds-components-general-action-secondary-contextual-background-default
+  );
+  --ds-components-button-foreground-secondary-default: var(
+    --ds-components-general-action-secondary-contextual-foreground-default
+  );
+  --ds-components-button-background-danger-default: var(
+    --ds-components-general-action-danger-background-default
+  );
+  --ds-components-button-foreground-danger-default: var(
+    --ds-components-general-action-danger-foreground-default
+  );
+  --ds-components-button-background-ghost-hover: var(--ds-components-general-background-hover);
+  --ds-components-button-foreground-ghost-default: var(--ds-components-general-foreground-default);
+  --ds-components-button-radius: var(--ds-metrics-radius-control);
+  --ds-components-button-spacing-x: var(--ds-metrics-density-regular-control-padding-x);
+  --ds-components-button-spacing-y: var(--ds-metrics-density-regular-control-padding-y);
+  --ds-components-button-typography-line-height: var(--ds-typography-line-height-heading);
+  --ds-components-button-background-ghost-default: transparent;
+  --ds-components-button-border-primary-default: transparent;
+  --ds-components-button-border-ghost-default: transparent;
+  --ds-components-button-spacing-gap: 8px;
+  --ds-components-button-typography-font-weight: 500;
+  --ds-components-button-opacity-disabled: 0.5;
+  --ds-components-button-border-default: color-mix(
+    in srgb,
+    var(--ds-components-general-border-control) 70%,
+    var(--ds-components-general-background-default)
+  );
+  --ds-components-button-border-secondary-default: color-mix(
+    in srgb,
+    var(--ds-components-general-action-primary-background-default) 55%,
+    transparent
+  );
+  --ds-components-button-border-danger-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 35%,
+    transparent
+  );
+  --ds-components-button-background-secondary-hover: color-mix(
+    in srgb,
+    var(--ds-components-general-action-primary-background-default) 24%,
+    var(--ds-components-general-background-default)
+  );
+  --ds-components-button-background-danger-hover: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 18%,
+    var(--ds-components-general-background-default)
+  );
+}
+[data-theme="dark"] {
+  --ds-components-avatar-background-default: var(--ds-colors-palette-grey-700);
+  --ds-components-switch-background-default: var(--ds-colors-palette-grey-700);
+  --ds-components-calendar-background-default: var(--ds-colors-palette-grey-700);
+  --ds-components-table-background-default: var(--ds-colors-palette-grey-700);
+  --ds-components-carousel-background-default: var(--ds-colors-palette-grey-700);
+  --ds-components-navigation-bar-background-default: var(--ds-colors-palette-grey-700);
+  --ds-components-stepper-background-default: var(--ds-colors-palette-grey-700);
+  --ds-components-button-background-default: var(--ds-components-general-background-default);
+  --ds-components-button-background-hover: var(--ds-components-general-background-hover);
+  --ds-components-button-foreground-default: var(--ds-components-general-foreground-default);
+  --ds-components-button-foreground-supporting: var(--ds-components-general-foreground-secondary);
+  --ds-components-button-background-primary-default: var(
+    --ds-components-general-action-primary-background-default
+  );
+  --ds-components-button-background-primary-hover: var(
+    --ds-components-general-action-primary-background-hover
+  );
+  --ds-components-button-foreground-primary-default: var(
+    --ds-components-general-action-primary-foreground-default
+  );
+  --ds-components-button-background-secondary-default: var(
+    --ds-components-general-action-secondary-contextual-background-default
+  );
+  --ds-components-button-foreground-secondary-default: var(
+    --ds-components-general-action-secondary-contextual-foreground-default
+  );
+  --ds-components-button-background-danger-default: var(
+    --ds-components-general-action-danger-background-default
+  );
+  --ds-components-button-foreground-danger-default: var(
+    --ds-components-general-action-danger-foreground-default
+  );
+  --ds-components-button-background-ghost-hover: var(--ds-components-general-background-hover);
+  --ds-components-button-foreground-ghost-default: var(--ds-components-general-foreground-default);
+  --ds-components-button-radius: var(--ds-metrics-radius-control);
+  --ds-components-button-spacing-x: var(--ds-metrics-density-regular-control-padding-x);
+  --ds-components-button-spacing-y: var(--ds-metrics-density-regular-control-padding-y);
+  --ds-components-button-typography-line-height: var(--ds-typography-line-height-heading);
+  --ds-components-button-background-ghost-default: transparent;
+  --ds-components-button-border-primary-default: transparent;
+  --ds-components-button-border-ghost-default: transparent;
+  --ds-components-button-spacing-gap: 8px;
+  --ds-components-button-typography-font-weight: 500;
+  --ds-components-button-opacity-disabled: 0.5;
+  --ds-components-button-border-default: color-mix(
+    in srgb,
+    var(--ds-components-general-border-control) 70%,
+    var(--ds-components-general-background-default)
+  );
+  --ds-components-button-border-secondary-default: color-mix(
+    in srgb,
+    var(--ds-components-general-action-primary-background-default) 55%,
+    transparent
+  );
+  --ds-components-button-border-danger-default: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 35%,
+    transparent
+  );
+  --ds-components-button-background-secondary-hover: color-mix(
+    in srgb,
+    var(--ds-components-general-action-primary-background-default) 24%,
+    var(--ds-components-general-background-default)
+  );
+  --ds-components-button-background-danger-hover: color-mix(
+    in srgb,
+    var(--ds-colors-feedback-danger-default) 18%,
+    var(--ds-components-general-background-default)
+  );
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ds-components-avatar-background-default: var(--ds-colors-palette-grey-700);
+    --ds-components-switch-background-default: var(--ds-colors-palette-grey-700);
+    --ds-components-calendar-background-default: var(--ds-colors-palette-grey-700);
+    --ds-components-table-background-default: var(--ds-colors-palette-grey-700);
+    --ds-components-carousel-background-default: var(--ds-colors-palette-grey-700);
+    --ds-components-navigation-bar-background-default: var(--ds-colors-palette-grey-700);
+    --ds-components-stepper-background-default: var(--ds-colors-palette-grey-700);
+    --ds-components-button-background-default: var(--ds-components-general-background-default);
+    --ds-components-button-background-hover: var(--ds-components-general-background-hover);
+    --ds-components-button-foreground-default: var(--ds-components-general-foreground-default);
+    --ds-components-button-foreground-supporting: var(--ds-components-general-foreground-secondary);
+    --ds-components-button-background-primary-default: var(
+      --ds-components-general-action-primary-background-default
+    );
+    --ds-components-button-background-primary-hover: var(
+      --ds-components-general-action-primary-background-hover
+    );
+    --ds-components-button-foreground-primary-default: var(
+      --ds-components-general-action-primary-foreground-default
+    );
+    --ds-components-button-background-secondary-default: var(
+      --ds-components-general-action-secondary-contextual-background-default
+    );
+    --ds-components-button-foreground-secondary-default: var(
+      --ds-components-general-action-secondary-contextual-foreground-default
+    );
+    --ds-components-button-background-danger-default: var(
+      --ds-components-general-action-danger-background-default
+    );
+    --ds-components-button-foreground-danger-default: var(
+      --ds-components-general-action-danger-foreground-default
+    );
+    --ds-components-button-background-ghost-hover: var(--ds-components-general-background-hover);
+    --ds-components-button-foreground-ghost-default: var(
+      --ds-components-general-foreground-default
+    );
+    --ds-components-button-radius: var(--ds-metrics-radius-control);
+    --ds-components-button-spacing-x: var(--ds-metrics-density-regular-control-padding-x);
+    --ds-components-button-spacing-y: var(--ds-metrics-density-regular-control-padding-y);
+    --ds-components-button-typography-line-height: var(--ds-typography-line-height-heading);
+    --ds-components-button-background-ghost-default: transparent;
+    --ds-components-button-border-primary-default: transparent;
+    --ds-components-button-border-ghost-default: transparent;
+    --ds-components-button-spacing-gap: 8px;
+    --ds-components-button-typography-font-weight: 500;
+    --ds-components-button-opacity-disabled: 0.5;
+    --ds-components-button-border-default: color-mix(
+      in srgb,
+      var(--ds-components-general-border-control) 70%,
+      var(--ds-components-general-background-default)
+    );
+    --ds-components-button-border-secondary-default: color-mix(
+      in srgb,
+      var(--ds-components-general-action-primary-background-default) 55%,
+      transparent
+    );
+    --ds-components-button-border-danger-default: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-danger-default) 35%,
+      transparent
+    );
+    --ds-components-button-background-secondary-hover: color-mix(
+      in srgb,
+      var(--ds-components-general-action-primary-background-default) 24%,
+      var(--ds-components-general-background-default)
+    );
+    --ds-components-button-background-danger-hover: color-mix(
+      in srgb,
+      var(--ds-colors-feedback-danger-default) 18%,
+      var(--ds-components-general-background-default)
+    );
   }
 }

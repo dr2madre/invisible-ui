@@ -12,7 +12,7 @@ Breaking: every deprecated name is removed. The packages are unpublished and hav
 
 - Svelte: `import Menu from "@invisible-ui/svelte/Menu.svelte"` becomes `import Sidebar from "@invisible-ui/svelte/Sidebar.svelte"`. The `MenuItem` and `MenuSection` types become `SidebarItem` and `SidebarSection`.
 - Vue: `Menu`, `MenuProps`, `MenuEntry` and `MenuSection` become `Sidebar`, `SidebarProps`, `SidebarItem` and `SidebarSection`.
-- The sidebar no longer reads its former theme names. Rename each one: `--ds-menu-gap` to `--ds-sidebar-gap`, `--ds-menu-width` to `--ds-sidebar-width`, `--ds-menu-bg` to `--ds-sidebar-bg`, `--ds-menu-border` to `--ds-sidebar-border`, `--ds-menu-item-text` to `--ds-sidebar-item-text`. `--ds-menu-padding` and `--ds-menu-radius` stay: the ARIA menus use them.
+- The sidebar no longer reads its former theme names. Rename each one: `--ds-menu-gap` to `--ds-sidebar-gap`, `--ds-menu-width` to `--ds-sidebar-width`, `--ds-menu-bg` to `--ds-sidebar-background`, `--ds-menu-border` to `--ds-sidebar-border`, `--ds-menu-item-text` to `--ds-sidebar-item-text`. `--ds-menu-padding` and `--ds-menu-radius` stay: the ARIA menus use them.
 
 **The `-soft` color tokens are removed; use the role names.**
 

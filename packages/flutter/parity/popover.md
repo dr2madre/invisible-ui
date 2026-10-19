@@ -1,6 +1,6 @@
 # Popover parity checklist
 
-Reference commit: `0c336bd6e53053c3c9e46ad4d7701879eba50315`
+Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
 Reference paths: `core/src/popover` `packages/svelte/src/lib/popover` `packages/svelte/src/lib/hover-card`
 
@@ -34,8 +34,10 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
+| The popup takes the direction of the control that opens it, so a `dir` on a plain wrapper around the control counts | open | the overlay child of `OverlayPortal` is built in the context of the control, so the `Directionality` around the control reaches it, but no widget test wraps one control in its own `Directionality`; the web holds it in every adapter |
 | A press toggles; each change reported once | matched | `a press opens, focus moves to the first control, Escape closes and returns focus; each change is reported once` |
 | Focus moves to the first focusable control, in reading order | matched | same test |
+| An adapter-internal `initialFocus` option names what takes focus on opening, before the first focusable (the date pickers focus the selected day) | matched | the package-internal `fieldPopover` takes `initialFocus`, a function that returns a node; `a tap opens with focus on the picked day; a pick fills the field, closes, returns focus and reports once` in `test/date_picker_test.dart`. Neither adapter exposes it on the public popover |
 | Nothing focusable: the panel takes focus | matched | `a panel with nothing focusable takes focus itself`; the default trigger text is the catalog key `dialog.trigger` |
 | Escape closes and returns focus to the trigger | matched | first test |
 | A press outside closes; focus stays where the press put it | matched | `a press outside closes and leaves focus; a second press on the trigger closes` |
@@ -71,3 +73,7 @@ that holds it.
 | Below by default, 6 px gap (8 px for hover), flips; start and end follow the reading direction | matched | `below by default; flips above near the bottom; start and end follow the reading direction` |
 | Twelve Floating UI placements | adapted | four sides, aligned to the trigger's inline-start as the web's default placements; no consumer needs the aligned variants |
 | Narrow window at text scale 2.0 | matched | `a region picker fits a narrow window at text scale 2.0` |
+
+## Background token
+
+The background reads the component token `--ds-components-popover-background-default` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

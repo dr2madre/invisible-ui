@@ -47,6 +47,14 @@ describe("Svelte default locale", () => {
     expect(hasDayPeriod()).toBe(true);
   });
 
+  it("follows a direction set on the body, which a popup then inherits", async () => {
+    document.body.setAttribute("dir", "rtl");
+    render(Fixture);
+    await tick();
+    expect(probe()).toHaveAttribute("data-dir", "rtl");
+    document.body.removeAttribute("dir");
+  });
+
   it("follows a change of the page's lang", async () => {
     setPage("en-US");
     render(Fixture);

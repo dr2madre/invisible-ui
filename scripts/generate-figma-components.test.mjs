@@ -12,20 +12,35 @@ test("Button default and hover backgrounds and disabled opacity follow component
     new URL("../packages/svelte/src/lib/button/Button.svelte", import.meta.url),
     "utf8",
   );
-  const styles = extractButtonStyles(button);
-  assert.deepEqual(styles.defaultBackground, ["role/color-background", "#ffffff"]);
-  assert.equal(styles.hoverBackground[0], "role/state-hover");
-  assert.equal(styles.disabledOpacity, 0.5);
-  const updated = extractButtonStyles(
-    button
-      .replace(
-        "--ds-button-bg, var(--ds-color-background",
-        "--ds-button-bg, var(--ds-color-neutral-surface",
-      )
-      .replace("opacity: 0.5", "opacity: 0.4"),
+  const tokens = JSON.parse(
+    readFileSync(new URL("../packages/tokens/tokens.json", import.meta.url), "utf8"),
   );
-  assert.equal(updated.defaultBackground[0], "role/color-neutral-surface");
+  const styles = extractButtonStyles(button, tokens);
+  assert.equal(styles.defaultBackground, "components.button.background.default");
+  assert.equal(styles.hoverBackground, "components.button.background.hover");
+  assert.equal(styles.disabledOpacity, 0.5);
+  const changed = structuredClone(tokens);
+  changed.components.button.opacity.disabled.$value = 0.4;
+  const updated = extractButtonStyles(
+    button.replace(
+      "background: var(--ds-components-button-background-default)",
+      "background: var(--ds-components-card-background-default)",
+    ),
+    changed,
+  );
+  assert.equal(updated.defaultBackground, "components.card.background.default");
   assert.equal(updated.disabledOpacity, 0.4);
+  assert.throws(
+    () =>
+      extractButtonStyles(
+        button.replace(
+          "background: var(--ds-components-button-background-default)",
+          "background: var(--ds-button-unknown)",
+        ),
+        tokens,
+      ),
+    /unsupported background/,
+  );
 });
 
 const source = readFileSync(

@@ -26,13 +26,13 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createPopover, type PopoverContext } from "./create-popover";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { createHoverCard } from "../hover-card/create-hover-card";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { controllable } from "../internal/controllable.svelte";
 
-  const { t } = getI18n();
+  const { t, dir: i18nDir } = getI18n();
 
   interface Props {
     /** Opening contract: an intentional click, or a hover/focus preview. */
@@ -132,7 +132,12 @@
 {/if}
 
 {#if $isOpen}
-  <div class="popover__content" use:portal use:contentAction>
+  <div
+    class="popover__content"
+    use:followDirection={{ fallback: $i18nDir }}
+    use:portal
+    use:contentAction
+  >
     {@render children?.()}
   </div>
 {/if}
@@ -152,10 +157,13 @@
     inline-size: max-content;
     max-inline-size: var(--ds-popover-max-width, 20rem);
     padding: var(--ds-popover-padding, 0.875rem 1rem);
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #272727);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-popover-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(
+      --ds-components-popover-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    color: var(--ds-components-general-foreground-default, #272727);
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-popover-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -166,9 +174,9 @@
      inside it — rather than wrapping the whole card in a thick outer ring. */
   .popover__content:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #8e6cd4);
+    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
     box-shadow:
-      inset 0 0 0 1px var(--ds-color-focus-ring, #8e6cd4),
+      inset 0 0 0 1px var(--ds-components-general-focus-ring-color, #8e6cd4),
       var(
         --ds-elevation-overlay,
         0 10px 15px -3px rgb(0 0 0 / 0.1),

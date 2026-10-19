@@ -464,7 +464,7 @@ class _Count extends StatelessWidget {
         style: theme.textStyle.copyWith(
           fontSize: _countSize,
           fontWeight: FontWeight.w600,
-          height: InvisibleTypographyTokens.lineHeight,
+          height: InvisibleTypographyTokens.lineHeightDefault,
           color: selected ? colors.onSelected : colors.textSecondary,
         ),
       ),

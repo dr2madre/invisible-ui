@@ -1,6 +1,10 @@
 # ScrollArea parity checklist
 
-Reference commit: `e32e67cd2cc2fb993c9758007c27026cafc20420`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/scroll-area` `packages/svelte/src/lib/scroll-area`
 
@@ -35,11 +39,13 @@ scope**. Every matched line names the widget test in
 | The viewport stops at `maxHeight` and scrolls | matched | `the viewport stops at maxHeight and scrolls with the keys while it has focus` |
 | The focusable viewport scrolls with the keyboard | adapted | the browser's keys are written out: arrows by 40, Page Up, Page Down and Space by 80 % of the viewport, Home and End to the ends: same test |
 | Horizontal arrows follow the direction | matched | `horizontal arrows follow the direction: right to left, the left arrow moves on` |
+| Right to left, the horizontal thumb starts at the right and a drag moves the content the way the thumb goes | open | the horizontal scroll view follows `Directionality`, and `RawScrollbar` places its thumb from the scroll position, but no widget test drags the horizontal thumb right to left; the web holds it in each adapter with a right-to-left `scrollLeft` |
 | A control inside keeps its keys | matched | `a control inside keeps its keys` |
 | Both axes, each with its own bar | matched | `both axes scroll, each with its own bar` |
 | The thumb drags; the wheel scrolls | matched | `the thumb drags; a wheel scrolls; the focus ring shows from the keyboard` |
 | Thumb size and offset from the scroll metrics (`core/src/scroll-area`) | adapted | Flutter's `RawScrollbar` derives them |
 | No platform bar on top of the theme's | matched | the scroll behaviour's own bars are turned off |
+| A scroller that takes focus only while its content is wider than it (`observeInlineOverflow` in `core/src/scroll-area`) | matched | the reference uses it for the Table Set card, not for `ScrollArea`, which is always a tab stop in both adapters. The shared `Scroller` widget takes `focusableOnlyWhenScrollable` for the same rule, and `Table` sets it: `a table wider than its container scrolls sideways and its viewport takes focus; a table that fits adds no tab stop` in `test/table_test.dart` |
 
 ## Semantics
 

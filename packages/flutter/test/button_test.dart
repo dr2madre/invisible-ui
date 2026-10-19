@@ -612,6 +612,36 @@ void main() {
   });
 
   group('variants', () {
+    testWidgets('default and ghost share hover in both themes', (tester) async {
+      for (final theme in [
+        InvisibleThemeData.light(),
+        InvisibleThemeData.dark(),
+      ]) {
+        for (final variant in [ButtonVariant.standard, ButtonVariant.ghost]) {
+          await tester.pumpWidget(
+            harness(
+              Button(
+                variant: variant,
+                onPressed: () {},
+                child: const Text('Save'),
+              ),
+              theme: theme,
+            ),
+          );
+          final before = _decoration(tester);
+          final mouse = await tester.createGesture(
+            kind: PointerDeviceKind.mouse,
+          );
+          await mouse.addPointer();
+          await mouse.moveTo(tester.getCenter(find.byType(Button)));
+          await tester.pumpAndSettle();
+          expect(_decoration(tester).color, theme.colors.stateHover);
+          expect(_decoration(tester).border, before.border);
+          await mouse.removePointer();
+          await tester.pumpAndSettle();
+        }
+      }
+    });
     testWidgets('danger shows the hazard glyph unless an icon is given', (
       tester,
     ) async {

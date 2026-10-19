@@ -360,9 +360,9 @@ class _PopoverState extends State<Popover> {
       constraints: BoxConstraints(maxWidth: widget._maxWidth),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: colors.background,
+          color: colors.popoverBackground,
           border: Border.all(color: colors.border),
-          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
           boxShadow: overlayShadow(theme.brightness),
         ),
         // A panel taller than the room it has scrolls.
@@ -555,7 +555,7 @@ class _FocusOutlineState extends State<_FocusOutline> {
       position: DecorationPosition.foreground,
       decoration: BoxDecoration(
         border: Border.all(color: colors.focusRing, width: 2),
-        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
       ),
       child: widget.child,
     );

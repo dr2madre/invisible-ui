@@ -85,7 +85,8 @@ const Duration _reasonExit = Duration(milliseconds: 100);
 /// Windows and Linux. When a badge's label appears or changes, the bar
 /// announces it once, politely; while [modals] reports a modal open, the
 /// announcements wait, and the latest per destination is made after the
-/// last modal closes (ADR 0016).
+/// last modal closes (ADR 0016). A bar shown inside the open modal is on
+/// screen and announces.
 ///
 /// ```dart
 /// import 'package:invisible_ui/invisible_ui.dart' as iu;
@@ -161,6 +162,13 @@ class _NavigationBarState<T> extends State<NavigationBar<T>> {
   void initState() {
     super.initState();
     _announcer.modals = widget.modals;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // A bar shown inside the open modal is on screen and keeps announcing.
+    _announcer.route = ModalRoute.of(context);
   }
 
   @override
@@ -253,7 +261,7 @@ class _NavigationBarState<T> extends State<NavigationBar<T>> {
     // Every destination as tall as the tallest, so each one's hit area
     // fills the bar.
     final Widget bar = DecoratedBox(
-      decoration: BoxDecoration(color: theme.colors.surface),
+      decoration: BoxDecoration(color: theme.colors.navigationBarBackground),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -733,7 +741,7 @@ class _DestinationFace<T> extends StatelessWidget {
 
     final style = theme.textStyle.copyWith(
       fontSize: _labelSize,
-      height: InvisibleTypographyTokens.lineHeightTight,
+      height: InvisibleTypographyTokens.lineHeightHeading,
       color: color,
       fontWeight: current ? FontWeight.w600 : null,
     );
@@ -749,7 +757,9 @@ class _DestinationFace<T> extends StatelessWidget {
           decoration: current
               ? BoxDecoration(
                   color: colors.navigationBarCurrentIndicator,
-                  borderRadius: BorderRadius.circular(indicatorHeight / 2),
+                  borderRadius: BorderRadius.circular(
+                    InvisibleRadiusTokens.pill,
+                  ),
                   border: highContrast
                       ? Border.all(color: colors.text, width: _currentBorder)
                       : null,
@@ -810,7 +820,7 @@ class _Badge extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: colors.danger,
-        borderRadius: BorderRadius.circular(_badgeMin),
+        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.pill),
         border: highContrast ? Border.all(color: colors.text) : null,
       ),
       child: Text(

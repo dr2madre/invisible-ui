@@ -1,6 +1,10 @@
 # TextField parity checklist
 
-Reference commit: `bde4433a71312b89d1164c6a1adce57471999a4a`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/text-field` `packages/svelte/src/lib/text-field`
 

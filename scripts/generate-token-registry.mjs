@@ -14,13 +14,14 @@
 //      cannot say it
 //
 // The page never copies a colour into a specimen: the registry keeps the
-// canonical expression (`var(--ds-neutral-200)`, `color-mix(...)`) and the page
+// canonical expression (`var(--ds-colors-palette-grey-200)`, `color-mix(...)`) and the page
 // paints with the live custom property. The resolved value is worked out here,
 // from the same stylesheet, and shown as text beside the specimen.
 
 import { existsSync, readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, relative, resolve } from "node:path";
+import { tokenEntries } from "./token-model.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..");
@@ -157,7 +158,7 @@ function parseUsages(css, file) {
     const property = declaration.slice(0, colon).trim();
     const value = declaration.slice(colon + 1).trim();
     // Custom-property declarations count too: a component retuning one knob
-    // from another (`--ds-button-icon-min: var(--ds-close-hit-area, …)`) is a
+    // from another (`--ds-components-button-icon-min-size: var(--ds-close-hit-area, …)`) is a
     // real reading site of the referenced knob.
     if (!property || !/var\(\s*--ds-/.test(value)) return;
     // Walk each var() with balanced parens to pair a name with its fallback.
@@ -234,11 +235,23 @@ const isJustAValue = (text) =>
   /^(#[0-9a-fA-F]{3,8}|[\d.]+(px|rem|em|%)?|oklch\([^)]*\))$/.test(text.trim());
 
 const TIERS = [
+  { tier: "primitive", test: (n) => n.startsWith("--ds-colors-palette-") },
+  { tier: "brand", test: (n) => n.startsWith("--ds-colors-brand-") },
+  { tier: "feedback", test: (n) => n.startsWith("--ds-colors-feedback-") },
+  { tier: "semantic", test: (n) => n.startsWith("--ds-components-general-") },
+  { tier: "component", test: (n) => n.startsWith("--ds-components-") },
+  { tier: "radius", test: (n) => n.startsWith("--ds-metrics-radius-") },
+  { tier: "sizing", test: (n) => n.startsWith("--ds-metrics-") },
+  { tier: "typography", test: (n) => n.startsWith("--ds-typography-") },
   { tier: "primitive", test: (n) => /^--ds-(neutral|purple|red|orange|green|blue)-\d+$/.test(n) },
-  { tier: "primitive", test: (n) => n.startsWith("--ds-pastel-") },
+  {
+    tier: "primitive",
+    test: (n) => n.startsWith("--ds-pastel-") || n === "--ds-colors-palette-black",
+  },
   { tier: "brand", test: (n) => n.startsWith("--ds-brand-") },
   { tier: "feedback", test: (n) => n.startsWith("--ds-feedback-") },
   { tier: "semantic", test: (n) => n.startsWith("--ds-color-") },
+  { tier: "component", test: (n) => /^--ds-[\w-]+-background$/.test(n) },
   { tier: "state", test: (n) => n.startsWith("--ds-state-") },
   { tier: "focus", test: (n) => n.startsWith("--ds-focus-") },
   { tier: "radius", test: (n) => n.startsWith("--ds-radius-") },
@@ -246,29 +259,37 @@ const TIERS = [
   { tier: "typography", test: (n) => /^--ds-(font|line-height|heading)/.test(n) },
   {
     tier: "sizing",
-    test: (n) => n.startsWith("--ds-control-") || n.startsWith("--ds-min-target-size"),
+    test: (n) =>
+      n.startsWith("--ds-control-") || n.startsWith("--ds-metrics-density-regular-min-target-size"),
   },
 ];
 const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other";
 
 /**
  * The CSS name a DTCG path ships as. `palette.grey.700` becomes
- * `--ds-neutral-700`, `style.primary.hover` becomes `--ds-brand-primary-hover`,
- * `style.danger.default` becomes `--ds-feedback-danger`. The role, focus,
+ * `--ds-colors-palette-grey-700`, `style.primary.hover` becomes `--ds-colors-brand-primary-hover`,
+ * `style.danger.default` becomes `--ds-colors-feedback-danger-default`. The role, focus,
  * typography and regular density tiers name the property itself:
- * `role.dark.color-text` is `--ds-color-text`, `focus.ring-width` is
- * `--ds-focus-ring-width`, `role.dark.dialog-overlay` is `--ds-dialog-overlay`.
- * The touch target is `--ds-min-target-size-touch`.
+ * `role.dark.color-text` is `--ds-components-general-foreground-default`, `focus.ring-width` is
+ * `--ds-components-general-focus-ring-width`, `role.dark.dialog-overlay` is `--ds-components-dialog-overlay-default`.
+ * The component tier does the same: `component.dark.card-background` is
+ * `--ds-components-card-background-default`. `palette.black` is `--ds-colors-palette-black`. The touch target
+ * is `--ds-metrics-density-touch-min-target-size`.
  */
 function cssNameForDtcg(path) {
+  if (/^(colors|metrics|typography|components)\./.test(path))
+    return `--ds-${path.replaceAll(".", "-")}`;
   const parts = path.split(".");
-  if (parts[0] === "role" && parts.length === 3) return `--ds-${parts[2]}`;
+  if ((parts[0] === "role" || parts[0] === "component") && parts.length === 3) {
+    return `--ds-${parts[2]}`;
+  }
+  if (path === "palette.black") return "--ds-colors-palette-black";
   if (parts[0] === "focus" && parts.length === 2) return `--ds-focus-${parts[1]}`;
   if (parts[0] === "typography" && parts.length === 2) return `--ds-${parts[1]}`;
   if (parts[0] === "density" && parts[1] === "regular" && parts.length === 3) {
     return `--ds-${parts[2]}`;
   }
-  if (path === "density.touch.min-target-size") return "--ds-min-target-size-touch";
+  if (path === "density.touch.min-target-size") return "--ds-metrics-density-touch-min-target-size";
   if (parts[0] === "palette") {
     const hue = parts[1] === "grey" ? "neutral" : parts[1];
     return `--ds-${hue}-${parts[2]}`;
@@ -289,6 +310,8 @@ function cssNameForDtcg(path) {
  * renders the regular density, and the touch target for a coarse pointer.
  */
 function noStylesheetForm(path) {
+  if (path.startsWith("metrics.density.compact."))
+    return "compact density is a platform-specific control size";
   const parts = path.split(".");
   if (parts[0] !== "density") return null;
   if (parts[1] === "regular" || path === "density.touch.min-target-size") return null;
@@ -306,8 +329,14 @@ const ownershipOf = (inDtcg) => (inDtcg ? "design" : "frontend");
  * never painted as a swatch.
  */
 function valueTypeOf(name, value, resolvesToColor) {
+  if (name.startsWith("--ds-typography-")) return "typography";
   if (/^--ds-(font-sans|font-mono)$/.test(name)) return "fontFamily";
-  if (/^--ds-font-size|^--ds-line-height|^--ds-heading-weight/.test(name)) return "typography";
+  if (
+    /^--ds-font-size|^--ds-typography-line-height-default|^--ds-typography-font-weight-heading/.test(
+      name,
+    )
+  )
+    return "typography";
   if (name.startsWith("--ds-radius-") || name.startsWith("--ds-control-")) return "dimension";
   if (/^[\d.]+(px|rem|em|%)$/.test(value)) return "dimension";
   if (name.startsWith("--ds-elevation-") || name.endsWith("-shadow")) return "shadow";
@@ -551,173 +580,203 @@ const SHORTHAND =
 // boundary or a glyph (1.4.11).
 const PAIRINGS = [
   {
-    front: "--ds-color-text",
-    back: "--ds-color-background",
+    front: "--ds-components-general-foreground-default",
+    back: "--ds-components-general-background-default",
     min: 4.5,
     what: "body text on the page",
   },
   {
-    front: "--ds-color-text",
-    back: "--ds-color-surface",
+    front: "--ds-components-general-foreground-default",
+    back: "--ds-components-avatar-background-default",
     min: 4.5,
     what: "body text on a surface",
   },
   {
-    front: "--ds-color-text-secondary",
-    back: "--ds-color-background",
+    front: "--ds-components-general-foreground-secondary",
+    back: "--ds-components-general-background-default",
     min: 4.5,
     what: "supporting text on the page",
   },
   {
-    front: "--ds-color-text-secondary",
-    back: "--ds-color-surface",
+    front: "--ds-components-general-foreground-secondary",
+    back: "--ds-components-avatar-background-default",
     min: 4.5,
     what: "supporting text on a surface",
   },
   {
-    front: "--ds-color-on-primary",
-    back: "--ds-color-primary",
+    front: "--ds-components-general-action-primary-foreground-default",
+    back: "--ds-components-general-action-primary-background-default",
     min: 4.5,
     what: "primary button label",
   },
   {
-    front: "--ds-color-on-primary",
-    back: "--ds-color-primary-hover",
+    front: "--ds-components-general-action-primary-foreground-default",
+    back: "--ds-components-general-action-primary-background-hover",
     min: 4.5,
     what: "primary button label, hovered",
   },
   {
-    front: "--ds-color-on-secondary",
-    back: "--ds-color-secondary",
+    front: "--ds-components-general-action-secondary-foreground-default",
+    back: "--ds-components-general-action-secondary-background-default",
     min: 4.5,
     what: "secondary button label",
   },
   {
-    front: "--ds-color-on-status",
-    back: "--ds-color-danger",
+    front: "--ds-components-general-feedback-solid-foreground-default",
+    back: "--ds-components-general-feedback-danger-solid-background-default",
     min: 4.5,
     what: "danger button label",
   },
   {
-    front: "--ds-color-on-status",
-    back: "--ds-color-info",
+    front: "--ds-components-general-feedback-solid-foreground-default",
+    back: "--ds-components-general-feedback-info-solid-background-default",
     min: 4.5,
     what: "label on the information fill",
   },
   {
-    front: "--ds-color-on-status",
-    back: "--ds-color-success",
+    front: "--ds-components-general-feedback-solid-foreground-default",
+    back: "--ds-components-general-feedback-success-solid-background-default",
     min: 4.5,
     what: "label on the success fill",
   },
   {
-    front: "--ds-color-on-warning",
-    back: "--ds-color-warning-label-surface",
+    front: "--ds-components-general-feedback-warning-solid-foreground-default",
+    back: "--ds-components-general-feedback-warning-label-background-default",
     min: 4.5,
     what: "label on the warning label fill",
   },
   {
-    front: "--ds-color-on-status",
-    back: "--ds-color-warning",
+    front: "--ds-components-general-feedback-solid-foreground-default",
+    back: "--ds-components-general-feedback-warning-solid-background-default",
     min: 3,
     what: "the icon on the warning fill",
   },
   {
-    front: "--ds-color-on-selected",
-    back: "--ds-color-selected",
+    front: "--ds-components-general-selection-foreground-default",
+    back: "--ds-components-general-selection-background-default",
     min: 4.5,
     what: "label on a selected item",
   },
   {
-    front: "--ds-color-on-emphasis",
-    back: "--ds-color-emphasis-surface",
+    front: "--ds-components-general-emphasis-foreground-default",
+    back: "--ds-components-general-emphasis-background-default",
     min: 4.5,
     what: "text on the emphasis surface",
   },
   {
-    front: "--ds-color-on-secondary-surface",
-    back: "--ds-color-secondary-surface",
+    front: "--ds-components-general-action-secondary-contextual-foreground-default",
+    back: "--ds-components-general-action-secondary-contextual-background-default",
     min: 4.5,
     what: "label on the secondary action fill",
   },
   {
-    front: "--ds-color-on-destructive-surface",
-    back: "--ds-color-destructive-surface",
+    front: "--ds-components-general-action-danger-foreground-default",
+    back: "--ds-components-general-action-danger-background-default",
     min: 4.5,
     what: "label on the destructive action fill",
   },
   {
-    front: "--ds-color-info-text",
-    back: "--ds-color-info-surface",
+    front: "--ds-components-general-feedback-info-foreground-default",
+    back: "--ds-components-general-feedback-info-background-default",
     min: 4.5,
     what: "information text on its tinted surface",
   },
   {
-    front: "--ds-color-success-text",
-    back: "--ds-color-success-surface",
+    front: "--ds-components-general-feedback-success-foreground-default",
+    back: "--ds-components-general-feedback-success-background-default",
     min: 4.5,
     what: "success text on its tinted surface",
   },
   {
-    front: "--ds-color-warning-text",
-    back: "--ds-color-warning-surface",
+    front: "--ds-components-general-feedback-warning-foreground-default",
+    back: "--ds-components-general-feedback-warning-background-default",
     min: 4.5,
     what: "warning text on its tinted surface",
   },
   {
-    front: "--ds-color-danger-text",
-    back: "--ds-color-danger-surface",
+    front: "--ds-components-general-feedback-danger-foreground-default",
+    back: "--ds-components-general-feedback-danger-background-default",
     min: 4.5,
     what: "danger text on its tinted surface",
   },
   {
-    front: "--ds-color-neutral-text",
-    back: "--ds-color-neutral-surface",
+    front: "--ds-components-general-feedback-neutral-foreground-default",
+    back: "--ds-components-general-feedback-neutral-background-default",
     min: 4.5,
     what: "text on the quiet neutral fill",
   },
   {
-    front: "--ds-color-secondary-body-text",
-    back: "--ds-color-background",
+    front: "--ds-components-general-action-secondary-body-foreground-default",
+    back: "--ds-components-general-background-default",
     min: 4.5,
     what: "brand-coloured text on the page",
   },
   {
-    front: "--ds-color-danger-body-text",
-    back: "--ds-color-background",
+    front: "--ds-components-general-feedback-danger-body-foreground-default",
+    back: "--ds-components-general-background-default",
     min: 4.5,
     what: "danger-coloured text on the page",
   },
   {
-    front: "--ds-color-success-body-text",
-    back: "--ds-color-background",
+    front: "--ds-components-general-feedback-success-body-foreground-default",
+    back: "--ds-components-general-background-default",
     min: 4.5,
     what: "success-coloured text on the page",
   },
   {
-    front: "--ds-color-control-border",
-    back: "--ds-color-background",
+    front: "--ds-components-general-border-control",
+    back: "--ds-components-general-background-default",
     min: 3,
     what: "a control's boundary against the page",
   },
   {
-    front: "--ds-color-control-border",
-    back: "--ds-color-surface",
+    front: "--ds-components-general-border-control",
+    back: "--ds-components-avatar-background-default",
     min: 3,
     what: "a control's boundary against a surface",
   },
   {
-    front: "--ds-color-focus-ring",
-    back: "--ds-color-background",
+    front: "--ds-components-general-focus-ring-color",
+    back: "--ds-components-general-background-default",
     min: 3,
     what: "the focus ring against the page",
   },
   {
-    front: "--ds-color-focus-ring",
-    back: "--ds-color-surface",
+    front: "--ds-components-general-focus-ring-color",
+    back: "--ds-components-avatar-background-default",
     min: 3,
     what: "the focus ring against a surface",
   },
+  // The text and the control boundary on each component background.
+  ...[
+    ["--ds-components-page-background-default", "the page background"],
+    ["--ds-components-card-background-default", "a card"],
+    ["--ds-components-card-secondary-background-default", "a secondary card"],
+    ["--ds-components-dialog-background-default", "a dialog"],
+    ["--ds-components-popover-background-default", "a popover"],
+    ["--ds-components-menu-background-default", "a menu"],
+    ["--ds-components-sidebar-background-default", "a sidebar"],
+    ["--ds-components-code-block-background-default", "a code block"],
+  ].flatMap(([back, where]) => [
+    {
+      front: "--ds-components-general-foreground-default",
+      back,
+      min: 4.5,
+      what: `body text on ${where}`,
+    },
+    {
+      front: "--ds-components-general-foreground-secondary",
+      back,
+      min: 4.5,
+      what: `supporting text on ${where}`,
+    },
+    {
+      front: "--ds-components-general-border-control",
+      back,
+      min: 3,
+      what: `a control's boundary against ${where}`,
+    },
+  ]),
 ];
 
 // Pages that document token values literally. A line there must say what the
@@ -1066,7 +1125,7 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
       "notice",
     ]);
     for (const token of registry.componentTokens) {
-      const parts = token.id.split("-");
+      const parts = token.id.replace(/^components-/, "").split("-");
       let matched = false;
       for (let i = parts.length; i > 0 && !matched; i--) {
         if (families.has(parts.slice(0, i).join("-"))) matched = true;
@@ -1097,6 +1156,7 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
 
 function build() {
   const dtcgRaw = JSON.parse(readFileSync(DTCG, "utf8"));
+  const canonical = new Map(tokenEntries(dtcgRaw));
   const dtcgNames = new Set();
   const walkDtcg = (node, path) => {
     for (const [key, value] of Object.entries(node)) {
@@ -1120,7 +1180,9 @@ function build() {
     // so a real disagreement can be reported instead of quietly dropped.
     entry.__collisions = entry.__collisions ?? {};
     entry.__collisions[declaration.layer] = entry.__collisions[declaration.layer] ?? [];
-    entry.__collisions[declaration.layer].push(declaration.value);
+    entry.__collisions[declaration.layer].push(
+      declaration.value.replace(/\(\s+/g, "(").replace(/\s+\)/g, ")"),
+    );
     entry[declaration.layer] = declaration.value;
     if (!entry.__line) entry.__line = declaration.line;
     if (!entry.__comment && comments.has(declaration.line))
@@ -1223,7 +1285,13 @@ function build() {
     const note = notes[name] ?? {};
     const light = resolveIn("light", name);
     const dark = resolveIn("dark", name);
-    const valueType = valueTypeOf(name, entry.light ?? entry.other ?? "", Boolean(light));
+    const token = canonical.get(dtcgPath);
+    const valueType =
+      token?.$type === "dimension"
+        ? "dimension"
+        : ["fontWeight", "number"].includes(token?.$type)
+          ? "typography"
+          : valueTypeOf(name, entry.light ?? entry.other ?? "", Boolean(light));
     return {
       name,
       id: name.replace(/^--ds-/, ""),
@@ -1245,7 +1313,7 @@ function build() {
         .map(([adapter]) => adapter),
       resolved: { light, dark },
       hasAlpha: [light, dark].some((value) => value?.includes("alpha")),
-      purpose: note.purpose ?? entry.__comment ?? null,
+      purpose: note.purpose ?? token?.$description ?? entry.__comment ?? null,
       group: entry.__group ?? null,
       stability: note.stability ?? "alpha",
       replacedBy: note.replacedBy ?? null,
@@ -1413,7 +1481,7 @@ function build() {
 
 // The pieces the tests exercise directly. Everything below runs only when
 // this file is the program, so importing it costs nothing.
-export { parseSheet, parseUsages, shapeOfValue, placeOf };
+export { parseSheet, parseUsages, shapeOfValue, placeOf, resolveColor };
 
 const invokedDirectly = process.argv[1]?.endsWith("generate-token-registry.mjs") ?? false;
 if (!invokedDirectly) {

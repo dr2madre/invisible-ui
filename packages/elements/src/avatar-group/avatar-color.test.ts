@@ -12,7 +12,7 @@ describe("avatar color", () => {
   it("feeds --ds-avatar-bg only to background-color", () => {
     const uses = sheet
       .split(";")
-      .filter((declaration) => declaration.includes("var(--ds-avatar-bg"))
+      .filter((declaration) => /var\(\s*--ds-avatar-bg\b/.test(declaration))
       .map((declaration) =>
         declaration.slice(0, declaration.indexOf(":")).trim().split(/\s/).pop(),
       );

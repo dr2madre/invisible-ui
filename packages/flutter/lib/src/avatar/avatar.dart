@@ -118,7 +118,7 @@ class Avatar extends StatelessWidget {
         child: AvatarBox(
           side: side,
           shape: shape,
-          color: color ?? theme.colors.surface,
+          color: color ?? theme.colors.avatarBackground,
           child: image == null
               ? initials
               : Image(

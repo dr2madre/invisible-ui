@@ -46,7 +46,7 @@ const PROPERTY: Record<Exclude<SpecimenKind, "text">, string> = {
 function textProperty(token: TokenEntry): string {
   if (token.valueType === "fontFamily") return "font-family";
   if (token.name.startsWith("--ds-font-size")) return "font-size";
-  if (token.name.startsWith("--ds-line-height")) return "line-height";
+  if (token.name.startsWith("--ds-typography-line-height-default")) return "line-height";
   return "font-weight";
 }
 

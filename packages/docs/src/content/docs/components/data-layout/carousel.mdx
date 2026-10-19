@@ -53,6 +53,7 @@ sanitized. See [Security](/invisible-ui/api/#security).
   against a white image: 4.76:1 at 55%, 8.52:1 at the 70% base).
 - The slide track, the coverflow and the gallery scroll do not animate under
   `prefers-reduced-motion`.
+- In right-to-left text Left and Right swap, so the arrows keep following the reading direction; the page's `dir` is read when a key is pressed, with or without a locale provider. The previous and next arrows are mirrored, the slide track moves the other way, and the coverflow places the next slide on the left.
 
 ### Example
 

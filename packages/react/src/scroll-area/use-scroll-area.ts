@@ -90,7 +90,15 @@ export function useScrollArea(): UseScrollArea {
       const active = drag.current;
       if (!active || !viewport) return;
       const current = active.axis === "vertical" ? event.clientY : event.clientX;
-      const next = core.scrollByThumbDrag(current - active.last, metrics(viewport, active.axis));
+      const direction =
+        active.axis === "horizontal" && getComputedStyle(viewport).direction === "rtl"
+          ? "rtl"
+          : "ltr";
+      const next = core.scrollByThumbDrag(
+        current - active.last,
+        metrics(viewport, active.axis),
+        direction,
+      );
       active.last = current;
       if (active.axis === "vertical") viewport.scrollTop = next;
       else viewport.scrollLeft = next;

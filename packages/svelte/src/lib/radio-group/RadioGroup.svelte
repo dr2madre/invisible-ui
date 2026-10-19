@@ -112,7 +112,7 @@
     display: grid;
     gap: var(--ds-radio-label-gap, 0.5rem);
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .radio-field__label {
     font-size: 0.875rem;
@@ -160,7 +160,7 @@
   .radio__dot {
     inline-size: var(--ds-radio-size, 1.1rem);
     block-size: var(--ds-radio-size, 1.1rem);
-    border: 1px solid var(--ds-color-control-border, #757575);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
     border-radius: 50%;
     display: inline-grid;
     place-content: center;
@@ -171,14 +171,14 @@
      the page in both themes (the base selection purple measures 2.87:1 on
      the dark page). */
   .radio__input:checked + .radio__dot {
-    border-color: var(--ds-color-control-border, #757575);
+    border-color: var(--ds-components-general-border-control, #757575);
   }
   .radio__input:checked + .radio__dot::after {
     content: "";
     inline-size: 0.6rem;
     block-size: 0.6rem;
     border-radius: 50%;
-    background: var(--ds-color-selected-text, #553f82);
+    background: var(--ds-components-general-selection-contextual-foreground-default, #553f82);
   }
   .radio__input:focus-visible + .radio__dot {
     outline: none;
@@ -190,7 +190,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .radio__input:focus-visible + .radio__dot {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

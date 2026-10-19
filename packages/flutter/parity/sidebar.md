@@ -1,6 +1,6 @@
 # Sidebar parity checklist
 
-Reference commit: `ae10a1745b716152848226dc23f85509ed11aa55`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/collapsible` `core/src/navigation-bar` `packages/svelte/src/lib/sidebar` `docs/sidebar-spec.md` `packages/svelte/src/lib/sheet-dialog`
 
@@ -146,7 +146,7 @@ destinations, `test/sidebar_status_test.dart`.
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | The navigation sits in a modal Sheet Dialog named like the navigation | matched | `a modal sheet named like the navigation, at the inline-start edge, with labels and no rail toggle` |
-| The drawer comes from the inline-start edge, mirrored right to left | matched | same test |
+| The drawer comes from the inline-start edge, mirrored right to left | matched | same test; on the web the drawer passes `start` or `end`, the sheet's only lateral sides |
 | Escape closes it | matched | same test |
 | The drawer shows the labels and no rail toggle, whatever `collapsed` says | matched | same test |
 | Following a destination closes the drawer and reports once | adapted | ADR 0011: the drawer closes first, then `onSelected` reports: `following a destination closes the drawer first, then reports; focus returns to the button that opened it` |
@@ -160,3 +160,7 @@ destinations, `test/sidebar_status_test.dart`.
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Responsive presentation | out of scope | as on the web, the component reads no screen size; the app decides where and when to show it, whether it is a rail and when it is a drawer |
+
+## Background token
+
+The background reads the component token `--ds-components-sidebar-background-default` on the web and `InvisibleColors.sidebarBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

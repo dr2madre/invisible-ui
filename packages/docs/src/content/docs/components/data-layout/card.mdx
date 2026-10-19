@@ -46,9 +46,10 @@ Mark region content with `slot`; unslotted children become the body:
 ```
 
 Use `surface="secondary"` for a card that belongs to the secondary surface
-hierarchy. It resolves through `--ds-card-secondary-bg`, whose default is the
-neutral surface role. The default surface continues to resolve through
-`--ds-card-bg`.
+hierarchy. It resolves through `--ds-components-card-secondary-background-default`, a component
+token that points at the neutral surface role in the light theme and at Grey
+900 in the dark one. The default surface resolves through
+`--ds-components-card-background-default`.
 
 In React, `title`, `description`, `icon`, `media`, `tags`, `metric` and
 `actions` take markup:

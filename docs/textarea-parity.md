@@ -21,9 +21,9 @@ Two more gaps sit next to it:
   by red text alone fails WCAG 1.4.1 — the reason the danger button carries a
   hazard mark, with a test that records it.
 - **The Svelte Textarea had missed the contrast work in #221.** Its scoped
-  styles used raw `--ds-color-danger` for body text (the required marker, the
+  styles used raw `--ds-components-general-feedback-danger-solid-background-default` for body text (the required marker, the
   error text) where `TextField.svelte` used
-  `--ds-color-danger-body-text`. The dark theme lightens only the second
+  `--ds-components-general-feedback-danger-body-foreground-default`. The dark theme lightens only the second
   (`tokens.css`), so dark mode had the wrong contrast.
 
 ## Implemented approach

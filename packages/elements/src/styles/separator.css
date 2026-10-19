@@ -2,7 +2,7 @@
 
 .separator {
   flex: none;
-  background: var(--ds-separator-color, var(--ds-color-border, #bdbdbd));
+  background: var(--ds-separator-color, var(--ds-components-general-border-default, #bdbdbd));
   border: 0;
 }
 .separator[data-orientation="horizontal"] {

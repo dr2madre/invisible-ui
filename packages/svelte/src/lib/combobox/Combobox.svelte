@@ -16,7 +16,7 @@
   import { createCombobox, type ComboboxItem } from "./create-combobox";
   import { formReset } from "../internal/form-reset";
   import { ignoreGhostClicks } from "../internal/ghost-click";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -268,7 +268,7 @@
     role="listbox"
     aria-labelledby={core.labelId($comboboxState.id)}
     lang={$i18nLocale}
-    dir={$i18nDir}
+    use:followDirection={{ fallback: $i18nDir, open: $comboboxState.open }}
     use:portal
     use:listboxAction
   >
@@ -310,7 +310,7 @@
     inline-size: var(--ds-combobox-width, 16rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .combobox:global([data-width="wrap"]) {
     inline-size: fit-content;
@@ -343,20 +343,20 @@
     gap: 0.25rem;
     box-sizing: border-box;
     padding-inline-end: 0.5rem;
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-combobox-radius, var(--ds-radius-control, 0.5rem));
-    background: var(--ds-color-background, #fff);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-combobox-radius, var(--ds-metrics-radius-control, 0.5rem));
+    background: var(--ds-components-general-background-default, #fff);
     transition:
       border-color 120ms ease,
       box-shadow 120ms ease;
   }
   .combobox__control:focus-within {
-    border-color: var(--ds-color-focus-ring, #8e6cd4);
+    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .combobox__control--disabled {
-    background: var(--ds-color-disabled, #bdbdbd);
-    color: var(--ds-color-text-disabled, #757575);
+    background: var(--ds-components-general-background-disabled, #bdbdbd);
+    color: var(--ds-components-general-foreground-disabled, #757575);
   }
 
   .combobox__search {
@@ -365,7 +365,7 @@
     inline-size: 1.05em;
     block-size: 1.05em;
     margin-inline-start: 0.625rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .combobox__input {
     flex: 1;
@@ -411,9 +411,9 @@
     flex: none;
     padding: 0;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     background: transparent;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     cursor: pointer;
   }
   .combobox__clear:hover {
@@ -436,9 +436,9 @@
     margin-inline-start: 0.25rem;
     padding: 0.2rem;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     background: transparent;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     cursor: pointer;
     transition:
       background-color 120ms ease,
@@ -446,7 +446,7 @@
   }
   .combobox__chevron:hover:not(:disabled) {
     color: inherit;
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .combobox__chevron:disabled {
     cursor: not-allowed;
@@ -462,9 +462,12 @@
     list-style: none;
     max-block-size: var(--ds-select-max-height, 16rem);
     overflow-y: auto;
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-select-listbox-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(
+      --ds-components-menu-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-select-listbox-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -480,24 +483,29 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.5rem;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: pointer;
     user-select: none;
   }
   .combobox__option:global([data-active]:not([data-state="selected"])) {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   /* Focus stays in the input, so the ring marks the option the arrows are on,
      the selected one included (WCAG 2.4.7, 1.4.11). */
   .combobox__option:global([data-active]) {
-    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-focus-ring-color, #8e6cd4);
   }
   /* The selected option keeps a faint selection tint. */
   .combobox__option:global([data-state="selected"]) {
-    background: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--ds-components-general-selection-background-default, #7a52cc) 10%,
+      transparent
+    );
   }
   .combobox__option:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
   .combobox__check {
@@ -505,7 +513,7 @@
     inline-size: 1rem;
     block-size: 1rem;
     flex: none;
-    color: var(--ds-color-selected, #7a52cc);
+    color: var(--ds-components-general-selection-background-default, #7a52cc);
     visibility: hidden;
   }
   /* Leading per-option icon (reserved width so labels align even when only
@@ -515,7 +523,7 @@
     inline-size: var(--ds-combobox-option-icon-size, 1.1rem);
     block-size: var(--ds-combobox-option-icon-size, 1.1rem);
     flex: none;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .combobox__option:global([data-state="selected"]) .combobox__check {
     visibility: visible;
@@ -526,7 +534,7 @@
 
   .combobox__empty {
     padding: 0.5rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     cursor: default;
   }
   /* Forced colors: the active option is marked by a tint alone, and tints flatten away.
@@ -534,7 +542,7 @@
      option it is on. The list scrolls, so the ring goes inside. */
   @media (forced-colors: active) {
     .combobox__option:global([data-active]) {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: -2px;
     }
   }

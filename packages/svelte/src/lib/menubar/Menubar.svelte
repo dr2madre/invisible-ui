@@ -14,7 +14,7 @@
    */
   import { untrack } from "svelte";
   import { createMenubar, type MenubarMenu } from "./create-menubar";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
@@ -71,7 +71,7 @@
       <div
         class="menubar__popup"
         lang={$i18nLocale}
-        dir={$i18nDir}
+        use:followDirection={{ fallback: $i18nDir, open: menu.open }}
         use:portal
         use:menubarAction
         use:menu.menuAction
@@ -91,10 +91,10 @@
     display: inline-flex;
     gap: var(--ds-menubar-gap, 0.125rem);
     padding: var(--ds-menubar-padding, 0.25rem);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-menubar-radius, var(--ds-radius-surface, 0.75rem));
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #272727);
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-menubar-radius, var(--ds-metrics-radius-container, 0.75rem));
+    background: var(--ds-components-general-background-default, #fff);
+    color: var(--ds-components-general-foreground-default, #272727);
     font: inherit;
   }
 
@@ -107,7 +107,7 @@
     align-items: center;
     padding: var(--ds-menubar-trigger-padding, 0.375rem 0.625rem);
     border: 0;
-    border-radius: var(--ds-menu-radius, var(--ds-radius-control, 0.5rem));
+    border-radius: var(--ds-menu-radius, var(--ds-metrics-radius-control, 0.5rem));
     background: transparent;
     color: inherit;
     font: inherit;
@@ -116,14 +116,14 @@
   }
   .menubar__trigger:hover,
   .menubar__trigger:global([data-state="open"]) {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .menubar__trigger:focus-visible {
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .menubar__trigger:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -137,9 +137,12 @@
     padding: var(--ds-menu-padding, 0.25rem);
     display: flex;
     flex-direction: column;
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(
+      --ds-components-menu-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-menu-popup-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -157,7 +160,7 @@
     inline-size: 100%;
     padding: 0.45rem 0.55rem;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -165,17 +168,18 @@
     cursor: pointer;
   }
   .menubar__item:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
      marks the focused item. The menu clips, so the ring goes inside. */
   .menubar__item:focus-visible {
     outline: none;
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-focus-ring-color, #8e6cd4);
   }
   .menubar__item:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -184,8 +188,8 @@
   @media (pointer: coarse) {
     .menubar__item,
     .menubar__trigger {
-      min-block-size: var(--ds-min-target-size-touch, 44px);
-      min-inline-size: var(--ds-min-target-size-touch, 44px);
+      min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+      min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
     }
   }
 </style>

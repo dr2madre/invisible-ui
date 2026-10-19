@@ -29,8 +29,8 @@ authored in OKLCH; brand primary = green `#8DCC7A`, selection/secondary = violet
 ## ✅ Backlog — all shipped
 
 1. ✅ **Focus style** — solid inner ring + transparent halo, tokenized as
-   `--ds-focus-ring-width/offset` + `--ds-focus-halo-width` /
-   `--ds-color-focus-halo` in `tokens.css`.
+   `--ds-components-general-focus-ring-width/offset` + `--ds-components-general-focus-halo-width` /
+   `--ds-components-general-focus-halo-color` in `tokens.css`.
 2. ✅ **Pastel OKLCH set** — `--ds-pastel-{pink,violet,teal,green,yellow}`
    tokens in `tokens.css`; carousel slides use them (#51); soft red destructive
    background via `--ds-color-danger-soft`; lightened FeedbackIcon / Alert

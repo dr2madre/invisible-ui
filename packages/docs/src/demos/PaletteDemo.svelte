@@ -10,40 +10,67 @@
       title: "Brand",
       colors: [
         // "secondary" is a function, not a colour: the secondary button is the
-        // same Dioxazine Purple, inverted. So --ds-color-secondary(-hover) sit
+        // same Dioxazine Purple, inverted. So --ds-components-general-action-secondary-background-default(-hover) sit
         // under the primary purple — there is no distinct secondary colour.
         {
           cls: "brand-primary",
-          varName: "--ds-brand-primary",
+          varName: "--ds-colors-brand-primary-default",
           palette: "Dioxazine Purple 500",
-          light: ["--ds-color-primary", "--ds-color-secondary", "--ds-color-selected"],
-          dark: ["--ds-color-primary", "--ds-color-secondary", "--ds-color-selected"],
+          light: [
+            "--ds-components-general-action-primary-background-default",
+            "--ds-components-general-action-secondary-background-default",
+            "--ds-components-general-selection-background-default",
+          ],
+          dark: [
+            "--ds-components-general-action-primary-background-default",
+            "--ds-components-general-action-secondary-background-default",
+            "--ds-components-general-selection-background-default",
+          ],
         },
         {
           cls: "brand-primary-hover",
-          varName: "--ds-brand-primary-hover",
+          varName: "--ds-colors-brand-primary-hover",
           palette: "Dioxazine Purple 600",
-          light: ["--ds-color-primary-hover", "--ds-color-secondary-hover"],
-          dark: ["--ds-color-primary-hover", "--ds-color-secondary-hover"],
+          light: [
+            "--ds-components-general-action-primary-background-hover",
+            "--ds-components-general-action-secondary-background-hover",
+          ],
+          dark: [
+            "--ds-components-general-action-primary-background-hover",
+            "--ds-components-general-action-secondary-background-hover",
+          ],
         },
         {
           cls: "brand-white",
           varName: "--ds-brand-white",
           palette: "White",
           light: [
-            "--ds-color-background",
-            "--ds-color-on-primary",
-            "--ds-color-on-secondary",
-            "--ds-color-on-status",
+            "--ds-components-general-background-default",
+            "--ds-components-general-action-primary-foreground-default",
+            "--ds-components-general-action-secondary-foreground-default",
+            "--ds-components-general-feedback-solid-foreground-default",
+            "--ds-components-page-background-default",
+            "--ds-components-card-background-default",
+            "--ds-components-dialog-background-default",
+            "--ds-components-popover-background-default",
+            "--ds-components-menu-background-default",
+            "--ds-components-sidebar-background-default",
           ],
-          dark: ["--ds-color-on-primary", "--ds-color-on-secondary", "--ds-color-on-status"],
+          dark: [
+            "--ds-components-general-action-primary-foreground-default",
+            "--ds-components-general-action-secondary-foreground-default",
+            "--ds-components-general-feedback-solid-foreground-default",
+          ],
         },
         {
           cls: "brand-black",
           varName: "--ds-brand-black",
-          palette: "Grey 950",
+          palette: "Black",
           light: [],
-          dark: [],
+          dark: [
+            "--ds-components-page-background-default",
+            "--ds-components-sidebar-background-default",
+          ],
         },
       ],
     },
@@ -53,38 +80,38 @@
       colors: [
         {
           cls: "info",
-          varName: "--ds-feedback-info",
+          varName: "--ds-colors-feedback-info-default",
           palette: "Cobalt Blue 500",
-          light: ["--ds-color-info"],
-          dark: ["--ds-color-info"],
+          light: ["--ds-components-general-feedback-info-solid-background-default"],
+          dark: ["--ds-components-general-feedback-info-solid-background-default"],
         },
         {
           cls: "success",
-          varName: "--ds-feedback-success",
+          varName: "--ds-colors-feedback-success-default",
           palette: "Sap Green 600",
-          light: ["--ds-color-success"],
-          dark: ["--ds-color-success"],
+          light: ["--ds-components-general-feedback-success-solid-background-default"],
+          dark: ["--ds-components-general-feedback-success-solid-background-default"],
         },
         {
           cls: "warning",
-          varName: "--ds-feedback-warning",
+          varName: "--ds-colors-feedback-warning-default",
           palette: "Burnt Orange 500",
-          light: ["--ds-color-warning"],
-          dark: ["--ds-color-warning"],
+          light: ["--ds-components-general-feedback-warning-solid-background-default"],
+          dark: ["--ds-components-general-feedback-warning-solid-background-default"],
         },
         {
           cls: "danger",
-          varName: "--ds-feedback-danger",
+          varName: "--ds-colors-feedback-danger-default",
           palette: "Alizarin Red 600",
-          light: ["--ds-color-danger"],
-          dark: ["--ds-color-danger"],
+          light: ["--ds-components-general-feedback-danger-solid-background-default"],
+          dark: ["--ds-components-general-feedback-danger-solid-background-default"],
         },
         {
           cls: "danger-hover",
-          varName: "--ds-feedback-danger-hover",
+          varName: "--ds-colors-feedback-danger-hover",
           palette: "Alizarin Red 700",
-          light: ["--ds-color-danger-hover"],
-          dark: ["--ds-color-danger-hover"],
+          light: ["--ds-components-general-feedback-danger-solid-background-hover"],
+          dark: ["--ds-components-general-feedback-danger-solid-background-hover"],
         },
       ],
     },
@@ -93,78 +120,119 @@
       colors: [
         {
           cls: "neutral-50",
-          varName: "--ds-neutral-50",
+          varName: "--ds-colors-palette-grey-50",
           palette: "Grey 50",
-          light: ["--ds-color-neutral-surface", "--ds-color-on-emphasis"],
-          dark: ["--ds-color-text"],
+          light: [
+            "--ds-components-general-feedback-neutral-background-default",
+            "--ds-components-general-emphasis-foreground-default",
+            "--ds-components-card-secondary-background-default",
+            "--ds-components-code-block-background-default",
+          ],
+          dark: ["--ds-components-general-foreground-default"],
         },
         {
           cls: "neutral-100",
-          varName: "--ds-neutral-100",
+          varName: "--ds-colors-palette-grey-100",
           palette: "Grey 100",
-          light: ["--ds-color-surface"],
-          dark: ["--ds-color-emphasis-surface"],
+          light: [
+            "--ds-components-avatar-background-default",
+            "--ds-components-switch-background-default",
+          ],
+          dark: ["--ds-components-general-emphasis-background-default"],
         },
         {
           cls: "neutral-200",
-          varName: "--ds-neutral-200",
+          varName: "--ds-colors-palette-grey-200",
           palette: "Grey 200",
           light: [
-            "--ds-color-border",
-            "--ds-color-surface-hover",
-            "--ds-color-disabled",
-            "--ds-color-neutral-border",
+            "--ds-components-general-border-default",
+            "--ds-components-general-background-disabled",
+            "--ds-components-general-feedback-neutral-border-default",
           ],
-          dark: ["--ds-color-neutral-text"],
+          dark: ["--ds-components-general-feedback-neutral-foreground-default"],
         },
         {
           cls: "neutral-300",
-          varName: "--ds-neutral-300",
+          varName: "--ds-colors-palette-grey-300",
           palette: "Grey 300",
           light: [],
-          dark: ["--ds-color-emphasis-border", "--ds-color-text-secondary"],
+          dark: [
+            "--ds-components-general-emphasis-border-default",
+            "--ds-components-general-foreground-secondary",
+          ],
         },
         {
           cls: "neutral-400",
-          varName: "--ds-neutral-400",
+          varName: "--ds-colors-palette-grey-400",
           palette: "Grey 400",
-          light: ["--ds-color-text-disabled"],
+          light: ["--ds-components-general-foreground-disabled"],
           dark: [],
         },
         {
           cls: "neutral-500",
-          varName: "--ds-neutral-500",
+          varName: "--ds-colors-palette-grey-500",
           palette: "Grey 500",
-          light: ["--ds-color-neutral"],
-          dark: ["--ds-color-neutral"],
+          light: ["--ds-components-general-feedback-neutral-solid-background-default"],
+          dark: ["--ds-components-general-feedback-neutral-solid-background-default"],
         },
         {
           cls: "neutral-600",
-          varName: "--ds-neutral-600",
+          varName: "--ds-colors-palette-grey-600",
           palette: "Grey 600",
-          light: ["--ds-color-text-secondary"],
-          dark: ["--ds-color-text-disabled", "--ds-color-surface-hover"],
+          light: ["--ds-components-general-foreground-secondary"],
+          dark: ["--ds-components-general-foreground-disabled"],
         },
         {
           cls: "neutral-700",
-          varName: "--ds-neutral-700",
+          varName: "--ds-colors-palette-grey-700",
           palette: "Grey 700",
-          light: ["--ds-color-neutral-text", "--ds-color-emphasis-border"],
-          dark: ["--ds-color-border", "--ds-color-surface", "--ds-color-neutral-border"],
+          light: [
+            "--ds-components-general-feedback-neutral-foreground-default",
+            "--ds-components-general-emphasis-border-default",
+          ],
+          dark: [
+            "--ds-components-general-border-default",
+            "--ds-components-avatar-background-default",
+            "--ds-components-general-feedback-neutral-border-default",
+          ],
         },
         {
           cls: "neutral-800",
-          varName: "--ds-neutral-800",
+          varName: "--ds-colors-palette-grey-800",
           palette: "Grey 800",
-          light: ["--ds-color-emphasis-surface"],
-          dark: ["--ds-color-disabled", "--ds-color-neutral-surface"],
+          light: ["--ds-components-general-emphasis-background-default"],
+          dark: [
+            "--ds-components-general-background-disabled",
+            "--ds-components-general-feedback-neutral-background-default",
+          ],
         },
         {
           cls: "neutral-900",
-          varName: "--ds-neutral-900",
+          varName: "--ds-colors-palette-grey-900",
           palette: "Grey 900",
-          light: ["--ds-color-text", "--ds-color-on-warning"],
-          dark: ["--ds-color-background", "--ds-color-on-emphasis", "--ds-color-on-warning"],
+          light: [
+            "--ds-components-general-foreground-default",
+            "--ds-components-general-feedback-warning-solid-foreground-default",
+          ],
+          dark: [
+            "--ds-components-general-background-default",
+            "--ds-components-general-emphasis-foreground-default",
+            "--ds-components-general-feedback-warning-solid-foreground-default",
+            "--ds-components-card-secondary-background-default",
+          ],
+        },
+        {
+          cls: "neutral-950",
+          varName: "--ds-colors-palette-grey-950",
+          palette: "Grey 950",
+          light: [],
+          dark: [
+            "--ds-components-card-background-default",
+            "--ds-components-dialog-background-default",
+            "--ds-components-popover-background-default",
+            "--ds-components-menu-background-default",
+            "--ds-components-code-block-background-default",
+          ],
         },
       ],
     },
@@ -220,7 +288,7 @@
   }
   .group:not(:last-child) {
     padding-block-end: 1rem;
-    border-block-end: 1px solid var(--ds-color-border, #bdbdbd);
+    border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
   .group__title {
     margin: 0;
@@ -229,7 +297,7 @@
   .group__note {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .rows {
     display: grid;
@@ -250,8 +318,8 @@
   }
   .swatch__chip {
     aspect-ratio: 1;
-    border-radius: var(--ds-radius-control, 0.5rem);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
   .swatch__name {
     font-size: 0.8125rem;
@@ -273,84 +341,87 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .tokcol__empty {
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     opacity: 0.5;
   }
   .token {
     font-size: 0.7rem;
     padding: 0.1rem 0.4rem;
-    border-radius: var(--ds-radius-control, 0.5rem);
-    background: var(--ds-color-surface, #e0e0e0);
-    color: var(--ds-color-text, #272727);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    background: var(--ds-components-general-background-default, #e0e0e0);
+    color: var(--ds-components-general-foreground-default, #272727);
     word-break: break-all;
   }
 
   /* Chip fills — one per color. */
   .swatch--brand-primary {
-    background: var(--ds-brand-primary);
+    background: var(--ds-colors-brand-primary-default);
   }
   .swatch--brand-primary-hover {
-    background: var(--ds-brand-primary-hover);
+    background: var(--ds-colors-brand-primary-hover);
   }
   .swatch--brand-white {
     background: var(--ds-brand-white);
   }
   .swatch--brand-secondary {
-    background: var(--ds-brand-secondary);
+    background: var(--ds-colors-brand-secondary-default);
   }
   .swatch--brand-secondary-hover {
-    background: var(--ds-brand-secondary-hover);
+    background: var(--ds-colors-brand-secondary-hover);
   }
   .swatch--info {
-    background: var(--ds-feedback-info);
+    background: var(--ds-colors-feedback-info-default);
   }
   .swatch--success {
-    background: var(--ds-feedback-success);
+    background: var(--ds-colors-feedback-success-default);
   }
   .swatch--warning {
-    background: var(--ds-feedback-warning);
+    background: var(--ds-colors-feedback-warning-default);
   }
   .swatch--danger {
-    background: var(--ds-feedback-danger);
+    background: var(--ds-colors-feedback-danger-default);
   }
   .swatch--danger-hover {
-    background: var(--ds-feedback-danger-hover);
+    background: var(--ds-colors-feedback-danger-hover);
   }
   .swatch--neutral-0 {
-    background: var(--ds-neutral-0);
+    background: var(--ds-colors-palette-grey-0);
   }
   .swatch--neutral-50 {
-    background: var(--ds-neutral-50);
+    background: var(--ds-colors-palette-grey-50);
   }
   .swatch--neutral-100 {
-    background: var(--ds-neutral-100);
+    background: var(--ds-colors-palette-grey-100);
   }
   .swatch--neutral-200 {
-    background: var(--ds-neutral-200);
+    background: var(--ds-colors-palette-grey-200);
   }
   .swatch--neutral-300 {
-    background: var(--ds-neutral-300);
+    background: var(--ds-colors-palette-grey-300);
   }
   .swatch--neutral-400 {
-    background: var(--ds-neutral-400);
+    background: var(--ds-colors-palette-grey-400);
   }
   .swatch--neutral-500 {
-    background: var(--ds-neutral-500);
+    background: var(--ds-colors-palette-grey-500);
   }
   .swatch--neutral-600 {
-    background: var(--ds-neutral-600);
+    background: var(--ds-colors-palette-grey-600);
   }
   .swatch--neutral-700 {
-    background: var(--ds-neutral-700);
+    background: var(--ds-colors-palette-grey-700);
   }
   .swatch--neutral-800 {
-    background: var(--ds-neutral-800);
+    background: var(--ds-colors-palette-grey-800);
   }
   .swatch--neutral-900 {
-    background: var(--ds-neutral-900);
+    background: var(--ds-colors-palette-grey-900);
+  }
+  .swatch--neutral-950 {
+    background: var(--ds-colors-palette-grey-950);
   }
   .swatch--brand-black {
     background: var(--ds-brand-black);

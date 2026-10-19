@@ -167,8 +167,37 @@ void main() {
     );
     expect(
       (box.decoration as BoxDecoration).color,
-      InvisibleColors.light.neutralSurface,
+      InvisibleColors.light.cardSecondaryBackground,
     );
+  });
+
+  testWidgets('each surface reads its card background token in each theme', (
+    tester,
+  ) async {
+    for (final theme in [
+      InvisibleThemeData.light(),
+      InvisibleThemeData.dark(),
+    ]) {
+      for (final secondary in [false, true]) {
+        await tester.pumpWidget(
+          harness(_card(secondary: secondary), theme: theme),
+        );
+        final box = tester.widget<DecoratedBox>(
+          find
+              .descendant(
+                of: find.byType(Card),
+                matching: find.byType(DecoratedBox),
+              )
+              .first,
+        );
+        expect(
+          (box.decoration as BoxDecoration).color,
+          secondary
+              ? theme.colors.cardSecondaryBackground
+              : theme.colors.cardBackground,
+        );
+      }
+    }
   });
 
   for (final dark in [false, true]) {

@@ -19,8 +19,9 @@ existing `Invisible UI` collection. Components and tokens creates or updates
 the collection and its Light/Dark modes before generating the components.
 Both options update the derived `component/button/` colour variables.
 Matching variable names retain their IDs and aliases. Unrelated variables and
-modes remain in place. Duplicate names or incompatible variable types stop the
-token update. If the component step fails after token success, the dialog
+modes remain in place, including variables from an export made before the
+version-2 token names, such as `role/color-background`; delete those by hand.
+Duplicate names or incompatible variable types stop the token update. If the component step fails after token success, the dialog
 reports that tokens have already been updated.
 
 Tokens are bundled directly from `packages/tokens/tokens.json` by
@@ -97,9 +98,9 @@ The three sets contain 23 variants. They appear in the local Assets panel and
 each instance exposes the relevant variant properties in Figma.
 
 Colour fills, strokes, text, and corner radii use variables from the local
-`Invisible UI` collection when the matching variable exists. Layout values
-come from the component CSS because component-specific spacing tokens are CSS
-custom properties rather than shared DTCG variables.
+`Invisible UI` collection when the matching variable exists. Spacing is not
+bound to variables yet: Card spacing comes from `Card.svelte`, and Button
+padding is drawn at its default size.
 
 Every generated component records its source Svelte file as plugin data. This
 pilot keeps the repository as the source of truth. Shared token updates require

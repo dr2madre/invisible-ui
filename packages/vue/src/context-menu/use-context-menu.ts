@@ -24,7 +24,7 @@ export interface UseContextMenuOptions {
   /** Called with the chosen item's value. */
   onSelect?: (value: string) => void;
   onOpenChange?: (open: boolean) => void;
-  /** Preferred placement relative to the pointer. Default `"right-start"`. */
+  /** Preferred placement relative to the pointer. Default `"right-start"`, `"left-start"` in right-to-left text. */
   placement?: Placement;
 }
 
@@ -108,8 +108,11 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
   const menuRef = ref<HTMLElement | null>(null);
 
   // Viewport coordinates of the last open request: the pointer, or the
-  // trigger's top-left when the menu is summoned from the keyboard.
+  // trigger's inline-start top corner when the menu is summoned from the
+  // keyboard. The menu opens toward the inline end: to the left in
+  // right-to-left text.
   let point = { x: 0, y: 0 };
+  const rtl = () => !!triggerRef.value && getComputedStyle(triggerRef.value).direction === "rtl";
   // Where focus sat before the menu opened, so it can be handed back.
   let previouslyFocused: HTMLElement | null = null;
 
@@ -129,7 +132,7 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
       }),
     };
     void computePosition(anchor, popup, {
-      placement: resolved.value.placement ?? "right-start",
+      placement: resolved.value.placement ?? (rtl() ? "left-start" : "right-start"),
       strategy: "fixed",
       middleware: [offset(2), flip({ padding: 8 }), shift({ padding: 8 })],
     }).then(({ x, y }) => {
@@ -163,7 +166,7 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
       event.preventDefault();
       if (event.clientX === 0 && event.clientY === 0) {
         const rect = triggerRef.value?.getBoundingClientRect();
-        openAt(rect?.left ?? 0, rect?.top ?? 0);
+        openAt((rtl() ? rect?.right : rect?.left) ?? 0, rect?.top ?? 0);
       } else {
         openAt(event.clientX, event.clientY);
       }

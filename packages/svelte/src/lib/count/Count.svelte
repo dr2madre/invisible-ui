@@ -78,8 +78,11 @@
     font-size: var(--ds-count-font-size, 0.6875rem);
     font-weight: 600;
     line-height: 1;
-    color: var(--_fg, var(--ds-color-on-status, #fff));
-    background: var(--_bg, var(--ds-color-danger, #be3b50));
+    color: var(--_fg, var(--ds-components-general-feedback-solid-foreground-default, #fff));
+    background: var(
+      --_bg,
+      var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+    );
     border-radius: 999px;
   }
 
@@ -92,23 +95,23 @@
 
   /* data-status is dynamic → :global on the value to survive Svelte pruning. */
   .count:global([data-status="danger"]) {
-    --_bg: var(--ds-color-danger, #be3b50);
-    --_fg: var(--ds-color-on-status, #fff);
+    --_bg: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral, #616161);
-    --_fg: var(--ds-color-on-status, #fff);
+    --_bg: var(--ds-components-general-feedback-neutral-solid-background-default, #616161);
+    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="info"]) {
-    --_bg: var(--ds-color-info, #4067b6);
-    --_fg: var(--ds-color-on-status, #fff);
+    --_bg: var(--ds-components-general-feedback-info-solid-background-default, #4067b6);
+    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="success"]) {
-    --_bg: var(--ds-color-success, #3e7523);
-    --_fg: var(--ds-color-on-status, #fff);
+    --_bg: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
+    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="warning"]) {
-    --_bg: var(--ds-color-warning-label-surface, #d17b43);
-    --_fg: var(--ds-color-on-warning, #272727);
+    --_bg: var(--ds-components-general-feedback-warning-label-background-default, #d17b43);
+    --_fg: var(--ds-components-general-feedback-warning-solid-foreground-default, #272727);
   }
 </style>

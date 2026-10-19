@@ -121,7 +121,7 @@
   /* Disabled group/item dims its label too. */
   .checkbox-group:disabled .checkbox-group__label,
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
   }
 
   .field {
@@ -158,26 +158,34 @@
     inline-size: var(--ds-checkbox-size, 1.25rem);
     block-size: var(--ds-checkbox-size, 1.25rem);
     padding: var(--ds-checkbox-padding, 0.15rem);
-    border: 1px solid var(--ds-color-control-border, #757575);
-    border-radius: var(--ds-checkbox-radius, var(--ds-radius-control, 0.5rem));
-    background: var(--ds-color-background, #fff);
+    border: 1px solid var(--ds-components-general-border-control, #757575);
+    border-radius: var(--ds-checkbox-radius, var(--ds-metrics-radius-control, 0.5rem));
+    background: var(--ds-components-general-background-default, #fff);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--ds-color-on-secondary, #fff);
+    color: var(--ds-components-general-action-secondary-foreground-default, #fff);
     flex: none;
   }
   .checkbox__input:focus-visible + .checkbox {
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-focus-ring-offset, 2px);
+    outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
   }
   /* Checked: faint selection-color fill + glyph in the full selection color
      (coherent with the standalone Checkbox), not a solid fill. */
   .checkbox__input:checked + .checkbox {
-    background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
-    border-color: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 35%, transparent);
-    color: var(--ds-color-secondary, #7a52cc);
+    background: color-mix(
+      in srgb,
+      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      transparent
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--ds-components-general-selection-background-default, #7a52cc) 35%,
+      transparent
+    );
+    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
   }
 
   /* The check fills the padded content box; shown only when checked. The glyph
@@ -193,7 +201,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .checkbox__input:focus-visible + .checkbox {
-      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

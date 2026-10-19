@@ -79,7 +79,7 @@ former name accepted are all unchanged.
 | --- | --- | --- |
 | `--ds-sidebar-gap` | none | `--ds-menu-gap` removed |
 | `--ds-sidebar-width` | none | `--ds-menu-width` removed |
-| `--ds-sidebar-bg` | none | `--ds-menu-bg` removed |
+| `--ds-components-sidebar-background-default` | none | `--ds-menu-bg` removed |
 | `--ds-sidebar-border` | none | `--ds-menu-border` removed |
 | `--ds-sidebar-item-text` | none | `--ds-menu-item-text` removed |
 | `--ds-sidebar-padding` | `--ds-menu-padding` | **stays canonical** for Dropdown Menu, Context Menu, Menubar |

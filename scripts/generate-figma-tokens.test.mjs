@@ -26,43 +26,48 @@ test("colours become structured sRGB values", () => {
 });
 
 test("dimensions become pixels with a 16px root", () => {
-  assert.deepEqual(transformValue("0.75rem", "dimension", "light"), {
+  assert.deepEqual(transformValue("0.75rem", "dimension"), {
     value: 12,
     unit: "px",
   });
-  assert.deepEqual(transformValue("24px", "dimension", "light"), {
+  assert.deepEqual(transformValue("24px", "dimension"), {
     value: 24,
     unit: "px",
   });
 });
 
-test("theme role references collapse to one shared Figma path", () => {
+test("references keep their canonical path and transparent becomes a zero-alpha colour", () => {
   assert.equal(
-    transformValue("{role.dark.color-primary}", "color", "dark"),
-    "{role.color-primary}",
+    transformValue("{components.general.background.default}", "color"),
+    "{components.general.background.default}",
   );
-  assert.throws(
-    () => transformValue("{role.light.color-primary}", "color", "dark"),
-    /dark mode refers to the light mode/,
-  );
+  assert.deepEqual(transformValue("transparent", "color"), colorObject("#000000", 0));
 });
 
 test("the repository source produces matching Light and Dark collections", () => {
   const modes = generate(source);
-  const sharedCount = ["palette", "style", "radius", "focus", "typography"].reduce(
-    (count, group) => count + tokenCount(source[group]),
-    0,
-  );
-  assert.equal(tokenCount(modes.light), sharedCount + tokenCount(source.role.light));
-  assert.equal(tokenCount(modes.dark), sharedCount + tokenCount(source.role.dark));
-  assert.equal(modes.light.typography["heading-weight"].$type, "number");
-  assert.deepEqual(modes.light.role["color-background"].$value, "{palette.grey.0}");
-  assert.deepEqual(modes.dark.role["color-background"].$value, "{palette.grey.900}");
-  assert.equal(Object.hasOwn(modes.light, "density"), false);
+  assert.equal(tokenCount(modes.light), tokenCount(source));
+  assert.equal(tokenCount(modes.dark), tokenCount(source));
+  assert.equal(modes.light.typography["font-weight"].heading.$type, "number");
+  const background = (mode) => modes[mode].components.general.background.default.$value;
+  assert.equal(background("light"), "{colors.palette.grey.0}");
+  assert.equal(background("dark"), "{colors.palette.grey.900}");
+  assert.deepEqual(modes.light.metrics.density.touch["min-target-size"].$value, {
+    value: 44,
+    unit: "px",
+  });
+  assert.equal(JSON.stringify(modes).includes("com.invisible-ui"), false);
 });
 
-test("one mode rejects a missing source group", () => {
-  const incomplete = structuredClone(source);
-  delete incomplete.focus;
-  assert.throws(() => buildMode(incomplete, "light"), /missing the focus group/);
+test("a mode override replaces the Light value and a mix exports its resolved colour", () => {
+  const modes = generate(source);
+  const hover = (mode) => modes[mode].components.button.background.secondary.hover.$value.hex;
+  assert.equal(hover("light"), "#DFD5F3");
+  assert.equal(hover("dark"), "#3B314F");
+});
+
+test("a reference to a missing token fails", () => {
+  const broken = structuredClone(source);
+  broken.components.button.radius.$value = "{metrics.radius.missing}";
+  assert.throws(() => buildMode(broken, "light"), /missing token metrics.radius.missing/);
 });

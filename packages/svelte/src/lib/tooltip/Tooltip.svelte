@@ -13,7 +13,7 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createTooltip, type TooltipContext } from "./create-tooltip";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
@@ -45,7 +45,13 @@
 </span>
 
 {#if $open}
-  <div class="tooltip__content" lang={$i18nLocale} dir={$i18nDir} use:portal use:tooltipAction>
+  <div
+    class="tooltip__content"
+    lang={$i18nLocale}
+    use:followDirection={{ fallback: $i18nDir }}
+    use:portal
+    use:tooltipAction
+  >
     {text}
   </div>
 {/if}
@@ -64,10 +70,16 @@
     max-inline-size: var(--ds-tooltip-max-width, 18rem);
     padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
     font-size: var(--ds-tooltip-font-size, 0.8125rem);
-    line-height: var(--ds-line-height, 1.4);
-    background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #323232));
-    color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f5f5f5));
-    border-radius: var(--ds-tooltip-radius, var(--ds-radius-control, 0.5rem));
+    line-height: var(--ds-typography-line-height-default, 1.4);
+    background: var(
+      --ds-tooltip-bg,
+      var(--ds-components-general-emphasis-background-default, #323232)
+    );
+    color: var(
+      --ds-tooltip-color,
+      var(--ds-components-general-emphasis-foreground-default, #f5f5f5)
+    );
+    border-radius: var(--ds-tooltip-radius, var(--ds-metrics-radius-control, 0.5rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),

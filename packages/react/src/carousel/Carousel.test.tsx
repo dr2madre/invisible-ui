@@ -140,6 +140,17 @@ describe("React Carousel", () => {
     expect(neighbour.style.transform).toContain("rotateY(-18deg)");
   });
 
+  it("places the next coverflow slide to the left, turned the other way, in right-to-left text", () => {
+    render(
+      <LocaleProvider dir="rtl">
+        <Example variant="coverflow" index={1} />
+      </LocaleProvider>,
+    );
+    const neighbour = document.querySelector<HTMLElement>('[data-index="2"]')!;
+    expect(neighbour.style.transform).toContain("11rem) * -1)");
+    expect(neighbour.style.transform).toContain("rotateY(18deg)");
+  });
+
   it("moves the track the other way in right-to-left text", () => {
     render(
       <LocaleProvider dir="rtl">

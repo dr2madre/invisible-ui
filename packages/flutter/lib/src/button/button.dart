@@ -33,13 +33,13 @@ enum ButtonVariant {
 }
 
 // Sizes the web Button sets in its own stylesheet rather than in the tokens.
-const double _gap = 8;
+const double _gap = InvisibleButtonTokens.spacingGap;
 const double _iconOnlyPadding = 8;
 const double _iconOnlyMinSide = 36;
 const double _borderWidth = 1;
 const double _leadingIconEm = 1.1;
 const double _iconOnlyGlyphEm = 1.25;
-const double _disabledOpacity = 0.5;
+const double _disabledOpacity = InvisibleButtonTokens.opacityDisabled;
 
 /// A button, following the WAI-ARIA button pattern.
 ///
@@ -212,8 +212,8 @@ class _ButtonState extends State<Button> {
       child: DefaultTextStyle(
         style: theme.textStyle.copyWith(
           color: paint.foreground,
-          fontWeight: FontWeight.w500,
-          height: InvisibleTypographyTokens.lineHeightTight,
+          fontWeight: InvisibleButtonTokens.typographyFontWeight,
+          height: InvisibleButtonTokens.typographyLineHeight,
           decoration: widget.variant == ButtonVariant.ghost
               ? TextDecoration.underline
               : null,
@@ -236,7 +236,7 @@ class _ButtonState extends State<Button> {
       ),
     );
 
-    final radius = theme.controlRadius;
+    const radius = InvisibleButtonTokens.radius;
     // Inside an attached ButtonGroup the group owns the outer corners.
     final grouped = GroupedCorners.maybeOf(context);
     final duration = reducedMotion(context)
@@ -261,7 +261,10 @@ class _ButtonState extends State<Button> {
             : null,
         padding: iconOnly
             ? const EdgeInsets.all(_iconOnlyPadding)
-            : theme.controlPadding,
+            : const EdgeInsets.symmetric(
+                horizontal: InvisibleButtonTokens.spacingX,
+                vertical: InvisibleButtonTokens.spacingY,
+              ),
         decoration: BoxDecoration(
           color: paint.background,
           border: Border.all(color: paint.border, width: _borderWidth),
@@ -355,12 +358,6 @@ class _VariantPaint {
   final Color foreground;
   final Color border;
 
-  static const Color _clear = Color(0x00000000);
-
-  /// [amount] of [color] over [over], as CSS `color-mix()` in sRGB.
-  static Color _mix(Color color, double amount, Color over) =>
-      Color.lerp(over, color, amount)!;
-
   static _VariantPaint of(
     ButtonVariant variant,
     InvisibleColors c, {
@@ -368,29 +365,29 @@ class _VariantPaint {
   }) {
     return switch (variant) {
       ButtonVariant.standard => _VariantPaint(
-        hovered ? c.stateHover : c.background,
-        c.text,
-        _mix(c.controlBorder, 0.7, c.background),
+        hovered ? c.buttonHover : c.buttonBackground,
+        c.buttonForeground,
+        c.buttonBorder,
       ),
       ButtonVariant.primary => _VariantPaint(
-        hovered ? c.primaryHover : c.primary,
-        c.onPrimary,
-        _clear,
+        hovered ? c.buttonPrimaryHover : c.buttonPrimaryBackground,
+        c.buttonPrimaryForeground,
+        c.buttonPrimaryBorder,
       ),
       ButtonVariant.secondary => _VariantPaint(
-        hovered ? _mix(c.primary, 0.24, c.background) : c.secondarySurface,
-        c.onSecondarySurface,
-        c.primary.withValues(alpha: 0.55),
+        hovered ? c.buttonSecondaryHover : c.buttonSecondaryBackground,
+        c.buttonSecondaryForeground,
+        c.buttonSecondaryBorder,
       ),
       ButtonVariant.ghost => _VariantPaint(
-        hovered ? c.stateHover : _clear,
-        c.text,
-        _clear,
+        hovered ? c.buttonGhostHover : c.buttonGhostBackground,
+        c.buttonGhostForeground,
+        c.buttonGhostBorder,
       ),
       ButtonVariant.danger => _VariantPaint(
-        hovered ? _mix(c.danger, 0.18, c.background) : c.destructiveSurface,
-        c.onDestructiveSurface,
-        c.danger.withValues(alpha: 0.35),
+        hovered ? c.buttonDangerHover : c.buttonDangerBackground,
+        c.buttonDangerForeground,
+        c.buttonDangerBorder,
       ),
     };
   }

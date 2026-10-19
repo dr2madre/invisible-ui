@@ -14,7 +14,7 @@
    */
   import { untrack, type Snippet } from "svelte";
   import { createContextMenu, type MenuItem } from "./create-context-menu";
-  import { portal } from "../internal/portal";
+  import { followDirection, portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
@@ -69,7 +69,7 @@
     class="context-menu__popup"
     aria-label={resolvedLabel}
     lang={$i18nLocale}
-    dir={$i18nDir}
+    use:followDirection={{ fallback: $i18nDir }}
     use:portal
     use:menuAction
   >
@@ -84,13 +84,13 @@
 <style>
   .context-menu__trigger {
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
   }
   .context-menu__trigger:focus-visible {
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
   }
 
   .context-menu__popup {
@@ -103,15 +103,18 @@
     padding: var(--ds-menu-padding, 0.25rem);
     display: flex;
     flex-direction: column;
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(
+      --ds-components-menu-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-menu-popup-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
     font: inherit;
   }
 
@@ -122,7 +125,7 @@
     inline-size: 100%;
     padding: 0.45rem 0.85rem;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -132,17 +135,18 @@
   /* Hover (desktop) or keyboard focus only — no grey just for being the
      roving-active item on open (no grey on tap). */
   .context-menu__item:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
      marks the focused item. The menu clips, so the ring goes inside. */
   .context-menu__item:focus-visible {
     outline: none;
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
+      var(--ds-components-general-focus-ring-color, #8e6cd4);
   }
   .context-menu__item:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #757575);
+    color: var(--ds-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -150,8 +154,8 @@
      44 by 44 at least, for every item. */
   @media (pointer: coarse) {
     .context-menu__item {
-      min-block-size: var(--ds-min-target-size-touch, 44px);
-      min-inline-size: var(--ds-min-target-size-touch, 44px);
+      min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+      min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
     }
   }
 </style>

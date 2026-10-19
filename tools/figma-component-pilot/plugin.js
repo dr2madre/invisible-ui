@@ -80,7 +80,11 @@ function text(value, options = {}) {
   node.characters = value;
   node.fontSize = options.size ?? 14;
   node.lineHeight = { unit: "AUTO" };
-  fill(node, options.color ?? "role/color-text", options.fallback ?? "#282420");
+  fill(
+    node,
+    options.color ?? "components/general/foreground/default",
+    options.fallback ?? "#272727",
+  );
   return node;
 }
 
@@ -172,7 +176,7 @@ function createButton(variant, state) {
       figma.variables.setBoundVariableForPaint(value, field, variable),
     );
   node.opacity = appearance.opacity;
-  radius(node, "radius/control", 8);
+  radius(node, "metrics/radius/control", 8);
 
   node.fills = [paint("background")];
   node.strokes = [paint("border")];
@@ -180,7 +184,7 @@ function createButton(variant, state) {
   node.strokeAlign = "INSIDE";
 
   if (variant === "Danger") {
-    addIcon(node, "role/color-text", "#000000", "!");
+    addIcon(node, "components/general/foreground/default", "#000000", "!");
     node.children[0].fills = [paint("foreground")];
   }
   const label = text(variant, {
@@ -203,7 +207,7 @@ function createField(state) {
   const label = text("Label", { font: FONT_SEMIBOLD, size: 14 });
   label.name = "Label";
   if (state === "Disabled") {
-    fill(label, "role/color-text-disabled", "#757067");
+    fill(label, "components/general/foreground/disabled", "#757575");
   }
   node.appendChild(label);
 
@@ -215,14 +219,14 @@ function createField(state) {
   control.resize(288, 40);
   control.counterAxisAlignItems = "CENTER";
   pad(control, 8, 12);
-  fill(control, "role/color-background", "#FFFFFF");
-  radius(control, "radius/control", 8);
+  fill(control, "components/general/background/default", "#FFFFFF");
+  radius(control, "metrics/radius/control", 8);
   const border =
     state === "Error"
-      ? ["role/color-danger", "#BE3B50"]
+      ? ["components/general/feedback/danger/solid/background/default", "#BE3B50"]
       : state === "Focus"
-        ? ["role/color-focus-ring", "#8E6CD4"]
-        : ["role/color-control-border", "#757067"];
+        ? ["components/general/focus/ring/color", "#8E6CD4"]
+        : ["components/general/border/control", "#757575"];
   stroke(control, ...border);
   if (state === "Focus") {
     control.effects = [
@@ -238,20 +242,31 @@ function createField(state) {
     ];
   }
   const value = text(state === "Default" ? "Placeholder" : "Entered value", {
-    color: state === "Default" ? "role/color-text-secondary" : "role/color-text",
-    fallback: state === "Default" ? "#524C44" : "#282420",
+    color:
+      state === "Default"
+        ? "components/general/foreground/secondary"
+        : "components/general/foreground/default",
+    fallback: state === "Default" ? "#515151" : "#272727",
   });
   value.name = "Value";
-  if (state === "Disabled") fill(value, "role/color-text-disabled", "#757067");
+  if (state === "Disabled") fill(value, "components/general/foreground/disabled", "#757575");
   control.appendChild(value);
   node.appendChild(control);
 
   const messages = {
-    Default: ["Helpful description", "role/color-text-secondary", "#524C44"],
-    Focus: ["Helpful description", "role/color-text-secondary", "#524C44"],
-    Error: ["Error message", "role/color-danger-body-text", "#BE3B50"],
-    Success: ["Value confirmed", "role/color-success-body-text", "#3E7523"],
-    Disabled: ["Unavailable", "role/color-text-disabled", "#757067"],
+    Default: ["Helpful description", "components/general/foreground/secondary", "#515151"],
+    Focus: ["Helpful description", "components/general/foreground/secondary", "#515151"],
+    Error: [
+      "Error message",
+      "components/general/feedback/danger/body/foreground/default",
+      "#BE3B50",
+    ],
+    Success: [
+      "Value confirmed",
+      "components/general/feedback/success/body/foreground/default",
+      "#3E7523",
+    ],
+    Disabled: ["Unavailable", "components/general/foreground/disabled", "#757575"],
   };
   const [message, color, fallback] = messages[state];
   const caption = text(message, { size: 13, color, fallback });
@@ -262,9 +277,9 @@ function createField(state) {
 
 function cardShell(name) {
   const node = component(name, "packages/svelte/src/lib/card/Card.svelte");
-  fill(node, "role/color-background", "#FFFFFF");
-  stroke(node, "role/color-border", "#C7C1B7");
-  radius(node, "radius/surface", 12);
+  fill(node, "components/card/background/default", "#FFFFFF");
+  stroke(node, "components/general/border/default", "#BDBDBD");
+  radius(node, "metrics/radius/container", 12);
   node.clipsContent = true;
   return node;
 }
@@ -279,8 +294,8 @@ function cardBody(width = 320) {
   body.fills = [];
   body.appendChild(text("Card title", { font: FONT_SEMIBOLD, size: 17 }));
   const description = text("Supporting content from the component description.", {
-    color: "role/color-text-secondary",
-    fallback: "#524C44",
+    color: "components/general/foreground/secondary",
+    fallback: "#515151",
   });
   description.textAutoResize = "HEIGHT";
   description.resize(width - CARD_LAYOUT.body.padding * 2, 40);
@@ -292,7 +307,7 @@ function cardBody(width = 320) {
 function mediaPlaceholder(width, height) {
   const media = remember(figma.createFrame());
   media.name = "Media";
-  fill(media, "role/color-neutral-surface", "#F4F2EF");
+  fill(media, "components/general/feedback/neutral/background/default", "#F5F5F5");
   media.layoutMode = "HORIZONTAL";
   // Enabling auto layout defaults to hug, which would collapse the media to its label.
   media.primaryAxisSizingMode = "FIXED";
@@ -301,7 +316,11 @@ function mediaPlaceholder(width, height) {
   media.primaryAxisAlignItems = CARD_LAYOUT.media.justify;
   media.counterAxisAlignItems = CARD_LAYOUT.media.align;
   media.appendChild(
-    text("Media", { font: FONT_MEDIUM, color: "role/color-text-secondary", fallback: "#524C44" }),
+    text("Media", {
+      font: FONT_MEDIUM,
+      color: "components/general/foreground/secondary",
+      fallback: "#515151",
+    }),
   );
   return media;
 }
@@ -346,7 +365,11 @@ function createDashboardCard() {
   metric.fills = [];
   metric.appendChild(text("1,284", { font: FONT_SEMIBOLD, size: 30 }));
   metric.appendChild(
-    text("+12%", { font: FONT_MEDIUM, color: "role/color-success-body-text", fallback: "#3E7523" }),
+    text("+12%", {
+      font: FONT_MEDIUM,
+      color: "components/general/feedback/success/body/foreground/default",
+      fallback: "#3E7523",
+    }),
   );
   node.appendChild(metric);
   return node;
@@ -387,14 +410,14 @@ async function main() {
     board.name = "Invisible UI component pilot";
     auto(board, "VERTICAL", 48);
     pad(board, 48);
-    fill(board, "role/color-background", "#FFFFFF");
+    fill(board, "components/general/background/default", "#FFFFFF");
     board.appendChild(title("Invisible UI component pilot"));
     board.appendChild(
       text(
         "Editable component structures generated from the Svelte contracts and connected to shared variables.",
         {
-          color: "role/color-text-secondary",
-          fallback: "#524C44",
+          color: "components/general/foreground/secondary",
+          fallback: "#515151",
         },
       ),
     );

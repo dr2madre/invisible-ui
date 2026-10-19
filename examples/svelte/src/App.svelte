@@ -404,8 +404,8 @@
     /* Page surface follows the active theme so the demo (and the inverted
        notice's contrast) reads correctly in both light and dark. The background
        role token already remaps per theme — no manual dark override needed. */
-    background: var(--ds-color-background, #ffffff);
-    color: var(--ds-color-text, #0f172a);
+    background: var(--ds-components-general-background-default, #ffffff);
+    color: var(--ds-components-general-foreground-default, #0f172a);
   }
 
   section {
@@ -434,8 +434,8 @@
   .dismissible {
     gap: 0.75rem;
     padding: 0.25rem 0.25rem 0.25rem 0.75rem;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-surface);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-container);
   }
 
   /* Styling is driven entirely by the hooks the headless primitives expose.
@@ -449,26 +449,26 @@
   .toggle {
     inline-size: 2.25rem;
     block-size: 2.25rem;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
-    background: var(--ds-color-background);
-    color: var(--ds-color-text);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
+    background: var(--ds-components-general-background-default);
+    color: var(--ds-components-general-foreground-default);
     cursor: pointer;
     font-size: 1rem;
   }
   .toggle:global([data-state="on"]) {
-    background: var(--ds-color-primary);
-    color: var(--ds-color-on-primary);
-    border-color: var(--ds-color-primary);
+    background: var(--ds-components-general-action-primary-background-default);
+    color: var(--ds-components-general-action-primary-foreground-default);
+    border-color: var(--ds-components-general-action-primary-background-default);
   }
 
   .btn {
     display: inline-block;
     padding: 0.5rem 1rem;
-    border: 1px solid var(--ds-color-primary);
-    border-radius: var(--ds-radius-control);
-    background: var(--ds-color-primary);
-    color: var(--ds-color-on-primary);
+    border: 1px solid var(--ds-components-general-action-primary-background-default);
+    border-radius: var(--ds-metrics-radius-control);
+    background: var(--ds-components-general-action-primary-background-default);
+    color: var(--ds-components-general-action-primary-foreground-default);
     cursor: pointer;
     font: inherit;
   }
@@ -483,17 +483,17 @@
   .checkbox {
     inline-size: 1.25rem;
     block-size: 1.25rem;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
-    background: var(--ds-color-background);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
+    background: var(--ds-components-general-background-default);
     display: inline-grid;
     place-content: center;
-    color: var(--ds-color-on-primary);
+    color: var(--ds-components-general-action-primary-foreground-default);
   }
 
   .checkbox:global([data-state="checked"]) {
-    background: var(--ds-color-primary);
-    border-color: var(--ds-color-primary);
+    background: var(--ds-components-general-action-primary-background-default);
+    border-color: var(--ds-components-general-action-primary-background-default);
   }
   .checkbox:global([data-state="checked"])::after {
     content: "✓";
@@ -501,8 +501,8 @@
   }
 
   .checkbox:global([data-state="indeterminate"]) {
-    background: var(--ds-color-primary);
-    border-color: var(--ds-color-primary);
+    background: var(--ds-components-general-action-primary-background-default);
+    border-color: var(--ds-components-general-action-primary-background-default);
   }
   .checkbox:global([data-state="indeterminate"])::after {
     content: "–";
@@ -514,8 +514,8 @@
     inline-size: 2.5rem;
     block-size: 1.5rem;
     border: none;
-    border-radius: var(--ds-radius-pill);
-    background: var(--ds-color-border);
+    border-radius: var(--ds-metrics-radius-pill);
+    background: var(--ds-components-general-border-default);
     position: relative;
     cursor: pointer;
     padding: 0;
@@ -528,11 +528,11 @@
     inline-size: 1.25rem;
     block-size: 1.25rem;
     border-radius: 50%;
-    background: var(--ds-color-on-primary);
+    background: var(--ds-components-general-action-primary-foreground-default);
     transition: translate 0.15s;
   }
   .switch:global([data-state="checked"]) {
-    background: var(--ds-color-primary);
+    background: var(--ds-components-general-action-primary-background-default);
   }
   .switch:global([data-state="checked"])::after {
     translate: 1rem 0;
@@ -552,7 +552,7 @@
   .radio .dot {
     inline-size: 1.1rem;
     block-size: 1.1rem;
-    border: 1px solid var(--ds-color-border);
+    border: 1px solid var(--ds-components-general-border-default);
     border-radius: 50%;
     display: inline-grid;
     place-content: center;
@@ -562,38 +562,38 @@
     inline-size: 0.6rem;
     block-size: 0.6rem;
     border-radius: 50%;
-    background: var(--ds-color-primary);
+    background: var(--ds-components-general-action-primary-background-default);
   }
   .radio:global(:focus-visible) {
-    outline: 2px solid var(--ds-color-focus-ring);
+    outline: 2px solid var(--ds-components-general-focus-ring-color);
     outline-offset: 2px;
   }
 
   /* Segmented control — a horizontal bar of segments. */
   .segmented {
     display: inline-flex;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
     overflow: hidden;
   }
   .segment {
     padding: 0.4rem 0.9rem;
     cursor: pointer;
-    border-inline-start: 1px solid var(--ds-color-border);
+    border-inline-start: 1px solid var(--ds-components-general-border-default);
   }
   .segment:first-child {
     border-inline-start: none;
   }
   .segment:global([data-state="checked"]) {
-    background: var(--ds-color-primary);
-    color: var(--ds-color-on-primary);
+    background: var(--ds-components-general-action-primary-background-default);
+    color: var(--ds-components-general-action-primary-foreground-default);
   }
 
   /* Tabs — a tab list with an underline indicator and panels. */
   .tablist {
     display: inline-flex;
     gap: 0.25rem;
-    border-block-end: 1px solid var(--ds-color-border);
+    border-block-end: 1px solid var(--ds-components-general-border-default);
   }
   .tab {
     padding: 0.4rem 0.8rem;
@@ -601,16 +601,16 @@
     background: none;
     cursor: pointer;
     font: inherit;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
     border-block-end: 2px solid transparent;
     margin-block-end: -1px;
   }
   .tab:global([data-state="active"]) {
-    color: var(--ds-color-primary);
-    border-block-end-color: var(--ds-color-primary);
+    color: var(--ds-components-general-action-primary-background-default);
+    border-block-end-color: var(--ds-components-general-action-primary-background-default);
   }
   .tab:global(:focus-visible) {
-    outline: 2px solid var(--ds-color-focus-ring);
+    outline: 2px solid var(--ds-components-general-focus-ring-color);
     outline-offset: 2px;
   }
   .panel {
@@ -620,12 +620,12 @@
   /* Accordion — bordered items with a rotating chevron. */
   .accordion {
     inline-size: 16rem;
-    border: 1px solid var(--ds-color-border);
-    border-radius: var(--ds-radius-control);
+    border: 1px solid var(--ds-components-general-border-default);
+    border-radius: var(--ds-metrics-radius-control);
     overflow: hidden;
   }
   .acc-item + .acc-item {
-    border-block-start: 1px solid var(--ds-color-border);
+    border-block-start: 1px solid var(--ds-components-general-border-default);
   }
   .acc-heading {
     margin: 0;
@@ -650,7 +650,7 @@
     rotate: 90deg;
   }
   .acc-trigger:global(:focus-visible) {
-    outline: 2px solid var(--ds-color-focus-ring);
+    outline: 2px solid var(--ds-components-general-focus-ring-color);
     outline-offset: -2px;
   }
   .acc-panel {

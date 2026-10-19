@@ -8,7 +8,7 @@
    * is hidden from assistive tech.
    *
    * Color and thickness are themeable CSS custom properties (`--ds-separator-*`,
-   * falling back to `--ds-color-border`).
+   * falling back to `--ds-components-general-border-default`).
    */
   interface Props {
     orientation?: "horizontal" | "vertical";
@@ -29,7 +29,7 @@
 <style>
   .separator {
     flex: none;
-    background: var(--ds-separator-color, var(--ds-color-border, #bdbdbd));
+    background: var(--ds-separator-color, var(--ds-components-general-border-default, #bdbdbd));
     border: 0;
   }
   .separator:global([data-orientation="horizontal"]) {

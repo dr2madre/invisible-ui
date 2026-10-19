@@ -20,8 +20,9 @@ The command reads `packages/tokens/tokens.json` and writes:
 - `packages/tokens/figma/invisible-ui-light.tokens.json`
 - `packages/tokens/figma/invisible-ui-dark.tokens.json`
 
-Both files expose the same variable paths. Their `role/*` values differ by
-theme, so Figma can hold them as two modes in one collection.
+Both files expose the same variable paths, one per canonical token. A token
+whose Dark value differs carries it in the Dark file, so Figma can hold the
+two files as two modes in one collection.
 
 ## Import into Figma
 
@@ -32,10 +33,10 @@ theme, so Figma can hold them as two modes in one collection.
 5. Rename the imported modes to **Light** and **Dark** if Figma used the file
    names.
 6. Apply the collection mode to a frame and check a theme-dependent variable,
-   such as `role/color-background`.
+   such as `components/general/background/default`.
 
-The Light value of `role/color-background` aliases `palette/grey/0`. The Dark
-value aliases `palette/grey/900`. This is a quick check that both modes were
+The Light value of `components/general/background/default` aliases
+`colors/palette/grey/0`. The Dark value aliases `colors/palette/grey/900`. This is a quick check that both modes were
 imported into the same collection.
 
 ## How the export works
@@ -55,18 +56,21 @@ The generator makes only the conversions required by the Figma import:
 
 | Canonical source | Figma export |
 | --- | --- |
-| `role.light.*` and `role.dark.*` | One shared `role/*` variable path in two files |
+| `$value` and its `com.invisible-ui.modes` Dark override | One variable path, its Light value in one file and its Dark value in the other |
 | Hex colours | Structured DTCG sRGB colours |
-| Translucent colour objects | Structured sRGB colours with alpha |
+| sRGB colour objects | The same channels and alpha |
+| `transparent` | Black with zero alpha |
 | `rem` dimensions | Pixel dimensions, using a 16px root |
 | `fontWeight` | Number |
 | Token references | References preserved as Figma aliases |
-| Repository mix recipes in `$extensions` | Removed from the import files |
+| Repository mix recipes in `$extensions` | The resolved colour; the recipe is removed |
 
-The export includes palette, style, radius, focus, typography, and theme role
-tokens. It does not include `density`. Compact, regular, and touch form a
-separate mode axis, while these two files represent the Light and Dark colour
-axis. Combining both axes in one two-mode collection would lose information.
+The export includes every canonical token: `colors`, `metrics`, `typography`
+and `components`. Each density level is a group of separate variables, such as
+`metrics/density/regular/control-padding-x`, not a third mode: the two files
+represent the Light and Dark colour axis only. Component tokens alias these
+variables, for example `components/button/radius` aliases
+`metrics/radius/control`.
 
 ## Update the Figma collection
 
@@ -88,9 +92,10 @@ the command runs. A visual revision that has not changed
 `packages/tokens/tokens.json` is not part of the export yet. This keeps draft
 palette changes out of the shared Figma collection until they are reviewed.
 
-Component-specific tokens remain in component styles and are documented in
+Component-local CSS knobs with fallbacks that are not canonical tokens stay in
+component styles and are documented in
 [Component tokens](/invisible-ui/presentation/component-tokens/). The Figma
-export covers the shared design foundation, not a generated component library.
+export covers the canonical tokens, not a generated component library.
 
 ## Component structure pilot
 
@@ -101,10 +106,10 @@ Card component sets from the current Svelte contracts. Button exposes
 and `Orientation`. The three sets contain 23 variants and are available from
 the local Assets panel.
 
-The generated layers bind shared colours and corner radii to the local
-`Invisible UI` variable collection. Component-specific spacing still comes
-from the component CSS because those values are CSS custom properties rather
-than shared DTCG variables.
+The generated layers bind colours and corner radii to the local
+`Invisible UI` variable collection. Spacing is not bound to variables yet:
+Card spacing is read from `Card.svelte`, and the plugin draws Button padding
+at its default size.
 
 Figma requires its desktop app to import and run a local development plugin:
 
@@ -115,7 +120,9 @@ Figma requires its desktop app to import and run a local development plugin:
 5. Choose **Components only** or **Components and tokens**, then select **Update**.
 
 The token option creates or updates the `Invisible UI` collection and its
-Light/Dark modes, retaining matching variable IDs and alias links. Components
+Light/Dark modes, retaining matching variable IDs and alias links. Variables
+from an export made before the version-2 token names, such as
+`role/color-background`, stay in the collection until they are deleted by hand. Components
 only requires the collection to exist and leaves shared token values unchanged.
 Both options update derived `component/button/` colour variables. Shared tokens
 come directly from `packages/tokens/tokens.json` when `pnpm components:figma`

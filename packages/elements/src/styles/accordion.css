@@ -2,8 +2,8 @@
 
 .accordion {
   inline-size: var(--ds-accordion-width, 16rem);
-  border: 1px solid var(--ds-color-border, #bdbdbd);
-  border-radius: var(--ds-accordion-radius, var(--ds-radius-control, 0.5rem));
+  border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+  border-radius: var(--ds-accordion-radius, var(--ds-metrics-radius-control, 0.5rem));
   overflow: hidden;
 }
 /* The root and the items can be custom elements, which are inline by default. */
@@ -12,7 +12,7 @@
   display: block;
 }
 .accordion__item + .accordion__item {
-  border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
+  border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
 }
 .accordion__heading {
   margin: 0;
@@ -27,18 +27,26 @@
   border: none;
   background: none;
   font: inherit;
-  color: var(--ds-color-text, #272727);
+  color: var(--ds-components-general-foreground-default, #272727);
   cursor: pointer;
   text-align: start;
 }
 .accordion__icon {
   display: inline-flex;
   flex: none;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
   transition: rotate 150ms ease;
 }
 .accordion__trigger[data-state="open"] .accordion__icon {
   rotate: 90deg;
+}
+/* The chevron points to the inline end: it mirrors in right-to-left text, and
+   the open turn runs the other way so it still points down. */
+.accordion__icon:dir(rtl) {
+  scale: -1 1;
+}
+.accordion__trigger[data-state="open"] .accordion__icon:dir(rtl) {
+  rotate: -90deg;
 }
 .accordion__trigger:focus-visible {
   outline: none;

@@ -1,6 +1,10 @@
 # Switch parity checklist
 
-Reference commit: `e47db9b6717964787e0d689629f1beb73f18612d`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/switch` `packages/svelte/src/lib/switch`
 
@@ -53,7 +57,7 @@ or imports this package with a prefix.
 | --- | --- | --- |
 | Track 2.5rem by 1.5rem with a boundary in both states; white thumb with a rim | matched | `_Track` |
 | On/off text in the wider track | matched | `onOff shows the state as text from the messages` |
-| Thumb at the inline-end when on | adapted | the web slides the thumb with a physical `translate`, so in right-to-left text it leaves the track; Flutter aligns it to the inline-end: `right to left: on puts the thumb at the left` |
+| Thumb at the inline-end when on | matched | the web moves the thumb along the inline axis, so in right-to-left text it sits at the left when on; Flutter aligns it to the inline-end: `right to left: on puts the thumb at the left` |
 | Reduced motion: no transition | matched | `reduced motion moves the thumb at once` |
 | Focus ring around the track on keyboard focus | matched | `the ring follows the track on keyboard focus; 44 by 44 under touch; text scale 2.0 grows the track` |
 

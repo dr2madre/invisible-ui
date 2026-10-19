@@ -1,9 +1,10 @@
 <script lang="ts">
+  import type { SheetDialogSide } from "./create-sheet-dialog";
   import SheetDialog from "./SheetDialog.svelte";
 
   interface Props {
     open?: boolean;
-    side?: "top" | "right" | "bottom" | "left";
+    side?: SheetDialogSide;
     draggable?: boolean;
     onOpenChange?: (open: boolean) => void;
     renderTrigger?: boolean;
@@ -12,7 +13,7 @@
 
   let {
     open = false,
-    side = "right",
+    side,
     draggable = false,
     onOpenChange,
     renderTrigger = true,

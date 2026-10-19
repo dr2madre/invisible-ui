@@ -12,7 +12,7 @@ import { createPortal } from "react-dom";
 import { useI18n } from "../i18n/i18n";
 import { pointAnchor, positionFloating } from "../internal/floating";
 import { MenuPopup, useMenu } from "../internal/menu";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import type { MenuEntry } from "../dropdown-menu/DropdownMenu";
 
 export interface ContextMenuProps {
@@ -49,8 +49,9 @@ export function ContextMenu({
   label,
   children,
 }: ContextMenuProps) {
-  const { t, locale, dir } = useI18n();
+  const { t, locale, dir: contextDir } = useI18n();
   const regionRef = useRef<HTMLDivElement>(null);
+  const dir = useAnchorDirection(regionRef, contextDir);
   const host = usePortalHost(regionRef);
   // The point the menu opens at, the popup it positions, and the element that
   // had focus before it opened.
@@ -72,10 +73,14 @@ export function ContextMenu({
     }, [previous]),
   });
 
+  const rtl = () => !!regionRef.current && getComputedStyle(regionRef.current).direction === "rtl";
+
   const reposition = () => {
     const popup = popupEl.current;
     const { x, y } = point.current;
-    if (popup) positionFloating(pointAnchor(x, y), popup, { placement: "right-start", offset: 2 });
+    // The menu opens toward the inline end: to the left in right-to-left text.
+    const placement = rtl() ? "left-start" : "right-start";
+    if (popup) positionFloating(pointAnchor(x, y), popup, { placement, offset: 2 });
   };
 
   /** Open, or summon again, at a viewport point, focusing the first item. */
@@ -95,10 +100,11 @@ export function ContextMenu({
 
   const onContextMenu = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    // The keyboard menu key and Shift+F10 carry no pointer: open at the corner.
+    // The keyboard menu key and Shift+F10 carry no pointer: open at the
+    // inline-start top corner.
     if (event.clientX === 0 && event.clientY === 0) {
       const rect = event.currentTarget.getBoundingClientRect();
-      openAt(rect.left, rect.top);
+      openAt(rtl() ? rect.right : rect.left, rect.top);
     } else {
       openAt(event.clientX, event.clientY);
     }

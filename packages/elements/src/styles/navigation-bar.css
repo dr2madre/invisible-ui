@@ -9,8 +9,14 @@
    they have no token. */
 
 nav.navigation-bar {
-  color: var(--ds-navigation-bar-item-text, var(--ds-color-text-secondary, #515151));
-  background: var(--ds-navigation-bar-surface, var(--ds-color-surface, #e0e0e0));
+  color: var(
+    --ds-navigation-bar-item-text,
+    var(--ds-components-general-foreground-secondary, #515151)
+  );
+  background: var(
+    --ds-navigation-bar-surface,
+    var(--ds-components-navigation-bar-background-default, #e0e0e0)
+  );
 }
 
 /* Each destination takes an equal share of the width, from the inline start,
@@ -38,32 +44,32 @@ nav.navigation-bar .navigation-bar__destination {
   gap: 0.25rem;
   box-sizing: border-box;
   inline-size: 100%;
-  min-inline-size: var(--ds-min-target-size, 24px);
-  min-block-size: var(--ds-min-target-size, 24px);
+  min-inline-size: var(--ds-metrics-density-regular-min-target-size, 24px);
+  min-block-size: var(--ds-metrics-density-regular-min-target-size, 24px);
   padding: var(--ds-navigation-bar-item-padding, 0.5rem 0.25rem);
   font: inherit;
   font-size: 0.75rem;
-  line-height: var(--ds-line-height-tight, 1.2);
+  line-height: var(--ds-typography-line-height-heading, 1.2);
   color: inherit;
   text-align: center;
   text-decoration: none;
   background: none;
   border: 0;
-  border-radius: var(--ds-radius-control, 0.5rem);
+  border-radius: var(--ds-metrics-radius-control, 0.5rem);
   cursor: pointer;
   -webkit-touch-callout: none;
 }
 
 @media (pointer: coarse) {
   nav.navigation-bar .navigation-bar__destination {
-    min-inline-size: var(--ds-min-target-size-touch, 44px);
-    min-block-size: var(--ds-min-target-size-touch, 44px);
+    min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+    min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
   }
 }
 
 @media (hover: hover) {
   nav.navigation-bar .navigation-bar__destination:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
 }
 
@@ -71,7 +77,10 @@ nav.navigation-bar .navigation-bar__destination {
    current mark. */
 nav.navigation-bar .navigation-bar__destination:focus-visible {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+  box-shadow: var(
+    --ds-focus-ring-shadow,
+    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+  );
 }
 
 /* The shape behind the icon: the current mark, never colour alone. It
@@ -86,7 +95,7 @@ nav.navigation-bar .navigation-bar__indicator {
   inline-size: 56px;
   max-inline-size: 100%;
   block-size: 32px;
-  border-radius: var(--ds-radius-pill, 999px);
+  border-radius: var(--ds-metrics-radius-pill, 999px);
 }
 
 nav.navigation-bar .navigation-bar__icon {
@@ -95,11 +104,14 @@ nav.navigation-bar .navigation-bar__icon {
 }
 
 nav.navigation-bar .navigation-bar__destination[data-current] {
-  color: var(--ds-navigation-bar-item-current-text, var(--ds-color-text, #272727));
+  color: var(
+    --ds-navigation-bar-item-current-text,
+    var(--ds-components-general-foreground-default, #272727)
+  );
 }
 
 nav.navigation-bar .navigation-bar__destination[data-current] .navigation-bar__indicator {
-  background: var(--ds-navigation-bar-current-indicator, #8763d1);
+  background: var(--ds-components-navigation-bar-current-indicator-background-default, #8763d1);
 }
 
 /* The label wraps and never truncates; the bar grows taller. A hidden copy at
@@ -140,10 +152,16 @@ nav.navigation-bar .navigation-bar__badge {
   align-items: center;
   justify-content: center;
   line-height: 1;
-  color: var(--ds-navigation-bar-badge-text, var(--ds-color-on-status, #fff));
+  color: var(
+    --ds-navigation-bar-badge-text,
+    var(--ds-components-general-feedback-solid-foreground-default, #fff)
+  );
   white-space: nowrap;
-  background: var(--ds-navigation-bar-badge-surface, var(--ds-color-danger, #be3b50));
-  border-radius: var(--ds-radius-pill, 999px);
+  background: var(
+    --ds-navigation-bar-badge-surface,
+    var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+  );
+  border-radius: var(--ds-metrics-radius-pill, 999px);
 }
 
 nav.navigation-bar .navigation-bar__badge--dot {
@@ -156,7 +174,7 @@ nav.navigation-bar .navigation-bar__badge--dot {
 }
 
 nav.navigation-bar .navigation-bar__destination[data-unavailable] {
-  color: var(--ds-color-text-disabled, #757575);
+  color: var(--ds-components-general-foreground-disabled, #757575);
   cursor: default;
 }
 
@@ -182,10 +200,13 @@ nav.navigation-bar .navigation-bar__reason {
   margin-inline: auto;
   padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
   font-size: var(--ds-tooltip-font-size, 0.8125rem);
-  line-height: var(--ds-line-height, 1.4);
-  color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f5f5f5));
-  background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #323232));
-  border-radius: var(--ds-tooltip-radius, var(--ds-radius-control, 0.5rem));
+  line-height: var(--ds-typography-line-height-default, 1.4);
+  color: var(--ds-tooltip-color, var(--ds-components-general-emphasis-foreground-default, #f5f5f5));
+  background: var(
+    --ds-tooltip-bg,
+    var(--ds-components-general-emphasis-background-default, #323232)
+  );
+  border-radius: var(--ds-tooltip-radius, var(--ds-metrics-radius-control, 0.5rem));
 }
 
 nav.navigation-bar .navigation-bar__destination:focus-visible + .navigation-bar__reason,

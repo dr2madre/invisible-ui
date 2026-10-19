@@ -171,7 +171,7 @@
 
 <style>
   .confirm-dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(27 27 27 / 0.5));
+    background: var(--ds-components-dialog-overlay-default, rgb(27 27 27 / 0.5));
   }
   .confirm-dialog__panel {
     /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */
@@ -180,10 +180,13 @@
     inline-size: 100%;
     max-inline-size: var(--ds-dialog-max-width, 28rem);
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
-    background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #272727);
-    border: 1px solid var(--ds-color-border, #bdbdbd);
-    border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
+    background: var(
+      --ds-components-dialog-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    color: var(--ds-components-general-foreground-default, #272727);
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--ds-dialog-radius, var(--ds-metrics-radius-container, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -197,7 +200,7 @@
   }
   .confirm-dialog__description {
     margin: 0.5rem 0 0;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .confirm-dialog__actions {
     margin-block-start: 1.5rem;

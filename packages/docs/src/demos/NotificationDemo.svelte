@@ -36,7 +36,9 @@
 <div style="display: grid; gap: 1.5rem;">
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <Button onpress={showSnack}>Delete file (snack)</Button>
-    <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
+    <figcaption
+      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+    >
       <strong>Snack</strong> — the snackbar layout (<code>snack</code>): one compact row (icon,
       title, inline action), high contrast (<code>inverted</code>), <code>bottom-center</code>. No
       close button, so it auto-dismisses (6s, paused on hover/focus); the outcome of the user's own
@@ -46,7 +48,9 @@
 
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <Button onpress={showToast}>Incoming message (toast)</Button>
-    <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
+    <figcaption
+      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+    >
       <strong>Toast</strong> — peripheral <code>top-end</code>: fine for background information
       only. Auto-dismiss opted in (<code>duration</code>) because nothing requires reading or
       acting.

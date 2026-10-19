@@ -91,28 +91,32 @@
     <p class="demo__caption">Bar at the top of a card — indeterminate and determinate</p>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       <div
-        style="inline-size: 16rem; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; overflow: hidden;"
+        style="inline-size: 16rem; border: 1px solid var(--ds-components-general-border-default); border-radius: 0.75rem; overflow: hidden;"
       >
-        <span style="display: block; color: var(--ds-color-primary);">
+        <span
+          style="display: block; color: var(--ds-components-general-action-primary-background-default);"
+        >
           <Loading variant="bar" label="Refreshing card" />
         </span>
         <div style="padding: 1rem;">
           <p style="margin: 0; font-weight: 600;">Monthly report</p>
-          <p style="margin: 0.25rem 0 0; color: var(--ds-color-text-secondary);">
+          <p style="margin: 0.25rem 0 0; color: var(--ds-components-general-foreground-secondary);">
             Refreshing data…
           </p>
         </div>
       </div>
       <div
-        style="inline-size: 16rem; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; overflow: hidden;"
+        style="inline-size: 16rem; border: 1px solid var(--ds-components-general-border-default); border-radius: 0.75rem; overflow: hidden;"
       >
-        <span style="display: block; color: var(--ds-color-primary);">
+        <span
+          style="display: block; color: var(--ds-components-general-action-primary-background-default);"
+        >
           <Loading variant="bar" value={progress} label="Downloading report" />
         </span>
         <div style="padding: 1rem;">
           <p style="margin: 0; font-weight: 600;">Monthly report</p>
           <p
-            style="margin: 0.25rem 0 0; color: var(--ds-color-text-secondary); font-variant-numeric: tabular-nums;"
+            style="margin: 0.25rem 0 0; color: var(--ds-components-general-foreground-secondary); font-variant-numeric: tabular-nums;"
           >
             Downloading… {((progress / 100) * 128).toFixed(1)} MB of 128 MB
           </p>
@@ -135,6 +139,6 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
 </style>

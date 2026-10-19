@@ -116,7 +116,7 @@
 </script>
 
 <SheetDialog
-  side="right"
+  side="end"
   title={showSettings ? "Notification Settings" : "Notifications"}
   triggerVariant="ghost"
 >
@@ -172,7 +172,9 @@
 
   {#if showSettings}
     <div style="display: grid; gap: 0.75rem;">
-      <p style="margin: 0; color: var(--ds-color-text-secondary); font-size: 0.875rem;">
+      <p
+        style="margin: 0; color: var(--ds-components-general-foreground-secondary); font-size: 0.875rem;"
+      >
         Choose which notifications you receive.
       </p>
       {#each TOPICS as topic (topic.id)}
@@ -212,7 +214,7 @@
       </div>
 
       {#if bySection.length === 0}
-        <p style="color: var(--ds-color-text-secondary);">Nothing to show.</p>
+        <p style="color: var(--ds-components-general-foreground-secondary);">Nothing to show.</p>
       {:else}
         {#each bySection as section (section.key)}
           <section style="display: grid; gap: 1rem;">
@@ -223,7 +225,9 @@
                   {#snippet icon()}<Icon><path d={iconOf(item.topic)} /></Icon>{/snippet}
                   <span style="display: grid; gap: 0.15rem;">
                     <span>{item.text}</span>
-                    <span style="font-size: 0.75rem; color: var(--ds-color-text-secondary);">
+                    <span
+                      style="font-size: 0.75rem; color: var(--ds-components-general-foreground-secondary);"
+                    >
                       {item.time}
                     </span>
                   </span>
@@ -248,7 +252,7 @@
 
 <style>
   /* A roomier panel than the default — a history list wants width. */
-  :global(.sheet-dialog__panel[data-side="right"]) {
+  :global(.sheet-dialog__panel[data-side="end"]) {
     --ds-sheet-dialog-size: 26rem;
   }
   .nc-section {
@@ -257,7 +261,7 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary);
+    color: var(--ds-components-general-foreground-secondary);
   }
   /* Rows carry no surface, border or status color — only outer spacing sets
      them apart. Read and unread rows look identical; the only difference is
@@ -283,7 +287,7 @@
     padding: 0;
     border: 0;
     border-radius: 999px;
-    background: var(--ds-color-danger, #be3b50);
+    background: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
     cursor: pointer;
   }
   .nc-dot:focus-visible {

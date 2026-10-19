@@ -2,7 +2,7 @@
   import Field from "@invisible-ui/svelte/Field.svelte";
 
   const inputStyle =
-    "width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--ds-color-border, #bdbdbd); border-radius: 0.5rem; font: inherit; background: var(--ds-color-background, #fff); color: inherit; box-sizing: border-box;";
+    "width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--ds-components-general-border-default, #bdbdbd); border-radius: 0.5rem; font: inherit; background: var(--ds-components-general-background-default, #fff); color: inherit; box-sizing: border-box;";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 22rem;">

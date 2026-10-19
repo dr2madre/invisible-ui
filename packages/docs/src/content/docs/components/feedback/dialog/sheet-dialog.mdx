@@ -17,8 +17,13 @@ A Dialog anchored to an edge of the viewport — the panel pattern variously
 marketed as "sheet", "side panel" or "drawer" (names that describe motion, not
 a job: this is a dialog in every sense). It reuses the headless dialog and the
 shared modal adapter unchanged; over Dialog it adds edge anchoring (**`side`**:
-`top` / `right` / `bottom` / `left`), a slide-in animation, and an optional
+`top` / `bottom` / `start` / `end`), a slide-in animation, and an optional
 **`draggable`** drag-to-dismiss gesture on the bottom and lateral sides.
+
+`start` and `end` follow the reading direction, as the other layout of the
+design system does: the panel sits at, slides in from and is dragged toward
+the right edge in left-to-right text and the left edge in right-to-left text.
+There are no physical `left` and `right` sides. The default is `end`.
 
 Use it for a task the user finishes or cancels in context — filters, an edit
 form, a cart. It stays modal: for content that could live on its own page and
@@ -49,7 +54,7 @@ behaviour, drag included, for markup of your own:
 
 ```tsx
 <SheetDialog
-  side="right"
+  side="end"
   title="Filters"
   description="Refine the results."
   trigger="Open filters"
@@ -77,7 +82,11 @@ and an optional `footer` pinned to the panel's end.
 - The drag handle is a **pointer affordance only** (`aria-hidden`): keyboard
   and screen-reader users dismiss with Escape or the close button, so no
   functionality depends on the gesture. Release past a quarter of the panel's
-  extent — or a fast flick — dismisses; anything less snaps home.
+  extent — or a fast flick — dismisses; anything less snaps home. In
+  right-to-left text a lateral panel is dragged toward the edge it sits on, as
+  in left-to-right text.
+- Under `prefers-reduced-motion` the panel appears without sliding and a
+  released drag snaps back at once.
 
 ### Example
 
@@ -93,7 +102,7 @@ attribute. Named light-DOM regions keep actions in the header and footer:
 
 ```html
 <ds-sheet-dialog
-  side="right"
+  side="end"
   heading="Filters"
   description="Refine the results."
   trigger="Open filters"

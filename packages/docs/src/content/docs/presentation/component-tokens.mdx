@@ -7,13 +7,13 @@ import ComponentTokenCatalog from "../../../components/ComponentTokenCatalog.ast
 
 The third theming tier. Where [semantic tokens](/invisible-ui/presentation/tokens/)
 name a role the whole system shares, a component token names one knob on one
-component: `--ds-button-radius`, `--ds-field-gap`, `--ds-dialog-max-width`.
+component: `--ds-components-button-radius`, `--ds-field-gap`, `--ds-dialog-max-width`.
 
 Two things make this tier different from the
 [token catalog](/invisible-ui/presentation/token-catalog/):
 
 - **The theme stylesheet defines none of these.** A component reads
-  `var(--ds-button-radius, var(--ds-radius-control, 0.5rem))`; the fallback
+  `var(--ds-components-button-radius, var(--ds-metrics-radius-control, 0.5rem))`; the fallback
   written at the point of use is the shipped default. Set the custom property
   on any scope — `:root`, a page, one widget — and the component follows. A
   few components retune one knob from another in their own styles; those

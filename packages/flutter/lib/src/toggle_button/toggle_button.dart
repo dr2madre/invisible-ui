@@ -34,6 +34,24 @@ class ToggleJoin extends InheritedWidget {
   bool updateShouldNotify(ToggleJoin oldWidget) => false;
 }
 
+/// Marks the toggle buttons of a flat [Toolbar]: at rest they have no fill
+/// and a transparent border, and the pointer over them shows the
+/// `state-hover` tint. A toggle that is on keeps its tint and border.
+class ToggleFlat extends InheritedWidget {
+  /// Flattens the toggle buttons in [child] when [flat].
+  const ToggleFlat({super.key, required this.flat, required super.child});
+
+  /// Whether the toggle buttons below are flat.
+  final bool flat;
+
+  /// Whether a flat toolbar holds [context].
+  static bool of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ToggleFlat>()?.flat ?? false;
+
+  @override
+  bool updateShouldNotify(ToggleFlat oldWidget) => oldWidget.flat != flat;
+}
+
 /// An on and off control that looks like a button, such as Bold in a
 /// toolbar: a button with a toggled state, the WAI-ARIA button pattern with
 /// `aria-pressed`.
@@ -162,6 +180,7 @@ class _ToggleButtonState extends State<ToggleButton>
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final joined = ToggleJoin.of(context);
+    final flat = ToggleFlat.of(context);
     final on = value;
     final enabled = widget.enabled;
     final side = MediaQuery.textScalerOf(context).scale(_side);
@@ -216,12 +235,18 @@ class _ToggleButtonState extends State<ToggleButton>
             decoration: BoxDecoration(
               color: on
                   ? colors.selected.withValues(alpha: _onTint)
-                  : colors.background,
+                  : !flat
+                  ? colors.background
+                  : states.hovered
+                  ? colors.stateHover
+                  : const Color(0x00000000),
               border: joined
                   ? null
                   : Border.all(
                       color: on
                           ? colors.selected.withValues(alpha: _onBorder)
+                          : flat
+                          ? const Color(0x00000000)
                           : colors.controlBorder,
                     ),
               borderRadius: BorderRadius.circular(radius),

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { usePortalHost } from "../internal/portal-host";
+import { useAnchorDirection, usePortalHost } from "../internal/portal-host";
 import { CheckGlyph, Icon } from "../icon/Icon";
 import { cx } from "../internal/cx";
 import { useI18n } from "../i18n/i18n";
@@ -69,7 +69,7 @@ export function MultiSelect({
   required = false,
   emptyText,
 }: MultiSelectProps) {
-  const { t } = useI18n();
+  const { t, dir: contextDir } = useI18n();
   const multiSelect = useMultiSelect({
     items,
     values,
@@ -102,6 +102,8 @@ export function MultiSelect({
   // mount, and it goes to the dialog the control sits in when there is one.
   const rootEl = useRef<HTMLDivElement | null>(null);
   const portalHost = usePortalHost(rootEl);
+  // The listbox leaves the tree, so it carries the direction of the control.
+  const dir = useAnchorDirection(rootEl, contextDir);
 
   // Removing through a remove button unmounts that button, so focus would
   // fall to the body: move it to the remove button now at the same index
@@ -212,6 +214,7 @@ export function MultiSelect({
             {...api.listboxProps}
             className="multi-select__listbox"
             style={floatingStyles}
+            dir={dir}
             ref={listboxRef}
           >
             {options}

@@ -290,13 +290,16 @@ export class DsCarousel extends HTMLElementBase {
 
   // Coverflow: each slide moves along the flow by its signed distance from the
   // active one and recedes with a rotation and a downscale.
-  #coverflow(slide: HTMLElement, offset: number) {
+  #coverflow(slide: HTMLElement, offset: number, rtl: boolean) {
     const abs = Math.abs(offset);
     const vertical = this.#orientation() === "vertical";
+    // The row flows with the text: in right-to-left text the next slide sits
+    // to the left and turns the other way.
+    const across = rtl ? -offset : offset;
     const translate = vertical
       ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-      : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
-    const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
+      : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+    const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
     const scale = Math.max(0, 1 - abs * 0.15);
     // Neighbours recede by scale and turn only: a fade would take their text
     // below the AA contrast. Slides past two places are hidden outright.
@@ -342,7 +345,7 @@ export class DsCarousel extends HTMLElementBase {
       if (offscreen) slide.setAttribute("aria-hidden", "true");
       else slide.removeAttribute("aria-hidden");
       slide.toggleAttribute("inert", offscreen);
-      if (variant === "coverflow") this.#coverflow(slide, i - this.#index);
+      if (variant === "coverflow") this.#coverflow(slide, i - this.#index, flow === 1);
       else {
         slide.style.removeProperty("transform");
         slide.style.removeProperty("opacity");

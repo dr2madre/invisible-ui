@@ -1,6 +1,6 @@
 # Date Range Picker parity checklist
 
-Reference commit: `e9cce2f081d9bab90d0a1754a1971d6c567c403c`
+Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
 Reference paths: `core/src/calendar` `core/src/popover` `packages/svelte/src/lib/date-range-picker`
 
@@ -11,8 +11,8 @@ whose pointer, keyboard, semantics and layout lines hold for it too, and opens
 a range `Calendar` ([calendar.md](calendar.md)).
 Docs page: [Date Range Picker](https://dr2madre.github.io/invisible-ui/components/forms/date-range-picker/).
 
-Each line is **matched**, **adapted** (with the platform reason) or **out of
-scope**. Every matched line names the widget test in
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(with the gap) or **out of scope**. Every matched line names the widget test in
 `test/date_picker_test.dart` that holds it.
 
 ## Names
@@ -32,8 +32,15 @@ scope**. Every matched line names the widget test in
 | The first pick starts the range and the popup stays; the second ends it, closes before reporting and returns focus | matched | `the first pick starts, the second ends and closes; the field shows both; each pick reports` |
 | The field shows both dates, or the start and an ellipsis while half made | matched | same test (adapted: two medium dates joined by a dash, no `formatRange`) |
 | Each pick and the clear report once | matched | same test |
+| Enter, Space and Down open the popup with focus on the start day, else today | matched | `Enter, Space and Down open with focus on the start day, else today` |
+| The range is made with the keyboard alone: Enter picks the start, the arrows move, Enter picks the end, the popup closes and focus returns to the field | matched | `the range is made with the keyboard alone; the popup closes and focus returns to the field` |
+| The clear button keeps focus in the control | matched | `the clear button keeps focus in the control` (in the `DateRangePicker` group) |
 | The popup shows two months; the ends are named "range start" and "range end"; every day of the range is selected | matched | `semantics: the ends of the range are named in the popup` |
 | Field named by the label with the range as its value | matched | same test |
 | Labeled targets and contrast | matched | same test |
 | Form reset restores the default range silently | matched | `a form reset restores the default range silently` |
 | Popup at most 40rem wide, within the window | matched | the shared field, held by `right to left at text scale 2.0 in a narrow window, …` |
+
+## Background token
+
+The background reads the component token `--ds-components-popover-background-default` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

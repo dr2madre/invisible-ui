@@ -698,6 +698,25 @@ void main() {
       semantics.dispose();
     });
 
+    testWidgets(
+      'on a touch platform every item is 44 by 44 with no density chosen',
+      (tester) async {
+        final semantics = tester.ensureSemantics();
+        await tester.pumpWidget(_menu(f));
+        await _open(tester);
+        await _key(tester, LogicalKeyboardKey.arrowDown);
+        await _key(tester, LogicalKeyboardKey.arrowRight);
+        await expectLater(tester, meetsGuideline(guideline44));
+        await _key(tester, LogicalKeyboardKey.escape);
+        await _key(tester, LogicalKeyboardKey.escape);
+        semantics.dispose();
+      },
+      variant: const TargetPlatformVariant({
+        TargetPlatform.android,
+        TargetPlatform.iOS,
+      }),
+    );
+
     testWidgets('a submenu opens at the inline-end in both directions', (
       tester,
     ) async {

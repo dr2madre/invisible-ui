@@ -1,6 +1,10 @@
 # Collapsible parity checklist
 
-Reference commit: `ddcb5bf7b51d6d75d5e1606607c9caa5dcb3a0c1`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/collapsible` `packages/svelte/src/lib/collapsible`
 

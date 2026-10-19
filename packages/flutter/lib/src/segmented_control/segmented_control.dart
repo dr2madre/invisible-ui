@@ -324,7 +324,7 @@ class _SegmentState<T> extends State<_Segment<T>> {
         fontWeight: checked ? FontWeight.w600 : FontWeight.w400,
         fontSize: widget.stacked ? _stackedLabelSize : null,
         height: widget.stacked
-            ? InvisibleTypographyTokens.lineHeightTight
+            ? InvisibleTypographyTokens.lineHeightHeading
             : null,
       ),
     );

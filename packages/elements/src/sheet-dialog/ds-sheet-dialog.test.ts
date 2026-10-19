@@ -31,11 +31,11 @@ const mount = (extra = "") => {
 describe("<ds-sheet-dialog>", () => {
   it("opens as a named native modal anchored to the requested side", async () => {
     const user = userEvent.setup();
-    mount('side="left" description="Refine the results."');
+    mount('side="start" description="Refine the results."');
     await user.click(screen.getByRole("button", { name: "Open filters" }));
     const panel = screen.getByRole("dialog", { name: "Filters" });
     expect(panel.tagName).toBe("DIALOG");
-    expect(panel).toHaveAttribute("data-side", "left");
+    expect(panel).toHaveAttribute("data-side", "start");
     expect(panel).toHaveAccessibleDescription("Refine the results.");
     expect(panel).toHaveFocus();
   });
@@ -125,7 +125,7 @@ describe("<ds-sheet-dialog>", () => {
     const user = userEvent.setup();
     // A cancelled pointer reports (0, 0): on the left side that reads as a
     // long outward drag.
-    const host = mount('side="left" draggable');
+    const host = mount('side="start" draggable');
     await user.click(screen.getByRole("button", { name: "Open filters" }));
     const panel = host.querySelector<HTMLElement>(".sheet-dialog__panel")!;
     Object.defineProperty(panel, "offsetWidth", { configurable: true, value: 400 });
@@ -136,7 +136,7 @@ describe("<ds-sheet-dialog>", () => {
     window.dispatchEvent(pointer("pointercancel", 0, 1001));
     expect(host.open).toBe(true);
     expect(panel).not.toHaveClass("sheet-dialog__panel--dragging");
-    expect(panel.style.transform).toBe("");
+    expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("");
   });
 
   it("clears the drag state when it closes mid-drag", async () => {
@@ -149,7 +149,61 @@ describe("<ds-sheet-dialog>", () => {
     window.dispatchEvent(pointer("pointermove", 350, 1000));
     host.open = false;
     expect(panel).not.toHaveClass("sheet-dialog__panel--dragging");
-    expect(panel.style.transform).toBe("");
+    expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("");
+  });
+
+  it("anchors to the end edge by default and accepts start", async () => {
+    const user = userEvent.setup();
+    const host = mount();
+    await user.click(screen.getByRole("button", { name: "Open filters" }));
+    expect(host.querySelector<HTMLElement>(".sheet-dialog__panel")).toHaveAttribute(
+      "data-side",
+      "end",
+    );
+    host.setAttribute("side", "start");
+    expect(host.querySelector<HTMLElement>(".sheet-dialog__panel")).toHaveAttribute(
+      "data-side",
+      "start",
+    );
+  });
+
+  describe("in right-to-left text", () => {
+    afterEach(() => document.documentElement.removeAttribute("dir"));
+
+    const open = async (side: string) => {
+      document.documentElement.setAttribute("dir", "rtl");
+      const host = mount(`side="${side}" draggable`);
+      await userEvent.setup().click(screen.getByRole("button", { name: "Open filters" }));
+      const panel = host.querySelector<HTMLElement>(".sheet-dialog__panel")!;
+      Object.defineProperty(panel, "offsetWidth", { configurable: true, value: 320 });
+      return {
+        host,
+        panel,
+        handle: host.querySelector<HTMLElement>(".sheet-dialog__handle")!,
+      };
+    };
+
+    it("drags an end panel toward the left edge, and not toward the right", async () => {
+      const { host, panel, handle } = await open("end");
+      handle.dispatchEvent(pointer("pointerdown", 500, 0));
+      window.dispatchEvent(pointer("pointermove", 460, 1000));
+      expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("40px");
+      window.dispatchEvent(pointer("pointermove", 560, 2000));
+      expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("0px");
+      window.dispatchEvent(pointer("pointerup", 560, 3000));
+      expect(host.open).toBe(true);
+
+      handle.dispatchEvent(pointer("pointerdown", 500, 4000));
+      window.dispatchEvent(pointer("pointerup", 400, 5000));
+      expect(host.open).toBe(false);
+    });
+
+    it("drags a start panel toward the right edge", async () => {
+      const { host, handle } = await open("start");
+      handle.dispatchEvent(pointer("pointerdown", 100, 0));
+      window.dispatchEvent(pointer("pointerup", 200, 1000));
+      expect(host.open).toBe(false);
+    });
   });
 
   it("has no accessibility violations when open", async () => {

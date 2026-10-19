@@ -119,7 +119,7 @@
   }
   .async-demo__idle {
     margin: 0;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .async-demo__list {
     margin: 0;

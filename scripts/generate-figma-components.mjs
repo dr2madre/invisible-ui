@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { format, resolveConfig } from "prettier";
 import { generate } from "./generate-figma-tokens.mjs";
+import { cssName, resolveTokens, tokenEntries } from "./token-model.mjs";
 import { readButtonAppearance } from "./capture-figma-button.mjs";
 import { buttonColorTokens } from "../tools/figma-component-pilot/button-colors.js";
 
@@ -128,9 +129,11 @@ export function tokenPayload(source) {
   return payload;
 }
 
-export function extractButtonStyles(source) {
+/** Map each `--ds-*` property the Button reads back to its canonical token. */
+export function extractButtonStyles(source, tokens) {
+  const byProperty = new Map(tokenEntries(tokens).map(([path]) => [cssName(path), path]));
   const rules = parse(source).css.children;
-  const declaration = (selector, property) => {
+  const token = (selector, property) => {
     const rule = rules.find(
       (item) =>
         item.type === "Rule" &&
@@ -140,32 +143,20 @@ export function extractButtonStyles(source) {
       (item) => item.type === "Declaration" && item.property === property,
     )?.value;
     if (!value) throw new Error(`Figma Button export: missing ${selector} ${property}`);
-    return value;
+    const path = byProperty.get(/^var\((--ds-[\w-]+)\)$/.exec(value)?.[1]);
+    if (!path) throw new Error(`Figma Button export: unsupported ${property} ${value}`);
+    return path;
   };
-  const background = (selector) => {
-    const value = declaration(selector, "background");
-    const match =
-      /^var\(--ds-button-bg(?:-hover)?,\s*var\(--ds-([\w-]+),\s*(#[\da-f]{3}|#[\da-f]{6}|rgb\(0 0 0 \/ 0\.06\))\)\)$/i.exec(
-        value,
-      );
-    if (!match) throw new Error(`Figma Button export: unsupported background ${value}`);
-    const hex =
-      match[2].length === 4
-        ? "#" +
-          match[2]
-            .slice(1)
-            .split("")
-            .map((digit) => digit + digit)
-            .join("")
-        : match[2];
-    return [`role/${match[1]}`, hex];
-  };
-  const opacity = Number(declaration(".button:disabled", "opacity"));
+  const opacityPath = token(".button:disabled", "opacity");
+  const opacity = resolveTokens(tokens).get(opacityPath);
   if (!Number.isFinite(opacity) || opacity < 0 || opacity > 1)
     throw new Error("Figma Button export: invalid disabled opacity");
   return {
-    defaultBackground: background('.button:global([data-variant="default"])'),
-    hoverBackground: background('.button:global([data-variant="default"]):hover:not(:disabled)'),
+    defaultBackground: token('.button:global([data-variant="default"])', "background"),
+    hoverBackground: token(
+      '.button:global([data-variant="default"]):hover:not(:disabled)',
+      "background",
+    ),
     disabledOpacity: opacity,
   };
 }
@@ -191,8 +182,8 @@ export async function generatePlugin() {
   const payload = tokenPayload(canonical);
   const info = {
     revision: createHash("sha256").update(tokenSource).digest("hex").slice(0, 12),
-    grey50: canonical.palette.grey["50"].$value,
-    grey950: canonical.palette.grey["950"].$value,
+    grey50: canonical.colors.palette.grey["50"].$value,
+    grey950: canonical.colors.palette.grey["950"].$value,
     count: Object.keys(payload.Light).length,
     componentColorCount: Object.keys(buttonColorTokens(buttonAppearance).Light).length,
   };

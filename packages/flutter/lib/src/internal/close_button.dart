@@ -39,7 +39,7 @@ class CloseButton extends StatelessWidget {
     final theme = InvisibleTheme.of(context);
     return InvisibleTheme(
       data: theme.copyWith(
-        colors: theme.colors.copyWith(text: color),
+        colors: theme.colors.copyWith(buttonGhostForeground: color),
         minTargetSize: Size(
           math.max(minArea, theme.minTargetSize.width),
           math.max(minArea, theme.minTargetSize.height),

@@ -9,4 +9,5 @@ reactive attributes, native semantics, and the existing adapter styles.
 
 Add the `secondary` Card surface hierarchy to Svelte, Vue, and Elements. It is
 controlled by `surface="secondary"` and resolves through
-`--ds-card-secondary-bg`, while the default remains `--ds-card-bg`.
+`--ds-card-secondary-background`, while the default remains
+`--ds-card-background`.

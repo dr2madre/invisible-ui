@@ -1,6 +1,10 @@
 # TableSet parity checklist
 
-Reference commit: `3a72a486d1ee462d04c027cc3511fb4c4dab559e`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/table` `packages/svelte/src/lib/table` `docs/data-table-spec.md`
 
@@ -16,9 +20,10 @@ Table View stays internal, as the data table spec fixes for every adapter:
 apps reach it through `TableSet`, with one view for a single table. It is
 counted as covered by this checklist.
 
-Each line is **matched**, **adapted** (with the platform reason) or **out of
-scope**. Every matched line names the widget test in
-`test/table_set_test.dart` that holds it.
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(Flutter lacks it, or no widget test holds it; the reason states the gap) or
+**out of scope**. Every matched line names the widget test in
+`test/table_set_test.dart` that holds it, unless it names another file.
 
 ## Names
 
@@ -68,7 +73,11 @@ scope**. Every matched line names the widget test in
 | Selection checkboxes named "Select {name}", the select-all "Select all visible rows" with a mixed state | matched | `multiple selection: …` |
 | Single mode: the header cell is named "Selection" | matched | `single selection replaces the row …` |
 | No-results state is a status | matched | `EmptyState(live: true)` |
-| A change of the row count under filters is announced ("3 results") | matched | `a filter change returns to page one, …`; the Elements adapter does this; Svelte, Vue and React do not (an open point) |
+| A change of the row count under filters is announced politely ("3 results"); the first render is silent | matched | `a filter change returns to page one, reported once; the selection stays; a new count is announced`; the reference decides this in `core/src/table/results.ts` (`tableResultsUpdate`), and `TableView.didUpdateWidget` applies the same rule |
+| An unchanged count, and rows that arrive with no filtering behind them, stay silent | matched | `an unchanged count, and rows that arrive with no filtering behind them, stay silent` |
+| A cleared filter that changes the count is announced | matched | `a cleared filter that changes the count is announced`; a change of `filtersActive` or `filterRevision` counts as filtering |
+| The no-results state is said once, by its status; the count is not announced with it | matched | `the no-results state is said once, by its status; the count is not announced with it`; `EmptyState(live: true)` speaks |
+| Filters active on an empty dataset (`totalRowCount: 0`): a count that drops to zero is announced as "0 results" | matched | `filters on an empty dataset: a count that drops to zero is announced as 0 results`. `TableView.didUpdateWidget` follows `tableResultsUpdate` in `core/src/table/results.ts`: it stays silent only for the no-results state, which speaks for itself |
 | Loading is announced | matched | `loading more: …` |
 | The card list is a named list of items; a selectable card reports its selected state | matched | `the card view is a named list of cards, …` |
 | The column list is a group named by the button | matched | `_ColumnList` |
@@ -80,7 +89,9 @@ scope**. Every matched line names the widget test in
 | --- | --- | --- |
 | The table in a bordered card; footer outside | matched | `TableView.build` |
 | Header row with the title and the controls, wrapping | matched | `Wrap` |
+| A table wider than the card scrolls sideways inside it; the scroller takes focus only while it overflows | matched | the card holds `Table`, whose scroller does this: `a table wider than its container scrolls sideways and its viewport takes focus; a table that fits adds no tab stop` in `test/table_test.dart` |
+| While it overflows, the scroller is a region named by the title, the caption or "Table" (`table.viewTable`) | matched | `while it overflows, the scroller is a region named by the title, the caption or Table; a table that fits has none`. The `Scroller` is a `SemanticsRole.region` with the name only while it takes focus, as the web adds and removes `role` and `aria-label` |
 | Column settings button | adapted | the Popover trigger is a button with the visible text "Columns" (`table.columns`) instead of an icon with a hidden name: the widgets layer bundles no icon set, and a visible label serves every user |
-| View switch labels from the catalog | matched | `table.view`, `table.viewTable`, `table.viewCards`; the Svelte switch writes "View", "Table" and "Cards" in English (an open point) |
+| View switch labels from the catalog | matched | `table.view`, `table.viewTable`, `table.viewCards`, as in the reference |
 | Cards as many across as fit, at least 256 wide, scaled with the text | matched | `_Cards` |
 | Narrow at text scale 2.0, right to left: nothing overflows; 44 by 44 under touch | matched | `narrow at text scale 2.0 and right to left: …` |

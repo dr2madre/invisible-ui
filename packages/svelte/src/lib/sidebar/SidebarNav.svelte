@@ -132,11 +132,14 @@
     inline-size: var(--ds-sidebar-width, 15rem);
     max-inline-size: 100%;
     padding: var(--ds-sidebar-padding, var(--ds-menu-padding, 0.75rem));
-    background: var(--ds-sidebar-bg, var(--ds-color-background, #fff));
-    border: 1px solid var(--ds-sidebar-border, var(--ds-color-border, #bdbdbd));
+    background: var(
+      --ds-components-sidebar-background-default,
+      var(--ds-components-general-background-default, #fff)
+    );
+    border: 1px solid var(--ds-sidebar-border, var(--ds-components-general-border-default, #bdbdbd));
     border-radius: var(
       --ds-sidebar-radius,
-      var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem))
+      var(--ds-menu-radius, var(--ds-metrics-radius-container, 0.75rem))
     );
   }
   .sidebar--collapsed {
@@ -151,18 +154,25 @@
     align-items: center;
     justify-content: center;
     padding: 0.375rem;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     background: none;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
+    border-radius: var(--ds-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
+  /* The toggle points along the inline axis: it mirrors in right-to-left text. */
+  .sidebar__rail-toggle .sidebar__icon:dir(rtl) {
+    scale: -1 1;
+  }
   .sidebar__rail-toggle:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .sidebar__rail-toggle:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+    box-shadow: var(
+      --ds-focus-ring-shadow,
+      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    );
   }
   .sidebar__section-label {
     margin: 0 0 0.25rem;
@@ -171,7 +181,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .sidebar__label--hidden,
   .sidebar__live {
@@ -187,6 +197,6 @@
   .sidebar__footer {
     margin-block-start: auto;
     padding-block-start: 0.5rem;
-    border-block-start: 1px solid var(--ds-color-border, #bdbdbd);
+    border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   }
 </style>

@@ -13,7 +13,7 @@ test("Elements Card, Tag and Separator preserve native semantics and keyboard ac
     ]);
     document.body.innerHTML = `
       <ds-card title="Database" description="AdventureWorks" orientation="horizontal"
-        surface="secondary" style="--ds-card-secondary-bg: rgb(244, 242, 239)">
+        surface="secondary" style="--ds-components-card-secondary-background-default: rgb(244, 242, 239)">
         <ds-tag slot="tags" status="success" removable remove-label="Remove status">Connected</ds-tag>
         <p>12 tables available.</p>
         <ds-button slot="actions">Open</ds-button>
@@ -171,7 +171,7 @@ test("Elements Sheet Dialog stays open for inside presses and restores focus", a
     await customElements.whenDefined("ds-sheet-dialog");
     document.body.innerHTML = `
       <ds-sheet-dialog heading="Filters" description="Refine the results."
-        trigger="Open filters" side="right">
+        trigger="Open filters" side="end">
         <button slot="header-actions" type="button">Reset</button>
         <label>Query <input /></label>
         <button slot="footer" type="button">Apply</button>
@@ -183,7 +183,7 @@ test("Elements Sheet Dialog stays open for inside presses and restores focus", a
   const panel = page.getByRole("dialog", { name: "Filters" });
   await expect(panel).toBeVisible();
   await expect(panel).toHaveAccessibleDescription("Refine the results.");
-  await expect(panel).toHaveAttribute("data-side", "right");
+  await expect(panel).toHaveAttribute("data-side", "end");
   await panel.getByRole("button", { name: "Reset" }).click();
   await expect(panel).toBeVisible();
   await page.keyboard.press("Escape");
@@ -310,7 +310,7 @@ test("Elements ghost Button takes the text colour inside a dialog, like every ot
     await customElements.whenDefined("ds-button");
     document.body.innerHTML = `
       <dialog open><ds-button variant="ghost">Cancel</ds-button></dialog>
-      <span data-probe style="color: var(--ds-color-text)">probe</span>`;
+      <span data-probe style="color: var(--ds-components-general-foreground-default)">probe</span>`;
   });
 
   const ghost = page.getByRole("button", { name: "Cancel" });

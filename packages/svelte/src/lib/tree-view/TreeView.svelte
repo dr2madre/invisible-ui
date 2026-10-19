@@ -201,9 +201,9 @@
     padding: var(--ds-tree-padding, 0.25rem);
     list-style: none;
     font: inherit;
-    color: var(--ds-color-text, #272727);
+    color: var(--ds-components-general-foreground-default, #272727);
     background: var(--ds-tree-bg, transparent);
-    border-radius: var(--ds-tree-radius, var(--ds-radius-surface, 0.75rem));
+    border-radius: var(--ds-tree-radius, var(--ds-metrics-radius-container, 0.75rem));
   }
 
   .tree__item {
@@ -216,12 +216,15 @@
     padding-inline-start: calc(
       0.4rem + (var(--_tree-level, 1) - 1) * var(--ds-tree-indent, 1.1rem)
     );
-    border-radius: var(--ds-tree-item-radius, var(--ds-radius-control, 0.5rem));
+    border-radius: var(--ds-tree-item-radius, var(--ds-metrics-radius-control, 0.5rem));
     cursor: pointer;
     user-select: none;
   }
   .tree__item:hover {
-    background: var(--ds-tree-item-hover, var(--ds-color-neutral-surface, #f5f5f5));
+    background: var(
+      --ds-tree-item-hover,
+      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+    );
   }
   .tree__icon {
     display: inline-flex;
@@ -230,7 +233,7 @@
     flex: none;
     inline-size: 1.1em;
     block-size: 1.1em;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .tree__icon :global(svg) {
     inline-size: 100%;
@@ -241,18 +244,18 @@
     display: inline-flex;
     flex: none;
     inline-size: 1em;
-    color: var(--ds-color-secondary, #7a52cc);
+    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
     /* Always present (reserves width); only shown on the selected row. */
     visibility: hidden;
   }
   .tree__load-status {
     min-inline-size: 0;
     margin-inline-start: auto;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
     font-size: var(--ds-tree-status-font-size, 0.875rem);
   }
   .tree__load-status--error {
-    color: var(--ds-color-danger-text, #9f1b1b);
+    color: var(--ds-components-general-feedback-danger-foreground-default, #9f1b1b);
   }
   .tree__load-status + .tree__check {
     margin-inline-start: 0;
@@ -263,14 +266,25 @@
   .tree__item--selected {
     background: var(
       --ds-tree-item-selected-bg,
-      color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent)
+      color-mix(
+        in srgb,
+        var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+        transparent
+      )
     );
-    color: var(--ds-tree-item-selected-text, var(--ds-color-text, #272727));
+    color: var(
+      --ds-tree-item-selected-text,
+      var(--ds-components-general-foreground-default, #272727)
+    );
   }
   .tree__item--selected:hover {
     background: var(
       --ds-tree-item-selected-hover,
-      color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 16%, transparent)
+      color-mix(
+        in srgb,
+        var(--ds-components-general-action-secondary-background-default, #7a52cc) 16%,
+        transparent
+      )
     );
   }
   .tree__item:global(:focus-visible) {
@@ -302,6 +316,12 @@
   }
   .tree__twistie--open {
     transform: rotate(90deg);
+  }
+  /* The arrow points to the inline end: it mirrors in right-to-left text. The
+     open turn is a transform, which applies before the mirror, so it still
+     points down. */
+  .tree__twistie:dir(rtl) {
+    scale: -1 1;
   }
   .tree__twistie-spacer {
     display: inline-block;

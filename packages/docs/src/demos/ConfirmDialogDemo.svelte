@@ -23,12 +23,16 @@
         Delete file
       </ConfirmDialog>
       {#if deleted}
-        <span style="font-size: 0.875rem; color: var(--ds-color-text-secondary);">
+        <span
+          style="font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);"
+        >
           “{file}” deleted.
         </span>
       {/if}
     </div>
-    <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
+    <figcaption
+      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+    >
       Routine confirmation (<code>role="dialog"</code>).
     </figcaption>
   </figure>
@@ -50,12 +54,16 @@
         Delete (urgent)
       </ConfirmDialog>
       {#if deletedUrgent}
-        <span style="font-size: 0.875rem; color: var(--ds-color-text-secondary);">
+        <span
+          style="font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);"
+        >
           “{file}” deleted.
         </span>
       {/if}
     </div>
-    <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
+    <figcaption
+      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+    >
       Same choice with <code>urgent</code> (<code>role="alertdialog"</code>).
     </figcaption>
   </figure>

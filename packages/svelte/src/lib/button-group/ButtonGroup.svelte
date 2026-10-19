@@ -102,14 +102,14 @@
   .button-group--attached:not(.button-group--vertical) > :global(*:first-child),
   .button-group--attached:not(.button-group--vertical) > :global(*:first-child button),
   .button-group--attached:not(.button-group--vertical) > :global(*:first-child select) {
-    border-start-start-radius: var(--ds-radius-control, 0.5rem);
-    border-end-start-radius: var(--ds-radius-control, 0.5rem);
+    border-start-start-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-end-start-radius: var(--ds-metrics-radius-control, 0.5rem);
   }
   .button-group--attached:not(.button-group--vertical) > :global(*:last-child),
   .button-group--attached:not(.button-group--vertical) > :global(*:last-child button),
   .button-group--attached:not(.button-group--vertical) > :global(*:last-child select) {
-    border-start-end-radius: var(--ds-radius-control, 0.5rem);
-    border-end-end-radius: var(--ds-radius-control, 0.5rem);
+    border-start-end-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-end-end-radius: var(--ds-metrics-radius-control, 0.5rem);
   }
 
   /* Vertical: collapse the shared horizontal borders and round the ends. */
@@ -119,13 +119,13 @@
   .button-group--attached.button-group--vertical > :global(*:first-child),
   .button-group--attached.button-group--vertical > :global(*:first-child button),
   .button-group--attached.button-group--vertical > :global(*:first-child select) {
-    border-start-start-radius: var(--ds-radius-control, 0.5rem);
-    border-start-end-radius: var(--ds-radius-control, 0.5rem);
+    border-start-start-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-start-end-radius: var(--ds-metrics-radius-control, 0.5rem);
   }
   .button-group--attached.button-group--vertical > :global(*:last-child),
   .button-group--attached.button-group--vertical > :global(*:last-child button),
   .button-group--attached.button-group--vertical > :global(*:last-child select) {
-    border-end-start-radius: var(--ds-radius-control, 0.5rem);
-    border-end-end-radius: var(--ds-radius-control, 0.5rem);
+    border-end-start-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-end-end-radius: var(--ds-metrics-radius-control, 0.5rem);
   }
 </style>

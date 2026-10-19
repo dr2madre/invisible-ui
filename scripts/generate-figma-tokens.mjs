@@ -9,12 +9,12 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { format, resolveConfig } from "prettier";
+import { modeTokens, setToken, validateTokenModel } from "./token-model.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = resolve(root, "packages/tokens/tokens.json");
 const outputDirectory = resolve(root, "packages/tokens/figma");
 const themes = ["light", "dark"];
-const sharedGroups = ["palette", "style", "radius", "focus", "typography"];
 const supportedTypes = new Set(["boolean", "color", "dimension", "duration", "number", "string"]);
 
 function fail(message) {
@@ -38,18 +38,19 @@ export function colorObject(hex, alpha = 1) {
 }
 
 /** Convert a canonical value to the subset of DTCG that Figma imports. */
-export function transformValue(value, type, theme) {
-  if (typeof value === "string" && /^\{role\.(light|dark)\./.test(value)) {
-    const referencedTheme = /^\{role\.(light|dark)\./.exec(value)?.[1];
-    if (referencedTheme !== theme)
-      fail(`${theme} mode refers to the ${referencedTheme} mode through ${value}`);
-    return value.replace(`{role.${theme}.`, "{role.");
-  }
+export function transformValue(value, type) {
   if (typeof value === "string" && /^\{[^{}]+\}$/.test(value)) return value;
 
+  if (type === "color" && value === "transparent") return colorObject("#000000", 0);
   if (type === "color" && typeof value === "string") return colorObject(value);
-  if (type === "color" && value && typeof value === "object" && "hex" in value)
-    return colorObject(String(value.hex), value.alpha ?? 1);
+  if (type === "color" && value && typeof value === "object") {
+    const { colorSpace, components, alpha = 1, hex } = value;
+    if (colorSpace !== "srgb" || !Array.isArray(components) || components.length !== 3)
+      fail(`unsupported colour ${JSON.stringify(value)}`);
+    // The canonical channels are exact; hex is the 8-bit rounding of them.
+    const fallback = colorObject(String(hex), alpha);
+    return { ...fallback, components: [...components] };
+  }
 
   if (type === "dimension" && typeof value === "string") {
     const match = /^(-?(?:\d+(?:\.\d+)?|\.\d+))(px|rem)$/.exec(value);
@@ -61,30 +62,12 @@ export function transformValue(value, type, theme) {
   return value;
 }
 
-/** Recursively remove repository-only metadata and normalize each token. */
-export function transformNode(node, inheritedType, theme, path = []) {
-  if (!node || typeof node !== "object" || Array.isArray(node))
-    fail(`${path.join(".") || "root"} is not a token group`);
-
-  const sourceType = node.$type ?? inheritedType;
-  if (Object.hasOwn(node, "$value")) {
-    if (!sourceType) fail(`${path.join(".")} has no type`);
-    const outputType = sourceType === "fontWeight" ? "number" : sourceType;
-    if (!supportedTypes.has(outputType))
-      fail(`${path.join(".")} uses unsupported type "${sourceType}"`);
-    const output = {
-      $type: outputType,
-      $value: transformValue(node.$value, outputType, theme),
-    };
-    if (node.$description) output.$description = node.$description;
-    return output;
-  }
-
-  const output = {};
-  for (const [key, child] of Object.entries(node)) {
-    if (key.startsWith("$")) continue;
-    output[key] = transformNode(child, sourceType, theme, [...path, key]);
-  }
+/** Convert one resolved-mode token, dropping repository-only metadata. */
+export function transformToken(path, token) {
+  const outputType = token.$type === "fontWeight" ? "number" : token.$type;
+  if (!supportedTypes.has(outputType)) fail(`${path} uses unsupported type "${token.$type}"`);
+  const output = { $type: outputType, $value: transformValue(token.$value, outputType) };
+  if (token.$description) output.$description = token.$description;
   return output;
 }
 
@@ -99,20 +82,26 @@ function leafPaths(node, path = [], output = []) {
   return output;
 }
 
-/** Build one mode while collapsing role.light or role.dark to the same role paths. */
+/**
+ * Build one mode. Every canonical token keeps its path; the mode override in
+ * `com.invisible-ui.modes` replaces the Light value, so both files expose the
+ * same variable names. A mix recipe exports its resolved colour: Figma
+ * variables cannot mix.
+ */
 export function buildMode(source, theme) {
   if (!themes.includes(theme)) fail(`unknown theme "${theme}"`);
+  const tokens = modeTokens(source, theme);
   const output = {};
-  for (const group of sharedGroups) {
-    if (!source[group]) fail(`source is missing the ${group} group`);
-    output[group] = transformNode(source[group], undefined, theme, [group]);
+  for (const [path, token] of tokens) {
+    const ref = typeof token.$value === "string" && /^\{([^{}]+)\}$/.exec(token.$value);
+    if (ref && !tokens.has(ref[1])) fail(`${path} refers to the missing token ${ref[1]}`);
+    setToken(output, path, transformToken(path, token));
   }
-  if (!source.role?.[theme]) fail(`source is missing role.${theme}`);
-  output.role = transformNode(source.role[theme], source.role.$type, theme, ["role"]);
   return output;
 }
 
 export function generate(source) {
+  validateTokenModel(source);
   const modes = Object.fromEntries(themes.map((theme) => [theme, buildMode(source, theme)]));
   const paths = Object.fromEntries(themes.map((theme) => [theme, leafPaths(modes[theme]).sort()]));
   if (JSON.stringify(paths.light) !== JSON.stringify(paths.dark))

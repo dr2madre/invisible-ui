@@ -1,4 +1,5 @@
 <script>
+  import tokens from "../../../tokens/tokens.json";
   import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
   import Tag from "@invisible-ui/svelte/Tag.svelte";
   import Icon from "@invisible-ui/svelte/Icon.svelte";
@@ -10,211 +11,25 @@
   const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
   const hues = [
-    {
-      key: "pink",
-      name: "Magenta Pink",
-      hex: {
-        50: "#FAECF5",
-        100: "#EFC7E2",
-        200: "#E5A1CE",
-        300: "#E67FC4",
-        400: "#E65CB8",
-        500: "#D54DA8",
-        600: "#BE3B92",
-        700: "#AB2E82",
-        800: "#881A63",
-        900: "#6A0F4C",
-        950: "#500537",
-      },
-    },
-    {
-      key: "red",
-      name: "Alizarin Red",
-      hex: {
-        50: "#FAECEE",
-        100: "#EFC7CD",
-        200: "#E5A1AC",
-        300: "#E67F90",
-        400: "#E65C73",
-        500: "#D54D63",
-        600: "#BE3B50",
-        700: "#AB2E42",
-        800: "#881A2B",
-        900: "#6A0F1D",
-        950: "#4E0410",
-      },
-    },
-    {
-      key: "orange",
-      name: "Burnt Orange",
-      hex: {
-        50: "#FAEBE1",
-        100: "#F7DDCC",
-        200: "#EEBB99",
-        300: "#E7A071",
-        400: "#DD7734",
-        500: "#C96422",
-        600: "#BC5716",
-        700: "#A4460A",
-        800: "#873602",
-        900: "#582200",
-        950: "#3E1800",
-      },
-    },
-    {
-      key: "yellow",
-      name: "Naples Yellow",
-      hex: {
-        50: "#FFFAE7",
-        100: "#FEF0B6",
-        200: "#FEE285",
-        300: "#F9D574",
-        400: "#E8BA4F",
-        500: "#DFA124",
-        600: "#C8830C",
-        700: "#AD6B08",
-        800: "#915200",
-        900: "#633501",
-        950: "#432400",
-      },
-    },
-    {
-      key: "lime",
-      name: "Lime Green",
-      hex: {
-        50: "#F9FBE7",
-        100: "#F0F4C3",
-        200: "#E6EE9C",
-        300: "#DCE775",
-        400: "#C8D547",
-        500: "#ADBB23",
-        600: "#8A9613",
-        700: "#6F790B",
-        800: "#545C05",
-        900: "#363D02",
-        950: "#262B00",
-      },
-    },
-    {
-      key: "green",
-      name: "Sap Green",
-      hex: {
-        50: "#EAF5E4",
-        100: "#C6E3B7",
-        200: "#AAD693",
-        300: "#94C37D",
-        400: "#73A958",
-        500: "#508B32",
-        600: "#3E7523",
-        700: "#306217",
-        800: "#224D0C",
-        900: "#143404",
-        950: "#0D2301",
-      },
-    },
-    {
-      key: "teal",
-      name: "Viridian Green",
-      hex: {
-        50: "#E6F5F3",
-        100: "#B3E0DC",
-        200: "#80CBC4",
-        300: "#4DB6AC",
-        400: "#26A69A",
-        500: "#00897B",
-        600: "#007265",
-        700: "#005D50",
-        800: "#014439",
-        900: "#00352C",
-        950: "#00241E",
-      },
-    },
-    {
-      key: "sky",
-      name: "Cerulean Blue",
-      hex: {
-        50: "#E1F5FE",
-        100: "#B2DEF2",
-        200: "#8ACCEA",
-        300: "#63B9E1",
-        400: "#3DA4D4",
-        500: "#2790C1",
-        600: "#197AA7",
-        700: "#0E668F",
-        800: "#054664",
-        900: "#033349",
-        950: "#00202E",
-      },
-    },
-    {
-      key: "blue",
-      name: "Cobalt Blue",
-      hex: {
-        50: "#E9EEFA",
-        100: "#BCCDF1",
-        200: "#8FACE8",
-        300: "#6B8FD7",
-        400: "#527ACC",
-        500: "#4067B6",
-        600: "#3A5CA0",
-        700: "#324D83",
-        800: "#273B65",
-        900: "#1D2D4D",
-        950: "#0F1B34",
-      },
-    },
-    {
-      key: "purple",
-      name: "Dioxazine Purple",
-      hex: {
-        50: "#F1ECFA",
-        100: "#D4C7EF",
-        200: "#B8A1E6",
-        300: "#A284DD",
-        400: "#8D6AD4",
-        500: "#7A52CC",
-        600: "#6840B7",
-        700: "#563795",
-        800: "#442780",
-        900: "#34186E",
-        950: "#230A56",
-      },
-    },
-    {
-      key: "grey",
-      name: "Grey",
-      hex: {
-        50: "#F5F5F5",
-        100: "#E0E0E0",
-        200: "#BDBDBD",
-        300: "#9E9E9E",
-        400: "#757575",
-        500: "#616161",
-        600: "#515151",
-        700: "#414141",
-        800: "#323232",
-        900: "#272727",
-        950: "#1B1B1B",
-      },
-    },
-    {
-      key: "stone",
-      name: "Warm Grey",
-      hex: {
-        50: "#F4F2EF",
-        100: "#E6E0D8",
-        200: "#C7C1B7",
-        300: "#A8A297",
-        400: "#757067",
-        500: "#5E5951",
-        600: "#524C44",
-        700: "#413C36",
-        800: "#332F2A",
-        900: "#282420",
-        950: "#1C1915",
-      },
-    },
-  ];
+    { key: "pink", name: "Magenta Pink", family: "magenta-pink" },
+    { key: "red", name: "Alizarin Red", family: "alizarin-red" },
+    { key: "orange", name: "Burnt Orange", family: "burnt-orange" },
+    { key: "yellow", name: "Naples Yellow", family: "naples-yellow" },
+    { key: "lime", name: "Lime Green", family: "lime-green" },
+    { key: "green", name: "Sap Green", family: "sap-green" },
+    { key: "teal", name: "Viridian Green", family: "viridian-green" },
+    { key: "sky", name: "Cerulean Blue", family: "cerulean-blue" },
+    { key: "blue", name: "Cobalt Blue", family: "cobalt-blue" },
+    { key: "purple", name: "Dioxazine Purple", family: "dioxazine-purple" },
+    { key: "grey", name: "Grey", family: "grey" },
+    { key: "stone", name: "Warm Grey", family: "warm-grey" },
+  ].map(({ key, name, family }) => ({
+    key,
+    name,
+    hex: Object.fromEntries(
+      shades.map((shade) => [shade, tokens.colors.palette[family][shade].$value.toUpperCase()]),
+    ),
+  }));
 
   // Per-cell fills as a generated stylesheet (kept out of inline styles).
   const cellStyles =
@@ -235,8 +50,10 @@
     { value: "oklch", label: "OKLCH" },
   ];
 
-  // White is not a shade in any hue column, so it lives apart among the neutrals.
+  // White and Black are not shades in any hue column, so they live apart among
+  // the neutrals.
   const white = "#FFFFFF";
+  const black = "#121212";
 
   let fmt = $state("hex");
   let copiedKey = $state(null);
@@ -360,6 +177,25 @@
       </button>
       <figcaption class="extra__name">White</figcaption>
     </figure>
+    <figure class="extra">
+      <button
+        type="button"
+        class="cell cell--black"
+        aria-label={`Black ${black} — click to copy`}
+        title={black}
+        onclick={() => copy(black, "black")}
+      >
+        {#if copiedKey === "black"}
+          <span class="cell__toast">
+            <Tag status="neutral" variant="solid">
+              {#snippet icon()}<Icon><path d="M20 6 9 17l-5-5" /></Icon>{/snippet}
+              Copied to clipboard
+            </Tag>
+          </span>
+        {/if}
+      </button>
+      <figcaption class="extra__name">Black</figcaption>
+    </figure>
   </div>
 </div>
 
@@ -384,7 +220,7 @@
   .toolbar__label {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .cell__toast {
     position: absolute;
@@ -429,7 +265,7 @@
     font-size: 0.6875rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
   }
   .hue-h {
     text-align: center;
@@ -455,13 +291,14 @@
   .cell--empty {
     background: transparent;
     cursor: default;
-    border: 1px dashed var(--ds-color-border, #bdbdbd);
+    border: 1px dashed var(--ds-components-general-border-default, #bdbdbd);
   }
 
-  /* White lives apart from the shade grid, among the neutrals. */
+  /* White and Black live apart from the shade grid, among the neutrals. */
   .extras {
     display: grid;
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.5rem 1rem;
     justify-items: start;
   }
   .extras__label {
@@ -469,7 +306,8 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #515151);
+    color: var(--ds-components-general-foreground-secondary, #515151);
+    grid-column: 1 / -1;
   }
   .extra {
     display: grid;
@@ -484,7 +322,13 @@
   .cell--white {
     inline-size: 4rem;
     background: #ffffff;
-    border: 1px solid var(--ds-color-border, #bdbdbd);
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
     color: #1b1b1b;
+  }
+  .cell--black {
+    inline-size: 4rem;
+    background: #121212;
+    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    color: #f5f5f5;
   }
 </style>

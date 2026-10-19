@@ -26,7 +26,7 @@ function Bare({ side }: { side: SheetDialogSide }) {
 describe("useSheetDialog (headless)", () => {
   it("drives a consumer's own markup, with the drag on its handle", async () => {
     const user = userEvent.setup();
-    render(<Bare side="left" />);
+    render(<Bare side="start" />);
 
     await user.click(screen.getByRole("button", { name: "Details" }));
     const panel = screen.getByRole("dialog", { name: "Order details" });
@@ -36,7 +36,7 @@ describe("useSheetDialog (headless)", () => {
     expect(panel).toHaveAttribute("data-dragging");
     // Toward the left edge is outward for a left-anchored panel.
     fireEvent.pointerMove(window, { clientX: 170, pointerId: 1 });
-    expect(panel.style.transform).toBe("translateX(-30px)");
+    expect(panel.style.getPropertyValue("--_sheet-drag")).toBe("30px");
 
     fireEvent.pointerUp(window, { clientX: 100, pointerId: 1 });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

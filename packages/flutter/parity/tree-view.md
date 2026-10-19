@@ -1,6 +1,10 @@
 # Tree View parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/tree-view` `packages/svelte/src/lib/tree-view`
 
@@ -10,10 +14,10 @@ in `core/src/tree-view`, which follow the
 [WAI-ARIA tree view pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/).
 Docs page: [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/).
 
-Each line is **matched**, **adapted** (with the platform reason), **out of
-scope** or **not yet verified**. Every matched line names the test that
-holds it, in `test/tree_view_test.dart` unless it says `vectors:` for
-`test/tree_view_vectors_test.dart`, which runs the file in
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(with the gap), **out of scope** or **not yet verified**. Every matched line
+names the test that holds it, in `test/tree_view_test.dart` unless it says
+`vectors:` for `test/tree_view_vectors_test.dart`, which runs the file in
 `core/src/tree-view/__vectors__` that `core/src/tree-view/vectors.test.ts`
 runs through `connect()` too.
 
@@ -56,8 +60,9 @@ runs through `connect()` too.
 | Home and End jump to the first and last visible enabled node | matched | `left to right: …`; vectors: `Home…`, `End…` |
 | Enter and Space select the focused node | matched | `Enter and Space select the focused node, once each`; vectors: `Enter selects the node`, `Space selects the node` |
 | Arrows, Home and End stay in the tree, as the web prevents their default | matched | the tree's `RovingKeyAction` handles them whenever a node has focus |
-| Typeahead: a character, or a sequence typed within 500 ms, builds a query; case-insensitive prefix match on labels, over visible enabled nodes after the focused one, wrapping; it moves focus and never selects or opens | adapted | Flutter only: APG key the web reference lacks. `typeahead moves focus to the next visible enabled label…` (the selected node keeps its check). Not in the shared vectors, since core has no typeahead |
-| `*` (open every parent beside the focused node) | out of scope | removed by decision: `*` is an ordinary typeahead character. `* is an ordinary typeahead character: it opens, selects and requests nothing`; vectors: a shared vector for `*` is asserted to change nothing in Flutter, a documented difference |
+| Typeahead: a character, or a sequence typed within 500 ms, builds a query; case-insensitive prefix match on labels, over visible enabled nodes after the focused one, wrapping; it moves focus and never selects or opens | matched | `typeahead moves focus to the next visible enabled label that starts with the typed text, ignoring case and wrapping` (the selected node keeps its check). The web matches the text the row shows; Flutter matches `TreeNode.label`, which is that text. The shared vectors have no typeahead case |
+| A character typed with Control, Meta or Alt, or a space, is no typeahead character | matched | `a character typed with Control, Meta or Alt, or a space, is no typeahead character`; `typedCharacter` in `lib/src/internal/roving.dart` skips them |
+| `*` is an ordinary typeahead character, not the key that opens every parent beside the focused node | matched | by decision; core has no `*` key either. `* is an ordinary typeahead character: it opens, selects and requests nothing`. The shared vectors have no `*` case |
 | Multi-selection (Shift and Control with arrows, Space toggles) | out of scope | single selection only, by decision; the `TreeView` dartdoc says so |
 
 ## Focus
@@ -76,8 +81,8 @@ runs through `connect()` too.
 | --- | --- | --- |
 | A press on a row focuses and selects it | matched | `a press on a row focuses and selects it, reports once…` |
 | A press on the chevron opens or closes without selecting | matched | `a press on the chevron opens and closes the parent without selecting…` |
-| A press on the chevron of an open parent whose load failed | adapted | it closes the parent, by decision: the chevron always opens and closes, and retry is a separate action (Right Arrow, the Retry semantics action). The Svelte chevron retries there. `after a failure the chevron still closes the parent without a request…` |
-| A press on the chevron of a closed parent whose load failed | adapted | it opens the parent and requests again: same test. The Svelte chevron calls `retryLoad` for every failed parent, and `retryLoad` ignores a closed one, so there the press does nothing |
+| A press on the chevron of an open parent whose load failed closes it without a request | matched | by decision, the chevron always opens and closes; retry is Right Arrow, and in Flutter also the Retry semantics action. `after a failure the chevron still closes the parent without a request; opening it again asks again` |
+| A press on the chevron of a closed parent whose load failed opens it and requests again | matched | same test |
 | A disabled node takes no press; a disabled tree takes none | matched | `a disabled node is dimmed…`, `a disabled tree has no tab stop, opens and selects nothing` |
 
 ## State and callbacks
@@ -104,7 +109,7 @@ runs through `connect()` too.
 | Status in a polite live region (`role="status"`, `aria-live="polite"`) | adapted | `Semantics(liveRegion: true)`; Flutter live regions have no politeness level and announce politely: `opening an unloaded parent…` |
 | Status as the row's description (`aria-describedby`) | adapted | the row's semantics hint: same test |
 | `aria-busy` on a loading parent | adapted | Flutter has no busy property; the hint and the live region carry the loading state |
-| Retry for assistive technology: an open parent whose load failed offers a "Retry" custom action (`InvisibleMessages.treeRetry`), absent while a request is out | adapted | the web has no equivalent action; its chevron retries. `a failure shows the error status… the Retry action ask again…`. Assistive technology: not tested |
+| Retry for assistive technology: an open parent whose load failed offers a "Retry" custom action (`InvisibleMessages.treeRetry`), absent while a request is out | adapted | the web has no equivalent action; there retry is Right Arrow only. `a failure shows the error status… the Retry action ask again…`. Assistive technology: not tested |
 | The load-error text (`tree.loadError`) names Right Arrow | matched | kept as it is; the text change is a pending decision |
 | Loaded children replace the status | matched | `a failure shows the error status…` |
 

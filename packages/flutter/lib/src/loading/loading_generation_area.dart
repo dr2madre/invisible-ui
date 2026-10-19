@@ -210,7 +210,7 @@ class _LoadingGenerationAreaState extends State<LoadingGenerationArea>
               style: theme.textStyle.copyWith(
                 fontSize: fontSize,
                 color: colors.text,
-                height: InvisibleTypographyTokens.lineHeight,
+                height: InvisibleTypographyTokens.lineHeightDefault,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

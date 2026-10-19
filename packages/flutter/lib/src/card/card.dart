@@ -149,7 +149,7 @@ class Card extends StatelessWidget {
               style: text.copyWith(
                 fontSize: 16.8,
                 fontWeight: FontWeight.w600,
-                height: InvisibleTypographyTokens.lineHeightTight,
+                height: InvisibleTypographyTokens.lineHeightHeading,
               ),
             ),
           );
@@ -175,13 +175,13 @@ class Card extends StatelessWidget {
       explicitChildNodes: true,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: secondary ? c.neutralSurface : c.background,
+          color: secondary ? c.cardSecondaryBackground : c.cardBackground,
           border: Border.all(color: c.border),
-          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+          borderRadius: BorderRadius.circular(InvisibleRadiusTokens.container),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(
-            InvisibleRadiusTokens.surface - 1,
+            InvisibleRadiusTokens.container - 1,
           ),
           child: DefaultTextStyle(style: text, child: body),
         ),

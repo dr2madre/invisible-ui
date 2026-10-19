@@ -21,7 +21,7 @@
 .range-slider-field__icon {
   display: inline-flex;
   flex: none;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 .range-slider-field__icon svg {
   inline-size: 1.2em;
@@ -33,13 +33,13 @@
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   font-size: 0.875rem;
-  color: var(--ds-color-text, #272727);
+  color: var(--ds-components-general-foreground-default, #272727);
 }
 .range-slider-field__range {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: var(--ds-color-text-secondary, #515151);
+  color: var(--ds-components-general-foreground-secondary, #515151);
 }
 .range-slider {
   position: relative;
@@ -59,8 +59,8 @@
      push the whole control wider than a narrow container. */
   min-inline-size: 0;
   block-size: var(--ds-range-slider-track-size, 4px);
-  border-radius: var(--ds-radius-control, 999px);
-  background: var(--ds-color-border, #bdbdbd);
+  border-radius: var(--ds-metrics-radius-control, 999px);
+  background: var(--ds-components-general-border-default, #bdbdbd);
 }
 .range-slider[data-orientation="vertical"] .range-slider__track {
   /* The row's `flex: 1` would grow the track to the row's width; upright it is
@@ -82,7 +82,7 @@
   inset-block: 0;
   inset-inline-start: var(--_range-lower-pct);
   inline-size: calc(var(--_range-upper-pct) - var(--_range-lower-pct));
-  background: var(--ds-color-primary, #7a52cc);
+  background: var(--ds-components-general-action-primary-background-default, #7a52cc);
   border-radius: inherit;
   pointer-events: none;
 }
@@ -130,8 +130,8 @@
   inline-size: var(--ds-range-slider-thumb-size, 1.5rem);
   block-size: var(--ds-range-slider-thumb-size, 1.5rem);
   border-radius: 50%;
-  background: var(--ds-color-primary, #7a52cc);
-  border: 2px solid var(--ds-color-background, #fff);
+  background: var(--ds-components-general-action-primary-background-default, #7a52cc);
+  border: 2px solid var(--ds-components-general-background-default, #fff);
   cursor: pointer;
 }
 .range-slider__input::-moz-range-thumb {
@@ -139,8 +139,8 @@
   inline-size: var(--ds-range-slider-thumb-size, 1.5rem);
   block-size: var(--ds-range-slider-thumb-size, 1.5rem);
   border-radius: 50%;
-  background: var(--ds-color-primary, #7a52cc);
-  border: 2px solid var(--ds-color-background, #fff);
+  background: var(--ds-components-general-action-primary-background-default, #7a52cc);
+  border: 2px solid var(--ds-components-general-background-default, #fff);
   cursor: pointer;
 }
 .range-slider__input::-webkit-slider-runnable-track,
@@ -149,11 +149,17 @@
 }
 .range-slider__input:focus-visible::-webkit-slider-thumb {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+  box-shadow: var(
+    --ds-focus-ring-shadow,
+    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+  );
 }
 .range-slider__input:focus-visible::-moz-range-thumb {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+  box-shadow: var(
+    --ds-focus-ring-shadow,
+    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+  );
 }
 .range-slider--disabled .range-slider__input {
   cursor: not-allowed;
@@ -169,7 +175,7 @@
   inline-size: 2px;
   block-size: 2px;
   border-radius: 50%;
-  background: var(--ds-color-background, #fff);
+  background: var(--ds-components-general-background-default, #fff);
   transform: translate(-50%, -50%);
 }
 /* Upright, a tick sits at its grid point from the bottom, like the fill. */

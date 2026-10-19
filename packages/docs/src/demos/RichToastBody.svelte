@@ -7,12 +7,12 @@
 <span style="display: flex; align-items: center; gap: 0.625rem;">
   <span
     aria-hidden="true"
-    style="flex: none; inline-size: 2rem; block-size: 2rem; border-radius: 999px; display: grid; place-items: center; font-weight: 600; color: #fff; background: var(--ds-color-secondary, #7a52cc);"
+    style="flex: none; inline-size: 2rem; block-size: 2rem; border-radius: 999px; display: grid; place-items: center; font-weight: 600; color: #fff; background: var(--ds-components-general-action-secondary-background-default, #7a52cc);"
   >
     {name.charAt(0)}
   </span>
   <span style="display: grid; gap: 0.1rem; line-height: 1.35;">
     <strong>{name}</strong>
-    <span style="color: var(--ds-color-text-secondary);">{message}</span>
+    <span style="color: var(--ds-components-general-foreground-secondary);">{message}</span>
   </span>
 </span>

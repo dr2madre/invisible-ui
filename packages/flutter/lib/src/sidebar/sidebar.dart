@@ -429,10 +429,10 @@ class _SidebarState<T> extends State<Sidebar<T>> {
               decoration: drawer != null
                   ? const BoxDecoration()
                   : BoxDecoration(
-                      color: colors.background,
+                      color: colors.sidebarBackground,
                       border: Border.all(color: colors.border),
                       borderRadius: BorderRadius.circular(
-                        InvisibleRadiusTokens.surface,
+                        InvisibleRadiusTokens.container,
                       ),
                     ),
               child: Padding(
@@ -720,7 +720,7 @@ class _Badge extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: colors.danger,
-        borderRadius: BorderRadius.circular(_badgeMin),
+        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.pill),
         border: border,
       ),
       child: Text(

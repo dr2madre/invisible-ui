@@ -5,5 +5,6 @@
 "@invisible-ui/elements": patch
 ---
 
-Default buttons use the same state-hover background as Ghost buttons in both
-themes. The button-specific hover override remains available.
+Default buttons use the same hover background as Ghost buttons in both themes:
+`components.button.background.hover` aliases
+`components.general.background.hover`.

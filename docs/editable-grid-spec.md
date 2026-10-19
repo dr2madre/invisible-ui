@@ -352,8 +352,9 @@ are added as a bonus:
   CSS pixels ([WCAG 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)),
   and 44 by 44 under `@media (pointer: coarse)` from
   `density.touch.min-target-size`. In Flutter they follow `minTargetSize`:
-  24 by 24 under `compact` and `regular`, 44 by 44 under `touch` and under
-  Timelog's explicit setting. A cell holding the details button is wide
+  24 by 24 under `compact` and `regular`, 44 by 44 under `touch`, on
+  Android, iOS and Fuchsia at any density, and under Timelog's explicit
+  setting. A cell holding the details button is wide
   enough for the value and the button's target side by side.
 - **Text scale.** Rows grow in height and columns in width with the text;
   nothing clips at 200% browser text size or Flutter text scale 2.0. The grid
@@ -437,7 +438,7 @@ Flutter names, per ADR 0017 §2: `onCellChanged`, `onCellActivated`,
   cell label from `core/src/grid`. The grid has no breakpoint of its own.
 - **Tokens.** The grid reuses the Table's surface, border, header and
   density tokens; the error colour comes from the existing role tokens. The
-  secondary emphasis gets a role token, `--ds-grid-cell-secondary-surface`,
+  secondary emphasis gets a role token, `--ds-components-data-grid-cell-secondary-background-default`,
   defined in `packages/tokens/tokens.json` for each theme and documented in
   `docs/tokens.md`. ADR 0002 applies: no token or prop is named after an
   appearance.

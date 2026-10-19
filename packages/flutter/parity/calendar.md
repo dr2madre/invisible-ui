@@ -1,6 +1,10 @@
 # Calendar parity checklist
 
-Reference commit: `e9cce2f081d9bab90d0a1754a1971d6c567c403c`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+
+Reference review (2026-10-18): checked the token-model change in the Svelte
+reference. Behavior and accessibility markup did not change; CSS token names
+changed, with resolved Light/Dark values checked by the token runtime tests.
 
 Reference paths: `core/src/calendar` `packages/svelte/src/lib/calendar`
 
@@ -14,8 +18,8 @@ selected, its ends are named "range start" and "range end", and the band is
 closed by lines so the range never relies on colour alone.
 Docs page: [Calendar](https://dr2madre.github.io/invisible-ui/components/forms/calendar/).
 
-Each line is **matched**, **adapted** (with the platform reason) or **out of
-scope**. Every matched line names the widget test in `test/calendar_test.dart`
+Each line is **matched**, **adapted** (with the platform reason), **open**
+(with the gap) or **out of scope**. Every matched line names the widget test in `test/calendar_test.dart`
 that holds it. The grid, the keys, the bounds and the range rules also answer
 the shared vectors in `core/src/calendar/__vectors__/calendar.json`, and the
 names those in `calendar-names.json` (`test/calendar_vectors_test.dart`).
@@ -30,13 +34,14 @@ names those in `calendar-names.json` (`test/calendar_vectors_test.dart`).
 | `Calendar.rangeUncontrolled(initialRange:)` | `mode="range"`, unbound | the range's default |
 | `focusedDate`, `onFocusChanged` | `focusedDate`, `onFocusChange` | the focused day, reflected and reported |
 | `view: CalendarView.month` or `.twoMonth` | `view` (`month`, `two-month`) | adapted: the two date-picking views; see below |
-| `weekStartsOn: DateTime.monday` … `DateTime.sunday`, null by default | `weekStartsOn` 0 (Sunday) to 6, Monday by default | the same day, in Dart's weekday constants. Null takes the locale's first day from CLDR (`weekStartForLocale`), the default every adapter adopts; the web adapters still default to Monday until they switch |
+| `weekStartsOn: DateTime.monday` … `DateTime.sunday`, null by default | `weekStartsOn` 0 (Sunday) to 6, Monday by default | the same day, in Dart's weekday constants. Null takes the locale's first day from CLDR (`weekStartForLocale`); the Svelte calendar does the same through `weekStart.weekStartsOn` |
 | `min`, `max` | `min`, `max` | inclusive bounds |
-| `locale`, `symbols` | `locale` | the locale of the names; `symbols` overrides them |
+| `locale`, `symbols` | `locale` | the locale of the names; `symbols` overrides them. Without one: the app's locale, else the international default (see Locale below) |
 | `label` | `label` | the grid's name, catalog key `calendar.label` |
 | `showToday` | `showToday` | the Today button |
 | values are `DateTime` calendar days | ISO `YYYY-MM-DD` strings | adapted: idiomatic Dart; the time of day is ignored and local midnight is reported |
 | messages `calendarPrevious`, `calendarNext`, `calendarToday` | `prevLabel`, `nextLabel`, `todayLabel` | adapted: through `InvisibleThemeData.messages`, as every Flutter widget |
+| messages `calendarRangeStart`, `calendarRangeEnd` | catalog keys `calendar.rangeStart`, `calendar.rangeEnd` | the words added to a range end's name |
 
 ## Views and content
 
@@ -76,6 +81,7 @@ names those in `calendar-names.json` (`test/calendar_vectors_test.dart`).
 | Day named by its full date in the locale | matched | same test, and `names follow the locale and never the time zone` |
 | Picked day `aria-selected` | matched | `a controlled value is shown without a report` |
 | Range days all selected; ends named "range start" and "range end" | matched | `a pick starts, the next ends, one before the start moves it; every day is selected and the ends say so` |
+| A range changed by the parent is reflected: the new days are selected, the old ones are not | matched | `a range changed by the parent is reflected without a report` |
 | `aria-current="date"` on today | adapted | Flutter semantics have no current-date property; today's name ends with the catalog's `calendar.current` ("today"), added to the core catalog for this |
 | `aria-disabled` outside the bounds | matched | `min and max disable the days outside; a tap there does nothing` |
 | Labeled targets and contrast | matched | `each day is a button named by its full date; …` |
@@ -97,5 +103,13 @@ names those in `calendar-names.json` (`test/calendar_vectors_test.dart`).
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | The default first day comes from CLDR for the locale and its region: the `-u-fw-` keyword, the `-u-rg-` override, the region, the language's likely region, then Monday | matched | the CLDR 46 table in `core/src/calendar/week-start.ts` and `lib/src/calendar/week_start.dart`, both checked against `core/src/calendar/__vectors__/week-start.json`: `the table matches the shared one`, `each locale starts on its CLDR day` (week_start_test) |
-| The calendar starts its rows on that day; the app overrides it with `weekStartsOn` | matched | `defaults to the locale's CLDR first day`, `the app can override it`, `follows the app locale from Localizations` |
+| The calendar starts its rows on that day; the app overrides it with `weekStartsOn` | matched | `defaults to the locale's CLDR first day`, `the app can override it`, `follows the app locale from Localizations` (week_start_test) |
+| A locale change moves the first day in place | matched | `defaults to the locale's CLDR first day` rebuilds the same calendar from `en-US` to `en-GB` |
 | A Flutter `Locale` carries no `-u-` keywords | adapted | a `Locale` has language, script and country only; the keywords apply to tags read by `weekStartForTag`, the vectors' entry point |
+
+## Locale
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| Without a locale from the widget or the app, the international default: English names, Monday first | adapted | the web reads the page's `lang`, then `en-001-u-hc-h23`; Flutter reads the app's locale from `Localizations`, then `Locale('en', '001')` with `DateSymbols.international`: `use Monday and 24 hours without the app's locale` (default_locale_test), `each day is a button named by its full date; …`. The default's names answer `calendar-names.json`: `en-001-u-hc-h23: the table matches the shared one` (calendar_vectors_test) |
+| A `LocaleProvider` wins over the app's locale | matched | `follow the LocaleProvider over the app's locale` (default_locale_test) |

@@ -23,7 +23,7 @@
   });
 
   const box =
-    "position: relative; inline-size: 100%; max-inline-size: 26rem; aspect-ratio: 16 / 10; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; overflow: hidden; color: var(--ds-color-text);";
+    "position: relative; inline-size: 100%; max-inline-size: 26rem; aspect-ratio: 16 / 10; border: 1px solid var(--ds-components-general-border-default); border-radius: 0.75rem; overflow: hidden; color: var(--ds-components-general-foreground-default);";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.5rem; inline-size: 100%;">
