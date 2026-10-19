@@ -356,7 +356,7 @@
     inset-block: 0;
     inset-inline-start: var(--_range-lower-pct);
     inline-size: calc(var(--_range-upper-pct) - var(--_range-lower-pct));
-    background: var(--ds-components-general-action-primary-background-default, #7a52cc);
+    background: var(--ds-components-general-selection-background-default, #7a52cc);
     border-radius: inherit;
     pointer-events: none;
   }
@@ -404,7 +404,7 @@
     inline-size: var(--ds-range-slider-thumb-size, 1.5rem);
     block-size: var(--ds-range-slider-thumb-size, 1.5rem);
     border-radius: 50%;
-    background: var(--ds-components-general-action-primary-background-default, #7a52cc);
+    background: var(--ds-components-general-selection-background-default, #7a52cc);
     border: 2px solid var(--ds-components-general-background-default, #fff);
     cursor: pointer;
   }
@@ -413,7 +413,7 @@
     inline-size: var(--ds-range-slider-thumb-size, 1.5rem);
     block-size: var(--ds-range-slider-thumb-size, 1.5rem);
     border-radius: 50%;
-    background: var(--ds-components-general-action-primary-background-default, #7a52cc);
+    background: var(--ds-components-general-selection-background-default, #7a52cc);
     border: 2px solid var(--ds-components-general-background-default, #fff);
     cursor: pointer;
   }

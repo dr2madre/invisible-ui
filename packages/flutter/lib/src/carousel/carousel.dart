@@ -641,7 +641,7 @@ class _Dot extends StatelessWidget {
                 width: current ? _currentDotWidth : _dot,
                 height: _dot,
                 decoration: BoxDecoration(
-                  color: current ? colors.primary : colors.controlBorder,
+                  color: current ? colors.selected : colors.controlBorder,
                   borderRadius: BorderRadius.circular(_dot),
                 ),
               ),

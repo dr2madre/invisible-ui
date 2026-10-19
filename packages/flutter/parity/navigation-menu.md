@@ -2,6 +2,13 @@
 
 Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
 
+Reference review (2026-10-19, primary selected): the selected, checked,
+current or on parts point at the shared primary selected colour,
+`components.general.selection.background.default`, and the selected label and
+fill derived from it, in place of the secondary action colour. Dark lightens
+the primary, so a label on a solid selected fill turns black. Flutter reads
+the same tokens.
+
 Reference paths: `core/src/navigation-menu` `packages/svelte/src/lib/navigation-menu`
 
 The Flutter `NavigationMenu` checked against the Svelte `NavigationMenu`

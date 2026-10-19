@@ -504,7 +504,7 @@ class _TimeFieldState extends State<TimeField>
                   decoration: BoxDecoration(
                     // The segment being edited shows on any focus, touch
                     // included, so which part changes stays clear.
-                    color: focused ? colors.secondary : null,
+                    color: focused ? colors.selected : null,
                     borderRadius: BorderRadius.circular(theme.controlRadius),
                   ),
                   child: Padding(
@@ -518,7 +518,7 @@ class _TimeFieldState extends State<TimeField>
                         style: theme.textStyle.copyWith(
                           fontFeatures: const [FontFeature.tabularFigures()],
                           color: focused
-                              ? colors.onSecondary
+                              ? colors.onSelected
                               : shown == null
                               ? colors.textSecondary
                               : enabled

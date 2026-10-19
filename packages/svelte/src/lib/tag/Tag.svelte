@@ -165,13 +165,13 @@
   .tag:global([data-variant="soft"][data-status="selected"]) {
     --_bg: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 8%,
+      var(--ds-components-general-selection-background-default, #7a52cc) 8%,
       transparent
     );
     --_fg: var(--ds-components-general-selection-contextual-foreground-default, #553f82);
     --_border: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 22%,
+      var(--ds-components-general-selection-background-default, #7a52cc) 22%,
       transparent
     );
   }
@@ -218,7 +218,7 @@
     --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
   }
   .tag:global([data-variant="solid"][data-status="selected"]) {
-    --_bg: var(--ds-components-general-action-secondary-background-default, #7a52cc);
-    --_fg: var(--ds-components-general-action-secondary-foreground-default, #fff);
+    --_bg: var(--ds-components-general-selection-background-default, #7a52cc);
+    --_fg: var(--ds-components-general-selection-foreground-default, #fff);
   }
 </style>

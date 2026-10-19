@@ -213,23 +213,22 @@
      edge in a panel. The attribute comes from the action, so it is global. */
   .navmenu__trigger:global([data-current]),
   .navmenu__toplink:global([data-current]) {
-    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    color: var(--ds-components-general-foreground-selected, #7a52cc);
     text-decoration: underline 2px;
     text-underline-offset: 0.35em;
   }
   .navmenu__link:global([data-current]) {
     /* The bar takes its width from the padding, so the label does not move. */
     padding-inline-start: calc(0.625rem - 2px);
-    border-inline-start: 2px solid
-      var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    border-inline-start: 2px solid var(--ds-components-general-foreground-selected, #7a52cc);
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      var(--ds-components-general-selection-background-default, #7a52cc) 10%,
       transparent
     );
   }
   .navmenu__link:global([data-current]) .navmenu__link-label {
-    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    color: var(--ds-components-general-foreground-selected, #7a52cc);
   }
   .navmenu__link:global([data-current]):hover,
   .navmenu__link:global([data-current]):focus-visible {

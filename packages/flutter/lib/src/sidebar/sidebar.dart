@@ -511,7 +511,7 @@ class _ItemButton<T> extends StatelessWidget {
     final color = unavailable
         ? colors.textDisabled
         : current
-        ? colors.secondaryBodyText
+        ? colors.selectedForeground
         : colors.text;
     final fontSize = theme.textStyle.fontSize!;
     final icon = item.icon;
@@ -621,7 +621,7 @@ class _ItemButton<T> extends StatelessWidget {
             padding: rail ? _railItemPadding : _itemPadding,
             decoration: BoxDecoration(
               color: current
-                  ? colors.secondary.withValues(alpha: _activeTint)
+                  ? colors.selected.withValues(alpha: _activeTint)
                   : states.hovered
                   ? colors.stateHover
                   : null,

@@ -261,10 +261,7 @@
     border-radius: 999px;
     background: linear-gradient(
       to right,
-      var(
-          --ds-slider-range,
-          var(--ds-components-general-action-secondary-background-default, #7a52cc)
-        )
+      var(--ds-slider-range, var(--ds-components-general-selection-background-default, #7a52cc))
         var(--_slider-pct, 0%),
       var(--ds-slider-track, var(--ds-components-general-border-default, #bdbdbd))
         var(--_slider-pct, 0%)
@@ -274,10 +271,7 @@
     inline-size: var(--ds-slider-thickness, 0.375rem);
     background: linear-gradient(
       to top,
-      var(
-          --ds-slider-range,
-          var(--ds-components-general-action-secondary-background-default, #7a52cc)
-        )
+      var(--ds-slider-range, var(--ds-components-general-selection-background-default, #7a52cc))
         var(--_slider-pct, 0%),
       var(--ds-slider-track, var(--ds-components-general-border-default, #bdbdbd))
         var(--_slider-pct, 0%)
@@ -291,10 +285,7 @@
     border-radius: 999px;
     background: var(--ds-slider-thumb, var(--ds-components-general-background-default, #fff));
     border: 2px solid
-      var(
-        --ds-slider-range,
-        var(--ds-components-general-action-secondary-background-default, #7a52cc)
-      );
+      var(--ds-slider-range, var(--ds-components-general-selection-background-default, #7a52cc));
     /* Center the thumb on the track. */
     margin-block-start: calc(
       (var(--ds-slider-thickness, 0.375rem) - var(--ds-slider-thumb-size, 1rem)) / 2
@@ -312,7 +303,7 @@
     border-radius: 999px;
     background: var(
       --ds-slider-range,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
   }
   .slider__input::-moz-range-thumb {
@@ -321,10 +312,7 @@
     border-radius: 999px;
     background: var(--ds-slider-thumb, var(--ds-components-general-background-default, #fff));
     border: 2px solid
-      var(
-        --ds-slider-range,
-        var(--ds-components-general-action-secondary-background-default, #7a52cc)
-      );
+      var(--ds-slider-range, var(--ds-components-general-selection-background-default, #7a52cc));
   }
 
   .slider__input:focus-visible {

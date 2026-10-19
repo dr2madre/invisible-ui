@@ -700,17 +700,17 @@
     font-weight: 700;
     color: var(
       --ds-calendar-today,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
   }
   .calendar__day:global([data-selected]) {
     background: var(
       --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     color: var(
       --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      var(--ds-components-general-selection-foreground-default, #ffffff)
     );
   }
   .calendar__day:global([data-selected]) .calendar__daynum {
@@ -725,11 +725,11 @@
   .calendar__day[data-range-end] {
     background: var(
       --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     color: var(
       --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      var(--ds-components-general-selection-foreground-default, #ffffff)
     );
   }
   .calendar__day[data-range-start] .calendar__daynum,
@@ -767,7 +767,7 @@
     border-radius: 50%;
     background: var(
       --ds-calendar-dot,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     flex: none;
   }
@@ -825,7 +825,7 @@
     cursor: pointer;
   }
   .calendar__mini-title:hover {
-    color: var(--ds-components-general-action-primary-background-default, #7a52cc);
+    color: var(--ds-components-general-selection-background-default, #7a52cc);
   }
   .calendar__mini-title:focus-visible {
     outline: none;
@@ -877,18 +877,18 @@
   .calendar__mini-day:global([data-today]) {
     color: var(
       --ds-calendar-today,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     font-weight: 700;
   }
   .calendar__mini-day:global([data-selected]) {
     background: var(
       --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     color: var(
       --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      var(--ds-components-general-selection-foreground-default, #ffffff)
     );
   }
 
@@ -931,17 +931,17 @@
   .calendar__agenda-head:global([data-selected]) {
     background: var(
       --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     color: var(
       --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      var(--ds-components-general-selection-foreground-default, #ffffff)
     );
   }
   .calendar__agenda-head:global([data-today]) .calendar__agenda-num {
     color: var(
       --ds-calendar-today,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     font-weight: 700;
   }

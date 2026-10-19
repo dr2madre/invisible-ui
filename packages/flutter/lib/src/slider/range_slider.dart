@@ -378,7 +378,7 @@ class _RangeSliderState extends State<RangeSlider>
               height: side,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: colors.primary,
+                color: colors.selected,
                 border: Border.all(
                   color: colors.background,
                   width: _thumbBorder,
@@ -406,7 +406,7 @@ class _RangeSliderState extends State<RangeSlider>
         axis: widget.orientation,
         thickness: _thickness,
         thumbSize: _thumb,
-        fill: colors.primary,
+        fill: colors.selected,
         fillFrom: lower,
         fillTo: upper,
         thumbs: [lower, upper],

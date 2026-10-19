@@ -284,9 +284,9 @@ class _PageButton extends StatelessWidget {
               constraints: BoxConstraints(minWidth: side, minHeight: side),
               padding: const EdgeInsets.symmetric(horizontal: _paddingX),
               decoration: BoxDecoration(
-                color: current ? colors.secondary : colors.background,
+                color: current ? colors.selected : colors.background,
                 border: Border.all(
-                  color: current ? colors.secondary : colors.controlBorder,
+                  color: current ? colors.selected : colors.controlBorder,
                 ),
                 borderRadius: BorderRadius.circular(theme.controlRadius),
               ),

@@ -244,7 +244,7 @@
     display: inline-flex;
     flex: none;
     inline-size: 1em;
-    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    color: var(--ds-components-general-selection-background-default, #7a52cc);
     /* Always present (reserves width); only shown on the selected row. */
     visibility: hidden;
   }
@@ -268,7 +268,7 @@
       --ds-tree-item-selected-bg,
       color-mix(
         in srgb,
-        var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+        var(--ds-components-general-selection-background-default, #7a52cc) 10%,
         transparent
       )
     );
@@ -282,7 +282,7 @@
       --ds-tree-item-selected-hover,
       color-mix(
         in srgb,
-        var(--ds-components-general-action-secondary-background-default, #7a52cc) 16%,
+        var(--ds-components-general-selection-background-default, #7a52cc) 16%,
         transparent
       )
     );

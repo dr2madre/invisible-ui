@@ -44,8 +44,9 @@
   --ds-colors-palette-dioxazine-purple-500: #7a52cc; /* Dioxazine Purple 500 */
   --ds-colors-palette-dioxazine-purple-600: #6840b7; /* Dioxazine Purple 600 */
 
-  /* 1) Brand — customize first. White text sits on these, so keep them dark
-        enough for 4.5:1 when used as button fills. */
+  /* 1) Brand — customize first. In Light, white text sits on these, so keep
+        them dark enough for 4.5:1 when used as button fills; Dark lightens the
+        primary and puts black text on it. */
   --ds-colors-brand-primary-default: var(--ds-colors-palette-dioxazine-purple-500);
   --ds-colors-brand-primary-hover: var(--ds-colors-palette-dioxazine-purple-600);
   --ds-colors-brand-secondary-default: var(
@@ -115,7 +116,7 @@
     #7a52cc
   );
   --ds-components-general-selection-foreground-default: var(
-    --ds-components-general-action-secondary-foreground-default,
+    --ds-components-general-action-primary-foreground-default,
     #fff
   );
 
@@ -370,7 +371,7 @@
   );
   --ds-components-general-selection-contextual-foreground-default: color-mix(
     in srgb,
-    var(--ds-components-general-action-secondary-background-default) 55%,
+    var(--ds-components-general-selection-background-default) 55%,
     var(--ds-colors-palette-grey-900)
   );
   --ds-components-general-feedback-neutral-foreground-default: var(--ds-colors-palette-grey-700);
@@ -426,6 +427,18 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
+    /* Dark lightens the primary: Purple 500 mixed with Grey 50 reads on the
+       Black page and takes the black on-primary label. */
+    --ds-colors-brand-primary-default: color-mix(
+      in srgb,
+      var(--ds-colors-palette-dioxazine-purple-500) 62%,
+      var(--ds-colors-palette-grey-50)
+    );
+    --ds-colors-brand-primary-hover: color-mix(
+      in srgb,
+      var(--ds-colors-palette-dioxazine-purple-500) 50%,
+      var(--ds-colors-palette-grey-50)
+    );
     --ds-components-general-background-default: var(--ds-colors-palette-grey-900);
     --ds-components-general-foreground-default: var(--ds-colors-palette-grey-50);
     --ds-components-general-foreground-secondary: var(--ds-colors-palette-grey-200);
@@ -439,18 +452,18 @@
     );
     --ds-components-general-border-selected: color-mix(
       in srgb,
-      var(--ds-components-general-selection-background-default) 70%,
+      var(--ds-components-general-selection-background-default) 51%,
       var(--ds-components-general-background-default)
     );
     --ds-components-general-background-action: transparent;
     --ds-components-general-background-selected: color-mix(
       in srgb,
-      var(--ds-components-general-selection-background-default) 16%,
+      var(--ds-components-general-selection-background-default) 10%,
       transparent
     );
     --ds-components-general-foreground-action: var(--ds-colors-palette-grey-100);
     --ds-components-general-foreground-selected: var(
-      --ds-components-general-selection-contextual-foreground-default
+      --ds-components-general-selection-background-default
     );
     --ds-components-general-background-disabled: var(--ds-colors-palette-grey-800);
     --ds-components-general-background-hover: rgb(255 255 255 / 0.09);
@@ -465,7 +478,7 @@
       --ds-colors-brand-primary-default
     );
     --ds-components-general-action-primary-background-hover: var(--ds-colors-brand-primary-hover);
-    --ds-components-general-action-primary-foreground-default: var(--ds-colors-palette-grey-0);
+    --ds-components-general-action-primary-foreground-default: var(--ds-colors-palette-black);
     --ds-components-general-action-secondary-background-default: var(
       --ds-colors-brand-secondary-default
     );
@@ -550,7 +563,7 @@
     --ds-components-general-action-danger-foreground-default: var(--ds-colors-palette-grey-0);
     --ds-components-general-action-secondary-contextual-background-default: color-mix(
       in srgb,
-      var(--ds-components-general-action-primary-background-default) 23%,
+      var(--ds-components-general-action-primary-background-default) 14%,
       var(--ds-colors-palette-black)
     );
     --ds-components-general-action-secondary-contextual-foreground-default: var(
@@ -580,10 +593,8 @@
       var(--ds-colors-feedback-danger-default) 48%,
       var(--ds-colors-palette-grey-50)
     );
-    --ds-components-general-selection-contextual-foreground-default: color-mix(
-      in srgb,
-      var(--ds-components-general-action-secondary-background-default) 62%,
-      var(--ds-colors-palette-grey-50)
+    --ds-components-general-selection-contextual-foreground-default: var(
+      --ds-components-general-selection-background-default
     );
     --ds-components-general-feedback-neutral-foreground-default: var(--ds-colors-palette-grey-200);
 
@@ -632,6 +643,18 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
+  /* Dark lightens the primary: Purple 500 mixed with Grey 50 reads on the
+     Black page and takes the black on-primary label. */
+  --ds-colors-brand-primary-default: color-mix(
+    in srgb,
+    var(--ds-colors-palette-dioxazine-purple-500) 62%,
+    var(--ds-colors-palette-grey-50)
+  );
+  --ds-colors-brand-primary-hover: color-mix(
+    in srgb,
+    var(--ds-colors-palette-dioxazine-purple-500) 50%,
+    var(--ds-colors-palette-grey-50)
+  );
   --ds-components-general-background-default: var(--ds-colors-palette-grey-900);
   --ds-components-general-foreground-default: var(--ds-colors-palette-grey-50);
   --ds-components-general-foreground-secondary: var(--ds-colors-palette-grey-200);
@@ -645,18 +668,18 @@
   );
   --ds-components-general-border-selected: color-mix(
     in srgb,
-    var(--ds-components-general-selection-background-default) 70%,
+    var(--ds-components-general-selection-background-default) 51%,
     var(--ds-components-general-background-default)
   );
   --ds-components-general-background-action: transparent;
   --ds-components-general-background-selected: color-mix(
     in srgb,
-    var(--ds-components-general-selection-background-default) 16%,
+    var(--ds-components-general-selection-background-default) 10%,
     transparent
   );
   --ds-components-general-foreground-action: var(--ds-colors-palette-grey-100);
   --ds-components-general-foreground-selected: var(
-    --ds-components-general-selection-contextual-foreground-default
+    --ds-components-general-selection-background-default
   );
   --ds-components-general-background-disabled: var(--ds-colors-palette-grey-800);
   --ds-components-general-background-hover: rgb(255 255 255 / 0.09);
@@ -669,7 +692,7 @@
 
   --ds-components-general-action-primary-background-default: var(--ds-colors-brand-primary-default);
   --ds-components-general-action-primary-background-hover: var(--ds-colors-brand-primary-hover);
-  --ds-components-general-action-primary-foreground-default: var(--ds-colors-palette-grey-0);
+  --ds-components-general-action-primary-foreground-default: var(--ds-colors-palette-black);
   --ds-components-general-action-secondary-background-default: var(
     --ds-colors-brand-secondary-default
   );
@@ -752,7 +775,7 @@
   --ds-components-general-action-danger-foreground-default: var(--ds-colors-palette-grey-0);
   --ds-components-general-action-secondary-contextual-background-default: color-mix(
     in srgb,
-    var(--ds-components-general-action-primary-background-default) 23%,
+    var(--ds-components-general-action-primary-background-default) 14%,
     var(--ds-colors-palette-black)
   );
   --ds-components-general-action-secondary-contextual-foreground-default: var(
@@ -782,10 +805,8 @@
     var(--ds-colors-feedback-danger-default) 48%,
     var(--ds-colors-palette-grey-50)
   );
-  --ds-components-general-selection-contextual-foreground-default: color-mix(
-    in srgb,
-    var(--ds-components-general-action-secondary-background-default) 62%,
-    var(--ds-colors-palette-grey-50)
+  --ds-components-general-selection-contextual-foreground-default: var(
+    --ds-components-general-selection-background-default
   );
   /* On the dark background the base colours measure below 3:1, so the text
      forms lighten, exactly as in the system-scheme block above. */
@@ -911,6 +932,8 @@
       --ds-components-general-feedback-success-foreground-default: var(--ds-colors-palette-grey-50);
       --ds-components-general-feedback-warning-foreground-default: var(--ds-colors-palette-grey-50);
       --ds-components-general-feedback-danger-foreground-default: var(--ds-colors-palette-grey-50);
+      --ds-colors-brand-primary-default: var(--ds-colors-palette-dioxazine-purple-300);
+      --ds-colors-brand-primary-hover: var(--ds-colors-palette-dioxazine-purple-200);
       --ds-components-general-selection-contextual-foreground-default: var(
         --ds-colors-palette-grey-50
       );
@@ -958,6 +981,8 @@
     --ds-components-general-feedback-success-foreground-default: var(--ds-colors-palette-grey-50);
     --ds-components-general-feedback-warning-foreground-default: var(--ds-colors-palette-grey-50);
     --ds-components-general-feedback-danger-foreground-default: var(--ds-colors-palette-grey-50);
+    --ds-colors-brand-primary-default: var(--ds-colors-palette-dioxazine-purple-300);
+    --ds-colors-brand-primary-hover: var(--ds-colors-palette-dioxazine-purple-200);
     --ds-components-general-selection-contextual-foreground-default: var(
       --ds-colors-palette-grey-50
     );
@@ -1246,7 +1271,7 @@
   --ds-components-button-border-default: var(--ds-components-general-border-action);
   --ds-components-button-border-secondary-default: color-mix(
     in srgb,
-    var(--ds-components-general-action-primary-background-default) 72%,
+    var(--ds-components-general-action-primary-background-default) 42%,
     transparent
   );
   --ds-components-button-border-danger-default: color-mix(
@@ -1334,7 +1359,7 @@
     --ds-components-button-border-default: var(--ds-components-general-border-action);
     --ds-components-button-border-secondary-default: color-mix(
       in srgb,
-      var(--ds-components-general-action-primary-background-default) 72%,
+      var(--ds-components-general-action-primary-background-default) 42%,
       transparent
     );
     --ds-components-button-border-danger-default: color-mix(

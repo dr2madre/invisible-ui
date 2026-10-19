@@ -28,6 +28,13 @@ const changedAfterReform = new Set([
   // Dark secondary Button fill and label keep the Light contrast with the page.
   "role.dark.color-secondary-surface",
   "role.dark.color-on-secondary-surface",
+  // Selected parts derive from the primary selected colour; Dark lightens the
+  // primary, so the labels on it turn black.
+  "role.light.color-selected-text",
+  "role.dark.color-selected-text",
+  "role.light.color-on-selected",
+  "role.dark.color-on-selected",
+  "role.dark.color-on-primary",
 ]);
 
 test("all migration values and recipe references are preserved in both modes", () => {

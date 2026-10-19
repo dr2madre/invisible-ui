@@ -508,7 +508,7 @@ class _TreeRow<T> extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: selected
-                    ? colors.secondary.withValues(
+                    ? colors.selected.withValues(
                         alpha: states.hovered
                             ? _selectedHoverTint
                             : _selectedTint,
@@ -596,7 +596,7 @@ class _TreeRow<T> extends StatelessWidget {
                         child: selected
                             ? IconTheme(
                                 data: IconThemeData(
-                                  color: colors.secondary,
+                                  color: colors.selected,
                                   size: _checkSide,
                                   applyTextScaling: true,
                                 ),

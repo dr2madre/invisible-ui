@@ -232,7 +232,7 @@
   }
   /* Once a range is set, the icon adopts the selection color (like DatePicker). */
   .date-picker__icon--active {
-    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    color: var(--ds-components-general-selection-background-default, #7a52cc);
   }
   .date-picker__input {
     flex: 1;

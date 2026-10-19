@@ -9,6 +9,8 @@ export const colorFields = {
   controlBorder: "components.general.border.control",
   actionBorder: "components.general.border.action",
   selectedBorder: "components.general.border.selected",
+  selectedBackground: "components.general.background.selected",
+  selectedForeground: "components.general.foreground.selected",
   avatarBackground: "components.avatar.background.default",
   switchBackground: "components.switch.background.default",
   stepperBackground: "components.stepper.background.default",

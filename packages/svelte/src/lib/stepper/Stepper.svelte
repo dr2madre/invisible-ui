@@ -181,7 +181,7 @@
       circle,
       var(
           --ds-step-connector-active,
-          var(--ds-components-general-action-secondary-background-default, #7a52cc)
+          var(--ds-components-general-selection-background-default, #7a52cc)
         )
         0 42%,
       transparent 48%

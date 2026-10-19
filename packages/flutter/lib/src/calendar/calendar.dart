@@ -655,16 +655,16 @@ class _DayState extends State<_Day> {
     final radius = theme.controlRadius;
     final enabled = widget.enabled;
     final background = widget.filled
-        ? colors.primary
+        ? colors.selected
         : widget.banded
         ? colors.selected.withValues(alpha: _bandAlpha)
         : _hovered && enabled
         ? colors.neutralSurface
         : null;
     final textColor = widget.filled
-        ? colors.onPrimary
+        ? colors.onSelected
         : widget.today
-        ? colors.primary
+        ? colors.selected
         : widget.outside
         ? colors.textSecondary
         : colors.text;

@@ -160,7 +160,12 @@ abstract final class InvisiblePalette {
 
 /// Tenant brand colours.
 abstract final class InvisibleBrandColors {
+  /// Primary brand colour. In Dark, Purple 500 mixed 62% with Grey 50, so it
+  /// reads on the Black page and takes a dark label.
   static const Color primaryDefault = Color(0xFF7A52CC);
+
+  /// Primary brand colour on hover. In Light it darkens, in Dark it lightens:
+  /// both raise the label contrast.
   static const Color primaryHover = Color(0xFF6840B7);
   static const Color secondaryDefault = Color(0xFF7A52CC);
   static const Color secondaryHover = Color(0xFF6840B7);
@@ -274,6 +279,8 @@ final class InvisibleColors {
     required this.controlBorder,
     required this.actionBorder,
     required this.selectedBorder,
+    required this.selectedBackground,
+    required this.selectedForeground,
     required this.avatarBackground,
     required this.switchBackground,
     required this.stepperBackground,
@@ -378,6 +385,8 @@ final class InvisibleColors {
     controlBorder: Color(0xFF757575),
     actionBorder: Color(0xFF9E9E9E),
     selectedBorder: Color(0xFFA286DB),
+    selectedBackground: Color(0x1A7A52CC),
+    selectedForeground: Color(0xFF7A52CC),
     avatarBackground: Color(0xFFE0E0E0),
     switchBackground: Color(0xFFE0E0E0),
     stepperBackground: Color(0xFFE0E0E0),
@@ -501,7 +510,9 @@ final class InvisibleColors {
     border: Color(0xFF414141),
     controlBorder: Color(0xFF9E9E9E),
     actionBorder: Color(0xFF595959),
-    selectedBorder: Color(0xFF61459B),
+    selectedBorder: Color(0xFF695D83),
+    selectedBackground: Color(0x1AA990DC),
+    selectedForeground: Color(0xFFA990DC),
     avatarBackground: Color(0xFF414141),
     switchBackground: Color(0xFF414141),
     stepperBackground: Color(0xFF414141),
@@ -510,23 +521,23 @@ final class InvisibleColors {
     buttonHover: Color(0x17FFFFFF),
     buttonForeground: Color(0xFFE0E0E0),
     buttonBorder: Color(0xFF595959),
-    buttonPrimaryBackground: Color(0xFF7A52CC),
-    buttonPrimaryHover: Color(0xFF6840B7),
-    buttonPrimaryForeground: Color(0xFFFFFFFF),
+    buttonPrimaryBackground: Color(0xFFA990DC),
+    buttonPrimaryHover: Color(0xFFB8A4E1),
+    buttonPrimaryForeground: Color(0xFF121212),
     buttonPrimaryBorder: Color(0x00000000),
-    buttonSecondaryBackground: Color(0xFF2A213D),
+    buttonSecondaryBackground: Color(0xFF27242E),
     buttonSecondaryHover: Color.from(
       alpha: 1.0,
-      red: 0.2310588235294118,
-      green: 0.19341176470588237,
-      blue: 0.30823529411764705,
+      red: 0.2750494117647059,
+      green: 0.2517082352941177,
+      blue: 0.3228988235294118,
     ),
     buttonSecondaryForeground: Color(0xFFA990DC),
     buttonSecondaryBorder: Color.from(
-      alpha: 0.72,
-      red: 0.47843137254901963,
-      green: 0.3215686274509804,
-      blue: 0.7999999999999999,
+      alpha: 0.42,
+      red: 0.6617254901960785,
+      green: 0.5644705882352942,
+      blue: 0.8610980392156863,
     ),
     buttonGhostBackground: Color(0x00000000),
     buttonGhostHover: Color(0x17FFFFFF),
@@ -547,23 +558,23 @@ final class InvisibleColors {
       blue: 0.3137254901960784,
     ),
     toggleButtonBorder: Color(0xFF595959),
-    toggleButtonSelectedBorder: Color(0xFF61459B),
+    toggleButtonSelectedBorder: Color(0xFF695D83),
     toggleButtonBackground: Color(0x00000000),
-    toggleButtonSelectedBackground: Color(0x297A52CC),
+    toggleButtonSelectedBackground: Color(0x1AA990DC),
     toggleButtonForeground: Color(0xFFE0E0E0),
     toggleButtonSelectedForeground: Color(0xFFA990DC),
     toggleGroupBorder: Color(0xFF595959),
     segmentedControlBorder: Color(0xFF595959),
-    segmentedSelectedBackground: Color(0x297A52CC),
+    segmentedSelectedBackground: Color(0x1AA990DC),
     segmentedSelectedForeground: Color(0xFFA990DC),
     disabled: Color(0xFF323232),
     stateHover: Color(0x17FFFFFF),
     statePressed: Color(0x29FFFFFF),
     focusRing: Color(0xFFA286DB),
     focusHalo: Color(0x4DA286DB),
-    primary: Color(0xFF7A52CC),
-    primaryHover: Color(0xFF6840B7),
-    onPrimary: Color(0xFFFFFFFF),
+    primary: Color(0xFFA990DC),
+    primaryHover: Color(0xFFB8A4E1),
+    onPrimary: Color(0xFF121212),
     secondary: Color(0xFF7A52CC),
     secondaryHover: Color(0xFF6840B7),
     onSecondary: Color(0xFFFFFFFF),
@@ -586,7 +597,7 @@ final class InvisibleColors {
     dangerBorder: Color(0xFF6B3039),
     destructiveSurface: Color(0xFF422B2E),
     onDestructiveSurface: Color(0xFFFFFFFF),
-    secondarySurface: Color(0xFF2A213D),
+    secondarySurface: Color(0xFF27242E),
     onSecondarySurface: Color(0xFFA990DC),
     neutralSurface: Color(0xFF323232),
     neutralBorder: Color(0xFF414141),
@@ -602,8 +613,8 @@ final class InvisibleColors {
     emphasisSurface: Color(0xFFE0E0E0),
     onEmphasis: Color(0xFF272727),
     emphasisBorder: Color(0xFF9E9E9E),
-    selected: Color(0xFF7A52CC),
-    onSelected: Color(0xFFFFFFFF),
+    selected: Color(0xFFA990DC),
+    onSelected: Color(0xFF121212),
     dialogOverlay: Color(0x99000000),
     navigationBarCurrentIndicator: Color(0xFF9A7CD7),
     gridCellSecondarySurface: Color(0xFF323232),
@@ -640,6 +651,12 @@ final class InvisibleColors {
 
   /// `components.general.border.selected`.
   final Color selectedBorder;
+
+  /// `components.general.background.selected`.
+  final Color selectedBackground;
+
+  /// `components.general.foreground.selected`.
+  final Color selectedForeground;
 
   /// `components.avatar.background.default`.
   final Color avatarBackground;
@@ -930,6 +947,8 @@ final class InvisibleColors {
     Color? controlBorder,
     Color? actionBorder,
     Color? selectedBorder,
+    Color? selectedBackground,
+    Color? selectedForeground,
     Color? avatarBackground,
     Color? switchBackground,
     Color? stepperBackground,
@@ -1033,6 +1052,8 @@ final class InvisibleColors {
       controlBorder: controlBorder ?? this.controlBorder,
       actionBorder: actionBorder ?? this.actionBorder,
       selectedBorder: selectedBorder ?? this.selectedBorder,
+      selectedBackground: selectedBackground ?? this.selectedBackground,
+      selectedForeground: selectedForeground ?? this.selectedForeground,
       avatarBackground: avatarBackground ?? this.avatarBackground,
       switchBackground: switchBackground ?? this.switchBackground,
       stepperBackground: stepperBackground ?? this.stepperBackground,
@@ -1159,6 +1180,8 @@ final class InvisibleColors {
     controlBorder,
     actionBorder,
     selectedBorder,
+    selectedBackground,
+    selectedForeground,
     avatarBackground,
     switchBackground,
     stepperBackground,
@@ -1284,6 +1307,12 @@ abstract final class InvisibleColorMixes {
       amount: 0.7,
       mixWith: Color(0xFFFFFFFF),
       value: Color(0xFFA286DB),
+    ),
+    'selectedBackground': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.1,
+      mixWith: Color(0x00000000),
+      value: Color(0x1A7A52CC),
     ),
     'buttonSecondaryHover': InvisibleColorMix(
       base: Color(0xFF7A52CC),
@@ -1433,22 +1462,28 @@ abstract final class InvisibleColorMixes {
       value: Color(0xFF595959),
     ),
     'selectedBorder': InvisibleColorMix(
-      base: Color(0xFF7A52CC),
-      amount: 0.7,
+      base: Color(0xFFA990DC),
+      amount: 0.51,
       mixWith: Color(0xFF272727),
-      value: Color(0xFF61459B),
+      value: Color(0xFF695D83),
+    ),
+    'selectedBackground': InvisibleColorMix(
+      base: Color(0xFFA990DC),
+      amount: 0.1,
+      mixWith: Color(0x00000000),
+      value: Color(0x1AA990DC),
     ),
     'buttonSecondaryHover': InvisibleColorMix(
-      base: Color(0xFF7A52CC),
+      base: Color(0xFFA990DC),
       amount: 0.24,
       mixWith: Color(0xFF272727),
-      value: Color(0xFF3B314F),
+      value: Color(0xFF464052),
     ),
     'buttonSecondaryBorder': InvisibleColorMix(
-      base: Color(0xFF7A52CC),
-      amount: 0.72,
+      base: Color(0xFFA990DC),
+      amount: 0.42,
       mixWith: Color(0x00000000),
-      value: Color(0xB87A52CC),
+      value: Color(0x6BA990DC),
     ),
     'buttonDangerHover': InvisibleColorMix(
       base: Color(0xFFBE3B50),
@@ -1535,10 +1570,10 @@ abstract final class InvisibleColorMixes {
       value: Color(0xFF422B2E),
     ),
     'secondarySurface': InvisibleColorMix(
-      base: Color(0xFF7A52CC),
-      amount: 0.23,
+      base: Color(0xFFA990DC),
+      amount: 0.14,
       mixWith: Color(0xFF121212),
-      value: Color(0xFF2A213D),
+      value: Color(0xFF27242E),
     ),
     'infoText': InvisibleColorMix(
       base: Color(0xFF4067B6),
@@ -1563,12 +1598,6 @@ abstract final class InvisibleColorMixes {
       amount: 0.48,
       mixWith: Color(0xFFF5F5F5),
       value: Color(0xFFDB9CA6),
-    ),
-    'selectedText': InvisibleColorMix(
-      base: Color(0xFF7A52CC),
-      amount: 0.62,
-      mixWith: Color(0xFFF5F5F5),
-      value: Color(0xFFA990DC),
     ),
     'secondaryBodyText': InvisibleColorMix(
       base: Color(0xFF7A52CC),

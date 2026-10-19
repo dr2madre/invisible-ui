@@ -28,16 +28,26 @@ function pickBlock(re: RegExp): Record<string, string> {
 }
 
 const primitives = pickBlock(/:root\s*\{([^}]*--ds-colors-palette-grey-0[^}]*)\}/);
+
 // The selection colour is declared once, outside the theme blocks.
 const selectionVars = pickBlock(
   /:root\s*\{([^}]*--ds-components-general-selection-background-default[^}]*)\}/,
 );
-const lightVars = { ...primitives, ...pickBlock(/\[data-theme="light"\]\s*\{([^}]*)\}/) };
-const darkVars = { ...primitives, ...pickBlock(/\[data-theme="dark"\]\s*\{([^}]*)\}/) };
+const lightVars = {
+  ...primitives,
+  ...selectionVars,
+  ...pickBlock(/\[data-theme="light"\]\s*\{([^}]*)\}/),
+};
+const darkVars = {
+  ...primitives,
+  ...selectionVars,
+  ...pickBlock(/\[data-theme="dark"\]\s*\{([^}]*)\}/),
+};
 // The system-scheme dark block is written by hand too, so its values are
 // checked with the same pairs, not assumed equal to the attribute block.
 const darkMediaVars = {
   ...primitives,
+  ...selectionVars,
   ...pickBlock(/:root:not\(\[data-theme="light"\]\)\s*\{([^}]*)\}/),
 };
 
@@ -295,10 +305,7 @@ describe.each([
       // page, or a surface inside a dialog or card), then draws the glyph in
       // the selection text form. Composite the fill the way the browser does.
       const back = resolve(`var(${backdrop})`, vars);
-      const selection = resolve(
-        "var(--ds-components-general-action-secondary-background-default)",
-        vars,
-      );
+      const selection = resolve("var(--ds-components-general-selection-background-default)", vars);
       const fill = back.map((channel, i) => Math.round(selection[i]! * 0.1 + channel * 0.9)) as RGB;
       const glyph = resolve(
         "var(--ds-components-general-selection-contextual-foreground-default)",
@@ -327,15 +334,14 @@ describe.each([
     (backdrop) => {
       // The selected fill is the selection colour at a share over transparent:
       // composite it over what the control sits on, as the browser does.
-      const all = { ...selectionVars, ...vars };
       const share =
-        Number(/(\d+)%/.exec(all["--ds-components-general-background-selected"]!)![1]) / 100;
-      const back = resolve(`var(${backdrop})`, all);
-      const selection = resolve("var(--ds-components-general-selection-background-default)", all);
+        Number(/(\d+)%/.exec(vars["--ds-components-general-background-selected"]!)![1]) / 100;
+      const back = resolve(`var(${backdrop})`, vars);
+      const selection = resolve("var(--ds-components-general-selection-background-default)", vars);
       const fill = back.map((channel, i) =>
         Math.round(selection[i]! * share + channel * (1 - share)),
       ) as RGB;
-      const label = resolve("var(--ds-components-general-foreground-selected)", all);
+      const label = resolve("var(--ds-components-general-foreground-selected)", vars);
       const [a, b] = [luminance(label), luminance(fill)];
       expect((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)).toBeGreaterThanOrEqual(4.5);
     },
@@ -376,8 +382,8 @@ describe.each([
     ).toBeGreaterThanOrEqual(4.5);
     expect(
       contrast(
-        "--ds-components-general-action-secondary-foreground-default",
-        "--ds-components-general-action-secondary-background-default",
+        "--ds-components-general-selection-foreground-default",
+        "--ds-components-general-selection-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
