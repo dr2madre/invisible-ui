@@ -1,6 +1,6 @@
 # Label parity checklist
 
-Reference commit: `5df411f6ee7583b84e5a6d5cbd113ff147043f7d`
+Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
 
 Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
