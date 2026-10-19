@@ -2,23 +2,37 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
+  checkButtonTokens,
   extractButtonStyles,
   extractCardLayout,
   generatePlugin,
+  tokenPayload,
 } from "./generate-figma-components.mjs";
+import { COLOR_TOLERANCE } from "../tools/figma-component-pilot/button-colors.js";
 
-test("Button default and hover backgrounds and disabled opacity follow component CSS", () => {
-  const button = readFileSync(
-    new URL("../packages/svelte/src/lib/button/Button.svelte", import.meta.url),
-    "utf8",
-  );
-  const tokens = JSON.parse(
-    readFileSync(new URL("../packages/tokens/tokens.json", import.meta.url), "utf8"),
-  );
+const button = readFileSync(
+  new URL("../packages/svelte/src/lib/button/Button.svelte", import.meta.url),
+  "utf8",
+);
+const tokens = JSON.parse(
+  readFileSync(new URL("../packages/tokens/tokens.json", import.meta.url), "utf8"),
+);
+
+test("Button paints bind to the exported component tokens its CSS reads", () => {
   const styles = extractButtonStyles(button, tokens);
-  assert.equal(styles.defaultBackground, "components.button.background.default");
-  assert.equal(styles.hoverBackground, "components.button.background.hover");
+  assert.deepEqual(styles.paints.default.hover, {
+    background: "components/button/background/hover",
+    foreground: "components/button/foreground/default",
+    border: "components/button/border/default",
+  });
+  assert.deepEqual(styles.paints.danger.disabled, styles.paints.danger.default);
   assert.equal(styles.disabledOpacity, 0.5);
+  assert.equal(styles.borderWidth, 1);
+  assert.deepEqual(styles.underline, ["ghost"]);
+  const names = Object.values(styles.paints).flatMap((states) =>
+    Object.values(states).flatMap(Object.values),
+  );
+  assert.ok(names.every((name) => name.startsWith("components/button/")));
   const changed = structuredClone(tokens);
   changed.components.button.opacity.disabled.$value = 0.4;
   const updated = extractButtonStyles(
@@ -28,7 +42,7 @@ test("Button default and hover backgrounds and disabled opacity follow component
     ),
     changed,
   );
-  assert.equal(updated.defaultBackground, "components.card.background.default");
+  assert.equal(updated.paints.default.default.background, "components/card/background/default");
   assert.equal(updated.disabledOpacity, 0.4);
   assert.throws(
     () =>
@@ -41,6 +55,53 @@ test("Button default and hover backgrounds and disabled opacity follow component
       ),
     /unsupported background/,
   );
+});
+
+test("a Button paint without an exported colour token stops generation", () => {
+  const styles = extractButtonStyles(button, tokens);
+  const payload = tokenPayload(tokens);
+  checkButtonTokens(styles, payload);
+  delete payload.Dark["components/button/background/ghost/hover"];
+  assert.throws(
+    () => checkButtonTokens(styles, payload),
+    /ghost\/hover\/background uses components\/button\/background\/ghost\/hover/,
+  );
+});
+
+test("Button tokens resolve to the colours captured from the rendered Svelte Button", () => {
+  const { themes } = JSON.parse(
+    readFileSync(
+      new URL("../tools/figma-component-pilot/button-appearance.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  const styles = extractButtonStyles(button, tokens);
+  const payload = tokenPayload(tokens);
+  for (const [theme, mode] of [
+    ["light", "Light"],
+    ["dark", "Dark"],
+  ]) {
+    for (const [variant, states] of Object.entries(styles.paints)) {
+      for (const [state, paints] of Object.entries(states)) {
+        const captured = themes[theme][variant][state];
+        for (const [property, name] of Object.entries(paints)) {
+          let token = payload[mode][name];
+          while (token.alias) token = payload[mode][token.alias];
+          for (const channel of ["r", "g", "b", "a"]) {
+            const difference = Math.abs(token.value[channel] - captured[property][channel]);
+            assert.ok(
+              difference <= COLOR_TOLERANCE,
+              `${theme} ${variant}/${state}/${property} ${name} ${channel}`,
+            );
+          }
+        }
+        const opacity = state === "disabled" ? styles.disabledOpacity : 1;
+        assert.equal(captured.opacity, opacity);
+        assert.equal(captured.borderWidth, styles.borderWidth);
+        assert.equal(captured.underline, styles.underline.includes(variant));
+      }
+    }
+  }
 });
 
 const source = readFileSync(

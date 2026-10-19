@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { runInNewContext } from "node:vm";
 import { verifyButtonColors } from "../tools/figma-component-pilot/button-colors.js";
+import { extractButtonStyles } from "./generate-figma-components.mjs";
 
 function environment() {
   let nextId = 0;
@@ -142,10 +143,26 @@ function environment() {
   return { figma, page, errors, node, variableList, collection };
 }
 
+function buttonStyles() {
+  const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
+  return extractButtonStyles(
+    read("../packages/svelte/src/lib/button/Button.svelte"),
+    JSON.parse(read("../packages/tokens/tokens.json")),
+  );
+}
+
+test("components only stops when the exported Button tokens are missing", async () => {
+  const { figma, page, errors } = environment();
+  await figma.ui.onmessage({ type: "update", includeTokens: false });
+  assert.equal(errors.length, 1);
+  assert.match(errors[0].message, /Missing token variable components\/button\//);
+  assert.deepEqual(page.children, []);
+});
+
 test("full plugin flow updates twice without creating pages or replacing existing nodes", async () => {
   const { figma, page, errors, node } = environment();
   const run = () => figma.ui.onmessage({ type: "update", includeTokens: false });
-  await run();
+  await figma.ui.onmessage({ type: "update", includeTokens: true });
   assert.deepEqual(errors, []);
   const board = page.children[0];
   const buttons = board.findAll(
@@ -182,7 +199,7 @@ test("full plugin flow updates twice without creating pages or replacing existin
 test("failed full update removes only temporary nodes and preserves the original page", async () => {
   const { figma, page, errors } = environment();
   const run = () => figma.ui.onmessage({ type: "update", includeTokens: false });
-  await run();
+  await figma.ui.onmessage({ type: "update", includeTokens: true });
   const board = page.children[0];
   const card = board.findAll((item) => item.type === "COMPONENT_SET" && item.name === "Card")[0];
   card.name = "Renamed by user";
@@ -201,7 +218,7 @@ test("failed full update removes only temporary nodes and preserves the original
 
 test("the verifier rejects missing borders, wrong Ghost colours and state regressions", async () => {
   const { figma, page, errors, variableList, collection } = environment();
-  await figma.ui.onmessage({ type: "update", includeTokens: false });
+  await figma.ui.onmessage({ type: "update", includeTokens: true });
   assert.deepEqual(errors, []);
   const appearance = JSON.parse(
     readFileSync(
@@ -211,7 +228,8 @@ test("the verifier rejects missing borders, wrong Ghost colours and state regres
   );
   const variables = new Map(variableList.map((variable) => [variable.name, variable]));
   const board = page.children[0];
-  const verify = () => verifyButtonColors(board, appearance, variables, collection);
+  const styles = buttonStyles();
+  const verify = () => verifyButtonColors(board, appearance, variables, collection, styles);
   assert.equal(verify(), 30);
   const secondary = board.findAll(
     (item) => item.type === "COMPONENT" && item.name === "Variant=Secondary, State=Default",
@@ -220,7 +238,18 @@ test("the verifier rejects missing borders, wrong Ghost colours and state regres
   secondary.strokes = [];
   assert.throws(verify, /solid paint/);
   secondary.strokes = strokes;
-  const ghost = variables.get("component/button/ghost/default/background");
+  const background = secondary.fills;
+  secondary.fills = [
+    {
+      ...background[0],
+      boundVariables: {
+        color: { id: variables.get("components/button/background/primary/default").id },
+      },
+    },
+  ];
+  assert.throws(verify, /not bound to components\/button\/background\/secondary\/default/);
+  secondary.fills = background;
+  const ghost = variables.get("components/button/background/ghost/default");
   const saved = ghost.valuesByMode.light;
   ghost.valuesByMode.light = { r: 0.5, g: 0.5, b: 0.5, a: 1 };
   assert.throws(verify, /ghost\/default\/light\/background/);

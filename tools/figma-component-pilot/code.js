@@ -6,6 +6,98 @@ const CARD_LAYOUT = {
   media: { justify: "CENTER", align: "CENTER" },
   body: { gap: 8, padding: 16 },
 };
+const BUTTON_STYLES = {
+  paints: {
+    default: {
+      default: {
+        background: "components/button/background/default",
+        foreground: "components/button/foreground/default",
+        border: "components/button/border/default",
+      },
+      hover: {
+        background: "components/button/background/hover",
+        foreground: "components/button/foreground/default",
+        border: "components/button/border/default",
+      },
+      disabled: {
+        background: "components/button/background/default",
+        foreground: "components/button/foreground/default",
+        border: "components/button/border/default",
+      },
+    },
+    primary: {
+      default: {
+        background: "components/button/background/primary/default",
+        foreground: "components/button/foreground/primary/default",
+        border: "components/button/border/primary/default",
+      },
+      hover: {
+        background: "components/button/background/primary/hover",
+        foreground: "components/button/foreground/primary/default",
+        border: "components/button/border/primary/default",
+      },
+      disabled: {
+        background: "components/button/background/primary/default",
+        foreground: "components/button/foreground/primary/default",
+        border: "components/button/border/primary/default",
+      },
+    },
+    secondary: {
+      default: {
+        background: "components/button/background/secondary/default",
+        foreground: "components/button/foreground/secondary/default",
+        border: "components/button/border/secondary/default",
+      },
+      hover: {
+        background: "components/button/background/secondary/hover",
+        foreground: "components/button/foreground/secondary/default",
+        border: "components/button/border/secondary/default",
+      },
+      disabled: {
+        background: "components/button/background/secondary/default",
+        foreground: "components/button/foreground/secondary/default",
+        border: "components/button/border/secondary/default",
+      },
+    },
+    ghost: {
+      default: {
+        background: "components/button/background/ghost/default",
+        foreground: "components/button/foreground/ghost/default",
+        border: "components/button/border/ghost/default",
+      },
+      hover: {
+        background: "components/button/background/ghost/hover",
+        foreground: "components/button/foreground/ghost/default",
+        border: "components/button/border/ghost/default",
+      },
+      disabled: {
+        background: "components/button/background/ghost/default",
+        foreground: "components/button/foreground/ghost/default",
+        border: "components/button/border/ghost/default",
+      },
+    },
+    danger: {
+      default: {
+        background: "components/button/background/danger/default",
+        foreground: "components/button/foreground/danger/default",
+        border: "components/button/border/danger/default",
+      },
+      hover: {
+        background: "components/button/background/danger/hover",
+        foreground: "components/button/foreground/danger/default",
+        border: "components/button/border/danger/default",
+      },
+      disabled: {
+        background: "components/button/background/danger/default",
+        foreground: "components/button/foreground/danger/default",
+        border: "components/button/border/danger/default",
+      },
+    },
+  },
+  disabledOpacity: 0.5,
+  borderWidth: 1,
+  underline: ["ghost"],
+};
 const BUTTON_APPEARANCE = {
   sourceHash: "1f7d7a6c8994db869824b465a7c2901b9ac38a24a6cb3b5210e7ad1bc2874253",
   themes: {
@@ -355,7 +447,6 @@ const BUTTON_APPEARANCE = {
     },
   },
 };
-const BUTTON_PAINTS = buttonColorTokens(BUTTON_APPEARANCE);
 const TOKEN_PAYLOAD = {
   Light: {
     "colors/palette/dioxazine-purple/50": {
@@ -2151,13 +2242,7 @@ const TOKEN_PAYLOAD = {
     "typography/font-size/h6": { type: "FLOAT", value: 16 },
   },
 };
-const TOKEN_INFO = {
-  revision: "f0668d17e560",
-  grey50: "#f5f5f5",
-  grey950: "#1b1b1b",
-  count: 263,
-  componentColorCount: 45,
-};
+const TOKEN_INFO = { revision: "f0668d17e560", grey50: "#f5f5f5", grey950: "#1b1b1b", count: 263 };
 
 function generatedTarget(exportKey) {
   const candidates = [];
@@ -2407,31 +2492,27 @@ async function updateTokenVariables(payload, collectionName) {
   }
 }
 
-function buttonColorTokens(appearance) {
-  const output = { Light: {}, Dark: {} };
-  for (const [theme, variants] of Object.entries(appearance.themes)) {
-    for (const [variant, states] of Object.entries(variants)) {
-      for (const [state, style] of Object.entries(states)) {
-        for (const property of ["background", "foreground", "border"]) {
-          output[theme === "light" ? "Light" : "Dark"][
-            `component/button/${variant}/${state}/${property}`
-          ] = { type: "COLOR", value: style[property] };
-        }
-      }
-    }
-  }
-  return output;
+// Mixed token colours are stored as 8-bit hex, while the browser renders the
+// exact mix: a token matches the capture when it is within one 8-bit step.
+const COLOR_TOLERANCE = 1 / 255;
+
+/** The exported token variable a Button paint binds to. */
+function buttonTokenName(variant, state, property, styles) {
+  const name = styles.paints[variant.toLowerCase()]?.[state.toLowerCase()]?.[property];
+  if (!name) throw new Error(`No Button token for ${variant}/${state}/${property}`);
+  return name;
 }
 
-function buttonPaint(variant, state, property, appearance, variables, bind) {
-  const name = `component/button/${variant.toLowerCase()}/${state.toLowerCase()}/${property}`;
+function buttonPaint(variant, state, property, styles, variables, bind) {
+  const name = buttonTokenName(variant, state, property, styles);
   const variable = variables.get(name);
-  if (!variable) throw new Error(`Missing generated Button colour: ${name}`);
-  const { r, g, b } = appearance.themes.light[variant.toLowerCase()][state.toLowerCase()][property];
-  return bind({ type: "SOLID", color: { r, g, b } }, "color", variable);
+  if (!variable)
+    throw new Error(`Missing token variable ${name}. Run the update with Components and tokens.`);
+  // The bound variable supplies the colour; this placeholder is replaced on binding.
+  return bind({ type: "SOLID", color: { r: 0, g: 0, b: 0 } }, "color", variable);
 }
 
-function verifyButtonColors(board, appearance, variables, collection) {
+function verifyButtonColors(board, appearance, variables, collection, styles) {
   const byId = new Map([...variables.values()].map((variable) => [variable.id, variable]));
   const components = board.findAll(
     (node) =>
@@ -2440,17 +2521,17 @@ function verifyButtonColors(board, appearance, variables, collection) {
   );
   const names = new Set();
   let checked = 0;
-  const same = (actual, expected, context) => {
-    if (typeof actual !== "number" || Math.abs(actual - expected) > 0.00001)
+  const same = (actual, expected, context, tolerance = 0.00001) => {
+    if (typeof actual !== "number" || Math.abs(actual - expected) > tolerance)
       throw new Error(`Button colour verification failed: ${context}`);
   };
-  function paintColor(paints, modeId) {
+  function paintColor(paints, modeId, token) {
     if (paints.length !== 1 || paints[0].type !== "SOLID" || paints[0].visible === false)
       throw new Error("Button requires one visible solid paint per property");
     const paint = paints[0];
-    let value = paint.boundVariables?.color
-      ? byId.get(paint.boundVariables.color.id)?.valuesByMode[modeId]
-      : paint.color;
+    if (byId.get(paint.boundVariables?.color?.id)?.name !== token)
+      throw new Error(`Button paint is not bound to ${token}`);
+    let value = byId.get(paint.boundVariables.color.id).valuesByMode[modeId];
     const seen = new Set();
     while (value?.type === "VARIABLE_ALIAS") {
       if (seen.has(value.id)) throw new Error("Circular Button colour alias");
@@ -2459,7 +2540,7 @@ function verifyButtonColors(board, appearance, variables, collection) {
     }
     if (!value) throw new Error("Unresolved Button colour");
     // The bound RGBA variable owns alpha; the paint may expose that same alpha.
-    return { ...value, a: paint.boundVariables?.color ? (value.a ?? 1) : (paint.opacity ?? 1) };
+    return { ...value, a: value.a ?? 1 };
   }
   for (const component of components) {
     const match = /^Variant=([^,]+), State=(.+)$/.exec(component.name);
@@ -2483,12 +2564,17 @@ function verifyButtonColors(board, appearance, variables, collection) {
       const icon = component.children.find((node) => node.name === "Icon");
       if (icon) properties.push([icon.fills, "foreground"]);
       for (const [paints, property] of properties) {
-        const actual = paintColor(paints, mode.modeId);
+        const actual = paintColor(
+          paints,
+          mode.modeId,
+          buttonTokenName(variant, state, property, styles),
+        );
         for (const channel of ["r", "g", "b", "a"])
           same(
             actual[channel],
             expected[property][channel],
             `${variant}/${state}/${theme}/${property}/${channel}`,
+            COLOR_TOLERANCE,
           );
       }
       same(component.opacity, expected.opacity, `${variant}/${state}/opacity`);
@@ -2669,17 +2755,16 @@ function createButton(variant, state) {
   node.counterAxisAlignItems = "CENTER";
   node.primaryAxisAlignItems = "CENTER";
   node.minHeight = 36;
-  const appearance = BUTTON_APPEARANCE.themes.light[variant.toLowerCase()][state.toLowerCase()];
   const paint = (property) =>
-    buttonPaint(variant, state, property, BUTTON_APPEARANCE, variables, (value, field, variable) =>
+    buttonPaint(variant, state, property, BUTTON_STYLES, variables, (value, field, variable) =>
       figma.variables.setBoundVariableForPaint(value, field, variable),
     );
-  node.opacity = appearance.opacity;
+  node.opacity = state === "Disabled" ? BUTTON_STYLES.disabledOpacity : 1;
   radius(node, "metrics/radius/control", 8);
 
   node.fills = [paint("background")];
   node.strokes = [paint("border")];
-  node.strokeWeight = appearance.borderWidth;
+  node.strokeWeight = BUTTON_STYLES.borderWidth;
   node.strokeAlign = "INSIDE";
 
   if (variant === "Danger") {
@@ -2690,7 +2775,9 @@ function createButton(variant, state) {
     font: FONT_MEDIUM,
   });
   label.fills = [paint("foreground")];
-  label.textDecoration = appearance.underline ? "UNDERLINE" : "NONE";
+  label.textDecoration = BUTTON_STYLES.underline.includes(variant.toLowerCase())
+    ? "UNDERLINE"
+    : "NONE";
   label.name = "Label";
   node.appendChild(label);
   return node;
@@ -2892,8 +2979,6 @@ async function main() {
     figma.loadFontAsync(FONT_MEDIUM),
     figma.loadFontAsync(FONT_SEMIBOLD),
   ]);
-  await localVariables();
-  await updateTokenVariables(BUTTON_PAINTS, COLLECTION_NAME);
   variables = await localVariables();
   const collection = (await figma.variables.getLocalVariableCollectionsAsync()).find(
     (item) => item.name === COLLECTION_NAME,
@@ -2958,7 +3043,7 @@ async function main() {
     page.appendChild(board);
     if (target) {
       await updateGeneratedBoard(target.board, board, () =>
-        verifyButtonColors(target.board, BUTTON_APPEARANCE, variables, collection),
+        verifyButtonColors(target.board, BUTTON_APPEARANCE, variables, collection, BUTTON_STYLES),
       );
       removeGeneratedNodes();
       if (target.page === page) {
@@ -2969,7 +3054,7 @@ async function main() {
         `Updated 3 component sets on ${target.page.name}. Button colours verified in Light and Dark.`,
       );
     } else {
-      verifyButtonColors(board, BUTTON_APPEARANCE, variables, collection);
+      verifyButtonColors(board, BUTTON_APPEARANCE, variables, collection, BUTTON_STYLES);
       generatedNodes = [];
       figma.currentPage.selection = [board];
       figma.viewport.scrollAndZoomIntoView([board]);

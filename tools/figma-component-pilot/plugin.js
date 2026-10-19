@@ -1,4 +1,4 @@
-/* global figma, CARD_LAYOUT, BUTTON_APPEARANCE, BUTTON_PAINTS, TOKEN_PAYLOAD, TOKEN_INFO, __html__ */
+/* global figma, CARD_LAYOUT, BUTTON_STYLES, BUTTON_APPEARANCE, TOKEN_PAYLOAD, TOKEN_INFO, __html__ */
 import { generatedTarget, updateGeneratedBoard } from "./sync.js";
 import { updateTokenVariables } from "./tokens.js";
 import { buttonPaint, verifyButtonColors } from "./button-colors.js";
@@ -170,17 +170,16 @@ function createButton(variant, state) {
   node.counterAxisAlignItems = "CENTER";
   node.primaryAxisAlignItems = "CENTER";
   node.minHeight = 36;
-  const appearance = BUTTON_APPEARANCE.themes.light[variant.toLowerCase()][state.toLowerCase()];
   const paint = (property) =>
-    buttonPaint(variant, state, property, BUTTON_APPEARANCE, variables, (value, field, variable) =>
+    buttonPaint(variant, state, property, BUTTON_STYLES, variables, (value, field, variable) =>
       figma.variables.setBoundVariableForPaint(value, field, variable),
     );
-  node.opacity = appearance.opacity;
+  node.opacity = state === "Disabled" ? BUTTON_STYLES.disabledOpacity : 1;
   radius(node, "metrics/radius/control", 8);
 
   node.fills = [paint("background")];
   node.strokes = [paint("border")];
-  node.strokeWeight = appearance.borderWidth;
+  node.strokeWeight = BUTTON_STYLES.borderWidth;
   node.strokeAlign = "INSIDE";
 
   if (variant === "Danger") {
@@ -191,7 +190,9 @@ function createButton(variant, state) {
     font: FONT_MEDIUM,
   });
   label.fills = [paint("foreground")];
-  label.textDecoration = appearance.underline ? "UNDERLINE" : "NONE";
+  label.textDecoration = BUTTON_STYLES.underline.includes(variant.toLowerCase())
+    ? "UNDERLINE"
+    : "NONE";
   label.name = "Label";
   node.appendChild(label);
   return node;
@@ -393,8 +394,6 @@ async function main() {
     figma.loadFontAsync(FONT_MEDIUM),
     figma.loadFontAsync(FONT_SEMIBOLD),
   ]);
-  await localVariables();
-  await updateTokenVariables(BUTTON_PAINTS, COLLECTION_NAME);
   variables = await localVariables();
   const collection = (await figma.variables.getLocalVariableCollectionsAsync()).find(
     (item) => item.name === COLLECTION_NAME,
@@ -459,7 +458,7 @@ async function main() {
     page.appendChild(board);
     if (target) {
       await updateGeneratedBoard(target.board, board, () =>
-        verifyButtonColors(target.board, BUTTON_APPEARANCE, variables, collection),
+        verifyButtonColors(target.board, BUTTON_APPEARANCE, variables, collection, BUTTON_STYLES),
       );
       removeGeneratedNodes();
       if (target.page === page) {
@@ -470,7 +469,7 @@ async function main() {
         `Updated 3 component sets on ${target.page.name}. Button colours verified in Light and Dark.`,
       );
     } else {
-      verifyButtonColors(board, BUTTON_APPEARANCE, variables, collection);
+      verifyButtonColors(board, BUTTON_APPEARANCE, variables, collection, BUTTON_STYLES);
       generatedNodes = [];
       figma.currentPage.selection = [board];
       figma.viewport.scrollAndZoomIntoView([board]);

@@ -14,10 +14,10 @@ Figma requires its desktop app for local plugin development.
 4. Run **Invisible UI component pilot** from **Plugins → Development**.
 5. Choose **Components only** or **Components and tokens**, then select **Update**.
 
-Components only leaves shared token values unchanged and requires an
-existing `Invisible UI` collection. Components and tokens creates or updates
-the collection and its Light/Dark modes before generating the components.
-Both options update the derived `component/button/` colour variables.
+Components only leaves token values unchanged and requires an existing
+`Invisible UI` collection that already holds the `components/button/`
+variables. Components and tokens creates or updates the collection and its
+Light/Dark modes before generating the components.
 Matching variable names retain their IDs and aliases. Unrelated variables and
 modes remain in place, including variables from an export made before the
 version-2 token names, such as `role/color-background`; delete those by hand.
@@ -50,18 +50,27 @@ to restore the saved node properties and reports if Undo is needed.
 ## Source and generation
 
 Run `pnpm components:figma` after changing the component or plugin sources.
-`code.js` is generated from `plugin.js`, `sync.js`, and the CSS in
-`packages/svelte/src/lib/card/Card.svelte`. The manifest continues to load
+`code.js` is generated from `plugin.js`, `sync.js`, `tokens.js`,
+`button-colors.js`, and the CSS in `Card.svelte` and `Button.svelte`. The manifest continues to load
 `code.js`. `pnpm components:figma:check` detects stale output, as does the script
 test suite in the quality gate.
 
-Button colours come from the real Svelte component rendered in Chromium, not
-from a separate palette mapping. Generation captures five variants in default,
-hover, and disabled states in Light and Dark. It records background, text,
-border, alpha, opacity, border width, and underline. The 45 derived colour
-variables live under `component/button/` in the same collection. Source changes
-invalidate the capture. Install Chromium with `pnpm exec playwright install chromium`
-if it is unavailable.
+Button fills, borders, and text bind directly to the exported
+`components/button/` token variables. Generation reads from `Button.svelte`
+which token each variant and state uses; disabled keeps the resting colours and
+applies the value of the disabled opacity token. Generation stops if the CSS
+uses a colour that the token export does not create. The plugin creates no
+colour variables of its own. Files built with an earlier version contain a `component/button` group of
+derived variables: delete that group by hand once after updating.
+
+The capture of the real Svelte Button rendered in Chromium
+(`button-appearance.json`: five variants, default, hover, and disabled, Light
+and Dark) is only a check, not a source of variables. The script tests and the
+plugin compare the token values with the rendered background, text, border,
+alpha, opacity, border width, and underline. Mixed colours are stored as 8-bit
+hex, so a colour matches within one 8-bit step. Source changes invalidate the
+capture. Install Chromium with `pnpm exec playwright install chromium` if it is
+unavailable.
 
 Run `pnpm components:figma:verify` to compare all 30 cases against the browser
 again. Diagnostic screenshots are saved in `output/playwright/`. During import,
