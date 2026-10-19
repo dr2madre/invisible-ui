@@ -243,12 +243,9 @@ void main() {
           .whereType<BoxDecoration>()
           .map((decoration) => decoration.color)
           .whereType<Color>();
-      expect(fills, contains(theme.colors.segmentedControlSelectedBackground));
+      expect(fills, contains(theme.colors.segmentedSelectedBackground));
       final text = tester.widget<Text>(find.text(_filters.first.label));
-      expect(
-        text.style!.color,
-        theme.colors.segmentedControlSelectedForeground,
-      );
+      expect(text.style!.color, theme.colors.segmentedSelectedForeground);
     }
   });
 

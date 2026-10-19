@@ -312,7 +312,7 @@ class _SegmentState<T> extends State<_Segment<T>> {
     final checked = widget.checked;
     final fontSize = theme.textStyle.fontSize!;
     final foreground = checked
-        ? colors.segmentedControlSelectedForeground
+        ? colors.segmentedSelectedForeground
         : colors.text;
     final icon = item.icon;
     final showLabel = !widget.iconOnly;
@@ -362,7 +362,7 @@ class _SegmentState<T> extends State<_Segment<T>> {
 
     final surface = DecoratedBox(
       decoration: BoxDecoration(
-        color: checked ? colors.segmentedControlSelectedBackground : null,
+        color: checked ? colors.segmentedSelectedBackground : null,
         border: widget.divider
             ? BorderDirectional(
                 start: widget.horizontal ? divider : BorderSide.none,

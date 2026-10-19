@@ -306,8 +306,8 @@ final class InvisibleColors {
     required this.toggleButtonSelectedForeground,
     required this.toggleGroupBorder,
     required this.segmentedControlBorder,
-    required this.segmentedControlSelectedBackground,
-    required this.segmentedControlSelectedForeground,
+    required this.segmentedSelectedBackground,
+    required this.segmentedSelectedForeground,
     required this.disabled,
     required this.stateHover,
     required this.statePressed,
@@ -430,8 +430,8 @@ final class InvisibleColors {
     toggleButtonSelectedForeground: Color(0xFF7A52CC),
     toggleGroupBorder: Color(0xFF9E9E9E),
     segmentedControlBorder: Color(0xFF9E9E9E),
-    segmentedControlSelectedBackground: Color(0x1A7A52CC),
-    segmentedControlSelectedForeground: Color(0xFF7A52CC),
+    segmentedSelectedBackground: Color(0x1A7A52CC),
+    segmentedSelectedForeground: Color(0xFF7A52CC),
     disabled: Color(0xFFBDBDBD),
     stateHover: Color(0x0F000000),
     statePressed: Color(0x1F000000),
@@ -554,8 +554,8 @@ final class InvisibleColors {
     toggleButtonSelectedForeground: Color(0xFFA990DC),
     toggleGroupBorder: Color(0xFF595959),
     segmentedControlBorder: Color(0xFF595959),
-    segmentedControlSelectedBackground: Color(0x297A52CC),
-    segmentedControlSelectedForeground: Color(0xFFA990DC),
+    segmentedSelectedBackground: Color(0x297A52CC),
+    segmentedSelectedForeground: Color(0xFFA990DC),
     disabled: Color(0xFF323232),
     stateHover: Color(0x17FFFFFF),
     statePressed: Color(0x29FFFFFF),
@@ -738,10 +738,10 @@ final class InvisibleColors {
   final Color segmentedControlBorder;
 
   /// `components.segmented-control.background.selected`.
-  final Color segmentedControlSelectedBackground;
+  final Color segmentedSelectedBackground;
 
   /// `components.segmented-control.foreground.selected`.
-  final Color segmentedControlSelectedForeground;
+  final Color segmentedSelectedForeground;
 
   /// `components.general.background.disabled`.
   final Color disabled;
@@ -962,8 +962,8 @@ final class InvisibleColors {
     Color? toggleButtonSelectedForeground,
     Color? toggleGroupBorder,
     Color? segmentedControlBorder,
-    Color? segmentedControlSelectedBackground,
-    Color? segmentedControlSelectedForeground,
+    Color? segmentedSelectedBackground,
+    Color? segmentedSelectedForeground,
     Color? disabled,
     Color? stateHover,
     Color? statePressed,
@@ -1081,10 +1081,10 @@ final class InvisibleColors {
       toggleGroupBorder: toggleGroupBorder ?? this.toggleGroupBorder,
       segmentedControlBorder:
           segmentedControlBorder ?? this.segmentedControlBorder,
-      segmentedControlSelectedBackground:
-          segmentedControlSelectedBackground ?? this.segmentedControlSelectedBackground,
-      segmentedControlSelectedForeground:
-          segmentedControlSelectedForeground ?? this.segmentedControlSelectedForeground,
+      segmentedSelectedBackground:
+          segmentedSelectedBackground ?? this.segmentedSelectedBackground,
+      segmentedSelectedForeground:
+          segmentedSelectedForeground ?? this.segmentedSelectedForeground,
       disabled: disabled ?? this.disabled,
       stateHover: stateHover ?? this.stateHover,
       statePressed: statePressed ?? this.statePressed,
@@ -1191,8 +1191,8 @@ final class InvisibleColors {
     toggleButtonSelectedForeground,
     toggleGroupBorder,
     segmentedControlBorder,
-    segmentedControlSelectedBackground,
-    segmentedControlSelectedForeground,
+    segmentedSelectedBackground,
+    segmentedSelectedForeground,
     disabled,
     stateHover,
     statePressed,
