@@ -256,7 +256,7 @@ class _Joined extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = InvisibleTheme.of(context);
-    final border = theme.colors.controlBorder;
+    final border = theme.colors.toggleGroupBorder;
     final horizontal = orientation == Axis.horizontal;
     final divider = horizontal
         ? SizedBox(

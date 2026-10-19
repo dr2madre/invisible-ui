@@ -86,13 +86,18 @@
 .combobox__input--select-only::placeholder {
   font-weight: 400;
 }
-/* Zero-height, invisible: contributes only its widest line for width="wrap". */
+/* Zero-height, invisible: contributes only its widest line for width="wrap".
+   It sits in the control's row, so in the other modes it would take the
+   width the input needs. */
 .combobox__sizer {
-  display: block;
+  display: none;
   block-size: 0;
   overflow: hidden;
   visibility: hidden;
   padding-inline: var(--ds-combobox-sizer-padding, 0.75rem);
+}
+.combobox[data-width="wrap"] .combobox__sizer {
+  display: block;
 }
 .combobox__sizer > span {
   display: block;

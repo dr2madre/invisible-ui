@@ -182,7 +182,7 @@
     inline-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
     block-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
     border-radius: 50%;
-    /* The thumb is always white (it sits on the track in both states). */
+    /* The thumb is white at rest; on, it takes the label colour on the fill. */
     background: var(--ds-switch-thumb, var(--ds-colors-palette-grey-0, #ffffff));
     /* A rim in the boundary colour keeps the thumb separable from the light
        off track, where the white alone would disappear. */
@@ -191,7 +191,7 @@
   }
 
   .switch__input:checked + .switch {
-    background: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    background: var(--ds-components-general-selection-background-default, #7a52cc);
   }
   /* The boundary is repeated here: a second box-shadow would replace it. */
   .switch__input:focus-visible + .switch {
@@ -202,6 +202,12 @@
     outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
   }
   .switch__input:checked + .switch::after {
+    /* On, the thumb sits on the selected fill and takes the label colour on
+       it: White in Light, Black on the light Dark fill. */
+    background: var(
+      --ds-switch-thumb,
+      var(--ds-components-general-selection-foreground-default, #ffffff)
+    );
     /* Logical, so the thumb stays on the track in right-to-left text. */
     inset-inline-start: calc(
       0.125rem + var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)
@@ -235,7 +241,7 @@
     inset-inline-start: 0.5rem;
     color: var(
       --ds-switch-onoff-on-text,
-      var(--ds-components-general-action-secondary-foreground-default, #fff)
+      var(--ds-components-general-selection-foreground-default, #fff)
     );
     opacity: 0;
   }

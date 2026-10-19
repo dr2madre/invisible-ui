@@ -177,7 +177,7 @@
   .rating__star--filled {
     color: var(
       --ds-rating-color,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
   }
   .rating__star--filled :global(svg) {

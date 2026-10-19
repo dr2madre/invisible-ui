@@ -192,7 +192,7 @@ class CheckboxBox extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: on
-              ? colors.secondary.withValues(alpha: _checkedTint)
+              ? colors.selected.withValues(alpha: _checkedTint)
               : colors.background,
           border: Border.all(color: colors.controlBorder),
           borderRadius: BorderRadius.circular(theme.controlRadius),

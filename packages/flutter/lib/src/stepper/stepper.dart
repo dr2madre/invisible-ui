@@ -451,7 +451,7 @@ class _Connector extends StatelessWidget {
             ? const Size(_connectorLength, _connectorThickness)
             : const Size(_connectorThickness, _connectorMinLength),
         painter: _DotsPainter(
-          color: active ? colors.secondary : colors.border,
+          color: active ? colors.selected : colors.border,
           horizontal: horizontal,
         ),
       ),

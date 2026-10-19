@@ -191,6 +191,64 @@ void main() {
     );
   });
 
+  testWidgets('the outer border is the segmented control border, in both '
+      'themes', (tester) async {
+    for (final theme in [
+      InvisibleThemeData.light(),
+      InvisibleThemeData.dark(),
+    ]) {
+      await tester.pumpWidget(
+        harness(
+          const SegmentedControl<String>.uncontrolled(
+            label: 'Filter',
+            items: _filters,
+          ),
+          theme: theme,
+        ),
+      );
+      final outline = tester
+          .widgetList<DecoratedBox>(find.byType(DecoratedBox))
+          .map((box) => box.decoration)
+          .whereType<BoxDecoration>()
+          .map((decoration) => decoration.border)
+          .whereType<Border>()
+          .single;
+      expect(outline.top.color, theme.colors.segmentedControlBorder);
+      expect(
+        theme.colors.segmentedControlBorder.toARGB32(),
+        theme.colors.buttonBorder.toARGB32(),
+      );
+    }
+  });
+
+  testWidgets('the selected segment takes the selected fill and label, in '
+      'both themes', (tester) async {
+    for (final theme in [
+      InvisibleThemeData.light(),
+      InvisibleThemeData.dark(),
+    ]) {
+      await tester.pumpWidget(
+        harness(
+          const SegmentedControl<String>.uncontrolled(
+            label: 'Filter',
+            items: _filters,
+            initialValue: 'all',
+          ),
+          theme: theme,
+        ),
+      );
+      final fills = tester
+          .widgetList<DecoratedBox>(find.byType(DecoratedBox))
+          .map((box) => box.decoration)
+          .whereType<BoxDecoration>()
+          .map((decoration) => decoration.color)
+          .whereType<Color>();
+      expect(fills, contains(theme.colors.segmentedSelectedBackground));
+      final text = tester.widget<Text>(find.text(_filters.first.label));
+      expect(text.style!.color, theme.colors.segmentedSelectedForeground);
+    }
+  });
+
   testWidgets('a narrow bar scrolls sideways and a focused segment comes into '
       'view, at text scale 2.0', (tester) async {
     await tester.pumpWidget(

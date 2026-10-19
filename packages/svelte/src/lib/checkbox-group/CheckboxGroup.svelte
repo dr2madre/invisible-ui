@@ -164,7 +164,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--ds-components-general-action-secondary-foreground-default, #fff);
+    color: var(--ds-components-general-selection-foreground-default, #fff);
     flex: none;
   }
   .checkbox__input:focus-visible + .checkbox {
@@ -177,7 +177,7 @@
   .checkbox__input:checked + .checkbox {
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      var(--ds-components-general-selection-background-default, #7a52cc) 10%,
       transparent
     );
     border-color: color-mix(
@@ -185,7 +185,7 @@
       var(--ds-components-general-selection-background-default, #7a52cc) 35%,
       transparent
     );
-    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    color: var(--ds-components-general-selection-background-default, #7a52cc);
   }
 
   /* The check fills the padded content box; shown only when checked. The glyph

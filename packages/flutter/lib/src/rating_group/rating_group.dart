@@ -245,7 +245,7 @@ class _StarGlyph extends StatelessWidget {
     final color = switch (look) {
       _Look.empty => InvisiblePalette.grey400,
       _Look.preview => InvisiblePalette.grey300,
-      _Look.filled => InvisibleTheme.of(context).colors.secondary,
+      _Look.filled => InvisibleTheme.of(context).colors.selected,
     };
     return CustomPaint(
       size: Size.square(indicatorSide(context, _star)),

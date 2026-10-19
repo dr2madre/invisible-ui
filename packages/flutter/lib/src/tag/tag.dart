@@ -233,7 +233,7 @@ class _TagPaint {
           _clear,
         ),
         TagStatus.danger => _TagPaint(c.danger, c.onStatus, _clear),
-        TagStatus.selected => _TagPaint(c.secondary, c.onSecondary, _clear),
+        TagStatus.selected => _TagPaint(c.selected, c.onSelected, _clear),
       };
     }
     return switch (status) {
@@ -259,9 +259,9 @@ class _TagPaint {
         c.dangerBorder,
       ),
       TagStatus.selected => _TagPaint(
-        c.secondary.withValues(alpha: 0.08),
+        c.selected.withValues(alpha: 0.08),
         c.selectedText,
-        c.secondary.withValues(alpha: 0.22),
+        c.selected.withValues(alpha: 0.22),
       ),
     };
   }

@@ -6,6 +6,13 @@ Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
+Reference review (2026-10-19, primary selected): the selected, checked,
+current or on parts point at the shared primary selected colour,
+`components.general.selection.background.default`, and the selected label and
+fill derived from it, in place of the primary action colour. Dark lightens
+the primary, so a label on a solid selected fill turns black. Flutter reads
+the same tokens.
+
 Reference paths: `core/src/range-slider` `packages/svelte/src/lib/range-slider`
 
 The Flutter `RangeSlider` checked against the Svelte `RangeSlider`

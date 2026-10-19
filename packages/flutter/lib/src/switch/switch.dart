@@ -237,7 +237,7 @@ class _Track extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: on ? colors.secondary : colors.switchBackground,
+        color: on ? colors.selected : colors.switchBackground,
         border: Border.all(color: colors.controlBorder),
         borderRadius: BorderRadius.circular(InvisibleRadiusTokens.pill),
       ),
@@ -249,7 +249,7 @@ class _Track extends StatelessWidget {
               top: 0,
               bottom: 0,
               child: Center(
-                child: stateText(onText!, visible: on, c: colors.onSecondary),
+                child: stateText(onText!, visible: on, c: colors.onSelected),
               ),
             ),
             PositionedDirectional(
@@ -274,7 +274,8 @@ class _Track extends StatelessWidget {
                 width: thumb,
                 height: thumb,
                 decoration: BoxDecoration(
-                  color: InvisiblePalette.grey0,
+                  // On, the thumb takes the label colour on the selected fill.
+                  color: on ? colors.onSelected : InvisiblePalette.grey0,
                   shape: BoxShape.circle,
                   border: Border.all(color: colors.controlBorder),
                 ),

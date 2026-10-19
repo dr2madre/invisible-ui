@@ -355,6 +355,23 @@ void main() {
     final italic = tester.getRect(find.text('Italic'));
     expect(italic.left, greaterThan(bold.right));
     expect(bold.top, moreOrLessEquals(italic.top));
+    final border = InvisibleColors.light.toggleGroupBorder;
+    final outline = tester
+        .widgetList<DecoratedBox>(find.byType(DecoratedBox))
+        .map((box) => box.decoration)
+        .whereType<BoxDecoration>()
+        .where((decoration) => decoration.border != null)
+        .single;
+    expect((outline.border! as Border).top.color, border);
+    final dividers = tester
+        .widgetList<ColoredBox>(
+          find.descendant(
+            of: find.byType(ToggleGroup),
+            matching: find.byType(ColoredBox),
+          ),
+        )
+        .where((box) => box.color == border);
+    expect(dividers, hasLength(_formatting.length - 1));
   });
 
   testWidgets('vertical stacks; right to left mirrors the row', (tester) async {

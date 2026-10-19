@@ -598,7 +598,7 @@ class _BarButton extends StatelessWidget {
           child: CustomPaint(
             foregroundPainter: marked
                 ? _CurrentMark(
-                    color: colors.secondaryBodyText,
+                    color: colors.selectedForeground,
                     bottom: true,
                     direction: Directionality.of(context),
                   )
@@ -620,7 +620,7 @@ class _BarButton extends StatelessWidget {
                           label,
                           style: TextStyle(
                             color: marked
-                                ? colors.secondaryBodyText
+                                ? colors.selectedForeground
                                 : colors.text,
                             fontWeight: FontWeight.w600,
                           ),
@@ -686,7 +686,7 @@ class _PanelLink extends StatelessWidget {
           child: CustomPaint(
             foregroundPainter: current
                 ? _CurrentMark(
-                    color: colors.secondaryBodyText,
+                    color: colors.selectedForeground,
                     bottom: false,
                     direction: Directionality.of(context),
                   )
@@ -698,7 +698,7 @@ class _PanelLink extends StatelessWidget {
                 color: states.hovered || states.focusVisible
                     ? colors.stateHover
                     : current
-                    ? colors.secondary.withValues(alpha: _currentTint)
+                    ? colors.selected.withValues(alpha: _currentTint)
                     : null,
                 borderRadius: BorderRadius.circular(theme.controlRadius),
               ),
@@ -714,7 +714,7 @@ class _PanelLink extends StatelessWidget {
                         link.label,
                         style: TextStyle(
                           color: current
-                              ? colors.secondaryBodyText
+                              ? colors.selectedForeground
                               : colors.text,
                           fontWeight: FontWeight.w600,
                         ),

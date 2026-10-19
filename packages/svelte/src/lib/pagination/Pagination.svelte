@@ -114,11 +114,11 @@
   .pagination__page:global([data-selected]) {
     background: var(
       --ds-pagination-active,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     border-color: var(
       --ds-pagination-active,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     color: var(
       --ds-pagination-active-text,

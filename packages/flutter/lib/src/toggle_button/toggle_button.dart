@@ -14,8 +14,6 @@ const double _paddingX = 8;
 const double _gap = 8;
 const double _iconSize = 18.4;
 const double _checkStroke = 2.5;
-const double _onTint = 0.1;
-const double _onBorder = 0.35;
 const double _disabledOpacity = 0.5;
 const double _errorGap = 6;
 const double _errorGlyphGap = 5.6;
@@ -184,7 +182,9 @@ class _ToggleButtonState extends State<ToggleButton>
     final on = value;
     final enabled = widget.enabled;
     final side = MediaQuery.textScalerOf(context).scale(_side);
-    final foreground = on ? colors.selected : colors.text;
+    final foreground = on
+        ? colors.toggleButtonSelectedForeground
+        : colors.toggleButtonForeground;
     final radius = joined ? 0.0 : theme.controlRadius;
     final duration = reducedMotion(context)
         ? Duration.zero
@@ -234,9 +234,9 @@ class _ToggleButtonState extends State<ToggleButton>
             padding: const EdgeInsets.symmetric(horizontal: _paddingX),
             decoration: BoxDecoration(
               color: on
-                  ? colors.selected.withValues(alpha: _onTint)
+                  ? colors.toggleButtonSelectedBackground
                   : !flat
-                  ? colors.background
+                  ? colors.toggleButtonBackground
                   : states.hovered
                   ? colors.stateHover
                   : const Color(0x00000000),
@@ -244,10 +244,10 @@ class _ToggleButtonState extends State<ToggleButton>
                   ? null
                   : Border.all(
                       color: on
-                          ? colors.selected.withValues(alpha: _onBorder)
+                          ? colors.toggleButtonSelectedBorder
                           : flat
                           ? const Color(0x00000000)
-                          : colors.controlBorder,
+                          : colors.toggleButtonBorder,
                     ),
               borderRadius: BorderRadius.circular(radius),
             ),

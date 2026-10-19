@@ -184,7 +184,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--ds-components-general-action-secondary-foreground-default, #fff);
+    color: var(--ds-components-general-selection-foreground-default, #fff);
     flex: none;
   }
   /* Glyphs fill the padded content box; shown per checked state. The glyph
@@ -210,7 +210,7 @@
   .checkbox__input:indeterminate + .checkbox {
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      var(--ds-components-general-selection-background-default, #7a52cc) 10%,
       transparent
     );
     /* The glyph, not the edge, carries the state: the boundary keeps the
