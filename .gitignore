@@ -10,6 +10,7 @@ coverage/
 # Playwright
 test-results/
 playwright-report/
+output/playwright/
 .last-run.json
 
 # Generated design-token outputs (source: packages/tokens/tokens.json)

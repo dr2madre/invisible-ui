@@ -113,6 +113,18 @@ null in Flutter rather than receiving invented defaults.
 Run `pnpm tokens:build` for generated CSS and Dart, and `pnpm tokens:registry`
 after changing runtime styles. Run `pnpm tokens:check` and `pnpm tokens:test`.
 
+`pnpm tokens:figma` writes `packages/tokens/figma/invisible-ui-light.tokens.json`
+and `invisible-ui-dark.tokens.json`, the Light and Dark modes of one Figma
+variable collection. Every canonical path becomes one variable in both files,
+with segments separated by `/`; the Dark file applies the
+`com.invisible-ui.modes` overrides. References stay aliases, a mix exports its
+resolved colour, `rem` becomes pixels with a 16px root, `fontWeight` becomes a
+number, and `transparent` becomes black with zero alpha. Density levels are
+separate variables, not a mode. `pnpm tokens:check` fails when either file
+differs from the source. The
+[Figma guide](https://dr2madre.github.io/invisible-ui/presentation/figma/)
+documents the import flow.
+
 `scripts/token-runtime.test.mjs` compares every canonical token with the shipped
 CSS in both modes, checks recipe identity, automatic Dark mode and adapter parity.
 `scripts/token-model.test.mjs` checks the pinned migration values, complete palette,
