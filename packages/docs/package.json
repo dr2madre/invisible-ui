@@ -14,7 +14,7 @@
     "@astrojs/svelte": "^9.0.1",
     "@invisible-ui/core": "workspace:*",
     "@invisible-ui/svelte": "workspace:*",
-    "astro": "^7.2.8",
+    "astro": "^7.3.3",
     "svelte": "^5.56.4"
   },
   "devDependencies": {
