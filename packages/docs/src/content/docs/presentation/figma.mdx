@@ -1,0 +1,165 @@
+---
+title: "Figma tokens"
+description: "Generate and import the Invisible UI design tokens as Light and Dark Figma variable modes."
+---
+
+Invisible UI exports its canonical design tokens to files that Figma can
+import as variables. The repository remains the source of truth. Figma is a
+design surface that consumes the generated values.
+
+## Generate the files
+
+From the repository root, run:
+
+```sh
+pnpm tokens:figma
+```
+
+The command reads `packages/tokens/tokens.json` and writes:
+
+- `packages/tokens/figma/invisible-ui-light.tokens.json`
+- `packages/tokens/figma/invisible-ui-dark.tokens.json`
+
+Both files expose the same variable paths, one per canonical token. A token
+whose Dark value differs carries it in the Dark file, so Figma can hold the
+two files as two modes in one collection.
+
+## Import into Figma
+
+1. Open **Variables** in the target Figma file.
+2. Create or select a collection named **Invisible UI**.
+3. Import `invisible-ui-light.tokens.json`.
+4. Import `invisible-ui-dark.tokens.json` into the same collection.
+5. Rename the imported modes to **Light** and **Dark** if Figma used the file
+   names.
+6. Apply the collection mode to a frame and check a theme-dependent variable,
+   such as `components/general/background/default`.
+
+The Light value of `components/general/background/default` aliases
+`colors/palette/grey/0`. The Dark value aliases `colors/palette/grey/900`. This is a quick check that both modes were
+imported into the same collection.
+
+## How the export works
+
+```text
+packages/tokens/tokens.json
+          |
+          v
+scripts/generate-figma-tokens.mjs
+          |
+          +--> invisible-ui-light.tokens.json --> Light mode
+          |
+          +--> invisible-ui-dark.tokens.json  --> Dark mode
+```
+
+The generator makes only the conversions required by the Figma import:
+
+| Canonical source | Figma export |
+| --- | --- |
+| `$value` and its `com.invisible-ui.modes` Dark override | One variable path, its Light value in one file and its Dark value in the other |
+| Hex colours | Structured DTCG sRGB colours |
+| sRGB colour objects | The same channels and alpha |
+| `transparent` | Black with zero alpha |
+| `rem` dimensions | Pixel dimensions, using a 16px root |
+| `fontWeight` | Number |
+| Token references | References preserved as Figma aliases |
+| Repository mix recipes in `$extensions` | The resolved colour; the recipe is removed |
+
+The export includes every canonical token: `colors`, `metrics`, `typography`
+and `components`. Each density level is a group of separate variables, such as
+`metrics/density/regular/control-padding-x`, not a third mode: the two files
+represent the Light and Dark colour axis only. Component tokens alias these
+variables, for example `components/button/radius` aliases
+`metrics/radius/control`.
+
+## Update the Figma collection
+
+After a reviewed change to `packages/tokens/tokens.json`:
+
+1. Run `pnpm tokens:figma`.
+2. Review the two generated JSON files.
+3. Import both files into the existing Figma collection.
+4. Check Light and Dark on a frame before publishing the Figma library.
+
+Do not edit the generated JSON files by hand. The quality gate runs
+`pnpm tokens:figma:check` through `pnpm tokens:check` and fails when either
+file is stale.
+
+## Current design values
+
+The generated files always reflect the canonical source on the branch where
+the command runs. A visual revision that has not changed
+`packages/tokens/tokens.json` is not part of the export yet. This keeps draft
+palette changes out of the shared Figma collection until they are reviewed.
+
+Component-local CSS knobs with fallbacks that are not canonical tokens stay in
+component styles and are documented in
+[Component tokens](/invisible-ui/presentation/component-tokens/). The Figma
+export covers the canonical tokens, not a generated component library.
+
+## Component structure pilot
+
+The repository also includes a local Figma plugin under
+`tools/figma-component-pilot/`. It creates editable Button, Text Field, and
+Card component sets from the current Svelte contracts. Button exposes
+`Variant` and `State`, Text Field exposes `State`, and Card exposes `Variant`
+and `Orientation`. The three sets contain 23 variants and are available from
+the local Assets panel.
+
+The generated layers bind colours and corner radii to the local
+`Invisible UI` variable collection. Spacing is not bound to variables yet:
+Card spacing is read from `Card.svelte`, and the plugin draws Button padding
+at its default size.
+
+Figma requires its desktop app to import and run a local development plugin:
+
+1. Open this design file in Figma Desktop.
+2. Choose **Plugins → Development → Import plugin from manifest**.
+3. Select `tools/figma-component-pilot/manifest.json`.
+4. Run **Invisible UI component pilot** from the Development menu.
+5. Choose **Components only** or **Components and tokens**, then select **Update**.
+
+The token option creates or updates the `Invisible UI` collection and its
+Light/Dark modes, retaining matching variable IDs and alias links. Variables
+from an export made before the version-2 token names, such as
+`role/color-background`, stay in the collection until they are deleted by hand. Components
+only requires the collection to exist and leaves shared token values unchanged.
+Both options update derived `component/button/` colour variables. Shared tokens
+come directly from `packages/tokens/tokens.json` when `pnpm components:figma`
+builds the plugin. Regenerate after local token changes; no network fetch runs
+inside Figma. If token updates succeed but component updates fail, the dialog
+reports the partial result.
+
+The first run creates a board on the current page. Later runs update the generated
+board on the current page, or the last generated page in the Pages list. Open
+the target pilot page before running the plugin if several pilots exist.
+Updates keep component and child layer IDs, so existing instances remain
+connected. Generated main-component styles, text, and layout are overwritten.
+No temporary page is opened, and existing nodes keep their parents. The plugin
+removes only its temporary nodes after the update.
+Additional user layers remain. Renamed or missing generated layers stop the
+update for manual review. Structural migrations are not supported yet.
+
+Run `pnpm components:figma` after changing the sources. Card media sizing and
+alignment, body padding, and body gap are read from `Card.svelte` at generation
+time. The component owns these rules; the plugin translates them to Figma Auto
+Layout. The horizontal media width uses the default of
+`--ds-card-horizontal-media-size` with a 16px root. Consumer CSS overrides are
+not evaluated. Sample card width and placeholder height remain preview inputs.
+Button colours are captured from the real Svelte component in Chromium: five
+variants, three states (default, hover, disabled), and two themes. The capture
+includes fills, text, borders, alpha, opacity, border width, and underline.
+The plugin stores 45 derived colour variables under `component/button/` and
+checks the imported Button properties in both modes. Source changes invalidate
+the capture. Text Field and Card colours still use manual mappings.
+
+Run `pnpm components:figma:verify` to compare the 30 captured cases with the
+browser again. Install Chromium with `pnpm exec playwright install chromium`
+if needed. Diagnostic screenshots are in `output/playwright/`. These checks do
+not compare Figma pixels or cover geometry, the Danger placeholder icon,
+focus/loading states, or consumer CSS overrides. A failed component check
+triggers node-property rollback, not variable rollback.
+
+`pnpm components:figma:check` and the script test suite detect stale plugin
+output. This is a controlled proof of concept, not a full generated component
+library.

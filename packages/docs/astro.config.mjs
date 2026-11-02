@@ -202,6 +202,7 @@ export default defineConfig({
           items: [
             { label: "Color palette", link: "/presentation/color-palette/" },
             { label: "Tokens", link: "/presentation/tokens/" },
+            { label: "Figma tokens", link: "/presentation/figma/" },
             { label: "Token catalog", link: "/presentation/token-catalog/" },
             { label: "Component tokens", link: "/presentation/component-tokens/" },
             { label: "Layout", link: "/presentation/layout/" },

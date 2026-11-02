@@ -120,6 +120,14 @@ export function checkDrift(root) {
       );
       continue;
     }
+    // A squash merge leaves the branch commits out of main, so a reference
+    // must be a commit of the history being checked, not of another branch.
+    if (git(root, ["merge-base", "--is-ancestor", commit, "HEAD"]).status !== 0) {
+      problems.push(
+        `${file}: reference commit ${commit.slice(0, 8)} is not on this branch's history (a squashed branch?); name the commit that landed on main.`,
+      );
+      continue;
+    }
     const last = git(root, ["log", "-1", "--format=%H", "--", ...paths]).stdout;
     if (!last) {
       problems.push(`${file}: no commit touches its reference paths; check them.`);

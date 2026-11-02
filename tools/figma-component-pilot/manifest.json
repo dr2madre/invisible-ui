@@ -1,0 +1,11 @@
+{
+  "name": "Invisible UI component pilot",
+  "id": "1560983672451392000",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}
