@@ -35,6 +35,9 @@ overrides:
   zod: ^4.6.6
 
 patchedDependencies:
+  deepmerge@4.3.1:
+    hash: 01a21b2ccd3aa0fb6107035e71e08cc4b57cc7bb4b54326ea3119c61d1b45880
+    path: patches/deepmerge@4.3.1.patch
   http-cache-semantics@4.3.0:
     hash: eaef752a604d74f612b030b085109e4ec4a177df38ca14d78956ae8b9356160a
     path: patches/http-cache-semantics@4.3.0.patch
@@ -6233,7 +6236,7 @@ snapshots:
 
   '@bundled-es-modules/deepmerge@4.3.2':
     dependencies:
-      deepmerge: 4.3.1
+      deepmerge: 4.3.1(patch_hash=01a21b2ccd3aa0fb6107035e71e08cc4b57cc7bb4b54326ea3119c61d1b45880)
 
   '@bundled-es-modules/glob@13.0.6':
     dependencies:
@@ -7556,7 +7559,7 @@ snapshots:
     dependencies:
       '@sveltejs/vite-plugin-svelte-inspector': 4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@6.4.5(@types/node@24.13.2)(jiti@2.6.1)(lightningcss@1.33.0)(yaml@2.9.1)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@6.4.5(@types/node@24.13.2)(jiti@2.6.1)(lightningcss@1.33.0)(yaml@2.9.1))
       debug: 4.4.3
-      deepmerge: 4.3.1
+      deepmerge: 4.3.1(patch_hash=01a21b2ccd3aa0fb6107035e71e08cc4b57cc7bb4b54326ea3119c61d1b45880)
       kleur: 4.1.5
       magic-string: 0.30.21
       svelte: 5.56.4(@typescript-eslint/types@8.62.1)
@@ -7569,7 +7572,7 @@ snapshots:
     dependencies:
       '@sveltejs/vite-plugin-svelte-inspector': 4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.3.5(@types/node@24.13.2)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.3.5(@types/node@24.13.2)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
       debug: 4.4.3
-      deepmerge: 4.3.1
+      deepmerge: 4.3.1(patch_hash=01a21b2ccd3aa0fb6107035e71e08cc4b57cc7bb4b54326ea3119c61d1b45880)
       kleur: 4.1.5
       magic-string: 0.30.21
       svelte: 5.56.4(@typescript-eslint/types@8.62.1)
@@ -7580,7 +7583,7 @@ snapshots:
 
   '@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.3.5(@types/node@24.13.2)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))':
     dependencies:
-      deepmerge: 4.3.1
+      deepmerge: 4.3.1(patch_hash=01a21b2ccd3aa0fb6107035e71e08cc4b57cc7bb4b54326ea3119c61d1b45880)
       magic-string: 0.30.21
       obug: 2.2.1
       svelte: 5.56.4(@typescript-eslint/types@8.62.1)
@@ -8559,7 +8562,7 @@ snapshots:
 
   deep-is@0.1.4: {}
 
-  deepmerge@4.3.1: {}
+  deepmerge@4.3.1(patch_hash=01a21b2ccd3aa0fb6107035e71e08cc4b57cc7bb4b54326ea3119c61d1b45880): {}
 
   define-data-property@1.1.4:
     dependencies:
