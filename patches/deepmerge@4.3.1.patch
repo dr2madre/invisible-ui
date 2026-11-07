@@ -1,0 +1,42 @@
+diff --git a/dist/cjs.js b/dist/cjs.js
+index 7c36cbdd06cc22c92d590be3f87a08a91ca06b40..56ff46045023ecc657c36271246f4bfaa640dea4 100644
+--- a/dist/cjs.js
++++ b/dist/cjs.js
+@@ -58,7 +58,15 @@ function getEnumerableOwnPropertySymbols(target) {
+ }
+ 
+ function getKeys(target) {
+-	return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target))
++	// GHSA-gcqx-w48m-w2h4: assigning a key named __proto__ replaces the
++	// prototype of the object being built instead of adding a property to it,
++	// so a source carrying that key poisons what merge returns. The guard
++	// below only covers a target that has the key on its prototype chain; a
++	// target made with Object.create(null) does not, and the assignment goes
++	// through. The key is dropped here, for the target and the source alike.
++	return Object.keys(target).filter(function(key) {
++		return key !== '__proto__'
++	}).concat(getEnumerableOwnPropertySymbols(target))
+ }
+ 
+ function propertyIsOnObject(object, property) {
+diff --git a/dist/umd.js b/dist/umd.js
+index 4071e7c56ec8e5273fe166f6e723ac460fab8b72..f39b290b962007b6063044248a8c46163cc08f94 100644
+--- a/dist/umd.js
++++ b/dist/umd.js
+@@ -62,7 +62,15 @@
+ 	}
+ 
+ 	function getKeys(target) {
+-		return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target))
++		// GHSA-gcqx-w48m-w2h4: assigning a key named __proto__ replaces the
++		// prototype of the object being built instead of adding a property to it,
++		// so a source carrying that key poisons what merge returns. The guard
++		// below only covers a target that has the key on its prototype chain; a
++		// target made with Object.create(null) does not, and the assignment goes
++		// through. The key is dropped here, for the target and the source alike.
++		return Object.keys(target).filter(function(key) {
++			return key !== '__proto__'
++		}).concat(getEnumerableOwnPropertySymbols(target))
+ 	}
+ 
+ 	function propertyIsOnObject(object, property) {
