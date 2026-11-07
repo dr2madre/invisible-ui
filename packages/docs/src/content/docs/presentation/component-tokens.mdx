@@ -5,19 +5,17 @@ description: "The per-component theming knobs: every custom property a component
 
 import ComponentTokenCatalog from "../../../components/ComponentTokenCatalog.astro";
 
-The third theming tier. Where [semantic tokens](/invisible-ui/presentation/tokens/)
-name a role the whole system shares, a component token names one knob on one
-component: `--ds-components-button-radius`, `--ds-field-gap`, `--ds-dialog-max-width`.
+This inventory lists custom properties read by components. Some are canonical
+`components.<name>` tokens from [the token model](/invisible-ui/presentation/tokens/).
+Others are CSS-only knobs, such as `--ds-field-gap` and `--ds-dialog-max-width`.
 
 Two things make this tier different from the
 [token catalog](/invisible-ui/presentation/token-catalog/):
 
-- **The theme stylesheet defines none of these.** A component reads
-  `var(--ds-components-button-radius, var(--ds-metrics-radius-control, 0.5rem))`; the fallback
-  written at the point of use is the shipped default. Set the custom property
-  on any scope — `:root`, a page, one widget — and the component follows. A
-  few components retune one knob from another in their own styles; those
-  reading sites are in the registry like any other.
+- **Their ownership differs.** The theme stylesheet defines canonical tokens,
+  including `--ds-components-button-radius`. A CSS-only knob can instead use
+  a fallback where a component reads it, for example `--ds-field-gap`.
+  Set either kind of custom property on a scope you own to override it.
 - **Many knobs follow a role.** When the fallback chains through a semantic
   token, retheming the role restyles the knob for free, and the knob exists
   only for the one-off case. Set the role first; reach for the knob when one

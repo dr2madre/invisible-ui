@@ -18,8 +18,9 @@ The visual layer is documented in its own chapters:
 
 - **[Color palette](/invisible-ui/presentation/color-palette/)** — the raw
   colors (HEX / OKLCH) and the per-hue scale.
-- **[Tokens](/invisible-ui/presentation/tokens/)** — the two-tier token system
-  (primitives → semantic roles), theme remapping and customizing.
+- **[Tokens](/invisible-ui/presentation/tokens/)**: the canonical palette,
+  tenant choices, shared decisions and component-scoped tokens, with Light
+  and Dark modes and customization guidance.
 
 ## Typography
 

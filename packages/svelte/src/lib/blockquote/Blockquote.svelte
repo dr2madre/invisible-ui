@@ -46,7 +46,7 @@
     /* The accent bar is decoration with no semantic role, so it reads the
        neutral primitive directly rather than inventing a role for a look. */
     border-inline-start: var(--ds-blockquote-border-width, 3px) solid
-      var(--ds-blockquote-accent, var(--ds-colors-palette-grey-400, #757575));
+      var(--ds-blockquote-accent, var(--ds-palette-grey-400, #757575));
     color: var(--ds-blockquote-text, var(--ds-components-general-foreground-secondary, #515151));
   }
 

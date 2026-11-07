@@ -177,7 +177,7 @@ export function dartTokensFormat({ dictionary }) {
   constantsClass(
     "InvisiblePalette",
     "The primitive palette. Components read the roles in [InvisibleColors], never these.",
-    leaves(tree.colors.palette).map(({ path, token }) => ({
+    leaves(tree.palette).map(({ path, token }) => ({
       field: camel(path.join("-")),
       type: "Color",
       value: dartColor(token.$value),
@@ -188,7 +188,7 @@ export function dartTokensFormat({ dictionary }) {
     constantsClass(
       group === "brand" ? "InvisibleBrandColors" : "InvisibleFeedbackColors",
       `Tenant ${group} colours.`,
-      leaves(tree.colors[group]).map(({ path, token }) => ({
+      leaves(tree[group]).map(({ path, token }) => ({
         field: camel(path.join("-")),
         type: "Color",
         value: dartColor(token.$value),
@@ -200,6 +200,16 @@ export function dartTokensFormat({ dictionary }) {
     "InvisibleRadiusTokens",
     "Corner radii, in logical pixels.",
     leaves(tree.metrics.radius).map(({ path, token }) => ({
+      field: camel(path.join("-")),
+      type: "double",
+      value: dartDouble(token.$value),
+    })),
+  );
+
+  constantsClass(
+    "InvisibleSpacingTokens",
+    "Shared spacing dimensions, in logical pixels.",
+    leaves(tree.metrics.spacing).map(({ path, token }) => ({
       field: camel(path.join("-")),
       type: "double",
       value: dartDouble(token.$value),
@@ -238,11 +248,19 @@ export function dartTokensFormat({ dictionary }) {
     "///",
     doc("A size that the source leaves undefined for a level is null.", ""),
     "final class InvisibleDensityTokens {",
-    "  const InvisibleDensityTokens._({",
-    ...fields.map((key) => `    ${always.includes(key) ? "required " : ""}this.${camel(key)},`),
-    "  });",
-    "",
   );
+  const constructorFields = fields.map(
+    (key) => `${always.includes(key) ? "required " : ""}this.${camel(key)}`,
+  );
+  const constructor = `  const InvisibleDensityTokens._({${constructorFields.join(", ")}});`;
+  if (constructor.length <= 80) push(constructor);
+  else
+    push(
+      "  const InvisibleDensityTokens._({",
+      ...constructorFields.map((field) => `    ${field},`),
+      "  });",
+    );
+  push("");
   for (const [levelName, level] of levels) {
     const args = children(level).map(
       ([key, token]) => `${camel(key)}: ${dartDouble(token.$value)}`,

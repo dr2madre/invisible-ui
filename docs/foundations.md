@@ -18,22 +18,21 @@ The visual layer is documented separately:
   (Dioxazine Purple brand, Cobalt Blue / Sap Green / Burnt Orange / Alizarin Red
   feedback, Grey neutrals). See the docs site,
   `presentation/color-palette`.
-- **[Tokens](./tokens.md)** — the canonical token model and the two-tier
-  `tokens.css` layer (primitives → semantic `--ds-color-*` roles) the components
-  consume. Docs site: `presentation/tokens`.
+- **[Tokens](./tokens.md)**: the canonical palette, brand, feedback, metrics,
+  typography, shared decisions and component-scoped tokens. The web adapters
+  expose them through `tokens.css`. Docs site: `presentation/tokens`.
 
 ## Naming: role or state, not appearance
 
 Token names describe **role** or **state**, never the way something looks.
 
-- Allowed: `primary`, `danger`, `surface`, `text-secondary`, `disabled`,
-  `state-hover`, `focus-ring`, `on-emphasis`, `elevation-2`,
-  `radius-control`.
+- Allowed: `primary`, `danger`, `background`, `foreground`, `border`,
+  `disabled`, `hover`, `focus`, `metrics.radius.control`.
 - Avoid style adjectives that describe appearance only: `muted`, `soft`,
   `subtle`, `raised`. A word like `mute` is fine when it names a real state
   (a muted microphone), not a look.
-- Primitives hold the raw palette and scales; semantic tokens map them to
-  roles and states. See [Design tokens](./tokens.md) for the full model.
+- The palette holds raw colours. Brand, feedback, general and component tokens
+  define how the UI uses them. See [Design tokens](./tokens.md) for the model.
 
 ## Typography
 

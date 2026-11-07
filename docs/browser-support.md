@@ -37,5 +37,5 @@ and **borders** to the solid feedback hue — so status is still conveyed.
 - No IE / legacy Edge support.
 - Behaviour/ARIA is the platform's; styling is overridable CSS custom properties.
 - If you must support older engines, transpile/autoprefix in your app build and
-  provide your own `color-mix()` substitutes by overriding the `--ds-color-*`
-  tokens.
+  provide your own `color-mix()` substitutes by overriding the relevant
+  `--ds-components-general-feedback-*` or component-scoped tokens.

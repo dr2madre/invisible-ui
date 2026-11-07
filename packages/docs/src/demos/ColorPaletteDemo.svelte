@@ -27,7 +27,7 @@
     key,
     name,
     hex: Object.fromEntries(
-      shades.map((shade) => [shade, tokens.colors.palette[family][shade].$value.toUpperCase()]),
+      shades.map((shade) => [shade, tokens.palette[family][shade].$value.toUpperCase()]),
     ),
   }));
 

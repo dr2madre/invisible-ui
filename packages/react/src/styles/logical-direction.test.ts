@@ -28,6 +28,22 @@ describe("switch", () => {
     );
     expect(rule(css, ".switch::after")).toContain("transition: inset-inline-start");
   });
+
+  it("borders the selected track and thumb with primary", () => {
+    expect(rule(css, ".switch")).toContain("border: 0;");
+    expect(rule(css, ".switch")).toContain("box-shadow: none;");
+    const selectedTrack = rule(css, ".switch__input:checked + .switch");
+    expect(selectedTrack).toContain("--ds-components-general-action-primary-background-default");
+    expect(selectedTrack).toContain("box-shadow: inset 0 0 0 1px");
+    expect(rule(css, ".switch__input:checked + .switch::after")).toContain(
+      "--ds-components-general-action-primary-background-default",
+    );
+  });
+
+  it("moves the ON and OFF labels closer to the thumb", () => {
+    expect(css).toContain("inset-inline-start: 0.625rem;");
+    expect(css).toContain("inset-inline-end: 0.625rem;");
+  });
 });
 
 describe("directional glyphs", () => {

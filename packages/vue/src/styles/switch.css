@@ -18,11 +18,9 @@
   inline-size: var(--ds-switch-width, 2.5rem);
   block-size: var(--ds-switch-height, 1.5rem);
   border-radius: var(--ds-metrics-radius-pill, 999px);
-  /* The track carries a boundary in both states: it is what makes the control
-     visible against the page, and the two states keep the same shape. It is
-     drawn inside the track, so no size changes with it. */
   background: var(--ds-components-switch-background-default, #e0e0e0);
-  box-shadow: inset 0 0 0 1px var(--ds-components-general-border-control, #757575);
+  border: 0;
+  box-shadow: none;
   position: relative;
   flex: none;
   transition: background-color 120ms ease;
@@ -36,24 +34,28 @@
   block-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
   border-radius: 50%;
   /* The thumb is always white (it sits on the track in both states). */
-  background: var(--ds-switch-thumb, var(--ds-colors-palette-grey-0, #ffffff));
-  /* A rim in the boundary colour keeps the thumb separable from the light
-     off track, where the white alone would disappear. */
+  background: var(--ds-switch-thumb, var(--ds-palette-grey-0, #ffffff));
+  /* Keep the thumb distinct on the off track. */
   box-shadow: 0 0 0 1px var(--ds-components-general-border-control, #757575);
   transition: inset-inline-start 150ms ease;
 }
 .switch__input:checked + .switch {
-  background: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+  background: var(--ds-components-general-action-primary-background-default, #7a52cc);
+  box-shadow: inset 0 0 0 1px
+    var(--ds-components-general-action-primary-background-default, #7a52cc);
 }
-/* The boundary is repeated here: a second box-shadow would replace it. */
 .switch__input:focus-visible + .switch {
   outline: none;
-  box-shadow:
-    inset 0 0 0 1px var(--ds-components-general-border-control, #757575),
-    var(--ds-focus-ring-shadow);
+  box-shadow: var(--ds-focus-ring-shadow);
   outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
 }
+.switch__input:checked:focus-visible + .switch {
+  box-shadow:
+    inset 0 0 0 1px var(--ds-components-general-action-primary-background-default, #7a52cc),
+    var(--ds-focus-ring-shadow);
+}
 .switch__input:checked + .switch::after {
+  box-shadow: 0 0 0 1px var(--ds-components-general-action-primary-background-default, #7a52cc);
   /* Logical, so the thumb stays on the track in right-to-left text. */
   inset-inline-start: calc(
     0.125rem + var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)
@@ -84,7 +86,7 @@
 }
 /* ON sits on the left (revealed when the thumb slides right). */
 .switch--onoff .switch__on {
-  inset-inline-start: 0.5rem;
+  inset-inline-start: 0.625rem;
   color: var(
     --ds-switch-onoff-on-text,
     var(--ds-components-general-action-secondary-foreground-default, #fff)
@@ -95,7 +97,7 @@
    a surface, so the text takes the ordinary text colour: dark in the light
    theme, light in the dark one. */
 .switch--onoff .switch__off {
-  inset-inline-end: 0.5rem;
+  inset-inline-end: 0.625rem;
   color: var(--ds-switch-onoff-off-text, var(--ds-components-general-foreground-default, #272727));
   opacity: 1;
 }

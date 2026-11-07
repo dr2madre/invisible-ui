@@ -12,8 +12,9 @@ and maintain*.
   adapters. Reflex wraps the React set for Python consumers.
 - **TypeScript** — `strict`, `noUncheckedIndexedAccess`, `verbatimModuleSyntax`,
   `isolatedModules`, ES2022 / Bundler resolution.
-- **Tokens** — two tiers (primitives → semantic role/state), dark mode
-  (`prefers-color-scheme` + `[data-theme]`), WCAG AA, `color-mix` surfaces.
+- **Tokens**: a named palette, tenant brand and feedback choices, shared
+  metrics and typography, and general and component-scoped decisions. The
+  theme supports `prefers-color-scheme`, `[data-theme]` and colour-mix recipes.
 - **Accessibility tests** — component suites carry `vitest-axe` coverage.
 - **RTL readiness** — CSS logical properties throughout.
 - **Docs** — Astro + Starlight with a live Svelte demo per component; ADRs.

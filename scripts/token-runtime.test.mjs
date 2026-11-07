@@ -13,6 +13,10 @@ const declarations = parseSheet(styles[0]);
 const normalized = (value) => value.replace(/\(\s+/g, "(").replace(/\s+\)/g, ")");
 const layer = (name) =>
   new Map(declarations.filter((d) => d.layer === name).map((d) => [d.name, normalized(d.value)]));
+const selectionFallbacks = new Map([
+  ["components.general.selection.background.default", "#7a52cc"],
+  ["components.general.selection.foreground.default", "#fff"],
+]);
 
 test("all adapters ship the same theme", () => {
   for (const sheet of styles) assert.equal(sheet, styles[0]);
@@ -26,9 +30,15 @@ for (const mode of ["light", "dark"])
       layer("other").get(name);
     const resolved = resolveTokens(tree, { mode });
     for (const [path, token] of modeTokens(tree, mode)) {
-      if (path.startsWith("metrics.density.compact.")) continue;
       const expression = lookup(cssName(path));
       assert.ok(expression, `Missing ${path}`);
+      const canonicalExpression = cssExpression(token);
+      const fallback = selectionFallbacks.get(path);
+      assert.equal(
+        expression,
+        fallback ? canonicalExpression.replace(/\)$/, `, ${fallback})`) : canonicalExpression,
+        `${path}: preserve reference`,
+      );
       if (token.$type === "color") {
         const actual = resolveColor(expression, lookup);
         const expected = rgba(resolved.get(path));
@@ -49,8 +59,6 @@ for (const mode of ["light", "dark"])
         }
         assert.equal(actual, String(resolved.get(path)), path);
       }
-      if (token.$extensions?.["com.invisible-ui.mix"])
-        assert.equal(expression, cssExpression(token), `${path}: preserve recipe`);
     }
   });
 

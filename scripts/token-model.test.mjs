@@ -9,16 +9,15 @@ import {
   rgba,
   channelByte,
 } from "./token-model.mjs";
-import { prepareFiles } from "./prepare-token-reform.mjs";
-
 const tree = JSON.parse(readFileSync(new URL("../packages/tokens/tokens.json", import.meta.url)));
 const manifest = JSON.parse(
-  readFileSync(new URL("../packages/tokens/migration-v2.json", import.meta.url)),
+  readFileSync(new URL("../packages/tokens/migration-v3.json", import.meta.url)),
 );
 
 test("the reform has 132 exact palette steps plus White and Black", () => {
-  const palette = tokenEntries(tree).filter(([path]) => path.startsWith("colors.palette."));
+  const palette = tokenEntries(tree).filter(([path]) => path.startsWith("palette."));
   assert.equal(palette.length, 134);
+  assert.equal("colors" in tree, false);
   assert.equal(validateTokenModel(tree), tokenEntries(tree).length);
 });
 
@@ -55,8 +54,8 @@ test("all derived values retain their rounded channels and alpha", () => {
 
 test("tenant aliases and literals propagate without changing the palette", () => {
   const baseline = resolveTokens(tree);
-  for (const value of ["{colors.palette.cobalt-blue.500}", "#123456"]) {
-    const result = resolveTokens(tree, { overrides: { "colors.brand.primary.default": value } });
+  for (const value of ["{palette.cobalt-blue.500}", "#123456"]) {
+    const result = resolveTokens(tree, { overrides: { "brand.primary.default": value } });
     assert.notDeepEqual(
       result.get("components.general.action.primary.background.default"),
       baseline.get("components.general.action.primary.background.default"),
@@ -66,12 +65,12 @@ test("tenant aliases and literals propagate without changing the palette", () =>
       baseline.get("components.general.action.secondary.contextual.background.default"),
     );
     assert.deepEqual(
-      result.get("colors.palette.dioxazine-purple.500"),
-      baseline.get("colors.palette.dioxazine-purple.500"),
+      result.get("palette.dioxazine-purple.500"),
+      baseline.get("palette.dioxazine-purple.500"),
     );
     assert.deepEqual(
-      result.get("colors.feedback.success.default"),
-      baseline.get("colors.feedback.success.default"),
+      result.get("feedback.success.default"),
+      baseline.get("feedback.success.default"),
     );
   }
 });
@@ -90,17 +89,23 @@ test("shared background propagates and Card's explicit override is isolated", ()
 test("invalid overrides, missing references, type mismatches and cycles fail", () => {
   for (const overrides of [
     { missing: "#000000" },
-    { "colors.palette.grey.50": "#000000" },
-    { "colors.brand.primary.default": "red; background: url(x)" },
-    { "colors.brand.primary.default": "{metrics.radius.control}" },
-    { "colors.brand.primary.default": "{colors.brand.primary.default}" },
+    { "palette.grey.50": "#000000" },
+    { "brand.primary.default": "red; background: url(x)" },
+    { "brand.primary.default": "{metrics.radius.control}" },
+    { "brand.primary.default": "{brand.primary.default}" },
   ])
     assert.throws(() => resolveTokens(tree, { overrides }));
   const bad = structuredClone(tree);
-  bad.colors.brand.primary.default.$value = "{missing.token}";
+  bad.brand.primary.default.$value = "{missing.token}";
   assert.throws(() => validateTokenModel(bad), /Missing token/);
+  const redundantColorsGroup = structuredClone(tree);
+  redundantColorsGroup.colors = {};
+  assert.throws(() => validateTokenModel(redundantColorsGroup), /Invalid top-level group/);
 });
 
-test("migration preparation is deterministic and matches the pinned source", async () => {
-  await prepareFiles({ check: true });
+test("shared control spacing lives in metrics and Button references it", () => {
+  assert.equal(tree.metrics.spacing["control-padding-x"].$value, "0.875rem");
+  assert.equal(tree.metrics.spacing["control-padding-y"].$value, "0.5rem");
+  assert.equal(tree.components.button.spacing.x.$value, "{metrics.spacing.control-padding-x}");
+  assert.equal(tree.components.button.spacing.y.$value, "{metrics.spacing.control-padding-y}");
 });

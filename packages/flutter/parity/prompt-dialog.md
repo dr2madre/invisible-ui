@@ -1,6 +1,10 @@
 # Prompt Dialog parity checklist
 
-Reference commit: `31edd44ea7637357a2eac288bcc050e07f52852f`
+Reference commit: `cd25a32fb29a63e2931ed22abfe8284b28513622`
+
+Reference review (2026-10-19): the Svelte input padding now reads the shared
+`metrics.spacing.control-padding-y` token. The resolved size and interaction
+behavior are unchanged.
 
 Reference paths: `core/src/dialog` `packages/svelte/src/lib/prompt-dialog`
 

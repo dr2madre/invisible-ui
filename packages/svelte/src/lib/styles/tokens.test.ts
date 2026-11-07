@@ -27,7 +27,7 @@ function pickBlock(re: RegExp): Record<string, string> {
   return declarations(body);
 }
 
-const primitives = pickBlock(/:root\s*\{([^}]*--ds-colors-palette-grey-0[^}]*)\}/);
+const primitives = pickBlock(/:root\s*\{([^}]*--ds-palette-grey-0[^}]*)\}/);
 const lightVars = { ...primitives, ...pickBlock(/\[data-theme="light"\]\s*\{([^}]*)\}/) };
 const darkVars = { ...primitives, ...pickBlock(/\[data-theme="dark"\]\s*\{([^}]*)\}/) };
 // The system-scheme dark block is written by hand too, so its values are
@@ -321,7 +321,7 @@ describe.each([
     // The off track is a surface. Either the white thumb or the rim drawn
     // round it must clear 3:1 against that surface.
     const track = resolve("var(--ds-components-general-background-default)", vars);
-    const thumb = resolve("var(--ds-colors-palette-grey-0)", vars);
+    const thumb = resolve("var(--ds-palette-grey-0)", vars);
     const rim = resolve("var(--ds-components-general-border-control)", vars);
     const against = (a: RGB, b: RGB) =>
       (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05);
