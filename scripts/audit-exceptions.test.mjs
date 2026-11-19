@@ -49,11 +49,15 @@ test("no shipped package depends on an excepted package in production", () => {
     for (const name of SHIPPED) {
       const out = execFileSync(
         "pnpm",
-        ["--filter", `@invisible-ui/${name}`, "why", pkg, "--prod", "--json"],
+        ["--filter", `@nozcadesign/invisible-ui-${name}`, "why", pkg, "--prod", "--json"],
         { cwd: root, encoding: "utf8" },
       ).trim();
       const found = out ? JSON.parse(out) : [];
-      assert.equal(found.length, 0, `@invisible-ui/${name} reaches ${pkg} in production`);
+      assert.equal(
+        found.length,
+        0,
+        `@nozcadesign/invisible-ui-${name} reaches ${pkg} in production`,
+      );
     }
   }
 });

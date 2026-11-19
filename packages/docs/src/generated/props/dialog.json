@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Dialog",
-        "specifier": "@invisible-ui/svelte/Dialog.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Dialog.svelte"
       },
       "props": [
         {
@@ -159,7 +159,7 @@
       "import": {
         "kind": "named",
         "name": "Dialog",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -288,7 +288,7 @@
       "import": {
         "kind": "named",
         "name": "Dialog",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -458,7 +458,7 @@
       "import": {
         "kind": "element",
         "name": "ds-dialog",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

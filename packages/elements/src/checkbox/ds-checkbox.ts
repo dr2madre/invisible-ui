@@ -1,4 +1,4 @@
-import { checkbox as core } from "@invisible-ui/core";
+import { checkbox as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyDomProps,
   applyProps,

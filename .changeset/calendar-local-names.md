@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/core": patch
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
-"@invisible-ui/elements": patch
+"@nozcadesign/invisible-ui-core": patch
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
+"@nozcadesign/invisible-ui-elements": patch
 ---
 
 The calendar shows the right weekday and month names in every time zone.

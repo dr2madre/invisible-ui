@@ -1,4 +1,4 @@
-import { button as core } from "@invisible-ui/core";
+import { button as core } from "@nozcadesign/invisible-ui-core";
 import { useMemo } from "react";
 import { normalizeProps } from "../normalize";
 

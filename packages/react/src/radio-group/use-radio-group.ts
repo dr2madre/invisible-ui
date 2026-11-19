@@ -1,4 +1,4 @@
-import { radioGroup as core } from "@invisible-ui/core";
+import { radioGroup as core } from "@nozcadesign/invisible-ui-core";
 import { useId, useMemo, useRef, type RefObject } from "react";
 import { useCheckedDefaults, useResettable } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";

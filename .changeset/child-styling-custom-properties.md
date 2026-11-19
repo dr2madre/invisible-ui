@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
-"@invisible-ui/elements": patch
-"@invisible-ui/react": patch
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
+"@nozcadesign/invisible-ui-elements": patch
+"@nozcadesign/invisible-ui-react": patch
 ---
 
 Two new custom properties: `--ds-components-button-foreground-ghost-default` sets the text color of a

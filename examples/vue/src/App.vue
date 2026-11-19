@@ -11,7 +11,7 @@ import {
   TextField,
   createNotifier,
   type ComboboxOption,
-} from "@invisible-ui/vue";
+} from "@nozcadesign/invisible-ui-vue";
 import { computed, ref, watchEffect } from "vue";
 
 const notifier = createNotifier();
@@ -87,7 +87,7 @@ const confirmInvite = () => {
       <InlineNotification
         status="info"
         title="Native adapter"
-        description="These controls come from @invisible-ui/vue—not from the custom-elements package."
+        description="These controls come from @nozcadesign/invisible-ui-vue—not from the custom-elements package."
       />
 
       <div class="demo-grid">

@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/svelte": patch
+"@nozcadesign/invisible-ui-svelte": patch
 ---
 
 Nineteen controllable components now use the runes syntax internally:

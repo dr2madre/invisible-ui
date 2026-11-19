@@ -1,7 +1,7 @@
 <script>
-  import NotificationRegion from "@invisible-ui/svelte/NotificationRegion.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import { createNotifier } from "@invisible-ui/svelte";
+  import NotificationRegion from "@nozcadesign/invisible-ui-svelte/NotificationRegion.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import { createNotifier } from "@nozcadesign/invisible-ui-svelte";
   import RichToastBody from "./RichToastBody.svelte";
 
   const notifier = createNotifier();

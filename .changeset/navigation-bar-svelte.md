@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/svelte": minor
+"@nozcadesign/invisible-ui-svelte": minor
 ---
 
-Add `NavigationBar` (`@invisible-ui/svelte/NavigationBar.svelte`): primary
+Add `NavigationBar` (`@nozcadesign/invisible-ui-svelte/NavigationBar.svelte`): primary
 navigation between a few sections, a `<nav>` around a list of links (`href`)
 or buttons (`onSelect`), `aria-current="page"` on the application's `value`,
 unavailable destinations kept focusable with their reason, and badges whose

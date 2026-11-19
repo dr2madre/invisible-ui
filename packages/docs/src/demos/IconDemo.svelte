@@ -1,5 +1,5 @@
 <script>
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
 </script>
 
 <Icon size="2rem" label="Search"

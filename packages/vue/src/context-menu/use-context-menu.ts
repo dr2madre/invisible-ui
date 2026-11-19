@@ -1,4 +1,4 @@
-import { menu as core } from "@invisible-ui/core";
+import { menu as core } from "@nozcadesign/invisible-ui-core";
 import { computePosition, flip, offset, shift, type Placement } from "@floating-ui/dom";
 import {
   computed,

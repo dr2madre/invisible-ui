@@ -1,4 +1,4 @@
-import "@invisible-ui/vue/styles.css";
+import "@nozcadesign/invisible-ui-vue/styles.css";
 import { createApp } from "vue";
 import Harness from "./Harness.vue";
 

@@ -1,6 +1,6 @@
 <script>
-  import Progress from "@invisible-ui/svelte/Progress.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Progress from "@nozcadesign/invisible-ui-svelte/Progress.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
 
   // User-driven completion: the value advances because the user acts,
   // not because the system is working.

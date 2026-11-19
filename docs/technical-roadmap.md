@@ -33,7 +33,7 @@ Each item ships as its own PR. Checkboxes track progress.
   follow the checklist at
   the top of `.github/workflows/release.yml` (unset `private`, register the
   `invisible-ui` organisation on npm, add `NPM_TOKEN`, flip the trigger to
-  `push`). The packages already use the `@invisible-ui/*` scope (renamed from
+  `push`). The packages already use the `@nozcadesign/invisible-ui-*` scope (renamed from
   `@design-system/*` on 2026-10-17); registering the npm organisation is still
   a task before publishing.
 - [x] **2. Lint / format / hooks** — ESLint 9 flat config (js +
@@ -75,7 +75,7 @@ Each item ships as its own PR. Checkboxes track progress.
   parity batches landed in PRs #193–#199 (ADR 0010). The original
   proof of concept started in **React**
   (`packages/react`): Button, Checkbox, Switch, Select, Combobox and
-  Dialog over the existing `@invisible-ui/core`, with the near-identity
+  Dialog over the existing `@nozcadesign/invisible-ui-core`, with the near-identity
   `normalizeProps` seam, a `useX()` hook per component, a minimal
   `LocaleProvider`, ported CSS (class names identical to Svelte, tokens guarded
   by a parity test) and tests incl. axe, SSR and hydration. **Confirmed:** the core needed *no*

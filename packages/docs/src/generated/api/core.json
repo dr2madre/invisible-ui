@@ -1,5 +1,5 @@
 {
-  "package": "@invisible-ui/core",
+  "package": "@nozcadesign/invisible-ui-core",
   "entry": "core/dist/index.d.ts",
   "exportMap": {
     ".": {

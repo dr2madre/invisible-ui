@@ -6,7 +6,7 @@ the first stable release so compatibility discipline is already in place.
 
 ## What is public
 
-- **Core**: everything importable from `@invisible-ui/core` — the component
+- **Core**: everything importable from `@nozcadesign/invisible-ui-core` — the component
   namespaces (each ships its machine's state, transitions and types; most
   expose `initialState` and `connect`, a few are pure helpers), `normalizeProps`'
   contract (`Normalize`), `ElementProps`, `DomProps`, `i18n`.

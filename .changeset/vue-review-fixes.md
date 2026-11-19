@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 Vue components are safer with consumer data and follow props changed after

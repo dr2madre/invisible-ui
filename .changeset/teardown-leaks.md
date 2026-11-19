@@ -1,6 +1,6 @@
 ---
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 Components let go of what they started. The Svelte upload area kept a

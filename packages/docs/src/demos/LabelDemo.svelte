@@ -1,5 +1,5 @@
 <script>
-  import Label from "@invisible-ui/svelte/Label.svelte";
+  import Label from "@nozcadesign/invisible-ui-svelte/Label.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 0.35rem;">

@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Avatar",
-        "specifier": "@invisible-ui/svelte/Avatar.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Avatar.svelte"
       },
       "props": [
         {
@@ -55,7 +55,7 @@
       "import": {
         "kind": "named",
         "name": "Avatar",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -106,7 +106,7 @@
       "import": {
         "kind": "named",
         "name": "Avatar",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -156,7 +156,7 @@
       "import": {
         "kind": "element",
         "name": "ds-avatar",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

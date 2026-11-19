@@ -1,4 +1,4 @@
-import type { menu as core } from "@invisible-ui/core";
+import type { menu as core } from "@nozcadesign/invisible-ui-core";
 import { emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { MenuButton } from "../internal/menu";

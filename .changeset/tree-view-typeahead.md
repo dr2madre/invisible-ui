@@ -1,9 +1,9 @@
 ---
-"@invisible-ui/core": minor
-"@invisible-ui/svelte": minor
-"@invisible-ui/vue": minor
-"@invisible-ui/react": minor
-"@invisible-ui/elements": minor
+"@nozcadesign/invisible-ui-core": minor
+"@nozcadesign/invisible-ui-svelte": minor
+"@nozcadesign/invisible-ui-vue": minor
+"@nozcadesign/invisible-ui-react": minor
+"@nozcadesign/invisible-ui-elements": minor
 ---
 
 Tree View gains typeahead: a character, or a quick sequence of them, moves

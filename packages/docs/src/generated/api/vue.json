@@ -1,5 +1,5 @@
 {
-  "package": "@invisible-ui/vue",
+  "package": "@nozcadesign/invisible-ui-vue",
   "entry": "packages/vue/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -12,7 +12,7 @@
   },
   "externalReferences": [
     "@floating-ui/dom",
-    "@invisible-ui/core",
+    "@nozcadesign/invisible-ui-core",
     "vue"
   ],
   "symbols": [

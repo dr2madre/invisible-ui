@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/svelte": minor
+"@nozcadesign/invisible-ui-svelte": minor
 ---
 
 The Svelte adapter now keeps the conventions in ADR 0011 for every prop a

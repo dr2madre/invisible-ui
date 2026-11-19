@@ -1,7 +1,8 @@
 {
-  "name": "@invisible-ui/vue",
+  "name": "@nozcadesign/invisible-ui-vue",
   "version": "0.1.0-alpha.0",
-  "description": "Vue 3 adapter for the design system: thin, headless, accessible bindings over @invisible-ui/core.",
+  "description": "Vue 3 adapter for the design system: thin, headless, accessible bindings over @nozcadesign/invisible-ui-core.",
+  "author": "nozcadesign",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -52,7 +53,7 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@invisible-ui/core": "workspace:*",
+    "@nozcadesign/invisible-ui-core": "workspace:*",
     "@floating-ui/dom": "^1.7.6"
   },
   "devDependencies": {

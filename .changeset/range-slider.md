@@ -1,7 +1,7 @@
 ---
-"@invisible-ui/svelte": minor
-"@invisible-ui/vue": minor
-"@invisible-ui/core": minor
+"@nozcadesign/invisible-ui-svelte": minor
+"@nozcadesign/invisible-ui-vue": minor
+"@nozcadesign/invisible-ui-core": minor
 ---
 
 Range Slider: a two-thumb slider on two real range inputs, in core and both adapters.

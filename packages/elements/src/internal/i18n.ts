@@ -1,4 +1,4 @@
-import { i18n } from "@invisible-ui/core";
+import { i18n } from "@nozcadesign/invisible-ui-core";
 
 /**
  * Locale resolution for the elements. An element reads its locale and message

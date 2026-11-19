@@ -1,4 +1,4 @@
-import { stepper as core } from "@invisible-ui/core";
+import { stepper as core } from "@nozcadesign/invisible-ui-core";
 import { useId, useMemo } from "react";
 import { useControllable } from "../internal/controllable";
 import { normalizeProps } from "../normalize";

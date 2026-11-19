@@ -1,6 +1,6 @@
 ---
-"@invisible-ui/core": minor
-"@invisible-ui/svelte": minor
+"@nozcadesign/invisible-ui-core": minor
+"@nozcadesign/invisible-ui-svelte": minor
 ---
 
 Initial public release (0.1.0): the framework-agnostic headless core and the

@@ -48,7 +48,7 @@ export const STEPS = [
   ["runtime-exports", "pnpm api:runtime-check"],
   [
     "smoke",
-    "pnpm --filter @invisible-ui/core run smoke && pnpm --filter @invisible-ui/svelte run smoke && pnpm --filter @invisible-ui/vue run smoke",
+    "pnpm --filter @nozcadesign/invisible-ui-core run smoke && pnpm --filter @nozcadesign/invisible-ui-svelte run smoke && pnpm --filter @nozcadesign/invisible-ui-vue run smoke",
   ],
   ["consumers", "pnpm consumers:check"],
   ["size", "pnpm size"],

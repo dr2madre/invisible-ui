@@ -1,4 +1,4 @@
-import { button as core } from "@invisible-ui/core";
+import { button as core } from "@nozcadesign/invisible-ui-core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createRootAction } from "../internal/connect";
@@ -35,7 +35,7 @@ export interface CreateButton {
  * Create a headless button. Defaults to native `<button>` semantics; set
  * `nativeButton: false` to emulate a button on another element (role,
  * focusability and Enter/Space activation). Behaviour and accessibility live
- * in `@invisible-ui/core`.
+ * in `@nozcadesign/invisible-ui-core`.
  */
 export function createButton(options: CreateButtonOptions = {}): CreateButton {
   const { onPress, type, nativeButton } = options;

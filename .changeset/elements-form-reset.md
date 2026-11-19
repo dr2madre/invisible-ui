@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/elements": minor
+"@nozcadesign/invisible-ui-elements": minor
 ---
 
 A form reset now restores the current default in every form-bearing element, and says nothing while doing it (ADR 0012).

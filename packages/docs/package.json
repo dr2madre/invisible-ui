@@ -1,5 +1,5 @@
 {
-  "name": "@invisible-ui/docs",
+  "name": "@nozcadesign/invisible-ui-docs",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,8 +12,8 @@
   "dependencies": {
     "@astrojs/starlight": "^0.41.3",
     "@astrojs/svelte": "^9.1.2",
-    "@invisible-ui/core": "workspace:*",
-    "@invisible-ui/svelte": "workspace:*",
+    "@nozcadesign/invisible-ui-core": "workspace:*",
+    "@nozcadesign/invisible-ui-svelte": "workspace:*",
     "astro": "^7.4.7",
     "svelte": "^5.56.4"
   },

@@ -1,4 +1,4 @@
-"""Invisible UI for Reflex — Python wrappers over `@invisible-ui/react`.
+"""Invisible UI for Reflex — Python wrappers over `@nozcadesign/invisible-ui-react`.
 
 Each component is a thin `rx.Component` subclass rendering the *same* React
 component the React adapter ships (ADR 0006): behaviour, keyboard and ARIA come

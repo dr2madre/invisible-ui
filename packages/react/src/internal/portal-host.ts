@@ -1,4 +1,4 @@
-import { i18n } from "@invisible-ui/core";
+import { i18n } from "@nozcadesign/invisible-ui-core";
 import { useEffect, useState, type RefObject } from "react";
 import { useIsomorphicLayoutEffect } from "./layout-effect";
 

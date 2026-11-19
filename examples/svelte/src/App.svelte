@@ -8,19 +8,19 @@
     createSwitch,
     createTabs,
     createToggleButton,
-  } from "@invisible-ui/svelte";
-  import FeedbackIcon from "@invisible-ui/svelte/FeedbackIcon.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
-  import { createNotifier } from "@invisible-ui/svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import InlineNotification from "@invisible-ui/svelte/InlineNotification.svelte";
-  import EmptyState from "@invisible-ui/svelte/EmptyState.svelte";
-  import NotificationRegion from "@invisible-ui/svelte/NotificationRegion.svelte";
-  import TextField from "@invisible-ui/svelte/TextField.svelte";
-  import Textarea from "@invisible-ui/svelte/Textarea.svelte";
-  import ButtonGroup from "@invisible-ui/svelte/ButtonGroup.svelte";
-  import Select from "@invisible-ui/svelte/Select.svelte";
-  import CheckboxGroup from "@invisible-ui/svelte/CheckboxGroup.svelte";
+  } from "@nozcadesign/invisible-ui-svelte";
+  import FeedbackIcon from "@nozcadesign/invisible-ui-svelte/FeedbackIcon.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
+  import { createNotifier } from "@nozcadesign/invisible-ui-svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import InlineNotification from "@nozcadesign/invisible-ui-svelte/InlineNotification.svelte";
+  import EmptyState from "@nozcadesign/invisible-ui-svelte/EmptyState.svelte";
+  import NotificationRegion from "@nozcadesign/invisible-ui-svelte/NotificationRegion.svelte";
+  import TextField from "@nozcadesign/invisible-ui-svelte/TextField.svelte";
+  import Textarea from "@nozcadesign/invisible-ui-svelte/Textarea.svelte";
+  import ButtonGroup from "@nozcadesign/invisible-ui-svelte/ButtonGroup.svelte";
+  import Select from "@nozcadesign/invisible-ui-svelte/Select.svelte";
+  import CheckboxGroup from "@nozcadesign/invisible-ui-svelte/CheckboxGroup.svelte";
 
   const notifier = createNotifier();
   let noticeCount = 0;

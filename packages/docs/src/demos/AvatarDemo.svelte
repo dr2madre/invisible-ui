@@ -1,5 +1,5 @@
 <script>
-  import Avatar from "@invisible-ui/svelte/Avatar.svelte";
+  import Avatar from "@nozcadesign/invisible-ui-svelte/Avatar.svelte";
 
   // A repository-owned image: a remote photo service made the visual
   // baseline depend on the network.

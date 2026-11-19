@@ -1,5 +1,5 @@
 <script>
-  import EmptyState from "@invisible-ui/svelte/EmptyState.svelte";
+  import EmptyState from "@nozcadesign/invisible-ui-svelte/EmptyState.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 2rem; inline-size: 100%;">

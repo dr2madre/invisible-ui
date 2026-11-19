@@ -1,4 +1,4 @@
-import { navigationBar as core } from "@invisible-ui/core";
+import { navigationBar as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   emit,

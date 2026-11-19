@@ -133,7 +133,7 @@ importers:
 
   examples/svelte:
     dependencies:
-      '@invisible-ui/svelte':
+      '@nozcadesign/invisible-ui-svelte':
         specifier: workspace:*
         version: link:../../packages/svelte
     devDependencies:
@@ -149,13 +149,13 @@ importers:
 
   examples/vue:
     dependencies:
-      '@invisible-ui/elements':
+      '@nozcadesign/invisible-ui-elements':
         specifier: workspace:*
         version: link:../../packages/elements
-      '@invisible-ui/react':
+      '@nozcadesign/invisible-ui-react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@invisible-ui/vue':
+      '@nozcadesign/invisible-ui-vue':
         specifier: workspace:*
         version: link:../../packages/vue
       react:
@@ -195,10 +195,10 @@ importers:
       '@astrojs/svelte':
         specifier: ^9.1.2
         version: 9.1.6(@types/node@24.13.2)(astro@7.4.13(@types/node@24.13.2)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))(esbuild@0.28.2)(jiti@2.6.1)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@5.9.3)(yaml@2.9.1)
-      '@invisible-ui/core':
+      '@nozcadesign/invisible-ui-core':
         specifier: workspace:*
         version: link:../../core
-      '@invisible-ui/svelte':
+      '@nozcadesign/invisible-ui-svelte':
         specifier: workspace:*
         version: link:../svelte
       astro:
@@ -223,7 +223,7 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.6
         version: 1.8.0
-      '@invisible-ui/core':
+      '@nozcadesign/invisible-ui-core':
         specifier: workspace:*
         version: link:../../core
     devDependencies:
@@ -257,7 +257,7 @@ importers:
       '@floating-ui/react-dom':
         specifier: ^2.1.6
         version: 2.1.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@invisible-ui/core':
+      '@nozcadesign/invisible-ui-core':
         specifier: workspace:*
         version: link:../../core
     devDependencies:
@@ -309,7 +309,7 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.6
         version: 1.7.6
-      '@invisible-ui/core':
+      '@nozcadesign/invisible-ui-core':
         specifier: workspace:*
         version: link:../../core
     devDependencies:
@@ -355,7 +355,7 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.6
         version: 1.8.0
-      '@invisible-ui/core':
+      '@nozcadesign/invisible-ui-core':
         specifier: workspace:*
         version: link:../../core
     devDependencies:

@@ -1,24 +1,24 @@
 /**
- * `@invisible-ui/elements` — the Web Components adapter over
- * `@invisible-ui/core`.
+ * `@nozcadesign/invisible-ui-elements` — the Web Components adapter over
+ * `@nozcadesign/invisible-ui-core`.
  *
  * Framework-free custom elements (light DOM, ADR 0008) for contexts without a
  * framework: plain HTML pages, server-driven stacks (HTMX and friends) and
  * legacy portals. Framework users should prefer their native adapter
- * (`@invisible-ui/svelte`, `@invisible-ui/react`).
+ * (`@nozcadesign/invisible-ui-svelte`, `@nozcadesign/invisible-ui-react`).
  *
  * Two ways in:
  *
  * ```js
  * // Side-effect import: registers every <ds-*> tag.
- * import "@invisible-ui/elements/define";
+ * import "@nozcadesign/invisible-ui-elements/define";
  *
  * // Or register selectively:
- * import { DsButton } from "@invisible-ui/elements";
+ * import { DsButton } from "@nozcadesign/invisible-ui-elements";
  * customElements.define("ds-button", DsButton);
  * ```
  *
- * Styles are opt-in: `@invisible-ui/elements/styles.css`.
+ * Styles are opt-in: `@nozcadesign/invisible-ui-elements/styles.css`.
  */
 
 export { DsButton } from "./button/ds-button";

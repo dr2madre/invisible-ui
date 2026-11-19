@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/elements": minor
+"@nozcadesign/invisible-ui-elements": minor
 ---
 
 Messages while a dialog is open follow ADR 0016 in the Elements adapter.

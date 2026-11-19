@@ -1,4 +1,4 @@
-import type { navigationBar } from "@invisible-ui/core";
+import type { navigationBar } from "@nozcadesign/invisible-ui-core";
 import type { Component } from "vue";
 
 /**

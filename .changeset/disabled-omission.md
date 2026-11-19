@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/svelte": minor
-"@invisible-ui/vue": minor
-"@invisible-ui/react": minor
-"@invisible-ui/elements": minor
+"@nozcadesign/invisible-ui-svelte": minor
+"@nozcadesign/invisible-ui-vue": minor
+"@nozcadesign/invisible-ui-react": minor
+"@nozcadesign/invisible-ui-elements": minor
 ---
 
 A disabled control no longer submits its value. Every family that

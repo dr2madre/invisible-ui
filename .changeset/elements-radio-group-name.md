@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/elements": patch
+"@nozcadesign/invisible-ui-elements": patch
 ---
 
 `<ds-radio-group>` without a `name` generates one, as the Svelte radio group

@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import LoadingGenerationArea from "@invisible-ui/svelte/LoadingGenerationArea.svelte";
+  import LoadingGenerationArea from "@nozcadesign/invisible-ui-svelte/LoadingGenerationArea.svelte";
   import logoLight from "../assets/logo.svg";
   import logoDark from "../assets/logo-white.svg";
 

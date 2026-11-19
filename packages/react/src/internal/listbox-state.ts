@@ -1,4 +1,4 @@
-import { combobox } from "@invisible-ui/core";
+import { combobox } from "@nozcadesign/invisible-ui-core";
 import {
   useCallback,
   useRef,

@@ -1,4 +1,4 @@
-import "@invisible-ui/svelte/tokens.css";
+import "@nozcadesign/invisible-ui-svelte/tokens.css";
 import { mount } from "svelte";
 import App from "./App.svelte";
 

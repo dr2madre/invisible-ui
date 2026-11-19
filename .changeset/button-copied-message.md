@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/core": patch
-"@invisible-ui/react": patch
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-core": patch
+"@nozcadesign/invisible-ui-react": patch
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 The shared catalog gains `button.copied` ("Copied"), the confirmation shown

@@ -1,5 +1,5 @@
 <script>
-  import RatingGroup from "@invisible-ui/svelte/RatingGroup.svelte";
+  import RatingGroup from "@nozcadesign/invisible-ui-svelte/RatingGroup.svelte";
   /** @type {number | null} */
   let value = $state(null);
 </script>

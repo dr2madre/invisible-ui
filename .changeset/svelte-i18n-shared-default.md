@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/svelte": patch
+"@nozcadesign/invisible-ui-svelte": patch
 ---
 
 The English default that components use without a `LocaleProvider` can no

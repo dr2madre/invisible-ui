@@ -1,7 +1,7 @@
 ---
-"@invisible-ui/elements": minor
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 Add `<ds-toolbar>`, `<ds-upload-drop-area>` and `<ds-login-form>`. The toolbar keeps one tab stop across added, removed and disabled controls, the drop area keeps a native file input, and the login form is a real form with named inputs that reports a cancelable `submit` event.

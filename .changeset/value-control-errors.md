@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/elements": minor
-"@invisible-ui/react": minor
-"@invisible-ui/svelte": minor
-"@invisible-ui/vue": minor
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-react": minor
+"@nozcadesign/invisible-ui-svelte": minor
+"@nozcadesign/invisible-ui-vue": minor
 ---
 
 Slider, Range Slider, PIN Input, Rating Group and Toggle Button take an

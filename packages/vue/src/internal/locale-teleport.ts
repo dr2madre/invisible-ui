@@ -1,4 +1,4 @@
-import { i18n as coreI18n } from "@invisible-ui/core";
+import { i18n as coreI18n } from "@nozcadesign/invisible-ui-core";
 import { h, Teleport, type VNode } from "vue";
 import type { I18nValue } from "../i18n/i18n";
 

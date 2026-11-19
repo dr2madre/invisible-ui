@@ -1,5 +1,5 @@
 <script>
-  import Calendar from "@invisible-ui/svelte/Calendar.svelte";
+  import Calendar from "@nozcadesign/invisible-ui-svelte/Calendar.svelte";
 
   let value = $state("2026-06-15");
 

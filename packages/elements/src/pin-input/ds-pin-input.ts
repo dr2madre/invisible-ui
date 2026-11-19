@@ -1,4 +1,4 @@
-import { pinInput as core } from "@invisible-ui/core";
+import { pinInput as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   boolAttr,

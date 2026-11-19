@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/elements": patch
+"@nozcadesign/invisible-ui-elements": patch
 ---
 
 Forward popup relationship and title attributes from `ds-button` and

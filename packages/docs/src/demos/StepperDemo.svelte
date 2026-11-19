@@ -1,5 +1,5 @@
 <script>
-  import Stepper from "@invisible-ui/svelte/Stepper.svelte";
+  import Stepper from "@nozcadesign/invisible-ui-svelte/Stepper.svelte";
 
   let current = $state(1);
 

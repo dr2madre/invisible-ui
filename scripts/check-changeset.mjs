@@ -71,7 +71,7 @@ const required = new Set();
 for (const file of touched) {
   const api = /^packages\/docs\/src\/generated\/api\/([\w-]+)\.json$/.exec(file);
   if (api) {
-    required.add(`@invisible-ui/${api[1]}`);
+    required.add(`@nozcadesign/invisible-ui-${api[1]}`);
     continue;
   }
   const before = show(mergeBase, file);
@@ -83,7 +83,7 @@ for (const file of touched) {
     ]);
     for (const framework of frameworks) {
       if (!same(before?.frameworks?.[framework], after?.frameworks?.[framework])) {
-        required.add(`@invisible-ui/${framework}`);
+        required.add(`@nozcadesign/invisible-ui-${framework}`);
       }
     }
     continue;
@@ -98,7 +98,7 @@ for (const file of touched) {
   for (const name of new Set([...was.keys(), ...is.keys()])) {
     if (same(was.get(name), is.get(name))) continue;
     for (const adapter of (is.get(name) ?? was.get(name))?.adapters ?? []) {
-      required.add(`@invisible-ui/${adapter}`);
+      required.add(`@nozcadesign/invisible-ui-${adapter}`);
     }
   }
 }
@@ -125,7 +125,7 @@ const substantial = added.filter((entry) => {
   if (body.length === 0) return false;
   const frontmatter = /^---\n([\s\S]*?)\n---/.exec(text)?.[1] ?? "";
   for (const line of frontmatter.split("\n")) {
-    const pkg = /^"?(@invisible-ui\/[\w-]+)"?\s*:/.exec(line.trim());
+    const pkg = /^"?(@nozcadesign\/invisible-ui-[\w-]+)"?\s*:/.exec(line.trim());
     if (pkg) named.add(pkg[1]);
   }
   return true;

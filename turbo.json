@@ -17,19 +17,19 @@
     // The parity tests read files outside their package: the design source
     // for svelte, another package's stylesheets for react, vue and elements.
     // Declared as inputs so a cache hit is never replayed over a change to them.
-    "@invisible-ui/svelte#test": {
+    "@nozcadesign/invisible-ui-svelte#test": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/tokens/tokens.json"]
     },
-    "@invisible-ui/react#test": {
+    "@nozcadesign/invisible-ui-react#test": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/svelte/src/lib/styles/tokens.css"]
     },
-    "@invisible-ui/vue#test": {
+    "@nozcadesign/invisible-ui-vue#test": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/react/src/styles/**"]
     },
-    "@invisible-ui/elements#test": {
+    "@nozcadesign/invisible-ui-elements#test": {
       "dependsOn": ["^build"],
       "inputs": [
         "$TURBO_DEFAULT$",

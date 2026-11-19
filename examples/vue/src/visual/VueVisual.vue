@@ -27,7 +27,7 @@ import {
   Switch,
   Tag,
   TextField,
-} from "@invisible-ui/vue";
+} from "@nozcadesign/invisible-ui-vue";
 import { navIcons } from "./icons";
 import portrait from "./portrait.svg";
 

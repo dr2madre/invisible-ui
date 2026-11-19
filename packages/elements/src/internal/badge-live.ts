@@ -1,4 +1,4 @@
-import { navigationBar } from "@invisible-ui/core";
+import { navigationBar } from "@nozcadesign/invisible-ui-core";
 import { hasOpenModal, onModalChange } from "./modal-stack";
 
 type Translate = NonNullable<navigationBar.TextOptions["translate"]>;

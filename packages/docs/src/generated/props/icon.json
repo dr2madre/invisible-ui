@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Icon",
-        "specifier": "@invisible-ui/svelte/Icon.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Icon.svelte"
       },
       "props": [
         {
@@ -63,7 +63,7 @@
       "import": {
         "kind": "named",
         "name": "Icon",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -108,7 +108,7 @@
       "import": {
         "kind": "named",
         "name": "Icon",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -166,7 +166,7 @@
       "import": {
         "kind": "element",
         "name": "ds-icon",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

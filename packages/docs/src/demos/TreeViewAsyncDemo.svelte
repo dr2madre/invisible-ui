@@ -1,6 +1,6 @@
 <script lang="ts">
-  import TreeView from "@invisible-ui/svelte/TreeView.svelte";
-  import type { TreeLoadRequest, TreeNode } from "@invisible-ui/svelte";
+  import TreeView from "@nozcadesign/invisible-ui-svelte/TreeView.svelte";
+  import type { TreeLoadRequest, TreeNode } from "@nozcadesign/invisible-ui-svelte";
 
   let nodes: TreeNode[] = $state.raw([
     { value: "production", hasChildren: true },

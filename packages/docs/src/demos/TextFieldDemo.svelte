@@ -1,6 +1,6 @@
 <script>
-  import TextField from "@invisible-ui/svelte/TextField.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import TextField from "@nozcadesign/invisible-ui-svelte/TextField.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1rem;">

@@ -1,4 +1,4 @@
-import { menubar as bar } from "@invisible-ui/core";
+import { menubar as bar } from "@nozcadesign/invisible-ui-core";
 import {
   computed,
   effectScope,

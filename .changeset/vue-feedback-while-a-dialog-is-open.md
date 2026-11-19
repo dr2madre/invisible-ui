@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/vue": minor
+"@nozcadesign/invisible-ui-vue": minor
 ---
 
 Messages while a dialog is open follow ADR 0016 in the Vue adapter.

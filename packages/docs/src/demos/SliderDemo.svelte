@@ -1,6 +1,6 @@
 <script>
-  import Slider from "@invisible-ui/svelte/Slider.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import Slider from "@nozcadesign/invisible-ui-svelte/Slider.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
   let value = $state(40);
 </script>
 

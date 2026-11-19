@@ -1,5 +1,5 @@
 <script>
-  import Checkbox from "@invisible-ui/svelte/Checkbox.svelte";
+  import Checkbox from "@nozcadesign/invisible-ui-svelte/Checkbox.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 0.5rem;">

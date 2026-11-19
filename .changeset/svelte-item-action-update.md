@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/svelte": patch
+"@nozcadesign/invisible-ui-svelte": patch
 ---
 
 Item actions such as `tabAction`, `optionAction`, `itemAction` and

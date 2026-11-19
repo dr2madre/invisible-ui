@@ -1,4 +1,4 @@
-import { multiSelect as core } from "@invisible-ui/core";
+import { multiSelect as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   boolAttr,
@@ -28,7 +28,7 @@ const parseValues = (attr: string | null): string[] =>
  * `<ds-multi-select>` — the styled multi-value picker as a custom element.
  *
  * Behaviour and ARIA come from the headless multi select
- * (`@invisible-ui/core`, a sibling of Combobox); this element owns the DOM
+ * (`@nozcadesign/invisible-ui-core`, a sibling of Combobox); this element owns the DOM
  * concerns: filtering, popup positioning (Floating UI),
  * close-on-outside-pointer and scroll-into-view. Light DOM only. DOM focus
  * stays on the input; the highlight travels via `aria-activedescendant`;

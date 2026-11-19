@@ -1,4 +1,4 @@
-import { uploadDropArea } from "@invisible-ui/core";
+import { uploadDropArea } from "@nozcadesign/invisible-ui-core";
 import {
   defineComponent,
   h,

@@ -1,4 +1,4 @@
-import type { radioGroup as core } from "@invisible-ui/core";
+import type { radioGroup as core } from "@nozcadesign/invisible-ui-core";
 import { useMemo, type RefObject } from "react";
 import { useRadioGroup } from "../radio-group/use-radio-group";
 

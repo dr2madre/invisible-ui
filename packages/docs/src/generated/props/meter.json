@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Meter",
-        "specifier": "@invisible-ui/svelte/Meter.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Meter.svelte"
       },
       "props": [
         {
@@ -71,7 +71,7 @@
       "import": {
         "kind": "named",
         "name": "Meter",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -138,7 +138,7 @@
       "import": {
         "kind": "named",
         "name": "Meter",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -204,7 +204,7 @@
       "import": {
         "kind": "element",
         "name": "ds-meter",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

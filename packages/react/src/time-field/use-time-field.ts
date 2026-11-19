@@ -1,4 +1,4 @@
-import { timeField as core } from "@invisible-ui/core";
+import { timeField as core } from "@nozcadesign/invisible-ui-core";
 import { useEffect, useId, useRef, useState, type FocusEvent, type RefObject } from "react";
 import { useControlledDefault, useFormReset } from "../internal/form-reset";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";

@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/svelte": patch
+"@nozcadesign/invisible-ui-svelte": patch
 ---
 
 The Meter's documentation named knobs that do not exist

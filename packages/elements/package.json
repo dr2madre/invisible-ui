@@ -1,7 +1,8 @@
 {
-  "name": "@invisible-ui/elements",
+  "name": "@nozcadesign/invisible-ui-elements",
   "version": "0.1.0-alpha.0",
-  "description": "Web Components adapter for the design system: framework-free custom elements over @invisible-ui/core.",
+  "description": "Web Components adapter for the design system: framework-free custom elements over @nozcadesign/invisible-ui-core.",
+  "author": "nozcadesign",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -54,7 +55,7 @@
     "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json"
   },
   "dependencies": {
-    "@invisible-ui/core": "workspace:*",
+    "@nozcadesign/invisible-ui-core": "workspace:*",
     "@floating-ui/dom": "^1.7.6"
   },
   "devDependencies": {

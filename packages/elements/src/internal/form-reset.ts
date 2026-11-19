@@ -1,4 +1,4 @@
-import { formReset as core } from "@invisible-ui/core";
+import { formReset as core } from "@nozcadesign/invisible-ui-core";
 
 /** An element that can name the form it belongs to. */
 type Anchored = Element & { form: HTMLFormElement | null };

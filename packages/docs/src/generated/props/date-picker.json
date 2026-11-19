@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "DatePicker",
-        "specifier": "@invisible-ui/svelte/DatePicker.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/DatePicker.svelte"
       },
       "props": [
         {
@@ -127,7 +127,7 @@
       "import": {
         "kind": "named",
         "name": "DatePicker",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -263,7 +263,7 @@
       "import": {
         "kind": "named",
         "name": "DatePicker",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -385,7 +385,7 @@
       "import": {
         "kind": "element",
         "name": "ds-date-picker",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

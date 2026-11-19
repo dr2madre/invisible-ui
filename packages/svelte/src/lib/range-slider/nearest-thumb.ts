@@ -1,4 +1,4 @@
-import { rangeSlider as core } from "@invisible-ui/core";
+import { rangeSlider as core } from "@nozcadesign/invisible-ui-core";
 import type { Action } from "svelte/action";
 
 /**

@@ -1,4 +1,4 @@
-import type { ElementProps, Normalize } from "@invisible-ui/core";
+import type { ElementProps, Normalize } from "@nozcadesign/invisible-ui-core";
 
 /**
  * DOM attribute names the core emits that React spells differently. The core

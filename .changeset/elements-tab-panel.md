@@ -1,6 +1,6 @@
 ---
-"@invisible-ui/elements": minor
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 Tabs can be written as markup: `<ds-tabs>` is the root that holds the state,

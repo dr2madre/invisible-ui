@@ -1,7 +1,8 @@
 {
-  "name": "@invisible-ui/svelte",
+  "name": "@nozcadesign/invisible-ui-svelte",
   "version": "0.1.0-alpha.0",
-  "description": "Svelte adapter for the design system: thin, headless, accessible bindings over @invisible-ui/core.",
+  "description": "Svelte adapter for the design system: thin, headless, accessible bindings over @nozcadesign/invisible-ui-core.",
+  "author": "nozcadesign",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -379,7 +380,7 @@
     "svelte": "^5.0.0"
   },
   "dependencies": {
-    "@invisible-ui/core": "workspace:*",
+    "@nozcadesign/invisible-ui-core": "workspace:*",
     "@floating-ui/dom": "^1.7.6"
   },
   "devDependencies": {

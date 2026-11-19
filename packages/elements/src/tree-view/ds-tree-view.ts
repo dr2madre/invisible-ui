@@ -1,4 +1,4 @@
-import { treeView as core } from "@invisible-ui/core";
+import { treeView as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   boolAttr,

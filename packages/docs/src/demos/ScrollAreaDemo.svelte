@@ -1,5 +1,5 @@
 <script>
-  import ScrollArea from "@invisible-ui/svelte/ScrollArea.svelte";
+  import ScrollArea from "@nozcadesign/invisible-ui-svelte/ScrollArea.svelte";
 </script>
 
 <div style="max-width: 20rem;">

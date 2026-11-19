@@ -1,5 +1,5 @@
 <script>
-  import CheckboxGroup from "@invisible-ui/svelte/CheckboxGroup.svelte";
+  import CheckboxGroup from "@nozcadesign/invisible-ui-svelte/CheckboxGroup.svelte";
 </script>
 
 <CheckboxGroup

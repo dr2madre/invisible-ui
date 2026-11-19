@@ -1,6 +1,6 @@
 <script>
-  import Carousel from "@invisible-ui/svelte/Carousel.svelte";
-  import Tag from "@invisible-ui/svelte/Tag.svelte";
+  import Carousel from "@nozcadesign/invisible-ui-svelte/Carousel.svelte";
+  import Tag from "@nozcadesign/invisible-ui-svelte/Tag.svelte";
 
   // Use the provided pastel tokens (soft), not strong custom colors.
   const items = [

@@ -12,7 +12,7 @@ export default defineConfig([
     dts: true,
     clean: true,
     sourcemap: true,
-    external: ["@invisible-ui/core", "@floating-ui/dom"],
+    external: ["@nozcadesign/invisible-ui-core", "@floating-ui/dom"],
   },
   {
     // The script-tag adapter: the dist must be self-contained so a
@@ -22,6 +22,6 @@ export default defineConfig([
     dts: true,
     clean: false,
     sourcemap: true,
-    noExternal: ["@invisible-ui/core", "@floating-ui/dom"],
+    noExternal: ["@nozcadesign/invisible-ui-core", "@floating-ui/dom"],
   },
 ]);

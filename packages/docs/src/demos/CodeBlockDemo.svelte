@@ -1,7 +1,7 @@
 <script>
-  import CodeBlock from "@invisible-ui/svelte/CodeBlock.svelte";
+  import CodeBlock from "@nozcadesign/invisible-ui-svelte/CodeBlock.svelte";
 
-  const code = `import { createCalendar } from "@invisible-ui/svelte";
+  const code = `import { createCalendar } from "@nozcadesign/invisible-ui-svelte";
 
 const calendar = createCalendar({
   value: "2026-06-15",

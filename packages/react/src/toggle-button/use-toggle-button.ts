@@ -1,4 +1,4 @@
-import { toggleButton as core } from "@invisible-ui/core";
+import { toggleButton as core } from "@nozcadesign/invisible-ui-core";
 import { useMemo, useRef, type RefObject } from "react";
 import { useResettable } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";

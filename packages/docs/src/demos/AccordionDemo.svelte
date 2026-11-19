@@ -1,5 +1,5 @@
 <script>
-  import Accordion from "@invisible-ui/svelte/Accordion.svelte";
+  import Accordion from "@nozcadesign/invisible-ui-svelte/Accordion.svelte";
 </script>
 
 <Accordion

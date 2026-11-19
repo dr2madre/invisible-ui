@@ -12,9 +12,10 @@ const DEPENDENCY = [
 ].join("\n");
 
 const OURS =
-  "node_modules/@invisible-ui/core/dist/index.d.ts(4170,30): error TS2304: Cannot find name 'NotAType'.";
+  "node_modules/@nozcadesign/invisible-ui-core/dist/index.d.ts(4170,30): error TS2304: Cannot find name 'NotAType'.";
 
-const CONSUMER = 'types.ts(3,24): error TS2307: Cannot find module "@invisible-ui/react".';
+const CONSUMER =
+  'types.ts(3,24): error TS2307: Cannot find module "@nozcadesign/invisible-ui-react".';
 
 test("a dependency's broken declarations are not ours to answer for", () => {
   assert.deepEqual(ourDeclarationErrors(DEPENDENCY), []);

@@ -1,9 +1,9 @@
 ---
-"@invisible-ui/elements": minor
-"@invisible-ui/core": minor
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
-"@invisible-ui/react": patch
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-core": minor
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
+"@nozcadesign/invisible-ui-react": patch
 ---
 
 Accessibility fixes across the web components, with the shared stylesheets

@@ -1,5 +1,5 @@
 <script>
-  import AspectRatio from "@invisible-ui/svelte/AspectRatio.svelte";
+  import AspectRatio from "@nozcadesign/invisible-ui-svelte/AspectRatio.svelte";
 </script>
 
 <div style="max-width: 24rem; width: 100%;">
