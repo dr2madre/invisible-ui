@@ -14,7 +14,7 @@
    */
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
-  import { toolbar as core } from "@invisible-ui/core";
+  import { toolbar as core } from "@nozcadesign/invisible-ui-core";
 
   interface Props {
     label: string;

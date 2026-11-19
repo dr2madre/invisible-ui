@@ -1,12 +1,12 @@
 # API stability
 
 How changes to the public surface are classified and what a consumer can rely
-on. The packages are private and unpublished; this policy still applies from
-now on, so the discipline exists before the first release rather than after.
+on. The packages are published as alpha releases; this policy applies before
+the first stable release so compatibility discipline is already in place.
 
 ## What is public
 
-- **Core**: everything importable from `@invisible-ui/core` — the component
+- **Core**: everything importable from `@nozcadesign/invisible-ui-core` — the component
   namespaces (each ships its machine's state, transitions and types; most
   expose `initialState` and `connect`, a few are pure helpers), `normalizeProps`'
   contract (`Normalize`), `ElementProps`, `DomProps`, `i18n`.

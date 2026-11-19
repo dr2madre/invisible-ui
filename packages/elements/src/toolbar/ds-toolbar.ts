@@ -1,4 +1,4 @@
-import { toolbar as core } from "@invisible-ui/core";
+import { toolbar as core } from "@nozcadesign/invisible-ui-core";
 import { boolAttr, HTMLElementBase } from "../internal/base";
 
 export type ToolbarOrientation = core.ToolbarOrientation;

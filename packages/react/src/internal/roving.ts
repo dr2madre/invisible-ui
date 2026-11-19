@@ -1,4 +1,4 @@
-import type { ElementProps } from "@invisible-ui/core";
+import type { ElementProps } from "@nozcadesign/invisible-ui-core";
 
 /** Reading direction of the text an element sits in. */
 export type Direction = "ltr" | "rtl";

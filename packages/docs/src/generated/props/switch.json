@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Switch",
-        "specifier": "@invisible-ui/svelte/Switch.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Switch.svelte"
       },
       "props": [
         {
@@ -103,7 +103,7 @@
       "import": {
         "kind": "named",
         "name": "Switch",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -217,7 +217,7 @@
       "import": {
         "kind": "named",
         "name": "Switch",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -323,7 +323,7 @@
       "import": {
         "kind": "element",
         "name": "ds-switch",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

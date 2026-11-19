@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Kbd",
-        "specifier": "@invisible-ui/svelte/Kbd.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Kbd.svelte"
       },
       "props": [
         {
@@ -31,7 +31,7 @@
       "import": {
         "kind": "named",
         "name": "Kbd",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -60,7 +60,7 @@
       "import": {
         "kind": "named",
         "name": "Kbd",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -94,7 +94,7 @@
       "import": {
         "kind": "element",
         "name": "ds-kbd",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

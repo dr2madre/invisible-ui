@@ -1,5 +1,5 @@
 <script>
-  import DropdownMenu from "@invisible-ui/svelte/DropdownMenu.svelte";
+  import DropdownMenu from "@nozcadesign/invisible-ui-svelte/DropdownMenu.svelte";
 </script>
 
 <DropdownMenu

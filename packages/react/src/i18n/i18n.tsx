@@ -1,4 +1,4 @@
-import { i18n as core } from "@invisible-ui/core";
+import { i18n as core } from "@nozcadesign/invisible-ui-core";
 import { createContext, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react";
 import type { MessageKey, Messages } from "./messages";
 

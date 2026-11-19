@@ -1,4 +1,4 @@
-import { navigationBar } from "@invisible-ui/core";
+import { navigationBar } from "@nozcadesign/invisible-ui-core";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { hasOpenModal, onModalChange } from "./modal-stack";
 

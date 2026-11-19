@@ -1,4 +1,4 @@
-import { combobox as core } from "@invisible-ui/core";
+import { combobox as core } from "@nozcadesign/invisible-ui-core";
 import {
   computed,
   ref,

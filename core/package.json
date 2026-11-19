@@ -1,18 +1,28 @@
 {
-  "name": "@invisible-ui/core",
+  "name": "@nozcadesign/invisible-ui-core",
   "version": "0.1.0-alpha.0",
   "description": "Framework-agnostic state, behavior and accessibility logic for the design system.",
+  "author": "nozcadesign",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dr2madre/invisible-ui.git",
     "directory": "core"
   },
+  "homepage": "https://invisibleui.de/",
+  "bugs": {
+    "url": "https://github.com/dr2madre/invisible-ui/issues"
+  },
+  "keywords": [
+    "accessibility",
+    "design-system",
+    "headless",
+    "ui"
+  ],
   "publishConfig": {
     "access": "public",
     "provenance": true
   },
-  "private": true,
   "type": "module",
   "sideEffects": false,
   "files": [

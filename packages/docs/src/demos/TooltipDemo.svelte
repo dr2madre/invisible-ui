@@ -1,6 +1,6 @@
 <script>
-  import Tooltip from "@invisible-ui/svelte/Tooltip.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Tooltip from "@nozcadesign/invisible-ui-svelte/Tooltip.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
 </script>
 
 <Tooltip text="Copy to clipboard">

@@ -1,8 +1,15 @@
 // End-to-end harness for the React adapter, served by the same Vite app as
 // the Vue harness. Written without JSX so the Vue example needs no React
 // compiler plugin.
-import "@invisible-ui/react/styles.css";
-import { Checkbox, Combobox, Dialog, MultiSelect, Select, Switch } from "@invisible-ui/react";
+import "@nozcadesign/invisible-ui-react/styles.css";
+import {
+  Checkbox,
+  Combobox,
+  Dialog,
+  MultiSelect,
+  Select,
+  Switch,
+} from "@nozcadesign/invisible-ui-react";
 import { createElement as h, useState, type ReactElement } from "react";
 import { createRoot } from "react-dom/client";
 

@@ -1,4 +1,4 @@
-import { meter as core } from "@invisible-ui/core";
+import { meter as core } from "@nozcadesign/invisible-ui-core";
 import { useId } from "react";
 import { normalizeProps } from "../normalize";
 

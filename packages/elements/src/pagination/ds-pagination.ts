@@ -1,4 +1,4 @@
-import { pagination as core } from "@invisible-ui/core";
+import { pagination as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   boolAttr,

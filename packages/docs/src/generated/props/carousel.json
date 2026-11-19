@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Carousel",
-        "specifier": "@invisible-ui/svelte/Carousel.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Carousel.svelte"
       },
       "props": [
         {
@@ -95,7 +95,7 @@
       "import": {
         "kind": "named",
         "name": "Carousel",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -193,7 +193,7 @@
       "import": {
         "kind": "named",
         "name": "Carousel",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -291,7 +291,7 @@
       "import": {
         "kind": "element",
         "name": "ds-carousel",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

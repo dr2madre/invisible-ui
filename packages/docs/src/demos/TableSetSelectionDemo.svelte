@@ -1,6 +1,6 @@
 <script>
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import TableSet from "@invisible-ui/svelte/TableSet.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import TableSet from "@nozcadesign/invisible-ui-svelte/TableSet.svelte";
 
   const columns = [
     { key: "name", header: "Name", sortable: true },

@@ -1,5 +1,5 @@
 <script>
-  import TreeView from "@invisible-ui/svelte/TreeView.svelte";
+  import TreeView from "@nozcadesign/invisible-ui-svelte/TreeView.svelte";
 
   const nodes = [
     {

@@ -1,5 +1,5 @@
 <script>
-  import ToggleButton from "@invisible-ui/svelte/ToggleButton.svelte";
+  import ToggleButton from "@nozcadesign/invisible-ui-svelte/ToggleButton.svelte";
 </script>
 
 <ToggleButton label="Bold" pressed><strong>B</strong></ToggleButton>

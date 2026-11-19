@@ -1,4 +1,4 @@
-import { uploadDropArea } from "@invisible-ui/core";
+import { uploadDropArea } from "@nozcadesign/invisible-ui-core";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { useDropArea } from "../drop-area/use-drop-area";
 import { useI18n } from "../i18n/i18n";

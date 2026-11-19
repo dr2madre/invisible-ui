@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
-"@invisible-ui/react": patch
-"@invisible-ui/elements": patch
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
+"@nozcadesign/invisible-ui-react": patch
+"@nozcadesign/invisible-ui-elements": patch
 ---
 
 Every prop row in the generated manifests says where its description came from: `source` for the code's own JSDoc, `curated` for a committed text that differs from the source, `mdx` for the docs table, `none` when there is none. The generator prints the counts. No prop, type, default or requirement changes; the curated texts stay as they are, and their drift from the source is visible instead of silent.

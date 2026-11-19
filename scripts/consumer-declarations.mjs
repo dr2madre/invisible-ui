@@ -9,7 +9,7 @@
 // compiler's exit code.
 
 /** A tsc diagnostic line in a package this repository publishes. */
-const OURS = "node_modules/@invisible-ui/";
+const OURS = "node_modules/@nozcadesign/invisible-ui-";
 
 /** The consumer's own file: it imports every advertised entry point. */
 const CONSUMER = "types.ts(";

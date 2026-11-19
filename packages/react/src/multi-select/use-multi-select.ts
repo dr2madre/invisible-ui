@@ -1,4 +1,4 @@
-import { multiSelect as core } from "@invisible-ui/core";
+import { multiSelect as core } from "@nozcadesign/invisible-ui-core";
 import {
   useCallback,
   useId,

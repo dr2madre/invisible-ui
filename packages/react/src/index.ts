@@ -1,10 +1,10 @@
 /**
- * `@invisible-ui/react` — the React adapter over `@invisible-ui/core`.
+ * `@nozcadesign/invisible-ui-react` — the React adapter over `@nozcadesign/invisible-ui-core`.
  *
  * Components and hooks driven by the framework-agnostic core; see
  * `docs/adapters-roadmap.md`. Styles are opt-in:
  *
- *   import "@invisible-ui/react/styles.css";
+ *   import "@nozcadesign/invisible-ui-react/styles.css";
  */
 
 // The React seam over the core's prop bags.

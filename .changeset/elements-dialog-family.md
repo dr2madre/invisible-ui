@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/elements": minor
-"@invisible-ui/svelte": patch
-"@invisible-ui/react": patch
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-react": patch
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 Elements gains the rest of the dialog family: `<ds-alert-dialog>`,

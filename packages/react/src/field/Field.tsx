@@ -1,4 +1,4 @@
-import type { ElementProps } from "@invisible-ui/core";
+import type { ElementProps } from "@nozcadesign/invisible-ui-core";
 import type { ReactNode } from "react";
 import { useField } from "./use-field";
 
@@ -28,7 +28,7 @@ export interface FieldProps {
 /**
  * Field: a form field that ties a label, a control, a description and an
  * error message together. The ids, `aria-describedby`, `aria-invalid` and
- * `aria-required` come from the headless field (`@invisible-ui/core`).
+ * `aria-required` come from the headless field (`@nozcadesign/invisible-ui-core`).
  *
  * The control comes from `children`, a function given `controlProps` to
  * spread onto it and its `controlId`:

@@ -1,5 +1,5 @@
 <script>
-  import Breadcrumb from "@invisible-ui/svelte/Breadcrumb.svelte";
+  import Breadcrumb from "@nozcadesign/invisible-ui-svelte/Breadcrumb.svelte";
 
   const items = [
     { label: "Home", href: "/", home: true },

@@ -1,10 +1,10 @@
 <script>
-  import Combobox from "@invisible-ui/svelte/Combobox.svelte";
-  import ConfirmDialog from "@invisible-ui/svelte/ConfirmDialog.svelte";
-  import Dialog from "@invisible-ui/svelte/Dialog.svelte";
-  import MultiSelect from "@invisible-ui/svelte/MultiSelect.svelte";
-  import TextField from "@invisible-ui/svelte/TextField.svelte";
-  import Tooltip from "@invisible-ui/svelte/Tooltip.svelte";
+  import Combobox from "@nozcadesign/invisible-ui-svelte/Combobox.svelte";
+  import ConfirmDialog from "@nozcadesign/invisible-ui-svelte/ConfirmDialog.svelte";
+  import Dialog from "@nozcadesign/invisible-ui-svelte/Dialog.svelte";
+  import MultiSelect from "@nozcadesign/invisible-ui-svelte/MultiSelect.svelte";
+  import TextField from "@nozcadesign/invisible-ui-svelte/TextField.svelte";
+  import Tooltip from "@nozcadesign/invisible-ui-svelte/Tooltip.svelte";
 
   const cities = [
     { value: "london", label: "London" },

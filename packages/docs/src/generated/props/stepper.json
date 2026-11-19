@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Stepper",
-        "specifier": "@invisible-ui/svelte/Stepper.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Stepper.svelte"
       },
       "props": [
         {
@@ -71,7 +71,7 @@
       "import": {
         "kind": "named",
         "name": "Stepper",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -143,7 +143,7 @@
       "import": {
         "kind": "named",
         "name": "Stepper",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -209,7 +209,7 @@
       "import": {
         "kind": "element",
         "name": "ds-stepper",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

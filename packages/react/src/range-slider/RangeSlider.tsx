@@ -1,4 +1,4 @@
-import { rangeSlider as core } from "@invisible-ui/core";
+import { rangeSlider as core } from "@nozcadesign/invisible-ui-core";
 import { useEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { useI18n } from "../i18n/i18n";
 import { cx } from "../internal/cx";

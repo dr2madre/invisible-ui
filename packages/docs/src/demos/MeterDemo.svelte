@@ -1,5 +1,5 @@
 <script>
-  import Meter from "@invisible-ui/svelte/Meter.svelte";
+  import Meter from "@nozcadesign/invisible-ui-svelte/Meter.svelte";
 </script>
 
 <div class="meters">

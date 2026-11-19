@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Card",
-        "specifier": "@invisible-ui/svelte/Card.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Card.svelte"
       },
       "props": [
         {
@@ -143,7 +143,7 @@
       "import": {
         "kind": "named",
         "name": "Card",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -251,7 +251,7 @@
       "import": {
         "kind": "named",
         "name": "Card",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -397,7 +397,7 @@
       "import": {
         "kind": "element",
         "name": "ds-card",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

@@ -1,4 +1,4 @@
-import { navigationMenu as core } from "@invisible-ui/core";
+import { navigationMenu as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   emit,

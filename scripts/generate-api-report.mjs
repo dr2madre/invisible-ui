@@ -8,7 +8,7 @@
 // One report per package (packages/docs/src/generated/api/<pkg>.json):
 //
 //   {
-//     "package": "@invisible-ui/core",
+//     "package": "@nozcadesign/invisible-ui-core",
 //     "entry": "core/dist/index.d.ts",
 //     "exportMap": { ... },                  // the package.json exports field
 //     "externalReferences": [...],           // import specifiers in the d.ts
@@ -216,12 +216,15 @@ function reportPackage({ dir, entry }) {
   };
 }
 
-const reports = PACKAGES.map(reportPackage);
+const reports = PACKAGES.map((pkg) => ({
+  file: `${pkg.dir.split("/").pop()}.json`,
+  report: reportPackage(pkg),
+}));
 
 let stale = false;
 if (!process.argv.includes("--check")) mkdirSync(OUT_DIR, { recursive: true });
-for (const report of reports) {
-  const file = resolve(OUT_DIR, `${report.package.split("/").pop()}.json`);
+for (const { file: reportFile, report } of reports) {
+  const file = resolve(OUT_DIR, reportFile);
   const serialized = `${JSON.stringify(report, null, 2)}\n`;
   if (process.argv.includes("--check")) {
     const current = existsSync(file) ? readFileSync(file, "utf8") : "";

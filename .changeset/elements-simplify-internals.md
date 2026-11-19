@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/elements": patch
+"@nozcadesign/invisible-ui-elements": patch
 ---
 
 Simpler internals for the web components, with one fix.

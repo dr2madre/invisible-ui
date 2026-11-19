@@ -1,4 +1,4 @@
-import { collapsible as core } from "@invisible-ui/core";
+import { collapsible as core } from "@nozcadesign/invisible-ui-core";
 import { computed, defineComponent, h, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useStableId } from "../internal/use-stable-id";

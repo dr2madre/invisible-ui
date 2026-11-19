@@ -1,9 +1,9 @@
 <script>
-  import SheetDialog from "@invisible-ui/svelte/SheetDialog.svelte";
-  import InlineNotification from "@invisible-ui/svelte/InlineNotification.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import Count from "@invisible-ui/svelte/Count.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import SheetDialog from "@nozcadesign/invisible-ui-svelte/SheetDialog.svelte";
+  import InlineNotification from "@nozcadesign/invisible-ui-svelte/InlineNotification.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import Count from "@nozcadesign/invisible-ui-svelte/Count.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
 
   // A deletable variant: the same calm, uncolored rows, but each can be
   // removed (✕) and the header clears all. No read/unread dot here — the

@@ -1,7 +1,7 @@
 <script>
-  import Card from "@invisible-ui/svelte/Card.svelte";
-  import Tag from "@invisible-ui/svelte/Tag.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Card from "@nozcadesign/invisible-ui-svelte/Card.svelte";
+  import Tag from "@nozcadesign/invisible-ui-svelte/Tag.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
 </script>
 
 <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));">

@@ -1,5 +1,5 @@
 <script>
-  import Kbd from "@invisible-ui/svelte/Kbd.svelte";
+  import Kbd from "@nozcadesign/invisible-ui-svelte/Kbd.svelte";
 </script>
 
 <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">

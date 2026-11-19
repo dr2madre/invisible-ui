@@ -1,7 +1,7 @@
 ---
-"@invisible-ui/elements": minor
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 Add `ds-inline-notification` with configurable live-region urgency, status

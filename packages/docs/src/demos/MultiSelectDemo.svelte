@@ -1,5 +1,5 @@
 <script>
-  import MultiSelect from "@invisible-ui/svelte/MultiSelect.svelte";
+  import MultiSelect from "@nozcadesign/invisible-ui-svelte/MultiSelect.svelte";
 
   const items = [
     { value: "ada", label: "Ada Lovelace" },

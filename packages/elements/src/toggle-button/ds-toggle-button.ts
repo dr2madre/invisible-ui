@@ -1,4 +1,4 @@
-import { toggleButton as core } from "@invisible-ui/core";
+import { toggleButton as core } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   boolAttr,

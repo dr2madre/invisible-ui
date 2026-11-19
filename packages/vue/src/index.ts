@@ -1,5 +1,5 @@
 /**
- * `@invisible-ui/vue`: the Vue 3 adapter over `@invisible-ui/core`.
+ * `@nozcadesign/invisible-ui-vue`: the Vue 3 adapter over `@nozcadesign/invisible-ui-core`.
  *
  * The shared component set (Button, Checkbox, Switch, Select, Combobox,
  * Dialog) proving the framework-agnostic core drives another framework
@@ -20,7 +20,7 @@
  * SheetDialog, SearchDialog, TableSet) ported
  * from the Svelte adapter; see `docs/adapters-roadmap.md`. Styles are opt-in:
  *
- *   import "@invisible-ui/vue/styles.css";
+ *   import "@nozcadesign/invisible-ui-vue/styles.css";
  */
 
 // The Vue seam over the core's prop bags.

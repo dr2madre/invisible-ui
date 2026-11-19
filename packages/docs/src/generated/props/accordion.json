@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Accordion",
-        "specifier": "@invisible-ui/svelte/Accordion.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Accordion.svelte"
       },
       "props": [
         {
@@ -63,7 +63,7 @@
       "import": {
         "kind": "named",
         "name": "Accordion",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -135,7 +135,7 @@
       "import": {
         "kind": "named",
         "name": "Accordion",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -201,7 +201,7 @@
       "import": {
         "kind": "element",
         "name": "ds-accordion",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

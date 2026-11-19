@@ -2,7 +2,7 @@
   // Deliberately expanded labels, including one unbroken token: the sequence
   // has to stay readable when words grow, with no truncation and no sideways
   // scrolling.
-  import Stepper from "@invisible-ui/svelte/Stepper.svelte";
+  import Stepper from "@nozcadesign/invisible-ui-svelte/Stepper.svelte";
 
   let current = $state(1);
 

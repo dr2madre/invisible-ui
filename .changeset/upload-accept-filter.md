@@ -1,9 +1,9 @@
 ---
-"@invisible-ui/core": minor
-"@invisible-ui/elements": minor
-"@invisible-ui/react": minor
-"@invisible-ui/svelte": minor
-"@invisible-ui/vue": minor
+"@nozcadesign/invisible-ui-core": minor
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-react": minor
+"@nozcadesign/invisible-ui-svelte": minor
+"@nozcadesign/invisible-ui-vue": minor
 ---
 
 The core gains `uploadDropArea.acceptsFile(file, accept)` and

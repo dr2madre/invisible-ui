@@ -1,13 +1,16 @@
-# @invisible-ui/svelte
+# @nozcadesign/invisible-ui-svelte
 
 Svelte adapter over the framework-agnostic
-[`@invisible-ui/core`](../../core). It carries the complete Invisible UI
+[`@nozcadesign/invisible-ui-core`](../../core). It carries the complete Invisible UI
 catalog: 74 styled components plus headless factories for components with
 shared behavior.
 
-**Status: alpha and unpublished.** The package is currently private while
-names, APIs and the release scope are finalized. The suite contains 762 tests,
-including accessibility and server-rendering coverage.
+**Status: alpha.** APIs may change before the first stable release. The suite
+includes accessibility and server-rendering coverage.
+
+```sh
+pnpm add @nozcadesign/invisible-ui-svelte@alpha
+```
 
 ## Usage
 
@@ -16,9 +19,9 @@ are component-scoped and use the shared `--ds-*` theme tokens.
 
 ```svelte
 <script lang="ts">
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import Checkbox from "@invisible-ui/svelte/Checkbox.svelte";
-  import Select from "@invisible-ui/svelte/Select.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import Checkbox from "@nozcadesign/invisible-ui-svelte/Checkbox.svelte";
+  import Select from "@nozcadesign/invisible-ui-svelte/Select.svelte";
 
   let subscribed = $state(false);
   let fruit: string | null = $state(null);
@@ -38,7 +41,7 @@ snippet props (`{#snippet trigger()}...{/snippet}`), forwarded DOM events are
 DOM-named callback props such as `onclick`, and `bind:` works on controllable
 values.
 
-Import `@invisible-ui/svelte/tokens.css` when using the shared theme outside
+Import `@nozcadesign/invisible-ui-svelte/tokens.css` when using the shared theme outside
 component-scoped styles.
 
 For a runnable integration, see [`examples/svelte`](../../examples/svelte).
@@ -51,7 +54,7 @@ that apply the connected prop bags to real DOM elements.
 
 ```svelte
 <script lang="ts">
-  import { createButton } from "@invisible-ui/svelte";
+  import { createButton } from "@nozcadesign/invisible-ui-svelte";
 
   let presses = $state(0);
   const { rootAction } = createButton({
@@ -69,8 +72,8 @@ locale metadata, writing direction or message overrides:
 
 ```svelte
 <script lang="ts">
-  import LocaleProvider from "@invisible-ui/svelte/LocaleProvider.svelte";
-  import Select from "@invisible-ui/svelte/Select.svelte";
+  import LocaleProvider from "@nozcadesign/invisible-ui-svelte/LocaleProvider.svelte";
+  import Select from "@nozcadesign/invisible-ui-svelte/Select.svelte";
 
   let value: string | null = $state(null);
   const messages = { "select.placeholder": "Scegli…" };
@@ -85,7 +88,7 @@ Explicit component label props override catalog defaults.
 
 ## Current constraints
 
-- The package is ESM-only and currently private/unpublished.
+- The package is ESM-only and published under the `alpha` dist-tag.
 - Every component fixture is rendered in a DOM-free Node test to keep the
   public surface safe during SSR.
 - The styled components use scoped CSS; shared custom properties remain the
@@ -94,9 +97,9 @@ Explicit component label props override catalog defaults.
 ## Scripts
 
 ```text
-pnpm --filter @invisible-ui/svelte build
-pnpm --filter @invisible-ui/svelte test
-pnpm --filter @invisible-ui/svelte typecheck
+pnpm --filter @nozcadesign/invisible-ui-svelte build
+pnpm --filter @nozcadesign/invisible-ui-svelte test
+pnpm --filter @nozcadesign/invisible-ui-svelte typecheck
 ```
 
 Run `pnpm install` from the repository root first.

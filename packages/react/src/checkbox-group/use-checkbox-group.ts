@@ -1,4 +1,4 @@
-import { checkboxGroup as core } from "@invisible-ui/core";
+import { checkboxGroup as core } from "@nozcadesign/invisible-ui-core";
 import { useMemo, useRef, type RefObject } from "react";
 import { useCheckedDefaults, useResettable } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";

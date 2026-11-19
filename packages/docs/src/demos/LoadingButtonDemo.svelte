@@ -1,5 +1,5 @@
 <script>
-  import Button from "@invisible-ui/svelte/Button.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
 
   let saving = $state(false);
   const save = () => {

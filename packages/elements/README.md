@@ -1,24 +1,37 @@
-# @invisible-ui/elements
+# @nozcadesign/invisible-ui-elements
 
 Web Components adapter over the framework-agnostic
-[`@invisible-ui/core`](../../core): framework-free custom elements for
+[`@nozcadesign/invisible-ui-core`](../../core): framework-free custom elements for
 contexts **without** a framework — plain HTML pages, server-driven stacks
 (HTMX, LiveView, Hotwire, Livewire) and legacy portals. Framework users should
-prefer their native adapter (`@invisible-ui/svelte`, `@invisible-ui/react`).
+prefer their native adapter (`@nozcadesign/invisible-ui-svelte`, `@nozcadesign/invisible-ui-react`).
 
 **Status: full catalog** (ADR 0008). The package carries all 81 components in
 the catalog, each as a `ds-*` element. `ds-locale-provider` carries locale,
 message overrides and direction for the elements inside it.
 
+**Status: alpha.** APIs may change before the first stable release.
+
+```sh
+pnpm add @nozcadesign/invisible-ui-elements@alpha
+```
+
 Both JavaScript entrypoints are safe to import during SSR. The server emits
-declarative `<ds-*>` light-DOM markup; when `@invisible-ui/elements/define`
+declarative `<ds-*>` light-DOM markup; when `@nozcadesign/invisible-ui-elements/define`
 loads in the browser, the elements upgrade that existing content in place.
 
 ## Usage — no build step required
 
 ```html
-<link rel="stylesheet" href=".../@invisible-ui/elements/styles.css" />
-<script type="module" src=".../@invisible-ui/elements/define.js"></script>
+<!-- Pin VERSION to the exact alpha tested by the application. -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@nozcadesign/invisible-ui-elements@VERSION/src/styles/index.css"
+/>
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@nozcadesign/invisible-ui-elements@VERSION/dist/define.js"
+></script>
 
 <ds-button variant="primary">Save</ds-button>
 
@@ -34,12 +47,19 @@ loads in the browser, the elements upgrade that existing content in place.
 
 `define.js` is **self-contained** (core and Floating UI bundled), so a script
 tag is genuinely enough. In a bundled app, import selectively instead: the
-package entry leaves `@invisible-ui/core` and `@floating-ui/dom` to your
+package entry leaves `@nozcadesign/invisible-ui-core` and `@floating-ui/dom` to your
 bundler, so the page ships only the primitives its elements use.
 
 ```js
-import { DsButton } from "@invisible-ui/elements";
+import { DsButton } from "@nozcadesign/invisible-ui-elements";
 customElements.define("ds-button", DsButton);
+```
+
+To register the complete catalog in a bundled application:
+
+```js
+import "@nozcadesign/invisible-ui-elements/styles.css";
+import "@nozcadesign/invisible-ui-elements/define";
 ```
 
 ## Design decisions (ADR 0008)
@@ -97,5 +117,5 @@ the stylesheets byte-identical to the React adapter's, and to the Vue
 adapter's where React has no counterpart:
 
 ```sh
-pnpm --filter @invisible-ui/elements test
+pnpm --filter @nozcadesign/invisible-ui-elements test
 ```

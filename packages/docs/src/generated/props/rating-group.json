@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "RatingGroup",
-        "specifier": "@invisible-ui/svelte/RatingGroup.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/RatingGroup.svelte"
       },
       "props": [
         {
@@ -71,7 +71,7 @@
       "import": {
         "kind": "named",
         "name": "RatingGroup",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -151,7 +151,7 @@
       "import": {
         "kind": "named",
         "name": "RatingGroup",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -217,7 +217,7 @@
       "import": {
         "kind": "element",
         "name": "ds-rating-group",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

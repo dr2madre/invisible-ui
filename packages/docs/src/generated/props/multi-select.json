@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "MultiSelect",
-        "specifier": "@invisible-ui/svelte/MultiSelect.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/MultiSelect.svelte"
       },
       "props": [
         {
@@ -127,7 +127,7 @@
       "import": {
         "kind": "named",
         "name": "MultiSelect",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -250,7 +250,7 @@
       "import": {
         "kind": "named",
         "name": "MultiSelect",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -372,7 +372,7 @@
       "import": {
         "kind": "element",
         "name": "ds-multi-select",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

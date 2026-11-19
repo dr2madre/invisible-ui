@@ -1,4 +1,4 @@
-import type { DomProps } from "@invisible-ui/core";
+import type { DomProps } from "@nozcadesign/invisible-ui-core";
 import { useEffect, useRef, type RefObject } from "react";
 import { useIsomorphicLayoutEffect } from "./internal/layout-effect";
 

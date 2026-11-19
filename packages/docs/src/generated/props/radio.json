@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Radio",
-        "specifier": "@invisible-ui/svelte/Radio.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Radio.svelte"
       },
       "props": [
         {
@@ -63,7 +63,7 @@
       "import": {
         "kind": "named",
         "name": "Radio",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -124,7 +124,7 @@
       "import": {
         "kind": "named",
         "name": "Radio",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -190,7 +190,7 @@
       "import": {
         "kind": "element",
         "name": "ds-radio",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

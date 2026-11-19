@@ -1,8 +1,8 @@
 <script>
-  import ButtonGroup from "@invisible-ui/svelte/ButtonGroup.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import Select from "@invisible-ui/svelte/Select.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import ButtonGroup from "@nozcadesign/invisible-ui-svelte/ButtonGroup.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import Select from "@nozcadesign/invisible-ui-svelte/Select.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
 </script>
 
 <div class="demos">

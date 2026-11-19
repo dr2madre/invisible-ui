@@ -1,5 +1,5 @@
 {
-  "name": "@invisible-ui/monorepo",
+  "name": "@nozcadesign/invisible-ui-monorepo",
   "version": "0.0.0",
   "private": true,
   "description": "Invisible UI (by nozcadesign): a headless, accessible, multi-framework component library built from scratch.",
@@ -26,7 +26,7 @@
     "consumers:check": "node scripts/check-consumer-imports.mjs && node scripts/check-packed-consumers.mjs",
     "a11y:lab": "node scripts/generate-a11y-lab.mjs",
     "tokens:registry": "node scripts/generate-token-registry.mjs",
-    "tokens:build": "pnpm --filter @invisible-ui/svelte tokens:build",
+    "tokens:build": "pnpm --filter @nozcadesign/invisible-ui-svelte tokens:build",
     "tokens:figma": "node scripts/generate-figma-tokens.mjs",
     "tokens:figma:check": "node scripts/generate-figma-tokens.mjs --check",
     "components:figma": "node scripts/capture-figma-button.mjs && node scripts/generate-figma-components.mjs",
@@ -38,7 +38,9 @@
     "demos:check": "node scripts/check-demo-determinism.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo run build --filter=@invisible-ui/core --filter=@invisible-ui/svelte --filter=@invisible-ui/vue --filter=@invisible-ui/react --filter=@invisible-ui/elements && changeset publish",
+    "release:build": "turbo run build --filter=@nozcadesign/invisible-ui-core --filter=@nozcadesign/invisible-ui-svelte --filter=@nozcadesign/invisible-ui-vue --filter=@nozcadesign/invisible-ui-react --filter=@nozcadesign/invisible-ui-elements",
+    "release:check": "pnpm gate && pnpm release:build && pnpm consumers:check && pnpm --filter @nozcadesign/invisible-ui-core --filter @nozcadesign/invisible-ui-svelte --filter @nozcadesign/invisible-ui-vue --filter @nozcadesign/invisible-ui-react --filter @nozcadesign/invisible-ui-elements publish --dry-run --no-git-checks --access public --tag alpha",
+    "release": "pnpm release:build && pnpm consumers:check && changeset publish --tag alpha",
     "prepare": "husky"
   },
   "lint-staged": {

@@ -1,4 +1,4 @@
-import { menubar as bar } from "@invisible-ui/core";
+import { menubar as bar } from "@nozcadesign/invisible-ui-core";
 import type { Action } from "svelte/action";
 import { get, writable, type Readable } from "svelte/store";
 import {

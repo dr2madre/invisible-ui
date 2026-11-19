@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/elements": patch
+"@nozcadesign/invisible-ui-elements": patch
 ---
 
 Render one SVG class attribute for Elements checkbox glyphs so the checked and

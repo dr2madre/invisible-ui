@@ -1,4 +1,4 @@
-import { collapsible, navigationBar } from "@invisible-ui/core";
+import { collapsible, navigationBar } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   boolAttr,

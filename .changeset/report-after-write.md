@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/core": minor
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
-"@invisible-ui/react": patch
+"@nozcadesign/invisible-ui-core": minor
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
+"@nozcadesign/invisible-ui-react": patch
 ---
 
 **Breaking for a consumer of a menu, encoded as a minor while the package is

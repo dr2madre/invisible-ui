@@ -1,4 +1,4 @@
-import { buttonGroup as core } from "@invisible-ui/core";
+import { buttonGroup as core } from "@nozcadesign/invisible-ui-core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
@@ -22,7 +22,7 @@ export interface CreateButtonGroup {
 
 /**
  * Create a headless button group. Behaviour and accessibility (the labelled
- * `role="group"` container and its orientation) live in `@invisible-ui/core`;
+ * `role="group"` container and its orientation) live in `@nozcadesign/invisible-ui-core`;
  * this adapter wires the state to a Svelte store and applies the group props
  * via an action. The buttons inside stay independent — the group carries no
  * selection.

@@ -1,11 +1,15 @@
-# @invisible-ui/core
+# @nozcadesign/invisible-ui-core
 
 Framework-agnostic behavior and accessibility primitives for Invisible UI.
 The core owns state models, keyboard interaction, ARIA semantics and DOM-shaped
 prop bags; it does not render components or import a UI framework.
 
-**Status: alpha and unpublished.** The package is currently private while
-names, APIs and the release scope are finalized.
+**Status: alpha.** APIs may change before the first stable release; changes are
+documented through the repository's changesets and release notes.
+
+```sh
+pnpm add @nozcadesign/invisible-ui-core@alpha
+```
 
 ## Usage
 
@@ -13,7 +17,7 @@ Each primitive is exported as a namespace so its common names (`connect`,
 `initialState`, types) do not collide with other primitives:
 
 ```ts
-import { button } from "@invisible-ui/core";
+import { button } from "@nozcadesign/invisible-ui-core";
 
 const state = button.initialState({ variant: "primary" });
 const api = button.connect({
@@ -30,7 +34,7 @@ current state and setters into `connect()`, then recomputes the API when state
 changes:
 
 ```ts
-import { checkbox } from "@invisible-ui/core";
+import { checkbox } from "@nozcadesign/invisible-ui-core";
 
 let checked: checkbox.CheckedState = false;
 
@@ -66,9 +70,9 @@ entrypoint.
 ## Scripts
 
 ```text
-pnpm --filter @invisible-ui/core build
-pnpm --filter @invisible-ui/core test
-pnpm --filter @invisible-ui/core typecheck
+pnpm --filter @nozcadesign/invisible-ui-core build
+pnpm --filter @nozcadesign/invisible-ui-core test
+pnpm --filter @nozcadesign/invisible-ui-core typecheck
 ```
 
 Run `pnpm install` from the repository root first.

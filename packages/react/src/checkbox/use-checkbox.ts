@@ -1,4 +1,4 @@
-import { checkbox as core } from "@invisible-ui/core";
+import { checkbox as core } from "@nozcadesign/invisible-ui-core";
 import { useMemo, type RefObject } from "react";
 import { useCheckedState } from "../internal/checked-state";
 import { normalizeProps } from "../normalize";

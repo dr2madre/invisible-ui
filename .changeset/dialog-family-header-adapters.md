@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/vue": minor
-"@invisible-ui/react": minor
-"@invisible-ui/elements": minor
-"@invisible-ui/svelte": patch
+"@nozcadesign/invisible-ui-vue": minor
+"@nozcadesign/invisible-ui-react": minor
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-svelte": patch
 ---
 
 The dialog family shares one header in Vue, React and Elements, as in Svelte:

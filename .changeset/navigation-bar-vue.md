@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/vue": minor
+"@nozcadesign/invisible-ui-vue": minor
 ---
 
 Add `NavigationBar`: primary navigation between a few sections, a `<nav>`

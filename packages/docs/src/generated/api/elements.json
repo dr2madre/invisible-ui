@@ -1,5 +1,5 @@
 {
-  "package": "@invisible-ui/elements",
+  "package": "@nozcadesign/invisible-ui-elements",
   "entry": "packages/elements/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -15,7 +15,7 @@
     "./package.json": "./package.json"
   },
   "externalReferences": [
-    "@invisible-ui/core"
+    "@nozcadesign/invisible-ui-core"
   ],
   "symbols": [
     {

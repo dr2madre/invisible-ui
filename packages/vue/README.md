@@ -1,14 +1,16 @@
-# @invisible-ui/vue
+# @nozcadesign/invisible-ui-vue
 
 Vue 3 adapter over the framework-agnostic
-[`@invisible-ui/core`](../../core). It carries the complete Invisible UI
+[`@nozcadesign/invisible-ui-core`](../../core). It carries the complete Invisible UI
 catalog: the same 74 styled components available in the Svelte adapter, plus
 native Vue composables for components with headless behavior.
 
-**Status: alpha and unpublished.** The package is currently private while
-names, APIs and the release scope are finalized. Vue `^3.4` is supported. Full
-catalog parity landed across PRs #193–#199; the Vue suite currently contains
-866 tests, including dedicated server-rendering and hydration coverage.
+**Status: alpha.** APIs may change before the first stable release. Vue `^3.4`
+is supported, with dedicated server-rendering and hydration coverage.
+
+```sh
+pnpm add @nozcadesign/invisible-ui-vue@alpha vue
+```
 
 ## Usage
 
@@ -17,8 +19,8 @@ Import the components you need and opt into the complete stylesheet:
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { Button, Checkbox, Dialog, Select } from "@invisible-ui/vue";
-import "@invisible-ui/vue/styles.css";
+import { Button, Checkbox, Dialog, Select } from "@nozcadesign/invisible-ui-vue";
+import "@nozcadesign/invisible-ui-vue/styles.css";
 
 const subscribed = ref(false);
 const fruit = ref<string | null>(null);
@@ -44,14 +46,14 @@ const save = () => {
 </template>
 ```
 
-Import `@invisible-ui/vue/tokens.css` alone when rendering your own markup or
+Import `@nozcadesign/invisible-ui-vue/tokens.css` alone when rendering your own markup or
 replacing the component styles. It defines the shared `--ds-*` custom
 properties without loading every component stylesheet.
 
 For a complete runnable integration, see the native
 [`examples/vue`](../../examples/vue) app. It uses `v-model`, localization,
 dialogs, notifications and the shared light/dark theme tokens directly through
-`@invisible-ui/vue`.
+`@nozcadesign/invisible-ui-vue`.
 
 ## Controlled values and `v-model`
 
@@ -81,7 +83,7 @@ accessibility while owning all markup and styling:
 
 ```vue
 <script setup lang="ts">
-import { useButton } from "@invisible-ui/vue";
+import { useButton } from "@nozcadesign/invisible-ui-vue";
 
 const save = () => {
   // Persist the form.
@@ -111,7 +113,7 @@ locale metadata, writing direction or message overrides:
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { LocaleProvider, Select } from "@invisible-ui/vue";
+import { LocaleProvider, Select } from "@nozcadesign/invisible-ui-vue";
 
 const value = ref<string | null>(null);
 const items = [{ value: "apple", label: "Mela" }];
@@ -155,7 +157,7 @@ the findings from the full port.
 
 ## Current constraints
 
-- The package is ESM-only and currently private/unpublished.
+- The package is ESM-only and published under the `alpha` dist-tag.
 - Every public component export is server-rendered in a DOM-free Node test.
   Representative stateful, overlay and date components are also rendered in a
   server runtime and hydrated in a separate client runtime without mismatches.
@@ -166,9 +168,9 @@ the findings from the full port.
 ## Scripts
 
 ```text
-pnpm --filter @invisible-ui/vue build
-pnpm --filter @invisible-ui/vue test
-pnpm --filter @invisible-ui/vue typecheck
+pnpm --filter @nozcadesign/invisible-ui-vue build
+pnpm --filter @nozcadesign/invisible-ui-vue test
+pnpm --filter @nozcadesign/invisible-ui-vue typecheck
 ```
 
 Run `pnpm install` from the repository root first.

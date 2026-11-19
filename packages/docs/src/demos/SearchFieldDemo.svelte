@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SearchField from "@invisible-ui/svelte/SearchField.svelte";
+  import SearchField from "@nozcadesign/invisible-ui-svelte/SearchField.svelte";
 
   let value = $state("archive");
   let submitted = $state("");

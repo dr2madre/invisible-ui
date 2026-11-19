@@ -1,456 +1,456 @@
 [
   {
-    "name": "@invisible-ui/core — full barrel (all primitives)",
+    "name": "@nozcadesign/invisible-ui-core — full barrel (all primitives)",
     "path": "core/dist/index.js",
     "limit": "27.6 kB"
   },
   {
-    "name": "@invisible-ui/core — one primitive, tree-shaken (label)",
+    "name": "@nozcadesign/invisible-ui-core — one primitive, tree-shaken (label)",
     "path": "core/dist/index.js",
     "import": "{ label }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@invisible-ui/core — calendar only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-core — calendar only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ calendar }",
     "limit": "2.5 kB"
   },
   {
-    "name": "@invisible-ui/core — i18n only, tree-shaken (catalog included)",
+    "name": "@nozcadesign/invisible-ui-core — i18n only, tree-shaken (catalog included)",
     "path": "core/dist/index.js",
     "import": "{ i18n }",
     "limit": "3.5 kB"
   },
   {
-    "name": "@invisible-ui/core — number field only, tree-shaken (with i18n)",
+    "name": "@nozcadesign/invisible-ui-core — number field only, tree-shaken (with i18n)",
     "path": "core/dist/index.js",
     "import": "{ numberField }",
     "limit": "3 kB"
   },
   {
-    "name": "@invisible-ui/core — range slider only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-core — range slider only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ rangeSlider }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@invisible-ui/svelte — adapters barrel",
+    "name": "@nozcadesign/invisible-ui-svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
     "limit": "55 kB"
   },
   {
-    "name": "@invisible-ui/vue — adapters barrel",
+    "name": "@nozcadesign/invisible-ui-vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
     "limit": "85.1 kB"
   },
   {
-    "name": "@invisible-ui/react — adapters barrel",
+    "name": "@nozcadesign/invisible-ui-react — adapters barrel",
     "path": "packages/react/dist/index.js",
     "limit": "77.2 kB"
   },
   {
-    "name": "@invisible-ui/react — text field only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-react — text field only, tree-shaken",
     "path": "packages/react/dist/index.js",
     "import": "{ TextField }",
     "limit": "10 kB"
   },
   {
-    "name": "@invisible-ui/elements — elements barrel",
+    "name": "@nozcadesign/invisible-ui-elements — elements barrel",
     "path": "packages/elements/dist/index.js",
     "limit": "84.9 kB"
   },
   {
-    "name": "@invisible-ui/elements — define entry",
+    "name": "@nozcadesign/invisible-ui-elements — define entry",
     "path": "packages/elements/dist/define.js",
     "limit": "85.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — table only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — table only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTable }",
     "limit": "7.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — table set only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — table set only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTableSet }",
     "limit": "23.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — count only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — count only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCount }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — tabs only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — tabs only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTabs }",
     "limit": "8 kB"
   },
   {
-    "name": "@invisible-ui/elements — pagination only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — pagination only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPagination }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — card only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — card only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCard }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — tag only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — tag only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTag }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — separator only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — separator only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSeparator }",
     "limit": "6.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — empty state only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — empty state only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsEmptyState }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — error state only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — error state only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsErrorState }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — inline notification only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — inline notification only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsInlineNotification }",
     "limit": "8 kB"
   },
   {
-    "name": "@invisible-ui/elements — loading only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — loading only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoading }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — loading generation area only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — loading generation area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoadingGenerationArea }",
     "limit": "7 kB"
   },
   {
-    "name": "@invisible-ui/elements — sheet dialog only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — sheet dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSheetDialog }",
     "limit": "9 kB"
   },
   {
-    "name": "@invisible-ui/elements — tree view only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — tree view only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTreeView }",
     "limit": "8 kB"
   },
   {
-    "name": "@invisible-ui/elements — alert dialog only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — alert dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAlertDialog }",
     "limit": "7.4 kB"
   },
   {
-    "name": "@invisible-ui/elements — avatar only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — avatar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAvatar }",
     "limit": "1 kB"
   },
   {
-    "name": "@invisible-ui/elements — avatar group only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — avatar group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAvatarGroup }",
     "limit": "4.2 kB"
   },
   {
-    "name": "@invisible-ui/elements — breadcrumb only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — breadcrumb only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsBreadcrumb }",
     "limit": "4.4 kB"
   },
   {
-    "name": "@invisible-ui/elements — button group only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — button group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsButtonGroup }",
     "limit": "1 kB"
   },
   {
-    "name": "@invisible-ui/elements — carousel only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — carousel only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCarousel }",
     "limit": "6.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — code block only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — code block only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCodeBlock }",
     "limit": "4.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — code only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — code only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCode }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — confirm dialog only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — confirm dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsConfirmDialog }",
     "limit": "7.4 kB"
   },
   {
-    "name": "@invisible-ui/elements — dropdown menu only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — dropdown menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsDropdownMenu }",
     "limit": "11 kB"
   },
   {
-    "name": "@invisible-ui/elements — feedback icon only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — feedback icon only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsFeedbackIcon }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — icon only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — icon only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsIcon }",
     "limit": "1 kB"
   },
   {
-    "name": "@invisible-ui/elements — kbd only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — kbd only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsKbd }",
     "limit": "1 kB"
   },
   {
-    "name": "@invisible-ui/elements — link only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — link only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLink }",
     "limit": "1 kB"
   },
   {
-    "name": "@invisible-ui/elements — login form only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — login form only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoginForm }",
     "limit": "4.7 kB"
   },
   {
-    "name": "@invisible-ui/elements — navigation menu only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — navigation menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNavigationMenu }",
     "limit": "9.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — number field only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — number field only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNumberField }",
     "limit": "7.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — progress only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — progress only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsProgress }",
     "limit": "2 kB"
   },
   {
-    "name": "@invisible-ui/elements — pin input only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — pin input only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPinInput }",
     "limit": "6.6 kB"
   },
   {
-    "name": "@invisible-ui/elements — prompt dialog only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — prompt dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPromptDialog }",
     "limit": "7.6 kB"
   },
   {
-    "name": "@invisible-ui/elements — radio only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — radio only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRadio }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — range slider only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — range slider only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRangeSlider }",
     "limit": "7.6 kB"
   },
   {
-    "name": "@invisible-ui/elements — rating group only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — rating group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsRatingGroup }",
     "limit": "6.1 kB"
   },
   {
-    "name": "@invisible-ui/elements — scroll area only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — scroll area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsScrollArea }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — search dialog only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — search dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSearchDialog }",
     "limit": "9.4 kB"
   },
   {
-    "name": "@invisible-ui/elements — segmented control only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — segmented control only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSegmentedControl }",
     "limit": "2.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — navigation bar only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — navigation bar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNavigationBar }",
     "limit": "7.3 kB"
   },
   {
-    "name": "@invisible-ui/elements — sidebar only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — sidebar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSidebar }",
     "limit": "14.7 kB"
   },
   {
-    "name": "@invisible-ui/elements — slider only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — slider only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSlider }",
     "limit": "2.9 kB"
   },
   {
-    "name": "@invisible-ui/elements — toggle button only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — toggle button only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToggleButton }",
     "limit": "2.3 kB"
   },
   {
-    "name": "@invisible-ui/elements — toggle group only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — toggle group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToggleGroup }",
     "limit": "1.7 kB"
   },
   {
-    "name": "@invisible-ui/elements — toolbar only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — toolbar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToolbar }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — tooltip only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — tooltip only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTooltip }",
     "limit": "8 kB"
   },
   {
-    "name": "@invisible-ui/elements — upload drop area only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — upload drop area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsUploadDropArea }",
     "limit": "6.6 kB"
   },
   {
-    "name": "@invisible-ui/elements — accordion only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — accordion only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAccordion }",
     "limit": "3 kB"
   },
   {
-    "name": "@invisible-ui/elements — collapsible only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — collapsible only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCollapsible }",
     "limit": "4.9 kB"
   },
   {
-    "name": "@invisible-ui/elements — aspect ratio only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — aspect ratio only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAspectRatio }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — blockquote only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — blockquote only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsBlockquote }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — skeleton only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — skeleton only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSkeleton }",
     "limit": "1 kB"
   },
   {
-    "name": "@invisible-ui/elements — meter only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — meter only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsMeter }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — notification only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — notification only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNotification }",
     "limit": "5.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — notification region only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — notification region only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsNotificationRegion }",
     "limit": "8.6 kB"
   },
   {
-    "name": "@invisible-ui/elements — stepper only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — stepper only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsStepper }",
     "limit": "5.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — context menu only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — context menu only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsContextMenu }",
     "limit": "13.2 kB"
   },
   {
-    "name": "@invisible-ui/elements — menubar only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — menubar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsMenubar }",
     "limit": "11 kB"
   },
   {
-    "name": "@invisible-ui/elements — popover only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — popover only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPopover }",
     "limit": "12.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — calendar only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — calendar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCalendar }",
     "limit": "11 kB"
   },
   {
-    "name": "@invisible-ui/elements — date picker only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — date picker only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsDatePicker }",
     "limit": "19.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — date range picker only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — date range picker only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsDateRangePicker }",
     "limit": "19.5 kB"
   },
   {
-    "name": "@invisible-ui/elements — time field only, tree-shaken",
+    "name": "@nozcadesign/invisible-ui-elements — time field only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTimeField }",
     "limit": "8 kB"

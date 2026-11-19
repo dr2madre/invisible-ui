@@ -1,5 +1,5 @@
 <script>
-  import SegmentedControl from "@invisible-ui/svelte/SegmentedControl.svelte";
+  import SegmentedControl from "@nozcadesign/invisible-ui-svelte/SegmentedControl.svelte";
   import HomeIcon from "./icons/HomeIcon.svelte";
   import SearchIcon from "./icons/SearchIcon.svelte";
   import BellIcon from "./icons/BellIcon.svelte";

@@ -1,4 +1,4 @@
-import { toggleGroup as core } from "@invisible-ui/core";
+import { toggleGroup as core } from "@nozcadesign/invisible-ui-core";
 import { useEffect, useRef, type ReactNode } from "react";
 import { cx } from "../internal/cx";
 

@@ -6,7 +6,7 @@
       "import": {
         "kind": "named",
         "name": "HoverCard",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {

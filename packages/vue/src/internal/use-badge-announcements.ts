@@ -1,4 +1,4 @@
-import { navigationBar } from "@invisible-ui/core";
+import { navigationBar } from "@nozcadesign/invisible-ui-core";
 import { onBeforeUnmount, onMounted, ref, shallowRef, watchEffect, type Ref } from "vue";
 import type { TranslateFn } from "../i18n/i18n";
 import { hasOpenModal, onModalChange } from "./modal-stack";

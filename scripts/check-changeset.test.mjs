@@ -75,7 +75,7 @@ test("no contract file changed: nothing needed", () => {
 test("an API report changed and the changeset names its package: passes", () => {
   const r = repo({ [`${API}/react.json`]: { symbols: [] } });
   r.write(`${API}/react.json`, { symbols: [{ name: "x" }] });
-  r.write(".changeset/one.md", changeset(["@invisible-ui/react"]));
+  r.write(".changeset/one.md", changeset(["@nozcadesign/invisible-ui-react"]));
   r.commit();
   assert.equal(r.run().code, 0);
   r.done();
@@ -84,11 +84,11 @@ test("an API report changed and the changeset names its package: passes", () => 
 test("an API report changed and the changeset names another package: refused, naming the gap", () => {
   const r = repo({ [`${API}/react.json`]: { symbols: [] } });
   r.write(`${API}/react.json`, { symbols: [{ name: "x" }] });
-  r.write(".changeset/one.md", changeset(["@invisible-ui/svelte"]));
+  r.write(".changeset/one.md", changeset(["@nozcadesign/invisible-ui-svelte"]));
   r.commit();
   const { code, out } = r.run();
   assert.equal(code, 1);
-  assert.match(out, /@invisible-ui\/react changed and is not named/);
+  assert.match(out, /@nozcadesign\/invisible-ui-react changed and is not named/);
   r.done();
 });
 
@@ -98,12 +98,12 @@ test("a prop manifest: only the frameworks whose section changed are required", 
   r.write(`${PROPS}/button.json`, {
     frameworks: { svelte: { props: [1] }, vue: { props: [1, 2] } },
   });
-  r.write(".changeset/one.md", changeset(["@invisible-ui/vue"]));
+  r.write(".changeset/one.md", changeset(["@nozcadesign/invisible-ui-vue"]));
   r.commit();
   assert.equal(r.run().code, 0);
-  r.write(".changeset/one.md", changeset(["@invisible-ui/svelte"]));
+  r.write(".changeset/one.md", changeset(["@nozcadesign/invisible-ui-svelte"]));
   r.commit();
-  assert.match(r.run().out, /@invisible-ui\/vue changed and is not named/);
+  assert.match(r.run().out, /@nozcadesign\/invisible-ui-vue changed and is not named/);
   r.done();
 });
 
@@ -111,10 +111,13 @@ test("a token: every adapter that ships it must be named", () => {
   const token = (v) => ({ name: "--ds-x", adapters: ["svelte", "vue"], resolved: v });
   const r = repo({ [REGISTRY]: { tokens: [token(1)], componentTokens: [] } });
   r.write(REGISTRY, { tokens: [token(2)], componentTokens: [] });
-  r.write(".changeset/one.md", changeset(["@invisible-ui/svelte"]));
+  r.write(".changeset/one.md", changeset(["@nozcadesign/invisible-ui-svelte"]));
   r.commit();
-  assert.match(r.run().out, /@invisible-ui\/vue changed and is not named/);
-  r.write(".changeset/one.md", changeset(["@invisible-ui/svelte", "@invisible-ui/vue"]));
+  assert.match(r.run().out, /@nozcadesign\/invisible-ui-vue changed and is not named/);
+  r.write(
+    ".changeset/one.md",
+    changeset(["@nozcadesign/invisible-ui-svelte", "@nozcadesign/invisible-ui-vue"]),
+  );
   r.commit();
   assert.equal(r.run().code, 0);
   r.done();
@@ -123,10 +126,10 @@ test("a token: every adapter that ships it must be named", () => {
 test("an empty changeset, or a deleted one, satisfies nothing", () => {
   const r = repo({
     [`${API}/core.json`]: { symbols: [] },
-    ".changeset/old.md": changeset(["@invisible-ui/core"]),
+    ".changeset/old.md": changeset(["@nozcadesign/invisible-ui-core"]),
   });
   r.write(`${API}/core.json`, { symbols: [1] });
-  r.write(".changeset/new.md", changeset(["@invisible-ui/core"], ""));
+  r.write(".changeset/new.md", changeset(["@nozcadesign/invisible-ui-core"], ""));
   r.commit();
   assert.match(r.run().out, /empty/);
   r.done();
@@ -141,7 +144,7 @@ test("a change the base branch made afterwards is not this branch's to answer fo
   const other = { frameworks: { vue: { props: [1] } } };
   const r = repo({ [`${PROPS}/one.json`]: one, [`${PROPS}/other.json`]: other });
   r.write(`${PROPS}/one.json`, { frameworks: { svelte: { props: [1, 2] } } });
-  r.write(".changeset/mine.md", changeset(["@invisible-ui/svelte"]));
+  r.write(".changeset/mine.md", changeset(["@nozcadesign/invisible-ui-svelte"]));
   r.commit();
   r.baseMovesOn({ [`${PROPS}/other.json`]: { frameworks: { vue: { props: [1, 2] } } } });
 
@@ -158,7 +161,7 @@ test("a change this branch made counts even if the base made the same one", () =
   r.write(`${PROPS}/one.json`, {
     frameworks: { svelte: { props: [1] }, vue: { props: [1, 2] } },
   });
-  r.write(".changeset/mine.md", changeset(["@invisible-ui/svelte"]));
+  r.write(".changeset/mine.md", changeset(["@nozcadesign/invisible-ui-svelte"]));
   r.commit();
   r.baseMovesOn({
     [`${PROPS}/one.json`]: { frameworks: { svelte: { props: [1] }, vue: { props: [1, 2] } } },
@@ -166,7 +169,7 @@ test("a change this branch made counts even if the base made the same one", () =
 
   const result = r.run();
   assert.equal(result.code, 1, result.out);
-  assert.match(result.out, /@invisible-ui\/vue changed and is not named/);
+  assert.match(result.out, /@nozcadesign\/invisible-ui-vue changed and is not named/);
   r.done();
 });
 
@@ -175,10 +178,13 @@ test("a change this branch made counts even if the base made the same one", () =
 test("editing a changeset that was already there satisfies nothing", () => {
   const r = repo({
     [`${API}/core.json`]: { symbols: ["a"] },
-    ".changeset/theirs.md": changeset(["@invisible-ui/core"], "Their change."),
+    ".changeset/theirs.md": changeset(["@nozcadesign/invisible-ui-core"], "Their change."),
   });
   r.write(`${API}/core.json`, { symbols: ["a", "b"] });
-  r.write(".changeset/theirs.md", changeset(["@invisible-ui/core"], "Their change, and mine."));
+  r.write(
+    ".changeset/theirs.md",
+    changeset(["@nozcadesign/invisible-ui-core"], "Their change, and mine."),
+  );
   r.commit();
 
   const result = r.run();
@@ -192,7 +198,7 @@ test("editing a changeset that was already there satisfies nothing", () => {
 test("deleting a changeset someone else added satisfies nothing", () => {
   const r = repo({
     [`${API}/core.json`]: { symbols: ["a"] },
-    ".changeset/theirs.md": changeset(["@invisible-ui/core"]),
+    ".changeset/theirs.md": changeset(["@nozcadesign/invisible-ui-core"]),
   });
   r.write(`${API}/core.json`, { symbols: ["a", "b"] });
   rmSync(join(r.dir, ".changeset/theirs.md"));
@@ -211,12 +217,12 @@ test("an empty changeset does not speak for the packages it names", () => {
   });
   r.write(`${API}/core.json`, { symbols: ["a", "b"] });
   r.write(`${API}/react.json`, { symbols: ["a", "b"] });
-  r.write(".changeset/empty.md", changeset(["@invisible-ui/react"], ""));
-  r.write(".changeset/real.md", changeset(["@invisible-ui/core"]));
+  r.write(".changeset/empty.md", changeset(["@nozcadesign/invisible-ui-react"], ""));
+  r.write(".changeset/real.md", changeset(["@nozcadesign/invisible-ui-core"]));
   r.commit();
 
   const result = r.run();
   assert.equal(result.code, 1, result.out);
-  assert.match(result.out, /@invisible-ui\/react changed and is not named/);
+  assert.match(result.out, /@nozcadesign\/invisible-ui-react changed and is not named/);
   r.done();
 });

@@ -1,13 +1,13 @@
 <script>
-  import SheetDialog from "@invisible-ui/svelte/SheetDialog.svelte";
-  import InlineNotification from "@invisible-ui/svelte/InlineNotification.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import Count from "@invisible-ui/svelte/Count.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
-  import SearchField from "@invisible-ui/svelte/SearchField.svelte";
-  import ToggleButton from "@invisible-ui/svelte/ToggleButton.svelte";
-  import ToggleGroup from "@invisible-ui/svelte/ToggleGroup.svelte";
-  import Switch from "@invisible-ui/svelte/Switch.svelte";
+  import SheetDialog from "@nozcadesign/invisible-ui-svelte/SheetDialog.svelte";
+  import InlineNotification from "@nozcadesign/invisible-ui-svelte/InlineNotification.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import Count from "@nozcadesign/invisible-ui-svelte/Count.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
+  import SearchField from "@nozcadesign/invisible-ui-svelte/SearchField.svelte";
+  import ToggleButton from "@nozcadesign/invisible-ui-svelte/ToggleButton.svelte";
+  import ToggleGroup from "@nozcadesign/invisible-ui-svelte/ToggleGroup.svelte";
+  import Switch from "@nozcadesign/invisible-ui-svelte/Switch.svelte";
 
   // Each notification TYPE carries its own icon (glyph path) — set per topic,
   // not per status, so the center reads as one calm, uncolored list.

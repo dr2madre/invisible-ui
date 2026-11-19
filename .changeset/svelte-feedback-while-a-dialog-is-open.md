@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/svelte": minor
+"@nozcadesign/invisible-ui-svelte": minor
 ---
 
 Messages while a dialog is open follow ADR 0016 in the Svelte adapter.

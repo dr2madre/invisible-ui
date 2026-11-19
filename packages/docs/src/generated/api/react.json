@@ -1,5 +1,5 @@
 {
-  "package": "@invisible-ui/react",
+  "package": "@nozcadesign/invisible-ui-react",
   "entry": "packages/react/dist/index.d.ts",
   "exportMap": {
     ".": {
@@ -12,7 +12,7 @@
   },
   "externalReferences": [
     "@floating-ui/react-dom",
-    "@invisible-ui/core",
+    "@nozcadesign/invisible-ui-core",
     "react"
   ],
   "symbols": [

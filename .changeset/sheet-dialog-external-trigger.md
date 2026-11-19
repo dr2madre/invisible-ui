@@ -1,6 +1,6 @@
 ---
-"@invisible-ui/svelte": minor
-"@invisible-ui/vue": minor
+"@nozcadesign/invisible-ui-svelte": minor
+"@nozcadesign/invisible-ui-vue": minor
 ---
 
 `SheetDialog` can leave its trigger to the page.

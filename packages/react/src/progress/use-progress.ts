@@ -1,4 +1,4 @@
-import { progress as core } from "@invisible-ui/core";
+import { progress as core } from "@nozcadesign/invisible-ui-core";
 import { useId } from "react";
 import { normalizeProps } from "../normalize";
 

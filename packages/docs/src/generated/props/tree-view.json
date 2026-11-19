@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "TreeView",
-        "specifier": "@invisible-ui/svelte/TreeView.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/TreeView.svelte"
       },
       "props": [
         {
@@ -119,7 +119,7 @@
       "import": {
         "kind": "named",
         "name": "TreeView",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -230,7 +230,7 @@
       "import": {
         "kind": "named",
         "name": "TreeView",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -344,7 +344,7 @@
       "import": {
         "kind": "element",
         "name": "ds-tree-view",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [],
       "notes": [

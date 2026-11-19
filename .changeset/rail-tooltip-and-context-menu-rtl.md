@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
-"@invisible-ui/react": patch
-"@invisible-ui/elements": patch
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
+"@nozcadesign/invisible-ui-react": patch
+"@nozcadesign/invisible-ui-elements": patch
 ---
 
 In right-to-left text the Sidebar rail tooltip sits at the inline end, on the

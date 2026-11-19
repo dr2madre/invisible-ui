@@ -5,9 +5,9 @@
 // Vue example needs no React compiler plugin. The tree is static, so it is
 // built once at module level.
 import "./theme";
-import "@invisible-ui/react/styles.css";
+import "@nozcadesign/invisible-ui-react/styles.css";
 import "./visual.css";
-import { Button, Checkbox, Icon, Select, Switch, TextField } from "@invisible-ui/react";
+import { Button, Checkbox, Icon, Select, Switch, TextField } from "@nozcadesign/invisible-ui-react";
 import { createElement as h, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 

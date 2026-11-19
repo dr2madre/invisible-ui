@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "TableView",
-        "specifier": "@invisible-ui/svelte/TableView.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/TableView.svelte"
       },
       "props": [
         {

@@ -1,6 +1,6 @@
-# @invisible-ui/react
+# @nozcadesign/invisible-ui-react
 
-React adapter over the framework-agnostic [`@invisible-ui/core`](../../core).
+React adapter over the framework-agnostic [`@nozcadesign/invisible-ui-core`](../../core).
 
 **Status: full catalog.** The adapter started as the proof of concept that
 showed the core drives a second framework. Like the Svelte, Vue and custom
@@ -27,11 +27,17 @@ history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 The tests include dedicated server-rendering and hydration coverage for
 every public renderable export.
 
+**Status: alpha.** APIs may change before the first stable release.
+
+```sh
+pnpm add @nozcadesign/invisible-ui-react@alpha react react-dom
+```
+
 ## Usage
 
 ```tsx
-import { Button, Checkbox, Combobox, Dialog, Select, Switch } from "@invisible-ui/react";
-import "@invisible-ui/react/styles.css";
+import { Button, Checkbox, Combobox, Dialog, Select, Switch } from "@nozcadesign/invisible-ui-react";
+import "@nozcadesign/invisible-ui-react/styles.css";
 
 function Example() {
   const [checked, setChecked] = useState(false);
@@ -53,7 +59,7 @@ function Example() {
 }
 ```
 
-Import `@invisible-ui/react/tokens.css` alone if you style the components
+Import `@nozcadesign/invisible-ui-react/tokens.css` alone if you style the components
 yourself — it defines the `--ds-*` custom properties everything reads from.
 
 ## How it works
@@ -183,7 +189,7 @@ nothing on the server and mounts in `<body>` once hydrated.
 ## Scripts
 
 ```
-pnpm --filter @invisible-ui/react build      # tsup → dist (ESM + d.ts)
-pnpm --filter @invisible-ui/react test       # vitest + @testing-library/react + axe
-pnpm --filter @invisible-ui/react typecheck
+pnpm --filter @nozcadesign/invisible-ui-react build      # tsup → dist (ESM + d.ts)
+pnpm --filter @nozcadesign/invisible-ui-react test       # vitest + @testing-library/react + axe
+pnpm --filter @nozcadesign/invisible-ui-react typecheck
 ```

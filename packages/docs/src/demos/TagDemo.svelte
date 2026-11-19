@@ -1,7 +1,7 @@
 <script>
-  import Tag from "@invisible-ui/svelte/Tag.svelte";
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import Tag from "@nozcadesign/invisible-ui-svelte/Tag.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
 
   // Removable tags actually leave the list on ✕; reset brings them back.
   const initial = ["Design", "Frontend", "Accessibility", "Docs"];

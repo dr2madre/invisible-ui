@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "Combobox",
-        "specifier": "@invisible-ui/svelte/Combobox.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/Combobox.svelte"
       },
       "props": [
         {
@@ -127,7 +127,7 @@
       "import": {
         "kind": "named",
         "name": "Combobox",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -257,7 +257,7 @@
       "import": {
         "kind": "named",
         "name": "Combobox",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -379,7 +379,7 @@
       "import": {
         "kind": "element",
         "name": "ds-combobox",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

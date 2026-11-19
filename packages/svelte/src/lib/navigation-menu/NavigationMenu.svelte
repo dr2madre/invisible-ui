@@ -4,7 +4,7 @@
    * links (Radix "Navigation Menu"). Plain items are ordinary links; panel items
    * are disclosures. Behaviour/ARIA (open value, `aria-expanded`/`aria-controls`,
    * Escape, ArrowDown) come from the headless navigation menu
-   * (`@invisible-ui/core`); this adapter adds hover open/close (with switching),
+   * (`@nozcadesign/invisible-ui-core`); this adapter adds hover open/close (with switching),
    * Floating-UI positioning, outside-press dismissal and focus movement.
    *
    * The pointer resting on a trigger opens its panel while it stays; a click

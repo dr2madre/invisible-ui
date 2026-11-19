@@ -1,4 +1,4 @@
-import { dialog as core, sheetDialog as sheet } from "@invisible-ui/core";
+import { dialog as core, sheetDialog as sheet } from "@nozcadesign/invisible-ui-core";
 import {
   applyProps,
   boolAttr,

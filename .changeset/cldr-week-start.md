@@ -1,5 +1,5 @@
 ---
-"@invisible-ui/core": patch
+"@nozcadesign/invisible-ui-core": patch
 ---
 
 `weekStart.forLocale(locale)` returns the first day of the week a

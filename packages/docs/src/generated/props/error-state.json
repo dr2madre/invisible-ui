@@ -6,7 +6,7 @@
       "import": {
         "kind": "default",
         "name": "ErrorState",
-        "specifier": "@invisible-ui/svelte/ErrorState.svelte"
+        "specifier": "@nozcadesign/invisible-ui-svelte/ErrorState.svelte"
       },
       "props": [
         {
@@ -87,7 +87,7 @@
       "import": {
         "kind": "named",
         "name": "ErrorState",
-        "specifier": "@invisible-ui/vue"
+        "specifier": "@nozcadesign/invisible-ui-vue"
       },
       "props": [
         {
@@ -166,7 +166,7 @@
       "import": {
         "kind": "named",
         "name": "ErrorState",
-        "specifier": "@invisible-ui/react"
+        "specifier": "@nozcadesign/invisible-ui-react"
       },
       "extends": [],
       "props": [
@@ -256,7 +256,7 @@
       "import": {
         "kind": "element",
         "name": "ds-error-state",
-        "specifier": "@invisible-ui/elements/define"
+        "specifier": "@nozcadesign/invisible-ui-elements/define"
       },
       "attributes": [
         {

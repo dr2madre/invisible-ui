@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/react": minor
-"@invisible-ui/elements": patch
-"@invisible-ui/svelte": patch
-"@invisible-ui/vue": patch
+"@nozcadesign/invisible-ui-react": minor
+"@nozcadesign/invisible-ui-elements": patch
+"@nozcadesign/invisible-ui-svelte": patch
+"@nozcadesign/invisible-ui-vue": patch
 ---
 
 Messages while a dialog is open follow ADR 0016 in the React adapter.

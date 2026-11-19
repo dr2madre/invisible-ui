@@ -1,8 +1,8 @@
 ---
-"@invisible-ui/elements": minor
-"@invisible-ui/svelte": minor
-"@invisible-ui/vue": minor
-"@invisible-ui/react": minor
+"@nozcadesign/invisible-ui-elements": minor
+"@nozcadesign/invisible-ui-svelte": minor
+"@nozcadesign/invisible-ui-vue": minor
+"@nozcadesign/invisible-ui-react": minor
 ---
 
 Text fields can hide their visible labels without removing the real label or

@@ -1,6 +1,6 @@
 <script>
-  import Button from "@invisible-ui/svelte/Button.svelte";
-  import Icon from "@invisible-ui/svelte/Icon.svelte";
+  import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
+  import Icon from "@nozcadesign/invisible-ui-svelte/Icon.svelte";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1rem;">
