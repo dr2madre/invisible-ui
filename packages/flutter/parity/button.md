@@ -6,6 +6,12 @@ Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
+Reference review (2026-10-19, Dark contrast): the default Button fill points
+at the shared action fill, none in both themes, and its label at the shared
+action label. In Dark the default border, the label and the secondary fill,
+border and label keep the Light contrast with the page. Only token values
+changed; Flutter reads the same tokens.
+
 Reference paths: `core/src/button` `packages/svelte/src/lib/button`
 
 The Flutter `Button` checked against the Svelte `Button`

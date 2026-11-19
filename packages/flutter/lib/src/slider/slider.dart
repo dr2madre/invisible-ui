@@ -290,7 +290,7 @@ class _SliderState extends State<Slider> with ValueControl<double, Slider> {
       axis: widget.orientation,
       thickness: _thickness,
       thumbSize: _thumb,
-      fill: colors.secondary,
+      fill: colors.selected,
       fillFrom: 0,
       fillTo: valueFraction(value, widget.min, widget.max),
       thumbs: [valueFraction(value, widget.min, widget.max)],
@@ -311,7 +311,7 @@ class _SliderState extends State<Slider> with ValueControl<double, Slider> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: colors.background,
-            border: Border.all(color: colors.secondary, width: _thumbBorder),
+            border: Border.all(color: colors.selected, width: _thumbBorder),
           ),
         ),
       ),

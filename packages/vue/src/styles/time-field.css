@@ -52,11 +52,11 @@
 .time-field__segment:focus {
   background: var(
     --ds-time-field-focus-bg,
-    var(--ds-components-general-action-secondary-background-default, #7a52cc)
+    var(--ds-components-general-selection-background-default, #7a52cc)
   );
   color: var(
     --ds-time-field-focus-text,
-    var(--ds-components-general-action-secondary-foreground-default, #ffffff)
+    var(--ds-components-general-selection-foreground-default, #ffffff)
   );
 }
 .time-field__segment--placeholder {

@@ -496,7 +496,7 @@ class _HeaderCell extends StatelessWidget {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final active = sort != null;
-    final color = active ? colors.secondaryBodyText : colors.textSecondary;
+    final color = active ? colors.selectedForeground : colors.textSecondary;
     final style = DefaultTextStyle.of(
       context,
     ).style.copyWith(fontWeight: FontWeight.w600, color: color);

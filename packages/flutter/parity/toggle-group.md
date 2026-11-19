@@ -6,6 +6,15 @@ Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
+Reference review (2026-10-19): the segmented group draws its outer border and
+the lines between toggles in the toggle group border, which points at the
+shared action border, as the default Button border does.
+
+Reference review (2026-10-19, Dark contrast): the toggles of a group are Toggle
+Buttons, so they take the toggle fill and label at rest and the shared
+selected fill and label when on, in both themes. Nothing changed in the group
+itself.
+
 Reference paths: `packages/svelte/src/lib/toggle-group`
 
 The Flutter `ToggleGroup` checked against the Svelte `ToggleGroup`
@@ -63,7 +72,7 @@ Each line is **matched**, **adapted** (with the platform reason), **open**
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Separate: each toggle's own look, 0.375rem apart | matched | `separate: each toggle keeps its border; the group is a named container, not a toolbar; each toggle keeps its own value` |
-| Segmented: one border around the toggles, a line between each two, the toggles without border and corners | matched | `segmented: the toggles drop their border and corners, the group draws one border and a line between each two` |
+| Segmented: one border around the toggles, a line between each two, both in the toggle group border, the toggles without border and corners | matched | `segmented: the toggles drop their border and corners, the group draws one border and a line between each two` |
 | Segmented: the focus ring inside the toggle, since the group clips | matched | `FocusRingPainter(inside: true)` in a joined group |
 | Vertical stacks; right to left mirrors | matched | `vertical stacks; right to left mirrors the row` |
 

@@ -140,10 +140,10 @@
     background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .sidebar__item--active {
-    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    color: var(--ds-components-general-foreground-selected, #7a52cc);
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      var(--ds-components-general-selection-background-default, #7a52cc) 10%,
       transparent
     );
     font-weight: 600;

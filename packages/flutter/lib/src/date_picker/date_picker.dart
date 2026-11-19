@@ -599,7 +599,7 @@ class _PickerFieldState extends State<_PickerField> {
                             // selection colour.
                             data: IconThemeData(
                               color: text != null && enabled
-                                  ? colors.secondary
+                                  ? colors.selected
                                   : colors.textSecondary,
                             ),
                             child: const Glyph(GlyphShape.calendar),

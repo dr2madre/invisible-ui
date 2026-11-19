@@ -242,10 +242,10 @@
       background-color 120ms ease;
   }
   .upload-drop-area:global([data-dragover]) {
-    border-color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    border-color: var(--ds-components-general-selection-background-default, #7a52cc);
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 8%,
+      var(--ds-components-general-selection-background-default, #7a52cc) 8%,
       var(--ds-components-general-background-default, #fff)
     );
   }
@@ -256,7 +256,7 @@
   /* The opening spinner is a Loading overlay (veil off); tint it and scale it
      up a little via the font-size it keys off. */
   .upload-drop-area--opening :global(.loading--overlay) {
-    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    color: var(--ds-components-general-selection-background-default, #7a52cc);
     font-size: 1.5rem;
   }
   .upload-drop-area__icon {

@@ -99,6 +99,13 @@ for (const theme of ["light", "dark"] as const) {
       await setTheme(page, theme);
       await page.goto("components/forms/switch/");
       await assertTheme(page, theme);
+      // A colour read mid-transition comes back interpolated, in oklab.
+      await page
+        .locator(".switch")
+        .first()
+        .evaluate((node) =>
+          Promise.all(node.getAnimations().map((animation) => animation.finished)),
+        );
       const track = parseColor(await style(page, ".switch", "background-color"));
       const back = parseColor(await pageBackground(page));
       expect(contrast(over(track, back), back)).toBeGreaterThanOrEqual(3);

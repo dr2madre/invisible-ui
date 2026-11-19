@@ -318,7 +318,7 @@ class _UploadDropAreaState extends State<UploadDropArea> {
               decoration: BoxDecoration(
                 color: dragging
                     ? Color.alphaBlend(
-                        colors.secondary.withValues(alpha: _dragTint),
+                        colors.selected.withValues(alpha: _dragTint),
                         colors.background,
                       )
                     : colors.background,
@@ -328,7 +328,7 @@ class _UploadDropAreaState extends State<UploadDropArea> {
               ),
               foregroundDecoration: _DashedBorder(
                 color: dragging || states.focusVisible
-                    ? colors.secondary
+                    ? colors.selected
                     : colors.controlBorder,
                 dashed: !states.focusVisible && !dragging,
               ),
@@ -361,9 +361,9 @@ class _UploadDropAreaState extends State<UploadDropArea> {
                   if (_opening)
                     Positioned.fill(
                       child: IconTheme.merge(
-                        data: IconThemeData(color: colors.secondary),
+                        data: IconThemeData(color: colors.selected),
                         child: DefaultTextStyle.merge(
-                          style: TextStyle(color: colors.secondary),
+                          style: TextStyle(color: colors.selected),
                           child: const Loading(
                             variant: LoadingVariant.spinner,
                             overlay: true,

@@ -382,11 +382,11 @@
   .table-set__tab:global([data-state="active"]) {
     color: var(
       --ds-tabs-active,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     border-block-end-color: var(
       --ds-tabs-active,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
     font-weight: 600;
   }

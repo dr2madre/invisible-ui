@@ -180,10 +180,7 @@
     background: var(--ds-components-general-feedback-neutral-background-default, #f5f5f5);
   }
   .tabs__tab:global([data-state="active"]) .tabs__tab-count {
-    color: var(
-      --ds-components-general-selection-foreground-default,
-      var(--ds-components-general-action-secondary-foreground-default, #fff)
-    );
+    color: var(--ds-components-general-selection-foreground-default, #fff);
     background: var(--ds-components-general-selection-background-default, #7a52cc);
   }
   .tabs__tab:global([data-state="active"]) {

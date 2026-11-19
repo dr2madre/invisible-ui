@@ -598,6 +598,18 @@ const PAIRINGS = [
     what: "supporting text on the page",
   },
   {
+    front: "--ds-components-general-foreground-action",
+    back: "--ds-components-page-background-default",
+    min: 4.5,
+    what: "default Button and Toggle Button label on the page",
+  },
+  {
+    front: "--ds-components-general-action-secondary-contextual-foreground-default",
+    back: "--ds-components-page-background-default",
+    min: 4.5,
+    what: "secondary Button label on the page",
+  },
+  {
     front: "--ds-components-general-foreground-secondary",
     back: "--ds-components-avatar-background-default",
     min: 4.5,

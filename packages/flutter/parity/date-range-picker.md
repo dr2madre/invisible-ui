@@ -2,6 +2,13 @@
 
 Reference commit: `ade01acbb98d397c01af108a15c9da4bb9420720`
 
+Reference review (2026-10-19, primary selected): the selected, checked,
+current or on parts point at the shared primary selected colour,
+`components.general.selection.background.default`, and the selected label and
+fill derived from it, in place of the secondary action colour. Dark lightens
+the primary, so a label on a solid selected fill turns black. Flutter reads
+the same tokens.
+
 Reference paths: `core/src/calendar` `core/src/popover` `packages/svelte/src/lib/date-range-picker`
 
 The Flutter `DateRangePicker` checked against the Svelte `DateRangePicker`

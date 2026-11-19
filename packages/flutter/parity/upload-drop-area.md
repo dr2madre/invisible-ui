@@ -6,6 +6,13 @@ Reference review (2026-10-18): checked the token-model change in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 
+Reference review (2026-10-19, primary selected): the selected, checked,
+current or on parts point at the shared primary selected colour,
+`components.general.selection.background.default`, and the selected label and
+fill derived from it, in place of the secondary action colour. Dark lightens
+the primary, so a label on a solid selected fill turns black. Flutter reads
+the same tokens.
+
 Reference paths: `packages/svelte/src/lib/upload-drop-area` `packages/svelte/src/lib/drop-area`
 
 The Flutter `UploadDropArea` checked against the Svelte `UploadDropArea`

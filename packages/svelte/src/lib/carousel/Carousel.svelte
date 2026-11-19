@@ -486,7 +486,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
   .carousel__dot:global([data-selected]) {
     background: var(
       --ds-carousel-dot-active,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      var(--ds-components-general-selection-background-default, #7a52cc)
     );
   }
   .carousel__dot:focus-visible {
