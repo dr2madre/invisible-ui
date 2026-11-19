@@ -39,7 +39,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release:build": "turbo run build --filter=@invisible-ui/core --filter=@invisible-ui/svelte --filter=@invisible-ui/vue --filter=@invisible-ui/react --filter=@invisible-ui/elements",
-    "release:check": "pnpm gate && pnpm release:build && pnpm consumers:check && pnpm --filter @invisible-ui/core --filter @invisible-ui/svelte --filter @invisible-ui/vue --filter @invisible-ui/react --filter @invisible-ui/elements publish --dry-run --access public --tag alpha",
+    "release:check": "pnpm gate && pnpm release:build && pnpm consumers:check && pnpm --filter @invisible-ui/core --filter @invisible-ui/svelte --filter @invisible-ui/vue --filter @invisible-ui/react --filter @invisible-ui/elements publish --dry-run --no-git-checks --access public --tag alpha",
     "release": "pnpm release:build && pnpm consumers:check && changeset publish --tag alpha",
     "prepare": "husky"
   },
