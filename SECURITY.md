@@ -41,7 +41,9 @@ patch is removed as soon as upstream publishes a release that fixes the issue.
 | Package | Advisory | What the patch changes | Why | Added | Review by | Remove when |
 | --- | --- | --- | --- | --- | --- | --- |
 | `http-cache-semantics@4.3.0` | [GHSA-ch52-4w7c-c8xp](https://github.com/advisories/GHSA-ch52-4w7c-c8xp) | A client `max-stale` no longer serves a stored response whose freshness the library set to zero on purpose: not storable (`private` or `Authorization` in a shared cache, `no-store`), `no-cache`, `must-revalidate`, or, in a shared cache, `Set-Cookie` without `public` or `immutable`, or `proxy-revalidate`. Ordinary stale responses are still served. | Release 4.3.0 is outside the advisory's range but its `max-stale` code is unchanged from 4.2.0, so the leak remains. It is reached only through `astro`, which builds the documentation site. | 2026-10-13 | 2026-11-04 | Upstream publishes a release that fixes the `max-stale` path. Then delete the patch file, its `pnpm.patchedDependencies` entry, the `http-cache-semantics` override and this row. |
+| `deepmerge@4.3.1` | [GHSA-gcqx-w48m-w2h4](https://github.com/advisories/GHSA-gcqx-w48m-w2h4) | Drops an own `__proto__` key before merging instead of assigning it to the result. | The package is reached only through Style Dictionary during token generation; no fixed upstream release exists. | 2026-11-07 | 2026-12-07 | Upstream publishes a release that rejects the prototype-pollution key. Then delete the patch file, its `pnpm.patchedDependencies` entry and this row. |
 
-`scripts/http-cache-semantics-patch.test.mjs` checks the patched behaviour.
+`scripts/http-cache-semantics-patch.test.mjs` and
+`scripts/deepmerge-patch.test.mjs` check the patched behaviour.
 `scripts/audit-exceptions.test.mjs` fails if a `pnpm.patchedDependencies`
 entry has no row in this table, or a row has no entry.

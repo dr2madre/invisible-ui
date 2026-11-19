@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.41.3",
-    "@astrojs/svelte": "^9.0.1",
+    "@astrojs/svelte": "^9.1.2",
     "@invisible-ui/core": "workspace:*",
     "@invisible-ui/svelte": "workspace:*",
-    "astro": "^7.3.3",
+    "astro": "^7.4.7",
     "svelte": "^5.56.4"
   },
   "devDependencies": {
