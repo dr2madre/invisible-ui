@@ -1,8 +1,8 @@
 # API stability
 
 How changes to the public surface are classified and what a consumer can rely
-on. The packages are private and unpublished; this policy still applies from
-now on, so the discipline exists before the first release rather than after.
+on. The packages are published as alpha releases; this policy applies before
+the first stable release so compatibility discipline is already in place.
 
 ## What is public
 

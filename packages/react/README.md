@@ -27,6 +27,12 @@ history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 The tests include dedicated server-rendering and hydration coverage for
 every public renderable export.
 
+**Status: alpha.** APIs may change before the first stable release.
+
+```sh
+pnpm add @invisible-ui/react@alpha react react-dom
+```
+
 ## Usage
 
 ```tsx

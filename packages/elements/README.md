@@ -10,6 +10,12 @@ prefer their native adapter (`@invisible-ui/svelte`, `@invisible-ui/react`).
 the catalog, each as a `ds-*` element. `ds-locale-provider` carries locale,
 message overrides and direction for the elements inside it.
 
+**Status: alpha.** APIs may change before the first stable release.
+
+```sh
+pnpm add @invisible-ui/elements@alpha
+```
+
 Both JavaScript entrypoints are safe to import during SSR. The server emits
 declarative `<ds-*>` light-DOM markup; when `@invisible-ui/elements/define`
 loads in the browser, the elements upgrade that existing content in place.
@@ -17,8 +23,15 @@ loads in the browser, the elements upgrade that existing content in place.
 ## Usage — no build step required
 
 ```html
-<link rel="stylesheet" href=".../@invisible-ui/elements/styles.css" />
-<script type="module" src=".../@invisible-ui/elements/define.js"></script>
+<!-- Pin VERSION to the exact alpha tested by the application. -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@invisible-ui/elements@VERSION/src/styles/index.css"
+/>
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@invisible-ui/elements@VERSION/dist/define.js"
+></script>
 
 <ds-button variant="primary">Save</ds-button>
 
@@ -40,6 +53,13 @@ bundler, so the page ships only the primitives its elements use.
 ```js
 import { DsButton } from "@invisible-ui/elements";
 customElements.define("ds-button", DsButton);
+```
+
+To register the complete catalog in a bundled application:
+
+```js
+import "@invisible-ui/elements/styles.css";
+import "@invisible-ui/elements/define";
 ```
 
 ## Design decisions (ADR 0008)

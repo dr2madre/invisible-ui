@@ -1,16 +1,10 @@
 name: Release
 
-# DORMANT until you choose to publish. Runs only when triggered manually
-# (Actions tab → Release → Run workflow). To go live later:
-#   1. Remove `private: true` from core/package.json and packages/svelte/package.json
-#      (the packages already use the @invisible-ui scope: register the invisible-ui organisation on npm first).
-#   2. Add the repo secret NPM_TOKEN (npm automation token with publish rights).
-#   3. Enable Settings → Actions → "Allow GitHub Actions to create and approve
-#      pull requests".
-#   4. Switch the trigger below back to `push: branches: [main]`.
-#
-# With pending changesets it opens a "Version Packages" PR (bumps + CHANGELOGs);
-# merging that publishes the changed packages. Provenance needs `id-token: write`.
+# Alpha releases are deliberate and manually triggered. With pending changesets
+# this workflow opens a version PR; after that PR is merged, run it again to
+# publish. All packages are published under the `alpha` dist-tag, never `latest`.
+# The first publish needs the bootstrap NPM_TOKEN described in docs/releasing.md.
+# Replace it with npm trusted publishing after the packages exist.
 
 on:
   workflow_dispatch:
@@ -34,17 +28,18 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Verify the packed core package as a consumer
-        run: |
-          pnpm exec turbo run build --filter=@invisible-ui/core
-          pnpm --filter @invisible-ui/core run smoke
+      - name: Install an npm CLI compatible with trusted publishing
+        run: npm install --global npm@12.2.0
+
+      - name: Verify release gates and packed consumers
+        run: pnpm release:check
 
       - name: Create release PR or publish
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0

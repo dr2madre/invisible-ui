@@ -5,9 +5,12 @@ Svelte adapter over the framework-agnostic
 catalog: 74 styled components plus headless factories for components with
 shared behavior.
 
-**Status: alpha and unpublished.** The package is currently private while
-names, APIs and the release scope are finalized. The suite contains 762 tests,
-including accessibility and server-rendering coverage.
+**Status: alpha.** APIs may change before the first stable release. The suite
+includes accessibility and server-rendering coverage.
+
+```sh
+pnpm add @invisible-ui/svelte@alpha
+```
 
 ## Usage
 
@@ -85,7 +88,7 @@ Explicit component label props override catalog defaults.
 
 ## Current constraints
 
-- The package is ESM-only and currently private/unpublished.
+- The package is ESM-only and published under the `alpha` dist-tag.
 - Every component fixture is rendered in a DOM-free Node test to keep the
   public surface safe during SSR.
 - The styled components use scoped CSS; shared custom properties remain the

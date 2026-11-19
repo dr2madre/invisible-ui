@@ -8,11 +8,20 @@
     "url": "git+https://github.com/dr2madre/invisible-ui.git",
     "directory": "packages/svelte"
   },
+  "homepage": "https://invisibleui.de/",
+  "bugs": {
+    "url": "https://github.com/dr2madre/invisible-ui/issues"
+  },
+  "keywords": [
+    "accessibility",
+    "components",
+    "design-system",
+    "svelte"
+  ],
   "publishConfig": {
     "access": "public",
     "provenance": true
   },
-  "private": true,
   "type": "module",
   "sideEffects": [
     "**/*.css",

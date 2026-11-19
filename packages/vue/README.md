@@ -5,10 +5,12 @@ Vue 3 adapter over the framework-agnostic
 catalog: the same 74 styled components available in the Svelte adapter, plus
 native Vue composables for components with headless behavior.
 
-**Status: alpha and unpublished.** The package is currently private while
-names, APIs and the release scope are finalized. Vue `^3.4` is supported. Full
-catalog parity landed across PRs #193–#199; the Vue suite currently contains
-866 tests, including dedicated server-rendering and hydration coverage.
+**Status: alpha.** APIs may change before the first stable release. Vue `^3.4`
+is supported, with dedicated server-rendering and hydration coverage.
+
+```sh
+pnpm add @invisible-ui/vue@alpha vue
+```
 
 ## Usage
 
@@ -155,7 +157,7 @@ the findings from the full port.
 
 ## Current constraints
 
-- The package is ESM-only and currently private/unpublished.
+- The package is ESM-only and published under the `alpha` dist-tag.
 - Every public component export is server-rendered in a DOM-free Node test.
   Representative stateful, overlay and date components are also rendered in a
   server runtime and hydrated in a separate client runtime without mismatches.

@@ -4,8 +4,12 @@ Framework-agnostic behavior and accessibility primitives for Invisible UI.
 The core owns state models, keyboard interaction, ARIA semantics and DOM-shaped
 prop bags; it does not render components or import a UI framework.
 
-**Status: alpha and unpublished.** The package is currently private while
-names, APIs and the release scope are finalized.
+**Status: alpha.** APIs may change before the first stable release; changes are
+documented through the repository's changesets and release notes.
+
+```sh
+pnpm add @invisible-ui/core@alpha
+```
 
 ## Usage
 
