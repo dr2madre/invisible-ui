@@ -182,6 +182,12 @@ abstract final class InvisibleRadiusTokens {
   static const double pill = 999.0;
 }
 
+/// Shared spacing dimensions, in logical pixels.
+abstract final class InvisibleSpacingTokens {
+  static const double controlPaddingX = 14.0;
+  static const double controlPaddingY = 8.0;
+}
+
 /// Focus dimensions in logical pixels.
 abstract final class InvisibleFocusTokens {
   static const double ringWidth = 2.0;
@@ -206,25 +212,13 @@ abstract final class InvisibleTypographyTokens {
 ///
 /// A size that the source leaves undefined for a level is null.
 final class InvisibleDensityTokens {
-  const InvisibleDensityTokens._({
-    required this.minTargetSize,
-    this.controlPaddingY,
-    this.controlPaddingX,
-  });
+  const InvisibleDensityTokens._({required this.minTargetSize});
 
   static const compact = InvisibleDensityTokens._(minTargetSize: 24.0);
-  static const regular = InvisibleDensityTokens._(
-    controlPaddingY: 8.0,
-    controlPaddingX: 14.0,
-    minTargetSize: 24.0,
-  );
+  static const regular = InvisibleDensityTokens._(minTargetSize: 24.0);
   static const touch = InvisibleDensityTokens._(minTargetSize: 44.0);
 
   final double minTargetSize;
-
-  final double? controlPaddingY;
-
-  final double? controlPaddingX;
 }
 
 /// How a mixed colour role is made: [base] mixed with [mixWith] in sRGB,

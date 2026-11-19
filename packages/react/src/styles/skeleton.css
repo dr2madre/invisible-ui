@@ -8,7 +8,7 @@
 
 .skeleton__bar {
   display: block;
-  background: var(--ds-skeleton-color, var(--ds-colors-palette-grey-200, #bdbdbd));
+  background: var(--ds-skeleton-color, var(--ds-palette-grey-200, #bdbdbd));
   border-radius: var(--ds-skeleton-radius, var(--ds-metrics-radius-control, 0.5rem));
 }
 

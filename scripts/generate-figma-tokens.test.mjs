@@ -50,8 +50,8 @@ test("the repository source produces matching Light and Dark collections", () =>
   assert.equal(tokenCount(modes.dark), tokenCount(source));
   assert.equal(modes.light.typography["font-weight"].heading.$type, "number");
   const background = (mode) => modes[mode].components.general.background.default.$value;
-  assert.equal(background("light"), "{colors.palette.grey.0}");
-  assert.equal(background("dark"), "{colors.palette.grey.900}");
+  assert.equal(background("light"), "{palette.grey.0}");
+  assert.equal(background("dark"), "{palette.grey.900}");
   assert.deepEqual(modes.light.metrics.density.touch["min-target-size"].$value, {
     value: 44,
     unit: "px",

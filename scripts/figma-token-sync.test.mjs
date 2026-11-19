@@ -13,8 +13,8 @@ test("bundled token values come from the canonical source in both modes", () => 
   const payload = tokenPayload(source);
   assert.deepEqual(Object.keys(payload.Light), Object.keys(payload.Dark));
   const background = "components/general/background/default";
-  assert.equal(payload.Light[background].alias, "colors/palette/grey/0");
-  assert.equal(payload.Dark[background].alias, "colors/palette/grey/900");
+  assert.equal(payload.Light[background].alias, "palette/grey/0");
+  assert.equal(payload.Dark[background].alias, "palette/grey/900");
   assert.equal(payload.Light["metrics/radius/control"].type, "FLOAT");
   assert.equal(payload.Light["components/button/radius"].alias, "metrics/radius/control");
 });

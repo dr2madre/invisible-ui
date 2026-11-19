@@ -1,8 +1,8 @@
 # Loading Generation Area parity checklist
 
-Reference commit: `f2943333bf31794885e523ca48b6dd87f189d5af`
+Reference commit: `cd25a32fb29a63e2931ed22abfe8284b28513622`
 
-Reference review (2026-10-18): checked the token-model change in the Svelte
+Reference review (2026-10-19): checked the version-3 token hierarchy in the Svelte
 reference. Behavior and accessibility markup did not change; CSS token names
 changed, with resolved Light/Dark values checked by the token runtime tests.
 

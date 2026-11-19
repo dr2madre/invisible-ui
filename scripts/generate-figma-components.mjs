@@ -182,8 +182,8 @@ export async function generatePlugin() {
   const payload = tokenPayload(canonical);
   const info = {
     revision: createHash("sha256").update(tokenSource).digest("hex").slice(0, 12),
-    grey50: canonical.colors.palette.grey["50"].$value,
-    grey950: canonical.colors.palette.grey["950"].$value,
+    grey50: canonical.palette.grey["50"].$value,
+    grey950: canonical.palette.grey["950"].$value,
     count: Object.keys(payload.Light).length,
     componentColorCount: Object.keys(buttonColorTokens(buttonAppearance).Light).length,
   };

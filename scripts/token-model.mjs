@@ -51,7 +51,8 @@ export function resolveTokens(tree, { mode = "light", overrides = {} } = {}) {
   for (const [path, value] of Object.entries(overrides)) {
     const token = tokens.get(path);
     if (!token) throw new Error(`Unknown override: ${path}`);
-    if (path.startsWith("colors.palette.")) throw new Error(`Palette is immutable: ${path}`);
+    if (path.startsWith("palette.") || path.startsWith("colors.palette."))
+      throw new Error(`Palette is immutable: ${path}`);
     const extensions = { ...token.$extensions };
     delete extensions[MIX];
     tokens.set(path, { ...token, $value: value, $extensions: extensions });
@@ -135,10 +136,23 @@ export function rgba(value) {
 export const channelByte = (channel) => Math.round(channel * 255 + 1e-10);
 
 export function validateTokenModel(tree) {
+  const schemaVersion = tree.$extensions?.["com.invisible-ui.schema"]?.version;
+  const legacyV2 = schemaVersion === 2;
+  const allowedGroups = legacyV2
+    ? new Set(["colors", "metrics", "typography", "components"])
+    : new Set(["palette", "brand", "feedback", "metrics", "typography", "components"]);
+  for (const group of Object.keys(tree).filter((key) => !key.startsWith("$")))
+    if (!allowedGroups.has(group)) throw new Error(`Invalid top-level group: ${group}`);
   const entries = tokenEntries(tree);
   const names = new Set();
   for (const [path, token] of entries) {
-    if (!/^(colors|metrics|typography|components)\./.test(path))
+    if (
+      !(
+        legacyV2
+          ? /^(colors|metrics|typography|components)\./
+          : /^(palette|brand|feedback|metrics|typography|components)\./
+      ).test(path)
+    )
       throw new Error(`Invalid group: ${path}`);
     if (!path.split(".").every((part) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(part)))
       throw new Error(`Invalid path: ${path}`);
@@ -169,8 +183,9 @@ export function validateTokenModel(tree) {
         if (dependency.$type !== token.$type)
           throw new Error(`Type mismatch: ${path} -> ${ref[1]}`);
         if (
-          path.startsWith("colors.palette.") ||
-          (path.startsWith("colors.") && !ref[1].startsWith("colors.")) ||
+          path.startsWith("palette.") ||
+          (["palette.", "brand.", "feedback."].some((prefix) => path.startsWith(prefix)) &&
+            !["palette.", "brand.", "feedback."].some((prefix) => ref[1].startsWith(prefix))) ||
           (path.startsWith("components.general.") &&
             ref[1].startsWith("components.") &&
             !ref[1].startsWith("components.general."))

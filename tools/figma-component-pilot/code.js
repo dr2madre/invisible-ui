@@ -7,7 +7,7 @@ const CARD_LAYOUT = {
   body: { gap: 8, padding: 16 },
 };
 const BUTTON_APPEARANCE = {
-  sourceHash: "1f7d7a6c8994db869824b465a7c2901b9ac38a24a6cb3b5210e7ad1bc2874253",
+  sourceHash: "be1c1531cd51407e08f9238b94524ce63067b9cb0d28fabcad93a03c0558a2e1",
   themes: {
     light: {
       default: {
@@ -358,571 +358,577 @@ const BUTTON_APPEARANCE = {
 const BUTTON_PAINTS = buttonColorTokens(BUTTON_APPEARANCE);
 const TOKEN_PAYLOAD = {
   Light: {
-    "colors/palette/dioxazine-purple/50": {
+    "palette/dioxazine-purple/50": {
       type: "COLOR",
       value: { r: 0.9450980392156862, g: 0.9254901960784314, b: 0.9803921568627451, a: 1 },
     },
-    "colors/palette/dioxazine-purple/100": {
+    "palette/dioxazine-purple/100": {
       type: "COLOR",
       value: { r: 0.8313725490196079, g: 0.7803921568627451, b: 0.9372549019607843, a: 1 },
     },
-    "colors/palette/dioxazine-purple/200": {
+    "palette/dioxazine-purple/200": {
       type: "COLOR",
       value: { r: 0.7215686274509804, g: 0.6313725490196078, b: 0.9019607843137255, a: 1 },
     },
-    "colors/palette/dioxazine-purple/300": {
+    "palette/dioxazine-purple/300": {
       type: "COLOR",
       value: { r: 0.6352941176470588, g: 0.5176470588235295, b: 0.8666666666666667, a: 1 },
     },
-    "colors/palette/dioxazine-purple/400": {
+    "palette/dioxazine-purple/400": {
       type: "COLOR",
       value: { r: 0.5529411764705883, g: 0.41568627450980394, b: 0.8313725490196079, a: 1 },
     },
-    "colors/palette/dioxazine-purple/500": {
+    "palette/dioxazine-purple/500": {
       type: "COLOR",
       value: { r: 0.47843137254901963, g: 0.3215686274509804, b: 0.8, a: 1 },
     },
-    "colors/palette/dioxazine-purple/600": {
+    "palette/dioxazine-purple/600": {
       type: "COLOR",
       value: { r: 0.40784313725490196, g: 0.25098039215686274, b: 0.7176470588235294, a: 1 },
     },
-    "colors/palette/dioxazine-purple/700": {
+    "palette/dioxazine-purple/700": {
       type: "COLOR",
       value: { r: 0.33725490196078434, g: 0.21568627450980393, b: 0.5843137254901961, a: 1 },
     },
-    "colors/palette/dioxazine-purple/800": {
+    "palette/dioxazine-purple/800": {
       type: "COLOR",
       value: { r: 0.26666666666666666, g: 0.15294117647058825, b: 0.5019607843137255, a: 1 },
     },
-    "colors/palette/dioxazine-purple/900": {
+    "palette/dioxazine-purple/900": {
       type: "COLOR",
       value: { r: 0.20392156862745098, g: 0.09411764705882353, b: 0.43137254901960786, a: 1 },
     },
-    "colors/palette/dioxazine-purple/950": {
+    "palette/dioxazine-purple/950": {
       type: "COLOR",
       value: { r: 0.13725490196078433, g: 0.0392156862745098, b: 0.33725490196078434, a: 1 },
     },
-    "colors/palette/cobalt-blue/50": {
+    "palette/cobalt-blue/50": {
       type: "COLOR",
       value: { r: 0.9137254901960784, g: 0.9333333333333333, b: 0.9803921568627451, a: 1 },
     },
-    "colors/palette/cobalt-blue/100": {
+    "palette/cobalt-blue/100": {
       type: "COLOR",
       value: { r: 0.7372549019607844, g: 0.803921568627451, b: 0.9450980392156862, a: 1 },
     },
-    "colors/palette/cobalt-blue/200": {
+    "palette/cobalt-blue/200": {
       type: "COLOR",
       value: { r: 0.5607843137254902, g: 0.6745098039215687, b: 0.9098039215686274, a: 1 },
     },
-    "colors/palette/cobalt-blue/300": {
+    "palette/cobalt-blue/300": {
       type: "COLOR",
       value: { r: 0.4196078431372549, g: 0.5607843137254902, b: 0.8431372549019608, a: 1 },
     },
-    "colors/palette/cobalt-blue/400": {
+    "palette/cobalt-blue/400": {
       type: "COLOR",
       value: { r: 0.3215686274509804, g: 0.47843137254901963, b: 0.8, a: 1 },
     },
-    "colors/palette/cobalt-blue/500": {
+    "palette/cobalt-blue/500": {
       type: "COLOR",
       value: { r: 0.25098039215686274, g: 0.403921568627451, b: 0.7137254901960784, a: 1 },
     },
-    "colors/palette/cobalt-blue/600": {
+    "palette/cobalt-blue/600": {
       type: "COLOR",
       value: { r: 0.22745098039215686, g: 0.3607843137254902, b: 0.6274509803921569, a: 1 },
     },
-    "colors/palette/cobalt-blue/700": {
+    "palette/cobalt-blue/700": {
       type: "COLOR",
       value: { r: 0.19607843137254902, g: 0.30196078431372547, b: 0.5137254901960784, a: 1 },
     },
-    "colors/palette/cobalt-blue/800": {
+    "palette/cobalt-blue/800": {
       type: "COLOR",
       value: { r: 0.15294117647058825, g: 0.23137254901960785, b: 0.396078431372549, a: 1 },
     },
-    "colors/palette/cobalt-blue/900": {
+    "palette/cobalt-blue/900": {
       type: "COLOR",
       value: { r: 0.11372549019607843, g: 0.17647058823529413, b: 0.30196078431372547, a: 1 },
     },
-    "colors/palette/cobalt-blue/950": {
+    "palette/cobalt-blue/950": {
       type: "COLOR",
       value: { r: 0.058823529411764705, g: 0.10588235294117647, b: 0.20392156862745098, a: 1 },
     },
-    "colors/palette/burnt-orange/50": {
+    "palette/burnt-orange/50": {
       type: "COLOR",
       value: { r: 0.9803921568627451, g: 0.9215686274509803, b: 0.8823529411764706, a: 1 },
     },
-    "colors/palette/burnt-orange/100": {
+    "palette/burnt-orange/100": {
       type: "COLOR",
       value: { r: 0.9686274509803922, g: 0.8666666666666667, b: 0.8, a: 1 },
     },
-    "colors/palette/burnt-orange/200": {
+    "palette/burnt-orange/200": {
       type: "COLOR",
       value: { r: 0.9333333333333333, g: 0.7333333333333333, b: 0.6, a: 1 },
     },
-    "colors/palette/burnt-orange/300": {
+    "palette/burnt-orange/300": {
       type: "COLOR",
       value: { r: 0.9058823529411765, g: 0.6274509803921569, b: 0.44313725490196076, a: 1 },
     },
-    "colors/palette/burnt-orange/400": {
+    "palette/burnt-orange/400": {
       type: "COLOR",
       value: { r: 0.8666666666666667, g: 0.4666666666666667, b: 0.20392156862745098, a: 1 },
     },
-    "colors/palette/burnt-orange/500": {
+    "palette/burnt-orange/500": {
       type: "COLOR",
       value: { r: 0.788235294117647, g: 0.39215686274509803, b: 0.13333333333333333, a: 1 },
     },
-    "colors/palette/burnt-orange/600": {
+    "palette/burnt-orange/600": {
       type: "COLOR",
       value: { r: 0.7372549019607844, g: 0.3411764705882353, b: 0.08627450980392157, a: 1 },
     },
-    "colors/palette/burnt-orange/700": {
+    "palette/burnt-orange/700": {
       type: "COLOR",
       value: { r: 0.6431372549019608, g: 0.27450980392156865, b: 0.0392156862745098, a: 1 },
     },
-    "colors/palette/burnt-orange/800": {
+    "palette/burnt-orange/800": {
       type: "COLOR",
       value: { r: 0.5294117647058824, g: 0.21176470588235294, b: 0.00784313725490196, a: 1 },
     },
-    "colors/palette/burnt-orange/900": {
+    "palette/burnt-orange/900": {
       type: "COLOR",
       value: { r: 0.34509803921568627, g: 0.13333333333333333, b: 0, a: 1 },
     },
-    "colors/palette/burnt-orange/950": {
+    "palette/burnt-orange/950": {
       type: "COLOR",
       value: { r: 0.24313725490196078, g: 0.09411764705882353, b: 0, a: 1 },
     },
-    "colors/palette/sap-green/50": {
+    "palette/sap-green/50": {
       type: "COLOR",
       value: { r: 0.9176470588235294, g: 0.9607843137254902, b: 0.8941176470588236, a: 1 },
     },
-    "colors/palette/sap-green/100": {
+    "palette/sap-green/100": {
       type: "COLOR",
       value: { r: 0.7764705882352941, g: 0.8901960784313725, b: 0.7176470588235294, a: 1 },
     },
-    "colors/palette/sap-green/200": {
+    "palette/sap-green/200": {
       type: "COLOR",
       value: { r: 0.6666666666666666, g: 0.8392156862745098, b: 0.5764705882352941, a: 1 },
     },
-    "colors/palette/sap-green/300": {
+    "palette/sap-green/300": {
       type: "COLOR",
       value: { r: 0.5803921568627451, g: 0.7647058823529411, b: 0.49019607843137253, a: 1 },
     },
-    "colors/palette/sap-green/400": {
+    "palette/sap-green/400": {
       type: "COLOR",
       value: { r: 0.45098039215686275, g: 0.6627450980392157, b: 0.34509803921568627, a: 1 },
     },
-    "colors/palette/sap-green/500": {
+    "palette/sap-green/500": {
       type: "COLOR",
       value: { r: 0.3137254901960784, g: 0.5450980392156862, b: 0.19607843137254902, a: 1 },
     },
-    "colors/palette/sap-green/600": {
+    "palette/sap-green/600": {
       type: "COLOR",
       value: { r: 0.24313725490196078, g: 0.4588235294117647, b: 0.13725490196078433, a: 1 },
     },
-    "colors/palette/sap-green/700": {
+    "palette/sap-green/700": {
       type: "COLOR",
       value: { r: 0.18823529411764706, g: 0.3843137254901961, b: 0.09019607843137255, a: 1 },
     },
-    "colors/palette/sap-green/800": {
+    "palette/sap-green/800": {
       type: "COLOR",
       value: { r: 0.13333333333333333, g: 0.30196078431372547, b: 0.047058823529411764, a: 1 },
     },
-    "colors/palette/sap-green/900": {
+    "palette/sap-green/900": {
       type: "COLOR",
       value: { r: 0.0784313725490196, g: 0.20392156862745098, b: 0.01568627450980392, a: 1 },
     },
-    "colors/palette/sap-green/950": {
+    "palette/sap-green/950": {
       type: "COLOR",
       value: { r: 0.050980392156862744, g: 0.13725490196078433, b: 0.00392156862745098, a: 1 },
     },
-    "colors/palette/alizarin-red/50": {
+    "palette/alizarin-red/50": {
       type: "COLOR",
       value: { r: 0.9803921568627451, g: 0.9254901960784314, b: 0.9333333333333333, a: 1 },
     },
-    "colors/palette/alizarin-red/100": {
+    "palette/alizarin-red/100": {
       type: "COLOR",
       value: { r: 0.9372549019607843, g: 0.7803921568627451, b: 0.803921568627451, a: 1 },
     },
-    "colors/palette/alizarin-red/200": {
+    "palette/alizarin-red/200": {
       type: "COLOR",
       value: { r: 0.8980392156862745, g: 0.6313725490196078, b: 0.6745098039215687, a: 1 },
     },
-    "colors/palette/alizarin-red/300": {
+    "palette/alizarin-red/300": {
       type: "COLOR",
       value: { r: 0.9019607843137255, g: 0.4980392156862745, b: 0.5647058823529412, a: 1 },
     },
-    "colors/palette/alizarin-red/400": {
+    "palette/alizarin-red/400": {
       type: "COLOR",
       value: { r: 0.9019607843137255, g: 0.3607843137254902, b: 0.45098039215686275, a: 1 },
     },
-    "colors/palette/alizarin-red/500": {
+    "palette/alizarin-red/500": {
       type: "COLOR",
       value: { r: 0.8352941176470589, g: 0.30196078431372547, b: 0.38823529411764707, a: 1 },
     },
-    "colors/palette/alizarin-red/600": {
+    "palette/alizarin-red/600": {
       type: "COLOR",
       value: { r: 0.7450980392156863, g: 0.23137254901960785, b: 0.3137254901960784, a: 1 },
     },
-    "colors/palette/alizarin-red/700": {
+    "palette/alizarin-red/700": {
       type: "COLOR",
       value: { r: 0.6705882352941176, g: 0.1803921568627451, b: 0.25882352941176473, a: 1 },
     },
-    "colors/palette/alizarin-red/800": {
+    "palette/alizarin-red/800": {
       type: "COLOR",
       value: { r: 0.5333333333333333, g: 0.10196078431372549, b: 0.16862745098039217, a: 1 },
     },
-    "colors/palette/alizarin-red/900": {
+    "palette/alizarin-red/900": {
       type: "COLOR",
       value: { r: 0.41568627450980394, g: 0.058823529411764705, b: 0.11372549019607843, a: 1 },
     },
-    "colors/palette/alizarin-red/950": {
+    "palette/alizarin-red/950": {
       type: "COLOR",
       value: { r: 0.3058823529411765, g: 0.01568627450980392, b: 0.06274509803921569, a: 1 },
     },
-    "colors/palette/grey/0": { type: "COLOR", value: { r: 1, g: 1, b: 1, a: 1 } },
-    "colors/palette/grey/50": {
+    "palette/grey/0": { type: "COLOR", value: { r: 1, g: 1, b: 1, a: 1 } },
+    "palette/grey/50": {
       type: "COLOR",
       value: { r: 0.9607843137254902, g: 0.9607843137254902, b: 0.9607843137254902, a: 1 },
     },
-    "colors/palette/grey/100": {
+    "palette/grey/100": {
       type: "COLOR",
       value: { r: 0.8784313725490196, g: 0.8784313725490196, b: 0.8784313725490196, a: 1 },
     },
-    "colors/palette/grey/200": {
+    "palette/grey/200": {
       type: "COLOR",
       value: { r: 0.7411764705882353, g: 0.7411764705882353, b: 0.7411764705882353, a: 1 },
     },
-    "colors/palette/grey/300": {
+    "palette/grey/300": {
       type: "COLOR",
       value: { r: 0.6196078431372549, g: 0.6196078431372549, b: 0.6196078431372549, a: 1 },
     },
-    "colors/palette/grey/400": {
+    "palette/grey/400": {
       type: "COLOR",
       value: { r: 0.4588235294117647, g: 0.4588235294117647, b: 0.4588235294117647, a: 1 },
     },
-    "colors/palette/grey/500": {
+    "palette/grey/500": {
       type: "COLOR",
       value: { r: 0.3803921568627451, g: 0.3803921568627451, b: 0.3803921568627451, a: 1 },
     },
-    "colors/palette/grey/600": {
+    "palette/grey/600": {
       type: "COLOR",
       value: { r: 0.3176470588235294, g: 0.3176470588235294, b: 0.3176470588235294, a: 1 },
     },
-    "colors/palette/grey/700": {
+    "palette/grey/700": {
       type: "COLOR",
       value: { r: 0.2549019607843137, g: 0.2549019607843137, b: 0.2549019607843137, a: 1 },
     },
-    "colors/palette/grey/800": {
+    "palette/grey/800": {
       type: "COLOR",
       value: { r: 0.19607843137254902, g: 0.19607843137254902, b: 0.19607843137254902, a: 1 },
     },
-    "colors/palette/grey/900": {
+    "palette/grey/900": {
       type: "COLOR",
       value: { r: 0.15294117647058825, g: 0.15294117647058825, b: 0.15294117647058825, a: 1 },
     },
-    "colors/palette/grey/950": {
+    "palette/grey/950": {
       type: "COLOR",
       value: { r: 0.10588235294117647, g: 0.10588235294117647, b: 0.10588235294117647, a: 1 },
     },
-    "colors/palette/black": {
+    "palette/black": {
       type: "COLOR",
       value: { r: 0.07058823529411765, g: 0.07058823529411765, b: 0.07058823529411765, a: 1 },
     },
-    "colors/palette/magenta-pink/50": {
+    "palette/magenta-pink/50": {
       type: "COLOR",
       value: { r: 0.9803921568627451, g: 0.9254901960784314, b: 0.9607843137254902, a: 1 },
     },
-    "colors/palette/magenta-pink/100": {
+    "palette/magenta-pink/100": {
       type: "COLOR",
       value: { r: 0.9372549019607843, g: 0.7803921568627451, b: 0.8862745098039215, a: 1 },
     },
-    "colors/palette/magenta-pink/200": {
+    "palette/magenta-pink/200": {
       type: "COLOR",
       value: { r: 0.8980392156862745, g: 0.6313725490196078, b: 0.807843137254902, a: 1 },
     },
-    "colors/palette/magenta-pink/300": {
+    "palette/magenta-pink/300": {
       type: "COLOR",
       value: { r: 0.9019607843137255, g: 0.4980392156862745, b: 0.7686274509803922, a: 1 },
     },
-    "colors/palette/magenta-pink/400": {
+    "palette/magenta-pink/400": {
       type: "COLOR",
       value: { r: 0.9019607843137255, g: 0.3607843137254902, b: 0.7215686274509804, a: 1 },
     },
-    "colors/palette/magenta-pink/500": {
+    "palette/magenta-pink/500": {
       type: "COLOR",
       value: { r: 0.8352941176470589, g: 0.30196078431372547, b: 0.6588235294117647, a: 1 },
     },
-    "colors/palette/magenta-pink/600": {
+    "palette/magenta-pink/600": {
       type: "COLOR",
       value: { r: 0.7450980392156863, g: 0.23137254901960785, b: 0.5725490196078431, a: 1 },
     },
-    "colors/palette/magenta-pink/700": {
+    "palette/magenta-pink/700": {
       type: "COLOR",
       value: { r: 0.6705882352941176, g: 0.1803921568627451, b: 0.5098039215686274, a: 1 },
     },
-    "colors/palette/magenta-pink/800": {
+    "palette/magenta-pink/800": {
       type: "COLOR",
       value: { r: 0.5333333333333333, g: 0.10196078431372549, b: 0.38823529411764707, a: 1 },
     },
-    "colors/palette/magenta-pink/900": {
+    "palette/magenta-pink/900": {
       type: "COLOR",
       value: { r: 0.41568627450980394, g: 0.058823529411764705, b: 0.2980392156862745, a: 1 },
     },
-    "colors/palette/magenta-pink/950": {
+    "palette/magenta-pink/950": {
       type: "COLOR",
       value: { r: 0.3137254901960784, g: 0.0196078431372549, b: 0.21568627450980393, a: 1 },
     },
-    "colors/palette/naples-yellow/50": {
+    "palette/naples-yellow/50": {
       type: "COLOR",
       value: { r: 1, g: 0.9803921568627451, b: 0.9058823529411765, a: 1 },
     },
-    "colors/palette/naples-yellow/100": {
+    "palette/naples-yellow/100": {
       type: "COLOR",
       value: { r: 0.996078431372549, g: 0.9411764705882353, b: 0.7137254901960784, a: 1 },
     },
-    "colors/palette/naples-yellow/200": {
+    "palette/naples-yellow/200": {
       type: "COLOR",
       value: { r: 0.996078431372549, g: 0.8862745098039215, b: 0.5215686274509804, a: 1 },
     },
-    "colors/palette/naples-yellow/300": {
+    "palette/naples-yellow/300": {
       type: "COLOR",
       value: { r: 0.9764705882352941, g: 0.8352941176470589, b: 0.4549019607843137, a: 1 },
     },
-    "colors/palette/naples-yellow/400": {
+    "palette/naples-yellow/400": {
       type: "COLOR",
       value: { r: 0.9098039215686274, g: 0.7294117647058823, b: 0.30980392156862746, a: 1 },
     },
-    "colors/palette/naples-yellow/500": {
+    "palette/naples-yellow/500": {
       type: "COLOR",
       value: { r: 0.8745098039215686, g: 0.6313725490196078, b: 0.1411764705882353, a: 1 },
     },
-    "colors/palette/naples-yellow/600": {
+    "palette/naples-yellow/600": {
       type: "COLOR",
       value: { r: 0.7843137254901961, g: 0.5137254901960784, b: 0.047058823529411764, a: 1 },
     },
-    "colors/palette/naples-yellow/700": {
+    "palette/naples-yellow/700": {
       type: "COLOR",
       value: { r: 0.6784313725490196, g: 0.4196078431372549, b: 0.03137254901960784, a: 1 },
     },
-    "colors/palette/naples-yellow/800": {
+    "palette/naples-yellow/800": {
       type: "COLOR",
       value: { r: 0.5686274509803921, g: 0.3215686274509804, b: 0, a: 1 },
     },
-    "colors/palette/naples-yellow/900": {
+    "palette/naples-yellow/900": {
       type: "COLOR",
       value: { r: 0.38823529411764707, g: 0.20784313725490197, b: 0.00392156862745098, a: 1 },
     },
-    "colors/palette/naples-yellow/950": {
+    "palette/naples-yellow/950": {
       type: "COLOR",
       value: { r: 0.2627450980392157, g: 0.1411764705882353, b: 0, a: 1 },
     },
-    "colors/palette/lime-green/50": {
+    "palette/lime-green/50": {
       type: "COLOR",
       value: { r: 0.9764705882352941, g: 0.984313725490196, b: 0.9058823529411765, a: 1 },
     },
-    "colors/palette/lime-green/100": {
+    "palette/lime-green/100": {
       type: "COLOR",
       value: { r: 0.9411764705882353, g: 0.9568627450980393, b: 0.7647058823529411, a: 1 },
     },
-    "colors/palette/lime-green/200": {
+    "palette/lime-green/200": {
       type: "COLOR",
       value: { r: 0.9019607843137255, g: 0.9333333333333333, b: 0.611764705882353, a: 1 },
     },
-    "colors/palette/lime-green/300": {
+    "palette/lime-green/300": {
       type: "COLOR",
       value: { r: 0.8627450980392157, g: 0.9058823529411765, b: 0.4588235294117647, a: 1 },
     },
-    "colors/palette/lime-green/400": {
+    "palette/lime-green/400": {
       type: "COLOR",
       value: { r: 0.7843137254901961, g: 0.8352941176470589, b: 0.2784313725490196, a: 1 },
     },
-    "colors/palette/lime-green/500": {
+    "palette/lime-green/500": {
       type: "COLOR",
       value: { r: 0.6784313725490196, g: 0.7333333333333333, b: 0.13725490196078433, a: 1 },
     },
-    "colors/palette/lime-green/600": {
+    "palette/lime-green/600": {
       type: "COLOR",
       value: { r: 0.5411764705882353, g: 0.5882352941176471, b: 0.07450980392156863, a: 1 },
     },
-    "colors/palette/lime-green/700": {
+    "palette/lime-green/700": {
       type: "COLOR",
       value: { r: 0.43529411764705883, g: 0.4745098039215686, b: 0.043137254901960784, a: 1 },
     },
-    "colors/palette/lime-green/800": {
+    "palette/lime-green/800": {
       type: "COLOR",
       value: { r: 0.32941176470588235, g: 0.3607843137254902, b: 0.0196078431372549, a: 1 },
     },
-    "colors/palette/lime-green/900": {
+    "palette/lime-green/900": {
       type: "COLOR",
       value: { r: 0.21176470588235294, g: 0.23921568627450981, b: 0.00784313725490196, a: 1 },
     },
-    "colors/palette/lime-green/950": {
+    "palette/lime-green/950": {
       type: "COLOR",
       value: { r: 0.14901960784313725, g: 0.16862745098039217, b: 0, a: 1 },
     },
-    "colors/palette/viridian-green/50": {
+    "palette/viridian-green/50": {
       type: "COLOR",
       value: { r: 0.9019607843137255, g: 0.9607843137254902, b: 0.9529411764705882, a: 1 },
     },
-    "colors/palette/viridian-green/100": {
+    "palette/viridian-green/100": {
       type: "COLOR",
       value: { r: 0.7019607843137254, g: 0.8784313725490196, b: 0.8627450980392157, a: 1 },
     },
-    "colors/palette/viridian-green/200": {
+    "palette/viridian-green/200": {
       type: "COLOR",
       value: { r: 0.5019607843137255, g: 0.796078431372549, b: 0.7686274509803922, a: 1 },
     },
-    "colors/palette/viridian-green/300": {
+    "palette/viridian-green/300": {
       type: "COLOR",
       value: { r: 0.30196078431372547, g: 0.7137254901960784, b: 0.6745098039215687, a: 1 },
     },
-    "colors/palette/viridian-green/400": {
+    "palette/viridian-green/400": {
       type: "COLOR",
       value: { r: 0.14901960784313725, g: 0.6509803921568628, b: 0.6039215686274509, a: 1 },
     },
-    "colors/palette/viridian-green/500": {
+    "palette/viridian-green/500": {
       type: "COLOR",
       value: { r: 0, g: 0.5372549019607843, b: 0.4823529411764706, a: 1 },
     },
-    "colors/palette/viridian-green/600": {
+    "palette/viridian-green/600": {
       type: "COLOR",
       value: { r: 0, g: 0.4470588235294118, b: 0.396078431372549, a: 1 },
     },
-    "colors/palette/viridian-green/700": {
+    "palette/viridian-green/700": {
       type: "COLOR",
       value: { r: 0, g: 0.36470588235294116, b: 0.3137254901960784, a: 1 },
     },
-    "colors/palette/viridian-green/800": {
+    "palette/viridian-green/800": {
       type: "COLOR",
       value: { r: 0.00392156862745098, g: 0.26666666666666666, b: 0.2235294117647059, a: 1 },
     },
-    "colors/palette/viridian-green/900": {
+    "palette/viridian-green/900": {
       type: "COLOR",
       value: { r: 0, g: 0.20784313725490197, b: 0.17254901960784313, a: 1 },
     },
-    "colors/palette/viridian-green/950": {
+    "palette/viridian-green/950": {
       type: "COLOR",
       value: { r: 0, g: 0.1411764705882353, b: 0.11764705882352941, a: 1 },
     },
-    "colors/palette/cerulean-blue/50": {
+    "palette/cerulean-blue/50": {
       type: "COLOR",
       value: { r: 0.8823529411764706, g: 0.9607843137254902, b: 0.996078431372549, a: 1 },
     },
-    "colors/palette/cerulean-blue/100": {
+    "palette/cerulean-blue/100": {
       type: "COLOR",
       value: { r: 0.6980392156862745, g: 0.8705882352941177, b: 0.9490196078431372, a: 1 },
     },
-    "colors/palette/cerulean-blue/200": {
+    "palette/cerulean-blue/200": {
       type: "COLOR",
       value: { r: 0.5411764705882353, g: 0.8, b: 0.9176470588235294, a: 1 },
     },
-    "colors/palette/cerulean-blue/300": {
+    "palette/cerulean-blue/300": {
       type: "COLOR",
       value: { r: 0.38823529411764707, g: 0.7254901960784313, b: 0.8823529411764706, a: 1 },
     },
-    "colors/palette/cerulean-blue/400": {
+    "palette/cerulean-blue/400": {
       type: "COLOR",
       value: { r: 0.23921568627450981, g: 0.6431372549019608, b: 0.8313725490196079, a: 1 },
     },
-    "colors/palette/cerulean-blue/500": {
+    "palette/cerulean-blue/500": {
       type: "COLOR",
       value: { r: 0.15294117647058825, g: 0.5647058823529412, b: 0.7568627450980392, a: 1 },
     },
-    "colors/palette/cerulean-blue/600": {
+    "palette/cerulean-blue/600": {
       type: "COLOR",
       value: { r: 0.09803921568627451, g: 0.47843137254901963, b: 0.6549019607843137, a: 1 },
     },
-    "colors/palette/cerulean-blue/700": {
+    "palette/cerulean-blue/700": {
       type: "COLOR",
       value: { r: 0.054901960784313725, g: 0.4, b: 0.5607843137254902, a: 1 },
     },
-    "colors/palette/cerulean-blue/800": {
+    "palette/cerulean-blue/800": {
       type: "COLOR",
       value: { r: 0.0196078431372549, g: 0.27450980392156865, b: 0.39215686274509803, a: 1 },
     },
-    "colors/palette/cerulean-blue/900": {
+    "palette/cerulean-blue/900": {
       type: "COLOR",
       value: { r: 0.011764705882352941, g: 0.2, b: 0.28627450980392155, a: 1 },
     },
-    "colors/palette/cerulean-blue/950": {
+    "palette/cerulean-blue/950": {
       type: "COLOR",
       value: { r: 0, g: 0.12549019607843137, b: 0.1803921568627451, a: 1 },
     },
-    "colors/palette/warm-grey/50": {
+    "palette/warm-grey/50": {
       type: "COLOR",
       value: { r: 0.9568627450980393, g: 0.9490196078431372, b: 0.9372549019607843, a: 1 },
     },
-    "colors/palette/warm-grey/100": {
+    "palette/warm-grey/100": {
       type: "COLOR",
       value: { r: 0.9019607843137255, g: 0.8784313725490196, b: 0.8470588235294118, a: 1 },
     },
-    "colors/palette/warm-grey/200": {
+    "palette/warm-grey/200": {
       type: "COLOR",
       value: { r: 0.7803921568627451, g: 0.7568627450980392, b: 0.7176470588235294, a: 1 },
     },
-    "colors/palette/warm-grey/300": {
+    "palette/warm-grey/300": {
       type: "COLOR",
       value: { r: 0.6588235294117647, g: 0.6352941176470588, b: 0.592156862745098, a: 1 },
     },
-    "colors/palette/warm-grey/400": {
+    "palette/warm-grey/400": {
       type: "COLOR",
       value: { r: 0.4588235294117647, g: 0.4392156862745098, b: 0.403921568627451, a: 1 },
     },
-    "colors/palette/warm-grey/500": {
+    "palette/warm-grey/500": {
       type: "COLOR",
       value: { r: 0.3686274509803922, g: 0.34901960784313724, b: 0.3176470588235294, a: 1 },
     },
-    "colors/palette/warm-grey/600": {
+    "palette/warm-grey/600": {
       type: "COLOR",
       value: { r: 0.3215686274509804, g: 0.2980392156862745, b: 0.26666666666666666, a: 1 },
     },
-    "colors/palette/warm-grey/700": {
+    "palette/warm-grey/700": {
       type: "COLOR",
       value: { r: 0.2549019607843137, g: 0.23529411764705882, b: 0.21176470588235294, a: 1 },
     },
-    "colors/palette/warm-grey/800": {
+    "palette/warm-grey/800": {
       type: "COLOR",
       value: { r: 0.2, g: 0.1843137254901961, b: 0.16470588235294117, a: 1 },
     },
-    "colors/palette/warm-grey/900": {
+    "palette/warm-grey/900": {
       type: "COLOR",
       value: { r: 0.1568627450980392, g: 0.1411764705882353, b: 0.12549019607843137, a: 1 },
     },
-    "colors/palette/warm-grey/950": {
+    "palette/warm-grey/950": {
       type: "COLOR",
       value: { r: 0.10980392156862745, g: 0.09803921568627451, b: 0.08235294117647059, a: 1 },
     },
-    "colors/brand/primary/default": { type: "COLOR", alias: "colors/palette/dioxazine-purple/500" },
-    "colors/brand/primary/hover": { type: "COLOR", alias: "colors/palette/dioxazine-purple/600" },
-    "colors/brand/secondary/default": {
-      type: "COLOR",
-      alias: "colors/palette/dioxazine-purple/500",
-    },
-    "colors/brand/secondary/hover": { type: "COLOR", alias: "colors/palette/dioxazine-purple/600" },
-    "colors/feedback/info/default": { type: "COLOR", alias: "colors/palette/cobalt-blue/500" },
-    "colors/feedback/success/default": { type: "COLOR", alias: "colors/palette/sap-green/600" },
-    "colors/feedback/warning/default": { type: "COLOR", alias: "colors/palette/burnt-orange/500" },
-    "colors/feedback/danger/default": { type: "COLOR", alias: "colors/palette/alizarin-red/600" },
-    "colors/feedback/danger/hover": { type: "COLOR", alias: "colors/palette/alizarin-red/700" },
+    "brand/primary/default": { type: "COLOR", alias: "palette/dioxazine-purple/500" },
+    "brand/primary/hover": { type: "COLOR", alias: "palette/dioxazine-purple/600" },
+    "brand/secondary/default": { type: "COLOR", alias: "palette/dioxazine-purple/500" },
+    "brand/secondary/hover": { type: "COLOR", alias: "palette/dioxazine-purple/600" },
+    "feedback/info/default": { type: "COLOR", alias: "palette/cobalt-blue/500" },
+    "feedback/success/default": { type: "COLOR", alias: "palette/sap-green/600" },
+    "feedback/warning/default": { type: "COLOR", alias: "palette/burnt-orange/500" },
+    "feedback/danger/default": { type: "COLOR", alias: "palette/alizarin-red/600" },
+    "feedback/danger/hover": { type: "COLOR", alias: "palette/alizarin-red/700" },
     "metrics/radius/control": { type: "FLOAT", value: 8 },
     "metrics/radius/container": { type: "FLOAT", value: 12 },
     "metrics/radius/pill": { type: "FLOAT", value: 999 },
     "metrics/density/compact/min-target-size": { type: "FLOAT", value: 24 },
-    "metrics/density/regular/control-padding-y": { type: "FLOAT", value: 8 },
-    "metrics/density/regular/control-padding-x": { type: "FLOAT", value: 14 },
     "metrics/density/regular/min-target-size": { type: "FLOAT", value: 24 },
     "metrics/density/touch/min-target-size": { type: "FLOAT", value: 44 },
-    "components/general/background/default": { type: "COLOR", alias: "colors/palette/grey/0" },
-    "components/general/background/disabled": { type: "COLOR", alias: "colors/palette/grey/200" },
+    "metrics/spacing/control-padding-x": { type: "FLOAT", value: 14 },
+    "metrics/spacing/control-padding-y": { type: "FLOAT", value: 8 },
+    "typography/line-height/default": { type: "FLOAT", value: 1.4 },
+    "typography/line-height/heading": { type: "FLOAT", value: 1.2 },
+    "typography/font-weight/heading": { type: "FLOAT", value: 700 },
+    "typography/font-size/h1": { type: "FLOAT", value: 38 },
+    "typography/font-size/h2": { type: "FLOAT", value: 32 },
+    "typography/font-size/h3": { type: "FLOAT", value: 28 },
+    "typography/font-size/h4": { type: "FLOAT", value: 24 },
+    "typography/font-size/h5": { type: "FLOAT", value: 20 },
+    "typography/font-size/h6": { type: "FLOAT", value: 16 },
+    "components/general/background/default": { type: "COLOR", alias: "palette/grey/0" },
+    "components/general/background/disabled": { type: "COLOR", alias: "palette/grey/200" },
     "components/general/background/hover": { type: "COLOR", value: { r: 0, g: 0, b: 0, a: 0.06 } },
     "components/general/background/pressed": {
       type: "COLOR",
       value: { r: 0, g: 0, b: 0, a: 0.12 },
     },
-    "components/general/foreground/default": { type: "COLOR", alias: "colors/palette/grey/900" },
-    "components/general/foreground/secondary": { type: "COLOR", alias: "colors/palette/grey/600" },
-    "components/general/foreground/disabled": { type: "COLOR", alias: "colors/palette/grey/400" },
-    "components/general/border/default": { type: "COLOR", alias: "colors/palette/grey/200" },
-    "components/general/border/control": { type: "COLOR", alias: "colors/palette/grey/400" },
+    "components/general/foreground/default": { type: "COLOR", alias: "palette/grey/900" },
+    "components/general/foreground/secondary": { type: "COLOR", alias: "palette/grey/600" },
+    "components/general/foreground/disabled": { type: "COLOR", alias: "palette/grey/400" },
+    "components/general/border/default": { type: "COLOR", alias: "palette/grey/200" },
+    "components/general/border/control": { type: "COLOR", alias: "palette/grey/400" },
     "components/general/focus/ring/color": {
       type: "COLOR",
       value: { r: 0.5568627450980392, g: 0.4235294117647059, b: 0.8313725490196079, a: 1 },
@@ -936,27 +942,27 @@ const TOKEN_PAYLOAD = {
     "components/general/focus/halo/width": { type: "FLOAT", value: 3 },
     "components/general/action/primary/background/default": {
       type: "COLOR",
-      alias: "colors/brand/primary/default",
+      alias: "brand/primary/default",
     },
     "components/general/action/primary/background/hover": {
       type: "COLOR",
-      alias: "colors/brand/primary/hover",
+      alias: "brand/primary/hover",
     },
     "components/general/action/primary/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/action/secondary/background/default": {
       type: "COLOR",
-      alias: "colors/brand/secondary/default",
+      alias: "brand/secondary/default",
     },
     "components/general/action/secondary/background/hover": {
       type: "COLOR",
-      alias: "colors/brand/secondary/hover",
+      alias: "brand/secondary/hover",
     },
     "components/general/action/secondary/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/action/secondary/contextual/background/default": {
       type: "COLOR",
@@ -976,11 +982,11 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/action/danger/foreground/default": {
       type: "COLOR",
-      alias: "colors/feedback/danger/hover",
+      alias: "feedback/danger/hover",
     },
     "components/general/feedback/info/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/info/default",
+      alias: "feedback/info/default",
     },
     "components/general/feedback/info/background/default": {
       type: "COLOR",
@@ -996,7 +1002,7 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/success/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/success/default",
+      alias: "feedback/success/default",
     },
     "components/general/feedback/success/background/default": {
       type: "COLOR",
@@ -1016,11 +1022,11 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/warning/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/warning/default",
+      alias: "feedback/warning/default",
     },
     "components/general/feedback/warning/solid/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/900",
+      alias: "palette/grey/900",
     },
     "components/general/feedback/warning/label/background/default": {
       type: "COLOR",
@@ -1040,11 +1046,11 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/danger/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/danger/default",
+      alias: "feedback/danger/default",
     },
     "components/general/feedback/danger/solid/background/hover": {
       type: "COLOR",
-      alias: "colors/feedback/danger/hover",
+      alias: "feedback/danger/hover",
     },
     "components/general/feedback/danger/background/default": {
       type: "COLOR",
@@ -1064,23 +1070,23 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/neutral/solid/background/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/500",
+      alias: "palette/grey/500",
     },
     "components/general/feedback/neutral/background/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/50",
+      alias: "palette/grey/50",
     },
     "components/general/feedback/neutral/border/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/200",
+      alias: "palette/grey/200",
     },
     "components/general/feedback/neutral/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/700",
+      alias: "palette/grey/700",
     },
     "components/general/feedback/solid/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/selection/contextual/foreground/default": {
       type: "COLOR",
@@ -1094,18 +1100,9 @@ const TOKEN_PAYLOAD = {
       type: "COLOR",
       alias: "components/general/action/secondary/foreground/default",
     },
-    "components/general/emphasis/background/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/800",
-    },
-    "components/general/emphasis/foreground/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/50",
-    },
-    "components/general/emphasis/border/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/700",
-    },
+    "components/general/emphasis/background/default": { type: "COLOR", alias: "palette/grey/800" },
+    "components/general/emphasis/foreground/default": { type: "COLOR", alias: "palette/grey/50" },
+    "components/general/emphasis/border/default": { type: "COLOR", alias: "palette/grey/700" },
     "components/dialog/overlay/default": {
       type: "COLOR",
       value: { r: 0.1059, g: 0.1059, b: 0.1059, a: 0.5 },
@@ -1118,13 +1115,10 @@ const TOKEN_PAYLOAD = {
       type: "COLOR",
       value: { r: 0.5294117647058824, g: 0.38823529411764707, b: 0.8196078431372549, a: 1 },
     },
-    "components/navigation-bar/background/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/100",
-    },
+    "components/navigation-bar/background/default": { type: "COLOR", alias: "palette/grey/100" },
     "components/data-grid/cell/secondary/background/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/50",
+      alias: "palette/grey/50",
     },
     "components/page/background/default": {
       type: "COLOR",
@@ -1150,13 +1144,13 @@ const TOKEN_PAYLOAD = {
       type: "COLOR",
       alias: "components/general/background/default",
     },
-    "components/code-block/background/default": { type: "COLOR", alias: "colors/palette/grey/50" },
-    "components/avatar/background/default": { type: "COLOR", alias: "colors/palette/grey/100" },
-    "components/switch/background/default": { type: "COLOR", alias: "colors/palette/grey/100" },
-    "components/calendar/background/default": { type: "COLOR", alias: "colors/palette/grey/100" },
-    "components/table/background/default": { type: "COLOR", alias: "colors/palette/grey/100" },
-    "components/carousel/background/default": { type: "COLOR", alias: "colors/palette/grey/100" },
-    "components/stepper/background/default": { type: "COLOR", alias: "colors/palette/grey/100" },
+    "components/code-block/background/default": { type: "COLOR", alias: "palette/grey/50" },
+    "components/avatar/background/default": { type: "COLOR", alias: "palette/grey/100" },
+    "components/switch/background/default": { type: "COLOR", alias: "palette/grey/100" },
+    "components/calendar/background/default": { type: "COLOR", alias: "palette/grey/100" },
+    "components/table/background/default": { type: "COLOR", alias: "palette/grey/100" },
+    "components/carousel/background/default": { type: "COLOR", alias: "palette/grey/100" },
+    "components/stepper/background/default": { type: "COLOR", alias: "palette/grey/100" },
     "components/button/background/default": {
       type: "COLOR",
       alias: "components/general/background/default",
@@ -1222,14 +1216,8 @@ const TOKEN_PAYLOAD = {
       alias: "components/general/foreground/default",
     },
     "components/button/radius": { type: "FLOAT", alias: "metrics/radius/control" },
-    "components/button/spacing/x": {
-      type: "FLOAT",
-      alias: "metrics/density/regular/control-padding-x",
-    },
-    "components/button/spacing/y": {
-      type: "FLOAT",
-      alias: "metrics/density/regular/control-padding-y",
-    },
+    "components/button/spacing/x": { type: "FLOAT", alias: "metrics/spacing/control-padding-x" },
+    "components/button/spacing/y": { type: "FLOAT", alias: "metrics/spacing/control-padding-y" },
     "components/button/spacing/gap": { type: "FLOAT", value: 8 },
     "components/button/typography/line-height": {
       type: "FLOAT",
@@ -1254,6 +1242,558 @@ const TOKEN_PAYLOAD = {
       value: { r: 0.7450980392156864, g: 0.23137254901960785, b: 0.3137254901960784, a: 0.35 },
     },
     "components/button/opacity/disabled": { type: "FLOAT", value: 0.5 },
+  },
+  Dark: {
+    "palette/dioxazine-purple/50": {
+      type: "COLOR",
+      value: { r: 0.9450980392156862, g: 0.9254901960784314, b: 0.9803921568627451, a: 1 },
+    },
+    "palette/dioxazine-purple/100": {
+      type: "COLOR",
+      value: { r: 0.8313725490196079, g: 0.7803921568627451, b: 0.9372549019607843, a: 1 },
+    },
+    "palette/dioxazine-purple/200": {
+      type: "COLOR",
+      value: { r: 0.7215686274509804, g: 0.6313725490196078, b: 0.9019607843137255, a: 1 },
+    },
+    "palette/dioxazine-purple/300": {
+      type: "COLOR",
+      value: { r: 0.6352941176470588, g: 0.5176470588235295, b: 0.8666666666666667, a: 1 },
+    },
+    "palette/dioxazine-purple/400": {
+      type: "COLOR",
+      value: { r: 0.5529411764705883, g: 0.41568627450980394, b: 0.8313725490196079, a: 1 },
+    },
+    "palette/dioxazine-purple/500": {
+      type: "COLOR",
+      value: { r: 0.47843137254901963, g: 0.3215686274509804, b: 0.8, a: 1 },
+    },
+    "palette/dioxazine-purple/600": {
+      type: "COLOR",
+      value: { r: 0.40784313725490196, g: 0.25098039215686274, b: 0.7176470588235294, a: 1 },
+    },
+    "palette/dioxazine-purple/700": {
+      type: "COLOR",
+      value: { r: 0.33725490196078434, g: 0.21568627450980393, b: 0.5843137254901961, a: 1 },
+    },
+    "palette/dioxazine-purple/800": {
+      type: "COLOR",
+      value: { r: 0.26666666666666666, g: 0.15294117647058825, b: 0.5019607843137255, a: 1 },
+    },
+    "palette/dioxazine-purple/900": {
+      type: "COLOR",
+      value: { r: 0.20392156862745098, g: 0.09411764705882353, b: 0.43137254901960786, a: 1 },
+    },
+    "palette/dioxazine-purple/950": {
+      type: "COLOR",
+      value: { r: 0.13725490196078433, g: 0.0392156862745098, b: 0.33725490196078434, a: 1 },
+    },
+    "palette/cobalt-blue/50": {
+      type: "COLOR",
+      value: { r: 0.9137254901960784, g: 0.9333333333333333, b: 0.9803921568627451, a: 1 },
+    },
+    "palette/cobalt-blue/100": {
+      type: "COLOR",
+      value: { r: 0.7372549019607844, g: 0.803921568627451, b: 0.9450980392156862, a: 1 },
+    },
+    "palette/cobalt-blue/200": {
+      type: "COLOR",
+      value: { r: 0.5607843137254902, g: 0.6745098039215687, b: 0.9098039215686274, a: 1 },
+    },
+    "palette/cobalt-blue/300": {
+      type: "COLOR",
+      value: { r: 0.4196078431372549, g: 0.5607843137254902, b: 0.8431372549019608, a: 1 },
+    },
+    "palette/cobalt-blue/400": {
+      type: "COLOR",
+      value: { r: 0.3215686274509804, g: 0.47843137254901963, b: 0.8, a: 1 },
+    },
+    "palette/cobalt-blue/500": {
+      type: "COLOR",
+      value: { r: 0.25098039215686274, g: 0.403921568627451, b: 0.7137254901960784, a: 1 },
+    },
+    "palette/cobalt-blue/600": {
+      type: "COLOR",
+      value: { r: 0.22745098039215686, g: 0.3607843137254902, b: 0.6274509803921569, a: 1 },
+    },
+    "palette/cobalt-blue/700": {
+      type: "COLOR",
+      value: { r: 0.19607843137254902, g: 0.30196078431372547, b: 0.5137254901960784, a: 1 },
+    },
+    "palette/cobalt-blue/800": {
+      type: "COLOR",
+      value: { r: 0.15294117647058825, g: 0.23137254901960785, b: 0.396078431372549, a: 1 },
+    },
+    "palette/cobalt-blue/900": {
+      type: "COLOR",
+      value: { r: 0.11372549019607843, g: 0.17647058823529413, b: 0.30196078431372547, a: 1 },
+    },
+    "palette/cobalt-blue/950": {
+      type: "COLOR",
+      value: { r: 0.058823529411764705, g: 0.10588235294117647, b: 0.20392156862745098, a: 1 },
+    },
+    "palette/burnt-orange/50": {
+      type: "COLOR",
+      value: { r: 0.9803921568627451, g: 0.9215686274509803, b: 0.8823529411764706, a: 1 },
+    },
+    "palette/burnt-orange/100": {
+      type: "COLOR",
+      value: { r: 0.9686274509803922, g: 0.8666666666666667, b: 0.8, a: 1 },
+    },
+    "palette/burnt-orange/200": {
+      type: "COLOR",
+      value: { r: 0.9333333333333333, g: 0.7333333333333333, b: 0.6, a: 1 },
+    },
+    "palette/burnt-orange/300": {
+      type: "COLOR",
+      value: { r: 0.9058823529411765, g: 0.6274509803921569, b: 0.44313725490196076, a: 1 },
+    },
+    "palette/burnt-orange/400": {
+      type: "COLOR",
+      value: { r: 0.8666666666666667, g: 0.4666666666666667, b: 0.20392156862745098, a: 1 },
+    },
+    "palette/burnt-orange/500": {
+      type: "COLOR",
+      value: { r: 0.788235294117647, g: 0.39215686274509803, b: 0.13333333333333333, a: 1 },
+    },
+    "palette/burnt-orange/600": {
+      type: "COLOR",
+      value: { r: 0.7372549019607844, g: 0.3411764705882353, b: 0.08627450980392157, a: 1 },
+    },
+    "palette/burnt-orange/700": {
+      type: "COLOR",
+      value: { r: 0.6431372549019608, g: 0.27450980392156865, b: 0.0392156862745098, a: 1 },
+    },
+    "palette/burnt-orange/800": {
+      type: "COLOR",
+      value: { r: 0.5294117647058824, g: 0.21176470588235294, b: 0.00784313725490196, a: 1 },
+    },
+    "palette/burnt-orange/900": {
+      type: "COLOR",
+      value: { r: 0.34509803921568627, g: 0.13333333333333333, b: 0, a: 1 },
+    },
+    "palette/burnt-orange/950": {
+      type: "COLOR",
+      value: { r: 0.24313725490196078, g: 0.09411764705882353, b: 0, a: 1 },
+    },
+    "palette/sap-green/50": {
+      type: "COLOR",
+      value: { r: 0.9176470588235294, g: 0.9607843137254902, b: 0.8941176470588236, a: 1 },
+    },
+    "palette/sap-green/100": {
+      type: "COLOR",
+      value: { r: 0.7764705882352941, g: 0.8901960784313725, b: 0.7176470588235294, a: 1 },
+    },
+    "palette/sap-green/200": {
+      type: "COLOR",
+      value: { r: 0.6666666666666666, g: 0.8392156862745098, b: 0.5764705882352941, a: 1 },
+    },
+    "palette/sap-green/300": {
+      type: "COLOR",
+      value: { r: 0.5803921568627451, g: 0.7647058823529411, b: 0.49019607843137253, a: 1 },
+    },
+    "palette/sap-green/400": {
+      type: "COLOR",
+      value: { r: 0.45098039215686275, g: 0.6627450980392157, b: 0.34509803921568627, a: 1 },
+    },
+    "palette/sap-green/500": {
+      type: "COLOR",
+      value: { r: 0.3137254901960784, g: 0.5450980392156862, b: 0.19607843137254902, a: 1 },
+    },
+    "palette/sap-green/600": {
+      type: "COLOR",
+      value: { r: 0.24313725490196078, g: 0.4588235294117647, b: 0.13725490196078433, a: 1 },
+    },
+    "palette/sap-green/700": {
+      type: "COLOR",
+      value: { r: 0.18823529411764706, g: 0.3843137254901961, b: 0.09019607843137255, a: 1 },
+    },
+    "palette/sap-green/800": {
+      type: "COLOR",
+      value: { r: 0.13333333333333333, g: 0.30196078431372547, b: 0.047058823529411764, a: 1 },
+    },
+    "palette/sap-green/900": {
+      type: "COLOR",
+      value: { r: 0.0784313725490196, g: 0.20392156862745098, b: 0.01568627450980392, a: 1 },
+    },
+    "palette/sap-green/950": {
+      type: "COLOR",
+      value: { r: 0.050980392156862744, g: 0.13725490196078433, b: 0.00392156862745098, a: 1 },
+    },
+    "palette/alizarin-red/50": {
+      type: "COLOR",
+      value: { r: 0.9803921568627451, g: 0.9254901960784314, b: 0.9333333333333333, a: 1 },
+    },
+    "palette/alizarin-red/100": {
+      type: "COLOR",
+      value: { r: 0.9372549019607843, g: 0.7803921568627451, b: 0.803921568627451, a: 1 },
+    },
+    "palette/alizarin-red/200": {
+      type: "COLOR",
+      value: { r: 0.8980392156862745, g: 0.6313725490196078, b: 0.6745098039215687, a: 1 },
+    },
+    "palette/alizarin-red/300": {
+      type: "COLOR",
+      value: { r: 0.9019607843137255, g: 0.4980392156862745, b: 0.5647058823529412, a: 1 },
+    },
+    "palette/alizarin-red/400": {
+      type: "COLOR",
+      value: { r: 0.9019607843137255, g: 0.3607843137254902, b: 0.45098039215686275, a: 1 },
+    },
+    "palette/alizarin-red/500": {
+      type: "COLOR",
+      value: { r: 0.8352941176470589, g: 0.30196078431372547, b: 0.38823529411764707, a: 1 },
+    },
+    "palette/alizarin-red/600": {
+      type: "COLOR",
+      value: { r: 0.7450980392156863, g: 0.23137254901960785, b: 0.3137254901960784, a: 1 },
+    },
+    "palette/alizarin-red/700": {
+      type: "COLOR",
+      value: { r: 0.6705882352941176, g: 0.1803921568627451, b: 0.25882352941176473, a: 1 },
+    },
+    "palette/alizarin-red/800": {
+      type: "COLOR",
+      value: { r: 0.5333333333333333, g: 0.10196078431372549, b: 0.16862745098039217, a: 1 },
+    },
+    "palette/alizarin-red/900": {
+      type: "COLOR",
+      value: { r: 0.41568627450980394, g: 0.058823529411764705, b: 0.11372549019607843, a: 1 },
+    },
+    "palette/alizarin-red/950": {
+      type: "COLOR",
+      value: { r: 0.3058823529411765, g: 0.01568627450980392, b: 0.06274509803921569, a: 1 },
+    },
+    "palette/grey/0": { type: "COLOR", value: { r: 1, g: 1, b: 1, a: 1 } },
+    "palette/grey/50": {
+      type: "COLOR",
+      value: { r: 0.9607843137254902, g: 0.9607843137254902, b: 0.9607843137254902, a: 1 },
+    },
+    "palette/grey/100": {
+      type: "COLOR",
+      value: { r: 0.8784313725490196, g: 0.8784313725490196, b: 0.8784313725490196, a: 1 },
+    },
+    "palette/grey/200": {
+      type: "COLOR",
+      value: { r: 0.7411764705882353, g: 0.7411764705882353, b: 0.7411764705882353, a: 1 },
+    },
+    "palette/grey/300": {
+      type: "COLOR",
+      value: { r: 0.6196078431372549, g: 0.6196078431372549, b: 0.6196078431372549, a: 1 },
+    },
+    "palette/grey/400": {
+      type: "COLOR",
+      value: { r: 0.4588235294117647, g: 0.4588235294117647, b: 0.4588235294117647, a: 1 },
+    },
+    "palette/grey/500": {
+      type: "COLOR",
+      value: { r: 0.3803921568627451, g: 0.3803921568627451, b: 0.3803921568627451, a: 1 },
+    },
+    "palette/grey/600": {
+      type: "COLOR",
+      value: { r: 0.3176470588235294, g: 0.3176470588235294, b: 0.3176470588235294, a: 1 },
+    },
+    "palette/grey/700": {
+      type: "COLOR",
+      value: { r: 0.2549019607843137, g: 0.2549019607843137, b: 0.2549019607843137, a: 1 },
+    },
+    "palette/grey/800": {
+      type: "COLOR",
+      value: { r: 0.19607843137254902, g: 0.19607843137254902, b: 0.19607843137254902, a: 1 },
+    },
+    "palette/grey/900": {
+      type: "COLOR",
+      value: { r: 0.15294117647058825, g: 0.15294117647058825, b: 0.15294117647058825, a: 1 },
+    },
+    "palette/grey/950": {
+      type: "COLOR",
+      value: { r: 0.10588235294117647, g: 0.10588235294117647, b: 0.10588235294117647, a: 1 },
+    },
+    "palette/black": {
+      type: "COLOR",
+      value: { r: 0.07058823529411765, g: 0.07058823529411765, b: 0.07058823529411765, a: 1 },
+    },
+    "palette/magenta-pink/50": {
+      type: "COLOR",
+      value: { r: 0.9803921568627451, g: 0.9254901960784314, b: 0.9607843137254902, a: 1 },
+    },
+    "palette/magenta-pink/100": {
+      type: "COLOR",
+      value: { r: 0.9372549019607843, g: 0.7803921568627451, b: 0.8862745098039215, a: 1 },
+    },
+    "palette/magenta-pink/200": {
+      type: "COLOR",
+      value: { r: 0.8980392156862745, g: 0.6313725490196078, b: 0.807843137254902, a: 1 },
+    },
+    "palette/magenta-pink/300": {
+      type: "COLOR",
+      value: { r: 0.9019607843137255, g: 0.4980392156862745, b: 0.7686274509803922, a: 1 },
+    },
+    "palette/magenta-pink/400": {
+      type: "COLOR",
+      value: { r: 0.9019607843137255, g: 0.3607843137254902, b: 0.7215686274509804, a: 1 },
+    },
+    "palette/magenta-pink/500": {
+      type: "COLOR",
+      value: { r: 0.8352941176470589, g: 0.30196078431372547, b: 0.6588235294117647, a: 1 },
+    },
+    "palette/magenta-pink/600": {
+      type: "COLOR",
+      value: { r: 0.7450980392156863, g: 0.23137254901960785, b: 0.5725490196078431, a: 1 },
+    },
+    "palette/magenta-pink/700": {
+      type: "COLOR",
+      value: { r: 0.6705882352941176, g: 0.1803921568627451, b: 0.5098039215686274, a: 1 },
+    },
+    "palette/magenta-pink/800": {
+      type: "COLOR",
+      value: { r: 0.5333333333333333, g: 0.10196078431372549, b: 0.38823529411764707, a: 1 },
+    },
+    "palette/magenta-pink/900": {
+      type: "COLOR",
+      value: { r: 0.41568627450980394, g: 0.058823529411764705, b: 0.2980392156862745, a: 1 },
+    },
+    "palette/magenta-pink/950": {
+      type: "COLOR",
+      value: { r: 0.3137254901960784, g: 0.0196078431372549, b: 0.21568627450980393, a: 1 },
+    },
+    "palette/naples-yellow/50": {
+      type: "COLOR",
+      value: { r: 1, g: 0.9803921568627451, b: 0.9058823529411765, a: 1 },
+    },
+    "palette/naples-yellow/100": {
+      type: "COLOR",
+      value: { r: 0.996078431372549, g: 0.9411764705882353, b: 0.7137254901960784, a: 1 },
+    },
+    "palette/naples-yellow/200": {
+      type: "COLOR",
+      value: { r: 0.996078431372549, g: 0.8862745098039215, b: 0.5215686274509804, a: 1 },
+    },
+    "palette/naples-yellow/300": {
+      type: "COLOR",
+      value: { r: 0.9764705882352941, g: 0.8352941176470589, b: 0.4549019607843137, a: 1 },
+    },
+    "palette/naples-yellow/400": {
+      type: "COLOR",
+      value: { r: 0.9098039215686274, g: 0.7294117647058823, b: 0.30980392156862746, a: 1 },
+    },
+    "palette/naples-yellow/500": {
+      type: "COLOR",
+      value: { r: 0.8745098039215686, g: 0.6313725490196078, b: 0.1411764705882353, a: 1 },
+    },
+    "palette/naples-yellow/600": {
+      type: "COLOR",
+      value: { r: 0.7843137254901961, g: 0.5137254901960784, b: 0.047058823529411764, a: 1 },
+    },
+    "palette/naples-yellow/700": {
+      type: "COLOR",
+      value: { r: 0.6784313725490196, g: 0.4196078431372549, b: 0.03137254901960784, a: 1 },
+    },
+    "palette/naples-yellow/800": {
+      type: "COLOR",
+      value: { r: 0.5686274509803921, g: 0.3215686274509804, b: 0, a: 1 },
+    },
+    "palette/naples-yellow/900": {
+      type: "COLOR",
+      value: { r: 0.38823529411764707, g: 0.20784313725490197, b: 0.00392156862745098, a: 1 },
+    },
+    "palette/naples-yellow/950": {
+      type: "COLOR",
+      value: { r: 0.2627450980392157, g: 0.1411764705882353, b: 0, a: 1 },
+    },
+    "palette/lime-green/50": {
+      type: "COLOR",
+      value: { r: 0.9764705882352941, g: 0.984313725490196, b: 0.9058823529411765, a: 1 },
+    },
+    "palette/lime-green/100": {
+      type: "COLOR",
+      value: { r: 0.9411764705882353, g: 0.9568627450980393, b: 0.7647058823529411, a: 1 },
+    },
+    "palette/lime-green/200": {
+      type: "COLOR",
+      value: { r: 0.9019607843137255, g: 0.9333333333333333, b: 0.611764705882353, a: 1 },
+    },
+    "palette/lime-green/300": {
+      type: "COLOR",
+      value: { r: 0.8627450980392157, g: 0.9058823529411765, b: 0.4588235294117647, a: 1 },
+    },
+    "palette/lime-green/400": {
+      type: "COLOR",
+      value: { r: 0.7843137254901961, g: 0.8352941176470589, b: 0.2784313725490196, a: 1 },
+    },
+    "palette/lime-green/500": {
+      type: "COLOR",
+      value: { r: 0.6784313725490196, g: 0.7333333333333333, b: 0.13725490196078433, a: 1 },
+    },
+    "palette/lime-green/600": {
+      type: "COLOR",
+      value: { r: 0.5411764705882353, g: 0.5882352941176471, b: 0.07450980392156863, a: 1 },
+    },
+    "palette/lime-green/700": {
+      type: "COLOR",
+      value: { r: 0.43529411764705883, g: 0.4745098039215686, b: 0.043137254901960784, a: 1 },
+    },
+    "palette/lime-green/800": {
+      type: "COLOR",
+      value: { r: 0.32941176470588235, g: 0.3607843137254902, b: 0.0196078431372549, a: 1 },
+    },
+    "palette/lime-green/900": {
+      type: "COLOR",
+      value: { r: 0.21176470588235294, g: 0.23921568627450981, b: 0.00784313725490196, a: 1 },
+    },
+    "palette/lime-green/950": {
+      type: "COLOR",
+      value: { r: 0.14901960784313725, g: 0.16862745098039217, b: 0, a: 1 },
+    },
+    "palette/viridian-green/50": {
+      type: "COLOR",
+      value: { r: 0.9019607843137255, g: 0.9607843137254902, b: 0.9529411764705882, a: 1 },
+    },
+    "palette/viridian-green/100": {
+      type: "COLOR",
+      value: { r: 0.7019607843137254, g: 0.8784313725490196, b: 0.8627450980392157, a: 1 },
+    },
+    "palette/viridian-green/200": {
+      type: "COLOR",
+      value: { r: 0.5019607843137255, g: 0.796078431372549, b: 0.7686274509803922, a: 1 },
+    },
+    "palette/viridian-green/300": {
+      type: "COLOR",
+      value: { r: 0.30196078431372547, g: 0.7137254901960784, b: 0.6745098039215687, a: 1 },
+    },
+    "palette/viridian-green/400": {
+      type: "COLOR",
+      value: { r: 0.14901960784313725, g: 0.6509803921568628, b: 0.6039215686274509, a: 1 },
+    },
+    "palette/viridian-green/500": {
+      type: "COLOR",
+      value: { r: 0, g: 0.5372549019607843, b: 0.4823529411764706, a: 1 },
+    },
+    "palette/viridian-green/600": {
+      type: "COLOR",
+      value: { r: 0, g: 0.4470588235294118, b: 0.396078431372549, a: 1 },
+    },
+    "palette/viridian-green/700": {
+      type: "COLOR",
+      value: { r: 0, g: 0.36470588235294116, b: 0.3137254901960784, a: 1 },
+    },
+    "palette/viridian-green/800": {
+      type: "COLOR",
+      value: { r: 0.00392156862745098, g: 0.26666666666666666, b: 0.2235294117647059, a: 1 },
+    },
+    "palette/viridian-green/900": {
+      type: "COLOR",
+      value: { r: 0, g: 0.20784313725490197, b: 0.17254901960784313, a: 1 },
+    },
+    "palette/viridian-green/950": {
+      type: "COLOR",
+      value: { r: 0, g: 0.1411764705882353, b: 0.11764705882352941, a: 1 },
+    },
+    "palette/cerulean-blue/50": {
+      type: "COLOR",
+      value: { r: 0.8823529411764706, g: 0.9607843137254902, b: 0.996078431372549, a: 1 },
+    },
+    "palette/cerulean-blue/100": {
+      type: "COLOR",
+      value: { r: 0.6980392156862745, g: 0.8705882352941177, b: 0.9490196078431372, a: 1 },
+    },
+    "palette/cerulean-blue/200": {
+      type: "COLOR",
+      value: { r: 0.5411764705882353, g: 0.8, b: 0.9176470588235294, a: 1 },
+    },
+    "palette/cerulean-blue/300": {
+      type: "COLOR",
+      value: { r: 0.38823529411764707, g: 0.7254901960784313, b: 0.8823529411764706, a: 1 },
+    },
+    "palette/cerulean-blue/400": {
+      type: "COLOR",
+      value: { r: 0.23921568627450981, g: 0.6431372549019608, b: 0.8313725490196079, a: 1 },
+    },
+    "palette/cerulean-blue/500": {
+      type: "COLOR",
+      value: { r: 0.15294117647058825, g: 0.5647058823529412, b: 0.7568627450980392, a: 1 },
+    },
+    "palette/cerulean-blue/600": {
+      type: "COLOR",
+      value: { r: 0.09803921568627451, g: 0.47843137254901963, b: 0.6549019607843137, a: 1 },
+    },
+    "palette/cerulean-blue/700": {
+      type: "COLOR",
+      value: { r: 0.054901960784313725, g: 0.4, b: 0.5607843137254902, a: 1 },
+    },
+    "palette/cerulean-blue/800": {
+      type: "COLOR",
+      value: { r: 0.0196078431372549, g: 0.27450980392156865, b: 0.39215686274509803, a: 1 },
+    },
+    "palette/cerulean-blue/900": {
+      type: "COLOR",
+      value: { r: 0.011764705882352941, g: 0.2, b: 0.28627450980392155, a: 1 },
+    },
+    "palette/cerulean-blue/950": {
+      type: "COLOR",
+      value: { r: 0, g: 0.12549019607843137, b: 0.1803921568627451, a: 1 },
+    },
+    "palette/warm-grey/50": {
+      type: "COLOR",
+      value: { r: 0.9568627450980393, g: 0.9490196078431372, b: 0.9372549019607843, a: 1 },
+    },
+    "palette/warm-grey/100": {
+      type: "COLOR",
+      value: { r: 0.9019607843137255, g: 0.8784313725490196, b: 0.8470588235294118, a: 1 },
+    },
+    "palette/warm-grey/200": {
+      type: "COLOR",
+      value: { r: 0.7803921568627451, g: 0.7568627450980392, b: 0.7176470588235294, a: 1 },
+    },
+    "palette/warm-grey/300": {
+      type: "COLOR",
+      value: { r: 0.6588235294117647, g: 0.6352941176470588, b: 0.592156862745098, a: 1 },
+    },
+    "palette/warm-grey/400": {
+      type: "COLOR",
+      value: { r: 0.4588235294117647, g: 0.4392156862745098, b: 0.403921568627451, a: 1 },
+    },
+    "palette/warm-grey/500": {
+      type: "COLOR",
+      value: { r: 0.3686274509803922, g: 0.34901960784313724, b: 0.3176470588235294, a: 1 },
+    },
+    "palette/warm-grey/600": {
+      type: "COLOR",
+      value: { r: 0.3215686274509804, g: 0.2980392156862745, b: 0.26666666666666666, a: 1 },
+    },
+    "palette/warm-grey/700": {
+      type: "COLOR",
+      value: { r: 0.2549019607843137, g: 0.23529411764705882, b: 0.21176470588235294, a: 1 },
+    },
+    "palette/warm-grey/800": {
+      type: "COLOR",
+      value: { r: 0.2, g: 0.1843137254901961, b: 0.16470588235294117, a: 1 },
+    },
+    "palette/warm-grey/900": {
+      type: "COLOR",
+      value: { r: 0.1568627450980392, g: 0.1411764705882353, b: 0.12549019607843137, a: 1 },
+    },
+    "palette/warm-grey/950": {
+      type: "COLOR",
+      value: { r: 0.10980392156862745, g: 0.09803921568627451, b: 0.08235294117647059, a: 1 },
+    },
+    "brand/primary/default": { type: "COLOR", alias: "palette/dioxazine-purple/500" },
+    "brand/primary/hover": { type: "COLOR", alias: "palette/dioxazine-purple/600" },
+    "brand/secondary/default": { type: "COLOR", alias: "palette/dioxazine-purple/500" },
+    "brand/secondary/hover": { type: "COLOR", alias: "palette/dioxazine-purple/600" },
+    "feedback/info/default": { type: "COLOR", alias: "palette/cobalt-blue/500" },
+    "feedback/success/default": { type: "COLOR", alias: "palette/sap-green/600" },
+    "feedback/warning/default": { type: "COLOR", alias: "palette/burnt-orange/500" },
+    "feedback/danger/default": { type: "COLOR", alias: "palette/alizarin-red/600" },
+    "feedback/danger/hover": { type: "COLOR", alias: "palette/alizarin-red/700" },
+    "metrics/radius/control": { type: "FLOAT", value: 8 },
+    "metrics/radius/container": { type: "FLOAT", value: 12 },
+    "metrics/radius/pill": { type: "FLOAT", value: 999 },
+    "metrics/density/compact/min-target-size": { type: "FLOAT", value: 24 },
+    "metrics/density/regular/min-target-size": { type: "FLOAT", value: 24 },
+    "metrics/density/touch/min-target-size": { type: "FLOAT", value: 44 },
+    "metrics/spacing/control-padding-x": { type: "FLOAT", value: 14 },
+    "metrics/spacing/control-padding-y": { type: "FLOAT", value: 8 },
     "typography/line-height/default": { type: "FLOAT", value: 1.4 },
     "typography/line-height/heading": { type: "FLOAT", value: 1.2 },
     "typography/font-weight/heading": { type: "FLOAT", value: 700 },
@@ -1263,573 +1803,18 @@ const TOKEN_PAYLOAD = {
     "typography/font-size/h4": { type: "FLOAT", value: 24 },
     "typography/font-size/h5": { type: "FLOAT", value: 20 },
     "typography/font-size/h6": { type: "FLOAT", value: 16 },
-  },
-  Dark: {
-    "colors/palette/dioxazine-purple/50": {
-      type: "COLOR",
-      value: { r: 0.9450980392156862, g: 0.9254901960784314, b: 0.9803921568627451, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/100": {
-      type: "COLOR",
-      value: { r: 0.8313725490196079, g: 0.7803921568627451, b: 0.9372549019607843, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/200": {
-      type: "COLOR",
-      value: { r: 0.7215686274509804, g: 0.6313725490196078, b: 0.9019607843137255, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/300": {
-      type: "COLOR",
-      value: { r: 0.6352941176470588, g: 0.5176470588235295, b: 0.8666666666666667, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/400": {
-      type: "COLOR",
-      value: { r: 0.5529411764705883, g: 0.41568627450980394, b: 0.8313725490196079, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/500": {
-      type: "COLOR",
-      value: { r: 0.47843137254901963, g: 0.3215686274509804, b: 0.8, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/600": {
-      type: "COLOR",
-      value: { r: 0.40784313725490196, g: 0.25098039215686274, b: 0.7176470588235294, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/700": {
-      type: "COLOR",
-      value: { r: 0.33725490196078434, g: 0.21568627450980393, b: 0.5843137254901961, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/800": {
-      type: "COLOR",
-      value: { r: 0.26666666666666666, g: 0.15294117647058825, b: 0.5019607843137255, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/900": {
-      type: "COLOR",
-      value: { r: 0.20392156862745098, g: 0.09411764705882353, b: 0.43137254901960786, a: 1 },
-    },
-    "colors/palette/dioxazine-purple/950": {
-      type: "COLOR",
-      value: { r: 0.13725490196078433, g: 0.0392156862745098, b: 0.33725490196078434, a: 1 },
-    },
-    "colors/palette/cobalt-blue/50": {
-      type: "COLOR",
-      value: { r: 0.9137254901960784, g: 0.9333333333333333, b: 0.9803921568627451, a: 1 },
-    },
-    "colors/palette/cobalt-blue/100": {
-      type: "COLOR",
-      value: { r: 0.7372549019607844, g: 0.803921568627451, b: 0.9450980392156862, a: 1 },
-    },
-    "colors/palette/cobalt-blue/200": {
-      type: "COLOR",
-      value: { r: 0.5607843137254902, g: 0.6745098039215687, b: 0.9098039215686274, a: 1 },
-    },
-    "colors/palette/cobalt-blue/300": {
-      type: "COLOR",
-      value: { r: 0.4196078431372549, g: 0.5607843137254902, b: 0.8431372549019608, a: 1 },
-    },
-    "colors/palette/cobalt-blue/400": {
-      type: "COLOR",
-      value: { r: 0.3215686274509804, g: 0.47843137254901963, b: 0.8, a: 1 },
-    },
-    "colors/palette/cobalt-blue/500": {
-      type: "COLOR",
-      value: { r: 0.25098039215686274, g: 0.403921568627451, b: 0.7137254901960784, a: 1 },
-    },
-    "colors/palette/cobalt-blue/600": {
-      type: "COLOR",
-      value: { r: 0.22745098039215686, g: 0.3607843137254902, b: 0.6274509803921569, a: 1 },
-    },
-    "colors/palette/cobalt-blue/700": {
-      type: "COLOR",
-      value: { r: 0.19607843137254902, g: 0.30196078431372547, b: 0.5137254901960784, a: 1 },
-    },
-    "colors/palette/cobalt-blue/800": {
-      type: "COLOR",
-      value: { r: 0.15294117647058825, g: 0.23137254901960785, b: 0.396078431372549, a: 1 },
-    },
-    "colors/palette/cobalt-blue/900": {
-      type: "COLOR",
-      value: { r: 0.11372549019607843, g: 0.17647058823529413, b: 0.30196078431372547, a: 1 },
-    },
-    "colors/palette/cobalt-blue/950": {
-      type: "COLOR",
-      value: { r: 0.058823529411764705, g: 0.10588235294117647, b: 0.20392156862745098, a: 1 },
-    },
-    "colors/palette/burnt-orange/50": {
-      type: "COLOR",
-      value: { r: 0.9803921568627451, g: 0.9215686274509803, b: 0.8823529411764706, a: 1 },
-    },
-    "colors/palette/burnt-orange/100": {
-      type: "COLOR",
-      value: { r: 0.9686274509803922, g: 0.8666666666666667, b: 0.8, a: 1 },
-    },
-    "colors/palette/burnt-orange/200": {
-      type: "COLOR",
-      value: { r: 0.9333333333333333, g: 0.7333333333333333, b: 0.6, a: 1 },
-    },
-    "colors/palette/burnt-orange/300": {
-      type: "COLOR",
-      value: { r: 0.9058823529411765, g: 0.6274509803921569, b: 0.44313725490196076, a: 1 },
-    },
-    "colors/palette/burnt-orange/400": {
-      type: "COLOR",
-      value: { r: 0.8666666666666667, g: 0.4666666666666667, b: 0.20392156862745098, a: 1 },
-    },
-    "colors/palette/burnt-orange/500": {
-      type: "COLOR",
-      value: { r: 0.788235294117647, g: 0.39215686274509803, b: 0.13333333333333333, a: 1 },
-    },
-    "colors/palette/burnt-orange/600": {
-      type: "COLOR",
-      value: { r: 0.7372549019607844, g: 0.3411764705882353, b: 0.08627450980392157, a: 1 },
-    },
-    "colors/palette/burnt-orange/700": {
-      type: "COLOR",
-      value: { r: 0.6431372549019608, g: 0.27450980392156865, b: 0.0392156862745098, a: 1 },
-    },
-    "colors/palette/burnt-orange/800": {
-      type: "COLOR",
-      value: { r: 0.5294117647058824, g: 0.21176470588235294, b: 0.00784313725490196, a: 1 },
-    },
-    "colors/palette/burnt-orange/900": {
-      type: "COLOR",
-      value: { r: 0.34509803921568627, g: 0.13333333333333333, b: 0, a: 1 },
-    },
-    "colors/palette/burnt-orange/950": {
-      type: "COLOR",
-      value: { r: 0.24313725490196078, g: 0.09411764705882353, b: 0, a: 1 },
-    },
-    "colors/palette/sap-green/50": {
-      type: "COLOR",
-      value: { r: 0.9176470588235294, g: 0.9607843137254902, b: 0.8941176470588236, a: 1 },
-    },
-    "colors/palette/sap-green/100": {
-      type: "COLOR",
-      value: { r: 0.7764705882352941, g: 0.8901960784313725, b: 0.7176470588235294, a: 1 },
-    },
-    "colors/palette/sap-green/200": {
-      type: "COLOR",
-      value: { r: 0.6666666666666666, g: 0.8392156862745098, b: 0.5764705882352941, a: 1 },
-    },
-    "colors/palette/sap-green/300": {
-      type: "COLOR",
-      value: { r: 0.5803921568627451, g: 0.7647058823529411, b: 0.49019607843137253, a: 1 },
-    },
-    "colors/palette/sap-green/400": {
-      type: "COLOR",
-      value: { r: 0.45098039215686275, g: 0.6627450980392157, b: 0.34509803921568627, a: 1 },
-    },
-    "colors/palette/sap-green/500": {
-      type: "COLOR",
-      value: { r: 0.3137254901960784, g: 0.5450980392156862, b: 0.19607843137254902, a: 1 },
-    },
-    "colors/palette/sap-green/600": {
-      type: "COLOR",
-      value: { r: 0.24313725490196078, g: 0.4588235294117647, b: 0.13725490196078433, a: 1 },
-    },
-    "colors/palette/sap-green/700": {
-      type: "COLOR",
-      value: { r: 0.18823529411764706, g: 0.3843137254901961, b: 0.09019607843137255, a: 1 },
-    },
-    "colors/palette/sap-green/800": {
-      type: "COLOR",
-      value: { r: 0.13333333333333333, g: 0.30196078431372547, b: 0.047058823529411764, a: 1 },
-    },
-    "colors/palette/sap-green/900": {
-      type: "COLOR",
-      value: { r: 0.0784313725490196, g: 0.20392156862745098, b: 0.01568627450980392, a: 1 },
-    },
-    "colors/palette/sap-green/950": {
-      type: "COLOR",
-      value: { r: 0.050980392156862744, g: 0.13725490196078433, b: 0.00392156862745098, a: 1 },
-    },
-    "colors/palette/alizarin-red/50": {
-      type: "COLOR",
-      value: { r: 0.9803921568627451, g: 0.9254901960784314, b: 0.9333333333333333, a: 1 },
-    },
-    "colors/palette/alizarin-red/100": {
-      type: "COLOR",
-      value: { r: 0.9372549019607843, g: 0.7803921568627451, b: 0.803921568627451, a: 1 },
-    },
-    "colors/palette/alizarin-red/200": {
-      type: "COLOR",
-      value: { r: 0.8980392156862745, g: 0.6313725490196078, b: 0.6745098039215687, a: 1 },
-    },
-    "colors/palette/alizarin-red/300": {
-      type: "COLOR",
-      value: { r: 0.9019607843137255, g: 0.4980392156862745, b: 0.5647058823529412, a: 1 },
-    },
-    "colors/palette/alizarin-red/400": {
-      type: "COLOR",
-      value: { r: 0.9019607843137255, g: 0.3607843137254902, b: 0.45098039215686275, a: 1 },
-    },
-    "colors/palette/alizarin-red/500": {
-      type: "COLOR",
-      value: { r: 0.8352941176470589, g: 0.30196078431372547, b: 0.38823529411764707, a: 1 },
-    },
-    "colors/palette/alizarin-red/600": {
-      type: "COLOR",
-      value: { r: 0.7450980392156863, g: 0.23137254901960785, b: 0.3137254901960784, a: 1 },
-    },
-    "colors/palette/alizarin-red/700": {
-      type: "COLOR",
-      value: { r: 0.6705882352941176, g: 0.1803921568627451, b: 0.25882352941176473, a: 1 },
-    },
-    "colors/palette/alizarin-red/800": {
-      type: "COLOR",
-      value: { r: 0.5333333333333333, g: 0.10196078431372549, b: 0.16862745098039217, a: 1 },
-    },
-    "colors/palette/alizarin-red/900": {
-      type: "COLOR",
-      value: { r: 0.41568627450980394, g: 0.058823529411764705, b: 0.11372549019607843, a: 1 },
-    },
-    "colors/palette/alizarin-red/950": {
-      type: "COLOR",
-      value: { r: 0.3058823529411765, g: 0.01568627450980392, b: 0.06274509803921569, a: 1 },
-    },
-    "colors/palette/grey/0": { type: "COLOR", value: { r: 1, g: 1, b: 1, a: 1 } },
-    "colors/palette/grey/50": {
-      type: "COLOR",
-      value: { r: 0.9607843137254902, g: 0.9607843137254902, b: 0.9607843137254902, a: 1 },
-    },
-    "colors/palette/grey/100": {
-      type: "COLOR",
-      value: { r: 0.8784313725490196, g: 0.8784313725490196, b: 0.8784313725490196, a: 1 },
-    },
-    "colors/palette/grey/200": {
-      type: "COLOR",
-      value: { r: 0.7411764705882353, g: 0.7411764705882353, b: 0.7411764705882353, a: 1 },
-    },
-    "colors/palette/grey/300": {
-      type: "COLOR",
-      value: { r: 0.6196078431372549, g: 0.6196078431372549, b: 0.6196078431372549, a: 1 },
-    },
-    "colors/palette/grey/400": {
-      type: "COLOR",
-      value: { r: 0.4588235294117647, g: 0.4588235294117647, b: 0.4588235294117647, a: 1 },
-    },
-    "colors/palette/grey/500": {
-      type: "COLOR",
-      value: { r: 0.3803921568627451, g: 0.3803921568627451, b: 0.3803921568627451, a: 1 },
-    },
-    "colors/palette/grey/600": {
-      type: "COLOR",
-      value: { r: 0.3176470588235294, g: 0.3176470588235294, b: 0.3176470588235294, a: 1 },
-    },
-    "colors/palette/grey/700": {
-      type: "COLOR",
-      value: { r: 0.2549019607843137, g: 0.2549019607843137, b: 0.2549019607843137, a: 1 },
-    },
-    "colors/palette/grey/800": {
-      type: "COLOR",
-      value: { r: 0.19607843137254902, g: 0.19607843137254902, b: 0.19607843137254902, a: 1 },
-    },
-    "colors/palette/grey/900": {
-      type: "COLOR",
-      value: { r: 0.15294117647058825, g: 0.15294117647058825, b: 0.15294117647058825, a: 1 },
-    },
-    "colors/palette/grey/950": {
-      type: "COLOR",
-      value: { r: 0.10588235294117647, g: 0.10588235294117647, b: 0.10588235294117647, a: 1 },
-    },
-    "colors/palette/black": {
-      type: "COLOR",
-      value: { r: 0.07058823529411765, g: 0.07058823529411765, b: 0.07058823529411765, a: 1 },
-    },
-    "colors/palette/magenta-pink/50": {
-      type: "COLOR",
-      value: { r: 0.9803921568627451, g: 0.9254901960784314, b: 0.9607843137254902, a: 1 },
-    },
-    "colors/palette/magenta-pink/100": {
-      type: "COLOR",
-      value: { r: 0.9372549019607843, g: 0.7803921568627451, b: 0.8862745098039215, a: 1 },
-    },
-    "colors/palette/magenta-pink/200": {
-      type: "COLOR",
-      value: { r: 0.8980392156862745, g: 0.6313725490196078, b: 0.807843137254902, a: 1 },
-    },
-    "colors/palette/magenta-pink/300": {
-      type: "COLOR",
-      value: { r: 0.9019607843137255, g: 0.4980392156862745, b: 0.7686274509803922, a: 1 },
-    },
-    "colors/palette/magenta-pink/400": {
-      type: "COLOR",
-      value: { r: 0.9019607843137255, g: 0.3607843137254902, b: 0.7215686274509804, a: 1 },
-    },
-    "colors/palette/magenta-pink/500": {
-      type: "COLOR",
-      value: { r: 0.8352941176470589, g: 0.30196078431372547, b: 0.6588235294117647, a: 1 },
-    },
-    "colors/palette/magenta-pink/600": {
-      type: "COLOR",
-      value: { r: 0.7450980392156863, g: 0.23137254901960785, b: 0.5725490196078431, a: 1 },
-    },
-    "colors/palette/magenta-pink/700": {
-      type: "COLOR",
-      value: { r: 0.6705882352941176, g: 0.1803921568627451, b: 0.5098039215686274, a: 1 },
-    },
-    "colors/palette/magenta-pink/800": {
-      type: "COLOR",
-      value: { r: 0.5333333333333333, g: 0.10196078431372549, b: 0.38823529411764707, a: 1 },
-    },
-    "colors/palette/magenta-pink/900": {
-      type: "COLOR",
-      value: { r: 0.41568627450980394, g: 0.058823529411764705, b: 0.2980392156862745, a: 1 },
-    },
-    "colors/palette/magenta-pink/950": {
-      type: "COLOR",
-      value: { r: 0.3137254901960784, g: 0.0196078431372549, b: 0.21568627450980393, a: 1 },
-    },
-    "colors/palette/naples-yellow/50": {
-      type: "COLOR",
-      value: { r: 1, g: 0.9803921568627451, b: 0.9058823529411765, a: 1 },
-    },
-    "colors/palette/naples-yellow/100": {
-      type: "COLOR",
-      value: { r: 0.996078431372549, g: 0.9411764705882353, b: 0.7137254901960784, a: 1 },
-    },
-    "colors/palette/naples-yellow/200": {
-      type: "COLOR",
-      value: { r: 0.996078431372549, g: 0.8862745098039215, b: 0.5215686274509804, a: 1 },
-    },
-    "colors/palette/naples-yellow/300": {
-      type: "COLOR",
-      value: { r: 0.9764705882352941, g: 0.8352941176470589, b: 0.4549019607843137, a: 1 },
-    },
-    "colors/palette/naples-yellow/400": {
-      type: "COLOR",
-      value: { r: 0.9098039215686274, g: 0.7294117647058823, b: 0.30980392156862746, a: 1 },
-    },
-    "colors/palette/naples-yellow/500": {
-      type: "COLOR",
-      value: { r: 0.8745098039215686, g: 0.6313725490196078, b: 0.1411764705882353, a: 1 },
-    },
-    "colors/palette/naples-yellow/600": {
-      type: "COLOR",
-      value: { r: 0.7843137254901961, g: 0.5137254901960784, b: 0.047058823529411764, a: 1 },
-    },
-    "colors/palette/naples-yellow/700": {
-      type: "COLOR",
-      value: { r: 0.6784313725490196, g: 0.4196078431372549, b: 0.03137254901960784, a: 1 },
-    },
-    "colors/palette/naples-yellow/800": {
-      type: "COLOR",
-      value: { r: 0.5686274509803921, g: 0.3215686274509804, b: 0, a: 1 },
-    },
-    "colors/palette/naples-yellow/900": {
-      type: "COLOR",
-      value: { r: 0.38823529411764707, g: 0.20784313725490197, b: 0.00392156862745098, a: 1 },
-    },
-    "colors/palette/naples-yellow/950": {
-      type: "COLOR",
-      value: { r: 0.2627450980392157, g: 0.1411764705882353, b: 0, a: 1 },
-    },
-    "colors/palette/lime-green/50": {
-      type: "COLOR",
-      value: { r: 0.9764705882352941, g: 0.984313725490196, b: 0.9058823529411765, a: 1 },
-    },
-    "colors/palette/lime-green/100": {
-      type: "COLOR",
-      value: { r: 0.9411764705882353, g: 0.9568627450980393, b: 0.7647058823529411, a: 1 },
-    },
-    "colors/palette/lime-green/200": {
-      type: "COLOR",
-      value: { r: 0.9019607843137255, g: 0.9333333333333333, b: 0.611764705882353, a: 1 },
-    },
-    "colors/palette/lime-green/300": {
-      type: "COLOR",
-      value: { r: 0.8627450980392157, g: 0.9058823529411765, b: 0.4588235294117647, a: 1 },
-    },
-    "colors/palette/lime-green/400": {
-      type: "COLOR",
-      value: { r: 0.7843137254901961, g: 0.8352941176470589, b: 0.2784313725490196, a: 1 },
-    },
-    "colors/palette/lime-green/500": {
-      type: "COLOR",
-      value: { r: 0.6784313725490196, g: 0.7333333333333333, b: 0.13725490196078433, a: 1 },
-    },
-    "colors/palette/lime-green/600": {
-      type: "COLOR",
-      value: { r: 0.5411764705882353, g: 0.5882352941176471, b: 0.07450980392156863, a: 1 },
-    },
-    "colors/palette/lime-green/700": {
-      type: "COLOR",
-      value: { r: 0.43529411764705883, g: 0.4745098039215686, b: 0.043137254901960784, a: 1 },
-    },
-    "colors/palette/lime-green/800": {
-      type: "COLOR",
-      value: { r: 0.32941176470588235, g: 0.3607843137254902, b: 0.0196078431372549, a: 1 },
-    },
-    "colors/palette/lime-green/900": {
-      type: "COLOR",
-      value: { r: 0.21176470588235294, g: 0.23921568627450981, b: 0.00784313725490196, a: 1 },
-    },
-    "colors/palette/lime-green/950": {
-      type: "COLOR",
-      value: { r: 0.14901960784313725, g: 0.16862745098039217, b: 0, a: 1 },
-    },
-    "colors/palette/viridian-green/50": {
-      type: "COLOR",
-      value: { r: 0.9019607843137255, g: 0.9607843137254902, b: 0.9529411764705882, a: 1 },
-    },
-    "colors/palette/viridian-green/100": {
-      type: "COLOR",
-      value: { r: 0.7019607843137254, g: 0.8784313725490196, b: 0.8627450980392157, a: 1 },
-    },
-    "colors/palette/viridian-green/200": {
-      type: "COLOR",
-      value: { r: 0.5019607843137255, g: 0.796078431372549, b: 0.7686274509803922, a: 1 },
-    },
-    "colors/palette/viridian-green/300": {
-      type: "COLOR",
-      value: { r: 0.30196078431372547, g: 0.7137254901960784, b: 0.6745098039215687, a: 1 },
-    },
-    "colors/palette/viridian-green/400": {
-      type: "COLOR",
-      value: { r: 0.14901960784313725, g: 0.6509803921568628, b: 0.6039215686274509, a: 1 },
-    },
-    "colors/palette/viridian-green/500": {
-      type: "COLOR",
-      value: { r: 0, g: 0.5372549019607843, b: 0.4823529411764706, a: 1 },
-    },
-    "colors/palette/viridian-green/600": {
-      type: "COLOR",
-      value: { r: 0, g: 0.4470588235294118, b: 0.396078431372549, a: 1 },
-    },
-    "colors/palette/viridian-green/700": {
-      type: "COLOR",
-      value: { r: 0, g: 0.36470588235294116, b: 0.3137254901960784, a: 1 },
-    },
-    "colors/palette/viridian-green/800": {
-      type: "COLOR",
-      value: { r: 0.00392156862745098, g: 0.26666666666666666, b: 0.2235294117647059, a: 1 },
-    },
-    "colors/palette/viridian-green/900": {
-      type: "COLOR",
-      value: { r: 0, g: 0.20784313725490197, b: 0.17254901960784313, a: 1 },
-    },
-    "colors/palette/viridian-green/950": {
-      type: "COLOR",
-      value: { r: 0, g: 0.1411764705882353, b: 0.11764705882352941, a: 1 },
-    },
-    "colors/palette/cerulean-blue/50": {
-      type: "COLOR",
-      value: { r: 0.8823529411764706, g: 0.9607843137254902, b: 0.996078431372549, a: 1 },
-    },
-    "colors/palette/cerulean-blue/100": {
-      type: "COLOR",
-      value: { r: 0.6980392156862745, g: 0.8705882352941177, b: 0.9490196078431372, a: 1 },
-    },
-    "colors/palette/cerulean-blue/200": {
-      type: "COLOR",
-      value: { r: 0.5411764705882353, g: 0.8, b: 0.9176470588235294, a: 1 },
-    },
-    "colors/palette/cerulean-blue/300": {
-      type: "COLOR",
-      value: { r: 0.38823529411764707, g: 0.7254901960784313, b: 0.8823529411764706, a: 1 },
-    },
-    "colors/palette/cerulean-blue/400": {
-      type: "COLOR",
-      value: { r: 0.23921568627450981, g: 0.6431372549019608, b: 0.8313725490196079, a: 1 },
-    },
-    "colors/palette/cerulean-blue/500": {
-      type: "COLOR",
-      value: { r: 0.15294117647058825, g: 0.5647058823529412, b: 0.7568627450980392, a: 1 },
-    },
-    "colors/palette/cerulean-blue/600": {
-      type: "COLOR",
-      value: { r: 0.09803921568627451, g: 0.47843137254901963, b: 0.6549019607843137, a: 1 },
-    },
-    "colors/palette/cerulean-blue/700": {
-      type: "COLOR",
-      value: { r: 0.054901960784313725, g: 0.4, b: 0.5607843137254902, a: 1 },
-    },
-    "colors/palette/cerulean-blue/800": {
-      type: "COLOR",
-      value: { r: 0.0196078431372549, g: 0.27450980392156865, b: 0.39215686274509803, a: 1 },
-    },
-    "colors/palette/cerulean-blue/900": {
-      type: "COLOR",
-      value: { r: 0.011764705882352941, g: 0.2, b: 0.28627450980392155, a: 1 },
-    },
-    "colors/palette/cerulean-blue/950": {
-      type: "COLOR",
-      value: { r: 0, g: 0.12549019607843137, b: 0.1803921568627451, a: 1 },
-    },
-    "colors/palette/warm-grey/50": {
-      type: "COLOR",
-      value: { r: 0.9568627450980393, g: 0.9490196078431372, b: 0.9372549019607843, a: 1 },
-    },
-    "colors/palette/warm-grey/100": {
-      type: "COLOR",
-      value: { r: 0.9019607843137255, g: 0.8784313725490196, b: 0.8470588235294118, a: 1 },
-    },
-    "colors/palette/warm-grey/200": {
-      type: "COLOR",
-      value: { r: 0.7803921568627451, g: 0.7568627450980392, b: 0.7176470588235294, a: 1 },
-    },
-    "colors/palette/warm-grey/300": {
-      type: "COLOR",
-      value: { r: 0.6588235294117647, g: 0.6352941176470588, b: 0.592156862745098, a: 1 },
-    },
-    "colors/palette/warm-grey/400": {
-      type: "COLOR",
-      value: { r: 0.4588235294117647, g: 0.4392156862745098, b: 0.403921568627451, a: 1 },
-    },
-    "colors/palette/warm-grey/500": {
-      type: "COLOR",
-      value: { r: 0.3686274509803922, g: 0.34901960784313724, b: 0.3176470588235294, a: 1 },
-    },
-    "colors/palette/warm-grey/600": {
-      type: "COLOR",
-      value: { r: 0.3215686274509804, g: 0.2980392156862745, b: 0.26666666666666666, a: 1 },
-    },
-    "colors/palette/warm-grey/700": {
-      type: "COLOR",
-      value: { r: 0.2549019607843137, g: 0.23529411764705882, b: 0.21176470588235294, a: 1 },
-    },
-    "colors/palette/warm-grey/800": {
-      type: "COLOR",
-      value: { r: 0.2, g: 0.1843137254901961, b: 0.16470588235294117, a: 1 },
-    },
-    "colors/palette/warm-grey/900": {
-      type: "COLOR",
-      value: { r: 0.1568627450980392, g: 0.1411764705882353, b: 0.12549019607843137, a: 1 },
-    },
-    "colors/palette/warm-grey/950": {
-      type: "COLOR",
-      value: { r: 0.10980392156862745, g: 0.09803921568627451, b: 0.08235294117647059, a: 1 },
-    },
-    "colors/brand/primary/default": { type: "COLOR", alias: "colors/palette/dioxazine-purple/500" },
-    "colors/brand/primary/hover": { type: "COLOR", alias: "colors/palette/dioxazine-purple/600" },
-    "colors/brand/secondary/default": {
-      type: "COLOR",
-      alias: "colors/palette/dioxazine-purple/500",
-    },
-    "colors/brand/secondary/hover": { type: "COLOR", alias: "colors/palette/dioxazine-purple/600" },
-    "colors/feedback/info/default": { type: "COLOR", alias: "colors/palette/cobalt-blue/500" },
-    "colors/feedback/success/default": { type: "COLOR", alias: "colors/palette/sap-green/600" },
-    "colors/feedback/warning/default": { type: "COLOR", alias: "colors/palette/burnt-orange/500" },
-    "colors/feedback/danger/default": { type: "COLOR", alias: "colors/palette/alizarin-red/600" },
-    "colors/feedback/danger/hover": { type: "COLOR", alias: "colors/palette/alizarin-red/700" },
-    "metrics/radius/control": { type: "FLOAT", value: 8 },
-    "metrics/radius/container": { type: "FLOAT", value: 12 },
-    "metrics/radius/pill": { type: "FLOAT", value: 999 },
-    "metrics/density/compact/min-target-size": { type: "FLOAT", value: 24 },
-    "metrics/density/regular/control-padding-y": { type: "FLOAT", value: 8 },
-    "metrics/density/regular/control-padding-x": { type: "FLOAT", value: 14 },
-    "metrics/density/regular/min-target-size": { type: "FLOAT", value: 24 },
-    "metrics/density/touch/min-target-size": { type: "FLOAT", value: 44 },
-    "components/general/background/default": { type: "COLOR", alias: "colors/palette/grey/900" },
-    "components/general/background/disabled": { type: "COLOR", alias: "colors/palette/grey/800" },
+    "components/general/background/default": { type: "COLOR", alias: "palette/grey/900" },
+    "components/general/background/disabled": { type: "COLOR", alias: "palette/grey/800" },
     "components/general/background/hover": { type: "COLOR", value: { r: 1, g: 1, b: 1, a: 0.09 } },
     "components/general/background/pressed": {
       type: "COLOR",
       value: { r: 1, g: 1, b: 1, a: 0.16 },
     },
-    "components/general/foreground/default": { type: "COLOR", alias: "colors/palette/grey/50" },
-    "components/general/foreground/secondary": { type: "COLOR", alias: "colors/palette/grey/200" },
-    "components/general/foreground/disabled": { type: "COLOR", alias: "colors/palette/grey/600" },
-    "components/general/border/default": { type: "COLOR", alias: "colors/palette/grey/700" },
-    "components/general/border/control": { type: "COLOR", alias: "colors/palette/grey/300" },
+    "components/general/foreground/default": { type: "COLOR", alias: "palette/grey/50" },
+    "components/general/foreground/secondary": { type: "COLOR", alias: "palette/grey/200" },
+    "components/general/foreground/disabled": { type: "COLOR", alias: "palette/grey/600" },
+    "components/general/border/default": { type: "COLOR", alias: "palette/grey/700" },
+    "components/general/border/control": { type: "COLOR", alias: "palette/grey/300" },
     "components/general/focus/ring/color": {
       type: "COLOR",
       value: { r: 0.6352941176470588, g: 0.5254901960784314, b: 0.8588235294117647, a: 1 },
@@ -1843,27 +1828,27 @@ const TOKEN_PAYLOAD = {
     "components/general/focus/halo/width": { type: "FLOAT", value: 3 },
     "components/general/action/primary/background/default": {
       type: "COLOR",
-      alias: "colors/brand/primary/default",
+      alias: "brand/primary/default",
     },
     "components/general/action/primary/background/hover": {
       type: "COLOR",
-      alias: "colors/brand/primary/hover",
+      alias: "brand/primary/hover",
     },
     "components/general/action/primary/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/action/secondary/background/default": {
       type: "COLOR",
-      alias: "colors/brand/secondary/default",
+      alias: "brand/secondary/default",
     },
     "components/general/action/secondary/background/hover": {
       type: "COLOR",
-      alias: "colors/brand/secondary/hover",
+      alias: "brand/secondary/hover",
     },
     "components/general/action/secondary/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/action/secondary/contextual/background/default": {
       type: "COLOR",
@@ -1871,7 +1856,7 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/action/secondary/contextual/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/action/secondary/body/foreground/default": {
       type: "COLOR",
@@ -1883,11 +1868,11 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/action/danger/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/feedback/info/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/info/default",
+      alias: "feedback/info/default",
     },
     "components/general/feedback/info/background/default": {
       type: "COLOR",
@@ -1903,7 +1888,7 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/success/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/success/default",
+      alias: "feedback/success/default",
     },
     "components/general/feedback/success/background/default": {
       type: "COLOR",
@@ -1923,11 +1908,11 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/warning/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/warning/default",
+      alias: "feedback/warning/default",
     },
     "components/general/feedback/warning/solid/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/900",
+      alias: "palette/grey/900",
     },
     "components/general/feedback/warning/label/background/default": {
       type: "COLOR",
@@ -1947,11 +1932,11 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/danger/solid/background/default": {
       type: "COLOR",
-      alias: "colors/feedback/danger/default",
+      alias: "feedback/danger/default",
     },
     "components/general/feedback/danger/solid/background/hover": {
       type: "COLOR",
-      alias: "colors/feedback/danger/hover",
+      alias: "feedback/danger/hover",
     },
     "components/general/feedback/danger/background/default": {
       type: "COLOR",
@@ -1971,23 +1956,23 @@ const TOKEN_PAYLOAD = {
     },
     "components/general/feedback/neutral/solid/background/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/500",
+      alias: "palette/grey/500",
     },
     "components/general/feedback/neutral/background/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/800",
+      alias: "palette/grey/800",
     },
     "components/general/feedback/neutral/border/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/700",
+      alias: "palette/grey/700",
     },
     "components/general/feedback/neutral/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/200",
+      alias: "palette/grey/200",
     },
     "components/general/feedback/solid/foreground/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/0",
+      alias: "palette/grey/0",
     },
     "components/general/selection/contextual/foreground/default": {
       type: "COLOR",
@@ -2001,48 +1986,33 @@ const TOKEN_PAYLOAD = {
       type: "COLOR",
       alias: "components/general/action/secondary/foreground/default",
     },
-    "components/general/emphasis/background/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/100",
-    },
-    "components/general/emphasis/foreground/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/900",
-    },
-    "components/general/emphasis/border/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/300",
-    },
+    "components/general/emphasis/background/default": { type: "COLOR", alias: "palette/grey/100" },
+    "components/general/emphasis/foreground/default": { type: "COLOR", alias: "palette/grey/900" },
+    "components/general/emphasis/border/default": { type: "COLOR", alias: "palette/grey/300" },
     "components/dialog/overlay/default": { type: "COLOR", value: { r: 0, g: 0, b: 0, a: 0.6 } },
-    "components/dialog/background/default": { type: "COLOR", alias: "colors/palette/grey/950" },
+    "components/dialog/background/default": { type: "COLOR", alias: "palette/grey/950" },
     "components/navigation-bar/current-indicator/background/default": {
       type: "COLOR",
       value: { r: 0.6039215686274509, g: 0.48627450980392156, b: 0.8431372549019608, a: 1 },
     },
-    "components/navigation-bar/background/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/700",
-    },
+    "components/navigation-bar/background/default": { type: "COLOR", alias: "palette/grey/700" },
     "components/data-grid/cell/secondary/background/default": {
       type: "COLOR",
-      alias: "colors/palette/grey/800",
+      alias: "palette/grey/800",
     },
-    "components/page/background/default": { type: "COLOR", alias: "colors/palette/black" },
-    "components/card/background/default": { type: "COLOR", alias: "colors/palette/grey/950" },
-    "components/card/secondary/background/default": {
-      type: "COLOR",
-      alias: "colors/palette/grey/900",
-    },
-    "components/popover/background/default": { type: "COLOR", alias: "colors/palette/grey/950" },
-    "components/menu/background/default": { type: "COLOR", alias: "colors/palette/grey/950" },
-    "components/sidebar/background/default": { type: "COLOR", alias: "colors/palette/black" },
-    "components/code-block/background/default": { type: "COLOR", alias: "colors/palette/grey/950" },
-    "components/avatar/background/default": { type: "COLOR", alias: "colors/palette/grey/700" },
-    "components/switch/background/default": { type: "COLOR", alias: "colors/palette/grey/700" },
-    "components/calendar/background/default": { type: "COLOR", alias: "colors/palette/grey/700" },
-    "components/table/background/default": { type: "COLOR", alias: "colors/palette/grey/700" },
-    "components/carousel/background/default": { type: "COLOR", alias: "colors/palette/grey/700" },
-    "components/stepper/background/default": { type: "COLOR", alias: "colors/palette/grey/700" },
+    "components/page/background/default": { type: "COLOR", alias: "palette/black" },
+    "components/card/background/default": { type: "COLOR", alias: "palette/grey/950" },
+    "components/card/secondary/background/default": { type: "COLOR", alias: "palette/grey/900" },
+    "components/popover/background/default": { type: "COLOR", alias: "palette/grey/950" },
+    "components/menu/background/default": { type: "COLOR", alias: "palette/grey/950" },
+    "components/sidebar/background/default": { type: "COLOR", alias: "palette/black" },
+    "components/code-block/background/default": { type: "COLOR", alias: "palette/grey/950" },
+    "components/avatar/background/default": { type: "COLOR", alias: "palette/grey/700" },
+    "components/switch/background/default": { type: "COLOR", alias: "palette/grey/700" },
+    "components/calendar/background/default": { type: "COLOR", alias: "palette/grey/700" },
+    "components/table/background/default": { type: "COLOR", alias: "palette/grey/700" },
+    "components/carousel/background/default": { type: "COLOR", alias: "palette/grey/700" },
+    "components/stepper/background/default": { type: "COLOR", alias: "palette/grey/700" },
     "components/button/background/default": {
       type: "COLOR",
       alias: "components/general/background/default",
@@ -2108,14 +2078,8 @@ const TOKEN_PAYLOAD = {
       alias: "components/general/foreground/default",
     },
     "components/button/radius": { type: "FLOAT", alias: "metrics/radius/control" },
-    "components/button/spacing/x": {
-      type: "FLOAT",
-      alias: "metrics/density/regular/control-padding-x",
-    },
-    "components/button/spacing/y": {
-      type: "FLOAT",
-      alias: "metrics/density/regular/control-padding-y",
-    },
+    "components/button/spacing/x": { type: "FLOAT", alias: "metrics/spacing/control-padding-x" },
+    "components/button/spacing/y": { type: "FLOAT", alias: "metrics/spacing/control-padding-y" },
     "components/button/spacing/gap": { type: "FLOAT", value: 8 },
     "components/button/typography/line-height": {
       type: "FLOAT",
@@ -2140,19 +2104,10 @@ const TOKEN_PAYLOAD = {
       value: { r: 0.7450980392156864, g: 0.23137254901960785, b: 0.3137254901960784, a: 0.35 },
     },
     "components/button/opacity/disabled": { type: "FLOAT", value: 0.5 },
-    "typography/line-height/default": { type: "FLOAT", value: 1.4 },
-    "typography/line-height/heading": { type: "FLOAT", value: 1.2 },
-    "typography/font-weight/heading": { type: "FLOAT", value: 700 },
-    "typography/font-size/h1": { type: "FLOAT", value: 38 },
-    "typography/font-size/h2": { type: "FLOAT", value: 32 },
-    "typography/font-size/h3": { type: "FLOAT", value: 28 },
-    "typography/font-size/h4": { type: "FLOAT", value: 24 },
-    "typography/font-size/h5": { type: "FLOAT", value: 20 },
-    "typography/font-size/h6": { type: "FLOAT", value: 16 },
   },
 };
 const TOKEN_INFO = {
-  revision: "f0668d17e560",
+  revision: "f1abd0a28df3",
   grey50: "#f5f5f5",
   grey950: "#1b1b1b",
   count: 263,

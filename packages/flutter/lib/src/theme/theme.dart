@@ -239,15 +239,10 @@ class InvisibleThemeData {
   final InvisibleMessages messages;
 
   /// The padding inside a control with a text label.
-  ///
-  /// Only the regular density defines control padding in the tokens today, so
-  /// compact and touch use the regular values until the tokens define theirs.
   EdgeInsetsDirectional get controlPadding {
-    const regular = InvisibleDensityTokens.regular;
-    final level = density._tokens;
     return EdgeInsetsDirectional.symmetric(
-      horizontal: level.controlPaddingX ?? regular.controlPaddingX!,
-      vertical: level.controlPaddingY ?? regular.controlPaddingY!,
+      horizontal: InvisibleSpacingTokens.controlPaddingX,
+      vertical: InvisibleSpacingTokens.controlPaddingY,
     );
   }
 

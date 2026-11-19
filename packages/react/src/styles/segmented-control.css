@@ -54,10 +54,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--ds-segment-gap, 0.4rem);
-  padding: var(
-    --ds-segment-padding,
-    var(--ds-metrics-density-regular-control-padding-y, 0.5rem) 0.9rem
-  );
+  padding: var(--ds-segment-padding, var(--ds-metrics-spacing-control-padding-y, 0.5rem) 0.9rem);
   cursor: pointer;
   border-inline-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
   transition:

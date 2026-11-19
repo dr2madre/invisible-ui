@@ -46,7 +46,7 @@
 .prompt-dialog__input {
   inline-size: 100%;
   box-sizing: border-box;
-  padding: var(--ds-metrics-density-regular-control-padding-y, 0.5rem) 0.75rem;
+  padding: var(--ds-metrics-spacing-control-padding-y, 0.5rem) 0.75rem;
   border: 1px solid var(--ds-components-general-border-control, #757575);
   border-radius: var(--ds-metrics-radius-control, 0.5rem);
   font: inherit;
