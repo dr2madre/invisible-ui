@@ -28,21 +28,35 @@ test("each name in the map is still published, unless the entry says it was reti
   }
 });
 
-test("the published sources declare and read no --ds- custom property", () => {
-  const sources = [
-    "packages/svelte/src",
-    "packages/vue/src",
-    "packages/react/src",
-    "packages/elements/src",
-  ];
+// Files that keep the --ds- spelling on purpose: records of what shipped
+// before the rename, and the material that explains the rename.
+const KEEP_OLD_PREFIX = [
+  ":!**/CHANGELOG.md",
+  ":!.changeset/pre/**",
+  ":!.changeset/iui-css-custom-properties.md",
+  ":!docs/adr/**",
+  ":!docs/done/**",
+  ":!docs/proposals/**",
+  ":!report/**",
+  ":!docs/sidebar-spec.md",
+  ":!docs/tokens.md",
+  ":!packages/docs/src/content/docs/presentation/css-prefix-migration.mdx",
+  ":!packages/tokens/migration-v2.json",
+  ":!packages/tokens/migration-iui.json",
+  ":!scripts/css-prefix-migration.test.mjs",
+  ":!scripts/prepare-token-reform.mjs",
+  ":!scripts/token-migration-map.mjs",
+];
+
+test("no other tracked file uses the --ds- prefix", () => {
   let found = "";
   try {
-    found = execFileSync("git", ["grep", "-n", "-e", "--ds-", "--", ...sources], {
+    found = execFileSync("git", ["grep", "-n", "-e", "--ds-", "--", ".", ...KEEP_OLD_PREFIX], {
       cwd: new URL("..", import.meta.url),
       encoding: "utf8",
     });
   } catch (error) {
-    // git grep exits with 1 when nothing matches.
+    // git grep exits with 1 when nothing matches; anything else is a real error.
     if (error.status !== 1) throw error;
   }
   assert.equal(found, "");

@@ -71,17 +71,17 @@ former name accepted are all unchanged.
 | `@nozcadesign/invisible-ui-svelte/Menu.svelte`; `Menu` from `@nozcadesign/invisible-ui-vue` | `Sidebar.svelte`; `Sidebar` |
 | `MenuItem` / `MenuEntry` and `MenuSection` (the sidebar aliases) | `SidebarItem` and `SidebarSection` |
 | an override of `menu.label` | an override of `sidebar.label` |
-| `--iui-menu-gap`, `-width`, `-bg`, `-border`, `-item-text` | the `--iui-sidebar-*` token of the same suffix |
+| `--ds-menu-gap`, `-width`, `-bg`, `-border`, `-item-text` | the `--iui-sidebar-*` token of the same suffix |
 
 ## Tokens, one by one
 
 | New | Fallback | Fallback token's own future |
 | --- | --- | --- |
-| `--iui-sidebar-gap` | none | `--iui-menu-gap` removed |
-| `--iui-sidebar-width` | none | `--iui-menu-width` removed |
-| `--iui-components-sidebar-background-default` | none | `--iui-menu-bg` removed |
-| `--iui-sidebar-border` | none | `--iui-menu-border` removed |
-| `--iui-sidebar-item-text` | none | `--iui-menu-item-text` removed |
+| `--iui-sidebar-gap` | none | `--ds-menu-gap` removed |
+| `--iui-sidebar-width` | none | `--ds-menu-width` removed |
+| `--iui-components-sidebar-background-default` | none | `--ds-menu-bg` removed |
+| `--iui-sidebar-border` | none | `--ds-menu-border` removed |
+| `--iui-sidebar-item-text` | none | `--ds-menu-item-text` removed |
 | `--iui-sidebar-padding` | `--iui-menu-padding` | **stays canonical** for Dropdown Menu, Context Menu, Menubar |
 | `--iui-sidebar-radius` | `--iui-menu-radius` | **stays canonical** for Dropdown Menu, Menubar |
 | `--iui-sidebar-rail-width` | none (new) | — |
