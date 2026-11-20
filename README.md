@@ -14,7 +14,13 @@
 
 _by nozcadesign_
 
-A **headless, accessible, multi-framework** component library, built from scratch.
+Accessible **headless UI components** for Svelte, React, Vue, Web Components
+and Flutter. Invisible UI shares accessibility behavior, keyboard interaction
+and design tokens across frameworks while leaving visual styling to the
+consumer.
+
+Explore the [component documentation](https://dr2madre.github.io/invisible-ui/)
+or read the [core integration model](./core/README.md).
 
 > **⚠️ Alpha: in active development.** APIs, design tokens, and package names
 > may change without notice. Not recommended for production use yet.

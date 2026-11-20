@@ -1,5 +1,6 @@
 ---
 title: "Foundations (optional, customizable)"
+description: "Optional design foundations for Invisible UI, including typography, responsive behavior and customizable CSS tokens."
 ---
 
 This design system is **headless**: the primitives ship behavior and
