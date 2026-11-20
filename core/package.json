@@ -1,6 +1,6 @@
 {
   "name": "@nozcadesign/invisible-ui-core",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Framework-agnostic state, behavior and accessibility logic for the design system.",
   "author": "nozcadesign",
   "license": "MIT",

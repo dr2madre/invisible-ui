@@ -1,6 +1,6 @@
 {
   "name": "@nozcadesign/invisible-ui-elements",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Web Components adapter for the design system: framework-free custom elements over @nozcadesign/invisible-ui-core.",
   "author": "nozcadesign",
   "license": "MIT",

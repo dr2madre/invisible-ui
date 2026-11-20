@@ -1,6 +1,6 @@
 {
   "name": "@nozcadesign/invisible-ui-vue",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Vue 3 adapter for the design system: thin, headless, accessible bindings over @nozcadesign/invisible-ui-core.",
   "author": "nozcadesign",
   "license": "MIT",
