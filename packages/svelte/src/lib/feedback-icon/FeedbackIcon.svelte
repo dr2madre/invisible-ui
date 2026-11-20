@@ -6,7 +6,7 @@
    * alerts and similar messages.
    *
    * This is intentionally a *styled* component (it ships SVGs + CSS), unlike the
-   * headless primitives. Colors are CSS custom properties (`--ds-feedback-*`)
+   * headless primitives. Colors are CSS custom properties (`--iui-feedback-*`)
    * with sensible defaults, so they remain themeable.
    *
    * A built-in icon is provided per status; pass your own as `children`
@@ -92,12 +92,12 @@
     justify-content: center;
     box-sizing: border-box;
     flex: none;
-    inline-size: var(--ds-feedback-icon-size, 2rem);
-    block-size: var(--ds-feedback-icon-size, 2rem);
+    inline-size: var(--iui-feedback-icon-size, 2rem);
+    block-size: var(--iui-feedback-icon-size, 2rem);
     /* Default breathing room around the glyph; themeable. With border-box the
        padding carves a definite content box the SVG can fill (no circular %). */
-    padding: var(--ds-feedback-icon-padding, 0.375rem);
-    border-radius: var(--ds-feedback-icon-radius, var(--ds-metrics-radius-control, 0.5rem));
+    padding: var(--iui-feedback-icon-padding, 0.375rem);
+    border-radius: var(--iui-feedback-icon-radius, var(--iui-metrics-radius-control, 0.5rem));
     /* Glyph at full status color; box tinted with the same color at 15%. */
     color: var(--_color);
     background: color-mix(in srgb, var(--_color) 15%, transparent);
@@ -112,8 +112,8 @@
   .feedback-icon:global([data-box="solid"]) {
     background: var(--_color);
     color: var(
-      --ds-feedback-icon-on-solid,
-      var(--ds-components-general-feedback-solid-foreground-default, #ffffff)
+      --iui-feedback-icon-on-solid,
+      var(--iui-components-general-feedback-solid-foreground-default, #ffffff)
     );
   }
   /* Full circle. */
@@ -130,18 +130,18 @@
 
   /* Status is a dynamic attribute, so the value part must be :global. */
   .feedback-icon:global([data-status="info"]) {
-    --_color: var(--ds-components-general-feedback-info-solid-background-default, #4067b6);
+    --_color: var(--iui-components-general-feedback-info-solid-background-default, #4067b6);
   }
   .feedback-icon:global([data-status="success"]) {
-    --_color: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
+    --_color: var(--iui-components-general-feedback-success-solid-background-default, #3e7523);
   }
   .feedback-icon:global([data-status="warning"]) {
-    --_color: var(--ds-components-general-feedback-warning-solid-background-default, #c96422);
+    --_color: var(--iui-components-general-feedback-warning-solid-background-default, #c96422);
   }
   .feedback-icon:global([data-status="danger"]) {
-    --_color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    --_color: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
   }
   .feedback-icon:global([data-status="neutral"]) {
-    --_color: var(--ds-components-general-feedback-neutral-solid-background-default, #616161);
+    --_color: var(--iui-components-general-feedback-neutral-solid-background-default, #616161);
   }
 </style>

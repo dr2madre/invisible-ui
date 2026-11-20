@@ -5,7 +5,7 @@
    * the headless label (`@nozcadesign/invisible-ui-core`); this layer adds typographic
    * styling and an optional required marker.
    *
-   * The label text is `children`. Colors are themeable via `--ds-label-*`.
+   * The label text is `children`. Colors are themeable via `--iui-label-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createLabel } from "./create-label";
@@ -40,14 +40,14 @@
     align-items: center;
     gap: 0.2em;
     font: inherit;
-    font-weight: var(--ds-label-font-weight, 500);
-    line-height: var(--ds-typography-line-height-heading, 1.2);
-    color: var(--ds-label-color, var(--ds-components-general-foreground-default, #272727));
+    font-weight: var(--iui-label-font-weight, 500);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
+    color: var(--iui-label-color, var(--iui-components-general-foreground-default, #272727));
   }
   .label__required {
     color: var(
-      --ds-label-required-color,
-      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+      --iui-label-required-color,
+      var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50)
     );
   }
 </style>

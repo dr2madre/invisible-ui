@@ -54,7 +54,7 @@ export interface TextFieldProps {
  * idiomatic Vue form) or the `value` prop plus `onValueChange`, matching the
  * Svelte adapter. `left` and `right` slots hold decorative icons overlaying
  * the control. Colors and sizing are themeable CSS custom properties
- * (`--ds-field-*`).
+ * (`--iui-field-*`).
  */
 export const TextField = defineComponent({
   name: "TextField",

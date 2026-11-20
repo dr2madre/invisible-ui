@@ -5,7 +5,7 @@
    * draft/value separation, stepping, commit boundaries) come from the
    * headless number field (`@nozcadesign/invisible-ui-core`); this layer adds the label,
    * spin buttons, optional description and error message, the hidden form
-   * input, and the field styling. Themeable via `--ds-field-*`.
+   * input, and the field styling. Themeable via `--iui-field-*`.
    */
   import { untrack } from "svelte";
   import { numberField as core } from "@nozcadesign/invisible-ui-core";
@@ -218,11 +218,11 @@
 <style>
   .number-field {
     display: grid;
-    gap: var(--ds-field-gap, 0.375rem);
-    inline-size: var(--ds-field-width, 18rem);
+    gap: var(--iui-field-gap, 0.375rem);
+    inline-size: var(--iui-field-width, 18rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
 
   .field__label {
@@ -230,10 +230,10 @@
     font-weight: 600;
   }
   .number-field--disabled .field__label {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
   }
   .field__required {
-    color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
+    color: var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50);
   }
 
   .number-field__group {
@@ -246,9 +246,9 @@
     box-sizing: border-box;
     inline-size: 100%;
     min-inline-size: 0;
-    padding: var(--ds-field-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    background: var(--ds-components-general-background-default, #fff);
+    padding: var(--iui-field-padding, 0.5rem 0.75rem);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    background: var(--iui-components-general-background-default, #fff);
     color: inherit;
     font: inherit;
     font-variant-numeric: tabular-nums;
@@ -263,28 +263,28 @@
   }
   .field__control:focus-visible {
     outline: none;
-    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-    box-shadow: var(--ds-focus-ring-shadow);
+    border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .field__control:global([data-invalid]) {
-    border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    border-color: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
     box-shadow:
-      0 0 0 var(--ds-components-general-focus-ring-width, 2px)
-        var(--ds-components-general-feedback-danger-solid-background-default, #be3b50),
+      0 0 0 var(--iui-components-general-focus-ring-width, 2px)
+        var(--iui-components-general-feedback-danger-solid-background-default, #be3b50),
       0 0 0
         calc(
-          var(--ds-components-general-focus-ring-width, 2px) +
-            var(--ds-components-general-focus-halo-width, 3px)
+          var(--iui-components-general-focus-ring-width, 2px) +
+            var(--iui-components-general-focus-halo-width, 3px)
         )
         color-mix(
           in srgb,
-          var(--ds-components-general-feedback-danger-solid-background-default, #be3b50) 30%,
+          var(--iui-components-general-feedback-danger-solid-background-default, #be3b50) 30%,
           transparent
         );
   }
   .field__control:global([data-disabled]) {
-    background: var(--ds-components-general-background-disabled, #bdbdbd);
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    background: var(--iui-components-general-background-disabled, #bdbdbd);
+    color: var(--iui-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -292,44 +292,44 @@
     box-sizing: border-box;
     min-inline-size: 2.25rem;
     padding: 0 0.6rem;
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    background: var(--ds-components-general-background-default, #fff);
-    color: var(--ds-components-general-foreground-default, #272727);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    background: var(--iui-components-general-background-default, #fff);
+    color: var(--iui-components-general-foreground-default, #272727);
     font: inherit;
     font-size: 1.05em;
     line-height: 1;
     cursor: pointer;
   }
   .number-field__spin--decrement {
-    border-start-start-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
-    border-end-start-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-start-start-radius: var(--iui-field-radius, var(--iui-metrics-radius-control, 0.5rem));
+    border-end-start-radius: var(--iui-field-radius, var(--iui-metrics-radius-control, 0.5rem));
   }
   .number-field__spin--increment {
-    border-start-end-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
-    border-end-end-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-start-end-radius: var(--iui-field-radius, var(--iui-metrics-radius-control, 0.5rem));
+    border-end-end-radius: var(--iui-field-radius, var(--iui-metrics-radius-control, 0.5rem));
   }
   .number-field__spin:hover:not(:disabled) {
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .number-field__spin:focus-visible {
     outline: none;
-    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-    box-shadow: var(--ds-focus-ring-shadow);
+    border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .number-field__spin:disabled {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
   .number-field--disabled .number-field__spin {
-    background: var(--ds-components-general-background-disabled, #bdbdbd);
+    background: var(--iui-components-general-background-disabled, #bdbdbd);
   }
 
   .field__description {
     margin: 0;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .field__error {
     margin: 0;
-    color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
+    color: var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50);
   }
 </style>

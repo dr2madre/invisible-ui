@@ -19,7 +19,7 @@ component's behaviour maps to the SDK widgets one to one:
 AspectRatio(
   aspectRatio: 16 / 9,
   child: ClipRRect(
-    borderRadius: BorderRadius.circular(radius), // --ds-aspect-ratio-radius
+    borderRadius: BorderRadius.circular(radius), // --iui-aspect-ratio-radius
     child: Image(image: photo, fit: BoxFit.cover),
   ),
 )

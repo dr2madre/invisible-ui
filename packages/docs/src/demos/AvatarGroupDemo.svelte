@@ -21,6 +21,6 @@
   /* Initials dark enough to clear WCAG AA on every tint above: the lightest
      pairing measures 6.4:1, where AA asks for 4.5. */
   .avatar-group-demo {
-    --ds-avatar-color: #0f2f1a;
+    --iui-avatar-color: #0f2f1a;
   }
 </style>

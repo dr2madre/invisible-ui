@@ -52,7 +52,7 @@ export interface LoadingGenerationAreaProps {
  * (the region is `aria-atomic`); the percentage and detail stay visible but
  * `aria-hidden`, so a fast-ticking value is announced once. `decorative` hides
  * it from assistive tech. The drift respects `prefers-reduced-motion`.
- * Themeable via `--ds-loading-generation-area-*`.
+ * Themeable via `--iui-loading-generation-area-*`.
  */
 export const LoadingGenerationArea = defineComponent({
   name: "LoadingGenerationArea",

@@ -50,7 +50,7 @@ that holds it.
 | Escape closes even when the barrier does not | matched | `a barrier that does not dismiss still lets Escape close` |
 | The close button, the footer Close, an action and the barrier close it | matched | `the close buttons, an action result and the barrier close it` |
 | Body scroll lock | adapted | the barrier takes every pointer and scroll gesture meant for the screen below, so nothing below scrolls |
-| Native `<dialog>` top layer and `::backdrop` | adapted | the navigator's overlay holds the route above the screen; the barrier paints `InvisibleThemeData.dialogOverlay`, the `dialog-overlay` role of the theme's colours (`--ds-components-dialog-overlay-default`): `the barrier is the theme's dialog overlay` |
+| Native `<dialog>` top layer and `::backdrop` | adapted | the navigator's overlay holds the route above the screen; the barrier paints `InvisibleThemeData.dialogOverlay`, the `dialog-overlay` role of the theme's colours (`--iui-components-dialog-overlay-default`): `the barrier is the theme's dialog overlay` |
 | A focus ring on the panel when it has keyboard focus | matched | the shared focus ring, shown in keyboard highlight mode |
 | No motion on open and close | matched | the route has no transition, as the web dialogs have none |
 
@@ -68,7 +68,7 @@ that holds it.
 | Right to left: the header and the footer mirror | matched | `text scale 2.0 on a narrow screen, right to left: no overflow, the close button at the inline-end` |
 | `bodyLayout: "stack"` | out of scope | the body is a widget; a `Column` with `spacing` gives the same result |
 | Close button 1.75rem | adapted | the close button is the package's icon-only ghost button, at least 36 logical pixels and the theme's minimum target |
-| `--ds-dialog-*` custom properties | out of scope | not asked for yet |
+| `--iui-dialog-*` custom properties | out of scope | not asked for yet |
 | Contrast and labelled targets, light and dark; 24 and 44 targets | matched | `labelled targets and text contrast, light`, `… dark`; `targets meet 44 by 44 under touch` |
 
 ## Status area (ADR 0016, case 1)
@@ -109,4 +109,4 @@ that holds it.
 
 ## Background token
 
-The background reads the component token `--ds-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

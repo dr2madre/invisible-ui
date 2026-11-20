@@ -43,7 +43,7 @@ that holds it.
 | Overlay fills the nearest positioned ancestor | adapted | Flutter has no positioned ancestor: the overlay expands to its parent, which the app places in a `Stack` (`Positioned.fill`) |
 | The indicator follows the text colour (`currentColor`) | matched | the colour of the ambient `DefaultTextStyle`, the theme's text colour without one |
 | Sizes in em of the text, growing with the text scale | matched | `grows with the text at text scale 2.0 in a narrow space` |
-| `--ds-loading-*` custom properties | out of scope | sizes come from the reference's defaults; a theme extension for them is not asked for yet |
+| `--iui-loading-*` custom properties | out of scope | sizes come from the reference's defaults; a theme extension for them is not asked for yet |
 
 ## Semantics and motion
 

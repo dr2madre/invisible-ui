@@ -52,7 +52,7 @@ export interface DatePickerProps {
  * value is the ISO `YYYY-MM-DD` string and binds two ways: `v-model` or the
  * `value` prop plus `onValueChange`. `min`/`max`, `events` (appointment dots)
  * and `prices` are forwarded to the calendar. Themeable via
- * `--ds-date-picker-*` and the calendar's `--ds-calendar-*`.
+ * `--iui-date-picker-*` and the calendar's `--iui-calendar-*`.
  */
 export const DatePicker = defineComponent({
   name: "DatePicker",

@@ -39,7 +39,7 @@ export interface FieldProps {
  * </Field>
  * ```
  *
- * Themeable via `--ds-field-*`.
+ * Themeable via `--iui-field-*`.
  */
 export function Field({
   label,

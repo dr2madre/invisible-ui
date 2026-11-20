@@ -48,7 +48,7 @@ export interface DialogProps {
   footerClose?: boolean;
   /**
    * Body layout. `plain` (the default) leaves the body untouched. `stack`
-   * spaces the direct children by `--ds-dialog-body-gap`, which saves a
+   * spaces the direct children by `--iui-dialog-body-gap`, which saves a
    * workflow from inventing its own spacing between sections.
    */
   bodyLayout?: DialogBodyLayout;
@@ -75,7 +75,7 @@ export interface DialogProps {
  *
  * Layout: a grid panel with a fixed header and footer and a scrolling body.
  * The header is the one the whole dialog family shares; `closeButton` turns
- * its close button off. Themeable via `--ds-dialog-*`.
+ * its close button off. Themeable via `--iui-dialog-*`.
  *
  * Status area (ADR 0016): a ref on the Dialog holds `notify(options)`,
  * `dismissNotice(id)` and `clearNotices()`. A notice about the dialog's own

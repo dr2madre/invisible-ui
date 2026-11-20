@@ -23,7 +23,7 @@ export interface RadioProps {
  * managed group with roving tabindex use `RadioGroup`.
  *
  * The label is the default slot, falling back to the `label` prop. Colors are
- * themeable via `--ds-radio-*`.
+ * themeable via `--iui-radio-*`.
  */
 export const Radio = defineComponent({
   name: "Radio",

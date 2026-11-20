@@ -50,7 +50,7 @@ describe("<ds-avatar-group>", () => {
   it("tints an initials avatar through a custom property", () => {
     mount();
     const wrapper = document.querySelector<HTMLElement>(".avatar-group__item")!;
-    expect(wrapper.style.getPropertyValue("--ds-avatar-bg")).toBe("#e0d4f7");
+    expect(wrapper.style.getPropertyValue("--iui-avatar-bg")).toBe("#e0d4f7");
   });
 
   it("has no accessibility violations", async () => {

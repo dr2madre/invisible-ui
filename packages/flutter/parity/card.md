@@ -40,7 +40,7 @@ that holds it.
 | Border, radius `radius.surface`, padding, gaps, type sizes | matched | the reference's stylesheet values |
 | A title snippet replaces the heading | out of scope | the app can put its own heading in `child` |
 | A clickable card | out of scope | the reference has none; actions go in `actions` |
-| `--ds-card-*` custom properties | out of scope | not asked for yet |
+| `--iui-card-*` custom properties | out of scope | not asked for yet |
 
 ## Semantics
 
@@ -53,4 +53,4 @@ that holds it.
 
 ## Background token
 
-The background reads the component token `--ds-components-card-background-default` (`--ds-components-card-secondary-background-default` for the secondary card) on the web and `InvisibleColors.cardBackground` (`cardSecondaryBackground`) in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-card-background-default` (`--iui-components-card-secondary-background-default` for the secondary card) on the web and `InvisibleColors.cardBackground` (`cardSecondaryBackground`) in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

@@ -10,7 +10,7 @@
    * Left/Right move between segments, digits type with auto-advance, Backspace
    * clears, and A/P set the period in 12-hour mode. The value is the canonical
    * 24-hour ISO string (`HH:mm` or `HH:mm:ss`). The hour cycle follows the
-   * locale unless `hourCycle` says otherwise. Themeable via `--ds-time-field-*`.
+   * locale unless `hourCycle` says otherwise. Themeable via `--iui-time-field-*`.
    */
   import {
     createTimeField,
@@ -201,28 +201,28 @@
     padding: 0.4rem 0.6rem;
     font: inherit;
     font-variant-numeric: tabular-nums;
-    color: var(--ds-components-general-foreground-default, #272727);
-    background: var(--ds-components-general-background-default, #fff);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    color: var(--iui-components-general-foreground-default, #272727);
+    background: var(--iui-components-general-background-default, #fff);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
   }
   .time-field:focus-within {
-    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-    box-shadow: var(--ds-focus-ring-shadow);
+    border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .time-field--disabled {
     opacity: 0.55;
   }
   .time-field--invalid {
-    border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    border-color: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
   }
 
   .time-field__separator {
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .time-field__segment {
     padding: 0.05rem 0.2rem;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: text;
     outline: none;
     min-inline-size: 1.4em;
@@ -238,20 +238,20 @@
      clear which part is being edited — `:focus-visible` alone misses touch. */
   .time-field__segment:focus {
     background: var(
-      --ds-time-field-focus-bg,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      --iui-time-field-focus-bg,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc)
     );
     color: var(
-      --ds-time-field-focus-text,
-      var(--ds-components-general-action-secondary-foreground-default, #ffffff)
+      --iui-time-field-focus-text,
+      var(--iui-components-general-action-secondary-foreground-default, #ffffff)
     );
   }
   .time-field__segment--placeholder {
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .time-field__error {
     margin: 0;
-    color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    color: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
     font-size: 0.875rem;
   }
 </style>

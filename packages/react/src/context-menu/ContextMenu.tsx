@@ -40,7 +40,7 @@ const MOVE_TOLERANCE = 10;
  * with Floating UI, and closes when the page scrolls under it. Closing by a
  * key or an activation returns focus to the element focused before opening.
  *
- * Wrap the region in `children`. Themeable via the shared `--ds-menu-*`.
+ * Wrap the region in `children`. Themeable via the shared `--iui-menu-*`.
  */
 export function ContextMenu({
   items,

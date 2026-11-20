@@ -72,17 +72,20 @@ secondary background remains an independent component decision.
 
 ## Web names and overrides
 
-A canonical path becomes `--ds-` followed by its segments separated by hyphens:
+A canonical path becomes `--iui-` followed by its segments separated by hyphens:
 
 ```css
 :root {
-  --ds-colors-brand-primary-default: var(--ds-colors-palette-cobalt-blue-500);
-  --ds-components-card-background-default: var(--ds-colors-palette-grey-50);
+  --iui-colors-brand-primary-default: var(--iui-colors-palette-cobalt-blue-500);
+  --iui-components-card-background-default: var(--iui-colors-palette-grey-50);
 }
 ```
 
 No old canonical CSS names are retained as aliases. Use
-`packages/tokens/migration-v2.json` to migrate external consumers.
+`packages/tokens/migration-v2.json` to migrate external consumers from the
+version-2 names. That file records the names of that migration with the
+former `--ds-` prefix; `packages/tokens/migration-iui.json` maps every name
+published in 0.1.0-alpha.1 from `--ds-` to `--iui-`.
 
 The hand-authored `tokens.css` is identical across four adapters. It retains
 system and explicit themes, colour-mix fallbacks, composed shadows and existing

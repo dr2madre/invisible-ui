@@ -77,7 +77,7 @@ interface Section {
  * any keyboard shortcut in the application. The header is the one the dialog
  * family shares; by default it only names the dialog, and `hideTitle: false` /
  * `closeButton` show the title and a close button above the search field.
- * Themeable via `--ds-search-dialog-*`.
+ * Themeable via `--iui-search-dialog-*`.
  *
  * The status area of `Dialog` closes the panel, after the results, since
  * there is no footer (ADR 0016): the template ref exposes `notify(options)`,

@@ -12,7 +12,7 @@
    *   URL), which is not visible — provide a visible attribution too.
    *
    * Colors and the accent border are themeable CSS custom properties
-   * (`--ds-blockquote-*`).
+   * (`--iui-blockquote-*`).
    */
   import type { Snippet } from "svelte";
 
@@ -42,18 +42,18 @@
 <style>
   .blockquote {
     margin: 0;
-    padding-inline-start: var(--ds-blockquote-padding, 1rem);
+    padding-inline-start: var(--iui-blockquote-padding, 1rem);
     /* The accent bar is decoration with no semantic role, so it reads the
        neutral primitive directly rather than inventing a role for a look. */
-    border-inline-start: var(--ds-blockquote-border-width, 3px) solid
-      var(--ds-blockquote-accent, var(--ds-colors-palette-grey-400, #757575));
-    color: var(--ds-blockquote-text, var(--ds-components-general-foreground-secondary, #515151));
+    border-inline-start: var(--iui-blockquote-border-width, 3px) solid
+      var(--iui-blockquote-accent, var(--iui-colors-palette-grey-400, #757575));
+    color: var(--iui-blockquote-text, var(--iui-components-general-foreground-secondary, #515151));
   }
 
   .blockquote__quote {
     margin: 0;
-    font-style: var(--ds-blockquote-font-style, italic);
-    line-height: var(--ds-typography-line-height-default, 1.4);
+    font-style: var(--iui-blockquote-font-style, italic);
+    line-height: var(--iui-typography-line-height-default, 1.4);
   }
 
   .blockquote__cite {
@@ -61,8 +61,8 @@
     font-size: 0.875rem;
     font-style: normal;
     color: var(
-      --ds-blockquote-cite-text,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-blockquote-cite-text,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
   }
   /* The conventional em dash before an attribution. */

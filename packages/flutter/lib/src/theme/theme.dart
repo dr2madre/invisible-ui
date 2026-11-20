@@ -29,7 +29,7 @@ enum InvisibleDensity {
   };
 }
 
-// The web's `--ds-font-mono` stack, from the stylesheet: the type families
+// The web's `--iui-font-mono` stack, from the stylesheet: the type families
 // are not in tokens.json. The first installed one draws the text.
 const List<String> _monoStack = [
   'SFMono-Regular',
@@ -260,7 +260,7 @@ class InvisibleThemeData {
   );
 
   /// The text style of code and keys: [monoFontFamily], or the web's
-  /// monospace stack (`--ds-font-mono`), at the base size.
+  /// monospace stack (`--iui-font-mono`), at the base size.
   TextStyle get monoTextStyle => TextStyle(
     fontFamily: monoFontFamily ?? _monoStack.first,
     fontFamilyFallback: _monoStack,

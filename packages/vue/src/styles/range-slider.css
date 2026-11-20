@@ -6,8 +6,8 @@
   gap: 0.25rem;
   /* A definite length, so the track still has room where the container sizes
      itself to its content; capped so a narrower one still fits. Set
-     --ds-range-slider-length to 100% to fill instead. */
-  inline-size: var(--ds-range-slider-length, 14rem);
+     --iui-range-slider-length to 100% to fill instead. */
+  inline-size: var(--iui-range-slider-length, 14rem);
   max-inline-size: 100%;
 }
 .range-slider-field--disabled {
@@ -21,7 +21,7 @@
 .range-slider-field__icon {
   display: inline-flex;
   flex: none;
-  color: var(--ds-components-general-foreground-secondary, #515151);
+  color: var(--iui-components-general-foreground-secondary, #515151);
 }
 .range-slider-field__icon svg {
   inline-size: 1.2em;
@@ -33,13 +33,13 @@
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   font-size: 0.875rem;
-  color: var(--ds-components-general-foreground-default, #272727);
+  color: var(--iui-components-general-foreground-default, #272727);
 }
 .range-slider-field__range {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: var(--ds-components-general-foreground-secondary, #515151);
+  color: var(--iui-components-general-foreground-secondary, #515151);
 }
 .range-slider {
   position: relative;
@@ -58,19 +58,19 @@
   /* A flex item refuses to shrink past its content by default, which would
      push the whole control wider than a narrow container. */
   min-inline-size: 0;
-  block-size: var(--ds-range-slider-track-size, 4px);
-  border-radius: var(--ds-metrics-radius-control, 999px);
-  background: var(--ds-components-general-border-default, #bdbdbd);
+  block-size: var(--iui-range-slider-track-size, 4px);
+  border-radius: var(--iui-metrics-radius-control, 999px);
+  background: var(--iui-components-general-border-default, #bdbdbd);
 }
 .range-slider[data-orientation="vertical"] .range-slider__track {
   /* The row's `flex: 1` would grow the track to the row's width; upright it is
      a thin bar, and the thumbs' height is what needs the room. */
   flex: none;
-  inline-size: var(--ds-range-slider-track-size, 4px);
+  inline-size: var(--iui-range-slider-track-size, 4px);
   /* Its own token: the horizontal length is the field's width, a value that
      may be a percentage, which an upright track has nothing to resolve
      against. */
-  block-size: var(--ds-range-slider-vertical-length, 12rem);
+  block-size: var(--iui-range-slider-vertical-length, 12rem);
 }
 .range-slider-field[data-orientation="vertical"],
 .range-slider[data-orientation="vertical"] {
@@ -82,7 +82,7 @@
   inset-block: 0;
   inset-inline-start: var(--_range-lower-pct);
   inline-size: calc(var(--_range-upper-pct) - var(--_range-lower-pct));
-  background: var(--ds-components-general-action-primary-background-default, #7a52cc);
+  background: var(--iui-components-general-action-primary-background-default, #7a52cc);
   border-radius: inherit;
   pointer-events: none;
 }
@@ -102,7 +102,7 @@
   /* The thumb is the pointer target, and the input's own box is what a
      target-size check measures: engines do not all grow a range input around
      its thumb, so the thickness is stated. */
-  block-size: var(--ds-range-slider-thumb-size, 1.5rem);
+  block-size: var(--iui-range-slider-thumb-size, 1.5rem);
   margin: 0;
   background: transparent;
   appearance: none;
@@ -119,7 +119,7 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: var(--ds-range-slider-thumb-size, 1.5rem);
+  width: var(--iui-range-slider-thumb-size, 1.5rem);
   height: 100%;
 }
 /* 1.5rem is 24px: the smallest pointer target WCAG 2.2 accepts, and the thumb
@@ -127,20 +127,20 @@
 .range-slider__input::-webkit-slider-thumb {
   -webkit-appearance: none;
   pointer-events: auto;
-  inline-size: var(--ds-range-slider-thumb-size, 1.5rem);
-  block-size: var(--ds-range-slider-thumb-size, 1.5rem);
+  inline-size: var(--iui-range-slider-thumb-size, 1.5rem);
+  block-size: var(--iui-range-slider-thumb-size, 1.5rem);
   border-radius: 50%;
-  background: var(--ds-components-general-action-primary-background-default, #7a52cc);
-  border: 2px solid var(--ds-components-general-background-default, #fff);
+  background: var(--iui-components-general-action-primary-background-default, #7a52cc);
+  border: 2px solid var(--iui-components-general-background-default, #fff);
   cursor: pointer;
 }
 .range-slider__input::-moz-range-thumb {
   pointer-events: auto;
-  inline-size: var(--ds-range-slider-thumb-size, 1.5rem);
-  block-size: var(--ds-range-slider-thumb-size, 1.5rem);
+  inline-size: var(--iui-range-slider-thumb-size, 1.5rem);
+  block-size: var(--iui-range-slider-thumb-size, 1.5rem);
   border-radius: 50%;
-  background: var(--ds-components-general-action-primary-background-default, #7a52cc);
-  border: 2px solid var(--ds-components-general-background-default, #fff);
+  background: var(--iui-components-general-action-primary-background-default, #7a52cc);
+  border: 2px solid var(--iui-components-general-background-default, #fff);
   cursor: pointer;
 }
 .range-slider__input::-webkit-slider-runnable-track,
@@ -150,15 +150,15 @@
 .range-slider__input:focus-visible::-webkit-slider-thumb {
   outline: none;
   box-shadow: var(
-    --ds-focus-ring-shadow,
-    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    --iui-focus-ring-shadow,
+    0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
   );
 }
 .range-slider__input:focus-visible::-moz-range-thumb {
   outline: none;
   box-shadow: var(
-    --ds-focus-ring-shadow,
-    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    --iui-focus-ring-shadow,
+    0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
   );
 }
 .range-slider--disabled .range-slider__input {
@@ -175,7 +175,7 @@
   inline-size: 2px;
   block-size: 2px;
   border-radius: 50%;
-  background: var(--ds-components-general-background-default, #fff);
+  background: var(--iui-components-general-background-default, #fff);
   transform: translate(-50%, -50%);
 }
 /* Upright, a tick sits at its grid point from the bottom, like the fill. */

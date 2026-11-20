@@ -229,7 +229,7 @@ for the import sequence, supported transformations, and synchronization rules.
   action on the brand's secondary color, `ghost` is a reduced-affordance
   low-emphasis button, `danger` is destructive. A **styled** `Button.svelte`
   realises these
-  with themeable `--ds-components-button-*` tokens, plain (un-boxed) leading/trailing icons
+  with themeable `--iui-components-button-*` tokens, plain (un-boxed) leading/trailing icons
   (default plus, overridable via `left`/`right` slots), and — for `danger` — a
   hazard icon by default so meaning never relies on color alone (WCAG 1.4.1).
   Imported from `@nozcadesign/invisible-ui-svelte/Button.svelte`.
@@ -238,32 +238,32 @@ for the import sequence, supported transformations, and synchronization rules.
   tab stop — unlike a Radio Group or Segmented Control). A **styled**
   `ButtonGroup.svelte` lays them out horizontally or vertically and, when
   `attached`, joins them into one segmented bar (collapsing inner corners and
-  shared borders); spacing is themeable via `--ds-button-group-*`. Imported from
+  shared borders); spacing is themeable via `--iui-button-group-*`. Imported from
   `@nozcadesign/invisible-ui-svelte/ButtonGroup.svelte`.
 - **Toggle Button** — an on/off control built on a native
   `<input type="checkbox">` styled to look like a button
   (`data-state="on" | "off"`), suited to toolbars (e.g. Bold/Italic) — the
   browser owns state, keyboard and form participation. Distinct from a
   **Switch**: a toggle button is an action, a switch is a setting. A **styled**
-  `ToggleButton.svelte` realises this with themeable `--ds-toggle-*` tokens,
+  `ToggleButton.svelte` realises this with themeable `--iui-toggle-*` tokens,
   from `@nozcadesign/invisible-ui-svelte/ToggleButton.svelte`.
 - **Toolbar** — a grouping container (`role="toolbar"`, required `label`) for a
   set of controls (buttons, toggle buttons), optionally divided into groups with
   a `Separator`. From `@nozcadesign/invisible-ui-svelte/Toolbar.svelte`.
 - **Separator** — a thin divider; semantic by default (`role="separator"` +
   `aria-orientation`) or `decorative` to hide it from assistive tech.
-  Horizontal or vertical, themeable via `--ds-separator-*`. From
+  Horizontal or vertical, themeable via `--iui-separator-*`. From
   `@nozcadesign/invisible-ui-svelte/Separator.svelte`.
 - **Avatar** — an account image that falls back to the **initials** of `name`
   when no image is set or the image fails to load. Exposed as a single labelled
   image (`role="img"` + `aria-label`) so it reads the same either way;
-  size/shape/colors themeable via `--ds-avatar-*`. From
+  size/shape/colors themeable via `--iui-avatar-*`. From
   `@nozcadesign/invisible-ui-svelte/Avatar.svelte`.
 - **Checkbox** — a WAI-ARIA checkbox with tri-state support
   (`checked` / `unchecked` / `indeterminate`), exposing `aria-checked`
   (incl. `mixed`) and `data-state`, activated by click and the Space key. A
   **styled** `Checkbox.svelte` (box + check/dash glyphs, label wired via
-  `aria-labelledby`, themeable `--ds-checkbox-*`) is available from
+  `aria-labelledby`, themeable `--iui-checkbox-*`) is available from
   `@nozcadesign/invisible-ui-svelte/Checkbox.svelte`.
 - **Checkbox Group** — a multi-select group of checkboxes (`role="group"` of
   `role="checkbox"` items): each item is independently Tab-focusable and toggled
@@ -274,32 +274,32 @@ for the import sequence, supported transformations, and synchronization rules.
 - **Switch** — a WAI-ARIA switch (`role="switch"` + `aria-checked`). A
   settings-style on/off control; screen readers announce on/off. (Sometimes
   called a "toggle switch" — different from the Toggle Button above.) A
-  **styled** `Switch.svelte` (sliding track + thumb, themeable `--ds-switch-*`)
+  **styled** `Switch.svelte` (sliding track + thumb, themeable `--iui-switch-*`)
   is available from `@nozcadesign/invisible-ui-svelte/Switch.svelte`.
 - **Radio Group** — a single-select WAI-ARIA radio group with roving tabindex
   and arrow/Home/End navigation (selection follows focus), exposing
   `aria-checked` and `data-state` per item. A **styled** `RadioGroup.svelte`
-  (dot indicator, `items` with optional `label`, themeable `--ds-radio-*`) is
+  (dot indicator, `items` with optional `label`, themeable `--iui-radio-*`) is
   available from `@nozcadesign/invisible-ui-svelte/RadioGroup.svelte`.
 - **Segmented Control** — the same radio-group semantics, defaulting to a
   horizontal layout and styled as a segmented bar. A **styled**
-  `SegmentedControl.svelte` (themeable `--ds-segment-*`) is available from
+  `SegmentedControl.svelte` (themeable `--iui-segment-*`) is available from
   `@nozcadesign/invisible-ui-svelte/SegmentedControl.svelte`.
 - **Tabs** — a WAI-ARIA tabs widget: a tablist of tabs linked to panels
   (`aria-controls`/`aria-labelledby`), roving tabindex, arrow/Home/End
   navigation, and `automatic` or `manual` activation. A **styled** `Tabs.svelte`
-  (underline indicator + panels, themeable `--ds-tabs-*`) is available from
+  (underline indicator + panels, themeable `--iui-tabs-*`) is available from
   `@nozcadesign/invisible-ui-svelte/Tabs.svelte`.
 - **Accordion** — a WAI-ARIA accordion: header buttons (`aria-expanded`) linked
   to regions, `single` or `multiple` expansion (single optionally collapsible),
   and arrow/Home/End movement between headers. A **styled** `Accordion.svelte`
-  (bordered items + rotating chevron, themeable `--ds-accordion-*`) is available
+  (bordered items + rotating chevron, themeable `--iui-accordion-*`) is available
   from `@nozcadesign/invisible-ui-svelte/Accordion.svelte`.
 - **Text Field** — a text-entry primitive that owns the parts that are easy to
   get wrong: id generation and the label / hint / error wiring (`for`,
   `aria-describedby`, `aria-invalid`, `aria-required`) plus the
   disabled / read-only / invalid flags as `data-*` hooks (typing stays native).
-  Two **styled** components consume it with themeable `--ds-field-*` tokens:
+  Two **styled** components consume it with themeable `--iui-field-*` tokens:
   `TextField.svelte` (single-line — `text` / `search` / `email` / `password` /
   `tel` / `url` / `number`, with optional description and error message) and
   `Textarea.svelte` (multi-line). A non-empty `error` flips the field to the
@@ -311,7 +311,7 @@ for the import sequence, supported transformations, and synchronization rules.
   platform picker on mobile; the styled layer owns the closed control
   (`appearance: none` + custom chevron), label, placeholder, width modes
   (`wrap`/`fill`/`fixed`) and the announced invalid state, themeable via
-  `--ds-select-*`. Options are plain text by design — for per-option icons,
+  `--iui-select-*`. Options are plain text by design — for per-option icons,
   rich options and a styled popup use the **Combobox** with the search hidden
   (`searchable={false}`), the custom "advanced select". The headless
   `core/select` primitive remains for fully custom builds (see ADR 0003).
@@ -321,13 +321,13 @@ for the import sequence, supported transformations, and synchronization rules.
   typeahead, focus moving **into** the menu and returning to the trigger on
   close, and Escape / outside-pointer to dismiss. Headless behaviour in the core
   (`menu`); the **styled** `DropdownMenu.svelte` adds the trigger and the
-  elevated popup, themeable via `--ds-menu-*`, positioned with `@floating-ui/dom`
+  elevated popup, themeable via `--iui-menu-*`, positioned with `@floating-ui/dom`
   (flip/shift). Imported from `@nozcadesign/invisible-ui-svelte/DropdownMenu.svelte`.
 - **Popover** — a non-modal floating panel anchored to a trigger
   (`aria-haspopup="dialog"` / `aria-expanded`). Focus moves into the panel on
   open and returns to the trigger on Escape; outside-press or focus-leave also
   closes. Headless behaviour in the core (`popover`); the **styled**
-  `Popover.svelte` adds the elevated panel, themeable via `--ds-popover-*`,
+  `Popover.svelte` adds the elevated panel, themeable via `--iui-popover-*`,
   positioned with `@floating-ui/dom` (flip/shift). Built on the shared overlay
   utilities (`internal/floating.ts`, `internal/dismiss.ts`). Imported from
   `@nozcadesign/invisible-ui-svelte/Popover.svelte`.
@@ -335,7 +335,7 @@ for the import sequence, supported transformations, and synchronization rules.
   (`role="tooltip"`, linked via `aria-describedby`), with open/close delays and
   WCAG 1.4.13 semantics (hoverable + Escape-dismissable). Headless behaviour in
   the core (`tooltip`); the **styled** `Tooltip.svelte` adds the label, themeable
-  via `--ds-tooltip-*`, positioned with `@floating-ui/dom`. Imported from
+  via `--iui-tooltip-*`, positioned with `@floating-ui/dom`. Imported from
   `@nozcadesign/invisible-ui-svelte/Tooltip.svelte`.
 - **Icon** — a standardized SVG wrapper for the system's glyphs (and any icon
   you drop in): a 24×24 viewBox, `1em` sizing (scales with font-size),
@@ -349,7 +349,7 @@ for the import sequence, supported transformations, and synchronization rules.
   color at 15% and the glyph is the full status color. Unlike the headless
   primitives this is a *styled* component (ships SVGs + CSS) — the icon
   communicates the feedback type at a glance, an accessibility aid for alerts.
-  Colors are themeable CSS custom properties (`--ds-feedback-*`); the built-in
+  Colors are themeable CSS custom properties (`--iui-feedback-*`); the built-in
   icon per status can be overridden via the default slot. Imported from
   `@nozcadesign/invisible-ui-svelte/FeedbackIcon.svelte`.
 - **Alert** — a styled feedback banner composed from the building blocks: a
@@ -358,7 +358,7 @@ for the import sequence, supported transformations, and synchronization rules.
   (`role="status"` by default, `role="alert"` for
   urgent messages); **not dismissible by default** — set `closable` to render
   the ghost close button. Status is conveyed by color + glyph + surface tint
-  (never color alone). Surface colors are themeable (`--ds-alert-*`). Imported
+  (never color alone). Surface colors are themeable (`--iui-alert-*`). Imported
   from `@nozcadesign/invisible-ui-svelte/Alert.svelte`.
 - **Notice** — an ephemeral, auto-dismissing Alert for stacked alerts.
   `createNotifier()` is a small store (`show` / `update` / `dismiss` / `clear` /
@@ -385,7 +385,7 @@ for the import sequence, supported transformations, and synchronization rules.
   announces successive backend-reported steps as they change, `delay` prevents
   loader flashes on fast operations, and `overlay`/`veil` cover a busy region.
   Buttons integrate it via their `loading`/`loadingStatus` props. Themeable via
-  `--ds-loading-*`; honors reduced motion. Imported from
+  `--iui-loading-*`; honors reduced motion. Imported from
   `@nozcadesign/invisible-ui-svelte/Loading.svelte`.
 
 ### Svelte usage
@@ -418,7 +418,7 @@ operable.
 If you'd rather not wire up the markup and CSS yourself, each primitive also
 ships an opt-in **styled** component that consumes the design tokens (so it
 follows the light/dark theme out of the box) and stays fully themeable through
-`--ds-*` custom properties:
+`--iui-*` custom properties:
 
 ```svelte
 <script>

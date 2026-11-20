@@ -108,7 +108,7 @@ test("a prop manifest: only the frameworks whose section changed are required", 
 });
 
 test("a token: every adapter that ships it must be named", () => {
-  const token = (v) => ({ name: "--ds-x", adapters: ["svelte", "vue"], resolved: v });
+  const token = (v) => ({ name: "--iui-x", adapters: ["svelte", "vue"], resolved: v });
   const r = repo({ [REGISTRY]: { tokens: [token(1)], componentTokens: [] } });
   r.write(REGISTRY, { tokens: [token(2)], componentTokens: [] });
   r.write(".changeset/one.md", changeset(["@nozcadesign/invisible-ui-svelte"]));

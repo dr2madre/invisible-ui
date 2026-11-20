@@ -38,7 +38,7 @@ export interface PinInputProps {
  * PIN input; each cell is named from the catalog ("Character 1 of 6").
  *
  * Provide a `label` for the group's accessible name. Sizing, colors and radius
- * are themeable via `--ds-pin-input-*`.
+ * are themeable via `--iui-pin-input-*`.
  */
 export function PinInput({
   value = "",

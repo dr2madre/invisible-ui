@@ -124,9 +124,9 @@ scope**. Every matched line names the test that holds it, in
 | Hover and focus tint `state-hover`; inset focus ring for keyboard focus | matched | the ring shows in traditional highlight mode, inside the item, never moving the label |
 | Forced colours: outline on the focused item and the open trigger | adapted | Flutter has no forced-colours mode; the open trigger keeps its tint and the keyboard ring stays |
 | Colours `background`, `border`, `text`, `text-disabled`, `text-secondary`, `control-border`; radii `radius.control` and `radius.surface` | matched | the reference sets them in its stylesheet; same roles |
-| Elevation `--ds-elevation-overlay` | adapted | the role lives in `tokens.css` only; the Flutter values copy its numbers until it moves into `tokens.json` |
+| Elevation `--iui-elevation-overlay` | adapted | the role lives in `tokens.css` only; the Flutter values copy its numbers until it moves into `tokens.json` |
 | Reduced motion: no chevron turn; submenus open at once; the 100 ms delay and grace area stay | matched | `no motion under reduced motion` |
 
 ## Background token
 
-The background reads the component token `--ds-components-menu-background-default` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-menu-background-default` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

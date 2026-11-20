@@ -48,7 +48,7 @@ export interface TextareaProps {
  * Passing a non-empty `error` puts the field in the invalid state and
  * announces the message. The value binds two ways: `v-model` or the `value`
  * prop plus `onValueChange`. Colors and sizing are themeable CSS custom
- * properties (`--ds-field-*`).
+ * properties (`--iui-field-*`).
  */
 export const Textarea = defineComponent({
   name: "Textarea",

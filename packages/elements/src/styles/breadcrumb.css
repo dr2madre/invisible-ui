@@ -4,44 +4,47 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--ds-breadcrumb-gap, 0.5rem);
+  gap: var(--iui-breadcrumb-gap, 0.5rem);
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--ds-breadcrumb-font-size, 0.875rem);
+  font-size: var(--iui-breadcrumb-font-size, 0.875rem);
 }
 .breadcrumb__item {
   display: inline-flex;
   align-items: center;
-  gap: var(--ds-breadcrumb-gap, 0.5rem);
+  gap: var(--iui-breadcrumb-gap, 0.5rem);
 }
 .breadcrumb__sep {
-  color: var(--ds-breadcrumb-sep-text, var(--ds-components-general-foreground-secondary, #515151));
+  color: var(
+    --iui-breadcrumb-sep-text,
+    var(--iui-components-general-foreground-secondary, #515151)
+  );
 }
 .breadcrumb__link {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
   color: var(
-    --ds-breadcrumb-link-text,
-    var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc)
+    --iui-breadcrumb-link-text,
+    var(--iui-components-general-action-secondary-body-foreground-default, #7a52cc)
   );
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 .breadcrumb__link:hover {
   color: var(
-    --ds-breadcrumb-link-hover,
-    var(--ds-components-general-action-secondary-background-hover, #6840b7)
+    --iui-breadcrumb-link-hover,
+    var(--iui-components-general-action-secondary-background-hover, #6840b7)
   );
 }
 .breadcrumb__link:focus-visible {
   outline: none;
   box-shadow: var(
-    --ds-focus-ring-shadow,
-    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    --iui-focus-ring-shadow,
+    0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
   );
-  border-radius: var(--ds-metrics-radius-control, 0.5rem);
+  border-radius: var(--iui-metrics-radius-control, 0.5rem);
 }
 /* The current page: a dark grey (not black, not the link color), no link. */
 .breadcrumb__current {
@@ -49,8 +52,8 @@
   align-items: center;
   gap: 0.25rem;
   color: var(
-    --ds-breadcrumb-current-text,
-    var(--ds-components-general-foreground-secondary, #515151)
+    --iui-breadcrumb-current-text,
+    var(--iui-components-general-foreground-secondary, #515151)
   );
   font-weight: 600;
 }

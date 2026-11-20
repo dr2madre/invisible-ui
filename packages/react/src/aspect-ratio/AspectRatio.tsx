@@ -12,7 +12,7 @@ export interface AspectRatioProps {
  * CSS `aspect-ratio` property. Presentational only (no role): an image,
  * video, iframe or any block content is cropped to fill the box.
  *
- * Radius is themeable via `--ds-aspect-ratio-radius`.
+ * Radius is themeable via `--iui-aspect-ratio-radius`.
  */
 export function AspectRatio({ ratio = 1, children }: AspectRatioProps) {
   return (

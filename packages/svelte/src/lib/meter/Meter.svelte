@@ -7,7 +7,7 @@
    * per-level colors.
    *
    * Provide a `label` for the accessible name. Colors, height and radius are
-   * themeable via `--ds-meter-*` (per level: `--ds-meter-fill-poor|suboptimal|optimal`).
+   * themeable via `--iui-meter-*` (per level: `--iui-meter-fill-poor|suboptimal|optimal`).
    */
   import { untrack } from "svelte";
   import { createMeter } from "./create-meter";
@@ -61,32 +61,32 @@
 
 <style>
   .meter {
-    inline-size: var(--ds-meter-width, 16rem);
-    block-size: var(--ds-meter-height, 0.5rem);
+    inline-size: var(--iui-meter-width, 16rem);
+    block-size: var(--iui-meter-height, 0.5rem);
     overflow: hidden;
-    background: var(--ds-meter-track, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-meter-radius, 999px);
+    background: var(--iui-meter-track, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-meter-radius, 999px);
   }
   .meter__indicator {
     block-size: 100%;
-    background: var(--ds-meter-fill, var(--ds-colors-brand-primary-default, #7a52cc));
+    background: var(--iui-meter-fill, var(--iui-colors-brand-primary-default, #7a52cc));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
   .meter__indicator:global([data-quality="poor"]) {
     background: var(
-      --ds-meter-fill-poor,
-      var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+      --iui-meter-fill-poor,
+      var(--iui-components-general-feedback-danger-solid-background-default, #be3b50)
     );
   }
   .meter__indicator:global([data-quality="suboptimal"]) {
     background: var(
-      --ds-meter-fill-suboptimal,
-      var(--ds-components-general-feedback-warning-solid-background-default, #c96422)
+      --iui-meter-fill-suboptimal,
+      var(--iui-components-general-feedback-warning-solid-background-default, #c96422)
     );
   }
   .meter__indicator:global([data-quality="optimal"]) {
-    background: var(--ds-meter-fill-optimal, var(--ds-pastel-green, #8dcc7a));
+    background: var(--iui-meter-fill-optimal, var(--iui-pastel-green, #8dcc7a));
   }
   @media (prefers-reduced-motion: reduce) {
     .meter__indicator {

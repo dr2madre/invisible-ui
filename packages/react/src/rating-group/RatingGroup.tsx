@@ -36,7 +36,7 @@ const STAR = (
  * stars and adds a pointer-hover preview.
  *
  * The group needs an accessible name via `label`; each star is a radio
- * labelled "N star(s)" from the catalog. Themeable via `--ds-rating-*`.
+ * labelled "N star(s)" from the catalog. Themeable via `--iui-rating-*`.
  */
 export function RatingGroup({
   label,
@@ -97,7 +97,7 @@ export function RatingGroup({
               aria-label={t("rating.stars", { count: item.position })}
               aria-describedby={errorId}
             />
-            <Icon size="var(--ds-rating-size, 1.5rem)">{STAR}</Icon>
+            <Icon size="var(--iui-rating-size, 1.5rem)">{STAR}</Icon>
           </label>
         ))}
       </div>

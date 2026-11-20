@@ -37,7 +37,7 @@ export interface LoginFormProps {
  *
  * It is a real `<form>`: the fields are native inputs (via TextField) and
  * `onSubmit` receives `{ email, password }`. Presentation is a centered card,
- * themeable via `--ds-login-*` and the underlying component tokens.
+ * themeable via `--iui-login-*` and the underlying component tokens.
  */
 export const LoginForm = defineComponent({
   name: "LoginForm",

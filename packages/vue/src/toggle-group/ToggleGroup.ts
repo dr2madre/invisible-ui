@@ -46,7 +46,7 @@ export interface ToggleGroupProps {
  * the group's `aria-label`, a container name (e.g. "Formatting") that gives
  * screen-reader context ("group, Formatting"); each toggle carries its own
  * name. Omit it entirely when the toggles are unrelated. Radius, spacing and
- * colors are themeable via `--ds-toggle-group-*`.
+ * colors are themeable via `--iui-toggle-group-*`.
  */
 export const ToggleGroup = defineComponent({
   name: "ToggleGroup",

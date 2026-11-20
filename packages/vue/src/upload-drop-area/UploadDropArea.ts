@@ -56,7 +56,7 @@ const PICKER_SPINNER_DELAY = 150;
  * same `accept` filter; the files it leaves out are named in an alert under
  * the area and reported to `onRejected`.
  *
- * Themeable via `--ds-upload-drop-area-*`. The default prompt comes from the
+ * Themeable via `--iui-upload-drop-area-*`. The default prompt comes from the
  * catalog (`uploadDropArea.prompt` plus the styled `uploadDropArea.action`
  * word); pass your own content in the default slot to replace it entirely.
  */

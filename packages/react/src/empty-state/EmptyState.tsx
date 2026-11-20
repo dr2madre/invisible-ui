@@ -42,7 +42,7 @@ export interface EmptyStateProps {
  * Layout: an illustration (`illustration`, else a neutral `FeedbackIcon`), a
  * `title`, an optional `description`, and an action area: one `Button` from
  * `actionLabel` and `onAction`, or the `actions` group. Themeable via
- * `--ds-empty-state-*`.
+ * `--iui-empty-state-*`.
  *
  * Accessibility: the region is a polite `role="status"`, so content that
  * resolves to empty is announced without interrupting. The title carries the

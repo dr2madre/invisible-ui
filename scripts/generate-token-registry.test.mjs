@@ -10,35 +10,35 @@ import assert from "node:assert/strict";
 import { parseSheet, parseUsages, shapeOfValue, placeOf } from "./generate-token-registry.mjs";
 
 test("a declaration that ends at its closing brace is read", () => {
-  assert.equal(parseUsages(".a { color: var(--ds-probe, #fff) }", "f.css").length, 1);
-  assert.equal(parseSheet(":root { --ds-probe: #fff }")[0]?.name, "--ds-probe");
+  assert.equal(parseUsages(".a { color: var(--iui-probe, #fff) }", "f.css").length, 1);
+  assert.equal(parseSheet(":root { --iui-probe: #fff }")[0]?.name, "--iui-probe");
 });
 
 test("a trailing declaration keeps its own comment out of the next run", () => {
   const found = parseSheet(`:root {
   /* Type scale */
-  --ds-size-a: 1rem;
-  --ds-size-b: 2rem /* 32px */
+  --iui-size-a: 1rem;
+  --iui-size-b: 2rem /* 32px */
 }`);
   assert.deepEqual(
     found.map((entry) => [entry.name, entry.group]),
     [
-      ["--ds-size-a", "Type scale"],
-      ["--ds-size-b", "Type scale"],
+      ["--iui-size-a", "Type scale"],
+      ["--iui-size-b", "Type scale"],
     ],
   );
 });
 
 test("a declaration is attributed to the block it sits in, not the one after it", () => {
   const found = parseSheet(`@media (prefers-color-scheme: dark) {
-  :root { --ds-a: #000 }
+  :root { --iui-a: #000 }
 }
-:root { --ds-b: #fff }`);
+:root { --iui-b: #fff }`);
   assert.deepEqual(
     found.map((entry) => [entry.name, entry.layer]),
     [
-      ["--ds-a", "darkMedia"],
-      ["--ds-b", "light"],
+      ["--iui-a", "darkMedia"],
+      ["--iui-b", "light"],
     ],
   );
 });
@@ -46,11 +46,11 @@ test("a declaration is attributed to the block it sits in, not the one after it"
 test("a fallback's family is read through one alias hop", () => {
   assert.equal(shapeOfValue("0.75rem"), "size");
   assert.equal(
-    shapeOfValue("var(--ds-components-general-action-primary-background-default, #7a52cc)"),
+    shapeOfValue("var(--iui-components-general-action-primary-background-default, #7a52cc)"),
     "color",
   );
   assert.equal(
-    shapeOfValue("var(--ds-metrics-density-regular-control-padding-x, 0.75rem)", () => "0.75rem"),
+    shapeOfValue("var(--iui-metrics-density-regular-control-padding-x, 0.75rem)", () => "0.75rem"),
     "size",
   );
   // Nothing to read: neither a family nor a wrong guess.

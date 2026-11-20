@@ -51,7 +51,7 @@ const assignTabStop = (root: HTMLElement, target: HTMLElement) => {
  * part, whatever component renders it.
  *
  * A `label` is required (the toolbar needs an accessible name). Layout gap is
- * themeable via `--ds-toolbar-gap`.
+ * themeable via `--iui-toolbar-gap`.
  */
 export function Toolbar({
   label,

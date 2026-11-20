@@ -73,7 +73,7 @@ export interface PromptDialogProps {
  * The `trigger` prop/slot is the trigger. `onConfirm(value)` runs with the
  * entered text when confirmed; Enter in the field also confirms. A `title` is
  * required; `label` names the input. Colors, radius and elevation are
- * themeable via `--ds-dialog-*`.
+ * themeable via `--iui-dialog-*`.
  *
  * The header is the one the dialog family shares: an optional `icon` slot (a
  * FeedbackIcon) before the title and an optional close button (`closeButton`).

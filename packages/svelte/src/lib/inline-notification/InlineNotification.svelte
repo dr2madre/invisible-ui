@@ -20,7 +20,7 @@
    * - Not dismissible by default — set `closable` to render the ghost close
    *   button (WCAG-sized hit area, accessible name).
    *
-   * Colors come from the theme token layer (`--ds-color-*`), so the surface
+   * Colors come from the theme token layer (`--iui-color-*`), so the surface
    * adapts to light/dark. Set `inverted` for a high-contrast surface (the
    * opposite of the page) — useful for transient notices.
    */
@@ -252,11 +252,11 @@
     display: flex;
     gap: 0.75rem;
     align-items: flex-start;
-    padding: var(--ds-alert-padding, 0.875rem 1rem);
+    padding: var(--iui-alert-padding, 0.875rem 1rem);
     border: 1px solid var(--_border);
-    border-radius: var(--ds-alert-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border-radius: var(--iui-alert-radius, var(--iui-metrics-radius-container, 0.75rem));
     background: var(--_bg);
-    color: var(--_fg, var(--ds-components-general-foreground-default, #272727));
+    color: var(--_fg, var(--iui-components-general-foreground-default, #272727));
   }
   /* Pin the close button to the top-right; reserve room so text never runs under it. */
   .inline-notification:has(.inline-notification__close) {
@@ -269,11 +269,11 @@
     /* Ghost icon Button sized to a square WCAG 2.5.8 hit area. It stays
        color-neutral (inherits the surface's own text color) so it works on any
        status-tinted or inverted surface. */
-    --ds-components-button-icon-min-size: var(--ds-close-hit-area, 2.5rem);
-    --ds-components-button-icon-size: var(--ds-close-icon-size, 1rem);
-    color: var(--ds-close-color, inherit);
+    --iui-components-button-icon-min-size: var(--iui-close-hit-area, 2.5rem);
+    --iui-components-button-icon-size: var(--iui-close-icon-size, 1rem);
+    color: var(--iui-close-color, inherit);
     /* The surface decides the close button's colour, not the ghost variant. */
-    --ds-components-button-foreground-ghost-default: currentColor;
+    --iui-components-button-foreground-ghost-default: currentColor;
   }
 
   .inline-notification__content {
@@ -286,12 +286,12 @@
   .inline-notification__title {
     margin: 0;
     font-weight: 600;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
   }
 
   .inline-notification__body {
     margin: 0;
-    line-height: var(--ds-typography-line-height-default, 1.4);
+    line-height: var(--iui-typography-line-height-default, 1.4);
   }
 
   .inline-notification__actions {
@@ -311,7 +311,7 @@
   }
   .inline-notification__link:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -319,32 +319,32 @@
   /* Soft, status-tinted surface. data-status is dynamic, so the value part is
      :global to avoid the Svelte unused-selector pruning. */
   .inline-notification:global([data-status="info"]) {
-    --_bg: var(--ds-components-general-feedback-info-background-default, #f0f3f9);
-    --_border: var(--ds-components-general-feedback-info-border-default, #c6d1e9);
+    --_bg: var(--iui-components-general-feedback-info-background-default, #f0f3f9);
+    --_border: var(--iui-components-general-feedback-info-border-default, #c6d1e9);
   }
   .inline-notification:global([data-status="success"]) {
-    --_bg: var(--ds-components-general-feedback-success-background-default, #f0f4ed);
-    --_border: var(--ds-components-general-feedback-success-border-default, #c5d6bd);
+    --_bg: var(--iui-components-general-feedback-success-background-default, #f0f4ed);
+    --_border: var(--iui-components-general-feedback-success-border-default, #c5d6bd);
   }
   .inline-notification:global([data-status="warning"]) {
-    --_bg: var(--ds-components-general-feedback-warning-background-default, #fbf3ed);
-    --_border: var(--ds-components-general-feedback-warning-border-default, #efd1bd);
+    --_bg: var(--iui-components-general-feedback-warning-background-default, #fbf3ed);
+    --_border: var(--iui-components-general-feedback-warning-border-default, #efd1bd);
   }
   .inline-notification:global([data-status="danger"]) {
-    --_bg: var(--ds-components-general-feedback-danger-background-default, #faeff1);
-    --_border: var(--ds-components-general-feedback-danger-border-default, #ecc4cb);
+    --_bg: var(--iui-components-general-feedback-danger-background-default, #faeff1);
+    --_border: var(--iui-components-general-feedback-danger-border-default, #ecc4cb);
   }
   .inline-notification:global([data-status="neutral"]) {
-    --_bg: var(--ds-components-general-feedback-neutral-background-default, #f5f5f5);
-    --_border: var(--ds-components-general-feedback-neutral-border-default, #bdbdbd);
+    --_bg: var(--iui-components-general-feedback-neutral-background-default, #f5f5f5);
+    --_border: var(--iui-components-general-feedback-neutral-border-default, #bdbdbd);
   }
 
   /* Inverted: a high-contrast surface that ignores the status tint (the status
      stays visible via the colored FeedbackIcon). Wins over the rules above. */
   .inline-notification:global([data-inverted]) {
-    --_bg: var(--ds-components-general-emphasis-background-default, #323232);
-    --_border: var(--ds-components-general-emphasis-border-default, #414141);
-    --_fg: var(--ds-components-general-emphasis-foreground-default, #f5f5f5);
+    --_bg: var(--iui-components-general-emphasis-background-default, #323232);
+    --_border: var(--iui-components-general-emphasis-border-default, #414141);
+    --_fg: var(--iui-components-general-emphasis-foreground-default, #f5f5f5);
   }
 
   /* Plain (no-surface): transparent background, no border. The colored
@@ -366,12 +366,12 @@
     margin-inline: auto;
     align-items: center;
     gap: 0.625rem;
-    padding: var(--ds-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
-    border-radius: var(--ds-snack-radius, var(--ds-metrics-radius-container, 0.75rem));
+    padding: var(--iui-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
+    border-radius: var(--iui-snack-radius, var(--iui-metrics-radius-container, 0.75rem));
     /* The icon glyph at text size with no breathing room, through the
        FeedbackIcon's own custom properties. */
-    --ds-feedback-icon-size: var(--ds-snack-icon-size, 1.25rem);
-    --ds-feedback-icon-padding: 0;
+    --iui-feedback-icon-size: var(--iui-snack-icon-size, 1.25rem);
+    --iui-feedback-icon-padding: 0;
   }
   /* The message stays on a single line, however long. */
   .inline-notification:global([data-snack]) .inline-notification__title {
@@ -418,6 +418,6 @@
   .inline-notification:global([data-snack]) .inline-notification__close {
     position: static;
     inset: auto;
-    --ds-components-button-icon-min-size: var(--ds-close-hit-area, 2rem);
+    --iui-components-button-icon-min-size: var(--iui-close-hit-area, 2rem);
   }
 </style>

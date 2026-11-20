@@ -1,7 +1,7 @@
 /* HoverCard. The Svelte adapter ships the hover card headless only, so the
    surface is styled here from the popover card it shares its shape with:
    same elevation, radius and padding, under `hover-card__*` class names and
-   its own `--ds-hover-card-*` tokens. */
+   its own `--iui-hover-card-*` tokens. */
 
 .hover-card__trigger {
   display: inline-flex;
@@ -12,20 +12,20 @@
   position: fixed;
   inset-block-start: 0;
   inset-inline-start: 0;
-  z-index: var(--ds-hover-card-z-index, 100);
+  z-index: var(--iui-hover-card-z-index, 100);
   box-sizing: border-box;
   inline-size: max-content;
-  max-inline-size: var(--ds-hover-card-max-width, 20rem);
-  padding: var(--ds-hover-card-padding, 0.875rem 1rem);
+  max-inline-size: var(--iui-hover-card-max-width, 20rem);
+  padding: var(--iui-hover-card-padding, 0.875rem 1rem);
   background: var(
-    --ds-components-popover-background-default,
-    var(--ds-components-general-background-default, #fff)
+    --iui-components-popover-background-default,
+    var(--iui-components-general-background-default, #fff)
   );
-  color: var(--ds-components-general-foreground-default, #272727);
-  border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-  border-radius: var(--ds-hover-card-radius, var(--ds-metrics-radius-container, 0.75rem));
+  color: var(--iui-components-general-foreground-default, #272727);
+  border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+  border-radius: var(--iui-hover-card-radius, var(--iui-metrics-radius-container, 0.75rem));
   box-shadow: var(
-    --ds-elevation-overlay,
+    --iui-elevation-overlay,
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1)
   );

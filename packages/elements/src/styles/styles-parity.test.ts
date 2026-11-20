@@ -124,7 +124,7 @@ describe("login form width", () => {
   it("keeps the padding and the border inside the container", () => {
     const sheet = read("./login-form.css");
     expect(sheet).toMatch(
-      /\.login\s*\{[^}]*inline-size:\s*min\(\s*100% - 2 \* var\(--ds-login-padding, 1\.75rem\) - 2px,/s,
+      /\.login\s*\{[^}]*inline-size:\s*min\(\s*100% - 2 \* var\(--iui-login-padding, 1\.75rem\) - 2px,/s,
     );
   });
 });
@@ -151,7 +151,7 @@ const rule = (sheet: string, selector: string) => {
   return css.match(new RegExp(`(?:^|\\n|,\\s*)${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
 };
 const RING =
-  /box-shadow:\s*inset 0 0 0\s+var\(\s*--ds-components-general-focus-ring-width,\s*2px\s*\)\s+var\(\s*--ds-components-general-focus-ring-color/;
+  /box-shadow:\s*inset 0 0 0\s+var\(\s*--iui-components-general-focus-ring-width,\s*2px\s*\)\s+var\(\s*--iui-components-general-focus-ring-color/;
 
 describe("selection in forced colors", () => {
   it("marks the calendar's selected days and range with system colours", () => {
@@ -178,7 +178,7 @@ describe("selection in forced colors", () => {
 describe("the calendar range and year view", () => {
   it("closes the in-range band with lines in the selection colour", () => {
     expect(rule("calendar.css", ".calendar__day[data-in-range]")).toMatch(
-      /border-block-color:\s*var\(--ds-components-general-selection-background-default/,
+      /border-block-color:\s*var\(--iui-components-general-selection-background-default/,
     );
   });
 
@@ -193,7 +193,7 @@ describe("the calendar range and year view", () => {
 describe("the messages a control renders for itself", () => {
   it("styles the error like the text field's, glyph included", () => {
     expect(rule("field.css", ".field__message.field__error")).toMatch(
-      /color:\s*var\(\s*--ds-field-error-color,\s*var\(\s*--ds-components-general-feedback-danger-body-foreground-default/,
+      /color:\s*var\(\s*--iui-field-error-color,\s*var\(\s*--iui-components-general-feedback-danger-body-foreground-default/,
     );
     expect(rule("field.css", ".field__message .field__msg-icon")).toMatch(/flex:\s*none/);
   });
@@ -202,7 +202,7 @@ describe("the messages a control renders for itself", () => {
 describe("a table row that takes focus", () => {
   it("shows a focus ring inside the row", () => {
     expect(read("./table-set.css")).toMatch(
-      /\.table-view tbody tr\[tabindex="-1"\]:focus-visible,[^{]*\{[^}]*outline:\s*var\(--ds-components-general-focus-ring-width/,
+      /\.table-view tbody tr\[tabindex="-1"\]:focus-visible,[^{]*\{[^}]*outline:\s*var\(--iui-components-general-focus-ring-width/,
     );
   });
 });

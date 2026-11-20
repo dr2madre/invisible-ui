@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show Brightness;
 import 'package:flutter/painting.dart';
 
 /// The shadow of a floating surface (tooltip, menu, notification): the web
-/// stylesheet's `--ds-elevation-overlay`, darker in the dark theme. The role
+/// stylesheet's `--iui-elevation-overlay`, darker in the dark theme. The role
 /// lives in `tokens.css` only, so the Flutter values copy its numbers.
 List<BoxShadow> overlayShadow(Brightness brightness) {
   final alpha = brightness == Brightness.dark ? 0x80 : 0x1A;

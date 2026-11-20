@@ -27,7 +27,7 @@ export interface AvatarProps {
  * `name` is required: it provides both the accessible name and the initials
  * fallback. The whole avatar is exposed as a single image to assistive tech
  * (`role="img"` + `aria-label`), so it reads the same whether the photo or the
- * initials are showing. Size/shape/colors are themeable (`--ds-avatar-*`).
+ * initials are showing. Size/shape/colors are themeable (`--iui-avatar-*`).
  */
 export const Avatar = defineComponent({
   name: "Avatar",

@@ -29,7 +29,7 @@ export interface ComboboxProps {
    */
   searchable?: boolean;
   /**
-   * Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits
+   * Width behaviour: `fixed` (default) uses `--iui-combobox-width`, `wrap` fits
    * the longest option, `fill` takes 100% of the container.
    */
   width?: "wrap" | "fill" | "fixed";
@@ -61,7 +61,7 @@ export interface ComboboxProps {
  * Use it over `Select` whenever options need to be *drawn* (icons, rich
  * content) or searched — see
  * `docs/adr/0003-native-select-advanced-combobox.md`. Themeable via
- * `--ds-combobox-*` (and the shared `--ds-select-*` listbox tokens).
+ * `--iui-combobox-*` (and the shared `--iui-select-*` listbox tokens).
  */
 export function Combobox({
   label,

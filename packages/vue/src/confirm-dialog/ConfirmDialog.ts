@@ -57,7 +57,7 @@ export interface ConfirmDialogProps {
  *
  * The `trigger` prop/slot is the trigger. `onConfirm` runs when the confirm
  * button is pressed. A `title` is required; `description` is optional.
- * Colors, radius and elevation are themeable via `--ds-dialog-*`.
+ * Colors, radius and elevation are themeable via `--iui-dialog-*`.
  *
  * The header is the one the dialog family shares: an optional `icon` slot (a
  * FeedbackIcon) before the title and an optional close button (`closeButton`).

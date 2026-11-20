@@ -51,7 +51,7 @@ export interface NavigationMenuProps {
  * `aria-current="page"`, and the trigger whose panel holds it is marked
  * visually only.
  *
- * Themeable via `--ds-navmenu-*`.
+ * Themeable via `--iui-navmenu-*`.
  */
 export function NavigationMenu({ label, items, value = null, onValueChange }: NavigationMenuProps) {
   const { locale, dir } = useI18n();

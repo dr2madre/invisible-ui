@@ -16,7 +16,7 @@
       {/snippet}
     </SheetDialog>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Right panel (default side) with a pinned footer.
     </figcaption>
@@ -29,7 +29,7 @@
       <button type="button">Sign out</button>
     </SheetDialog>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Bottom variant with <code>draggable</code> — drag the handle past a quarter of the panel (or flick)
       to dismiss.
@@ -43,7 +43,7 @@
       <button type="button">Home</button>
     </SheetDialog>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Lateral variant with <code>draggable</code> — the handle sits on the inner edge.
     </figcaption>

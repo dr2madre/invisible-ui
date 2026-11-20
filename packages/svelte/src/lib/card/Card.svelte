@@ -16,7 +16,7 @@
    *
    * Accessibility: renders as an `<article>`; when a `title` string is given it
    * becomes a heading (level via `headingLevel`) and labels the card
-   * (`aria-labelledby`). Colors/spacing are themeable (`--ds-card-*`).
+   * (`aria-labelledby`). Colors/spacing are themeable (`--iui-card-*`).
    */
   import type { Snippet } from "svelte";
   import { stableId } from "../internal/stable-id";
@@ -156,18 +156,18 @@
   .card {
     box-sizing: border-box;
     background: var(
-      --ds-components-card-background-default,
-      var(--ds-components-general-background-default, #fff)
+      --iui-components-card-background-default,
+      var(--iui-components-general-background-default, #fff)
     );
-    color: var(--ds-card-text, var(--ds-components-general-foreground-default, #272727));
-    border: 1px solid var(--ds-card-border, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-card-radius, var(--ds-metrics-radius-container, 0.75rem));
+    color: var(--iui-card-text, var(--iui-components-general-foreground-default, #272727));
+    border: 1px solid var(--iui-card-border, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-card-radius, var(--iui-metrics-radius-container, 0.75rem));
     overflow: hidden;
   }
   .card[data-surface="secondary"] {
     background: var(
-      --ds-components-card-secondary-background-default,
-      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+      --iui-components-card-secondary-background-default,
+      var(--iui-components-general-feedback-neutral-background-default, #f5f5f5)
     );
   }
 
@@ -182,8 +182,8 @@
     align-items: center;
     justify-content: center;
     background: var(
-      --ds-card-media-bg,
-      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+      --iui-card-media-bg,
+      var(--iui-components-general-feedback-neutral-background-default, #f5f5f5)
     );
   }
   .card__image {
@@ -193,15 +193,15 @@
     object-fit: cover;
   }
   .card__media--icon {
-    padding: var(--ds-card-icon-padding, 1.5rem);
-    color: var(--ds-card-icon-color, var(--ds-components-general-foreground-secondary, #515151));
+    padding: var(--iui-card-icon-padding, 1.5rem);
+    color: var(--iui-card-icon-color, var(--iui-components-general-foreground-secondary, #515151));
   }
   .card__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    inline-size: var(--ds-card-icon-size, 2.5rem);
-    block-size: var(--ds-card-icon-size, 2.5rem);
+    inline-size: var(--iui-card-icon-size, 2.5rem);
+    block-size: var(--iui-card-icon-size, 2.5rem);
   }
   .card__icon :global(svg) {
     inline-size: 100%;
@@ -213,8 +213,8 @@
     min-inline-size: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--ds-card-gap, 0.5rem);
-    padding: var(--ds-card-padding, 1rem);
+    gap: var(--iui-card-gap, 0.5rem);
+    padding: var(--iui-card-padding, 1rem);
   }
 
   .card__head {
@@ -233,17 +233,17 @@
 
   .card__title {
     margin: 0;
-    font-size: var(--ds-card-title-size, 1.05rem);
+    font-size: var(--iui-card-title-size, 1.05rem);
     font-weight: 600;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
   }
   .card__description {
     margin: 0;
     color: var(
-      --ds-card-description-text,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-card-description-text,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
-    line-height: var(--ds-typography-line-height-default, 1.4);
+    line-height: var(--iui-typography-line-height-default, 1.4);
   }
   .card__content {
     margin-block-start: 0.25rem;
@@ -254,9 +254,9 @@
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
-    padding: var(--ds-card-actions-padding, 0.75rem 1rem);
-    /* No footer divider by default — opt in via --ds-card-actions-border. */
-    border-block-start: 1px solid var(--ds-card-actions-border, transparent);
+    padding: var(--iui-card-actions-padding, 0.75rem 1rem);
+    /* No footer divider by default — opt in via --iui-card-actions-border. */
+    border-block-start: 1px solid var(--iui-card-actions-border, transparent);
   }
 
   /* ---- Media card, horizontal ---- */
@@ -265,7 +265,7 @@
     align-items: stretch;
   }
   .card--media[data-orientation="horizontal"] .card__media {
-    inline-size: var(--ds-card-horizontal-media-size, 8rem);
+    inline-size: var(--iui-card-horizontal-media-size, 8rem);
     align-self: stretch;
   }
   .card--media[data-orientation="horizontal"] .card__media--icon {
@@ -296,7 +296,7 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
-    padding: var(--ds-card-padding, 1rem);
+    padding: var(--iui-card-padding, 1rem);
   }
   .card__dash-head {
     display: flex;
@@ -305,9 +305,9 @@
     min-inline-size: 0;
   }
   .card--dashboard .card__icon {
-    color: var(--ds-card-icon-color, var(--ds-components-general-foreground-secondary, #515151));
-    inline-size: var(--ds-card-dash-icon-size, 1.75rem);
-    block-size: var(--ds-card-dash-icon-size, 1.75rem);
+    color: var(--iui-card-icon-color, var(--iui-components-general-foreground-secondary, #515151));
+    inline-size: var(--iui-card-dash-icon-size, 1.75rem);
+    block-size: var(--iui-card-dash-icon-size, 1.75rem);
   }
   .card__metric {
     display: flex;
@@ -316,21 +316,21 @@
     white-space: nowrap;
   }
   .card__value {
-    font-size: var(--ds-card-value-size, 1.75rem);
+    font-size: var(--iui-card-value-size, 1.75rem);
     font-weight: 700;
     line-height: 1;
   }
   .card__change {
-    font-size: var(--ds-card-change-size, 0.8125rem);
+    font-size: var(--iui-card-change-size, 0.8125rem);
     font-weight: 600;
   }
   .card__change[data-trend="up"] {
-    color: var(--ds-components-general-feedback-success-foreground-default, #335025);
+    color: var(--iui-components-general-feedback-success-foreground-default, #335025);
   }
   .card__change[data-trend="down"] {
-    color: var(--ds-components-general-feedback-danger-foreground-default, #7f333f);
+    color: var(--iui-components-general-feedback-danger-foreground-default, #7f333f);
   }
   .card__change[data-trend="neutral"] {
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
 </style>

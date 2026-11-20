@@ -18,7 +18,7 @@
    * `name` is required: it provides both the accessible name and the initials
    * fallback. The whole avatar is exposed as a single image to assistive tech
    * (`role="img"` + `aria-label`), so it reads the same whether the photo or the
-   * initials are showing. Size/shape/colors are themeable (`--ds-avatar-*`).
+   * initials are showing. Size/shape/colors are themeable (`--iui-avatar-*`).
    */
   interface Props {
     name: string;
@@ -56,34 +56,37 @@
     justify-content: center;
     flex: none;
     overflow: hidden;
-    inline-size: var(--ds-avatar-size, 2.5rem);
-    block-size: var(--ds-avatar-size, 2.5rem);
-    background-color: var(--ds-avatar-bg, var(--ds-components-avatar-background-default, #e0e0e0));
-    color: var(--ds-avatar-color, var(--ds-components-general-foreground-default, #272727));
+    inline-size: var(--iui-avatar-size, 2.5rem);
+    block-size: var(--iui-avatar-size, 2.5rem);
+    background-color: var(
+      --iui-avatar-bg,
+      var(--iui-components-avatar-background-default, #e0e0e0)
+    );
+    color: var(--iui-avatar-color, var(--iui-components-general-foreground-default, #272727));
     font-weight: 600;
     line-height: 1;
     user-select: none;
   }
   .avatar:global([data-size="sm"]) {
-    inline-size: var(--ds-avatar-size, 2rem);
-    block-size: var(--ds-avatar-size, 2rem);
+    inline-size: var(--iui-avatar-size, 2rem);
+    block-size: var(--iui-avatar-size, 2rem);
     font-size: 0.75rem;
   }
   .avatar:global([data-size="md"]) {
-    inline-size: var(--ds-avatar-size, 2.5rem);
-    block-size: var(--ds-avatar-size, 2.5rem);
+    inline-size: var(--iui-avatar-size, 2.5rem);
+    block-size: var(--iui-avatar-size, 2.5rem);
     font-size: 0.875rem;
   }
   .avatar:global([data-size="lg"]) {
-    inline-size: var(--ds-avatar-size, 3.5rem);
-    block-size: var(--ds-avatar-size, 3.5rem);
+    inline-size: var(--iui-avatar-size, 3.5rem);
+    block-size: var(--iui-avatar-size, 3.5rem);
     font-size: 1.125rem;
   }
   .avatar:global([data-shape="circle"]) {
     border-radius: 50%;
   }
   .avatar:global([data-shape="square"]) {
-    border-radius: var(--ds-avatar-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-radius: var(--iui-avatar-radius, var(--iui-metrics-radius-control, 0.5rem));
   }
 
   .avatar__img {

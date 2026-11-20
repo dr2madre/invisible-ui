@@ -22,7 +22,7 @@ scope**. Every matched line names the widget test in
 | `showInvisibleDialog(builder: (_) => SheetDialog(...))` | the trigger, `open`, `onOpenChange` | opening and closing |
 | `side: SheetDialogSide.top / bottom / start / end` | `side: "top" / "bottom" / "start" / "end"` | the edge; start and end follow the reading direction |
 | `draggable` | `draggable` | the grab handle |
-| `size` | `--ds-sheet-dialog-size` | the extent away from the edge |
+| `size` | `--iui-sheet-dialog-size` | the extent away from the edge |
 | `title`, `description`, `child`, `actions` | `title`, `description`, `children`, `footer` | name, description, body, footer |
 | `closeButton`, `closeLabel` | `closeButton`, `closeLabel` | on by default; the catalog's `sheetDialog.close` |
 | `icon`, `headerLead`, `headerActions`, `initialFocus`, `controller` | the snippets, `initialFocus`, `notify()` | header, focus on open, status area |
@@ -52,9 +52,9 @@ scope**. Every matched line names the widget test in
 | Contrast light and dark | matched | `text contrast, light and dark` |
 | `renderTrigger={false}` | adapted | Flutter dialogs never render a trigger: the page's button calls `showInvisibleDialog`, and `returnFocus` names where focus goes when the dialog was opened by something else; held by `test/sidebar_drawer_test.dart` (`returnFocus names where focus goes when focus was elsewhere at the opening`) |
 | The system areas | adapted | a bottom sheet stays above the keyboard; the panel reaches the screen edge it is anchored to |
-| `--ds-sheet-dialog-duration`, `--ds-sheet-dialog-handle` | out of scope | 250 ms and the border role, as the web defaults |
+| `--iui-sheet-dialog-duration`, `--iui-sheet-dialog-handle` | out of scope | 250 ms and the border role, as the web defaults |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
 
 ## Background token
 
-The background reads the component token `--ds-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

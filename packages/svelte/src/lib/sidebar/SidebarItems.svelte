@@ -125,11 +125,11 @@
     padding: 0.5rem 0.625rem;
     font: inherit;
     text-align: start;
-    color: var(--ds-sidebar-item-text, var(--ds-components-general-foreground-default, #272727));
+    color: var(--iui-sidebar-item-text, var(--iui-components-general-foreground-default, #272727));
     text-decoration: none;
     background: none;
     border: 0;
-    border-radius: var(--ds-sidebar-item-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-radius: var(--iui-sidebar-item-radius, var(--iui-metrics-radius-control, 0.5rem));
     cursor: pointer;
   }
   .sidebar__list--collapsed .sidebar__item {
@@ -137,13 +137,13 @@
     padding-inline: 0.375rem;
   }
   .sidebar__item:hover {
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .sidebar__item--active {
-    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    color: var(--iui-components-general-action-secondary-body-foreground-default, #7a52cc);
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc) 10%,
       transparent
     );
     font-weight: 600;
@@ -161,12 +161,12 @@
   .sidebar__item:focus-visible {
     outline: none;
     box-shadow: var(
-      --ds-focus-ring-shadow,
-      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+      --iui-focus-ring-shadow,
+      0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
     );
   }
   .sidebar__item[data-unavailable] {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
     cursor: default;
   }
   .sidebar__icon {
@@ -185,7 +185,7 @@
     display: block;
     font-size: 0.8125rem;
     font-weight: 400;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .sidebar__status {
     display: inline-flex;
@@ -204,15 +204,15 @@
     font-weight: 600;
     line-height: 1;
     color: var(
-      --ds-sidebar-badge-text,
-      var(--ds-components-general-feedback-solid-foreground-default, #fff)
+      --iui-sidebar-badge-text,
+      var(--iui-components-general-feedback-solid-foreground-default, #fff)
     );
     white-space: nowrap;
     background: var(
-      --ds-sidebar-badge-surface,
-      var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+      --iui-sidebar-badge-surface,
+      var(--iui-components-general-feedback-danger-solid-background-default, #be3b50)
     );
-    border-radius: var(--ds-metrics-radius-pill, 999px);
+    border-radius: var(--iui-metrics-radius-pill, 999px);
   }
   .sidebar__badge--dot {
     min-inline-size: 0;

@@ -29,7 +29,7 @@ export interface SkeletonProps {
  * "Loading…".
  *
  * Sizing is set via `width`/`height` (any CSS length); for `text` the height
- * follows the line height. The shimmer is themeable via `--ds-skeleton-*` and
+ * follows the line height. The shimmer is themeable via `--iui-skeleton-*` and
  * respects `prefers-reduced-motion`.
  */
 export const Skeleton = defineComponent({

@@ -47,7 +47,7 @@ const level = (value: number | undefined): AccordionHeadingLevel =>
  * Each item supplies a header `label` (falling back to `value`) and its panel
  * `content`, which may be any markup. Each header is a heading at
  * `headingLevel` (3 by default) so the items take their place in the page
- * outline. Colors are themeable CSS custom properties (`--ds-accordion-*`).
+ * outline. Colors are themeable CSS custom properties (`--iui-accordion-*`).
  */
 export function Accordion({
   items,
@@ -77,7 +77,7 @@ export function Accordion({
               <button className="accordion__trigger" {...api.getTriggerProps(item.value)}>
                 <span>{item.label ?? item.value}</span>
                 <span className="accordion__icon" aria-hidden="true">
-                  <Icon size="var(--ds-accordion-icon-size, 1.1em)">
+                  <Icon size="var(--iui-accordion-icon-size, 1.1em)">
                     <ChevronEndGlyph />
                   </Icon>
                 </span>

@@ -11,7 +11,7 @@ export interface CodeProps {
  * multi-line sample use `CodeBlock`.
  *
  * Presentational only: its content is the meaning. Themeable via
- * `--ds-code-*`.
+ * `--iui-code-*`.
  */
 export function Code({ children }: CodeProps) {
   return <code className="code">{children}</code>;

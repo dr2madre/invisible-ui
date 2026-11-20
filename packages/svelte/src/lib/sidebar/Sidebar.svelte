@@ -26,7 +26,7 @@
    *
    * Sections can collapse, the bar itself can collapse to a rail of icons, and
    * `mode="drawer"` puts the same navigation inside a Sheet Dialog (ADR 0013).
-   * Themeable via `--ds-sidebar-*`.
+   * Themeable via `--iui-sidebar-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import SheetDialog from "../sheet-dialog/SheetDialog.svelte";

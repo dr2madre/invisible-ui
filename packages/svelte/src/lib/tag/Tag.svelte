@@ -14,8 +14,8 @@
    *   (`removeLabel`, defaulting to "Remove <text>") and a decorative ✕ glyph.
    * - The status is conveyed by color *and* text, never by color alone.
    *
-   * Colors are themeable CSS custom properties (`--ds-tag-*`), falling back to the
-   * shared status token layer (`--ds-color-*`).
+   * Colors are themeable CSS custom properties (`--iui-tag-*`), falling back to the
+   * shared status token layer (`--iui-color-*`).
    */
   import type { Snippet } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -94,21 +94,21 @@
     align-items: center;
     /* Tall enough for the remove button's 24px target to sit inside the tag. */
     min-block-size: 1.5rem;
-    gap: var(--ds-tag-gap, 0.3rem);
-    padding: var(--ds-tag-padding, 0.15rem 0.5rem);
+    gap: var(--iui-tag-gap, 0.3rem);
+    padding: var(--iui-tag-padding, 0.15rem 0.5rem);
     font: inherit;
-    font-size: var(--ds-tag-font-size, 0.8125rem);
+    font-size: var(--iui-tag-font-size, 0.8125rem);
     font-weight: 500;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
     white-space: nowrap;
     border: 1px solid var(--_border, transparent);
-    border-radius: var(--ds-tag-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-radius: var(--iui-tag-radius, var(--iui-metrics-radius-control, 0.5rem));
     background: var(--_bg);
     color: var(--_fg);
   }
   .tag[data-size="sm"] {
-    font-size: var(--ds-tag-font-size-sm, 0.75rem);
-    padding: var(--ds-tag-padding-sm, 0.05rem 0.4rem);
+    font-size: var(--iui-tag-font-size-sm, 0.75rem);
+    padding: var(--iui-tag-padding-sm, 0.05rem 0.4rem);
   }
 
   .tag__icon,
@@ -151,74 +151,74 @@
   .tag__remove:focus-visible {
     opacity: 1;
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 1px;
   }
 
   /* Soft, status-tinted surface. data-status/data-variant are dynamic, so the
      value part is :global to avoid Svelte's unused-selector pruning. */
   .tag:global([data-variant="soft"][data-status="neutral"]) {
-    --_bg: var(--ds-components-general-feedback-neutral-background-default, #f5f5f5);
-    --_fg: var(--ds-components-general-feedback-neutral-foreground-default, #414141);
-    --_border: var(--ds-components-general-feedback-neutral-border-default, #bdbdbd);
+    --_bg: var(--iui-components-general-feedback-neutral-background-default, #f5f5f5);
+    --_fg: var(--iui-components-general-feedback-neutral-foreground-default, #414141);
+    --_border: var(--iui-components-general-feedback-neutral-border-default, #bdbdbd);
   }
   .tag:global([data-variant="soft"][data-status="selected"]) {
     --_bg: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 8%,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc) 8%,
       transparent
     );
-    --_fg: var(--ds-components-general-selection-contextual-foreground-default, #553f82);
+    --_fg: var(--iui-components-general-selection-contextual-foreground-default, #553f82);
     --_border: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 22%,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc) 22%,
       transparent
     );
   }
   .tag:global([data-variant="soft"][data-status="info"]) {
-    --_bg: var(--ds-components-general-feedback-info-background-default, #f0f3f9);
-    --_fg: var(--ds-components-general-feedback-info-foreground-default, #33466c);
-    --_border: var(--ds-components-general-feedback-info-border-default, #c6d1e9);
+    --_bg: var(--iui-components-general-feedback-info-background-default, #f0f3f9);
+    --_fg: var(--iui-components-general-feedback-info-foreground-default, #33466c);
+    --_border: var(--iui-components-general-feedback-info-border-default, #c6d1e9);
   }
   .tag:global([data-variant="soft"][data-status="success"]) {
-    --_bg: var(--ds-components-general-feedback-success-background-default, #f0f4ed);
-    --_fg: var(--ds-components-general-feedback-success-foreground-default, #335025);
-    --_border: var(--ds-components-general-feedback-success-border-default, #c5d6bd);
+    --_bg: var(--iui-components-general-feedback-success-background-default, #f0f4ed);
+    --_fg: var(--iui-components-general-feedback-success-foreground-default, #335025);
+    --_border: var(--iui-components-general-feedback-success-border-default, #c5d6bd);
   }
   .tag:global([data-variant="soft"][data-status="warning"]) {
-    --_bg: var(--ds-components-general-feedback-warning-background-default, #fbf3ed);
-    --_fg: var(--ds-components-general-feedback-warning-foreground-default, #6b4125);
-    --_border: var(--ds-components-general-feedback-warning-border-default, #efd1bd);
+    --_bg: var(--iui-components-general-feedback-warning-background-default, #fbf3ed);
+    --_fg: var(--iui-components-general-feedback-warning-foreground-default, #6b4125);
+    --_border: var(--iui-components-general-feedback-warning-border-default, #efd1bd);
   }
   .tag:global([data-variant="soft"][data-status="danger"]) {
-    --_bg: var(--ds-components-general-feedback-danger-background-default, #faeff1);
-    --_fg: var(--ds-components-general-feedback-danger-foreground-default, #7f333f);
-    --_border: var(--ds-components-general-feedback-danger-border-default, #ecc4cb);
+    --_bg: var(--iui-components-general-feedback-danger-background-default, #faeff1);
+    --_fg: var(--iui-components-general-feedback-danger-foreground-default, #7f333f);
+    --_border: var(--iui-components-general-feedback-danger-border-default, #ecc4cb);
   }
 
   /* Solid, filled chip. */
   .tag:global([data-variant="solid"][data-status="neutral"]) {
-    --_bg: var(--ds-components-general-feedback-neutral-solid-background-default, #616161);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-neutral-solid-background-default, #616161);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .tag:global([data-variant="solid"][data-status="info"]) {
-    --_bg: var(--ds-components-general-feedback-info-solid-background-default, #4067b6);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-info-solid-background-default, #4067b6);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .tag:global([data-variant="solid"][data-status="success"]) {
-    --_bg: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-success-solid-background-default, #3e7523);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .tag:global([data-variant="solid"][data-status="warning"]) {
-    --_bg: var(--ds-components-general-feedback-warning-label-background-default, #d17b43);
-    --_fg: var(--ds-components-general-feedback-warning-solid-foreground-default, #272727);
+    --_bg: var(--iui-components-general-feedback-warning-label-background-default, #d17b43);
+    --_fg: var(--iui-components-general-feedback-warning-solid-foreground-default, #272727);
   }
   .tag:global([data-variant="solid"][data-status="danger"]) {
-    --_bg: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .tag:global([data-variant="solid"][data-status="selected"]) {
-    --_bg: var(--ds-components-general-action-secondary-background-default, #7a52cc);
-    --_fg: var(--ds-components-general-action-secondary-foreground-default, #fff);
+    --_bg: var(--iui-components-general-action-secondary-background-default, #7a52cc);
+    --_fg: var(--iui-components-general-action-secondary-foreground-default, #fff);
   }
 </style>

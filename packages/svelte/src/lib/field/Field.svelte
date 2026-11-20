@@ -16,7 +16,7 @@
    * </Field>
    * ```
    *
-   * Colors and spacing are themeable via `--ds-field-*`.
+   * Colors and spacing are themeable via `--iui-field-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createField, type FieldApi } from "./create-field";
@@ -89,22 +89,22 @@
 <style>
   .field {
     display: grid;
-    gap: var(--ds-field-gap, 0.3rem);
-    inline-size: var(--ds-field-width, 18rem);
+    gap: var(--iui-field-gap, 0.3rem);
+    inline-size: var(--iui-field-width, 18rem);
     max-inline-size: 100%;
   }
   .field__label {
     font: inherit;
-    font-weight: var(--ds-field-label-weight, 500);
-    color: var(--ds-field-label-color, var(--ds-components-general-foreground-default, #272727));
+    font-weight: var(--iui-field-label-weight, 500);
+    color: var(--iui-field-label-color, var(--iui-components-general-foreground-default, #272727));
   }
   .field--disabled .field__label {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
   }
   .field__required {
     color: var(
-      --ds-field-required-color,
-      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+      --iui-field-required-color,
+      var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50)
     );
     margin-inline-start: 0.15em;
   }
@@ -112,16 +112,16 @@
     margin: 0;
     font-size: 0.875em;
     color: var(
-      --ds-field-description-color,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-field-description-color,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
   }
   .field__error {
     margin: 0;
     font-size: 0.875em;
     color: var(
-      --ds-field-error-color,
-      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+      --iui-field-error-color,
+      var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50)
     );
   }
 </style>

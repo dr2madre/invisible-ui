@@ -2,25 +2,28 @@
 
 .blockquote {
   margin: 0;
-  padding-inline-start: var(--ds-blockquote-padding, 1rem);
-  border-inline-start: var(--ds-blockquote-border-width, 3px) solid
+  padding-inline-start: var(--iui-blockquote-padding, 1rem);
+  border-inline-start: var(--iui-blockquote-border-width, 3px) solid
     /* The accent bar is decoration with no semantic role, so it reads the
        neutral primitive directly rather than inventing a role for a look. */
-    var(--ds-blockquote-accent, var(--ds-colors-palette-grey-400, #757575));
-  color: var(--ds-blockquote-text, var(--ds-components-general-foreground-secondary, #515151));
+    var(--iui-blockquote-accent, var(--iui-colors-palette-grey-400, #757575));
+  color: var(--iui-blockquote-text, var(--iui-components-general-foreground-secondary, #515151));
 }
 
 .blockquote__quote {
   margin: 0;
-  font-style: var(--ds-blockquote-font-style, italic);
-  line-height: var(--ds-typography-line-height-default, 1.4);
+  font-style: var(--iui-blockquote-font-style, italic);
+  line-height: var(--iui-typography-line-height-default, 1.4);
 }
 
 .blockquote__cite {
   margin-block-start: 0.5rem;
   font-size: 0.875rem;
   font-style: normal;
-  color: var(--ds-blockquote-cite-text, var(--ds-components-general-foreground-secondary, #515151));
+  color: var(
+    --iui-blockquote-cite-text,
+    var(--iui-components-general-foreground-secondary, #515151)
+  );
 }
 /* The conventional dash before an attribution. */
 .blockquote__cite::before {

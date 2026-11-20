@@ -15,7 +15,7 @@
 />
 {#if result}
   <p
-    style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);"
+    style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--iui-components-general-foreground-secondary);"
   >
     {result}
   </p>

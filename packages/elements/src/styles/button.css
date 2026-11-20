@@ -6,13 +6,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ds-components-button-spacing-gap);
-  padding: var(--ds-components-button-spacing-y) var(--ds-components-button-spacing-x);
-  border-radius: var(--ds-components-button-radius);
+  gap: var(--iui-components-button-spacing-gap);
+  padding: var(--iui-components-button-spacing-y) var(--iui-components-button-spacing-x);
+  border-radius: var(--iui-components-button-radius);
   border: 1px solid transparent;
   font: inherit;
-  font-weight: var(--ds-components-button-typography-font-weight);
-  line-height: var(--ds-components-button-typography-line-height);
+  font-weight: var(--iui-components-button-typography-font-weight);
+  line-height: var(--iui-components-button-typography-line-height);
   cursor: pointer;
   /* No tap delay / synthesized ghost clicks on touch (iOS Safari). */
   touch-action: manipulation;
@@ -24,24 +24,24 @@
 
 /* Icon-only: square, equal padding, comfortable target; sizes the glyph. */
 .button--icon-only {
-  padding: var(--ds-components-button-spacing-icon, 0.5rem);
+  padding: var(--iui-components-button-spacing-icon, 0.5rem);
   aspect-ratio: 1;
-  min-inline-size: var(--ds-components-button-icon-min-size, 2.25rem);
-  min-block-size: var(--ds-components-button-icon-min-size, 2.25rem);
+  min-inline-size: var(--iui-components-button-icon-min-size, 2.25rem);
+  min-block-size: var(--iui-components-button-icon-min-size, 2.25rem);
 }
 .button--icon-only svg {
-  inline-size: var(--ds-components-button-icon-size, 1.25em);
-  block-size: var(--ds-components-button-icon-size, 1.25em);
+  inline-size: var(--iui-components-button-icon-size, 1.25em);
+  block-size: var(--iui-components-button-icon-size, 1.25em);
 }
 
 .button:focus-visible {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow);
-  outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
+  box-shadow: var(--iui-focus-ring-shadow);
+  outline-offset: var(--iui-components-general-focus-ring-offset, 2px);
 }
 
 .button:disabled {
-  opacity: var(--ds-components-button-opacity-disabled);
+  opacity: var(--iui-components-button-opacity-disabled);
   cursor: not-allowed;
 }
 
@@ -50,64 +50,64 @@
   flex: none;
 }
 .button__icon svg {
-  inline-size: var(--ds-components-button-icon-size, 1.1em);
-  block-size: var(--ds-components-button-icon-size, 1.1em);
+  inline-size: var(--iui-components-button-icon-size, 1.1em);
+  block-size: var(--iui-components-button-icon-size, 1.1em);
 }
 
 /* default: the baseline, medium-emphasis button — surface + border. */
 .button[data-variant="default"] {
-  background: var(--ds-components-button-background-default);
-  color: var(--ds-components-button-foreground-default);
-  border-color: var(--ds-components-button-border-default);
+  background: var(--iui-components-button-background-default);
+  color: var(--iui-components-button-foreground-default);
+  border-color: var(--iui-components-button-border-default);
 }
 .button[data-variant="default"]:hover:not(:disabled) {
-  background: var(--ds-components-button-background-hover);
+  background: var(--iui-components-button-background-hover);
 }
 
 /* primary: the high-emphasis call to action. */
 .button[data-variant="primary"] {
-  background: var(--ds-components-button-background-primary-default);
-  color: var(--ds-components-button-foreground-primary-default);
-  border-color: var(--ds-components-button-border-primary-default);
+  background: var(--iui-components-button-background-primary-default);
+  color: var(--iui-components-button-foreground-primary-default);
+  border-color: var(--iui-components-button-border-primary-default);
 }
 .button[data-variant="primary"]:hover:not(:disabled) {
-  background: var(--ds-components-button-background-primary-hover);
+  background: var(--iui-components-button-background-primary-hover);
 }
 
 /* secondary: alternative emphasized action — a soft tint of the primary. */
 .button[data-variant="secondary"] {
-  background: var(--ds-components-button-background-secondary-default);
-  color: var(--ds-components-button-foreground-secondary-default);
-  border-color: var(--ds-components-button-border-secondary-default);
+  background: var(--iui-components-button-background-secondary-default);
+  color: var(--iui-components-button-foreground-secondary-default);
+  border-color: var(--iui-components-button-border-secondary-default);
 }
 .button[data-variant="secondary"]:hover:not(:disabled) {
-  background: var(--ds-components-button-background-secondary-hover);
+  background: var(--iui-components-button-background-secondary-hover);
 }
 
 /* ghost: reduced affordance — no fill or border at rest; the label is
    underlined so the affordance never relies on colour alone. */
 .button[data-variant="ghost"] {
-  background: var(--ds-components-button-background-ghost-default);
-  color: var(--ds-components-button-foreground-ghost-default);
-  border-color: var(--ds-components-button-border-ghost-default);
+  background: var(--iui-components-button-background-ghost-default);
+  color: var(--iui-components-button-foreground-ghost-default);
+  border-color: var(--iui-components-button-border-ghost-default);
 }
 .button[data-variant="ghost"]:not(.button--icon-only) {
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
 .button[data-variant="ghost"]:hover:not(:disabled) {
-  background: var(--ds-components-button-background-ghost-hover);
+  background: var(--iui-components-button-background-ghost-hover);
 }
 
 /* danger: destructive. The danger red at 10% with an accessible dark-red label
    and a matching border (the hazard icon keeps meaning off colour alone). */
 .button[data-variant="danger"] {
-  background: var(--ds-components-button-background-danger-default);
-  color: var(--ds-components-button-foreground-danger-default);
-  border-color: var(--ds-components-button-border-danger-default);
+  background: var(--iui-components-button-background-danger-default);
+  color: var(--iui-components-button-foreground-danger-default);
+  border-color: var(--iui-components-button-border-danger-default);
 }
 .button[data-variant="danger"]:hover:not(:disabled) {
-  background: var(--ds-components-button-background-danger-hover);
+  background: var(--iui-components-button-background-danger-hover);
 }
 
 /* Badge: a count or a dot on the button's corner, outside the button, so the
@@ -132,6 +132,6 @@
    room. */
 .button__status:not(:empty) {
   margin-inline-start: 0.5rem;
-  color: var(--ds-components-button-foreground-supporting);
+  color: var(--iui-components-button-foreground-supporting);
   font-size: 0.875em;
 }

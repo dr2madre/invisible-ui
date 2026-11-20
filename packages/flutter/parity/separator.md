@@ -37,4 +37,4 @@ scope**. Every matched line names the widget test in
 | --- | --- | --- |
 | Horizontal: 1px, full width, in the border colour | matched | `horizontal: a 1 pixel line as wide as its parent, in the border colour, with no semantics` |
 | Vertical: 1px, stretched across its row, at least 1em tall | matched | `vertical: at least a line of text tall, growing with the text scale, stretched by a stretching row` |
-| `--ds-separator-gap` margin | out of scope | spacing around the line belongs to the parent layout in Flutter |
+| `--iui-separator-gap` margin | out of scope | spacing around the line belongs to the parent layout in Flutter |

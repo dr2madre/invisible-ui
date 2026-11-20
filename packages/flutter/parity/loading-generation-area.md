@@ -47,5 +47,5 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | The zone text contrast | matched | `the zone text meets the contrast guideline` |
 | Dots of 1 and 2.5 pixels every 1.1rem, the glows' sizes, keyframes and easing | not yet verified | `_DotFieldPainter` takes the web stylesheet's values, the gap growing with the text as rem does; no visual baseline compares them yet (golden tests start later, ADR 0017) |
 | The dots in `currentColor` | adapted | the colour of the surrounding `DefaultTextStyle`, the theme's text colour by default |
-| `--ds-loading-generation-area-*` variables | out of scope | the web defaults; not asked for yet |
+| `--iui-loading-generation-area-*` variables | out of scope | the web defaults; not asked for yet |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |

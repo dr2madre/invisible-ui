@@ -63,7 +63,7 @@
   {/snippet}
 
   {#if items.length === 0}
-    <p style="color: var(--ds-components-general-foreground-secondary);">No notifications.</p>
+    <p style="color: var(--iui-components-general-foreground-secondary);">No notifications.</p>
   {:else}
     <div style="display: grid; gap: 0.25rem;">
       {#each items as item (item.id)}
@@ -80,7 +80,7 @@
           <span style="display: grid; gap: 0.15rem;">
             <span>{item.text}</span>
             <span
-              style="font-size: 0.75rem; color: var(--ds-components-general-foreground-secondary);"
+              style="font-size: 0.75rem; color: var(--iui-components-general-foreground-secondary);"
               >{item.time}</span
             >
           </span>
@@ -92,6 +92,6 @@
 
 <style>
   :global(.sheet-dialog__panel[data-side="end"]) {
-    --ds-sheet-dialog-size: 26rem;
+    --iui-sheet-dialog-size: 26rem;
   }
 </style>

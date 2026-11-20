@@ -6,7 +6,7 @@
    * renders the stars and adds a pointer-hover preview.
    *
    * The group needs an accessible name via `label`; each star is a radio
-   * labelled "N star(s)". Themeable via `--ds-rating-*`.
+   * labelled "N star(s)". Themeable via `--iui-rating-*`.
    */
   import { untrack } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -120,7 +120,7 @@
           aria-describedby={error ? errorId : undefined}
           onchange={() => setValue(item.position)}
         />
-        <Icon size="var(--ds-rating-size, 1.5rem)">
+        <Icon size="var(--iui-rating-size, 1.5rem)">
           <polygon
             points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
           />
@@ -134,9 +134,9 @@
 <style>
   .rating-field {
     display: grid;
-    gap: var(--ds-rating-label-gap, 0.5rem);
+    gap: var(--iui-rating-label-gap, 0.5rem);
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .rating__label {
     font-size: 0.875rem;
@@ -145,7 +145,7 @@
 
   .rating {
     display: inline-flex;
-    gap: var(--ds-rating-gap, 0.125rem);
+    gap: var(--iui-rating-gap, 0.125rem);
   }
   .rating--disabled {
     opacity: 0.5;
@@ -157,7 +157,7 @@
     position: relative;
     display: inline-flex;
     /* Darker outline so empty stars stay visible. */
-    color: var(--ds-rating-empty-color, var(--ds-colors-palette-grey-400, #757575));
+    color: var(--iui-rating-empty-color, var(--iui-colors-palette-grey-400, #757575));
     cursor: pointer;
   }
   .rating--disabled .rating__star {
@@ -169,15 +169,15 @@
   /* Hover preview: a neutral grey fill (not the selection color) showing the
      stars about to be set. */
   .rating__star--preview {
-    color: var(--ds-rating-preview-color, var(--ds-colors-palette-grey-300, #9e9e9e));
+    color: var(--iui-rating-preview-color, var(--iui-colors-palette-grey-300, #9e9e9e));
   }
   .rating__star--preview :global(svg) {
     fill: currentColor;
   }
   .rating__star--filled {
     color: var(
-      --ds-rating-color,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      --iui-rating-color,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc)
     );
   }
   .rating__star--filled :global(svg) {
@@ -200,7 +200,7 @@
   }
   .rating__star:has(.rating__input:focus-visible) {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -209,7 +209,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .rating__star:has(.rating__input:focus-visible) {
-      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
+      outline: var(--iui-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

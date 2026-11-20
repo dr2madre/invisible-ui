@@ -27,7 +27,7 @@ export interface CheckboxGroupProps {
  * an optional `label` (falls back to `value`). Pass `name` to submit every
  * checked item's value under a shared field. The selection binds two ways:
  * `v-model` (a `string[]`) or the `value` prop plus `onValueChange`. Colors
- * and sizing are themeable CSS custom properties (`--ds-checkbox-*`).
+ * and sizing are themeable CSS custom properties (`--iui-checkbox-*`).
  */
 export const CheckboxGroup = defineComponent({
   name: "CheckboxGroup",

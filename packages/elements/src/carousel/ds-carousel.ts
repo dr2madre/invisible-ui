@@ -297,8 +297,8 @@ export class DsCarousel extends HTMLElementBase {
     // to the left and turns the other way.
     const across = rtl ? -offset : offset;
     const translate = vertical
-      ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-      : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+      ? `translateY(calc(var(--iui-carousel-coverflow-spacing, 9rem) * ${offset}))`
+      : `translateX(calc(var(--iui-carousel-coverflow-spacing, 11rem) * ${across}))`;
     const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
     const scale = Math.max(0, 1 - abs * 0.15);
     // Neighbours recede by scale and turn only: a fade would take their text

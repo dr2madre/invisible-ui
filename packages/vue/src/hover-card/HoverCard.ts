@@ -35,7 +35,7 @@ export interface HoverCardProps {
  * Interactive content belongs to Popover's `trigger="click"`.
  * The open state binds two ways: `v-model:open` or the `open` prop plus
  * `onOpenChange`. Slots: `trigger` (the focusable element) and the default
- * slot (the card). Themeable via `--ds-hover-card-*`.
+ * slot (the card). Themeable via `--iui-hover-card-*`.
  */
 export const HoverCard = defineComponent({
   name: "HoverCard",

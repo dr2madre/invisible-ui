@@ -40,7 +40,7 @@ export interface SwitchProps {
  * `checked` prop plus `onCheckedChange`, matching the React adapter.
  *
  * Prefer this over a checkbox for instant on/off settings. Themeable via
- * `--ds-switch-*`.
+ * `--iui-switch-*`.
  */
 export const Switch = defineComponent({
   name: "Switch",

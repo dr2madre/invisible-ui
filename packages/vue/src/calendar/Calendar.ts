@@ -80,7 +80,7 @@ const weekdayName = (fmt: Intl.DateTimeFormat, weekday: number) =>
  * (`prices`), or custom content through the `day` slot
  * (`{ date, inMonth, selected, events, price }`). The selected date binds two
  * ways: `v-model` or the `value` prop plus `onValueChange`. Colors, radius and
- * sizing are themeable via `--ds-calendar-*`.
+ * sizing are themeable via `--iui-calendar-*`.
  */
 export const Calendar = defineComponent({
   name: "Calendar",

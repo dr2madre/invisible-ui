@@ -56,7 +56,7 @@
     <Button onpress={showRich}>Rich content</Button>
   </div>
   <p
-    style="margin: 0; font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+    style="margin: 0; font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
   >
     Files: {files.length ? files.join(", ") : "none"}. Delete one, then Undo before the toast fades
     — or let it finalize.

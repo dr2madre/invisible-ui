@@ -173,7 +173,7 @@
   {#if showSettings}
     <div style="display: grid; gap: 0.75rem;">
       <p
-        style="margin: 0; color: var(--ds-components-general-foreground-secondary); font-size: 0.875rem;"
+        style="margin: 0; color: var(--iui-components-general-foreground-secondary); font-size: 0.875rem;"
       >
         Choose which notifications you receive.
       </p>
@@ -186,8 +186,8 @@
       {/each}
     </div>
   {:else}
-    <!-- --ds-field-width: 100% makes the search field fill the panel width. -->
-    <div style="display: grid; gap: 1rem; --ds-field-width: 100%;">
+    <!-- --iui-field-width: 100% makes the search field fill the panel width. -->
+    <div style="display: grid; gap: 1rem; --iui-field-width: 100%;">
       <SearchField
         label="Search notifications"
         hideLabel
@@ -214,7 +214,7 @@
       </div>
 
       {#if bySection.length === 0}
-        <p style="color: var(--ds-components-general-foreground-secondary);">Nothing to show.</p>
+        <p style="color: var(--iui-components-general-foreground-secondary);">Nothing to show.</p>
       {:else}
         {#each bySection as section (section.key)}
           <section style="display: grid; gap: 1rem;">
@@ -226,7 +226,7 @@
                   <span style="display: grid; gap: 0.15rem;">
                     <span>{item.text}</span>
                     <span
-                      style="font-size: 0.75rem; color: var(--ds-components-general-foreground-secondary);"
+                      style="font-size: 0.75rem; color: var(--iui-components-general-foreground-secondary);"
                     >
                       {item.time}
                     </span>
@@ -253,7 +253,7 @@
 <style>
   /* A roomier panel than the default — a history list wants width. */
   :global(.sheet-dialog__panel[data-side="end"]) {
-    --ds-sheet-dialog-size: 26rem;
+    --iui-sheet-dialog-size: 26rem;
   }
   .nc-section {
     margin: 0.25rem 0 0;
@@ -261,7 +261,7 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-components-general-foreground-secondary);
+    color: var(--iui-components-general-foreground-secondary);
   }
   /* Rows carry no surface, border or status color — only outer spacing sets
      them apart. Read and unread rows look identical; the only difference is
@@ -274,7 +274,7 @@
      Zero the InlineNotification padding via its override token (and directly, so
      it holds regardless of token cascade). */
   .nc-row :global(.inline-notification) {
-    --ds-alert-padding: 0;
+    --iui-alert-padding: 0;
     padding: 0;
   }
   /* Unread dot (red), top-right; press marks the item read. */
@@ -287,11 +287,11 @@
     padding: 0;
     border: 0;
     border-radius: 999px;
-    background: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    background: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
     cursor: pointer;
   }
   .nc-dot:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
 </style>

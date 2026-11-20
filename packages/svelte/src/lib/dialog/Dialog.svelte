@@ -23,7 +23,7 @@
    * actions) and `footer` (trailing action buttons). Pass an accessible `title`
    * (required; hide it with `hideTitle`), optional `description` (the subtitle)
    * and `footerClose` for a close button in the footer. Colors, radius
-   * and elevation are themeable via `--ds-dialog-*`.
+   * and elevation are themeable via `--iui-dialog-*`.
    *
    * Multi-step workflows are a composition, not a separate component: put the
    * step context in `headerMeta`, Back in `footerLead`, and keep the step state
@@ -75,7 +75,7 @@
     footerClose?: boolean;
     /**
      * Body layout. `plain` (the default) leaves the body untouched. `stack`
-     * spaces the direct children by `--ds-dialog-body-gap`, which saves a
+     * spaces the direct children by `--iui-dialog-body-gap`, which saves a
      * workflow from inventing its own spacing between sections.
      */
     bodyLayout?: "plain" | "stack";
@@ -218,7 +218,7 @@
 
 <style>
   .dialog__panel::backdrop {
-    background: var(--ds-components-dialog-overlay-default, rgb(27 27 27 / 0.5));
+    background: var(--iui-components-dialog-overlay-default, rgb(27 27 27 / 0.5));
   }
   .dialog__panel {
     /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */
@@ -229,22 +229,22 @@
        (so an absent footer leaves no trailing gap). The internal gap spaces the
        rows; the padding is the outer inset. */
     grid-template-rows: auto 1fr;
-    gap: var(--ds-dialog-gap, 1rem);
+    gap: var(--iui-dialog-gap, 1rem);
     inline-size: 100%;
-    max-inline-size: var(--ds-dialog-max-width, 30rem);
+    max-inline-size: var(--iui-dialog-max-width, 30rem);
     max-block-size: calc(100vh - 2rem);
     overflow: hidden;
-    padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
+    padding: var(--iui-dialog-padding, 1.25rem 1.5rem);
     background: var(
-      --ds-components-dialog-background-default,
-      var(--ds-components-general-background-default, #fff)
+      --iui-components-dialog-background-default,
+      var(--iui-components-general-background-default, #fff)
     );
-    color: var(--ds-components-general-foreground-default, #272727);
-    line-height: var(--ds-typography-line-height-default, 1.4);
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-dialog-radius, var(--ds-metrics-radius-container, 0.75rem));
+    color: var(--iui-components-general-foreground-default, #272727);
+    line-height: var(--iui-typography-line-height-default, 1.4);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-dialog-radius, var(--iui-metrics-radius-container, 0.75rem));
     box-shadow: var(
-      --ds-elevation-overlay,
+      --iui-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
@@ -255,7 +255,7 @@
   }
   .dialog__panel:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
 
@@ -277,7 +277,7 @@
   .dialog__body[data-layout="stack"] {
     display: grid;
     align-content: start;
-    gap: var(--ds-dialog-body-gap, 1rem);
+    gap: var(--iui-dialog-body-gap, 1rem);
   }
   /* One action bar: the leading group at the logical start, the trailing group
      at the logical end. It wraps on narrow widths, and wrapping keeps the

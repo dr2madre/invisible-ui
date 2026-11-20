@@ -51,8 +51,8 @@ export interface DatePickerProps {
  * the ISO `YYYY-MM-DD` string, a controllable mirror (ADR 0011). With `name`,
  * a hidden input submits it, and a form reset puts back the current default
  * without reporting (ADR 0012). `min`, `max`, `events` and `prices` are
- * forwarded to the calendar. Themeable via `--ds-date-picker-*` and the
- * calendar's `--ds-calendar-*`.
+ * forwarded to the calendar. Themeable via `--iui-date-picker-*` and the
+ * calendar's `--iui-calendar-*`.
  */
 export function DatePicker({
   value = null,

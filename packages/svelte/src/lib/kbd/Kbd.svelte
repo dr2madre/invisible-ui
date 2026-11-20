@@ -8,7 +8,7 @@
    * `<kbd>` so assistive tech announces it as keyboard input.
    *
    * Presentational only — a light, raised "keycap" on a white surface. Themeable
-   * via `--ds-kbd-*`.
+   * via `--iui-kbd-*`.
    */
   import type { Snippet } from "svelte";
 
@@ -37,9 +37,9 @@
 <style>
   .kbd {
     font-family: var(
-      --ds-kbd-font,
+      --iui-kbd-font,
       var(
-        --ds-font-mono,
+        --iui-font-mono,
         SFMono-Regular,
         Menlo,
         Monaco,
@@ -53,26 +53,26 @@
   .kbd--chord {
     display: inline-flex;
     align-items: center;
-    gap: var(--ds-kbd-gap, 0.25rem);
+    gap: var(--iui-kbd-gap, 0.25rem);
   }
   .kbd__key {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-inline-size: var(--ds-kbd-min-size, 1.5rem);
-    padding: var(--ds-kbd-padding, 0.1rem 0.4rem);
-    font-size: var(--ds-kbd-font-size, 0.8125em);
+    min-inline-size: var(--iui-kbd-min-size, 1.5rem);
+    padding: var(--iui-kbd-padding, 0.1rem 0.4rem);
+    font-size: var(--iui-kbd-font-size, 0.8125em);
     line-height: 1;
-    color: var(--ds-kbd-text, var(--ds-components-general-foreground-default, #272727));
-    background: var(--ds-kbd-bg, var(--ds-components-general-background-default, #fff));
-    border: 1px solid var(--ds-kbd-border, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-kbd-radius, var(--ds-metrics-radius-control, 0.5rem));
+    color: var(--iui-kbd-text, var(--iui-components-general-foreground-default, #272727));
+    background: var(--iui-kbd-bg, var(--iui-components-general-background-default, #fff));
+    border: 1px solid var(--iui-kbd-border, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-kbd-radius, var(--iui-metrics-radius-control, 0.5rem));
     box-shadow: var(
-      --ds-kbd-shadow,
-      0 1px 0 1px var(--ds-components-general-border-default, #bdbdbd)
+      --iui-kbd-shadow,
+      0 1px 0 1px var(--iui-components-general-border-default, #bdbdbd)
     );
   }
   .kbd__sep {
-    color: var(--ds-kbd-sep-text, var(--ds-components-general-foreground-secondary, #515151));
+    color: var(--iui-kbd-sep-text, var(--iui-components-general-foreground-secondary, #515151));
   }
 </style>

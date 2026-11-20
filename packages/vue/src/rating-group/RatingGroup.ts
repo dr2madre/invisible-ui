@@ -39,7 +39,7 @@ const STAR_POINTS =
  *
  * The group needs an accessible name via `label`; each star is a radio labelled
  * "N star(s)". The rating binds two ways: `v-model` or the `value` prop plus
- * `onValueChange`. Themeable via `--ds-rating-*`.
+ * `onValueChange`. Themeable via `--iui-rating-*`.
  */
 export const RatingGroup = defineComponent({
   name: "RatingGroup",
@@ -130,7 +130,7 @@ export const RatingGroup = defineComponent({
                   "aria-label": starLabel(item.position),
                   "aria-describedby": errorId,
                 }),
-                h(Icon, { size: "var(--ds-rating-size, 1.5rem)" }, () => [
+                h(Icon, { size: "var(--iui-rating-size, 1.5rem)" }, () => [
                   h("polygon", { points: STAR_POINTS }),
                 ]),
               ],

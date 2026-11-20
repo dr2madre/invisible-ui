@@ -10,7 +10,7 @@ export default {
   platforms: {
     css: {
       transformGroup: "css",
-      prefix: "ds",
+      prefix: "iui",
       buildPath: "dist/tokens/",
       files: [{ destination: "tokens.generated.css", format: "invisible-ui/css" }],
     },

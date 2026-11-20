@@ -62,7 +62,7 @@
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"wrap\"",
           "required": false,
-          "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--ds-select-width` (16rem by default).",
+          "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--iui-select-width` (16rem by default).",
           "descriptionFrom": "curated"
         },
         {
@@ -167,7 +167,7 @@
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"wrap\"",
           "required": false,
-          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`.",
+          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--iui-select-width`.",
           "descriptionFrom": "source"
         },
         {
@@ -272,7 +272,7 @@
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"wrap\"",
           "required": false,
-          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`.",
+          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--iui-select-width`.",
           "descriptionFrom": "source"
         },
         {

@@ -19,7 +19,7 @@ The visual layer is documented separately:
   feedback, Grey neutrals). See the docs site,
   `presentation/color-palette`.
 - **[Tokens](./tokens.md)** — the canonical token model and the two-tier
-  `tokens.css` layer (primitives → semantic `--ds-color-*` roles) the components
+  `tokens.css` layer (primitives → semantic `--iui-color-*` roles) the components
   consume. Docs site: `presentation/tokens`.
 
 ## Naming: role or state, not appearance
@@ -42,22 +42,22 @@ download, no layout shift):
 
 ```css
 :root {
-  --ds-font-sans:
+  --iui-font-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
-  --ds-font-mono:
+  --iui-font-mono:
     SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
 }
 
 body {
-  font-family: var(--ds-font-sans);
+  font-family: var(--iui-font-sans);
 }
 ```
 
-Both stacks ship in the token layer (`tokens.css`) as `--ds-font-sans` (UI text)
-and `--ds-font-mono` (code/numeric), so you can reference them directly.
+Both stacks ship in the token layer (`tokens.css`) as `--iui-font-sans` (UI text)
+and `--iui-font-mono` (code/numeric), so you can reference them directly.
 
 **Responsive scaling (guideline).** Use a slightly smaller base size on small
 screens and scale up at a medium breakpoint, so text is comfortable on mobile
@@ -65,12 +65,12 @@ and desktop:
 
 ```css
 :root {
-  --ds-font-size-base: 0.9375rem; /* 15px on small screens */
+  --iui-font-size-base: 0.9375rem; /* 15px on small screens */
 }
 
 @media (min-width: 768px) {
   :root {
-    --ds-font-size-base: 1rem; /* 16px from the medium breakpoint up */
+    --iui-font-size-base: 1rem; /* 16px from the medium breakpoint up */
   }
 }
 ```

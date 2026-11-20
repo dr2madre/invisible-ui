@@ -7,7 +7,7 @@
    * scrolling is preserved (the focusable viewport scrolls with the arrow keys).
    *
    * Put the scrolling content in `children`. Themeable via
-   * `--ds-scroll-area-*`.
+   * `--iui-scroll-area-*`.
    */
   import type { Snippet } from "svelte";
   import { createScrollArea, type ScrollOrientation } from "./create-scroll-area";
@@ -83,7 +83,7 @@
   .scroll-area {
     position: relative;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .scroll-area__viewport {
     max-inline-size: 100%;
@@ -95,36 +95,36 @@
   }
   .scroll-area__viewport:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: -2px;
   }
 
   .scroll-area__bar {
     position: absolute;
     z-index: 1;
-    background: var(--ds-scroll-area-track, transparent);
+    background: var(--iui-scroll-area-track, transparent);
     border-radius: 999px;
   }
   .scroll-area__bar--v {
     inset-block: 2px;
     inset-inline-end: 2px;
-    inline-size: var(--ds-scroll-area-size, 0.5rem);
+    inline-size: var(--iui-scroll-area-size, 0.5rem);
   }
   .scroll-area__bar--h {
     inset-inline: 2px;
     inset-block-end: 2px;
-    block-size: var(--ds-scroll-area-size, 0.5rem);
+    block-size: var(--iui-scroll-area-size, 0.5rem);
   }
   .scroll-area__thumb {
     position: absolute;
     border-radius: 999px;
-    background: var(--ds-scroll-area-thumb, var(--ds-components-general-border-default, #bdbdbd));
+    background: var(--iui-scroll-area-thumb, var(--iui-components-general-border-default, #bdbdbd));
     cursor: default;
   }
   .scroll-area__thumb:hover {
     background: var(
-      --ds-scroll-area-thumb-hover,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-scroll-area-thumb-hover,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
   }
   .scroll-area__bar--v .scroll-area__thumb {

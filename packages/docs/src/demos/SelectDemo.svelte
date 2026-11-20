@@ -15,7 +15,7 @@
   <!-- width="fill": 100% of the container. -->
   <Select label="Team" width="fill" placeholder="Assign to…" items={fruits} />
 
-  <!-- width="fixed": --ds-select-width (16rem by default). -->
+  <!-- width="fixed": --iui-select-width (16rem by default). -->
   <Select label="Country" width="fixed" placeholder="Choose a country…" items={fruits} />
 
   <!-- Required + invalid: native validation, aria-invalid and the announced message. -->

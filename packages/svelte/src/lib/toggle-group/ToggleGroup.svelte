@@ -27,7 +27,7 @@
    * nature from a form label: it names the container, it does not label the
    * items (each toggle carries its own name). If the toggles are unrelated, omit
    * it entirely. Radius, spacing and colors are themeable via
-   * `--ds-toggle-group-*`.
+   * `--iui-toggle-group-*`.
    */
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
@@ -95,7 +95,7 @@
 
   /* separate: each toggle keeps its own style, spaced by a gap. */
   .toggle-group--separate {
-    gap: var(--ds-toggle-group-gap, 0.375rem);
+    gap: var(--iui-toggle-group-gap, 0.375rem);
   }
   /* Wrap a horizontal chip row onto multiple lines instead of overflowing. */
   .toggle-group--wrap {
@@ -108,11 +108,12 @@
      drawing a single outer border with thin dividers. */
   .toggle-group--segmented {
     gap: 0;
-    border: 1px solid var(--ds-toggle-border, var(--ds-components-general-border-control, #757575));
-    border-radius: var(--ds-toggle-group-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border: 1px solid
+      var(--iui-toggle-border, var(--iui-components-general-border-control, #757575));
+    border-radius: var(--iui-toggle-group-radius, var(--iui-metrics-radius-control, 0.5rem));
     overflow: hidden;
-    --ds-toggle-border-width: 0;
-    --ds-toggle-radius: 0;
+    --iui-toggle-border-width: 0;
+    --iui-toggle-radius: 0;
   }
   /* Divider between adjacent toggles (along the layout axis). It sits on one
      side only and keeps the border color in every state, which the child's
@@ -121,11 +122,11 @@
   .toggle-group--segmented[data-orientation="horizontal"]
     > :global(:not(:first-child) .toggle__surface) {
     border-inline-start: 1px solid
-      var(--ds-toggle-border, var(--ds-components-general-border-control, #757575));
+      var(--iui-toggle-border, var(--iui-components-general-border-control, #757575));
   }
   .toggle-group--segmented[data-orientation="vertical"]
     > :global(:not(:first-child) .toggle__surface) {
     border-block-start: 1px solid
-      var(--ds-toggle-border, var(--ds-components-general-border-control, #757575));
+      var(--iui-toggle-border, var(--iui-components-general-border-control, #757575));
   }
 </style>

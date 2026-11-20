@@ -104,7 +104,7 @@ export interface TableSetProps {
  *
  * Without `views`, it renders a single view from `columns`/`rows`. Cells render
  * `row[column.key]` by default or through the scoped `cell` slot
- * (`{ row, column, value, rowIndex }`). Themed via `--ds-table-*`.
+ * (`{ row, column, value, rowIndex }`). Themed via `--iui-table-*`.
  */
 export const TableSet = defineComponent({
   name: "TableSet",

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Generate the token registry the docs catalog reads: one entry per shipped
-// `--ds-*` custom property, derived from the sources rather than retyped.
+// `--iui-*` custom property, derived from the sources rather than retyped.
 //
 //   node scripts/generate-token-registry.mjs          # write the registry
 //   node scripts/generate-token-registry.mjs --check  # fail if it is stale
@@ -14,7 +14,7 @@
 //      cannot say it
 //
 // The page never copies a colour into a specimen: the registry keeps the
-// canonical expression (`var(--ds-colors-palette-grey-200)`, `color-mix(...)`) and the page
+// canonical expression (`var(--iui-colors-palette-grey-200)`, `color-mix(...)`) and the page
 // paints with the live custom property. The resolved value is worked out here,
 // from the same stylesheet, and shown as text beside the specimen.
 
@@ -51,7 +51,7 @@ function layerOf(selector, atRules) {
 }
 
 /**
- * Read every `--ds-*` declaration with the block it sits in, the line, and the
+ * Read every `--iui-*` declaration with the block it sits in, the line, and the
  * trailing comment that documents it. One stack, so nested at-rules and
  * selectors pop in the order they were opened.
  */
@@ -107,7 +107,7 @@ function parseSheet(css) {
       const declaration = buffer.trim();
       const startLine = bufferStart;
       buffer = "";
-      const match = /^(--ds-[\w-]+)\s*:\s*([\s\S]+)$/.exec(declaration);
+      const match = /^(--iui-[\w-]+)\s*:\s*([\s\S]+)$/.exec(declaration);
       lastEnd = line;
       const selectorsNow = open.filter((block) => !block.isAtRule).map((block) => block.head);
       const atRulesNow = open.filter((block) => block.isAtRule).map((block) => block.head);
@@ -143,7 +143,7 @@ function parseSheet(css) {
 const squeeze = (text) => text.replace(/\s+/g, " ").trim();
 
 /**
- * Every CSS declaration (any property) that references a `--ds-*` custom
+ * Every CSS declaration (any property) that references a `--iui-*` custom
  * property, with the selector, the property and each reference's own fallback.
  * This is how the component-token surface is discovered: those names exist
  * only inside `var()` references, never as definitions.
@@ -158,11 +158,11 @@ function parseUsages(css, file) {
     const property = declaration.slice(0, colon).trim();
     const value = declaration.slice(colon + 1).trim();
     // Custom-property declarations count too: a component retuning one knob
-    // from another (`--ds-components-button-icon-min-size: var(--ds-close-hit-area, …)`) is a
+    // from another (`--iui-components-button-icon-min-size: var(--iui-close-hit-area, …)`) is a
     // real reading site of the referenced knob.
-    if (!property || !/var\(\s*--ds-/.test(value)) return;
+    if (!property || !/var\(\s*--iui-/.test(value)) return;
     // Walk each var() with balanced parens to pair a name with its fallback.
-    const re = /var\(\s*(--ds-[\w-]+)\s*(,)?/g;
+    const re = /var\(\s*(--iui-[\w-]+)\s*(,)?/g;
     let match;
     while ((match = re.exec(value))) {
       let depth = 1;
@@ -219,7 +219,7 @@ function parseUsages(css, file) {
 function commentsByLine(css) {
   const out = new Map();
   css.split("\n").forEach((text, index) => {
-    const match = /--ds-[\w-]+\s*:[^;}]*[;}]?\s*\/\*\s*([^*]+?)\s*\*\//.exec(text);
+    const match = /--iui-[\w-]+\s*:[^;}]*[;}]?\s*\/\*\s*([^*]+?)\s*\*\//.exec(text);
     if (!match) return;
     const note = match[1].replace(/\s+/g, " ").trim();
     // A note that is only a value (`#E5A1AC`) records the colour, not the job
@@ -235,72 +235,74 @@ const isJustAValue = (text) =>
   /^(#[0-9a-fA-F]{3,8}|[\d.]+(px|rem|em|%)?|oklch\([^)]*\))$/.test(text.trim());
 
 const TIERS = [
-  { tier: "primitive", test: (n) => n.startsWith("--ds-colors-palette-") },
-  { tier: "brand", test: (n) => n.startsWith("--ds-colors-brand-") },
-  { tier: "feedback", test: (n) => n.startsWith("--ds-colors-feedback-") },
-  { tier: "semantic", test: (n) => n.startsWith("--ds-components-general-") },
-  { tier: "component", test: (n) => n.startsWith("--ds-components-") },
-  { tier: "radius", test: (n) => n.startsWith("--ds-metrics-radius-") },
-  { tier: "sizing", test: (n) => n.startsWith("--ds-metrics-") },
-  { tier: "typography", test: (n) => n.startsWith("--ds-typography-") },
-  { tier: "primitive", test: (n) => /^--ds-(neutral|purple|red|orange|green|blue)-\d+$/.test(n) },
+  { tier: "primitive", test: (n) => n.startsWith("--iui-colors-palette-") },
+  { tier: "brand", test: (n) => n.startsWith("--iui-colors-brand-") },
+  { tier: "feedback", test: (n) => n.startsWith("--iui-colors-feedback-") },
+  { tier: "semantic", test: (n) => n.startsWith("--iui-components-general-") },
+  { tier: "component", test: (n) => n.startsWith("--iui-components-") },
+  { tier: "radius", test: (n) => n.startsWith("--iui-metrics-radius-") },
+  { tier: "sizing", test: (n) => n.startsWith("--iui-metrics-") },
+  { tier: "typography", test: (n) => n.startsWith("--iui-typography-") },
+  { tier: "primitive", test: (n) => /^--iui-(neutral|purple|red|orange|green|blue)-\d+$/.test(n) },
   {
     tier: "primitive",
-    test: (n) => n.startsWith("--ds-pastel-") || n === "--ds-colors-palette-black",
+    test: (n) => n.startsWith("--iui-pastel-") || n === "--iui-colors-palette-black",
   },
-  { tier: "brand", test: (n) => n.startsWith("--ds-brand-") },
-  { tier: "feedback", test: (n) => n.startsWith("--ds-feedback-") },
-  { tier: "semantic", test: (n) => n.startsWith("--ds-color-") },
-  { tier: "component", test: (n) => /^--ds-[\w-]+-background$/.test(n) },
-  { tier: "state", test: (n) => n.startsWith("--ds-state-") },
-  { tier: "focus", test: (n) => n.startsWith("--ds-focus-") },
-  { tier: "radius", test: (n) => n.startsWith("--ds-radius-") },
-  { tier: "elevation", test: (n) => n.startsWith("--ds-elevation-") },
-  { tier: "typography", test: (n) => /^--ds-(font|line-height|heading)/.test(n) },
+  { tier: "brand", test: (n) => n.startsWith("--iui-brand-") },
+  { tier: "feedback", test: (n) => n.startsWith("--iui-feedback-") },
+  { tier: "semantic", test: (n) => n.startsWith("--iui-color-") },
+  { tier: "component", test: (n) => /^--iui-[\w-]+-background$/.test(n) },
+  { tier: "state", test: (n) => n.startsWith("--iui-state-") },
+  { tier: "focus", test: (n) => n.startsWith("--iui-focus-") },
+  { tier: "radius", test: (n) => n.startsWith("--iui-radius-") },
+  { tier: "elevation", test: (n) => n.startsWith("--iui-elevation-") },
+  { tier: "typography", test: (n) => /^--iui-(font|line-height|heading)/.test(n) },
   {
     tier: "sizing",
     test: (n) =>
-      n.startsWith("--ds-control-") || n.startsWith("--ds-metrics-density-regular-min-target-size"),
+      n.startsWith("--iui-control-") ||
+      n.startsWith("--iui-metrics-density-regular-min-target-size"),
   },
 ];
 const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other";
 
 /**
  * The CSS name a DTCG path ships as. `palette.grey.700` becomes
- * `--ds-colors-palette-grey-700`, `style.primary.hover` becomes `--ds-colors-brand-primary-hover`,
- * `style.danger.default` becomes `--ds-colors-feedback-danger-default`. The role, focus,
+ * `--iui-colors-palette-grey-700`, `style.primary.hover` becomes `--iui-colors-brand-primary-hover`,
+ * `style.danger.default` becomes `--iui-colors-feedback-danger-default`. The role, focus,
  * typography and regular density tiers name the property itself:
- * `role.dark.color-text` is `--ds-components-general-foreground-default`, `focus.ring-width` is
- * `--ds-components-general-focus-ring-width`, `role.dark.dialog-overlay` is `--ds-components-dialog-overlay-default`.
+ * `role.dark.color-text` is `--iui-components-general-foreground-default`, `focus.ring-width` is
+ * `--iui-components-general-focus-ring-width`, `role.dark.dialog-overlay` is `--iui-components-dialog-overlay-default`.
  * The component tier does the same: `component.dark.card-background` is
- * `--ds-components-card-background-default`. `palette.black` is `--ds-colors-palette-black`. The touch target
- * is `--ds-metrics-density-touch-min-target-size`.
+ * `--iui-components-card-background-default`. `palette.black` is `--iui-colors-palette-black`. The touch target
+ * is `--iui-metrics-density-touch-min-target-size`.
  */
 function cssNameForDtcg(path) {
   if (/^(colors|metrics|typography|components)\./.test(path))
-    return `--ds-${path.replaceAll(".", "-")}`;
+    return `--iui-${path.replaceAll(".", "-")}`;
   const parts = path.split(".");
   if ((parts[0] === "role" || parts[0] === "component") && parts.length === 3) {
-    return `--ds-${parts[2]}`;
+    return `--iui-${parts[2]}`;
   }
-  if (path === "palette.black") return "--ds-colors-palette-black";
-  if (parts[0] === "focus" && parts.length === 2) return `--ds-focus-${parts[1]}`;
-  if (parts[0] === "typography" && parts.length === 2) return `--ds-${parts[1]}`;
+  if (path === "palette.black") return "--iui-colors-palette-black";
+  if (parts[0] === "focus" && parts.length === 2) return `--iui-focus-${parts[1]}`;
+  if (parts[0] === "typography" && parts.length === 2) return `--iui-${parts[1]}`;
   if (parts[0] === "density" && parts[1] === "regular" && parts.length === 3) {
-    return `--ds-${parts[2]}`;
+    return `--iui-${parts[2]}`;
   }
-  if (path === "density.touch.min-target-size") return "--ds-metrics-density-touch-min-target-size";
+  if (path === "density.touch.min-target-size")
+    return "--iui-metrics-density-touch-min-target-size";
   if (parts[0] === "palette") {
     const hue = parts[1] === "grey" ? "neutral" : parts[1];
-    return `--ds-${hue}-${parts[2]}`;
+    return `--iui-${hue}-${parts[2]}`;
   }
-  if (parts[0] === "radius") return `--ds-radius-${parts[1]}`;
+  if (parts[0] === "radius") return `--iui-radius-${parts[1]}`;
   if (parts[0] === "style") {
     const family = ["primary", "secondary", "white", "black"].includes(parts[1])
       ? "brand"
       : "feedback";
     const suffix = parts[2] === "default" ? "" : `-${parts[2]}`;
-    return `--ds-${family}-${parts[1]}${suffix}`;
+    return `--iui-${family}-${parts[1]}${suffix}`;
   }
   return null;
 }
@@ -325,21 +327,21 @@ const ownershipOf = (inDtcg) => (inDtcg ? "design" : "frontend");
 
 /**
  * What kind of value a token holds. A reference counts as a colour only if it
- * really resolves to one, so a future `--ds-motion-duration: var(--ds-x)` is
+ * really resolves to one, so a future `--iui-motion-duration: var(--iui-x)` is
  * never painted as a swatch.
  */
 function valueTypeOf(name, value, resolvesToColor) {
-  if (name.startsWith("--ds-typography-")) return "typography";
-  if (/^--ds-(font-sans|font-mono)$/.test(name)) return "fontFamily";
+  if (name.startsWith("--iui-typography-")) return "typography";
+  if (/^--iui-(font-sans|font-mono)$/.test(name)) return "fontFamily";
   if (
-    /^--ds-font-size|^--ds-typography-line-height-default|^--ds-typography-font-weight-heading/.test(
+    /^--iui-font-size|^--iui-typography-line-height-default|^--iui-typography-font-weight-heading/.test(
       name,
     )
   )
     return "typography";
-  if (name.startsWith("--ds-radius-") || name.startsWith("--ds-control-")) return "dimension";
+  if (name.startsWith("--iui-radius-") || name.startsWith("--iui-control-")) return "dimension";
   if (/^[\d.]+(px|rem|em|%)$/.test(value)) return "dimension";
-  if (name.startsWith("--ds-elevation-") || name.endsWith("-shadow")) return "shadow";
+  if (name.startsWith("--iui-elevation-") || name.endsWith("-shadow")) return "shadow";
   if (resolvesToColor) return "color";
   return "other";
 }
@@ -347,7 +349,7 @@ function valueTypeOf(name, value, resolvesToColor) {
 /** The specimen shape the catalog draws this kind of value in. */
 function specimenKindOf(name, valueType) {
   if (valueType === "color") return "color";
-  if (name.startsWith("--ds-radius-")) return "radius";
+  if (name.startsWith("--iui-radius-")) return "radius";
   if (valueType === "shadow") return "shadow";
   if (valueType === "dimension") return "size";
   if (valueType === "fontFamily" || valueType === "typography") return "text";
@@ -360,7 +362,7 @@ function aliasChain(name, byName, layer, seen = new Set()) {
   seen.add(name);
   const expression = byName.get(name)?.[layer] ?? byName.get(name)?.light;
   if (!expression) return [];
-  const match = /^var\(\s*(--ds-[\w-]+)\s*(?:,[\s\S]*)?\)$/.exec(expression);
+  const match = /^var\(\s*(--iui-[\w-]+)\s*(?:,[\s\S]*)?\)$/.exec(expression);
   if (!match) return [];
   return [match[1], ...aliasChain(match[1], byName, layer, seen)];
 }
@@ -549,24 +551,25 @@ const placeOf = (selector) =>
 const shapeOfValue = (value, resolve) => {
   let v = (value ?? "").trim();
   // A default is usually written as another token: read what that one is.
-  const alias = /^var\(\s*(--ds-[\w-]+)\s*(?:,\s*([\s\S]+))?\)$/.exec(v);
+  const alias = /^var\(\s*(--iui-[\w-]+)\s*(?:,\s*([\s\S]+))?\)$/.exec(v);
   if (
     alias &&
-    !/^--ds-(color|neutral|pastel|brand|feedback|state|radius|elevation)/.test(alias[1])
+    !/^--iui-(color|neutral|pastel|brand|feedback|state|radius|elevation)/.test(alias[1])
   ) {
     const target = resolve?.(alias[1]) ?? alias[2];
-    if (target) v = target.trim();
+    // Prettier may wrap a long alias as `var(\n  --iui-…\n)`.
+    if (target) v = target.trim().replace(/\(\s+/g, "(");
   }
   if (
-    /^(#|rgb|hsl|oklch|color-mix|var\(--ds-color|var\(--ds-neutral|var\(--ds-pastel|var\(--ds-brand|var\(--ds-feedback|var\(--ds-state|transparent)/.test(
+    /^(#|rgb|hsl|oklch|color-mix|var\(--iui-color|var\(--iui-neutral|var\(--iui-pastel|var\(--iui-brand|var\(--iui-feedback|var\(--iui-state|transparent)/.test(
       v,
     )
   )
     return "color";
   if (/^[\d.]+(px|rem|em|%|ch|vw|vh)\b/.test(v)) return "size";
   if (/^[\d.]+m?s\b/.test(v)) return "motion";
-  if (/^var\(--ds-radius/.test(v)) return "radius";
-  if (/^var\(--ds-elevation|^0 \d+px/.test(v)) return "shadow";
+  if (/^var\(--iui-radius/.test(v)) return "radius";
+  if (/^var\(--iui-elevation|^0 \d+px/.test(v)) return "shadow";
   return "other";
 };
 
@@ -580,198 +583,198 @@ const SHORTHAND =
 // boundary or a glyph (1.4.11).
 const PAIRINGS = [
   {
-    front: "--ds-components-general-foreground-default",
-    back: "--ds-components-general-background-default",
+    front: "--iui-components-general-foreground-default",
+    back: "--iui-components-general-background-default",
     min: 4.5,
     what: "body text on the page",
   },
   {
-    front: "--ds-components-general-foreground-default",
-    back: "--ds-components-avatar-background-default",
+    front: "--iui-components-general-foreground-default",
+    back: "--iui-components-avatar-background-default",
     min: 4.5,
     what: "body text on a surface",
   },
   {
-    front: "--ds-components-general-foreground-secondary",
-    back: "--ds-components-general-background-default",
+    front: "--iui-components-general-foreground-secondary",
+    back: "--iui-components-general-background-default",
     min: 4.5,
     what: "supporting text on the page",
   },
   {
-    front: "--ds-components-general-foreground-secondary",
-    back: "--ds-components-avatar-background-default",
+    front: "--iui-components-general-foreground-secondary",
+    back: "--iui-components-avatar-background-default",
     min: 4.5,
     what: "supporting text on a surface",
   },
   {
-    front: "--ds-components-general-action-primary-foreground-default",
-    back: "--ds-components-general-action-primary-background-default",
+    front: "--iui-components-general-action-primary-foreground-default",
+    back: "--iui-components-general-action-primary-background-default",
     min: 4.5,
     what: "primary button label",
   },
   {
-    front: "--ds-components-general-action-primary-foreground-default",
-    back: "--ds-components-general-action-primary-background-hover",
+    front: "--iui-components-general-action-primary-foreground-default",
+    back: "--iui-components-general-action-primary-background-hover",
     min: 4.5,
     what: "primary button label, hovered",
   },
   {
-    front: "--ds-components-general-action-secondary-foreground-default",
-    back: "--ds-components-general-action-secondary-background-default",
+    front: "--iui-components-general-action-secondary-foreground-default",
+    back: "--iui-components-general-action-secondary-background-default",
     min: 4.5,
     what: "secondary button label",
   },
   {
-    front: "--ds-components-general-feedback-solid-foreground-default",
-    back: "--ds-components-general-feedback-danger-solid-background-default",
+    front: "--iui-components-general-feedback-solid-foreground-default",
+    back: "--iui-components-general-feedback-danger-solid-background-default",
     min: 4.5,
     what: "danger button label",
   },
   {
-    front: "--ds-components-general-feedback-solid-foreground-default",
-    back: "--ds-components-general-feedback-info-solid-background-default",
+    front: "--iui-components-general-feedback-solid-foreground-default",
+    back: "--iui-components-general-feedback-info-solid-background-default",
     min: 4.5,
     what: "label on the information fill",
   },
   {
-    front: "--ds-components-general-feedback-solid-foreground-default",
-    back: "--ds-components-general-feedback-success-solid-background-default",
+    front: "--iui-components-general-feedback-solid-foreground-default",
+    back: "--iui-components-general-feedback-success-solid-background-default",
     min: 4.5,
     what: "label on the success fill",
   },
   {
-    front: "--ds-components-general-feedback-warning-solid-foreground-default",
-    back: "--ds-components-general-feedback-warning-label-background-default",
+    front: "--iui-components-general-feedback-warning-solid-foreground-default",
+    back: "--iui-components-general-feedback-warning-label-background-default",
     min: 4.5,
     what: "label on the warning label fill",
   },
   {
-    front: "--ds-components-general-feedback-solid-foreground-default",
-    back: "--ds-components-general-feedback-warning-solid-background-default",
+    front: "--iui-components-general-feedback-solid-foreground-default",
+    back: "--iui-components-general-feedback-warning-solid-background-default",
     min: 3,
     what: "the icon on the warning fill",
   },
   {
-    front: "--ds-components-general-selection-foreground-default",
-    back: "--ds-components-general-selection-background-default",
+    front: "--iui-components-general-selection-foreground-default",
+    back: "--iui-components-general-selection-background-default",
     min: 4.5,
     what: "label on a selected item",
   },
   {
-    front: "--ds-components-general-emphasis-foreground-default",
-    back: "--ds-components-general-emphasis-background-default",
+    front: "--iui-components-general-emphasis-foreground-default",
+    back: "--iui-components-general-emphasis-background-default",
     min: 4.5,
     what: "text on the emphasis surface",
   },
   {
-    front: "--ds-components-general-action-secondary-contextual-foreground-default",
-    back: "--ds-components-general-action-secondary-contextual-background-default",
+    front: "--iui-components-general-action-secondary-contextual-foreground-default",
+    back: "--iui-components-general-action-secondary-contextual-background-default",
     min: 4.5,
     what: "label on the secondary action fill",
   },
   {
-    front: "--ds-components-general-action-danger-foreground-default",
-    back: "--ds-components-general-action-danger-background-default",
+    front: "--iui-components-general-action-danger-foreground-default",
+    back: "--iui-components-general-action-danger-background-default",
     min: 4.5,
     what: "label on the destructive action fill",
   },
   {
-    front: "--ds-components-general-feedback-info-foreground-default",
-    back: "--ds-components-general-feedback-info-background-default",
+    front: "--iui-components-general-feedback-info-foreground-default",
+    back: "--iui-components-general-feedback-info-background-default",
     min: 4.5,
     what: "information text on its tinted surface",
   },
   {
-    front: "--ds-components-general-feedback-success-foreground-default",
-    back: "--ds-components-general-feedback-success-background-default",
+    front: "--iui-components-general-feedback-success-foreground-default",
+    back: "--iui-components-general-feedback-success-background-default",
     min: 4.5,
     what: "success text on its tinted surface",
   },
   {
-    front: "--ds-components-general-feedback-warning-foreground-default",
-    back: "--ds-components-general-feedback-warning-background-default",
+    front: "--iui-components-general-feedback-warning-foreground-default",
+    back: "--iui-components-general-feedback-warning-background-default",
     min: 4.5,
     what: "warning text on its tinted surface",
   },
   {
-    front: "--ds-components-general-feedback-danger-foreground-default",
-    back: "--ds-components-general-feedback-danger-background-default",
+    front: "--iui-components-general-feedback-danger-foreground-default",
+    back: "--iui-components-general-feedback-danger-background-default",
     min: 4.5,
     what: "danger text on its tinted surface",
   },
   {
-    front: "--ds-components-general-feedback-neutral-foreground-default",
-    back: "--ds-components-general-feedback-neutral-background-default",
+    front: "--iui-components-general-feedback-neutral-foreground-default",
+    back: "--iui-components-general-feedback-neutral-background-default",
     min: 4.5,
     what: "text on the quiet neutral fill",
   },
   {
-    front: "--ds-components-general-action-secondary-body-foreground-default",
-    back: "--ds-components-general-background-default",
+    front: "--iui-components-general-action-secondary-body-foreground-default",
+    back: "--iui-components-general-background-default",
     min: 4.5,
     what: "brand-coloured text on the page",
   },
   {
-    front: "--ds-components-general-feedback-danger-body-foreground-default",
-    back: "--ds-components-general-background-default",
+    front: "--iui-components-general-feedback-danger-body-foreground-default",
+    back: "--iui-components-general-background-default",
     min: 4.5,
     what: "danger-coloured text on the page",
   },
   {
-    front: "--ds-components-general-feedback-success-body-foreground-default",
-    back: "--ds-components-general-background-default",
+    front: "--iui-components-general-feedback-success-body-foreground-default",
+    back: "--iui-components-general-background-default",
     min: 4.5,
     what: "success-coloured text on the page",
   },
   {
-    front: "--ds-components-general-border-control",
-    back: "--ds-components-general-background-default",
+    front: "--iui-components-general-border-control",
+    back: "--iui-components-general-background-default",
     min: 3,
     what: "a control's boundary against the page",
   },
   {
-    front: "--ds-components-general-border-control",
-    back: "--ds-components-avatar-background-default",
+    front: "--iui-components-general-border-control",
+    back: "--iui-components-avatar-background-default",
     min: 3,
     what: "a control's boundary against a surface",
   },
   {
-    front: "--ds-components-general-focus-ring-color",
-    back: "--ds-components-general-background-default",
+    front: "--iui-components-general-focus-ring-color",
+    back: "--iui-components-general-background-default",
     min: 3,
     what: "the focus ring against the page",
   },
   {
-    front: "--ds-components-general-focus-ring-color",
-    back: "--ds-components-avatar-background-default",
+    front: "--iui-components-general-focus-ring-color",
+    back: "--iui-components-avatar-background-default",
     min: 3,
     what: "the focus ring against a surface",
   },
   // The text and the control boundary on each component background.
   ...[
-    ["--ds-components-page-background-default", "the page background"],
-    ["--ds-components-card-background-default", "a card"],
-    ["--ds-components-card-secondary-background-default", "a secondary card"],
-    ["--ds-components-dialog-background-default", "a dialog"],
-    ["--ds-components-popover-background-default", "a popover"],
-    ["--ds-components-menu-background-default", "a menu"],
-    ["--ds-components-sidebar-background-default", "a sidebar"],
-    ["--ds-components-code-block-background-default", "a code block"],
+    ["--iui-components-page-background-default", "the page background"],
+    ["--iui-components-card-background-default", "a card"],
+    ["--iui-components-card-secondary-background-default", "a secondary card"],
+    ["--iui-components-dialog-background-default", "a dialog"],
+    ["--iui-components-popover-background-default", "a popover"],
+    ["--iui-components-menu-background-default", "a menu"],
+    ["--iui-components-sidebar-background-default", "a sidebar"],
+    ["--iui-components-code-block-background-default", "a code block"],
   ].flatMap(([back, where]) => [
     {
-      front: "--ds-components-general-foreground-default",
+      front: "--iui-components-general-foreground-default",
       back,
       min: 4.5,
       what: `body text on ${where}`,
     },
     {
-      front: "--ds-components-general-foreground-secondary",
+      front: "--iui-components-general-foreground-secondary",
       back,
       min: 4.5,
       what: `supporting text on ${where}`,
     },
     {
-      front: "--ds-components-general-border-control",
+      front: "--iui-components-general-border-control",
       back,
       min: 3,
       what: `a control's boundary against ${where}`,
@@ -834,7 +837,7 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
     }
     for (const [layer, expression] of Object.entries(token.expressions)) {
       if (!expression) continue;
-      for (const [, referenced] of expression.matchAll(/var\(\s*(--ds-[\w-]+)/g)) {
+      for (const [, referenced] of expression.matchAll(/var\(\s*(--iui-[\w-]+)/g)) {
         if (referenced === token.name) {
           problems.push(`${token.name} refers to itself in the ${layer} layer`);
         } else if (!known.has(referenced)) {
@@ -948,13 +951,13 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
         return;
       }
       if (isExample) return;
-      const named = /(--ds-[\w-]+)/.exec(line);
+      const named = /(--iui-[\w-]+)/.exec(line);
       if (!named || !known.has(named[1])) return;
       const entry = byName.get(named[1]);
       const actual = [entry.light, entry.darkAttr, entry.darkMedia, entry.other]
         .filter(Boolean)
         .map(normalize);
-      const declared = /--ds-[\w-]+:\s*([^;]+);/.exec(line);
+      const declared = /--iui-[\w-]+:\s*([^;]+);/.exec(line);
       // A declaration quotes the whole value; a table cell or a sentence quotes
       // a bare literal, which still has to be one of the token's values.
       const quoted = declared
@@ -978,7 +981,7 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
     const path = resolve(root, file);
     if (!existsSync(path)) continue;
     const source = readFileSync(path, "utf8").replace(/^\s*\/\/.*$/gm, "");
-    const fallback = /var\(\s*--ds-[\w-]+\s*,/.exec(source);
+    const fallback = /var\(\s*--iui-[\w-]+\s*,/.exec(source);
     if (fallback) problems.push(`${file} gives a token a hard-coded fallback: ${fallback[0]}`);
     const literal = /(#[0-9a-fA-F]{3,8}\b|\boklch\(|\brgba?\()/.exec(source);
     if (literal) problems.push(`${file} contains the copied value ${literal[0]}`);
@@ -1201,7 +1204,7 @@ function build() {
     ? JSON.parse(readFileSync(COMPONENT_NOTES, "utf8"))
     : {};
 
-  // The component-token surface: every var(--ds-*) reference whose name the
+  // The component-token surface: every var(--iui-*) reference whose name the
   // theme layer does not define. Svelte styles live inside .svelte files; the
   // other adapters ship plain stylesheets.
   const usages = [];
@@ -1220,7 +1223,7 @@ function build() {
   // overridable reading sites; they carry no selector, so they are recorded
   // as inline sites.
   const collectInline = (adapter, file, text) => {
-    const re = /var\(\s*(--ds-[\w-]+)\s*(,)?/g;
+    const re = /var\(\s*(--iui-[\w-]+)\s*(,)?/g;
     let match;
     while ((match = re.exec(text))) {
       let depth = 1;
@@ -1280,7 +1283,7 @@ function build() {
     const entry = byName.get(name);
     const tier = tierOf(name);
     // A DTCG name maps to CSS by its own convention: palette.grey.N ships as
-    // --ds-neutral-N, style.x.y as --ds-brand-*/--ds-feedback-*.
+    // --iui-neutral-N, style.x.y as --iui-brand-*/--iui-feedback-*.
     const dtcgPath = [...dtcgNames].find((path) => cssNameForDtcg(path) === name) ?? null;
     const note = notes[name] ?? {};
     const light = resolveIn("light", name);
@@ -1294,7 +1297,7 @@ function build() {
           : valueTypeOf(name, entry.light ?? entry.other ?? "", Boolean(light));
     return {
       name,
-      id: name.replace(/^--ds-/, ""),
+      id: name.replace(/^--iui-/, ""),
       tier,
       ownership: ownershipOf(Boolean(dtcgPath)),
       valueType,
@@ -1320,7 +1323,7 @@ function build() {
     };
   });
 
-  // Aggregate the raw usages into one entry per undefined --ds-* name.
+  // Aggregate the raw usages into one entry per undefined --iui-* name.
   const componentTokens = [];
   {
     const definedNames = new Set(byName.keys());
@@ -1337,7 +1340,7 @@ function build() {
       if (definedNames.has(usage.name)) continue;
       const entry = byToken.get(usage.name) ?? {
         name: usage.name,
-        id: usage.name.replace(/^--ds-/, ""),
+        id: usage.name.replace(/^--iui-/, ""),
         properties: new Set(),
         adapters: new Set(),
         fallbacks: new Map(),
@@ -1365,7 +1368,7 @@ function build() {
       // The parent semantic role, when every fallback resolves through one.
       const parents = new Set();
       for (const value of fallbackValues) {
-        for (const [, ref] of (value ?? "").matchAll(/var\(\s*(--ds-[\w-]+)/g)) {
+        for (const [, ref] of (value ?? "").matchAll(/var\(\s*(--iui-[\w-]+)/g)) {
           if (definedNames.has(ref)) parents.add(ref);
         }
       }

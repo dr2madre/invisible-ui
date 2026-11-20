@@ -17,7 +17,7 @@
       Show outcome
     </AlertDialog>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Acknowledge an outcome — the epilogue of the <strong>Confirm dialog</strong> /
       <strong>Prompt dialog</strong> delete flow.
@@ -36,7 +36,7 @@
       Show notice
     </AlertDialog>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Explicit acknowledgement — <code>closeOnOutsideClick={"{false}"}</code> requires pressing the button.
     </figcaption>

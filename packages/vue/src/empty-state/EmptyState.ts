@@ -52,7 +52,7 @@ export interface EmptyStateProps {
  * the `illustration` slot and falls back to the theme's `FeedbackIcon` (neutral
  * by default). The action area renders a single `Button` from
  * `actionLabel`/`onAction`, a configurable group from the `actions` prop, or any
- * custom content via the `actions` slot. Themeable via `--ds-empty-state-*`.
+ * custom content via the `actions` slot. Themeable via `--iui-empty-state-*`.
  *
  * Accessibility: the region is a `role="status"` (polite live region), so when
  * content resolves to empty the change is announced without interrupting.

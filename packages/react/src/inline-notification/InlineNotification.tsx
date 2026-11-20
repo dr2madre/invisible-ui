@@ -93,7 +93,7 @@ export interface InlineNotificationProps {
  * close button with a name.
  *
  * Colours come from the theme tokens, so the surface follows light and dark.
- * Themeable via `--ds-inline-notification-*`.
+ * Themeable via `--iui-inline-notification-*`.
  */
 export function InlineNotification({
   status = "info",

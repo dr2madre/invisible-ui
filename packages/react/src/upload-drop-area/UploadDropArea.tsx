@@ -54,7 +54,7 @@ const PICKER_SPINNER_DELAY = 150;
  * a message under the area, announced as an alert, and reported to
  * `onRejected`. The component never reads or previews file content.
  *
- * Themeable via `--ds-upload-drop-area-*`. The default prompt comes from the
+ * Themeable via `--iui-upload-drop-area-*`. The default prompt comes from the
  * catalog (`uploadDropArea.prompt` and the styled `uploadDropArea.action`
  * word); `children` replace it entirely.
  */

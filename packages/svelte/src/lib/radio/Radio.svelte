@@ -7,7 +7,7 @@
    * roving tabindex use `RadioGroup`.
    *
    * The label is `children` (falling back to the `label` prop). Colors are
-   * themeable via `--ds-radio-*`.
+   * themeable via `--iui-radio-*`.
    */
   import type { Snippet } from "svelte";
   import { stableId } from "../internal/stable-id";
@@ -80,7 +80,7 @@
     align-items: center;
     gap: 0.5rem;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
     cursor: pointer;
   }
   .radio--disabled {
@@ -101,9 +101,9 @@
     white-space: nowrap;
   }
   .radio__dot {
-    inline-size: var(--ds-radio-size, 1.1rem);
-    block-size: var(--ds-radio-size, 1.1rem);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
+    inline-size: var(--iui-radio-size, 1.1rem);
+    block-size: var(--iui-radio-size, 1.1rem);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
     border-radius: 50%;
     display: inline-grid;
     place-content: center;
@@ -114,18 +114,18 @@
      the page in both themes (the base selection purple measures 2.87:1 on
      the dark page). */
   .radio__input:checked + .radio__dot {
-    border-color: var(--ds-components-general-border-control, #757575);
+    border-color: var(--iui-components-general-border-control, #757575);
   }
   .radio__input:checked + .radio__dot::after {
     content: "";
     inline-size: 0.6rem;
     block-size: 0.6rem;
     border-radius: 50%;
-    background: var(--ds-components-general-selection-contextual-foreground-default, #553f82);
+    background: var(--iui-components-general-selection-contextual-foreground-default, #553f82);
   }
   .radio__input:focus-visible + .radio__dot {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
   /* Forced colors: the focus sits on the hidden input, so the outline the
@@ -133,7 +133,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .radio__input:focus-visible + .radio__dot {
-      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
+      outline: var(--iui-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

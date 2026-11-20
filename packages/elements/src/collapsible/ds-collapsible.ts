@@ -72,7 +72,7 @@ export class DsCollapsible extends HTMLElementBase {
     const icon = document.createElement("span");
     icon.className = "collapsible__icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.innerHTML = disclosureIcon("6 9 12 15 18 9", "var(--ds-collapsible-icon-size, 1.1em)");
+    icon.innerHTML = disclosureIcon("6 9 12 15 18 9", "var(--iui-collapsible-icon-size, 1.1em)");
     label.append(...slotted);
     trigger.append(label, icon);
     root.append(trigger, content);

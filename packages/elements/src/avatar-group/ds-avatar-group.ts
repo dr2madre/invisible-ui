@@ -85,7 +85,7 @@ export class DsAvatarGroup extends HTMLElementBase {
       const wrapper = document.createElement("span");
       wrapper.className = "avatar-group__item";
       // A custom property, so the value stays a color and never reaches markup.
-      if (item.color) wrapper.style.setProperty("--ds-avatar-bg", item.color);
+      if (item.color) wrapper.style.setProperty("--iui-avatar-bg", item.color);
       const avatar = document.createElement("ds-avatar");
       avatar.setAttribute("name", item.name);
       if (item.src) avatar.setAttribute("src", item.src);

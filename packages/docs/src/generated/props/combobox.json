@@ -54,7 +54,7 @@
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"fixed\"",
           "required": false,
-          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem), `wrap` fits the longest option, `fill` takes 100% of the container.",
+          "description": "Width behaviour: `fixed` (default) uses `--iui-combobox-width` (16rem), `wrap` fits the longest option, `fill` takes 100% of the container.",
           "descriptionFrom": "source"
         },
         {
@@ -183,7 +183,7 @@
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"fixed\"",
           "required": false,
-          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container.",
+          "description": "Width behaviour: `fixed` (default) uses `--iui-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container.",
           "descriptionFrom": "source"
         },
         {
@@ -306,7 +306,7 @@
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"fixed\"",
           "required": false,
-          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container.",
+          "description": "Width behaviour: `fixed` (default) uses `--iui-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container.",
           "descriptionFrom": "source"
         },
         {

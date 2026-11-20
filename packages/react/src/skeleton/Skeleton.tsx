@@ -23,7 +23,7 @@ export interface SkeletonProps {
  * announce the loading on the surrounding region (`aria-busy="true"`). With
  * a `label` it is a polite `role="status"` instead.
  *
- * The shimmer is themeable via `--ds-skeleton-*` and stops under
+ * The shimmer is themeable via `--iui-skeleton-*` and stops under
  * `prefers-reduced-motion`.
  */
 export function Skeleton({

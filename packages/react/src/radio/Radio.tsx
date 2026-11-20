@@ -27,7 +27,7 @@ export interface RadioProps {
  * The element is the whole state: the radios of one name live in separate
  * components, and only the browser sees all of them, so the input is left
  * uncontrolled and a changed `checked` is written to it. Colors are themeable
- * via `--ds-radio-*`.
+ * via `--iui-radio-*`.
  */
 export function Radio({
   value,

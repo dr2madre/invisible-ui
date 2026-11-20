@@ -29,7 +29,7 @@ const UNSAFE_COLOR = /[;{}]/;
 // The colour is data, so it is one value only: anything that could close the
 // declaration and start another is dropped, as in the other adapters.
 const colorStyle = (color: string | undefined): CSSProperties | undefined =>
-  color && !UNSAFE_COLOR.test(color) ? ({ "--ds-avatar-bg": color } as CSSProperties) : undefined;
+  color && !UNSAFE_COLOR.test(color) ? ({ "--iui-avatar-bg": color } as CSSProperties) : undefined;
 
 /**
  * AvatarGroup: a row of overlapping avatars (a team, attendees,
@@ -39,7 +39,7 @@ const colorStyle = (color: string | undefined): CSSProperties | undefined =>
  * Accessibility: the row is a labelled group, each avatar keeps its own name,
  * and the chip is named from the catalog ("N more").
  *
- * Overlap, ring, size and shape are themeable (`--ds-avatar-group-*`),
+ * Overlap, ring, size and shape are themeable (`--iui-avatar-group-*`),
  * inheriting the `Avatar` tokens.
  */
 export function AvatarGroup({

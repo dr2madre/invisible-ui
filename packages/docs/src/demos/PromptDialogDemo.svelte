@@ -23,14 +23,14 @@
       </PromptDialog>
       {#if renamed}
         <span
-          style="font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);"
+          style="font-size: 0.875rem; color: var(--iui-components-general-foreground-secondary);"
         >
           Renamed to “{renamed}”.
         </span>
       {/if}
     </div>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Ask for a value (<code>required</code>; Enter confirms).
     </figcaption>
@@ -58,14 +58,14 @@
       </PromptDialog>
       {#if deleted}
         <span
-          style="font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);"
+          style="font-size: 0.875rem; color: var(--iui-components-general-foreground-secondary);"
         >
           “{file}” deleted.
         </span>
       {/if}
     </div>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Type-to-confirm gate (<code>confirmValue</code>) with <code>urgent</code> — same choice as
       <strong>Confirm dialog</strong>, gated by the input.

@@ -95,7 +95,7 @@ const DOTS = (
  * on every change. Set `decorative` when the surrounding region announces the
  * state itself. Under reduced motion the indicators stay visible and still.
  *
- * Sizing follows the font (`1em`); themeable via `--ds-loading-*`.
+ * Sizing follows the font (`1em`); themeable via `--iui-loading-*`.
  */
 export function Loading({
   variant = "dots",

@@ -78,9 +78,9 @@ scope**. Every matched line names the widget test in
 | Tags inside the bordered control | adapted | the tags wrap above the text box, in the same field, so a tag is never squeezed beside the cursor; the reading and focus order is tags, then field, as on the web |
 | Right to left, text scale 2.0, 320 wide, long labels | matched | `right to left at text scale 2.0 in 320 with long labels: no overflow; labelled 44 by 44 targets under touch` |
 | Remove buttons meet the target size (24, 44 under touch); labelled; contrast | matched | same test |
-| `--ds-multi-select-*` variables | out of scope | the Flutter theme carries the shared roles |
+| `--iui-multi-select-*` variables | out of scope | the Flutter theme carries the shared roles |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
 
 ## Background token
 
-The background reads the component token `--ds-components-menu-background-default` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-menu-background-default` on the web and `InvisibleColors.menuBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

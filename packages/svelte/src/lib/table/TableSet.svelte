@@ -29,7 +29,7 @@
    *
    * Without `views`, it renders a single view from `columns`/`rows`. Cells render
    * `row[column.key]` by default or via the `cell` snippet
-   * (`{ row, column, value, rowIndex }`). Themed via `--ds-table-*`.
+   * (`{ row, column, value, rowIndex }`). Themed via `--iui-table-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import TableView from "./TableView.svelte";
@@ -357,19 +357,19 @@
   }
   .table-set__title {
     margin: 0;
-    font-size: var(--ds-table-title-size, 1.5rem);
+    font-size: var(--iui-table-title-size, 1.5rem);
     font-weight: 600;
   }
 
   .table-set__tabs {
     display: inline-flex;
     gap: 0.25rem;
-    border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-block-end: 1px solid var(--iui-components-general-border-default, #bdbdbd);
   }
   .table-set__tab {
     font: inherit;
     padding: 0.5rem 0.9rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     background: none;
     border: 0;
     border-block-end: 2px solid transparent;
@@ -377,22 +377,22 @@
     cursor: pointer;
   }
   .table-set__tab:hover {
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .table-set__tab:global([data-state="active"]) {
     color: var(
-      --ds-tabs-active,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-tabs-active,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     border-block-end-color: var(
-      --ds-tabs-active,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-tabs-active,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     font-weight: 600;
   }
   .table-set__tab:global(:focus-visible) {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: -2px;
   }
 </style>

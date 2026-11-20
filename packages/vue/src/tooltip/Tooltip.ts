@@ -24,7 +24,7 @@ export interface TooltipProps {
  * The default slot is the trigger (wrap a focusable element); `text` is the
  * tooltip label. For precise control (e.g. putting `aria-describedby` on your
  * own element), use the headless `useTooltip` instead. Themeable via
- * `--ds-tooltip-*`.
+ * `--iui-tooltip-*`.
  */
 export const Tooltip = defineComponent({
   name: "Tooltip",

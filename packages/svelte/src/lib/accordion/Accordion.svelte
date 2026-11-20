@@ -16,7 +16,7 @@
    * Each item supplies a header `label` (falling back to `value`) and its panel
    * `content` as text. For rich panel markup, drive the headless
    * `createAccordion` directly. Colors are themeable CSS custom properties
-   * (`--ds-accordion-*`).
+   * (`--iui-accordion-*`).
    */
   import { untrack } from "svelte";
   import { createAccordion, type AccordionType } from "./create-accordion";
@@ -74,7 +74,7 @@
         <button class="accordion__trigger" use:triggerAction={item.value}>
           <span>{item.label ?? item.value}</span>
           <span class="accordion__icon" aria-hidden="true">
-            <Icon size="var(--ds-accordion-icon-size, 1.1em)">
+            <Icon size="var(--iui-accordion-icon-size, 1.1em)">
               <polyline points="9 6 15 12 9 18" />
             </Icon>
           </span>
@@ -87,13 +87,13 @@
 
 <style>
   .accordion {
-    inline-size: var(--ds-accordion-width, 16rem);
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-accordion-radius, var(--ds-metrics-radius-control, 0.5rem));
+    inline-size: var(--iui-accordion-width, 16rem);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-accordion-radius, var(--iui-metrics-radius-control, 0.5rem));
     overflow: hidden;
   }
   .accordion__item + .accordion__item {
-    border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-block-start: 1px solid var(--iui-components-general-border-default, #bdbdbd);
   }
   .accordion__heading {
     margin: 0;
@@ -104,18 +104,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--ds-accordion-trigger-padding, 0.6rem 0.8rem);
+    padding: var(--iui-accordion-trigger-padding, 0.6rem 0.8rem);
     border: none;
     background: none;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
     cursor: pointer;
     text-align: start;
   }
   .accordion__icon {
     display: inline-flex;
     flex: none;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .accordion__trigger:global([data-state="open"]) .accordion__icon {
@@ -131,7 +131,7 @@
   }
   .accordion__trigger:global(:focus-visible) {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: -2px;
   }
   .accordion__trigger:global([data-disabled]) {

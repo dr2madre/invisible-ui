@@ -42,7 +42,7 @@ export interface ToggleGroupProps {
  * `separate` (default) keeps each toggle's style, spaced by a gap; `segmented`
  * joins them into one control with a single outer border and thin dividers.
  * The group is a `role="group"`, named by the optional `label`. Themeable via
- * `--ds-toggle-group-*`.
+ * `--iui-toggle-group-*`.
  */
 export function ToggleGroup({
   variant = "separate",

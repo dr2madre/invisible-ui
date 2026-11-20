@@ -15,7 +15,7 @@ pnpm add @nozcadesign/invisible-ui-svelte@alpha
 ## Usage
 
 Styled components are available through explicit Svelte subpaths. Their styles
-are component-scoped and use the shared `--ds-*` theme tokens.
+are component-scoped and use the shared `--iui-*` theme tokens.
 
 ```svelte
 <script lang="ts">

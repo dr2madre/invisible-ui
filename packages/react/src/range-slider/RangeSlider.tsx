@@ -133,7 +133,7 @@ function useNearestThumb(track: RefObject<HTMLDivElement | null>, lower: Thumb, 
  *
  * Provide `label` for the group's accessible name and `thumbLabels` for each
  * thumb's own name. Colors, sizing and the thumbs are themeable via
- * `--ds-range-slider-*`.
+ * `--iui-range-slider-*`.
  */
 export function RangeSlider({
   value,

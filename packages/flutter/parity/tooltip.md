@@ -70,5 +70,5 @@ that holds it.
 | --- | --- | --- |
 | Background `emphasis-surface`, text `on-emphasis`, radius `radius.control`, overlay elevation | matched | `meets the text contrast guideline` (light and dark) |
 | Padding 0.3rem 0.5rem, font size 0.8125rem | matched | the reference sets them in its stylesheet; same numbers |
-| Elevation `--ds-elevation-overlay` | adapted | the role lives in `tokens.css` only; the Flutter values copy its numbers until it moves into `tokens.json` |
+| Elevation `--iui-elevation-overlay` | adapted | the role lives in `tokens.css` only; the Flutter values copy its numbers until it moves into `tokens.json` |
 | Reduced motion | matched | the reference has no motion; neither does the Flutter tooltip |

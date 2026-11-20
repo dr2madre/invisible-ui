@@ -6,7 +6,7 @@
    *
    * It is a real `<form>`: the fields are native inputs (via TextField) and
    * `onSubmit` receives `{ email, password }`. Presentation is a centered card;
-   * themeable via `--ds-login-*` and the underlying component tokens.
+   * themeable via `--iui-login-*` and the underlying component tokens.
    */
   import type { Snippet } from "svelte";
   import TextField from "../text-field/TextField.svelte";
@@ -122,21 +122,21 @@
   .login {
     display: flex;
     flex-direction: column;
-    gap: var(--ds-login-gap, 1rem);
+    gap: var(--iui-login-gap, 1rem);
     /* The width is the content box: the padding and the 1px border come out of
        100%, so the card never overflows a narrow container. */
     inline-size: min(
-      100% - 2 * var(--ds-login-padding, 1.75rem) - 2px,
-      var(--ds-login-width, 22rem)
+      100% - 2 * var(--iui-login-padding, 1.75rem) - 2px,
+      var(--iui-login-width, 22rem)
     );
-    padding: var(--ds-login-padding, 1.75rem);
-    background: var(--ds-login-bg, var(--ds-components-general-background-default, #fff));
-    border: 1px solid var(--ds-login-border, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-login-radius, var(--ds-metrics-radius-container, 0.75rem));
+    padding: var(--iui-login-padding, 1.75rem);
+    background: var(--iui-login-bg, var(--iui-components-general-background-default, #fff));
+    border: 1px solid var(--iui-login-border, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-login-radius, var(--iui-metrics-radius-container, 0.75rem));
     box-shadow: var(
-      --ds-login-shadow,
+      --iui-login-shadow,
       var(
-        --ds-elevation-overlay,
+        --iui-elevation-overlay,
         0 10px 15px -3px rgb(0 0 0 / 0.1),
         0 4px 6px -4px rgb(0 0 0 / 0.1)
       )
@@ -152,12 +152,12 @@
   .login__heading {
     margin: 0;
     font-size: 1.25rem;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .login__subheading {
     margin: 0.25rem 0 0;
     font-size: 0.875rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .login__providers {
     display: flex;
@@ -168,7 +168,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     font-size: 0.8125rem;
   }
   .login__divider::before,
@@ -176,7 +176,7 @@
     content: "";
     flex: 1;
     block-size: 1px;
-    background: var(--ds-components-general-border-default, #bdbdbd);
+    background: var(--iui-components-general-border-default, #bdbdbd);
   }
   .login__field {
     display: flex;
@@ -186,7 +186,7 @@
   .login__forgot {
     align-self: flex-end;
     font-size: 0.8125rem;
-    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    color: var(--iui-components-general-action-secondary-body-foreground-default, #7a52cc);
     /* Underlined so it doesn't rely on color alone, and a visible focus ring. */
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -195,8 +195,8 @@
   .login__forgot:focus-visible {
     outline: none;
     box-shadow: var(
-      --ds-focus-ring-shadow,
-      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+      --iui-focus-ring-shadow,
+      0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
     );
     outline-offset: 2px;
   }

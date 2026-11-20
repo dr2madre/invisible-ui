@@ -16,7 +16,7 @@ export interface KbdProps {
  * (`keys={["⌘", "K"]}`): each key gets its own nested `<kbd>` and a visible
  * separator, hidden from assistive tech, joins them.
  *
- * Presentational only. Themeable via `--ds-kbd-*`.
+ * Presentational only. Themeable via `--iui-kbd-*`.
  */
 export function Kbd({ keys, separator = "+", children }: KbdProps) {
   if (!keys?.length) return <kbd className="kbd kbd__key">{children}</kbd>;

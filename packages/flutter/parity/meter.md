@@ -45,7 +45,7 @@ vectors in `core/src/meter/__vectors__` (`test/navigation_vectors_test.dart`).
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
 | Poor in the danger colour, suboptimal in the warning colour | matched | `the fill is coloured by …` |
-| Optimal in pastel green | adapted | `--ds-pastel-green` is not in `tokens.json`, and on the border-coloured track it falls short of 3:1; the success role stands in: same test |
+| Optimal in pastel green | adapted | `--iui-pastel-green` is not in `tokens.json`, and on the border-coloured track it falls short of 3:1; the success role stands in: same test |
 | The fill starts at the inline-start, mirrored right to left | matched | `the fill starts at the inline-start right to left and moves at once under reduced motion` |
 | Width `16rem` | adapted | the width the parent gives, 256 when it is open: `a narrow parent narrows the track at text scale 2.0` |
 | Targets | out of scope | not interactive |

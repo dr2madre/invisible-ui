@@ -45,7 +45,7 @@ scope**. Every matched line names the widget test in
 | Heading level | matched | same test |
 | The small size: smaller icon, title and padding | matched | `the small size is quieter` |
 | Centred, at most 24rem wide, wrapping | matched | `at most 24rem wide`; `centred and wrapped at text scale 2.0 in a narrow space, right to left` |
-| `--ds-empty-state-*` custom properties | out of scope | not asked for yet |
+| `--iui-empty-state-*` custom properties | out of scope | not asked for yet |
 
 ## Semantics
 

@@ -46,7 +46,7 @@ const homeGlyph = (): VNode =>
  *
  * Items are data-driven via `items`; mark the first with `home: true` for a
  * leading home glyph. Separators are decorative. Themeable via
- * `--ds-breadcrumb-*`.
+ * `--iui-breadcrumb-*`.
  */
 export const Breadcrumb = defineComponent({
   name: "Breadcrumb",

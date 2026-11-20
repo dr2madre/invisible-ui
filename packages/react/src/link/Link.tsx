@@ -45,7 +45,7 @@ const EXTERNAL_GLYPH = (
  * Every other anchor attribute reaches the `<a>`, `onClick` included, for the
  * work that goes with a navigation, such as analytics.
  *
- * Themeable via `--ds-link-*`.
+ * Themeable via `--iui-link-*`.
  */
 export const Link = /* @__PURE__ */ forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   { href, external = false, variant = "primary", children, ...rest },

@@ -79,11 +79,11 @@
   }
   .workflow-demo__heading:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .workflow-demo__text {
     margin: 0;
-    color: var(--ds-components-general-foreground-secondary);
+    color: var(--iui-components-general-foreground-secondary);
   }
   .workflow-demo__field {
     display: grid;

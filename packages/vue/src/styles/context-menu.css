@@ -3,37 +3,37 @@
 
 .context-menu__trigger {
   font: inherit;
-  color: var(--ds-components-general-foreground-default, #272727);
+  color: var(--iui-components-general-foreground-default, #272727);
 }
 .context-menu__trigger:focus-visible {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow);
+  box-shadow: var(--iui-focus-ring-shadow);
   outline-offset: 2px;
-  border-radius: var(--ds-metrics-radius-control, 0.5rem);
+  border-radius: var(--iui-metrics-radius-control, 0.5rem);
 }
 
 .context-menu__popup {
   position: fixed;
   inset-block-start: 0;
   inset-inline-start: 0;
-  z-index: var(--ds-menu-z-index, 50);
-  min-inline-size: var(--ds-menu-min-width, 12rem);
+  z-index: var(--iui-menu-z-index, 50);
+  min-inline-size: var(--iui-menu-min-width, 12rem);
   margin: 0;
-  padding: var(--ds-menu-padding, 0.25rem);
+  padding: var(--iui-menu-padding, 0.25rem);
   display: flex;
   flex-direction: column;
   background: var(
-    --ds-components-menu-background-default,
-    var(--ds-components-general-background-default, #fff)
+    --iui-components-menu-background-default,
+    var(--iui-components-general-background-default, #fff)
   );
-  border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-  border-radius: var(--ds-menu-popup-radius, var(--ds-metrics-radius-container, 0.75rem));
+  border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+  border-radius: var(--iui-menu-popup-radius, var(--iui-metrics-radius-container, 0.75rem));
   box-shadow: var(
-    --ds-elevation-overlay,
+    --iui-elevation-overlay,
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1)
   );
-  color: var(--ds-components-general-foreground-default, #272727);
+  color: var(--iui-components-general-foreground-default, #272727);
   font: inherit;
 }
 
@@ -44,7 +44,7 @@
   inline-size: 100%;
   padding: 0.45rem 0.85rem;
   border: 0;
-  border-radius: var(--ds-metrics-radius-control, 0.5rem);
+  border-radius: var(--iui-metrics-radius-control, 0.5rem);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -54,31 +54,31 @@
 /* Hover (desktop) or keyboard focus only: no grey just for being the
    roving-active item on open, so a tap leaves no highlight behind. */
 .context-menu__item:hover {
-  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+  background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
    marks the focused item. The menu clips, so the ring goes inside. */
 .context-menu__item:focus-visible {
   outline: none;
-  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
-  box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
-    var(--ds-components-general-focus-ring-color, #8e6cd4);
+  background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
+  box-shadow: inset 0 0 0 var(--iui-components-general-focus-ring-width, 2px)
+    var(--iui-components-general-focus-ring-color, #8e6cd4);
 }
 .context-menu__item[data-disabled] {
-  color: var(--ds-components-general-foreground-disabled, #757575);
+  color: var(--iui-components-general-foreground-disabled, #757575);
   cursor: not-allowed;
 }
 
 .context-menu__separator {
   block-size: 1px;
   margin: 0.3rem 0.15rem;
-  background: var(--ds-components-general-border-default, #bdbdbd);
+  background: var(--iui-components-general-border-default, #bdbdbd);
 }
 .context-menu__group-label {
   padding: 0.35rem 0.55rem 0.2rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--ds-components-general-foreground-secondary, #515151);
+  color: var(--iui-components-general-foreground-secondary, #515151);
 }
 /* The tick sits in a fixed column so labels line up whether or not an item
    is currently on. */
@@ -100,7 +100,7 @@
   overflow-y: auto;
 }
 .context-menu__item[data-kind="submenu"][data-state="open"] {
-  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+  background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 /* The chevron points to the inline end, where the submenu opens. */
 .context-menu__submenu-chevron {
@@ -109,7 +109,7 @@
   inline-size: 1em;
   block-size: 1em;
   margin-inline-start: auto;
-  color: var(--ds-components-general-foreground-secondary, #515151);
+  color: var(--iui-components-general-foreground-secondary, #515151);
 }
 .context-menu__submenu-chevron:dir(rtl) {
   scale: -1 1;
@@ -119,8 +119,8 @@
    44 by 44 at least, for every item and submenu trigger. */
 @media (pointer: coarse) {
   .context-menu__item {
-    min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
-    min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+    min-block-size: var(--iui-metrics-density-touch-min-target-size, 44px);
+    min-inline-size: var(--iui-metrics-density-touch-min-target-size, 44px);
   }
 }
 

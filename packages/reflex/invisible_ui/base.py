@@ -24,5 +24,5 @@ class InvisibleUiComponent(rx.Component):
 
     def add_imports(self):
         # A bare import: the styled components read every colour/radius/spacing
-        # from the --ds-* custom properties this stylesheet defines.
+        # from the --iui-* custom properties this stylesheet defines.
         return {"": ["@nozcadesign/invisible-ui-react/styles.css"]}

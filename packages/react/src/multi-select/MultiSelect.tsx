@@ -51,7 +51,7 @@ export interface MultiSelectProps {
  * the next remove button, else the previous one, else the input. With `name`,
  * one hidden input per value is submitted in selection order
  * (`FormData.getAll`); `required` only exposes `aria-required`. Themeable via
- * `--ds-multi-select-*`.
+ * `--iui-multi-select-*`.
  */
 export function MultiSelect({
   label,

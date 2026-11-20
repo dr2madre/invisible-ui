@@ -25,7 +25,7 @@ const R = 15.9155;
  * There is no indeterminate state on purpose: something that spins without a
  * value is waiting, and waiting is the Loading family's job.
  *
- * `label` names it. Themeable via `--ds-progress-*`.
+ * `label` names it. Themeable via `--iui-progress-*`.
  */
 export function Progress({
   value = 0,

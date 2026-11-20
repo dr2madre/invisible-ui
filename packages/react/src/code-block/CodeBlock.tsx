@@ -29,7 +29,7 @@ export interface CodeBlockProps {
  * (ADR 0016) and announces success through a polite live region present from
  * the first render.
  *
- * Themeable via `--ds-code-block-*`.
+ * Themeable via `--iui-code-block-*`.
  */
 export function CodeBlock({
   code = "",

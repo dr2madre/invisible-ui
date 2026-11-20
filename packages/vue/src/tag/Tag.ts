@@ -35,8 +35,8 @@ export interface TagProps {
  *   decorative ✕ glyph.
  * - The status is conveyed by color *and* text, never by color alone.
  *
- * Colors are themeable CSS custom properties (`--ds-tag-*`), falling back to
- * the shared status token layer (`--ds-color-*`).
+ * Colors are themeable CSS custom properties (`--iui-tag-*`), falling back to
+ * the shared status token layer (`--iui-color-*`).
  */
 export const Tag = defineComponent({
   name: "Tag",

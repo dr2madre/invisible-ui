@@ -6,7 +6,7 @@ const css = readFileSync(resolvePath(process.cwd(), "src/lib/styles/tokens.css")
 
 /**
  * Guards the theme token layer against contrast regressions. Resolves the
- * `--ds-color-*` semantic tokens (through `var()` and `color-mix()`) for both
+ * `--iui-color-*` semantic tokens (through `var()` and `color-mix()`) for both
  * themes and checks the meaningful pairs against WCAG 2 AA:
  * - body, button-label and solid Tag/Count text → 4.5:1 (normal text, SC 1.4.3)
  * - FeedbackIcon glyph on a solid status → 3:1 (graphical object, SC 1.4.11)
@@ -27,7 +27,7 @@ function pickBlock(re: RegExp): Record<string, string> {
   return declarations(body);
 }
 
-const primitives = pickBlock(/:root\s*\{([^}]*--ds-colors-palette-grey-0[^}]*)\}/);
+const primitives = pickBlock(/:root\s*\{([^}]*--iui-colors-palette-grey-0[^}]*)\}/);
 const lightVars = { ...primitives, ...pickBlock(/\[data-theme="light"\]\s*\{([^}]*)\}/) };
 const darkVars = { ...primitives, ...pickBlock(/\[data-theme="dark"\]\s*\{([^}]*)\}/) };
 // The system-scheme dark block is written by hand too, so its values are
@@ -111,8 +111,8 @@ describe.each([
     (status) => {
       expect(
         contrast(
-          "--ds-components-general-foreground-default",
-          `--ds-components-general-feedback-${status}-background-default`,
+          "--iui-components-general-foreground-default",
+          `--iui-components-general-feedback-${status}-background-default`,
           vars,
         ),
       ).toBeGreaterThanOrEqual(4.5);
@@ -122,8 +122,8 @@ describe.each([
   it("on-emphasis text on the emphasis surface meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-emphasis-foreground-default",
-        "--ds-components-general-emphasis-background-default",
+        "--iui-components-general-emphasis-foreground-default",
+        "--iui-components-general-emphasis-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -133,29 +133,29 @@ describe.each([
   it.each([
     [
       "info",
-      "--ds-components-general-feedback-solid-foreground-default",
-      "--ds-components-general-feedback-info-solid-background-default",
+      "--iui-components-general-feedback-solid-foreground-default",
+      "--iui-components-general-feedback-info-solid-background-default",
     ],
     [
       "success",
-      "--ds-components-general-feedback-solid-foreground-default",
-      "--ds-components-general-feedback-success-solid-background-default",
+      "--iui-components-general-feedback-solid-foreground-default",
+      "--iui-components-general-feedback-success-solid-background-default",
     ],
     // Warning has its own label fill: the warning colour gives dark text 3.8:1.
     [
       "warning",
-      "--ds-components-general-feedback-warning-solid-foreground-default",
-      "--ds-components-general-feedback-warning-label-background-default",
+      "--iui-components-general-feedback-warning-solid-foreground-default",
+      "--iui-components-general-feedback-warning-label-background-default",
     ],
     [
       "danger",
-      "--ds-components-general-feedback-solid-foreground-default",
-      "--ds-components-general-feedback-danger-solid-background-default",
+      "--iui-components-general-feedback-solid-foreground-default",
+      "--iui-components-general-feedback-danger-solid-background-default",
     ],
     [
       "neutral",
-      "--ds-components-general-feedback-solid-foreground-default",
-      "--ds-components-general-feedback-neutral-solid-background-default",
+      "--iui-components-general-feedback-solid-foreground-default",
+      "--iui-components-general-feedback-neutral-solid-background-default",
     ],
   ] as const)("label text on the %s solid fill meets 4.5:1", (_status, on, fill) => {
     expect(contrast(on, fill, vars)).toBeGreaterThanOrEqual(4.5);
@@ -166,8 +166,8 @@ describe.each([
     (status) => {
       expect(
         contrast(
-          "--ds-components-general-feedback-solid-foreground-default",
-          `--ds-components-general-feedback-${status}-solid-background-default`,
+          "--iui-components-general-feedback-solid-foreground-default",
+          `--iui-components-general-feedback-${status}-solid-background-default`,
           vars,
         ),
       ).toBeGreaterThanOrEqual(3);
@@ -177,8 +177,8 @@ describe.each([
   it("primary button label meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-action-primary-foreground-default",
-        "--ds-components-general-action-primary-background-default",
+        "--iui-components-general-action-primary-foreground-default",
+        "--iui-components-general-action-primary-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -187,8 +187,8 @@ describe.each([
   it("secondary button label meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-action-secondary-foreground-default",
-        "--ds-components-general-action-secondary-background-default",
+        "--iui-components-general-action-secondary-foreground-default",
+        "--iui-components-general-action-secondary-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -197,8 +197,8 @@ describe.each([
   it("danger button label meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-feedback-solid-foreground-default",
-        "--ds-components-general-feedback-danger-solid-background-default",
+        "--iui-components-general-feedback-solid-foreground-default",
+        "--iui-components-general-feedback-danger-solid-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -207,8 +207,8 @@ describe.each([
   it("default button label meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-foreground-default",
-        "--ds-components-general-background-default",
+        "--iui-components-general-foreground-default",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -217,8 +217,8 @@ describe.each([
   it("body text on the page background meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-foreground-default",
-        "--ds-components-general-background-default",
+        "--iui-components-general-foreground-default",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -227,8 +227,8 @@ describe.each([
   it("secondary text on the page background meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-foreground-secondary",
-        "--ds-components-general-background-default",
+        "--iui-components-general-foreground-secondary",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -237,8 +237,8 @@ describe.each([
   it("secondary text on a surface meets 4.5:1", () => {
     expect(
       contrast(
-        "--ds-components-general-foreground-secondary",
-        "--ds-components-general-background-default",
+        "--iui-components-general-foreground-secondary",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
@@ -247,8 +247,8 @@ describe.each([
   it("the control boundary meets 3:1 on the page", () => {
     expect(
       contrast(
-        "--ds-components-general-border-control",
-        "--ds-components-general-background-default",
+        "--iui-components-general-border-control",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(3);
@@ -257,8 +257,8 @@ describe.each([
   it("the control boundary meets 3:1 on a surface", () => {
     expect(
       contrast(
-        "--ds-components-general-border-control",
-        "--ds-components-general-background-default",
+        "--iui-components-general-border-control",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(3);
@@ -267,23 +267,23 @@ describe.each([
   it("the focus ring meets 3:1 on the page and on a surface", () => {
     expect(
       contrast(
-        "--ds-components-general-focus-ring-color",
-        "--ds-components-general-background-default",
+        "--iui-components-general-focus-ring-color",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(3);
     expect(
       contrast(
-        "--ds-components-general-focus-ring-color",
-        "--ds-components-general-background-default",
+        "--iui-components-general-focus-ring-color",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(3);
   });
 
   it.each([
-    "--ds-components-general-background-default",
-    "--ds-components-general-background-default",
+    "--iui-components-general-background-default",
+    "--iui-components-general-background-default",
   ] as const)(
     "the selection glyph meets 3:1 on the checked fill composited over %s",
     (backdrop) => {
@@ -292,12 +292,12 @@ describe.each([
       // the selection text form. Composite the fill the way the browser does.
       const back = resolve(`var(${backdrop})`, vars);
       const selection = resolve(
-        "var(--ds-components-general-action-secondary-background-default)",
+        "var(--iui-components-general-action-secondary-background-default)",
         vars,
       );
       const fill = back.map((channel, i) => Math.round(selection[i]! * 0.1 + channel * 0.9)) as RGB;
       const glyph = resolve(
-        "var(--ds-components-general-selection-contextual-foreground-default)",
+        "var(--iui-components-general-selection-contextual-foreground-default)",
         vars,
       );
       const [a, b] = [luminance(glyph), luminance(fill)];
@@ -306,12 +306,12 @@ describe.each([
   );
 
   it("the checked radio dot meets 3:1 on the radio fill", () => {
-    // The dot is the state indicator and paints --ds-components-general-selection-contextual-foreground-default on
+    // The dot is the state indicator and paints --iui-components-general-selection-contextual-foreground-default on
     // the radio's own fill, which is the page background token.
     expect(
       contrast(
-        "--ds-components-general-selection-contextual-foreground-default",
-        "--ds-components-general-background-default",
+        "--iui-components-general-selection-contextual-foreground-default",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(3);
@@ -320,9 +320,9 @@ describe.each([
   it("the switch thumb stays separable from the off track", () => {
     // The off track is a surface. Either the white thumb or the rim drawn
     // round it must clear 3:1 against that surface.
-    const track = resolve("var(--ds-components-general-background-default)", vars);
-    const thumb = resolve("var(--ds-colors-palette-grey-0)", vars);
-    const rim = resolve("var(--ds-components-general-border-control)", vars);
+    const track = resolve("var(--iui-components-general-background-default)", vars);
+    const thumb = resolve("var(--iui-colors-palette-grey-0)", vars);
+    const rim = resolve("var(--iui-components-general-border-control)", vars);
     const against = (a: RGB, b: RGB) =>
       (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05);
     expect(Math.max(against(thumb, track), against(rim, track))).toBeGreaterThanOrEqual(3);
@@ -333,15 +333,15 @@ describe.each([
     // the text colour on the off surface, the on-secondary colour on the fill.
     expect(
       contrast(
-        "--ds-components-general-foreground-default",
-        "--ds-components-general-background-default",
+        "--iui-components-general-foreground-default",
+        "--iui-components-general-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);
     expect(
       contrast(
-        "--ds-components-general-action-secondary-foreground-default",
-        "--ds-components-general-action-secondary-background-default",
+        "--iui-components-general-action-secondary-foreground-default",
+        "--iui-components-general-action-secondary-background-default",
         vars,
       ),
     ).toBeGreaterThanOrEqual(4.5);

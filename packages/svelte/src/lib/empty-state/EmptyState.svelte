@@ -12,7 +12,7 @@
    * `FeedbackIcon` (neutral by default). The action area renders a single
    * `Button` from `actionLabel`/`onAction`, a configurable group from an
    * `actions` array, or any custom content from an `actions` snippet. Themeable
-   * via `--ds-empty-state-*`.
+   * via `--iui-empty-state-*`.
    *
    * Accessibility: the region is a `role="status"` (polite live region), so
    * when content resolves to empty the change is announced without
@@ -130,28 +130,28 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap: var(--ds-empty-state-gap, 0.75rem);
-    padding: var(--ds-empty-state-padding, 3rem 1.5rem);
-    max-inline-size: var(--ds-empty-state-max-width, 24rem);
+    gap: var(--iui-empty-state-gap, 0.75rem);
+    padding: var(--iui-empty-state-padding, 3rem 1.5rem);
+    max-inline-size: var(--iui-empty-state-max-width, 24rem);
     margin-inline: auto;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   /* The illustration area: sized for the fallback icon, and a bespoke
      artwork stays within the same footprint unless the theme widens it. */
   .empty-state__illustration {
-    --ds-feedback-icon-size: var(--ds-empty-state-icon-size, 3.5rem);
-    max-inline-size: var(--ds-empty-state-illustration-max-width, 12rem);
+    --iui-feedback-icon-size: var(--iui-empty-state-icon-size, 3.5rem);
+    max-inline-size: var(--iui-empty-state-illustration-max-width, 12rem);
     margin-block-end: 0.25rem;
   }
   .empty-state__title {
     margin: 0;
-    font-size: var(--ds-empty-state-title-size, 1.25rem);
+    font-size: var(--iui-empty-state-title-size, 1.25rem);
     font-weight: 700;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
   }
   .empty-state__description {
     margin: 0;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .empty-state__actions {
     margin-block-start: 0.5rem;
@@ -163,13 +163,13 @@
   }
   /* Compact density for cards, panels and table areas. */
   .empty-state[data-size="sm"] {
-    gap: var(--ds-empty-state-gap, 0.5rem);
-    padding: var(--ds-empty-state-padding, 1.5rem 1rem);
+    gap: var(--iui-empty-state-gap, 0.5rem);
+    padding: var(--iui-empty-state-padding, 1.5rem 1rem);
   }
   .empty-state[data-size="sm"] .empty-state__illustration {
-    --ds-feedback-icon-size: var(--ds-empty-state-icon-size, 2.5rem);
+    --iui-feedback-icon-size: var(--iui-empty-state-icon-size, 2.5rem);
   }
   .empty-state[data-size="sm"] .empty-state__title {
-    font-size: var(--ds-empty-state-title-size, 1rem);
+    font-size: var(--iui-empty-state-title-size, 1rem);
   }
 </style>

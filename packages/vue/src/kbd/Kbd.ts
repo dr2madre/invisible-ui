@@ -16,7 +16,7 @@ export interface KbdProps {
  * they are joined by a visible separator (default "+"). The outer element is a
  * `<kbd>` so assistive tech announces it as keyboard input.
  *
- * Presentational only, themeable via `--ds-kbd-*`.
+ * Presentational only, themeable via `--iui-kbd-*`.
  */
 export const Kbd = defineComponent({
   name: "Kbd",

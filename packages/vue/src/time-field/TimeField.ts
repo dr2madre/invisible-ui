@@ -45,7 +45,7 @@ export interface TimeFieldProps {
  * canonical 24-hour string (`HH:mm` or `HH:mm:ss`) and binds two ways:
  * `v-model` or the `value` prop plus `onValueChange`. The hour cycle follows
  * the locale unless `hourCycle` says otherwise. Themeable via
- * `--ds-time-field-*`.
+ * `--iui-time-field-*`.
  */
 export const TimeField = defineComponent({
   name: "TimeField",

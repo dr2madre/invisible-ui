@@ -47,7 +47,7 @@ const CheckGlyph = () =>
  * disabled; set `linear` to false to allow jumping to any step. The current
  * step binds two ways: `v-model:current` or the `current` prop plus
  * `onStepChange`. Completed steps show a check; the current and upcoming steps
- * show their number. Themed via `--ds-step-*`.
+ * show their number. Themed via `--iui-step-*`.
  */
 export const Stepper = defineComponent({
   name: "Stepper",

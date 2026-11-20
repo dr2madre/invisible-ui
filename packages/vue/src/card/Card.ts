@@ -43,7 +43,7 @@ export interface CardProps {
  *
  * Accessibility: renders as an `<article>`; when a `title` prop is given it
  * becomes a heading (level via `headingLevel`) and labels the card
- * (`aria-labelledby`). Colors/spacing are themeable (`--ds-card-*`).
+ * (`aria-labelledby`). Colors/spacing are themeable (`--iui-card-*`).
  */
 export const Card = defineComponent({
   name: "Card",

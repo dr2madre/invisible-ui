@@ -26,7 +26,7 @@ scope**. Every matched line names the widget test in
 | `shape: FeedbackIconShape.rounded`, `round` | `shape: "rounded"`, `"round"` | the outline |
 | `icon` | `children` | a glyph in place of the status one |
 | `semanticLabel` | `label` | the name that makes it an image |
-| `size` | `--ds-feedback-icon-size` | the side, 32 by default |
+| `size` | `--iui-feedback-icon-size` | the side, 32 by default |
 
 ## Behaviour and semantics
 

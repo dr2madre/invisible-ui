@@ -16,7 +16,7 @@
    *
    * Icons: a plain (un-boxed) leading and/or trailing icon. The built-in glyph
    * is a plus; override either via the `left` / `right` snippets. Colors and sizing
-   * are themeable CSS custom properties (`--ds-components-button-*`).
+   * are themeable CSS custom properties (`--iui-components-button-*`).
    *
    * `copy` makes it a copy button (ADR 0016): pressing it writes the text to
    * the clipboard and, when that works, shows "Copied" beside the button for
@@ -220,13 +220,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--ds-components-button-spacing-gap);
-    padding: var(--ds-components-button-spacing-y) var(--ds-components-button-spacing-x);
-    border-radius: var(--ds-components-button-radius);
+    gap: var(--iui-components-button-spacing-gap);
+    padding: var(--iui-components-button-spacing-y) var(--iui-components-button-spacing-x);
+    border-radius: var(--iui-components-button-radius);
     border: 1px solid transparent;
     font: inherit;
-    font-weight: var(--ds-components-button-typography-font-weight);
-    line-height: var(--ds-components-button-typography-line-height);
+    font-weight: var(--iui-components-button-typography-font-weight);
+    line-height: var(--iui-components-button-typography-line-height);
     cursor: pointer;
     /* No tap delay / synthesized ghost clicks on touch (iOS Safari). */
     touch-action: manipulation;
@@ -238,24 +238,24 @@
 
   /* Icon-only: square, equal padding, comfortable target; sizes the slotted glyph. */
   .button--icon-only {
-    padding: var(--ds-components-button-spacing-icon, 0.5rem);
+    padding: var(--iui-components-button-spacing-icon, 0.5rem);
     aspect-ratio: 1;
-    min-inline-size: var(--ds-components-button-icon-min-size, 2.25rem);
-    min-block-size: var(--ds-components-button-icon-min-size, 2.25rem);
+    min-inline-size: var(--iui-components-button-icon-min-size, 2.25rem);
+    min-block-size: var(--iui-components-button-icon-min-size, 2.25rem);
   }
   .button--icon-only :global(svg) {
-    inline-size: var(--ds-components-button-icon-size, 1.25em);
-    block-size: var(--ds-components-button-icon-size, 1.25em);
+    inline-size: var(--iui-components-button-icon-size, 1.25em);
+    block-size: var(--iui-components-button-icon-size, 1.25em);
   }
 
   .button:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
+    box-shadow: var(--iui-focus-ring-shadow);
+    outline-offset: var(--iui-components-general-focus-ring-offset, 2px);
   }
 
   .button:disabled {
-    opacity: var(--ds-components-button-opacity-disabled);
+    opacity: var(--iui-components-button-opacity-disabled);
     cursor: not-allowed;
   }
 
@@ -281,7 +281,7 @@
      room. */
   .button__status:not(:empty) {
     margin-inline-start: 0.5rem;
-    color: var(--ds-components-button-foreground-supporting);
+    color: var(--iui-components-button-foreground-supporting);
     font-size: 0.875em;
   }
 
@@ -290,64 +290,64 @@
     flex: none;
   }
   .button__icon :global(svg) {
-    inline-size: var(--ds-components-button-icon-size, 1.1em);
-    block-size: var(--ds-components-button-icon-size, 1.1em);
+    inline-size: var(--iui-components-button-icon-size, 1.1em);
+    block-size: var(--iui-components-button-icon-size, 1.1em);
   }
 
   /* default: the baseline, medium-emphasis button — white surface + border. */
   .button:global([data-variant="default"]) {
-    background: var(--ds-components-button-background-default);
-    color: var(--ds-components-button-foreground-default);
-    border-color: var(--ds-components-button-border-default);
+    background: var(--iui-components-button-background-default);
+    color: var(--iui-components-button-foreground-default);
+    border-color: var(--iui-components-button-border-default);
   }
   .button:global([data-variant="default"]):hover:not(:disabled) {
-    background: var(--ds-components-button-background-hover);
+    background: var(--iui-components-button-background-hover);
   }
 
   /* primary: the high-emphasis call to action. */
   .button:global([data-variant="primary"]) {
-    background: var(--ds-components-button-background-primary-default);
-    color: var(--ds-components-button-foreground-primary-default);
-    border-color: var(--ds-components-button-border-primary-default);
+    background: var(--iui-components-button-background-primary-default);
+    color: var(--iui-components-button-foreground-primary-default);
+    border-color: var(--iui-components-button-border-primary-default);
   }
   .button:global([data-variant="primary"]):hover:not(:disabled) {
-    background: var(--ds-components-button-background-primary-hover);
+    background: var(--iui-components-button-background-primary-hover);
   }
 
   /* secondary: alternative emphasized action — a soft tint of the primary. */
   .button:global([data-variant="secondary"]) {
-    background: var(--ds-components-button-background-secondary-default);
-    color: var(--ds-components-button-foreground-secondary-default);
-    border-color: var(--ds-components-button-border-secondary-default);
+    background: var(--iui-components-button-background-secondary-default);
+    color: var(--iui-components-button-foreground-secondary-default);
+    border-color: var(--iui-components-button-border-secondary-default);
   }
   .button:global([data-variant="secondary"]):hover:not(:disabled) {
-    background: var(--ds-components-button-background-secondary-hover);
+    background: var(--iui-components-button-background-secondary-hover);
   }
 
   /* ghost: reduced affordance — no fill or border at rest; the label is
      underlined so the affordance never relies on color alone. Icon-only ghosts
      (e.g. the Alert "×") have no text to underline. */
   .button:global([data-variant="ghost"]) {
-    background: var(--ds-components-button-background-ghost-default);
-    color: var(--ds-components-button-foreground-ghost-default);
-    border-color: var(--ds-components-button-border-ghost-default);
+    background: var(--iui-components-button-background-ghost-default);
+    color: var(--iui-components-button-foreground-ghost-default);
+    border-color: var(--iui-components-button-border-ghost-default);
   }
   .button:global([data-variant="ghost"]):not(.button--icon-only) {
     text-decoration: underline;
     text-underline-offset: 0.25em;
   }
   .button:global([data-variant="ghost"]):hover:not(:disabled) {
-    background: var(--ds-components-button-background-ghost-hover);
+    background: var(--iui-components-button-background-ghost-hover);
   }
 
   /* danger: destructive. The danger red at 10% with an accessible dark-red
      label and a matching border (the hazard icon keeps meaning off color alone). */
   .button:global([data-variant="danger"]) {
-    background: var(--ds-components-button-background-danger-default);
-    color: var(--ds-components-button-foreground-danger-default);
-    border-color: var(--ds-components-button-border-danger-default);
+    background: var(--iui-components-button-background-danger-default);
+    color: var(--iui-components-button-foreground-danger-default);
+    border-color: var(--iui-components-button-border-danger-default);
   }
   .button:global([data-variant="danger"]):hover:not(:disabled) {
-    background: var(--ds-components-button-background-danger-hover);
+    background: var(--iui-components-button-background-danger-hover);
   }
 </style>

@@ -55,7 +55,7 @@ export interface ErrorStateProps {
  * Reuses `FeedbackIcon` and `Button`. Swap the icon for another glyph or an
  * ad-hoc illustration via the `icon` slot (e.g. bespoke 404 artwork), or replace
  * the whole action area via the `actions` slot. Themeable via
- * `--ds-error-state-*`.
+ * `--iui-error-state-*`.
  *
  * Accessibility: the region is a `role="alert"`, so it is announced when it
  * appears. Meaning never rests on color alone: the title (and the icon glyph)

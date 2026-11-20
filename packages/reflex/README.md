@@ -24,7 +24,7 @@ Python.
 Prop names are written in snake_case and reach React camelCased
 (`footer_close` → `footerClose`); `button_type` maps to React's `type` (which
 shadows the Python builtin). Every wrapper imports
-`@nozcadesign/invisible-ui-react/styles.css`, so the `--ds-*` tokens and component styles
+`@nozcadesign/invisible-ui-react/styles.css`, so the `--iui-*` tokens and component styles
 come along automatically.
 
 ## Usage

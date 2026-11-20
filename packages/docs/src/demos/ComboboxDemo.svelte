@@ -16,7 +16,7 @@
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <Combobox label="Assignee" items={people} placeholder="Search people…" />
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       <strong>Search</strong> — the editable combobox: typing filters the options.
     </figcaption>
@@ -38,7 +38,7 @@
       ]}
     />
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       <strong>Advanced select</strong> — <code>searchable={"{false}"}</code>: a read-only trigger,
       styled popup and per-option icons, for what the native

@@ -23,8 +23,8 @@ test("Button default and hover backgrounds and disabled opacity follow component
   changed.components.button.opacity.disabled.$value = 0.4;
   const updated = extractButtonStyles(
     button.replace(
-      "background: var(--ds-components-button-background-default)",
-      "background: var(--ds-components-card-background-default)",
+      "background: var(--iui-components-button-background-default)",
+      "background: var(--iui-components-card-background-default)",
     ),
     changed,
   );
@@ -34,8 +34,8 @@ test("Button default and hover backgrounds and disabled opacity follow component
     () =>
       extractButtonStyles(
         button.replace(
-          "background: var(--ds-components-button-background-default)",
-          "background: var(--ds-button-unknown)",
+          "background: var(--iui-components-button-background-default)",
+          "background: var(--iui-button-unknown)",
         ),
         tokens,
       ),
@@ -68,9 +68,9 @@ test("Card CSS determines media width, alignment and body spacing", () => {
   assert.equal(layout.vertical.mediaAlign, "STRETCH");
   assert.equal(layout.horizontal.mediaAlign, "STRETCH");
   const changed = source
-    .replace("--ds-card-horizontal-media-size, 8rem", "--ds-card-horizontal-media-size, 10rem")
-    .replace("--ds-card-padding, 1rem", "--ds-card-padding, 24px")
-    .replace("--ds-card-gap, 0.5rem", "--ds-card-gap, 0.75rem");
+    .replace("--iui-card-horizontal-media-size, 8rem", "--iui-card-horizontal-media-size, 10rem")
+    .replace("--iui-card-padding, 1rem", "--iui-card-padding, 24px")
+    .replace("--iui-card-gap, 0.5rem", "--iui-card-gap, 0.75rem");
   const updated = extractCardLayout(changed);
   assert.equal(updated.horizontal.mediaWidth, 160);
   assert.equal(updated.body.padding, 24);
@@ -82,8 +82,8 @@ test("unsupported Card CSS fails instead of silently keeping an old layout", () 
     () =>
       extractCardLayout(
         source.replace(
-          "--ds-card-horizontal-media-size, 8rem",
-          "--ds-card-horizontal-media-size, 30%",
+          "--iui-card-horizontal-media-size, 8rem",
+          "--iui-card-horizontal-media-size, 30%",
         ),
       ),
     /unsupported dimension/,

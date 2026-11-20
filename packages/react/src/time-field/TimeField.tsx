@@ -58,7 +58,7 @@ const MESSAGES: Record<TimeValueError, MessageKey> = {
  * With `name`, a hidden input submits the value, and a form reset puts back
  * the current default without reporting (ADR 0012). Inside a disabled
  * `<fieldset>` the field is disabled too. A time outside `min` and `max` is
- * reported, never corrected. Themeable via `--ds-time-field-*`.
+ * reported, never corrected. Themeable via `--iui-time-field-*`.
  */
 export function TimeField({
   value = null,

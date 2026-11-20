@@ -23,7 +23,7 @@ export interface CollapsibleProps {
  * The open state binds two ways: `v-model:open` (the idiomatic Vue form) or
  * the `open` prop plus `onOpenChange`. Slots: `trigger` (the trigger's
  * content, falling back to the `label` prop) and the default slot (the
- * content). Colors, radius and spacing are themeable via `--ds-collapsible-*`.
+ * content). Colors, radius and spacing are themeable via `--iui-collapsible-*`.
  */
 export const Collapsible = defineComponent({
   name: "Collapsible",
@@ -58,7 +58,7 @@ export const Collapsible = defineComponent({
           h("span", { class: "collapsible__icon", "aria-hidden": "true" }, [
             h(
               Icon,
-              { size: "var(--ds-collapsible-icon-size, 1.1em)" },
+              { size: "var(--iui-collapsible-icon-size, 1.1em)" },
               { default: () => h("polyline", { points: "6 9 12 15 18 9" }) },
             ),
           ]),

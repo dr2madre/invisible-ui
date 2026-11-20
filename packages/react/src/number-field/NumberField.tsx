@@ -48,7 +48,7 @@ const MESSAGES = {
  * draft/value separation, stepping, commit boundaries) come from the headless
  * number field; this layer adds the label, the spin buttons, the optional
  * description and error message, the hidden form input and the field styling.
- * Themeable via `--ds-field-*`.
+ * Themeable via `--iui-field-*`.
  */
 export function NumberField({
   label,

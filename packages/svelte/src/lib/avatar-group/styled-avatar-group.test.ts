@@ -40,7 +40,7 @@ describe("Svelte AvatarGroup (styled)", () => {
       },
     });
     const [safe, unsafe] = document.querySelectorAll<HTMLElement>(".avatar-group__item");
-    expect(safe!.style.getPropertyValue("--ds-avatar-bg")).toBe("rebeccapurple");
+    expect(safe!.style.getPropertyValue("--iui-avatar-bg")).toBe("rebeccapurple");
     expect(unsafe!.getAttribute("style") ?? "").not.toContain("position");
   });
 

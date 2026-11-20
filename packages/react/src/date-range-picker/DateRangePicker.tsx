@@ -53,8 +53,8 @@ export interface DateRangePickerProps {
  * ISO `YYYY-MM-DD` strings, each a controllable mirror (ADR 0011). With
  * `startName` and `endName`, hidden inputs submit them, and a form reset puts
  * back the current defaults without reporting (ADR 0012). The view defaults
- * to two months. Themeable via `--ds-date-picker-*` and the calendar's
- * `--ds-calendar-*`.
+ * to two months. Themeable via `--iui-date-picker-*` and the calendar's
+ * `--iui-calendar-*`.
  */
 export function DateRangePicker({
   start = null,

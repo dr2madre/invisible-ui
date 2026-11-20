@@ -32,7 +32,7 @@ class Dialog(InvisibleUiComponent):
     close_label: rx.Var[str]
     footer_close: rx.Var[bool]
     # "plain" (default) or "stack": "stack" spaces the body's direct children
-    # by --ds-dialog-body-gap.
+    # by --iui-dialog-body-gap.
     body_layout: rx.Var[str]
 
     # Composition regions. Reflex compiles a component-valued prop to a JSX

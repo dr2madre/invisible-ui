@@ -48,7 +48,7 @@ const lock = (
  * while a modal dialog is open the announcement waits for it to close
  * (ADR 0016).
  *
- * The component reads no screen size. Themeable via `--ds-navigation-bar-*`.
+ * The component reads no screen size. Themeable via `--iui-navigation-bar-*`.
  */
 export function NavigationBar({
   destinations,

@@ -11,7 +11,7 @@ export interface AspectRatioProps {
  * Presentational only (no ARIA role): drop in an image, video, iframe or any
  * block content via the default slot, and it is cropped to fill the box.
  *
- * Radius is themeable via `--ds-aspect-ratio-radius`.
+ * Radius is themeable via `--iui-aspect-ratio-radius`.
  */
 export const AspectRatio = defineComponent({
   name: "AspectRatio",

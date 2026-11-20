@@ -14,7 +14,7 @@
    * Reuses the existing `FeedbackIcon` and `Button`. Swap the icon for another
    * glyph or an ad-hoc illustration via the `icon` snippet (e.g. a bespoke 404
    * artwork), or replace the whole action area with an `actions` snippet.
-   * Themeable via `--ds-error-state-*`.
+   * Themeable via `--iui-error-state-*`.
    *
    * Accessibility: the region is a `role="alert"`, so when it appears it is
    * announced. Meaning never rests on color alone — the title (and the icon
@@ -131,26 +131,26 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap: var(--ds-error-state-gap, 0.75rem);
-    padding: var(--ds-error-state-padding, 3rem 1.5rem);
-    max-inline-size: var(--ds-error-state-max-width, 24rem);
+    gap: var(--iui-error-state-gap, 0.75rem);
+    padding: var(--iui-error-state-padding, 3rem 1.5rem);
+    max-inline-size: var(--iui-error-state-max-width, 24rem);
     margin-inline: auto;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   /* A larger status icon than the inline default — this is the focal point. */
   .error-state__icon {
-    --ds-feedback-icon-size: var(--ds-error-state-icon-size, 3.5rem);
+    --iui-feedback-icon-size: var(--iui-error-state-icon-size, 3.5rem);
     margin-block-end: 0.25rem;
   }
   .error-state__title {
     margin: 0;
-    font-size: var(--ds-error-state-title-size, 1.25rem);
+    font-size: var(--iui-error-state-title-size, 1.25rem);
     font-weight: 700;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
   }
   .error-state__description {
     margin: 0;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .error-state__actions {
     margin-block-start: 0.5rem;
@@ -162,13 +162,13 @@
   }
   /* Compact density for cards, panels and table areas. */
   .error-state[data-size="sm"] {
-    gap: var(--ds-error-state-gap, 0.5rem);
-    padding: var(--ds-error-state-padding, 1.5rem 1rem);
+    gap: var(--iui-error-state-gap, 0.5rem);
+    padding: var(--iui-error-state-padding, 1.5rem 1rem);
   }
   .error-state[data-size="sm"] .error-state__icon {
-    --ds-feedback-icon-size: var(--ds-error-state-icon-size, 2.5rem);
+    --iui-feedback-icon-size: var(--iui-error-state-icon-size, 2.5rem);
   }
   .error-state[data-size="sm"] .error-state__title {
-    font-size: var(--ds-error-state-title-size, 1rem);
+    font-size: var(--iui-error-state-title-size, 1rem);
   }
 </style>

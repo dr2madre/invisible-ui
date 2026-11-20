@@ -30,7 +30,7 @@ export interface NavigationMenuProps {
  * `{ value, label, links: [{ label, href, description?, current? }] }` for a
  * panel. `current` marks the link to the page on screen with
  * `aria-current="page"`; the trigger whose panel holds it gets
- * `data-current` for styling only. Themeable via `--ds-navmenu-*`.
+ * `data-current` for styling only. Themeable via `--iui-navmenu-*`.
  */
 export const NavigationMenu = defineComponent({
   name: "NavigationMenu",

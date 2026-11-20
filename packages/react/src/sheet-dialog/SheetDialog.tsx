@@ -79,7 +79,7 @@ export interface SheetDialogProps {
  * The regions are props: `trigger`, `children` (the body), `footer`, and the
  * header regions the dialog family shares: `icon`, `headerLead` and
  * `headerActions`. `description` shows as the subtitle. Themeable via
- * `--ds-dialog-*`; the panel extent via `--ds-sheet-dialog-size`.
+ * `--iui-dialog-*`; the panel extent via `--iui-sheet-dialog-size`.
  *
  * A ref holds the status area between the body and the footer (ADR 0016),
  * with the same contract as `Dialog`: `notify(options)`, `dismissNotice(id)`

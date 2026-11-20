@@ -7,7 +7,7 @@
 
 .checkbox-group {
   display: grid;
-  gap: var(--ds-checkbox-group-gap, 0.5rem);
+  gap: var(--iui-checkbox-group-gap, 0.5rem);
   /* Reset the native fieldset chrome. */
   margin: 0;
   padding: 0;
@@ -23,13 +23,13 @@
 /* Disabled group/item dims its label too. */
 .checkbox-group:disabled .checkbox-group__label,
 .checkbox-group__item--disabled .field__label {
-  color: var(--ds-components-general-foreground-disabled, #757575);
+  color: var(--iui-components-general-foreground-disabled, #757575);
 }
 
 .checkbox-group__item {
   display: inline-flex;
   align-items: center;
-  gap: var(--ds-checkbox-gap, 0.5rem);
+  gap: var(--iui-checkbox-gap, 0.5rem);
   cursor: pointer;
 }
 .checkbox-group__item--disabled {

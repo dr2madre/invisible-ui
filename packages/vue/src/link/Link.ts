@@ -26,7 +26,7 @@ export interface LinkProps {
  *
  * Extra attributes fall through to the `<a>`, `onClick` included, for the work
  * that accompanies a navigation. Presentational only, themeable via
- * `--ds-link-*`.
+ * `--iui-link-*`.
  */
 export const Link = defineComponent({
   name: "Link",

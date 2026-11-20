@@ -11,7 +11,7 @@
    * (which reuses this same anatomy and adds time/percentage feedback).
    *
    * Provide a `label` for the accessible name. Colors, height and radius are
-   * themeable via `--ds-progress-*`.
+   * themeable via `--iui-progress-*`.
    */
   import { untrack } from "svelte";
   import { createProgress } from "./create-progress";
@@ -76,15 +76,15 @@
 
 <style>
   .progress {
-    inline-size: var(--ds-progress-width, 16rem);
-    block-size: var(--ds-progress-height, 0.5rem);
+    inline-size: var(--iui-progress-width, 16rem);
+    block-size: var(--iui-progress-height, 0.5rem);
     overflow: hidden;
-    background: var(--ds-progress-track, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-progress-radius, 999px);
+    background: var(--iui-progress-track, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-progress-radius, 999px);
   }
   .progress__indicator {
     block-size: 100%;
-    background: var(--ds-progress-fill, var(--ds-components-general-foreground-default, #272727));
+    background: var(--iui-progress-fill, var(--iui-components-general-foreground-default, #272727));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
@@ -93,8 +93,8 @@
     position: relative;
     display: inline-grid;
     place-items: center;
-    inline-size: var(--ds-progress-circle-size, 3rem);
-    block-size: var(--ds-progress-circle-size, 3rem);
+    inline-size: var(--iui-progress-circle-size, 3rem);
+    block-size: var(--iui-progress-circle-size, 3rem);
     background: none;
     overflow: visible;
   }
@@ -106,19 +106,19 @@
   .progress__track,
   .progress__ring {
     fill: none;
-    stroke-width: var(--ds-progress-circle-stroke, 3.5);
+    stroke-width: var(--iui-progress-circle-stroke, 3.5);
   }
   .progress__track {
-    stroke: var(--ds-progress-track, var(--ds-components-general-border-default, #bdbdbd));
+    stroke: var(--iui-progress-track, var(--iui-components-general-border-default, #bdbdbd));
   }
   .progress__ring {
-    stroke: var(--ds-progress-fill, var(--ds-components-general-foreground-default, #272727));
+    stroke: var(--iui-progress-fill, var(--iui-components-general-foreground-default, #272727));
     stroke-linecap: round;
     transition: stroke-dasharray 200ms ease;
   }
   .progress__value {
     position: absolute;
-    font-size: var(--ds-progress-value-size, 0.75em);
+    font-size: var(--iui-progress-value-size, 0.75em);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }

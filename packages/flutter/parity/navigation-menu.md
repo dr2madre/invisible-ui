@@ -109,11 +109,11 @@ verified**. Every matched line names the widget test in
 | Panel flips and shifts to stay 8 inside the window | matched | the shared `AnchoredLayout`; `right to left at text scale 2.0 in a narrow window …` |
 | Panel padding 8, `background`, `border`, `radius.surface`; links gap 2, padding 8 by 10, label w600, description 14 px `text-secondary` | matched | `_buildPanel`, `_PanelLink`; same roles |
 | A panel taller than the window scrolls | adapted | the reference sets no maximum height; the Flutter panel scrolls, as Popover does |
-| Elevation `--ds-elevation-overlay` | adapted | the role lives in `tokens.css` only; the Flutter values copy its numbers |
+| Elevation `--iui-elevation-overlay` | adapted | the role lives in `tokens.css` only; the Flutter values copy its numbers |
 | Targets 24 by 24, 44 by 44 under touch | matched | `semantics: …` (24), `right to left at text scale 2.0 …` (44) |
 | Text contrast | matched | `semantics: …` (`textContrastGuideline`) |
-| `--ds-navmenu-*` theme variables | out of scope | the Flutter theme carries the shared roles; component variables have no Flutter equivalent yet |
+| `--iui-navmenu-*` theme variables | out of scope | the Flutter theme carries the shared roles; component variables have no Flutter equivalent yet |
 
 ## Background token
 
-The background reads the component token `--ds-components-popover-background-default` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-popover-background-default` on the web and `InvisibleColors.popoverBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

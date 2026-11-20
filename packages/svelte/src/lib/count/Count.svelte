@@ -16,7 +16,7 @@
    * - In `dot` mode there is no text, so a `label` is the only accessible name; if
    *   omitted the dot is purely decorative (`aria-hidden`).
    *
-   * Colors are themeable CSS custom properties (`--ds-count-*`), defaulting to the
+   * Colors are themeable CSS custom properties (`--iui-count-*`), defaulting to the
    * danger status tokens (the conventional "unread" red).
    */
   type CountStatus = "danger" | "neutral" | "info" | "success" | "warning";
@@ -71,47 +71,47 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    min-inline-size: var(--ds-count-size, 1.25rem);
-    block-size: var(--ds-count-size, 1.25rem);
-    padding-inline: var(--ds-count-padding-inline, 0.3rem);
+    min-inline-size: var(--iui-count-size, 1.25rem);
+    block-size: var(--iui-count-size, 1.25rem);
+    padding-inline: var(--iui-count-padding-inline, 0.3rem);
     font: inherit;
-    font-size: var(--ds-count-font-size, 0.6875rem);
+    font-size: var(--iui-count-font-size, 0.6875rem);
     font-weight: 600;
     line-height: 1;
-    color: var(--_fg, var(--ds-components-general-feedback-solid-foreground-default, #fff));
+    color: var(--_fg, var(--iui-components-general-feedback-solid-foreground-default, #fff));
     background: var(
       --_bg,
-      var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+      var(--iui-components-general-feedback-danger-solid-background-default, #be3b50)
     );
     border-radius: 999px;
   }
 
   .count--dot {
     min-inline-size: 0;
-    inline-size: var(--ds-count-dot-size, 0.55rem);
-    block-size: var(--ds-count-dot-size, 0.55rem);
+    inline-size: var(--iui-count-dot-size, 0.55rem);
+    block-size: var(--iui-count-dot-size, 0.55rem);
     padding: 0;
   }
 
   /* data-status is dynamic → :global on the value to survive Svelte pruning. */
   .count:global([data-status="danger"]) {
-    --_bg: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="neutral"]) {
-    --_bg: var(--ds-components-general-feedback-neutral-solid-background-default, #616161);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-neutral-solid-background-default, #616161);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="info"]) {
-    --_bg: var(--ds-components-general-feedback-info-solid-background-default, #4067b6);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-info-solid-background-default, #4067b6);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="success"]) {
-    --_bg: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
-    --_fg: var(--ds-components-general-feedback-solid-foreground-default, #fff);
+    --_bg: var(--iui-components-general-feedback-success-solid-background-default, #3e7523);
+    --_fg: var(--iui-components-general-feedback-solid-foreground-default, #fff);
   }
   .count:global([data-status="warning"]) {
-    --_bg: var(--ds-components-general-feedback-warning-label-background-default, #d17b43);
-    --_fg: var(--ds-components-general-feedback-warning-solid-foreground-default, #272727);
+    --_bg: var(--iui-components-general-feedback-warning-label-background-default, #d17b43);
+    --_fg: var(--iui-components-general-feedback-warning-solid-foreground-default, #272727);
   }
 </style>

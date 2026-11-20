@@ -50,7 +50,7 @@ export interface AlertDialogProps {
  * It runs on `useDialog`: native `<dialog>` + `showModal()`, scroll lock,
  * focus restore. A `title` and `description` are both required. For a choice
  * that can stop a process use `ConfirmDialog`; to ask for a value use
- * `PromptDialog`. Themeable via `--ds-dialog-*`.
+ * `PromptDialog`. Themeable via `--iui-dialog-*`.
  *
  * A ref holds the status area (ADR 0016), with the same contract as `Dialog`:
  * `notify(options)`, `dismissNotice(id)` and `clearNotices()`.

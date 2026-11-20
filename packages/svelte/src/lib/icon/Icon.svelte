@@ -51,7 +51,7 @@
 <svg
   class={className ? `icon ${className}` : "icon"}
   data-animation={animation === "none" ? undefined : animation}
-  style:--ds-icon-animation-duration={animationDuration}
+  style:--iui-icon-animation-duration={animationDuration}
   {viewBox}
   width={size}
   height={size}
@@ -76,10 +76,10 @@
   }
 
   .icon[data-animation="spin"] {
-    animation: icon-spin var(--ds-icon-animation-duration, 1.2s) linear infinite;
+    animation: icon-spin var(--iui-icon-animation-duration, 1.2s) linear infinite;
   }
   .icon[data-animation="pulse"] {
-    animation: icon-pulse var(--ds-icon-animation-duration, 1.2s) ease-in-out infinite;
+    animation: icon-pulse var(--iui-icon-animation-duration, 1.2s) ease-in-out infinite;
   }
   @keyframes icon-spin {
     to {

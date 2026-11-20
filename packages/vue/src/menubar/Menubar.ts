@@ -24,7 +24,7 @@ export interface MenubarProps {
  *
  * Pass `menus` ({ value, label, items, disabled? }) and an accessible `label`
  * for the bar; `onSelect(menuValue, itemValue)` runs when an item is chosen.
- * Themeable via `--ds-menu-*` (shared with DropdownMenu) and `--ds-menubar-*`.
+ * Themeable via `--iui-menu-*` (shared with DropdownMenu) and `--iui-menubar-*`.
  */
 export const Menubar = defineComponent({
   name: "Menubar",

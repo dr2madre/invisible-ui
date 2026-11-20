@@ -10,7 +10,7 @@
    *
    * Pass `items` ({ value, label?, disabled? }) and an accessible `label` for
    * the trigger; `onSelect(value)` runs when an item is chosen. Colors, radius
-   * and elevation are themeable CSS custom properties (`--ds-menu-*`).
+   * and elevation are themeable CSS custom properties (`--iui-menu-*`).
    */
   import { untrack } from "svelte";
   import { menu as core } from "@nozcadesign/invisible-ui-core";
@@ -112,17 +112,17 @@
   .menu {
     display: inline-block;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
 
   .menu__trigger {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: var(--ds-menu-trigger-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-menu-radius, var(--ds-metrics-radius-control, 0.5rem));
-    background: var(--ds-components-general-background-default, #fff);
+    padding: var(--iui-menu-trigger-padding, 0.5rem 0.75rem);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-menu-radius, var(--iui-metrics-radius-control, 0.5rem));
+    background: var(--iui-components-general-background-default, #fff);
     color: inherit;
     font: inherit;
     font-weight: 600;
@@ -131,19 +131,19 @@
   }
   .menu__trigger:focus-visible {
     outline: none;
-    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-    box-shadow: var(--ds-focus-ring-shadow);
+    border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .menu__trigger:global([data-disabled]) {
-    background: var(--ds-components-general-background-disabled, #bdbdbd);
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    background: var(--iui-components-general-background-disabled, #bdbdbd);
+    color: var(--iui-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
   .menu__chevron {
     display: inline-flex;
     inline-size: 1.1em;
     block-size: 1.1em;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .menu__trigger:global([data-state="open"]) .menu__chevron {
@@ -154,20 +154,20 @@
     position: fixed;
     inset-block-start: 0;
     inset-inline-start: 0;
-    z-index: var(--ds-menu-z-index, 50);
-    min-inline-size: var(--ds-menu-min-width, 12rem);
+    z-index: var(--iui-menu-z-index, 50);
+    min-inline-size: var(--iui-menu-min-width, 12rem);
     margin: 0;
-    padding: var(--ds-menu-padding, 0.25rem);
+    padding: var(--iui-menu-padding, 0.25rem);
     display: flex;
     flex-direction: column;
     background: var(
-      --ds-components-menu-background-default,
-      var(--ds-components-general-background-default, #fff)
+      --iui-components-menu-background-default,
+      var(--iui-components-general-background-default, #fff)
     );
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-menu-popup-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-menu-popup-radius, var(--iui-metrics-radius-container, 0.75rem));
     box-shadow: var(
-      --ds-elevation-overlay,
+      --iui-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
@@ -179,13 +179,13 @@
   .menu__separator {
     block-size: 1px;
     margin: 0.3rem 0.15rem;
-    background: var(--ds-components-general-border-default, #bdbdbd);
+    background: var(--iui-components-general-border-default, #bdbdbd);
   }
   .menu__group-label {
     padding: 0.35rem 0.55rem 0.2rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   /* The tick sits in a fixed column so labels line up whether or not an item
      is currently on. */
@@ -205,7 +205,7 @@
     inline-size: 100%;
     padding: 0.45rem 0.55rem;
     border: 0;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -215,18 +215,18 @@
   /* Highlight on pointer hover (desktop) or keyboard focus only — never just
      because an item is the roving-active one on open (no grey on tap). */
   .menu__item:hover {
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
      marks the focused item. The menu clips, so the ring goes inside. */
   .menu__item:focus-visible {
     outline: none;
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
-    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
-      var(--ds-components-general-focus-ring-color, #8e6cd4);
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--iui-components-general-focus-ring-width, 2px)
+      var(--iui-components-general-focus-ring-color, #8e6cd4);
   }
   .menu__item:global([data-disabled]) {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -234,8 +234,8 @@
      44 by 44 at least, for every item. */
   @media (pointer: coarse) {
     .menu__item {
-      min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
-      min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+      min-block-size: var(--iui-metrics-density-touch-min-target-size, 44px);
+      min-inline-size: var(--iui-metrics-density-touch-min-target-size, 44px);
     }
   }
 

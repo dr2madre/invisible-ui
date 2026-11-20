@@ -48,7 +48,7 @@ export interface TabsProps {
  *
  * The selected tab binds two ways: `v-model` (the idiomatic Vue form) or the
  * `value` prop plus `onValueChange`, matching the other controlled components.
- * Colors are themeable CSS custom properties (`--ds-tabs-*`).
+ * Colors are themeable CSS custom properties (`--iui-tabs-*`).
  */
 export const Tabs = defineComponent({
   name: "Tabs",

@@ -212,7 +212,7 @@
     align-items: center;
     gap: 0.75rem;
     /* Compact the format SegmentedControl: smaller inner padding. */
-    --ds-segment-padding: 0.25rem 0.6rem;
+    --iui-segment-padding: 0.25rem 0.6rem;
   }
   .toolbar :global(.segment__label) {
     font-size: 0.875rem; /* 14px */
@@ -220,7 +220,7 @@
   .toolbar__label {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .cell__toast {
     position: absolute;
@@ -231,7 +231,7 @@
     z-index: 5;
     pointer-events: none;
     /* 14px label text via the Tag's own size token. */
-    --ds-tag-font-size: 0.875rem;
+    --iui-tag-font-size: 0.875rem;
   }
   /* Black "Copied" chip — more specific than the Tag's neutral-solid rule. */
   .cell__toast :global(.tag[data-variant="solid"][data-status="neutral"]) {
@@ -265,7 +265,7 @@
     font-size: 0.6875rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .hue-h {
     text-align: center;
@@ -286,12 +286,12 @@
   }
   .cell:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .cell--empty {
     background: transparent;
     cursor: default;
-    border: 1px dashed var(--ds-components-general-border-default, #bdbdbd);
+    border: 1px dashed var(--iui-components-general-border-default, #bdbdbd);
   }
 
   /* White and Black live apart from the shade grid, among the neutrals. */
@@ -306,7 +306,7 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     grid-column: 1 / -1;
   }
   .extra {
@@ -322,13 +322,13 @@
   .cell--white {
     inline-size: 4rem;
     background: #ffffff;
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
     color: #1b1b1b;
   }
   .cell--black {
     inline-size: 4rem;
     background: #121212;
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
     color: #f5f5f5;
   }
 </style>
