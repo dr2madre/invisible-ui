@@ -10,8 +10,10 @@ dist-tag:
 - `@nozcadesign/invisible-ui-elements`
 
 They remain prereleases until the manual accessibility programme and API
-candidate review are complete. Do not assign these versions to npm's `latest`
-tag.
+candidate review are complete. Install and document them through the `alpha`
+tag. On the first publication of a new npm package, npm may also initialise
+`latest` to that only available prerelease; that does not make the package
+stable, and later alpha releases must not advance `latest`.
 
 ## One-time npm setup
 
@@ -32,8 +34,9 @@ Never commit an npm token or place it in a project `.npmrc`.
    packages, installs their tarballs in external consumers and performs a
    dry-run publish.
 4. Commit and merge the version changes, then run `pnpm release` from that exact
-   commit. Complete any interactive two-factor challenge. The command publishes
-   with the `alpha` dist-tag.
+   commit in the trusted-publishing environment. Complete any interactive
+   challenge. Changesets reads the `alpha` tag from prerelease mode; do not pass
+   a second custom tag to `changeset publish`.
 5. Verify each package with
    `npm view @nozcadesign/invisible-ui-PACKAGE dist-tags` and install it in a
    clean application using `@alpha`.
@@ -44,6 +47,13 @@ Example:
 pnpm add @nozcadesign/invisible-ui-elements@alpha
 pnpm add @nozcadesign/invisible-ui-react@alpha
 ```
+
+When trusted publishing is unavailable, keep the same build and consumer gates,
+pack each workspace with pnpm so `workspace:*` dependencies become exact
+versions, and publish those tarballs individually with
+`npm publish PACKAGE.tgz --tag alpha --access public --provenance=false`.
+This fallback requires an interactive npm account with 2FA and intentionally
+does not claim provenance.
 
 ## Optional future automation
 

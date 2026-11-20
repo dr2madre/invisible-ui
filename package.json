@@ -40,7 +40,7 @@
     "version-packages": "changeset version",
     "release:build": "turbo run build --filter=@nozcadesign/invisible-ui-core --filter=@nozcadesign/invisible-ui-svelte --filter=@nozcadesign/invisible-ui-vue --filter=@nozcadesign/invisible-ui-react --filter=@nozcadesign/invisible-ui-elements",
     "release:check": "pnpm gate && pnpm release:build && pnpm consumers:check && pnpm --filter @nozcadesign/invisible-ui-core --filter @nozcadesign/invisible-ui-svelte --filter @nozcadesign/invisible-ui-vue --filter @nozcadesign/invisible-ui-react --filter @nozcadesign/invisible-ui-elements publish --dry-run --no-git-checks --access public --tag alpha",
-    "release": "pnpm release:build && pnpm consumers:check && changeset publish --tag alpha",
+    "release": "pnpm release:build && pnpm consumers:check && changeset publish",
     "prepare": "husky"
   },
   "lint-staged": {
