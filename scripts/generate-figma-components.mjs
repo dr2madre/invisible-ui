@@ -7,13 +7,13 @@ import { format, resolveConfig } from "prettier";
 import { generate } from "./generate-figma-tokens.mjs";
 import { cssName, resolveTokens, tokenEntries } from "./token-model.mjs";
 import { readButtonAppearance } from "./capture-figma-button.mjs";
-import { buttonColorTokens } from "../tools/figma-component-pilot/button-colors.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const require = createRequire(new URL("../packages/svelte/package.json", import.meta.url));
 const { parse } = require("svelte/compiler");
 const sourcePath = resolve(root, "packages/svelte/src/lib/card/Card.svelte");
 const outputPath = resolve(root, "tools/figma-component-pilot/code.js");
+const buttonPath = resolve(root, "packages/svelte/src/lib/button/Button.svelte");
 
 function unsupported(detail) {
   throw new Error(`Figma Card export: ${detail}. Update the CSS adapter before generating.`);
@@ -129,36 +129,85 @@ export function tokenPayload(source) {
   return payload;
 }
 
-/** Map each `--ds-*` property the Button reads back to its canonical token. */
+export const BUTTON_VARIANTS = ["default", "primary", "secondary", "ghost", "danger"];
+const BUTTON_COLORS = { background: "background", foreground: "color", border: "border-color" };
+
+/**
+ * Read from the Button CSS the token each variant and state paints with, so the
+ * Figma Button binds to the same exported variables the component reads.
+ */
 export function extractButtonStyles(source, tokens) {
   const byProperty = new Map(tokenEntries(tokens).map(([path]) => [cssName(path), path]));
   const rules = parse(source).css.children;
-  const token = (selector, property) => {
+  const declarations = (selector) => {
     const rule = rules.find(
       (item) =>
         item.type === "Rule" &&
         source.slice(item.prelude.start, item.prelude.end).trim() === selector,
     );
-    const value = rule?.block.children.find(
-      (item) => item.type === "Declaration" && item.property === property,
-    )?.value;
-    if (!value) throw new Error(`Figma Button export: missing ${selector} ${property}`);
+    return new Map(
+      (rule?.block.children ?? [])
+        .filter((item) => item.type === "Declaration")
+        .map((item) => [item.property, item.value]),
+    );
+  };
+  const tokenOf = (property, value) => {
     const path = byProperty.get(/^var\((--ds-[\w-]+)\)$/.exec(value)?.[1]);
     if (!path) throw new Error(`Figma Button export: unsupported ${property} ${value}`);
     return path;
   };
+  const token = (selector, property) => {
+    const value = declarations(selector).get(property);
+    if (!value) throw new Error(`Figma Button export: missing ${selector} ${property}`);
+    return tokenOf(property, value);
+  };
+  const disabled = declarations(".button:disabled");
+  for (const property of Object.values(BUTTON_COLORS)) {
+    if (disabled.has(property))
+      throw new Error(`Figma Button export: unsupported disabled ${property}`);
+  }
   const opacityPath = token(".button:disabled", "opacity");
   const opacity = resolveTokens(tokens).get(opacityPath);
   if (!Number.isFinite(opacity) || opacity < 0 || opacity > 1)
     throw new Error("Figma Button export: invalid disabled opacity");
-  return {
-    defaultBackground: token('.button:global([data-variant="default"])', "background"),
-    hoverBackground: token(
-      '.button:global([data-variant="default"]):hover:not(:disabled)',
-      "background",
-    ),
-    disabledOpacity: opacity,
-  };
+  const border = /^(\d+)px solid /.exec(declarations(".button").get("border") ?? "");
+  if (!border) throw new Error("Figma Button export: unsupported border");
+  const variable = (path) => path.replaceAll(".", "/");
+  const paints = {};
+  const underline = [];
+  for (const variant of BUTTON_VARIANTS) {
+    const base = `.button:global([data-variant="${variant}"])`;
+    const hover = declarations(`${base}:hover:not(:disabled)`);
+    const resting = {};
+    const hovered = {};
+    for (const [paint, property] of Object.entries(BUTTON_COLORS)) {
+      resting[paint] = variable(token(base, property));
+      hovered[paint] = hover.has(property)
+        ? variable(tokenOf(property, hover.get(property)))
+        : resting[paint];
+    }
+    // :disabled changes only opacity, so disabled keeps the resting colours.
+    paints[variant] = { default: resting, hover: hovered, disabled: resting };
+    const decoration =
+      declarations(`${base}:not(.button--icon-only)`).get("text-decoration") ??
+      declarations(base).get("text-decoration");
+    if (decoration === "underline") underline.push(variant);
+  }
+  return { paints, disabledOpacity: opacity, borderWidth: Number(border[1]), underline };
+}
+
+/** Every Button paint must name a colour variable the token export creates. */
+export function checkButtonTokens(styles, payload) {
+  for (const [variant, states] of Object.entries(styles.paints)) {
+    for (const [state, paints] of Object.entries(states)) {
+      for (const [property, name] of Object.entries(paints)) {
+        if (payload.Light[name]?.type !== "COLOR" || payload.Dark[name]?.type !== "COLOR")
+          throw new Error(
+            `Figma Button export: ${variant}/${state}/${property} uses ${name}, which is not an exported colour token`,
+          );
+      }
+    }
+  }
 }
 
 export async function generatePlugin() {
@@ -180,14 +229,15 @@ export async function generatePlugin() {
   ).replace(/^export /gm, "");
   const canonical = JSON.parse(tokenSource);
   const payload = tokenPayload(canonical);
+  const buttonStyles = extractButtonStyles(readFileSync(buttonPath, "utf8"), canonical);
+  checkButtonTokens(buttonStyles, payload);
   const info = {
     revision: createHash("sha256").update(tokenSource).digest("hex").slice(0, 12),
     grey50: canonical.colors.palette.grey["50"].$value,
     grey950: canonical.colors.palette.grey["950"].$value,
     count: Object.keys(payload.Light).length,
-    componentColorCount: Object.keys(buttonColorTokens(buttonAppearance).Light).length,
   };
-  const contents = `// Generated by pnpm components:figma. Edit the plugin sources, components or tokens.json.\n/* global figma, __html__ */\nconst CARD_LAYOUT = ${JSON.stringify(layout)};\nconst BUTTON_APPEARANCE = ${JSON.stringify(buttonAppearance)};\nconst BUTTON_PAINTS = buttonColorTokens(BUTTON_APPEARANCE);\nconst TOKEN_PAYLOAD = ${JSON.stringify(payload)};\nconst TOKEN_INFO = ${JSON.stringify(info)};\n${sync}\n${tokens}\n${buttonColors}\n${plugin}`;
+  const contents = `// Generated by pnpm components:figma. Edit the plugin sources, components or tokens.json.\n/* global figma, __html__ */\nconst CARD_LAYOUT = ${JSON.stringify(layout)};\nconst BUTTON_STYLES = ${JSON.stringify(buttonStyles)};\nconst BUTTON_APPEARANCE = ${JSON.stringify(buttonAppearance)};\nconst TOKEN_PAYLOAD = ${JSON.stringify(payload)};\nconst TOKEN_INFO = ${JSON.stringify(info)};\n${sync}\n${tokens}\n${buttonColors}\n${plugin}`;
   return format(contents, { ...(await resolveConfig(outputPath)), filepath: outputPath });
 }
 

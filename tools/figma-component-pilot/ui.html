@@ -82,7 +82,7 @@
         const message = event.data.pluginMessage;
         if (message?.type === "token-info") {
           document.getElementById("token-info").textContent =
-            `${message.count} shared tokens + ${message.componentColorCount} Button colours · Snapshot ${message.revision} · Grey 50: ${message.grey50} · Grey 950: ${message.grey950}`;
+            `${message.count} shared tokens · Snapshot ${message.revision} · Grey 50: ${message.grey50} · Grey 950: ${message.grey950}`;
         }
         if (message?.type === "error") {
           status.textContent = message.message;

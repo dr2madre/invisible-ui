@@ -123,8 +123,8 @@ The token option creates or updates the `Invisible UI` collection and its
 Light/Dark modes, retaining matching variable IDs and alias links. Variables
 from an export made before the version-2 token names, such as
 `role/color-background`, stay in the collection until they are deleted by hand. Components
-only requires the collection to exist and leaves shared token values unchanged.
-Both options update derived `component/button/` colour variables. Shared tokens
+only requires the collection, including the `components/button/` variables, to
+exist and leaves token values unchanged. Shared tokens
 come directly from `packages/tokens/tokens.json` when `pnpm components:figma`
 builds the plugin. Regenerate after local token changes; no network fetch runs
 inside Figma. If token updates succeed but component updates fail, the dialog
@@ -146,12 +146,18 @@ time. The component owns these rules; the plugin translates them to Figma Auto
 Layout. The horizontal media width uses the default of
 `--ds-card-horizontal-media-size` with a 16px root. Consumer CSS overrides are
 not evaluated. Sample card width and placeholder height remain preview inputs.
-Button colours are captured from the real Svelte component in Chromium: five
-variants, three states (default, hover, disabled), and two themes. The capture
-includes fills, text, borders, alpha, opacity, border width, and underline.
-The plugin stores 45 derived colour variables under `component/button/` and
-checks the imported Button properties in both modes. Source changes invalidate
-the capture. Text Field and Card colours still use manual mappings.
+Button fills, borders, and text bind directly to the exported
+`components/button/` token variables, the ones `Button.svelte` reads for each
+variant and state. Disabled keeps the resting colours and applies the disabled
+opacity token. The plugin creates no colour variables of its own. Files built
+with an earlier version contain a `component/button` group of derived
+variables: delete that group by hand once after updating.
+
+The real Svelte Button rendered in Chromium (five variants, three states, two
+themes) is only a check. Tests and the plugin compare the token values with the
+rendered colours, opacity, border width, and underline. Mixed colours are
+stored as 8-bit hex, so a colour matches within one 8-bit step. Source changes
+invalidate the capture. Text Field and Card colours still use manual mappings.
 
 Run `pnpm components:figma:verify` to compare the 30 captured cases with the
 browser again. Install Chromium with `pnpm exec playwright install chromium`
