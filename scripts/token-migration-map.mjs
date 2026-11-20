@@ -105,13 +105,13 @@ function fail(path) {
 
 export function oldCssName(path) {
   const [group, a, b] = path.split(".");
-  if (["role", "component"].includes(group)) return `--iui-${b}`;
-  if (group === "palette") return `--iui-${a === "grey" ? "neutral" : a}${b ? `-${b}` : ""}`;
+  if (["role", "component"].includes(group)) return `--ds-${b}`;
+  if (group === "palette") return `--ds-${a === "grey" ? "neutral" : a}${b ? `-${b}` : ""}`;
   if (group === "style")
-    return `--iui-${["primary", "secondary"].includes(a) ? "brand" : "feedback"}-${a}${b === "default" ? "" : `-${b}`}`;
-  if (group === "focus" || group === "radius") return `--iui-${group}-${a}`;
-  if (group === "typography") return `--iui-${a}`;
+    return `--ds-${["primary", "secondary"].includes(a) ? "brand" : "feedback"}-${a}${b === "default" ? "" : `-${b}`}`;
+  if (group === "focus" || group === "radius") return `--ds-${group}-${a}`;
+  if (group === "typography") return `--ds-${a}`;
   if (group === "density")
-    return a === "compact" ? null : `--iui-${b}${a === "touch" ? "-touch" : ""}`;
+    return a === "compact" ? null : `--ds-${b}${a === "touch" ? "-touch" : ""}`;
   return fail(path);
 }
