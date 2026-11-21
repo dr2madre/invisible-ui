@@ -165,7 +165,7 @@
         "dtcg": "colors.brand.secondary.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-palette-dioxazine-purple-500 )",
+        "light": "var(--iui-colors-palette-dioxazine-purple-500)",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -5293,9 +5293,9 @@
         "dtcg": "components.button.background.danger.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-danger-background-default )",
-        "darkMedia": "var( --iui-components-general-action-danger-background-default )",
-        "darkAttr": "var( --iui-components-general-action-danger-background-default )",
+        "light": "var(--iui-components-general-action-danger-background-default)",
+        "darkMedia": "var(--iui-components-general-action-danger-background-default)",
+        "darkAttr": "var(--iui-components-general-action-danger-background-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5331,9 +5331,9 @@
         "dtcg": "components.button.background.danger.hover"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-components-general-background-default) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-components-general-background-default) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-components-general-background-default) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-components-general-background-default))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-components-general-background-default))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-components-general-background-default))",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5518,9 +5518,9 @@
         "dtcg": "components.button.background.primary.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-primary-background-default )",
-        "darkMedia": "var( --iui-components-general-action-primary-background-default )",
-        "darkAttr": "var( --iui-components-general-action-primary-background-default )",
+        "light": "var(--iui-components-general-action-primary-background-default)",
+        "darkMedia": "var(--iui-components-general-action-primary-background-default)",
+        "darkAttr": "var(--iui-components-general-action-primary-background-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5558,9 +5558,9 @@
         "dtcg": "components.button.background.primary.hover"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-primary-background-hover )",
-        "darkMedia": "var( --iui-components-general-action-primary-background-hover )",
-        "darkAttr": "var( --iui-components-general-action-primary-background-hover )",
+        "light": "var(--iui-components-general-action-primary-background-hover)",
+        "darkMedia": "var(--iui-components-general-action-primary-background-hover)",
+        "darkAttr": "var(--iui-components-general-action-primary-background-hover)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5598,9 +5598,9 @@
         "dtcg": "components.button.background.secondary.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-secondary-contextual-background-default )",
-        "darkMedia": "var( --iui-components-general-action-secondary-contextual-background-default )",
-        "darkAttr": "var( --iui-components-general-action-secondary-contextual-background-default )",
+        "light": "var(--iui-components-general-action-secondary-contextual-background-default)",
+        "darkMedia": "var(--iui-components-general-action-secondary-contextual-background-default)",
+        "darkAttr": "var(--iui-components-general-action-secondary-contextual-background-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5636,9 +5636,9 @@
         "dtcg": "components.button.background.secondary.hover"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 24%, var(--iui-components-general-background-default) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 24%, var(--iui-components-general-background-default) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 24%, var(--iui-components-general-background-default) )",
+        "light": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 24%, var(--iui-components-general-background-default))",
+        "darkMedia": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 24%, var(--iui-components-general-background-default))",
+        "darkAttr": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 24%, var(--iui-components-general-background-default))",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5672,9 +5672,9 @@
         "dtcg": "components.button.border.danger.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 35%, transparent )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 35%, transparent )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 35%, transparent )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 35%, transparent)",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 35%, transparent)",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 35%, transparent)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5708,9 +5708,9 @@
         "dtcg": "components.button.border.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-components-general-border-control) 70%, var(--iui-components-general-background-default) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-components-general-border-control) 70%, var(--iui-components-general-background-default) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-components-general-border-control) 70%, var(--iui-components-general-background-default) )",
+        "light": "color-mix(in srgb, var(--iui-components-general-border-control) 70%, var(--iui-components-general-background-default))",
+        "darkMedia": "color-mix(in srgb, var(--iui-components-general-border-control) 70%, var(--iui-components-general-background-default))",
+        "darkAttr": "color-mix(in srgb, var(--iui-components-general-border-control) 70%, var(--iui-components-general-background-default))",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5816,9 +5816,9 @@
         "dtcg": "components.button.border.secondary.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 55%, transparent )",
-        "darkMedia": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 55%, transparent )",
-        "darkAttr": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 55%, transparent )",
+        "light": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 55%, transparent)",
+        "darkMedia": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 55%, transparent)",
+        "darkAttr": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 55%, transparent)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5852,9 +5852,9 @@
         "dtcg": "components.button.foreground.danger.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-danger-foreground-default )",
-        "darkMedia": "var( --iui-components-general-action-danger-foreground-default )",
-        "darkAttr": "var( --iui-components-general-action-danger-foreground-default )",
+        "light": "var(--iui-components-general-action-danger-foreground-default)",
+        "darkMedia": "var(--iui-components-general-action-danger-foreground-default)",
+        "darkAttr": "var(--iui-components-general-action-danger-foreground-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5931,9 +5931,9 @@
         "dtcg": "components.button.foreground.ghost.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-foreground-default )",
-        "darkMedia": "var( --iui-components-general-foreground-default )",
-        "darkAttr": "var( --iui-components-general-foreground-default )",
+        "light": "var(--iui-components-general-foreground-default)",
+        "darkMedia": "var(--iui-components-general-foreground-default)",
+        "darkAttr": "var(--iui-components-general-foreground-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -5970,9 +5970,9 @@
         "dtcg": "components.button.foreground.primary.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-primary-foreground-default )",
-        "darkMedia": "var( --iui-components-general-action-primary-foreground-default )",
-        "darkAttr": "var( --iui-components-general-action-primary-foreground-default )",
+        "light": "var(--iui-components-general-action-primary-foreground-default)",
+        "darkMedia": "var(--iui-components-general-action-primary-foreground-default)",
+        "darkAttr": "var(--iui-components-general-action-primary-foreground-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -6009,9 +6009,9 @@
         "dtcg": "components.button.foreground.secondary.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-secondary-contextual-foreground-default )",
-        "darkMedia": "var( --iui-components-general-action-secondary-contextual-foreground-default )",
-        "darkAttr": "var( --iui-components-general-action-secondary-contextual-foreground-default )",
+        "light": "var(--iui-components-general-action-secondary-contextual-foreground-default)",
+        "darkMedia": "var(--iui-components-general-action-secondary-contextual-foreground-default)",
+        "darkAttr": "var(--iui-components-general-action-secondary-contextual-foreground-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -6051,7 +6051,7 @@
       },
       "expressions": {
         "light": "var(--iui-components-general-foreground-secondary)",
-        "darkMedia": "var( --iui-components-general-foreground-secondary )",
+        "darkMedia": "var(--iui-components-general-foreground-secondary)",
         "darkAttr": "var(--iui-components-general-foreground-secondary)",
         "fallbackLight": null,
         "fallbackDark": null
@@ -6426,7 +6426,7 @@
         "dtcg": "components.card.secondary.background.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-feedback-neutral-background-default )",
+        "light": "var(--iui-components-general-feedback-neutral-background-default)",
         "darkMedia": "var(--iui-colors-palette-grey-900)",
         "darkAttr": "var(--iui-colors-palette-grey-900)",
         "fallbackLight": null,
@@ -6542,7 +6542,7 @@
       },
       "expressions": {
         "light": "var(--iui-colors-palette-grey-50)",
-        "darkMedia": "var( --iui-colors-palette-grey-800 )",
+        "darkMedia": "var(--iui-colors-palette-grey-800)",
         "darkAttr": "var(--iui-colors-palette-grey-800)",
         "fallbackLight": null,
         "fallbackDark": null
@@ -6654,9 +6654,9 @@
         "dtcg": "components.general.action.danger.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 10%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-colors-palette-grey-900) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 10%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 18%, var(--iui-colors-palette-grey-900))",
         "fallbackLight": "var(--iui-colors-palette-grey-50)",
         "fallbackDark": "var(--iui-colors-palette-grey-800)"
       },
@@ -6690,7 +6690,7 @@
         "dtcg": "components.general.action.danger.foreground.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-feedback-danger-hover )",
+        "light": "var(--iui-colors-feedback-danger-hover)",
         "darkMedia": "var(--iui-colors-palette-grey-0)",
         "darkAttr": "var(--iui-colors-palette-grey-0)",
         "fallbackLight": null,
@@ -6729,9 +6729,9 @@
         "dtcg": "components.general.action.primary.background.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-brand-primary-default )",
-        "darkMedia": "var( --iui-colors-brand-primary-default )",
-        "darkAttr": "var( --iui-colors-brand-primary-default )",
+        "light": "var(--iui-colors-brand-primary-default)",
+        "darkMedia": "var(--iui-colors-brand-primary-default)",
+        "darkAttr": "var(--iui-colors-brand-primary-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -6845,9 +6845,9 @@
         "dtcg": "components.general.action.secondary.background.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-brand-secondary-default )",
-        "darkMedia": "var( --iui-colors-brand-secondary-default )",
-        "darkAttr": "var( --iui-colors-brand-secondary-default )",
+        "light": "var(--iui-colors-brand-secondary-default)",
+        "darkMedia": "var(--iui-colors-brand-secondary-default)",
+        "darkAttr": "var(--iui-colors-brand-secondary-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -6884,9 +6884,9 @@
         "dtcg": "components.general.action.secondary.background.hover"
       },
       "expressions": {
-        "light": "var( --iui-colors-brand-secondary-hover )",
-        "darkMedia": "var( --iui-colors-brand-secondary-hover )",
-        "darkAttr": "var( --iui-colors-brand-secondary-hover )",
+        "light": "var(--iui-colors-brand-secondary-hover)",
+        "darkMedia": "var(--iui-colors-brand-secondary-hover)",
+        "darkAttr": "var(--iui-colors-brand-secondary-hover)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -6923,11 +6923,11 @@
         "dtcg": "components.general.action.secondary.body.foreground.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-secondary-background-default )",
-        "darkMedia": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50) )",
+        "light": "var(--iui-components-general-action-secondary-background-default)",
+        "darkMedia": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50))",
         "fallbackLight": null,
-        "fallbackDark": "var( --iui-colors-palette-grey-50 )"
+        "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
       "aliasChain": [
         "--iui-components-general-action-secondary-background-default",
@@ -6963,11 +6963,11 @@
         "dtcg": "components.general.action.secondary.contextual.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 15%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 15%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-components-general-action-primary-background-default) 15%, var(--iui-colors-palette-grey-900) )",
-        "fallbackLight": "var( --iui-colors-palette-grey-50 )",
-        "fallbackDark": "var( --iui-colors-palette-grey-800 )"
+        "light": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 15%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 15%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-components-general-action-primary-background-default) 15%, var(--iui-colors-palette-grey-900))",
+        "fallbackLight": "var(--iui-colors-palette-grey-50)",
+        "fallbackDark": "var(--iui-colors-palette-grey-800)"
       },
       "aliasChain": [],
       "adapters": [
@@ -6999,9 +6999,9 @@
         "dtcg": "components.general.action.secondary.contextual.foreground.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-primary-background-hover )",
-        "darkMedia": "var( --iui-colors-palette-grey-0 )",
-        "darkAttr": "var( --iui-colors-palette-grey-0 )",
+        "light": "var(--iui-components-general-action-primary-background-hover)",
+        "darkMedia": "var(--iui-colors-palette-grey-0)",
+        "darkAttr": "var(--iui-colors-palette-grey-0)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -7415,9 +7415,9 @@
         "dtcg": "components.general.feedback.danger.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 8%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 22%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 22%, var(--iui-colors-palette-grey-900) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 8%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 22%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 22%, var(--iui-colors-palette-grey-900))",
         "fallbackLight": "var(--iui-colors-palette-grey-50)",
         "fallbackDark": "var(--iui-colors-palette-grey-800)"
       },
@@ -7451,11 +7451,11 @@
         "dtcg": "components.general.feedback.danger.body.foreground.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-feedback-danger-solid-background-default )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50) )",
+        "light": "var(--iui-components-general-feedback-danger-solid-background-default)",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50))",
         "fallbackLight": null,
-        "fallbackDark": "var( --iui-colors-palette-grey-50 )"
+        "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
       "aliasChain": [
         "--iui-components-general-feedback-danger-solid-background-default",
@@ -7491,11 +7491,11 @@
         "dtcg": "components.general.feedback.danger.border.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 30%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 45%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 45%, var(--iui-colors-palette-grey-900) )",
-        "fallbackLight": "var( --iui-colors-feedback-danger-default )",
-        "fallbackDark": "var( --iui-colors-feedback-danger-default )"
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 30%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 45%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 45%, var(--iui-colors-palette-grey-900))",
+        "fallbackLight": "var(--iui-colors-feedback-danger-default)",
+        "fallbackDark": "var(--iui-colors-feedback-danger-default)"
       },
       "aliasChain": [],
       "adapters": [
@@ -7527,9 +7527,9 @@
         "dtcg": "components.general.feedback.danger.foreground.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 58%, var(--iui-colors-palette-grey-900) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 58%, var(--iui-colors-palette-grey-900))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-danger-default) 48%, var(--iui-colors-palette-grey-50))",
         "fallbackLight": "var(--iui-colors-palette-grey-900)",
         "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
@@ -7563,9 +7563,9 @@
         "dtcg": "components.general.feedback.danger.solid.background.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-feedback-danger-default )",
-        "darkMedia": "var( --iui-colors-feedback-danger-default )",
-        "darkAttr": "var( --iui-colors-feedback-danger-default )",
+        "light": "var(--iui-colors-feedback-danger-default)",
+        "darkMedia": "var(--iui-colors-feedback-danger-default)",
+        "darkAttr": "var(--iui-colors-feedback-danger-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -7602,9 +7602,9 @@
         "dtcg": "components.general.feedback.danger.solid.background.hover"
       },
       "expressions": {
-        "light": "var( --iui-colors-feedback-danger-hover )",
-        "darkMedia": "var( --iui-colors-feedback-danger-hover )",
-        "darkAttr": "var( --iui-colors-feedback-danger-hover )",
+        "light": "var(--iui-colors-feedback-danger-hover)",
+        "darkMedia": "var(--iui-colors-feedback-danger-hover)",
+        "darkAttr": "var(--iui-colors-feedback-danger-hover)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -7641,9 +7641,9 @@
         "dtcg": "components.general.feedback.info.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 8%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 22%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 22%, var(--iui-colors-palette-grey-900) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 8%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 22%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 22%, var(--iui-colors-palette-grey-900))",
         "fallbackLight": "var(--iui-colors-palette-grey-50)",
         "fallbackDark": "var(--iui-colors-palette-grey-800)"
       },
@@ -7677,9 +7677,9 @@
         "dtcg": "components.general.feedback.info.border.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 30%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 45%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 45%, var(--iui-colors-palette-grey-900) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 30%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 45%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 45%, var(--iui-colors-palette-grey-900))",
         "fallbackLight": "var(--iui-colors-feedback-info-default)",
         "fallbackDark": "var(--iui-colors-feedback-info-default)"
       },
@@ -7713,9 +7713,9 @@
         "dtcg": "components.general.feedback.info.foreground.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 48%, var(--iui-colors-palette-grey-900) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 42%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-info-default) 42%, var(--iui-colors-palette-grey-50) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 48%, var(--iui-colors-palette-grey-900))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 42%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-info-default) 42%, var(--iui-colors-palette-grey-50))",
         "fallbackLight": "var(--iui-colors-palette-grey-900)",
         "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
@@ -7749,9 +7749,9 @@
         "dtcg": "components.general.feedback.info.solid.background.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-feedback-info-default )",
-        "darkMedia": "var( --iui-colors-feedback-info-default )",
-        "darkAttr": "var( --iui-colors-feedback-info-default )",
+        "light": "var(--iui-colors-feedback-info-default)",
+        "darkMedia": "var(--iui-colors-feedback-info-default)",
+        "darkAttr": "var(--iui-colors-feedback-info-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -7789,7 +7789,7 @@
       },
       "expressions": {
         "light": "var(--iui-colors-palette-grey-50)",
-        "darkMedia": "var( --iui-colors-palette-grey-800 )",
+        "darkMedia": "var(--iui-colors-palette-grey-800)",
         "darkAttr": "var(--iui-colors-palette-grey-800)",
         "fallbackLight": null,
         "fallbackDark": null
@@ -7865,7 +7865,7 @@
       },
       "expressions": {
         "light": "var(--iui-colors-palette-grey-700)",
-        "darkMedia": "var( --iui-colors-palette-grey-200 )",
+        "darkMedia": "var(--iui-colors-palette-grey-200)",
         "darkAttr": "var(--iui-colors-palette-grey-200)",
         "fallbackLight": null,
         "fallbackDark": null
@@ -7902,9 +7902,9 @@
         "dtcg": "components.general.feedback.neutral.solid.background.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-palette-grey-500 )",
-        "darkMedia": "var( --iui-colors-palette-grey-500 )",
-        "darkAttr": "var( --iui-colors-palette-grey-500 )",
+        "light": "var(--iui-colors-palette-grey-500)",
+        "darkMedia": "var(--iui-colors-palette-grey-500)",
+        "darkAttr": "var(--iui-colors-palette-grey-500)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -7978,11 +7978,11 @@
         "dtcg": "components.general.feedback.success.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 8%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 22%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 22%, var(--iui-colors-palette-grey-900) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 8%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 22%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 22%, var(--iui-colors-palette-grey-900))",
         "fallbackLight": "var(--iui-colors-palette-grey-50)",
-        "fallbackDark": "var( --iui-colors-palette-grey-800 )"
+        "fallbackDark": "var(--iui-colors-palette-grey-800)"
       },
       "aliasChain": [],
       "adapters": [
@@ -8014,11 +8014,11 @@
         "dtcg": "components.general.feedback.success.body.foreground.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-feedback-success-solid-background-default )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50) )",
+        "light": "var(--iui-components-general-feedback-success-solid-background-default)",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50))",
         "fallbackLight": null,
-        "fallbackDark": "var( --iui-colors-palette-grey-50 )"
+        "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
       "aliasChain": [
         "--iui-components-general-feedback-success-solid-background-default",
@@ -8054,11 +8054,11 @@
         "dtcg": "components.general.feedback.success.border.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 30%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 45%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 45%, var(--iui-colors-palette-grey-900) )",
-        "fallbackLight": "var( --iui-colors-feedback-success-default )",
-        "fallbackDark": "var( --iui-colors-feedback-success-default )"
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 30%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 45%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 45%, var(--iui-colors-palette-grey-900))",
+        "fallbackLight": "var(--iui-colors-feedback-success-default)",
+        "fallbackDark": "var(--iui-colors-feedback-success-default)"
       },
       "aliasChain": [],
       "adapters": [
@@ -8090,10 +8090,10 @@
         "dtcg": "components.general.feedback.success.foreground.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 52%, var(--iui-colors-palette-grey-900) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50) )",
-        "fallbackLight": "var( --iui-colors-palette-grey-900 )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 52%, var(--iui-colors-palette-grey-900))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-success-default) 50%, var(--iui-colors-palette-grey-50))",
+        "fallbackLight": "var(--iui-colors-palette-grey-900)",
         "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
       "aliasChain": [],
@@ -8126,9 +8126,9 @@
         "dtcg": "components.general.feedback.success.solid.background.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-feedback-success-default )",
-        "darkMedia": "var( --iui-colors-feedback-success-default )",
-        "darkAttr": "var( --iui-colors-feedback-success-default )",
+        "light": "var(--iui-colors-feedback-success-default)",
+        "darkMedia": "var(--iui-colors-feedback-success-default)",
+        "darkAttr": "var(--iui-colors-feedback-success-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -8165,11 +8165,11 @@
         "dtcg": "components.general.feedback.warning.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 8%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 22%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 22%, var(--iui-colors-palette-grey-900) )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 8%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 22%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 22%, var(--iui-colors-palette-grey-900))",
         "fallbackLight": "var(--iui-colors-palette-grey-50)",
-        "fallbackDark": "var( --iui-colors-palette-grey-800 )"
+        "fallbackDark": "var(--iui-colors-palette-grey-800)"
       },
       "aliasChain": [],
       "adapters": [
@@ -8201,11 +8201,11 @@
         "dtcg": "components.general.feedback.warning.border.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 30%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 45%, var(--iui-colors-palette-grey-900) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 45%, var(--iui-colors-palette-grey-900) )",
-        "fallbackLight": "var( --iui-colors-feedback-warning-default )",
-        "fallbackDark": "var( --iui-colors-feedback-warning-default )"
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 30%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 45%, var(--iui-colors-palette-grey-900))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 45%, var(--iui-colors-palette-grey-900))",
+        "fallbackLight": "var(--iui-colors-feedback-warning-default)",
+        "fallbackDark": "var(--iui-colors-feedback-warning-default)"
       },
       "aliasChain": [],
       "adapters": [
@@ -8237,10 +8237,10 @@
         "dtcg": "components.general.feedback.warning.foreground.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 42%, var(--iui-colors-palette-grey-900) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 58%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 58%, var(--iui-colors-palette-grey-50) )",
-        "fallbackLight": "var( --iui-colors-palette-grey-900 )",
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 42%, var(--iui-colors-palette-grey-900))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 58%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 58%, var(--iui-colors-palette-grey-50))",
+        "fallbackLight": "var(--iui-colors-palette-grey-900)",
         "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
       "aliasChain": [],
@@ -8273,11 +8273,11 @@
         "dtcg": "components.general.feedback.warning.label.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 85%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 85%, var(--iui-colors-palette-grey-0) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-feedback-warning-default) 85%, var(--iui-colors-palette-grey-0) )",
-        "fallbackLight": "var( --iui-colors-palette-grey-100 )",
-        "fallbackDark": "var( --iui-colors-palette-grey-100 )"
+        "light": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 85%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 85%, var(--iui-colors-palette-grey-0))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-feedback-warning-default) 85%, var(--iui-colors-palette-grey-0))",
+        "fallbackLight": "var(--iui-colors-palette-grey-100)",
+        "fallbackDark": "var(--iui-colors-palette-grey-100)"
       },
       "aliasChain": [],
       "adapters": [
@@ -8309,9 +8309,9 @@
         "dtcg": "components.general.feedback.warning.solid.background.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-feedback-warning-default )",
-        "darkMedia": "var( --iui-colors-feedback-warning-default )",
-        "darkAttr": "var( --iui-colors-feedback-warning-default )",
+        "light": "var(--iui-colors-feedback-warning-default)",
+        "darkMedia": "var(--iui-colors-feedback-warning-default)",
+        "darkAttr": "var(--iui-colors-feedback-warning-default)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -8348,9 +8348,9 @@
         "dtcg": "components.general.feedback.warning.solid.foreground.default"
       },
       "expressions": {
-        "light": "var( --iui-colors-palette-grey-900 )",
-        "darkMedia": "var( --iui-colors-palette-grey-900 )",
-        "darkAttr": "var( --iui-colors-palette-grey-900 )",
+        "light": "var(--iui-colors-palette-grey-900)",
+        "darkMedia": "var(--iui-colors-palette-grey-900)",
+        "darkAttr": "var(--iui-colors-palette-grey-900)",
         "fallbackLight": null,
         "fallbackDark": null
       },
@@ -8386,7 +8386,7 @@
         "dtcg": "components.general.focus.halo.color"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-components-general-focus-ring-color) 30%, transparent )",
+        "light": "color-mix(in srgb, var(--iui-components-general-focus-ring-color) 30%, transparent)",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": "transparent",
@@ -8458,10 +8458,10 @@
         "dtcg": "components.general.focus.ring.color"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-colors-brand-secondary-default) 85%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-colors-brand-secondary-default) 70%, var(--iui-colors-palette-grey-0) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-colors-brand-secondary-default) 70%, var(--iui-colors-palette-grey-0) )",
-        "fallbackLight": "var( --iui-components-general-action-secondary-background-default )",
+        "light": "color-mix(in srgb, var(--iui-colors-brand-secondary-default) 85%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-colors-brand-secondary-default) 70%, var(--iui-colors-palette-grey-0))",
+        "darkAttr": "color-mix(in srgb, var(--iui-colors-brand-secondary-default) 70%, var(--iui-colors-palette-grey-0))",
+        "fallbackLight": "var(--iui-components-general-action-secondary-background-default)",
         "fallbackDark": "var(--iui-pastel-violet)"
       },
       "aliasChain": [],
@@ -8680,7 +8680,7 @@
         "dtcg": "components.general.selection.background.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-primary-background-default, #7a52cc )",
+        "light": "var(--iui-components-general-action-primary-background-default, #7a52cc)",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -8720,11 +8720,11 @@
         "dtcg": "components.general.selection.contextual.foreground.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 55%, var(--iui-colors-palette-grey-900) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50) )",
-        "fallbackLight": "var( --iui-colors-palette-grey-900 )",
-        "fallbackDark": "var( --iui-colors-palette-grey-50 )"
+        "light": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 55%, var(--iui-colors-palette-grey-900))",
+        "darkMedia": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 62%, var(--iui-colors-palette-grey-50))",
+        "fallbackLight": "var(--iui-colors-palette-grey-900)",
+        "fallbackDark": "var(--iui-colors-palette-grey-50)"
       },
       "aliasChain": [],
       "adapters": [
@@ -8756,7 +8756,7 @@
         "dtcg": "components.general.selection.foreground.default"
       },
       "expressions": {
-        "light": "var( --iui-components-general-action-secondary-foreground-default, #fff )",
+        "light": "var(--iui-components-general-action-secondary-foreground-default, #fff)",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,
@@ -8872,11 +8872,11 @@
         "dtcg": "components.navigation-bar.current-indicator.background.default"
       },
       "expressions": {
-        "light": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 90%, var(--iui-colors-palette-grey-0) )",
-        "darkMedia": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 74%, var(--iui-colors-palette-grey-50) )",
-        "darkAttr": "color-mix( in srgb, var(--iui-components-general-action-secondary-background-default) 74%, var(--iui-colors-palette-grey-50) )",
-        "fallbackLight": "var( --iui-colors-palette-grey-400 )",
-        "fallbackDark": "var( --iui-colors-palette-grey-300 )"
+        "light": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 90%, var(--iui-colors-palette-grey-0))",
+        "darkMedia": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 74%, var(--iui-colors-palette-grey-50))",
+        "darkAttr": "color-mix(in srgb, var(--iui-components-general-action-secondary-background-default) 74%, var(--iui-colors-palette-grey-50))",
+        "fallbackLight": "var(--iui-colors-palette-grey-400)",
+        "fallbackDark": "var(--iui-colors-palette-grey-300)"
       },
       "aliasChain": [],
       "adapters": [
@@ -9175,7 +9175,7 @@
         "dtcg": null
       },
       "expressions": {
-        "light": "0 0 0 var(--iui-components-general-focus-ring-width) var(--iui-components-general-focus-ring-color), 0 0 0 calc( var(--iui-components-general-focus-ring-width) + var(--iui-components-general-focus-halo-width) ) var(--iui-components-general-focus-halo-color)",
+        "light": "0 0 0 var(--iui-components-general-focus-ring-width) var(--iui-components-general-focus-ring-color), 0 0 0 calc(var(--iui-components-general-focus-ring-width) + var(--iui-components-general-focus-halo-width)) var(--iui-components-general-focus-halo-color)",
         "darkMedia": null,
         "darkAttr": null,
         "fallbackLight": null,

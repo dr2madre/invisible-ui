@@ -357,6 +357,7 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
   }
   .tk-card {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.5rem;
     align-content: start;
     padding: 0.85rem;

@@ -122,7 +122,8 @@ function parseSheet(css) {
       const atRules = atRulesNow;
       found.push({
         name: match[1],
-        value: match[2].replace(/\s+/g, " ").trim(),
+        // Prettier wraps a long value as `var(\n  --iui-…\n)`; keep the one-line form.
+        value: match[2].replace(/\s+/g, " ").replace(/\(\s+/g, "(").replace(/\s+\)/g, ")").trim(),
         selector: selectors[selectors.length - 1] ?? ":root",
         layer: layerOf(selectors[selectors.length - 1] ?? ":root", atRules),
         line: startLine,
