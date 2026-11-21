@@ -27,15 +27,13 @@ Each item ships as its own PR. Checkboxes track progress.
 
 - [x] **1. Release & versioning** — Changesets + semver, `release.yml` workflow
   (version PR + `npm publish` with provenance), CHANGELOG per package,
-  `publishConfig`, `repository` metadata, release scripts. **Parked/dormant:**
-  the packages are `private: true` and the workflow is
-  `workflow_dispatch`-only, so nothing publishes by accident. To go live later,
-  follow the checklist at
-  the top of `.github/workflows/release.yml` (unset `private`, register the
-  `invisible-ui` organisation on npm, add `NPM_TOKEN`, flip the trigger to
-  `push`). The packages already use the `@nozcadesign/invisible-ui-*` scope (renamed from
-  `@design-system/*` on 2026-10-17); registering the npm organisation is still
-  a task before publishing.
+  `publishConfig`, `repository` metadata, release scripts. **Published as
+  alpha:** the five npm packages (`@nozcadesign/invisible-ui-core`, `-svelte`,
+  `-vue`, `-react`, `-elements`) are public on npm at `0.1.0-alpha.1` under the
+  `alpha` dist-tag, published on 2026-11-20. Changesets is in prerelease mode
+  (`.changeset/pre.json`, tag `alpha`) and `release.yml` runs only on
+  `workflow_dispatch`. [`docs/releasing.md`](./releasing.md) holds the
+  procedure. The Flutter and Reflex packages are not published.
 - [x] **2. Lint / format / hooks** — ESLint 9 flat config (js +
   typescript-eslint + eslint-plugin-svelte + eslint-plugin-react-hooks +
   prettier compat) + Prettier

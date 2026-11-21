@@ -13,7 +13,7 @@ when an adapter grows.
 | --- | --- | --- | --- |
 | **Svelte** | `@nozcadesign/invisible-ui-svelte` | All 81 | Complete: every component documented with a live demo. |
 | **React** | `@nozcadesign/invisible-ui-react` | All 81 | Complete: styled components and headless hooks for the whole catalog. |
-| **Python** ([Reflex](https://reflex.dev/)) | `invisible_ui` | 7 | Working adapter over the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
+| **Python** ([Reflex](https://reflex.dev/)) | `invisible-ui` (imported as `invisible_ui`) | 7 | Working adapter over the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
 | **Web components** (plain HTML) | `@nozcadesign/invisible-ui-elements` | All 81 | Complete: one script tag, no build step, any page ([ADR 0008](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0008-web-components-adapter.md)). |
 | **Vue** | `@nozcadesign/invisible-ui-vue` | All 81 | Complete: every Svelte component has a Vue counterpart, with `v-model` on the controlled values. |
 | **Flutter** | `invisible_ui` (Dart) | All 81 | Complete: foundation (tokens, theme, density, focus ring, messages) and Button, Field, Text Field, Text Area, Number Field, Checkbox, Checkbox Group, Switch, Radio Group, Segmented Control, Select, Combobox, Multi Select, Search Field, Calendar, Date Picker, Date Range Picker, Time Field, Tooltip, Toolbar, Popover, Dropdown Menu, Context Menu and Menubar with submenus, Inline Notification, Notification, Notification Region, Loading, Loading Area, Empty State, Error State, Card, Dialog, Alert Dialog, Confirm Dialog, Prompt Dialog, Search Dialog, Sheet Dialog, Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link, Navigation Menu, Sidebar (inline, rail and drawer), Navigation Bar, Tree View, Progress, Meter, Avatar, Avatar Group, Count, Tag, Kbd, Label, Feedback Icon, Skeleton, Code, Code Block, Blockquote, Scroll Area, Slider, Range Slider, Rating Group, Pin Input, Radio, Toggle Button, Toggle Group, Button Group, Stepper, Separator, Table, Table Set (with Table View inside it, internal as on the web), Carousel, Login Form, Upload Drop Area and Locale Provider, each checked against the Svelte reference ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0017-flutter-adapter.md), [parity checklists](https://github.com/dr2madre/invisible-ui/tree/main/packages/flutter/parity)). Aspect Ratio and Icon are Flutter's own `AspectRatio` and `Icon` widgets. Data Grid is built from its [spec](https://github.com/dr2madre/invisible-ui/blob/main/docs/editable-grid-spec.md) in Flutter and `core/` first; the web adapters follow. |
@@ -33,6 +33,38 @@ technology, so none is described as verified; the
 records what each check covers. When a component
 lands in an adapter, this page and the [API conventions](/invisible-ui/api/)
 change with it.
+
+## How to install
+
+The Svelte, React, Vue and web components packages and the core are published
+on npm as alpha releases, under the `alpha` dist-tag (`0.1.0-alpha.1` today).
+APIs may change before the first stable release.
+
+| Technology | Install | Stylesheet |
+| --- | --- | --- |
+| Svelte | `pnpm add @nozcadesign/invisible-ui-svelte@alpha` | `@nozcadesign/invisible-ui-svelte/tokens.css`, imported once in the app; component styles read their values from it |
+| React | `pnpm add @nozcadesign/invisible-ui-react@alpha react react-dom` | `@nozcadesign/invisible-ui-react/styles.css` |
+| Vue | `pnpm add @nozcadesign/invisible-ui-vue@alpha vue` | `@nozcadesign/invisible-ui-vue/styles.css` |
+| Web components | `pnpm add @nozcadesign/invisible-ui-elements@alpha` | `@nozcadesign/invisible-ui-elements/styles.css` |
+| Core only | `pnpm add @nozcadesign/invisible-ui-core@alpha` | None: the core renders nothing |
+
+The React, Vue and web components packages also export `tokens.css`: the
+design tokens without the component styles, for markup you style yourself.
+
+A page without a build step can load the web components from a CDN, pinned to
+an exact version: the stylesheet and `define.js`, which bundles the core. The
+[Elements setup](https://github.com/dr2madre/invisible-ui/tree/main/packages/elements#usage--no-build-step-required)
+shows the two tags.
+
+The Flutter package is not published to pub.dev. A Flutter app depends on
+`packages/flutter` by git, pinned to a commit; the
+[Flutter setup](https://github.com/dr2madre/invisible-ui/tree/main/packages/flutter#depend-on-it)
+shows the `pubspec.yaml` entry.
+
+The Python package is not published to PyPI. Its wrappers render the
+components of `@nozcadesign/invisible-ui-react`; the
+[Reflex setup](https://github.com/dr2madre/invisible-ui/tree/main/packages/reflex#resolving-the-npm-package)
+describes how a Reflex app resolves that npm package.
 
 ## Native Vue example
 

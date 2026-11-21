@@ -14,10 +14,10 @@ import reflex as rx
 class InvisibleUiComponent(rx.Component):
     """Base component: the shared npm library and the design-system stylesheet.
 
-    The library is intentionally unpinned while `@nozcadesign/invisible-ui-react` is
-    private/unpublished: the consuming app must make the package resolvable to
-    its JS package manager (a published version, an `npm pack` tarball or a
-    workspace/file link — see the package README).
+    The library carries no version, so the consuming app's JS package manager
+    resolves `@nozcadesign/invisible-ui-react` from npm's `latest` dist-tag
+    unless the app points it at a packed tarball or a workspace/file link (see
+    the package README).
     """
 
     library = "@nozcadesign/invisible-ui-react"
