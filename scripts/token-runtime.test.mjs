@@ -42,10 +42,10 @@ for (const mode of ["light", "dark"])
       } else {
         let actual = expression;
         const seen = new Set();
-        while (/^var\((--ds-[\w-]+)\)$/.test(actual)) {
+        while (/^var\((--iui-[\w-]+)\)$/.test(actual)) {
           assert.ok(!seen.has(actual), path);
           seen.add(actual);
-          actual = lookup(/^var\((--ds-[\w-]+)\)$/.exec(actual)[1]);
+          actual = lookup(/^var\((--iui-[\w-]+)\)$/.exec(actual)[1]);
         }
         assert.equal(actual, String(resolved.get(path)), path);
       }

@@ -65,7 +65,7 @@ export interface PromptDialogProps {
  * field confirms too.
  *
  * It runs on `useDialog`: native `<dialog>` + `showModal()`, scroll lock,
- * focus restore. Themeable via `--ds-dialog-*`.
+ * focus restore. Themeable via `--iui-dialog-*`.
  *
  * A ref holds the status area (ADR 0016), with the same contract as `Dialog`:
  * `notify(options)`, `dismissNotice(id)` and `clearNotices()`.

@@ -24,7 +24,7 @@ export interface CheckboxGroupProps {
  *
  * A group `label` is required (rendered as the `<legend>`); each item carries
  * an optional `label` (falls back to `value`). Pass `name` to submit every
- * checked item's value under a shared field. Themeable via `--ds-checkbox-*`.
+ * checked item's value under a shared field. Themeable via `--iui-checkbox-*`.
  */
 export function CheckboxGroup({
   items,

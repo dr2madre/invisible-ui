@@ -130,7 +130,7 @@ destinations, `test/sidebar_status_test.dart`.
 | Focus ring for keyboard focus | adapted | the package's ring; on items and headings it is drawn inside the control, as Dropdown Menu items do, because the scrolling sections clip at their edges |
 | Targets 24 by 24, 44 by 44 under touch | matched | `semantics: …` (24), `right to left at text scale 2.0 in a 320 wide parent: …` and `the rail right to left …` (44) |
 | Text contrast | matched | `semantics: …`, `right to left at text scale 2.0 in a 320 wide parent: …` (`textContrastGuideline`) |
-| `--ds-sidebar-*` theme variables, `data-mode`, `data-side`, `data-collapsed` | out of scope | the Flutter theme carries the shared roles; component variables and attribute hooks have no Flutter equivalent yet |
+| `--iui-sidebar-*` theme variables, `data-mode`, `data-side`, `data-collapsed` | out of scope | the Flutter theme carries the shared roles; component variables and attribute hooks have no Flutter equivalent yet |
 
 ## Drawer (ADR 0013)
 
@@ -163,4 +163,4 @@ destinations, `test/sidebar_status_test.dart`.
 
 ## Background token
 
-The background reads the component token `--ds-components-sidebar-background-default` on the web and `InvisibleColors.sidebarBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-sidebar-background-default` on the web and `InvisibleColors.sidebarBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

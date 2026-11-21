@@ -1,0 +1,3480 @@
+{
+  "baseline": "ac9d2d2f",
+  "release": "0.1.0-alpha.1",
+  "prefix": {
+    "from": "--ds-",
+    "to": "--iui-"
+  },
+  "entries": [
+    {
+      "from": "--ds-accordion-icon-size",
+      "to": "--iui-accordion-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-accordion-radius",
+      "to": "--iui-accordion-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-accordion-trigger-padding",
+      "to": "--iui-accordion-trigger-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-accordion-width",
+      "to": "--iui-accordion-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-alert-padding",
+      "to": "--iui-alert-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-alert-radius",
+      "to": "--iui-alert-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-aspect-ratio-radius",
+      "to": "--iui-aspect-ratio-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-bg",
+      "to": "--iui-avatar-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-color",
+      "to": "--iui-avatar-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-group-overflow-bg",
+      "to": "--iui-avatar-group-overflow-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-group-overflow-color",
+      "to": "--iui-avatar-group-overflow-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-group-overlap",
+      "to": "--iui-avatar-group-overlap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-group-ring-color",
+      "to": "--iui-avatar-group-ring-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-group-ring-width",
+      "to": "--iui-avatar-group-ring-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-radius",
+      "to": "--iui-avatar-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-avatar-size",
+      "to": "--iui-avatar-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-blockquote-accent",
+      "to": "--iui-blockquote-accent",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-blockquote-border-width",
+      "to": "--iui-blockquote-border-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-blockquote-cite-text",
+      "to": "--iui-blockquote-cite-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-blockquote-font-style",
+      "to": "--iui-blockquote-font-style",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-blockquote-padding",
+      "to": "--iui-blockquote-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-blockquote-text",
+      "to": "--iui-blockquote-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-brand-black",
+      "to": "--iui-brand-black",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-brand-white",
+      "to": "--iui-brand-white",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-breadcrumb-current-text",
+      "to": "--iui-breadcrumb-current-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-breadcrumb-font-size",
+      "to": "--iui-breadcrumb-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-breadcrumb-gap",
+      "to": "--iui-breadcrumb-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-breadcrumb-link-hover",
+      "to": "--iui-breadcrumb-link-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-breadcrumb-link-text",
+      "to": "--iui-breadcrumb-link-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-breadcrumb-sep-text",
+      "to": "--iui-breadcrumb-sep-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-button-group-gap",
+      "to": "--iui-button-group-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-agenda-min",
+      "to": "--iui-calendar-agenda-min",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-day-bg",
+      "to": "--iui-calendar-day-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-day-hover",
+      "to": "--iui-calendar-day-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-day-radius",
+      "to": "--iui-calendar-day-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-day-size",
+      "to": "--iui-calendar-day-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-dot",
+      "to": "--iui-calendar-dot",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-gap",
+      "to": "--iui-calendar-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-price",
+      "to": "--iui-calendar-price",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-range-band",
+      "to": "--iui-calendar-range-band",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-selected-bg",
+      "to": "--iui-calendar-selected-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-selected-text",
+      "to": "--iui-calendar-selected-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-title-size",
+      "to": "--iui-calendar-title-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-calendar-today",
+      "to": "--iui-calendar-today",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-actions-border",
+      "to": "--iui-card-actions-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-actions-padding",
+      "to": "--iui-card-actions-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-border",
+      "to": "--iui-card-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-change-size",
+      "to": "--iui-card-change-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-dash-icon-size",
+      "to": "--iui-card-dash-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-description-text",
+      "to": "--iui-card-description-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-gap",
+      "to": "--iui-card-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-horizontal-media-size",
+      "to": "--iui-card-horizontal-media-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-icon-color",
+      "to": "--iui-card-icon-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-icon-padding",
+      "to": "--iui-card-icon-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-icon-size",
+      "to": "--iui-card-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-media-bg",
+      "to": "--iui-card-media-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-padding",
+      "to": "--iui-card-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-radius",
+      "to": "--iui-card-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-text",
+      "to": "--iui-card-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-title-size",
+      "to": "--iui-card-title-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-card-value-size",
+      "to": "--iui-card-value-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-arrow-bg",
+      "to": "--iui-carousel-arrow-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-arrow-border",
+      "to": "--iui-carousel-arrow-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-arrow-offset",
+      "to": "--iui-carousel-arrow-offset",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-arrow-size",
+      "to": "--iui-carousel-arrow-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-arrow-text",
+      "to": "--iui-carousel-arrow-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-aspect",
+      "to": "--iui-carousel-aspect",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-coverflow-height",
+      "to": "--iui-carousel-coverflow-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-coverflow-perspective",
+      "to": "--iui-carousel-coverflow-perspective",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-coverflow-size",
+      "to": "--iui-carousel-coverflow-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-coverflow-spacing",
+      "to": "--iui-carousel-coverflow-spacing",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-dot-active",
+      "to": "--iui-carousel-dot-active",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-dot-color",
+      "to": "--iui-carousel-dot-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-dot-size",
+      "to": "--iui-carousel-dot-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-gap",
+      "to": "--iui-carousel-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-item-size",
+      "to": "--iui-carousel-item-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-overlay-bg",
+      "to": "--iui-carousel-overlay-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-overlay-padding",
+      "to": "--iui-carousel-overlay-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-overlay-text",
+      "to": "--iui-carousel-overlay-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-radius",
+      "to": "--iui-carousel-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-slide-bg",
+      "to": "--iui-carousel-slide-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-title-size",
+      "to": "--iui-carousel-title-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-carousel-transition",
+      "to": "--iui-carousel-transition",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-checkbox-gap",
+      "to": "--iui-checkbox-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-checkbox-group-gap",
+      "to": "--iui-checkbox-group-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-checkbox-padding",
+      "to": "--iui-checkbox-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-checkbox-radius",
+      "to": "--iui-checkbox-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-checkbox-size",
+      "to": "--iui-checkbox-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-close-color",
+      "to": "--iui-close-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-close-hit-area",
+      "to": "--iui-close-hit-area",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-close-icon-size",
+      "to": "--iui-close-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-border",
+      "to": "--iui-code-block-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-copy-bg",
+      "to": "--iui-code-block-copy-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-copy-hover",
+      "to": "--iui-code-block-copy-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-font-size",
+      "to": "--iui-code-block-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-header-padding",
+      "to": "--iui-code-block-header-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-padding",
+      "to": "--iui-code-block-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-radius",
+      "to": "--iui-code-block-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-block-text",
+      "to": "--iui-code-block-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-border",
+      "to": "--iui-code-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-font-size",
+      "to": "--iui-code-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-padding",
+      "to": "--iui-code-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-radius",
+      "to": "--iui-code-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-surface",
+      "to": "--iui-code-surface",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-code-text",
+      "to": "--iui-code-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-collapsible-content-padding",
+      "to": "--iui-collapsible-content-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-collapsible-icon-size",
+      "to": "--iui-collapsible-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-collapsible-radius",
+      "to": "--iui-collapsible-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-collapsible-trigger-padding",
+      "to": "--iui-collapsible-trigger-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-collapsible-width",
+      "to": "--iui-collapsible-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-colors-brand-primary-default",
+      "to": "--iui-colors-brand-primary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-brand-primary-hover",
+      "to": "--iui-colors-brand-primary-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-brand-secondary-default",
+      "to": "--iui-colors-brand-secondary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-brand-secondary-hover",
+      "to": "--iui-colors-brand-secondary-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-feedback-danger-default",
+      "to": "--iui-colors-feedback-danger-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-feedback-danger-hover",
+      "to": "--iui-colors-feedback-danger-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-feedback-info-default",
+      "to": "--iui-colors-feedback-info-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-feedback-success-default",
+      "to": "--iui-colors-feedback-success-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-feedback-warning-default",
+      "to": "--iui-colors-feedback-warning-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-100",
+      "to": "--iui-colors-palette-alizarin-red-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-200",
+      "to": "--iui-colors-palette-alizarin-red-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-300",
+      "to": "--iui-colors-palette-alizarin-red-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-400",
+      "to": "--iui-colors-palette-alizarin-red-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-50",
+      "to": "--iui-colors-palette-alizarin-red-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-500",
+      "to": "--iui-colors-palette-alizarin-red-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-600",
+      "to": "--iui-colors-palette-alizarin-red-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-700",
+      "to": "--iui-colors-palette-alizarin-red-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-800",
+      "to": "--iui-colors-palette-alizarin-red-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-900",
+      "to": "--iui-colors-palette-alizarin-red-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-alizarin-red-950",
+      "to": "--iui-colors-palette-alizarin-red-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-black",
+      "to": "--iui-colors-palette-black",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-100",
+      "to": "--iui-colors-palette-burnt-orange-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-200",
+      "to": "--iui-colors-palette-burnt-orange-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-300",
+      "to": "--iui-colors-palette-burnt-orange-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-400",
+      "to": "--iui-colors-palette-burnt-orange-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-50",
+      "to": "--iui-colors-palette-burnt-orange-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-500",
+      "to": "--iui-colors-palette-burnt-orange-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-600",
+      "to": "--iui-colors-palette-burnt-orange-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-700",
+      "to": "--iui-colors-palette-burnt-orange-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-800",
+      "to": "--iui-colors-palette-burnt-orange-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-900",
+      "to": "--iui-colors-palette-burnt-orange-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-burnt-orange-950",
+      "to": "--iui-colors-palette-burnt-orange-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-100",
+      "to": "--iui-colors-palette-cerulean-blue-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-200",
+      "to": "--iui-colors-palette-cerulean-blue-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-300",
+      "to": "--iui-colors-palette-cerulean-blue-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-400",
+      "to": "--iui-colors-palette-cerulean-blue-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-50",
+      "to": "--iui-colors-palette-cerulean-blue-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-500",
+      "to": "--iui-colors-palette-cerulean-blue-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-600",
+      "to": "--iui-colors-palette-cerulean-blue-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-700",
+      "to": "--iui-colors-palette-cerulean-blue-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-800",
+      "to": "--iui-colors-palette-cerulean-blue-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-900",
+      "to": "--iui-colors-palette-cerulean-blue-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cerulean-blue-950",
+      "to": "--iui-colors-palette-cerulean-blue-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-100",
+      "to": "--iui-colors-palette-cobalt-blue-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-200",
+      "to": "--iui-colors-palette-cobalt-blue-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-300",
+      "to": "--iui-colors-palette-cobalt-blue-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-400",
+      "to": "--iui-colors-palette-cobalt-blue-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-50",
+      "to": "--iui-colors-palette-cobalt-blue-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-500",
+      "to": "--iui-colors-palette-cobalt-blue-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-600",
+      "to": "--iui-colors-palette-cobalt-blue-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-700",
+      "to": "--iui-colors-palette-cobalt-blue-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-800",
+      "to": "--iui-colors-palette-cobalt-blue-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-900",
+      "to": "--iui-colors-palette-cobalt-blue-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-cobalt-blue-950",
+      "to": "--iui-colors-palette-cobalt-blue-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-100",
+      "to": "--iui-colors-palette-dioxazine-purple-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-200",
+      "to": "--iui-colors-palette-dioxazine-purple-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-300",
+      "to": "--iui-colors-palette-dioxazine-purple-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-400",
+      "to": "--iui-colors-palette-dioxazine-purple-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-50",
+      "to": "--iui-colors-palette-dioxazine-purple-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-500",
+      "to": "--iui-colors-palette-dioxazine-purple-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-600",
+      "to": "--iui-colors-palette-dioxazine-purple-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-700",
+      "to": "--iui-colors-palette-dioxazine-purple-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-800",
+      "to": "--iui-colors-palette-dioxazine-purple-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-900",
+      "to": "--iui-colors-palette-dioxazine-purple-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-dioxazine-purple-950",
+      "to": "--iui-colors-palette-dioxazine-purple-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-0",
+      "to": "--iui-colors-palette-grey-0",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-100",
+      "to": "--iui-colors-palette-grey-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-200",
+      "to": "--iui-colors-palette-grey-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-300",
+      "to": "--iui-colors-palette-grey-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-400",
+      "to": "--iui-colors-palette-grey-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-50",
+      "to": "--iui-colors-palette-grey-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-500",
+      "to": "--iui-colors-palette-grey-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-600",
+      "to": "--iui-colors-palette-grey-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-700",
+      "to": "--iui-colors-palette-grey-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-800",
+      "to": "--iui-colors-palette-grey-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-900",
+      "to": "--iui-colors-palette-grey-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-grey-950",
+      "to": "--iui-colors-palette-grey-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-100",
+      "to": "--iui-colors-palette-lime-green-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-200",
+      "to": "--iui-colors-palette-lime-green-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-300",
+      "to": "--iui-colors-palette-lime-green-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-400",
+      "to": "--iui-colors-palette-lime-green-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-50",
+      "to": "--iui-colors-palette-lime-green-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-500",
+      "to": "--iui-colors-palette-lime-green-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-600",
+      "to": "--iui-colors-palette-lime-green-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-700",
+      "to": "--iui-colors-palette-lime-green-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-800",
+      "to": "--iui-colors-palette-lime-green-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-900",
+      "to": "--iui-colors-palette-lime-green-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-lime-green-950",
+      "to": "--iui-colors-palette-lime-green-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-100",
+      "to": "--iui-colors-palette-magenta-pink-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-200",
+      "to": "--iui-colors-palette-magenta-pink-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-300",
+      "to": "--iui-colors-palette-magenta-pink-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-400",
+      "to": "--iui-colors-palette-magenta-pink-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-50",
+      "to": "--iui-colors-palette-magenta-pink-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-500",
+      "to": "--iui-colors-palette-magenta-pink-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-600",
+      "to": "--iui-colors-palette-magenta-pink-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-700",
+      "to": "--iui-colors-palette-magenta-pink-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-800",
+      "to": "--iui-colors-palette-magenta-pink-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-900",
+      "to": "--iui-colors-palette-magenta-pink-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-magenta-pink-950",
+      "to": "--iui-colors-palette-magenta-pink-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-100",
+      "to": "--iui-colors-palette-naples-yellow-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-200",
+      "to": "--iui-colors-palette-naples-yellow-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-300",
+      "to": "--iui-colors-palette-naples-yellow-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-400",
+      "to": "--iui-colors-palette-naples-yellow-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-50",
+      "to": "--iui-colors-palette-naples-yellow-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-500",
+      "to": "--iui-colors-palette-naples-yellow-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-600",
+      "to": "--iui-colors-palette-naples-yellow-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-700",
+      "to": "--iui-colors-palette-naples-yellow-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-800",
+      "to": "--iui-colors-palette-naples-yellow-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-900",
+      "to": "--iui-colors-palette-naples-yellow-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-naples-yellow-950",
+      "to": "--iui-colors-palette-naples-yellow-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-100",
+      "to": "--iui-colors-palette-sap-green-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-200",
+      "to": "--iui-colors-palette-sap-green-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-300",
+      "to": "--iui-colors-palette-sap-green-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-400",
+      "to": "--iui-colors-palette-sap-green-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-50",
+      "to": "--iui-colors-palette-sap-green-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-500",
+      "to": "--iui-colors-palette-sap-green-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-600",
+      "to": "--iui-colors-palette-sap-green-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-700",
+      "to": "--iui-colors-palette-sap-green-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-800",
+      "to": "--iui-colors-palette-sap-green-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-900",
+      "to": "--iui-colors-palette-sap-green-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-sap-green-950",
+      "to": "--iui-colors-palette-sap-green-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-100",
+      "to": "--iui-colors-palette-viridian-green-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-200",
+      "to": "--iui-colors-palette-viridian-green-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-300",
+      "to": "--iui-colors-palette-viridian-green-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-400",
+      "to": "--iui-colors-palette-viridian-green-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-50",
+      "to": "--iui-colors-palette-viridian-green-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-500",
+      "to": "--iui-colors-palette-viridian-green-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-600",
+      "to": "--iui-colors-palette-viridian-green-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-700",
+      "to": "--iui-colors-palette-viridian-green-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-800",
+      "to": "--iui-colors-palette-viridian-green-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-900",
+      "to": "--iui-colors-palette-viridian-green-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-viridian-green-950",
+      "to": "--iui-colors-palette-viridian-green-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-100",
+      "to": "--iui-colors-palette-warm-grey-100",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-200",
+      "to": "--iui-colors-palette-warm-grey-200",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-300",
+      "to": "--iui-colors-palette-warm-grey-300",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-400",
+      "to": "--iui-colors-palette-warm-grey-400",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-50",
+      "to": "--iui-colors-palette-warm-grey-50",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-500",
+      "to": "--iui-colors-palette-warm-grey-500",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-600",
+      "to": "--iui-colors-palette-warm-grey-600",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-700",
+      "to": "--iui-colors-palette-warm-grey-700",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-800",
+      "to": "--iui-colors-palette-warm-grey-800",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-900",
+      "to": "--iui-colors-palette-warm-grey-900",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-colors-palette-warm-grey-950",
+      "to": "--iui-colors-palette-warm-grey-950",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-combobox-gap",
+      "to": "--iui-combobox-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-combobox-option-icon-size",
+      "to": "--iui-combobox-option-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-combobox-padding",
+      "to": "--iui-combobox-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-combobox-radius",
+      "to": "--iui-combobox-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-combobox-sizer-padding",
+      "to": "--iui-combobox-sizer-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-combobox-width",
+      "to": "--iui-combobox-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-components-avatar-background-default",
+      "to": "--iui-components-avatar-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-danger-default",
+      "to": "--iui-components-button-background-danger-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-danger-hover",
+      "to": "--iui-components-button-background-danger-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-default",
+      "to": "--iui-components-button-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-ghost-default",
+      "to": "--iui-components-button-background-ghost-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-ghost-hover",
+      "to": "--iui-components-button-background-ghost-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-hover",
+      "to": "--iui-components-button-background-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-primary-default",
+      "to": "--iui-components-button-background-primary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-primary-hover",
+      "to": "--iui-components-button-background-primary-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-secondary-default",
+      "to": "--iui-components-button-background-secondary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-background-secondary-hover",
+      "to": "--iui-components-button-background-secondary-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-border-danger-default",
+      "to": "--iui-components-button-border-danger-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-border-default",
+      "to": "--iui-components-button-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-border-ghost-default",
+      "to": "--iui-components-button-border-ghost-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-border-primary-default",
+      "to": "--iui-components-button-border-primary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-border-secondary-default",
+      "to": "--iui-components-button-border-secondary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-foreground-danger-default",
+      "to": "--iui-components-button-foreground-danger-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-foreground-default",
+      "to": "--iui-components-button-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-foreground-ghost-default",
+      "to": "--iui-components-button-foreground-ghost-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-foreground-primary-default",
+      "to": "--iui-components-button-foreground-primary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-foreground-secondary-default",
+      "to": "--iui-components-button-foreground-secondary-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-foreground-supporting",
+      "to": "--iui-components-button-foreground-supporting",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-icon-min-size",
+      "to": "--iui-components-button-icon-min-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-components-button-icon-size",
+      "to": "--iui-components-button-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-components-button-opacity-disabled",
+      "to": "--iui-components-button-opacity-disabled",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-radius",
+      "to": "--iui-components-button-radius",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-spacing-gap",
+      "to": "--iui-components-button-spacing-gap",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-spacing-icon",
+      "to": "--iui-components-button-spacing-icon",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-components-button-spacing-x",
+      "to": "--iui-components-button-spacing-x",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-spacing-y",
+      "to": "--iui-components-button-spacing-y",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-typography-font-weight",
+      "to": "--iui-components-button-typography-font-weight",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-button-typography-line-height",
+      "to": "--iui-components-button-typography-line-height",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-calendar-background-default",
+      "to": "--iui-components-calendar-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-card-background-default",
+      "to": "--iui-components-card-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-card-secondary-background-default",
+      "to": "--iui-components-card-secondary-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-carousel-background-default",
+      "to": "--iui-components-carousel-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-code-block-background-default",
+      "to": "--iui-components-code-block-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-data-grid-cell-secondary-background-default",
+      "to": "--iui-components-data-grid-cell-secondary-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-dialog-background-default",
+      "to": "--iui-components-dialog-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-dialog-overlay-default",
+      "to": "--iui-components-dialog-overlay-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-danger-background-default",
+      "to": "--iui-components-general-action-danger-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-danger-foreground-default",
+      "to": "--iui-components-general-action-danger-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-primary-background-default",
+      "to": "--iui-components-general-action-primary-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-primary-background-hover",
+      "to": "--iui-components-general-action-primary-background-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-primary-foreground-default",
+      "to": "--iui-components-general-action-primary-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-secondary-background-default",
+      "to": "--iui-components-general-action-secondary-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-secondary-background-hover",
+      "to": "--iui-components-general-action-secondary-background-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-secondary-body-foreground-default",
+      "to": "--iui-components-general-action-secondary-body-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-secondary-contextual-background-default",
+      "to": "--iui-components-general-action-secondary-contextual-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-secondary-contextual-foreground-default",
+      "to": "--iui-components-general-action-secondary-contextual-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-action-secondary-foreground-default",
+      "to": "--iui-components-general-action-secondary-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-background-default",
+      "to": "--iui-components-general-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-background-disabled",
+      "to": "--iui-components-general-background-disabled",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-background-hover",
+      "to": "--iui-components-general-background-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-background-pressed",
+      "to": "--iui-components-general-background-pressed",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-border-control",
+      "to": "--iui-components-general-border-control",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-border-default",
+      "to": "--iui-components-general-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-emphasis-background-default",
+      "to": "--iui-components-general-emphasis-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-emphasis-border-default",
+      "to": "--iui-components-general-emphasis-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-emphasis-foreground-default",
+      "to": "--iui-components-general-emphasis-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-danger-background-default",
+      "to": "--iui-components-general-feedback-danger-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-danger-body-foreground-default",
+      "to": "--iui-components-general-feedback-danger-body-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-danger-border-default",
+      "to": "--iui-components-general-feedback-danger-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-danger-foreground-default",
+      "to": "--iui-components-general-feedback-danger-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-danger-solid-background-default",
+      "to": "--iui-components-general-feedback-danger-solid-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-danger-solid-background-hover",
+      "to": "--iui-components-general-feedback-danger-solid-background-hover",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-info-background-default",
+      "to": "--iui-components-general-feedback-info-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-info-border-default",
+      "to": "--iui-components-general-feedback-info-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-info-foreground-default",
+      "to": "--iui-components-general-feedback-info-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-info-solid-background-default",
+      "to": "--iui-components-general-feedback-info-solid-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-neutral-background-default",
+      "to": "--iui-components-general-feedback-neutral-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-neutral-border-default",
+      "to": "--iui-components-general-feedback-neutral-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-neutral-foreground-default",
+      "to": "--iui-components-general-feedback-neutral-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-neutral-solid-background-default",
+      "to": "--iui-components-general-feedback-neutral-solid-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-solid-foreground-default",
+      "to": "--iui-components-general-feedback-solid-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-success-background-default",
+      "to": "--iui-components-general-feedback-success-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-success-body-foreground-default",
+      "to": "--iui-components-general-feedback-success-body-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-success-border-default",
+      "to": "--iui-components-general-feedback-success-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-success-foreground-default",
+      "to": "--iui-components-general-feedback-success-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-success-solid-background-default",
+      "to": "--iui-components-general-feedback-success-solid-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-warning-background-default",
+      "to": "--iui-components-general-feedback-warning-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-warning-border-default",
+      "to": "--iui-components-general-feedback-warning-border-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-warning-foreground-default",
+      "to": "--iui-components-general-feedback-warning-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-warning-label-background-default",
+      "to": "--iui-components-general-feedback-warning-label-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-warning-solid-background-default",
+      "to": "--iui-components-general-feedback-warning-solid-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-feedback-warning-solid-foreground-default",
+      "to": "--iui-components-general-feedback-warning-solid-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-focus-halo-color",
+      "to": "--iui-components-general-focus-halo-color",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-focus-halo-width",
+      "to": "--iui-components-general-focus-halo-width",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-focus-ring-color",
+      "to": "--iui-components-general-focus-ring-color",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-focus-ring-offset",
+      "to": "--iui-components-general-focus-ring-offset",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-focus-ring-width",
+      "to": "--iui-components-general-focus-ring-width",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-foreground-default",
+      "to": "--iui-components-general-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-foreground-disabled",
+      "to": "--iui-components-general-foreground-disabled",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-foreground-secondary",
+      "to": "--iui-components-general-foreground-secondary",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-selection-background-default",
+      "to": "--iui-components-general-selection-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-selection-contextual-foreground-default",
+      "to": "--iui-components-general-selection-contextual-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-general-selection-foreground-default",
+      "to": "--iui-components-general-selection-foreground-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-menu-background-default",
+      "to": "--iui-components-menu-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-navigation-bar-background-default",
+      "to": "--iui-components-navigation-bar-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-navigation-bar-current-indicator-background-default",
+      "to": "--iui-components-navigation-bar-current-indicator-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-page-background-default",
+      "to": "--iui-components-page-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-popover-background-default",
+      "to": "--iui-components-popover-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-sidebar-background-default",
+      "to": "--iui-components-sidebar-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-stepper-background-default",
+      "to": "--iui-components-stepper-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-switch-background-default",
+      "to": "--iui-components-switch-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-components-table-background-default",
+      "to": "--iui-components-table-background-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-count-dot-size",
+      "to": "--iui-count-dot-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-count-font-size",
+      "to": "--iui-count-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-count-padding-inline",
+      "to": "--iui-count-padding-inline",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-count-size",
+      "to": "--iui-count-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-dialog-body-gap",
+      "to": "--iui-dialog-body-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-dialog-gap",
+      "to": "--iui-dialog-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-dialog-header-gap",
+      "to": "--iui-dialog-header-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-dialog-max-width",
+      "to": "--iui-dialog-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-dialog-padding",
+      "to": "--iui-dialog-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-dialog-padding-x",
+      "to": "--iui-dialog-padding-x",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-dialog-radius",
+      "to": "--iui-dialog-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-elevation-overlay",
+      "to": "--iui-elevation-overlay",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-empty-state-gap",
+      "to": "--iui-empty-state-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-empty-state-icon-size",
+      "to": "--iui-empty-state-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-empty-state-illustration-max-width",
+      "to": "--iui-empty-state-illustration-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-empty-state-max-width",
+      "to": "--iui-empty-state-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-empty-state-padding",
+      "to": "--iui-empty-state-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-empty-state-title-size",
+      "to": "--iui-empty-state-title-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-error-state-gap",
+      "to": "--iui-error-state-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-error-state-icon-size",
+      "to": "--iui-error-state-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-error-state-max-width",
+      "to": "--iui-error-state-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-error-state-padding",
+      "to": "--iui-error-state-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-error-state-title-size",
+      "to": "--iui-error-state-title-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-feedback-icon-on-solid",
+      "to": "--iui-feedback-icon-on-solid",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-feedback-icon-padding",
+      "to": "--iui-feedback-icon-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-feedback-icon-radius",
+      "to": "--iui-feedback-icon-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-feedback-icon-size",
+      "to": "--iui-feedback-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-description-color",
+      "to": "--iui-field-description-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-error-color",
+      "to": "--iui-field-error-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-gap",
+      "to": "--iui-field-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-grip-color",
+      "to": "--iui-field-grip-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-grip-inset",
+      "to": "--iui-field-grip-inset",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-label-color",
+      "to": "--iui-field-label-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-label-weight",
+      "to": "--iui-field-label-weight",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-padding",
+      "to": "--iui-field-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-radius",
+      "to": "--iui-field-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-required-color",
+      "to": "--iui-field-required-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-field-width",
+      "to": "--iui-field-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-focus-ring-shadow",
+      "to": "--iui-focus-ring-shadow",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-font-mono",
+      "to": "--iui-font-mono",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-font-sans",
+      "to": "--iui-font-sans",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-hover-card-max-width",
+      "to": "--iui-hover-card-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-hover-card-padding",
+      "to": "--iui-hover-card-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-hover-card-radius",
+      "to": "--iui-hover-card-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-hover-card-z-index",
+      "to": "--iui-hover-card-z-index",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-icon-animation-duration",
+      "to": "--iui-icon-animation-duration",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-bg",
+      "to": "--iui-kbd-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-border",
+      "to": "--iui-kbd-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-font",
+      "to": "--iui-kbd-font",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-font-size",
+      "to": "--iui-kbd-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-gap",
+      "to": "--iui-kbd-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-min-size",
+      "to": "--iui-kbd-min-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-padding",
+      "to": "--iui-kbd-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-radius",
+      "to": "--iui-kbd-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-sep-text",
+      "to": "--iui-kbd-sep-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-shadow",
+      "to": "--iui-kbd-shadow",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-kbd-text",
+      "to": "--iui-kbd-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-label-color",
+      "to": "--iui-label-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-label-font-weight",
+      "to": "--iui-label-font-weight",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-label-required-color",
+      "to": "--iui-label-required-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-link-color",
+      "to": "--iui-link-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-link-hover",
+      "to": "--iui-link-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-link-underline",
+      "to": "--iui-link-underline",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-bar-height",
+      "to": "--iui-loading-bar-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-bar-label-gap",
+      "to": "--iui-loading-bar-label-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-duration",
+      "to": "--iui-loading-duration",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-gap",
+      "to": "--iui-loading-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-dot",
+      "to": "--iui-loading-generation-area-dot",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-dot-lit",
+      "to": "--iui-loading-generation-area-dot-lit",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-duration",
+      "to": "--iui-loading-generation-area-duration",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-gap",
+      "to": "--iui-loading-generation-area-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-min-height",
+      "to": "--iui-loading-generation-area-min-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-reveal",
+      "to": "--iui-loading-generation-area-reveal",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-zone-margin",
+      "to": "--iui-loading-generation-area-zone-margin",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-generation-area-zone-padding",
+      "to": "--iui-loading-generation-area-zone-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-label-gap",
+      "to": "--iui-loading-label-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-label-size",
+      "to": "--iui-loading-label-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-size",
+      "to": "--iui-loading-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-loading-spinner-size",
+      "to": "--iui-loading-spinner-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-login-bg",
+      "to": "--iui-login-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-login-border",
+      "to": "--iui-login-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-login-gap",
+      "to": "--iui-login-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-login-padding",
+      "to": "--iui-login-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-login-radius",
+      "to": "--iui-login-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-login-shadow",
+      "to": "--iui-login-shadow",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-login-width",
+      "to": "--iui-login-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menu-min-width",
+      "to": "--iui-menu-min-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menu-padding",
+      "to": "--iui-menu-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menu-popup-radius",
+      "to": "--iui-menu-popup-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menu-radius",
+      "to": "--iui-menu-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menu-trigger-padding",
+      "to": "--iui-menu-trigger-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menu-z-index",
+      "to": "--iui-menu-z-index",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menubar-gap",
+      "to": "--iui-menubar-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menubar-padding",
+      "to": "--iui-menubar-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menubar-radius",
+      "to": "--iui-menubar-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-menubar-trigger-padding",
+      "to": "--iui-menubar-trigger-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-fill",
+      "to": "--iui-meter-fill",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-fill-optimal",
+      "to": "--iui-meter-fill-optimal",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-fill-poor",
+      "to": "--iui-meter-fill-poor",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-fill-suboptimal",
+      "to": "--iui-meter-fill-suboptimal",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-height",
+      "to": "--iui-meter-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-radius",
+      "to": "--iui-meter-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-track",
+      "to": "--iui-meter-track",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-meter-width",
+      "to": "--iui-meter-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-metrics-density-regular-control-padding-x",
+      "to": "--iui-metrics-density-regular-control-padding-x",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-metrics-density-regular-control-padding-y",
+      "to": "--iui-metrics-density-regular-control-padding-y",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-metrics-density-regular-min-target-size",
+      "to": "--iui-metrics-density-regular-min-target-size",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-metrics-density-touch-min-target-size",
+      "to": "--iui-metrics-density-touch-min-target-size",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-metrics-radius-container",
+      "to": "--iui-metrics-radius-container",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-metrics-radius-control",
+      "to": "--iui-metrics-radius-control",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-metrics-radius-pill",
+      "to": "--iui-metrics-radius-pill",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-multi-select-gap",
+      "to": "--iui-multi-select-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-multi-select-label-size",
+      "to": "--iui-multi-select-label-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-multi-select-max-width",
+      "to": "--iui-multi-select-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-multi-select-width",
+      "to": "--iui-multi-select-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navigation-bar-badge-surface",
+      "to": "--iui-navigation-bar-badge-surface",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navigation-bar-badge-text",
+      "to": "--iui-navigation-bar-badge-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navigation-bar-gap",
+      "to": "--iui-navigation-bar-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navigation-bar-item-current-text",
+      "to": "--iui-navigation-bar-item-current-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navigation-bar-item-padding",
+      "to": "--iui-navigation-bar-item-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navigation-bar-item-text",
+      "to": "--iui-navigation-bar-item-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navigation-bar-surface",
+      "to": "--iui-navigation-bar-surface",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navmenu-content-padding",
+      "to": "--iui-navmenu-content-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navmenu-content-radius",
+      "to": "--iui-navmenu-content-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navmenu-content-width",
+      "to": "--iui-navmenu-content-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navmenu-gap",
+      "to": "--iui-navmenu-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navmenu-radius",
+      "to": "--iui-navmenu-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navmenu-trigger-padding",
+      "to": "--iui-navmenu-trigger-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-navmenu-z-index",
+      "to": "--iui-navmenu-z-index",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-notice-width",
+      "to": "--iui-notice-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-notice-z",
+      "to": "--iui-notice-z",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pagination-active",
+      "to": "--iui-pagination-active",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pagination-active-text",
+      "to": "--iui-pagination-active-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pagination-gap",
+      "to": "--iui-pagination-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pagination-radius",
+      "to": "--iui-pagination-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pagination-size",
+      "to": "--iui-pagination-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pastel-green",
+      "to": "--iui-pastel-green",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-pastel-pink",
+      "to": "--iui-pastel-pink",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-pastel-teal",
+      "to": "--iui-pastel-teal",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-pastel-violet",
+      "to": "--iui-pastel-violet",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-pastel-yellow",
+      "to": "--iui-pastel-yellow",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-pin-input-font-size",
+      "to": "--iui-pin-input-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pin-input-gap",
+      "to": "--iui-pin-input-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pin-input-radius",
+      "to": "--iui-pin-input-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-pin-input-size",
+      "to": "--iui-pin-input-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-popover-max-width",
+      "to": "--iui-popover-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-popover-padding",
+      "to": "--iui-popover-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-popover-radius",
+      "to": "--iui-popover-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-popover-z-index",
+      "to": "--iui-popover-z-index",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-circle-size",
+      "to": "--iui-progress-circle-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-circle-stroke",
+      "to": "--iui-progress-circle-stroke",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-fill",
+      "to": "--iui-progress-fill",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-height",
+      "to": "--iui-progress-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-radius",
+      "to": "--iui-progress-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-track",
+      "to": "--iui-progress-track",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-value-size",
+      "to": "--iui-progress-value-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-progress-width",
+      "to": "--iui-progress-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-radio-gap",
+      "to": "--iui-radio-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-radio-gap-horizontal",
+      "to": "--iui-radio-gap-horizontal",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-radio-label-gap",
+      "to": "--iui-radio-label-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-radio-size",
+      "to": "--iui-radio-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-range-slider-length",
+      "to": "--iui-range-slider-length",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-range-slider-thumb-size",
+      "to": "--iui-range-slider-thumb-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-range-slider-track-size",
+      "to": "--iui-range-slider-track-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-range-slider-vertical-length",
+      "to": "--iui-range-slider-vertical-length",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-rating-color",
+      "to": "--iui-rating-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-rating-empty-color",
+      "to": "--iui-rating-empty-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-rating-gap",
+      "to": "--iui-rating-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-rating-label-gap",
+      "to": "--iui-rating-label-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-rating-preview-color",
+      "to": "--iui-rating-preview-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-rating-size",
+      "to": "--iui-rating-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-scroll-area-size",
+      "to": "--iui-scroll-area-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-scroll-area-thumb",
+      "to": "--iui-scroll-area-thumb",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-scroll-area-thumb-hover",
+      "to": "--iui-scroll-area-thumb-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-scroll-area-track",
+      "to": "--iui-scroll-area-track",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-search-dialog-inset-top",
+      "to": "--iui-search-dialog-inset-top",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-search-dialog-list-padding",
+      "to": "--iui-search-dialog-list-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-search-dialog-max-height",
+      "to": "--iui-search-dialog-max-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-search-dialog-radius",
+      "to": "--iui-search-dialog-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-search-dialog-width",
+      "to": "--iui-search-dialog-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-search-field-action-size",
+      "to": "--iui-search-field-action-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-gap",
+      "to": "--iui-segment-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-icon-padding",
+      "to": "--iui-segment-icon-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-icon-size",
+      "to": "--iui-segment-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-label-gap",
+      "to": "--iui-segment-label-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-padding",
+      "to": "--iui-segment-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-radius",
+      "to": "--iui-segment-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-stacked-gap",
+      "to": "--iui-segment-stacked-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-stacked-label-size",
+      "to": "--iui-segment-stacked-label-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-segment-stacked-padding",
+      "to": "--iui-segment-stacked-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-gap",
+      "to": "--iui-select-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-icon-size",
+      "to": "--iui-select-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-listbox-padding",
+      "to": "--iui-select-listbox-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-listbox-radius",
+      "to": "--iui-select-listbox-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-max-height",
+      "to": "--iui-select-max-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-padding",
+      "to": "--iui-select-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-radius",
+      "to": "--iui-select-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-width",
+      "to": "--iui-select-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-select-z-index",
+      "to": "--iui-select-z-index",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-separator-color",
+      "to": "--iui-separator-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-separator-gap",
+      "to": "--iui-separator-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-separator-thickness",
+      "to": "--iui-separator-thickness",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sheet-dialog-duration",
+      "to": "--iui-sheet-dialog-duration",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sheet-dialog-handle",
+      "to": "--iui-sheet-dialog-handle",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sheet-dialog-handle-width",
+      "to": "--iui-sheet-dialog-handle-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sheet-dialog-size",
+      "to": "--iui-sheet-dialog-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-badge-surface",
+      "to": "--iui-sidebar-badge-surface",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-badge-text",
+      "to": "--iui-sidebar-badge-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-border",
+      "to": "--iui-sidebar-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-gap",
+      "to": "--iui-sidebar-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-item-radius",
+      "to": "--iui-sidebar-item-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-item-text",
+      "to": "--iui-sidebar-item-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-padding",
+      "to": "--iui-sidebar-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-radius",
+      "to": "--iui-sidebar-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-rail-width",
+      "to": "--iui-sidebar-rail-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-sidebar-width",
+      "to": "--iui-sidebar-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-skeleton-circle-size",
+      "to": "--iui-skeleton-circle-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-skeleton-color",
+      "to": "--iui-skeleton-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-skeleton-highlight",
+      "to": "--iui-skeleton-highlight",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-skeleton-line-gap",
+      "to": "--iui-skeleton-line-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-skeleton-line-height",
+      "to": "--iui-skeleton-line-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-skeleton-radius",
+      "to": "--iui-skeleton-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-slider-length",
+      "to": "--iui-slider-length",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-slider-range",
+      "to": "--iui-slider-range",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-slider-thickness",
+      "to": "--iui-slider-thickness",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-slider-thumb",
+      "to": "--iui-slider-thumb",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-slider-thumb-size",
+      "to": "--iui-slider-thumb-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-slider-tick",
+      "to": "--iui-slider-tick",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-slider-track",
+      "to": "--iui-slider-track",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-snack-icon-size",
+      "to": "--iui-snack-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-snack-padding",
+      "to": "--iui-snack-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-snack-radius",
+      "to": "--iui-snack-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-complete-bg",
+      "to": "--iui-step-complete-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-complete-border",
+      "to": "--iui-step-complete-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-complete-text",
+      "to": "--iui-step-complete-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-connector-active",
+      "to": "--iui-step-connector-active",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-connector-color",
+      "to": "--iui-step-connector-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-connector-dot-gap",
+      "to": "--iui-step-connector-dot-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-connector-length",
+      "to": "--iui-step-connector-length",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-connector-thickness",
+      "to": "--iui-step-connector-thickness",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-current-bg",
+      "to": "--iui-step-current-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-current-text",
+      "to": "--iui-step-current-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-gap",
+      "to": "--iui-step-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-indicator-bg",
+      "to": "--iui-step-indicator-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-indicator-border",
+      "to": "--iui-step-indicator-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-indicator-size",
+      "to": "--iui-step-indicator-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-indicator-text",
+      "to": "--iui-step-indicator-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-label-gap",
+      "to": "--iui-step-label-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-padding",
+      "to": "--iui-step-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-upcoming-border",
+      "to": "--iui-step-upcoming-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-step-upcoming-text",
+      "to": "--iui-step-upcoming-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-gap",
+      "to": "--iui-switch-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-height",
+      "to": "--iui-switch-height",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-onoff-font",
+      "to": "--iui-switch-onoff-font",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-onoff-off-text",
+      "to": "--iui-switch-onoff-off-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-onoff-on-text",
+      "to": "--iui-switch-onoff-on-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-onoff-width",
+      "to": "--iui-switch-onoff-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-thumb",
+      "to": "--iui-switch-thumb",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-switch-width",
+      "to": "--iui-switch-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-border",
+      "to": "--iui-table-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-card-min",
+      "to": "--iui-table-card-min",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-cell-padding",
+      "to": "--iui-table-cell-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-font-size",
+      "to": "--iui-table-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-header-background",
+      "to": "--iui-table-header-background",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-header-border",
+      "to": "--iui-table-header-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-header-text",
+      "to": "--iui-table-header-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-radius",
+      "to": "--iui-table-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-row-hover",
+      "to": "--iui-table-row-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-row-selected",
+      "to": "--iui-table-row-selected",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-sort-active",
+      "to": "--iui-table-sort-active",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-table-title-size",
+      "to": "--iui-table-title-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tabs-active",
+      "to": "--iui-tabs-active",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tabs-tab-padding",
+      "to": "--iui-tabs-tab-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tag-font-size",
+      "to": "--iui-tag-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tag-font-size-sm",
+      "to": "--iui-tag-font-size-sm",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tag-gap",
+      "to": "--iui-tag-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tag-padding",
+      "to": "--iui-tag-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tag-padding-sm",
+      "to": "--iui-tag-padding-sm",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tag-radius",
+      "to": "--iui-tag-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-time-field-focus-bg",
+      "to": "--iui-time-field-focus-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-time-field-focus-text",
+      "to": "--iui-time-field-focus-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-bg",
+      "to": "--iui-toggle-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-bg-hover",
+      "to": "--iui-toggle-bg-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-border",
+      "to": "--iui-toggle-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-border-width",
+      "to": "--iui-toggle-border-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-group-gap",
+      "to": "--iui-toggle-group-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-group-radius",
+      "to": "--iui-toggle-group-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-icon-size",
+      "to": "--iui-toggle-icon-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-padding-inline",
+      "to": "--iui-toggle-padding-inline",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-radius",
+      "to": "--iui-toggle-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toggle-size",
+      "to": "--iui-toggle-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toolbar-gap",
+      "to": "--iui-toolbar-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toolbar-padding",
+      "to": "--iui-toolbar-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-toolbar-radius",
+      "to": "--iui-toolbar-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tooltip-bg",
+      "to": "--iui-tooltip-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tooltip-color",
+      "to": "--iui-tooltip-color",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tooltip-font-size",
+      "to": "--iui-tooltip-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tooltip-max-width",
+      "to": "--iui-tooltip-max-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tooltip-padding",
+      "to": "--iui-tooltip-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tooltip-radius",
+      "to": "--iui-tooltip-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tooltip-z-index",
+      "to": "--iui-tooltip-z-index",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-bg",
+      "to": "--iui-tree-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-gap",
+      "to": "--iui-tree-gap",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-indent",
+      "to": "--iui-tree-indent",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-item-hover",
+      "to": "--iui-tree-item-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-item-padding-block",
+      "to": "--iui-tree-item-padding-block",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-item-radius",
+      "to": "--iui-tree-item-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-item-selected-bg",
+      "to": "--iui-tree-item-selected-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-item-selected-hover",
+      "to": "--iui-tree-item-selected-hover",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-item-selected-text",
+      "to": "--iui-tree-item-selected-text",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-padding",
+      "to": "--iui-tree-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-radius",
+      "to": "--iui-tree-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-tree-status-font-size",
+      "to": "--iui-tree-status-font-size",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-typography-font-size-h1",
+      "to": "--iui-typography-font-size-h1",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-font-size-h2",
+      "to": "--iui-typography-font-size-h2",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-font-size-h3",
+      "to": "--iui-typography-font-size-h3",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-font-size-h4",
+      "to": "--iui-typography-font-size-h4",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-font-size-h5",
+      "to": "--iui-typography-font-size-h5",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-font-size-h6",
+      "to": "--iui-typography-font-size-h6",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-font-weight-heading",
+      "to": "--iui-typography-font-weight-heading",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-line-height-default",
+      "to": "--iui-typography-line-height-default",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-typography-line-height-heading",
+      "to": "--iui-typography-line-height-heading",
+      "kind": "token"
+    },
+    {
+      "from": "--ds-upload-drop-area-bg",
+      "to": "--iui-upload-drop-area-bg",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-upload-drop-area-border",
+      "to": "--iui-upload-drop-area-border",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-upload-drop-area-border-width",
+      "to": "--iui-upload-drop-area-border-width",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-upload-drop-area-icon",
+      "to": "--iui-upload-drop-area-icon",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-upload-drop-area-padding",
+      "to": "--iui-upload-drop-area-padding",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-upload-drop-area-radius",
+      "to": "--iui-upload-drop-area-radius",
+      "kind": "component"
+    },
+    {
+      "from": "--ds-upload-drop-area-text",
+      "to": "--iui-upload-drop-area-text",
+      "kind": "component"
+    }
+  ]
+}

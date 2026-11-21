@@ -72,7 +72,7 @@ const CheckGlyph = () =>
  * The tree renders as a flat list of `treeitem`s carrying `aria-level`,
  * `aria-setsize` and `aria-posinset` (a valid alternative to nested `group`s),
  * which keeps the DOM order aligned with keyboard navigation. The control needs
- * an accessible name via `label`. Colors are themeable (`--ds-tree-*`).
+ * an accessible name via `label`. Colors are themeable (`--iui-tree-*`).
  */
 export const TreeView = defineComponent({
   name: "TreeView",

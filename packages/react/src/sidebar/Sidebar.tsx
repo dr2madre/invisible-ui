@@ -359,7 +359,7 @@ const initialGroups = (entries: ResolvedSection[], value: string | null) =>
  *
  * Sections can collapse, the bar itself can collapse to a rail of icons, and
  * `mode="drawer"` puts the same navigation inside a SheetDialog (ADR 0013).
- * Themeable via `--ds-sidebar-*`.
+ * Themeable via `--iui-sidebar-*`.
  */
 export function Sidebar({
   sections,

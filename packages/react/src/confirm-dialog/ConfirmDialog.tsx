@@ -50,7 +50,7 @@ export interface ConfirmDialogProps {
  *
  * It runs on `useDialog`: native `<dialog>` + `showModal()`, scroll lock,
  * focus restore. A `title` is required; `description` is optional. Themeable
- * via `--ds-dialog-*`.
+ * via `--iui-dialog-*`.
  *
  * A ref holds the status area (ADR 0016), with the same contract as `Dialog`:
  * `notify(options)`, `dismissNotice(id)` and `clearNotices()`.

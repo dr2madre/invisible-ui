@@ -1,153 +1,153 @@
 {
   "$comment": "The only hand-written part of the token catalog. One entry per token whose role the source comment cannot state on its own: either it has no comment, or the comment above it describes a neighbour. `purpose` is the role sentence shown in the catalog; `stability` is alpha unless a token has been deliberately settled.",
-  "--ds-components-general-background-default": {
+  "--iui-components-general-background-default": {
     "purpose": "The page behind everything. Nothing is painted under it."
   },
-  "--ds-components-general-border-default": {
-    "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The edge that identifies a control is --ds-components-general-border-control."
+  "--iui-components-general-border-default": {
+    "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The edge that identifies a control is --iui-components-general-border-control."
   },
-  "--ds-components-general-foreground-default": {
+  "--iui-components-general-foreground-default": {
     "purpose": "Ordinary reading text on background or surface."
   },
-  "--ds-components-general-foreground-secondary": {
+  "--iui-components-general-foreground-secondary": {
     "purpose": "Text that supports the main text: hints, captions, units. Still has to reach 4.5:1."
   },
-  "--ds-components-general-background-disabled": {
+  "--iui-components-general-background-disabled": {
     "purpose": "The fill of a control that cannot be used right now."
   },
-  "--ds-components-general-foreground-disabled": {
+  "--iui-components-general-foreground-disabled": {
     "purpose": "The text of a control that cannot be used right now. It is exempt from the contrast minimum, so never carry meaning by this colour alone."
   },
-  "--ds-components-general-focus-ring-color": {
+  "--iui-components-general-focus-ring-color": {
     "purpose": "The colour of the ring that shows where the keyboard is. It needs 3:1 against whatever it is drawn on."
   },
-  "--ds-components-general-background-hover": {
+  "--iui-components-general-background-hover": {
     "purpose": "The translucent state layer laid over a control, action, option or row while the pointer is on it. It preserves the role of the fill underneath."
   },
-  "--ds-components-general-background-pressed": {
+  "--iui-components-general-background-pressed": {
     "purpose": "The overlay laid over a control while it is being pressed."
   },
-  "--ds-components-general-action-primary-background-default": {
+  "--iui-components-general-action-primary-background-default": {
     "purpose": "The fill of the one action a screen is asking for: the primary button, and the selected state that follows from it."
   },
-  "--ds-components-general-action-primary-background-hover": {
+  "--iui-components-general-action-primary-background-hover": {
     "purpose": "The same fill while the pointer is on it or it is being pressed."
   },
-  "--ds-components-general-action-primary-foreground-default": {
+  "--iui-components-general-action-primary-foreground-default": {
     "purpose": "Text and icons drawn on the primary fill."
   },
-  "--ds-components-general-action-secondary-background-default": {
+  "--iui-components-general-action-secondary-background-default": {
     "purpose": "The fill of an action that is present but not the one being asked for. Same hue as the primary: secondary is a job, not a second colour."
   },
-  "--ds-components-general-action-secondary-background-hover": {
+  "--iui-components-general-action-secondary-background-hover": {
     "purpose": "The secondary fill while the pointer is on it or it is being pressed."
   },
-  "--ds-components-general-action-secondary-foreground-default": {
+  "--iui-components-general-action-secondary-foreground-default": {
     "purpose": "Text and icons drawn on the secondary fill."
   },
-  "--ds-components-general-feedback-info-solid-background-default": {
+  "--iui-components-general-feedback-info-solid-background-default": {
     "purpose": "The colour of a message that tells you something, without anything being wrong."
   },
-  "--ds-components-general-feedback-success-solid-background-default": {
+  "--iui-components-general-feedback-success-solid-background-default": {
     "purpose": "The colour of a message that says something worked."
   },
-  "--ds-components-general-feedback-warning-solid-background-default": {
+  "--iui-components-general-feedback-warning-solid-background-default": {
     "purpose": "The colour of a message that says to be careful."
   },
-  "--ds-components-general-feedback-danger-solid-background-default": {
+  "--iui-components-general-feedback-danger-solid-background-default": {
     "purpose": "The colour of a message that says something failed, and the fill of an action that destroys something."
   },
-  "--ds-components-general-feedback-danger-solid-background-hover": {
+  "--iui-components-general-feedback-danger-solid-background-hover": {
     "purpose": "The danger fill while the pointer is on it or it is being pressed."
   },
-  "--ds-components-general-feedback-solid-foreground-default": {
+  "--iui-components-general-feedback-solid-foreground-default": {
     "purpose": "Text and icons drawn on a solid status fill: information, success, danger."
   },
-  "--ds-components-general-feedback-warning-solid-foreground-default": {
+  "--iui-components-general-feedback-warning-solid-foreground-default": {
     "purpose": "Text drawn on the warning label fill (solid Tag, Count). It is dark, because the light warning colour cannot carry white text."
   },
-  "--ds-components-general-feedback-warning-label-background-default": {
+  "--iui-components-general-feedback-warning-label-background-default": {
     "purpose": "The fill behind a text label with the warning status: the solid Tag and the Count. The warning colour gives dark text 3.8:1 only; this fill gives it 4.5:1 or more. Glyphs, dots and meter fills keep the warning colour."
   },
-  "--ds-components-general-emphasis-background-default": {
+  "--iui-components-general-emphasis-background-default": {
     "purpose": "An area that should stand out from the page around it, such as a tooltip or an inverted panel."
   },
-  "--ds-components-general-emphasis-foreground-default": {
+  "--iui-components-general-emphasis-foreground-default": {
     "purpose": "Text and icons drawn on the emphasis area."
   },
-  "--ds-components-general-feedback-info-border-default": {
+  "--iui-components-general-feedback-info-border-default": {
     "purpose": "The edge of the tinted information surface."
   },
-  "--ds-components-general-feedback-success-border-default": {
+  "--iui-components-general-feedback-success-border-default": {
     "purpose": "The edge of the tinted success surface."
   },
-  "--ds-components-general-feedback-warning-border-default": {
+  "--iui-components-general-feedback-warning-border-default": {
     "purpose": "The edge of the tinted warning surface."
   },
-  "--ds-components-general-feedback-danger-border-default": {
+  "--iui-components-general-feedback-danger-border-default": {
     "purpose": "The edge of the tinted danger surface."
   },
-  "--ds-components-general-selection-foreground-default": {
+  "--iui-components-general-selection-foreground-default": {
     "purpose": "Text and icons drawn on a selected item."
   },
-  "--ds-components-general-emphasis-border-default": {
+  "--iui-components-general-emphasis-border-default": {
     "purpose": "The edge of the emphasis area."
   },
-  "--ds-components-general-feedback-neutral-solid-background-default": {
+  "--iui-components-general-feedback-neutral-solid-background-default": {
     "purpose": "The colour of a message that carries no status at all."
   },
-  "--ds-components-general-feedback-neutral-background-default": {
+  "--iui-components-general-feedback-neutral-background-default": {
     "purpose": "The quiet fill of a control or chip that carries no status: a plain tag, a default button."
   },
-  "--ds-components-general-feedback-neutral-border-default": {
+  "--iui-components-general-feedback-neutral-border-default": {
     "purpose": "The edge that goes with the quiet neutral fill."
   },
-  "--ds-components-page-background-default": {
+  "--iui-components-page-background-default": {
     "purpose": "The page behind everything, per theme (component.light.page-background and component.dark.page-background in the design source): the background role in the light theme, Black in the dark one. The application paints it; the components do not."
   },
-  "--ds-components-card-background-default": {
+  "--iui-components-card-background-default": {
     "purpose": "The background of a card, per theme: the background role in the light theme, Grey 950 in the dark one."
   },
-  "--ds-components-card-secondary-background-default": {
+  "--iui-components-card-secondary-background-default": {
     "purpose": "The background of a card with the secondary surface, per theme: the neutral surface role in the light theme, Grey 900 in the dark one."
   },
-  "--ds-components-dialog-background-default": {
+  "--iui-components-dialog-background-default": {
     "purpose": "The background of a dialog panel, per theme: dialog, sheet, alert, confirm, prompt and search dialogs. The background role in the light theme, Grey 950 in the dark one."
   },
-  "--ds-components-popover-background-default": {
+  "--iui-components-popover-background-default": {
     "purpose": "The background of a popover, per theme: popover, hover card, date picker popups and the navigation menu panel. The background role in the light theme, Grey 950 in the dark one."
   },
-  "--ds-components-menu-background-default": {
+  "--iui-components-menu-background-default": {
     "purpose": "The background of a menu or a listbox, per theme: dropdown menu, context menu, menubar menus, combobox and multi-select listboxes. The background role in the light theme, Grey 950 in the dark one."
   },
-  "--ds-components-sidebar-background-default": {
+  "--iui-components-sidebar-background-default": {
     "purpose": "The background of a sidebar, per theme: the background role in the light theme, Black in the dark one."
   },
-  "--ds-components-code-block-background-default": {
+  "--iui-components-code-block-background-default": {
     "purpose": "The background of a code block, per theme: Grey 50 in the light theme, Grey 950 in the dark one. The text keeps 4.5:1 on it; the border draws its edge against the page."
   },
-  "--ds-components-dialog-overlay-default": {
+  "--iui-components-dialog-overlay-default": {
     "purpose": "The scrim behind a modal dialog, per theme (role.light.dialog-overlay and role.dark.dialog-overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement."
   },
-  "--ds-metrics-density-touch-min-target-size": {
+  "--iui-metrics-density-touch-min-target-size": {
     "purpose": "The side of the smallest square hit area a control keeps under a coarse pointer: 44 by 44 (density.touch.min-target-size). Visual density never reduces it."
   },
-  "--ds-elevation-overlay": {
+  "--iui-elevation-overlay": {
     "purpose": "The shadow under something floating over the page: a menu, a popover, a dialog. It changes between themes, because a shadow reads differently on a dark page."
   },
-  "--ds-components-general-border-control": {
+  "--iui-components-general-border-control": {
     "purpose": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It reaches 3:1 on the page and on a surface; the generic border stays the quieter line between areas."
   },
-  "--ds-components-general-action-secondary-contextual-background-default": {
+  "--iui-components-general-action-secondary-contextual-background-default": {
     "purpose": "The secondary action's fill: the quiet tint the secondary button paints."
   },
-  "--ds-components-general-action-secondary-contextual-foreground-default": {
+  "--iui-components-general-action-secondary-contextual-foreground-default": {
     "purpose": "Text and icons drawn on the secondary action's fill."
   },
-  "--ds-components-general-action-danger-background-default": {
+  "--iui-components-general-action-danger-background-default": {
     "purpose": "The destructive action's fill: the danger button. Distinct from the danger status tint, which sits under a message rather than an action."
   },
-  "--ds-components-general-action-danger-foreground-default": {
+  "--iui-components-general-action-danger-foreground-default": {
     "purpose": "Text and icons drawn on the destructive action's fill."
   }
 }

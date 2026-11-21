@@ -5,7 +5,7 @@
   aspect-ratio: var(--_aspect-ratio, 1);
   inline-size: 100%;
   overflow: hidden;
-  border-radius: var(--ds-aspect-ratio-radius, 0);
+  border-radius: var(--iui-aspect-ratio-radius, 0);
 }
 /* Common embedded media fills the box. */
 .aspect-ratio img,

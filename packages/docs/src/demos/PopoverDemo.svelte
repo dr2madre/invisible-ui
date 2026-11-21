@@ -14,7 +14,7 @@
       </div>
     </Popover>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       <code>trigger="click"</code> (default) — opened intentionally; focus moves in, onto the first control.
     </figcaption>
@@ -32,7 +32,7 @@
       </Popover>
     </span>
     <figcaption
-      style="font-size: 0.8125rem; color: var(--ds-components-general-foreground-secondary);"
+      style="font-size: 0.8125rem; color: var(--iui-components-general-foreground-secondary);"
     >
       <code>trigger="hover"</code> — previews on hover <em>and keyboard focus</em>; focus never
       moves in. First click/tap opens the preview, the second follows the link (the touch fallback).

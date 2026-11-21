@@ -27,7 +27,7 @@ that holds it. The initials also answer the shared vectors in
 | `semanticLabel` | `alt` | the accessible name in place of `name` |
 | `size: AvatarSize.small`, `medium`, `large` | `size: "sm"`, `"md"`, `"lg"` | 32, 40 and 56 at text scale 1 |
 | `shape: AvatarShape.circle`, `square` | `shape: "circle"`, `"square"` | the outline |
-| `color` | `--ds-avatar-bg` | the background behind the initials |
+| `color` | `--iui-avatar-bg` | the background behind the initials |
 | `initialsOf` | `initialsOf` | the initials function, exported by both |
 
 ## Behaviour

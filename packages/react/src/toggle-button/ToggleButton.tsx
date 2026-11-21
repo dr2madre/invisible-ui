@@ -60,7 +60,7 @@ const CHECK = (
  *
  * Use `Switch` for a settings-style on/off control. Provide `label` when the
  * content is icon-only, so the control keeps an accessible name. Set `check`
- * for the filter-chip look. Themeable via `--ds-toggle-*`.
+ * for the filter-chip look. Themeable via `--iui-toggle-*`.
  */
 export function ToggleButton({
   pressed = false,

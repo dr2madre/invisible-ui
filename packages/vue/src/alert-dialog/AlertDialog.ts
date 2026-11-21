@@ -50,7 +50,7 @@ export interface AlertDialogProps {
  * trigger. `onDismiss` runs whenever the alert is acknowledged: button,
  * Escape or backdrop. For a choice that can stop a process use
  * `ConfirmDialog`; to ask for a value use `PromptDialog`. Colors, radius and
- * elevation are themeable via `--ds-dialog-*`.
+ * elevation are themeable via `--iui-dialog-*`.
  *
  * The header is the one the dialog family shares: an optional `icon` slot (a
  * FeedbackIcon) before the title and an optional close button (`closeButton`).

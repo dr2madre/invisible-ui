@@ -26,7 +26,7 @@ export interface DropdownMenuProps {
  *
  * Pass `items` ({ value, label?, disabled? }) and an accessible `label` for
  * the trigger; `onSelect(value)` runs when an item is chosen. Colors, radius
- * and elevation are themeable CSS custom properties (`--ds-menu-*`).
+ * and elevation are themeable CSS custom properties (`--iui-menu-*`).
  */
 export const DropdownMenu = defineComponent({
   name: "DropdownMenu",

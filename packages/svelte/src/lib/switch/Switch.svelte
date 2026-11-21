@@ -10,7 +10,7 @@
    * required (the control needs an accessible name); pass `children` to
    * override it with rich content. The native input is wrapped in a `<label>`,
    * so clicking the track or text toggles it. Colors and sizing are themeable
-   * CSS custom properties (`--ds-switch-*`).
+   * CSS custom properties (`--iui-switch-*`).
    */
   import { untrack, type Snippet } from "svelte";
   import { createSwitch } from "./create-switch";
@@ -123,7 +123,7 @@
   .field {
     display: inline-flex;
     align-items: center;
-    gap: var(--ds-switch-gap, 0.5rem);
+    gap: var(--iui-switch-gap, 0.5rem);
     cursor: pointer;
   }
   .field--disabled {
@@ -143,7 +143,7 @@
     white-space: nowrap;
   }
   .field--disabled .field__label {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
   }
 
   /* The native input is the accessible, focusable control; visually hidden, with
@@ -162,14 +162,14 @@
   }
 
   .switch {
-    inline-size: var(--ds-switch-width, 2.5rem);
-    block-size: var(--ds-switch-height, 1.5rem);
-    border-radius: var(--ds-metrics-radius-pill, 999px);
+    inline-size: var(--iui-switch-width, 2.5rem);
+    block-size: var(--iui-switch-height, 1.5rem);
+    border-radius: var(--iui-metrics-radius-pill, 999px);
     /* The track carries a boundary in both states: it is what makes the
        control visible against the page, and the two states keep the same
        shape. It is drawn inside the track, so no size changes with it. */
-    background: var(--ds-components-switch-background-default, #e0e0e0);
-    box-shadow: inset 0 0 0 1px var(--ds-components-general-border-control, #757575);
+    background: var(--iui-components-switch-background-default, #e0e0e0);
+    box-shadow: inset 0 0 0 1px var(--iui-components-general-border-control, #757575);
     position: relative;
     flex: none;
     transition: background-color 120ms ease;
@@ -179,32 +179,32 @@
     position: absolute;
     inset-block-start: 0.125rem;
     inset-inline-start: 0.125rem;
-    inline-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
-    block-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
+    inline-size: calc(var(--iui-switch-height, 1.5rem) - 0.25rem);
+    block-size: calc(var(--iui-switch-height, 1.5rem) - 0.25rem);
     border-radius: 50%;
     /* The thumb is always white (it sits on the track in both states). */
-    background: var(--ds-switch-thumb, var(--ds-colors-palette-grey-0, #ffffff));
+    background: var(--iui-switch-thumb, var(--iui-colors-palette-grey-0, #ffffff));
     /* A rim in the boundary colour keeps the thumb separable from the light
        off track, where the white alone would disappear. */
-    box-shadow: 0 0 0 1px var(--ds-components-general-border-control, #757575);
+    box-shadow: 0 0 0 1px var(--iui-components-general-border-control, #757575);
     transition: inset-inline-start 150ms ease;
   }
 
   .switch__input:checked + .switch {
-    background: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    background: var(--iui-components-general-action-secondary-background-default, #7a52cc);
   }
   /* The boundary is repeated here: a second box-shadow would replace it. */
   .switch__input:focus-visible + .switch {
     outline: none;
     box-shadow:
-      inset 0 0 0 1px var(--ds-components-general-border-control, #757575),
-      var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
+      inset 0 0 0 1px var(--iui-components-general-border-control, #757575),
+      var(--iui-focus-ring-shadow);
+    outline-offset: var(--iui-components-general-focus-ring-offset, 2px);
   }
   .switch__input:checked + .switch::after {
     /* Logical, so the thumb stays on the track in right-to-left text. */
     inset-inline-start: calc(
-      0.125rem + var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)
+      0.125rem + var(--iui-switch-width, 2.5rem) - var(--iui-switch-height, 1.5rem)
     );
   }
 
@@ -215,7 +215,7 @@
 
   /* ---- ON/OFF labelled variant: a wider track with text behind the thumb ---- */
   .switch--onoff {
-    inline-size: var(--ds-switch-onoff-width, 3.75rem);
+    inline-size: var(--iui-switch-onoff-width, 3.75rem);
     display: flex;
     align-items: center;
   }
@@ -225,7 +225,7 @@
     inset-block: 0;
     display: inline-flex;
     align-items: center;
-    font-size: var(--ds-switch-onoff-font, 0.625rem);
+    font-size: var(--iui-switch-onoff-font, 0.625rem);
     font-weight: 700;
     letter-spacing: 0.04em;
     transition: opacity 120ms ease;
@@ -234,8 +234,8 @@
   .switch--onoff .switch__on {
     inset-inline-start: 0.5rem;
     color: var(
-      --ds-switch-onoff-on-text,
-      var(--ds-components-general-action-secondary-foreground-default, #fff)
+      --iui-switch-onoff-on-text,
+      var(--iui-components-general-action-secondary-foreground-default, #fff)
     );
     opacity: 0;
   }
@@ -245,8 +245,8 @@
   .switch--onoff .switch__off {
     inset-inline-end: 0.5rem;
     color: var(
-      --ds-switch-onoff-off-text,
-      var(--ds-components-general-foreground-default, #272727)
+      --iui-switch-onoff-off-text,
+      var(--iui-components-general-foreground-default, #272727)
     );
     opacity: 1;
   }
@@ -258,7 +258,7 @@
   }
   .switch__input:checked + .switch--onoff.switch::after {
     inset-inline-start: calc(
-      0.125rem + var(--ds-switch-onoff-width, 3.75rem) - var(--ds-switch-height, 1.5rem)
+      0.125rem + var(--iui-switch-onoff-width, 3.75rem) - var(--iui-switch-height, 1.5rem)
     );
   }
   /* Forced colors: the focus sits on the hidden input, so the outline the
@@ -266,7 +266,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .switch__input:focus-visible + .switch {
-      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
+      outline: var(--iui-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

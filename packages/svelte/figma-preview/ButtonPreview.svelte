@@ -21,8 +21,8 @@
 <style>
   :global(body) {
     margin: 32px;
-    background: var(--ds-components-page-background-default);
-    color: var(--ds-components-general-foreground-default);
+    background: var(--iui-components-page-background-default);
+    color: var(--iui-components-general-foreground-default);
     font:
       14px Inter,
       sans-serif;

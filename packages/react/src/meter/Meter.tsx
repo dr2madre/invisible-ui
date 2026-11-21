@@ -27,7 +27,7 @@ export interface MeterProps {
  * A meter reports a measurement; for the completion of a task use
  * `Progress`.
  *
- * `label` names it. Themeable via `--ds-meter-*`.
+ * `label` names it. Themeable via `--iui-meter-*`.
  */
 export function Meter({ value, min, max, low, high, optimum, label }: MeterProps) {
   const api = useMeter({ value, min, max, low, high, optimum });

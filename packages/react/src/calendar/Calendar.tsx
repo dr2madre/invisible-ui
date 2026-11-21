@@ -170,7 +170,7 @@ function periodTitle(view: CalendarView, focused: string, weekStartsOn: WeekStar
  * day of the range is a selected cell, and the endpoints say so in their name.
  * The value, the range, the focused date and the view are controllable mirrors
  * (ADR 0011). Month and weekday names come from `Intl` for the locale.
- * Themeable via `--ds-calendar-*`.
+ * Themeable via `--iui-calendar-*`.
  */
 export function Calendar({
   value = null,

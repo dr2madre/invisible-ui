@@ -36,7 +36,7 @@ export interface DropdownMenuProps {
  * by Enter, Space, the arrow toward the inline end, a press or a 100 ms hover,
  * and a grace area keeps it open while the pointer travels to it. Space on a
  * checkable item reports it and keeps the menu open. Themeable via
- * `--ds-menu-*`.
+ * `--iui-menu-*`.
  */
 export function DropdownMenu({ label, items, disabled = false, onSelect }: DropdownMenuProps) {
   const { locale, dir: contextDir } = useI18n();

@@ -78,7 +78,7 @@
           "type": "\"plain\" | \"stack\"",
           "default": "\"plain\"",
           "required": false,
-          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--iui-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
           "descriptionFrom": "source"
         },
         {
@@ -239,7 +239,7 @@
           "type": "DialogBodyLayout",
           "default": "\"plain\"",
           "required": false,
-          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--iui-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
           "descriptionFrom": "source"
         },
         {
@@ -417,7 +417,7 @@
           "type": "DialogBodyLayout",
           "default": "\"plain\"",
           "required": false,
-          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--iui-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
           "descriptionFrom": "source"
         },
         {
@@ -528,7 +528,7 @@
           "name": "body-layout",
           "reactive": true,
           "required": false,
-          "description": "`plain` by default, or `stack` to space the body's direct sections by `--ds-dialog-body-gap`",
+          "description": "`plain` by default, or `stack` to space the body's direct sections by `--iui-dialog-body-gap`",
           "descriptionFrom": "source"
         }
       ],

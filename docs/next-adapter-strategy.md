@@ -92,7 +92,7 @@ this plan:
   contexts that have **no** framework — plain pages, server-driven stacks,
   legacy portals.
 - **"Shadow DOM makes theming painful."** CSS custom properties inherit
-  through shadow roots by design — and the `--ds-*` tokens are already the
+  through shadow roots by design — and the `--iui-*` tokens are already the
   system's only theming mechanism, so the existing contract carries over
   unchanged.
 - **"It's another frontend fashion."** It is the opposite of one: a W3C

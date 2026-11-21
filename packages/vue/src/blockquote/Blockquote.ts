@@ -21,7 +21,7 @@ export interface BlockquoteProps {
  *   URL), which stays invisible, so provide a visible attribution too.
  *
  * Colors and the accent border are themeable CSS custom properties
- * (`--ds-blockquote-*`).
+ * (`--iui-blockquote-*`).
  */
 export const Blockquote = defineComponent({
   name: "Blockquote",

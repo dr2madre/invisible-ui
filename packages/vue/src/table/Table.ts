@@ -73,7 +73,7 @@ export interface TableProps {
  *
  * Cells render `row[column.key]` by default; use the scoped `cell` slot
  * (`{ row, column, value, rowIndex }`) for custom content. Provide a `caption`
- * to name the table for assistive tech. Themed via `--ds-table-*`.
+ * to name the table for assistive tech. Themed via `--iui-table-*`.
  */
 export const Table = defineComponent({
   name: "Table",

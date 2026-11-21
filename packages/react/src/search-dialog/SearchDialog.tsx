@@ -92,7 +92,7 @@ const loadingIndicator = (
  * built in: drive `open` and wire the shortcut in the application. The header
  * is the one the dialog family shares; by default it only names the dialog,
  * and `hideTitle={false}` / `closeButton` show the title and a close button
- * above the search field. Themeable via `--ds-search-dialog-*`.
+ * above the search field. Themeable via `--iui-search-dialog-*`.
  *
  * A ref holds the status area after the results (ADR 0016), with the same
  * contract as `Dialog`: `notify(options)`, `dismissNotice(id)` and

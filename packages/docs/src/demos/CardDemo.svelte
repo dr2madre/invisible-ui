@@ -18,7 +18,7 @@
     {#snippet media()}
       <div
         aria-hidden="true"
-        style="aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--ds-pastel-green, #8dcc7a), var(--ds-pastel-teal, #7abecc));"
+        style="aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--iui-pastel-green, #8dcc7a), var(--iui-pastel-teal, #7abecc));"
       ></div>
     {/snippet}
 

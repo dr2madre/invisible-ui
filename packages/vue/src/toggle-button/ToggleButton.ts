@@ -54,7 +54,7 @@ export interface ToggleButtonProps {
  * button is pressed, making the selection explicit alongside the fill. Pairs
  * naturally with `ToggleGroup` for a row of multi-select filter chips.
  *
- * Colors and sizing are themeable via `--ds-toggle-*`.
+ * Colors and sizing are themeable via `--iui-toggle-*`.
  */
 export const ToggleButton = defineComponent({
   name: "ToggleButton",

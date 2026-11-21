@@ -62,7 +62,7 @@ const isSamePair = (a: readonly [number, number], b: readonly [number, number]):
  * `onValueChange`. Provide `label` for the group's accessible name and
  * `thumbLabels` for each thumb's own name — there is no universal word for
  * "the lower one" to fall back to. Colors, sizing and the thumbs are
- * themeable via `--ds-range-slider-*`.
+ * themeable via `--iui-range-slider-*`.
  */
 export const RangeSlider = defineComponent({
   name: "RangeSlider",

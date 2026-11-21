@@ -49,7 +49,7 @@ export interface PopoverProps {
  * The open state binds two ways: `v-model:open` (the idiomatic Vue form) or
  * the `open` prop plus `onOpenChange`. Slots: `trigger` (button content, or
  * the focusable element itself in hover mode) and the default slot (the card).
- * Themeable via `--ds-popover-*`.
+ * Themeable via `--iui-popover-*`.
  */
 export const Popover = defineComponent({
   name: "Popover",

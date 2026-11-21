@@ -10,7 +10,7 @@
    * the ends. Tab moves into and out of the whole toolbar.
    *
    * A `label` is required (the toolbar needs an accessible name). Layout gap is
-   * themeable via `--ds-toolbar-gap`.
+   * themeable via `--iui-toolbar-gap`.
    */
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
@@ -145,11 +145,11 @@
     flex-wrap: wrap;
     max-inline-size: 100%;
     align-items: center;
-    gap: var(--ds-toolbar-gap, 0.375rem);
-    padding: var(--ds-toolbar-padding, 0.25rem);
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-toolbar-radius, var(--ds-metrics-radius-control, 0.5rem));
-    background: var(--ds-components-general-background-default, #fff);
+    gap: var(--iui-toolbar-gap, 0.375rem);
+    padding: var(--iui-toolbar-padding, 0.25rem);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-toolbar-radius, var(--iui-metrics-radius-control, 0.5rem));
+    background: var(--iui-components-general-background-default, #fff);
   }
   .toolbar:global([data-orientation="vertical"]) {
     flex-direction: column;
@@ -159,8 +159,8 @@
      subtle hover overlay. These custom properties cascade to the toggle buttons,
      which read them. */
   .toolbar:global([data-flat]) {
-    --ds-toggle-border: transparent;
-    --ds-toggle-bg: transparent;
-    --ds-toggle-bg-hover: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    --iui-toggle-border: transparent;
+    --iui-toggle-bg: transparent;
+    --iui-toggle-bg-hover: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
 </style>

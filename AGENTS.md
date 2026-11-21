@@ -54,7 +54,7 @@ See [Naming](./docs/foundations.md#naming-role-or-state-not-appearance) for
 the naming rules and examples, and `docs/tokens.md` for the token model.
 
 - Token names describe role or state, never appearance.
-- Keep primitive values separate from semantic `--ds-*` tokens.
+- Keep primitive values separate from semantic `--iui-*` tokens.
 - Do not introduce a new palette, type system, motion language, spacing
   scale, or decorative convention without explicit approval.
 

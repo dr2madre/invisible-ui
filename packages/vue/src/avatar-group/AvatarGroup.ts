@@ -35,7 +35,7 @@ export interface AvatarGroupProps {
  *   exposes how many more there are ("N more").
  *
  * Overlap, ring, size and shape are themeable CSS custom properties
- * (`--ds-avatar-group-*`), inheriting the `Avatar` tokens.
+ * (`--iui-avatar-group-*`), inheriting the `Avatar` tokens.
  */
 export const AvatarGroup = defineComponent({
   name: "AvatarGroup",
@@ -78,7 +78,7 @@ export const AvatarGroup = defineComponent({
               {
                 key: `${index}:${item.name}`,
                 class: "avatar-group__item",
-                style: color ? { "--ds-avatar-bg": color } : undefined,
+                style: color ? { "--iui-avatar-bg": color } : undefined,
               },
               [
                 h(Avatar, {

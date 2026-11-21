@@ -32,7 +32,7 @@ export interface MeterProps {
  * A meter reports a measurement; for the completion of a task use `Progress`.
  *
  * Provide a `label` for the accessible name. Colors, height and radius are
- * themeable via `--ds-meter-*` (per level: `--ds-meter-fill-low|medium|high`).
+ * themeable via `--iui-meter-*` (per level: `--iui-meter-fill-low|medium|high`).
  */
 export const Meter = defineComponent({
   name: "Meter",

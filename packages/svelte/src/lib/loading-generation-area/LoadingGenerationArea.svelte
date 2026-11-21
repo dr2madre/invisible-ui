@@ -26,7 +26,7 @@
    * is `aria-atomic`); the percentage and detail are visible but `aria-hidden`
    * so a fast-ticking value isn't re-announced. `decorative` hides it from
    * assistive tech. The twinkle respects `prefers-reduced-motion`. Themeable via
-   * `--ds-loading-generation-area-*`.
+   * `--iui-loading-generation-area-*`.
    */
   import type { Snippet } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -111,7 +111,7 @@
     display: grid;
     inline-size: 100%;
     block-size: 100%;
-    min-block-size: var(--ds-loading-generation-area-min-height, 6rem);
+    min-block-size: var(--iui-loading-generation-area-min-height, 6rem);
     overflow: hidden;
   }
   /* Label/indicator zone placement. */
@@ -136,11 +136,12 @@
   .loading-generation-area--field {
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, currentColor 10%, transparent) 0 var(--ds-loading-generation-area-dot, 1px),
-      transparent calc(var(--ds-loading-generation-area-dot, 1px) + 0.6px)
+      color-mix(in srgb, currentColor 10%, transparent) 0
+        var(--iui-loading-generation-area-dot, 1px),
+      transparent calc(var(--iui-loading-generation-area-dot, 1px) + 0.6px)
     );
-    background-size: var(--ds-loading-generation-area-gap, 1.1rem)
-      var(--ds-loading-generation-area-gap, 1.1rem);
+    background-size: var(--iui-loading-generation-area-gap, 1.1rem)
+      var(--iui-loading-generation-area-gap, 1.1rem);
     background-position: center;
   }
   /* Lit zones: the dots at their normal size and full strength (`currentColor`,
@@ -154,11 +155,11 @@
     z-index: 0;
     background-image: radial-gradient(
       circle at center,
-      currentColor 0 var(--ds-loading-generation-area-dot-lit, 2.5px),
-      transparent calc(var(--ds-loading-generation-area-dot-lit, 2.5px) + 0.7px)
+      currentColor 0 var(--iui-loading-generation-area-dot-lit, 2.5px),
+      transparent calc(var(--iui-loading-generation-area-dot-lit, 2.5px) + 0.7px)
     );
-    background-size: var(--ds-loading-generation-area-gap, 1.1rem)
-      var(--ds-loading-generation-area-gap, 1.1rem);
+    background-size: var(--iui-loading-generation-area-gap, 1.1rem)
+      var(--iui-loading-generation-area-gap, 1.1rem);
     background-position: center;
     --glow: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.45) 38%, transparent 68%);
     -webkit-mask-image: var(--glow), var(--glow);
@@ -173,7 +174,7 @@
       46% 46%;
     -webkit-mask-composite: source-over;
     mask-composite: add;
-    animation: loading-generation-area-drift var(--ds-loading-generation-area-duration, 7s)
+    animation: loading-generation-area-drift var(--iui-loading-generation-area-duration, 7s)
       ease-in-out infinite;
   }
   @keyframes loading-generation-area-drift {
@@ -220,31 +221,31 @@
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
-    margin: var(--ds-loading-generation-area-zone-margin, 0.75rem);
-    padding: var(--ds-loading-generation-area-zone-padding, 0.5rem 0.75rem);
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    margin: var(--iui-loading-generation-area-zone-margin, 0.75rem);
+    padding: var(--iui-loading-generation-area-zone-padding, 0.5rem 0.75rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     background: color-mix(
       in srgb,
-      var(--ds-components-general-background-default, #fff) 78%,
+      var(--iui-components-general-background-default, #fff) 78%,
       transparent
     );
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
     text-align: center;
-    font-size: var(--ds-loading-label-size, 0.8125em);
-    line-height: var(--ds-typography-line-height-default, 1.4);
+    font-size: var(--iui-loading-label-size, 0.8125em);
+    line-height: var(--iui-typography-line-height-default, 1.4);
   }
   .loading-generation-area__value {
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
   .loading-generation-area__detail {
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     font-variant-numeric: tabular-nums;
   }
 
   /* Loaded content fades in where the placeholder was. */
   .loading-generation-area__content {
-    animation: loading-generation-area-reveal var(--ds-loading-generation-area-reveal, 240ms)
+    animation: loading-generation-area-reveal var(--iui-loading-generation-area-reveal, 240ms)
       ease-out;
   }
   @keyframes loading-generation-area-reveal {

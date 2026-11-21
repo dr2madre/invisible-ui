@@ -73,7 +73,7 @@ Danger placeholder icon, focus and loading states, and consumer CSS overrides
 are outside this check. Text Field and Card colours still use manual mappings.
 
 Card owns the media layout rules: vertical media stretches with its flex
-container; horizontal media uses `--ds-card-horizontal-media-size` (default
+container; horizontal media uses `--iui-card-horizontal-media-size` (default
 `8rem`) and stretches to the card height. The generator reads those rules and
 the body padding and gap from the component's CSS AST. CSS custom property
 defaults are resolved with a 16px root. Consumer overrides are not evaluated.

@@ -81,10 +81,10 @@ export interface LoadingProps {
  * state itself (e.g. a button with `aria-busy`). All motion respects
  * `prefers-reduced-motion` (indicators stay visible, static).
  *
- * Sizing follows the font (`1em`); themeable via `--ds-loading-size`,
- * `--ds-loading-gap`, `--ds-loading-spinner-size`, `--ds-loading-bar-height`,
- * `--ds-loading-label-size`, `--ds-loading-label-gap`,
- * `--ds-loading-bar-label-gap` and `--ds-loading-duration` (animation speed).
+ * Sizing follows the font (`1em`); themeable via `--iui-loading-size`,
+ * `--iui-loading-gap`, `--iui-loading-spinner-size`, `--iui-loading-bar-height`,
+ * `--iui-loading-label-size`, `--iui-loading-label-gap`,
+ * `--iui-loading-bar-label-gap` and `--iui-loading-duration` (animation speed).
  */
 export const Loading = defineComponent({
   name: "Loading",

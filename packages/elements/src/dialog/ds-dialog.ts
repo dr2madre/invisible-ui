@@ -44,7 +44,7 @@ import { localized, onLocaleChange } from "../internal/i18n";
  * `trigger-variant`, `open`, `close-label`, `close-button` (`"false"` drops
  * the close button), `initial-focus` (CSS selector),
  * `no-outside-close`, `body-layout` (`plain` by default, or `stack` to space
- * the body's direct sections by `--ds-dialog-body-gap`).
+ * the body's direct sections by `--iui-dialog-body-gap`).
  * Properties: `open` (boolean).
  * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
  * area, ADR 0016).

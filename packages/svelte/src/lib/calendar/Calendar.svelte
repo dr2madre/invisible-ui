@@ -36,7 +36,7 @@
    * show **appointment dots** (`events`) and a **price** (`prices`), or custom
    * content via the `day` snippet
    * (`{ date, inMonth, selected, events, price }`).
-   * Colours, radius and sizing are themeable via `--ds-calendar-*`.
+   * Colours, radius and sizing are themeable via `--iui-calendar-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createCalendar, localDate, type CalendarView, type WeekStart } from "./create-calendar";
@@ -563,7 +563,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
 
   .calendar__header {
@@ -575,7 +575,7 @@
   }
   .calendar__title {
     margin: 0;
-    font-size: var(--ds-calendar-title-size, 1.125rem);
+    font-size: var(--iui-calendar-title-size, 1.125rem);
     font-weight: 600;
     text-transform: capitalize;
   }
@@ -595,9 +595,9 @@
     padding: 0.35rem 0.75rem;
     margin-inline-end: 0.25rem;
     color: inherit;
-    background: var(--ds-components-calendar-background-default, #e0e0e0);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    background: var(--iui-components-calendar-background-default, #e0e0e0);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .calendar__arrow {
@@ -608,8 +608,8 @@
     block-size: 2rem;
     color: inherit;
     background: none;
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   /* Previous points to the inline start and next to the inline end: the arrows
@@ -620,7 +620,7 @@
   .calendar__today:focus-visible,
   .calendar__arrow:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
 
@@ -644,7 +644,7 @@
   .calendar__row {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: var(--ds-calendar-gap, 0.25rem);
+    gap: var(--iui-calendar-gap, 0.25rem);
   }
   .calendar__weekdays {
     margin-block-end: 0.25rem;
@@ -653,7 +653,7 @@
     text-align: center;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     text-transform: uppercase;
     padding-block: 0.25rem;
   }
@@ -666,7 +666,7 @@
   }
   .calendar__day {
     inline-size: 100%;
-    min-block-size: var(--ds-calendar-day-size, 3rem);
+    min-block-size: var(--iui-calendar-day-size, 3rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -674,43 +674,43 @@
     padding: 0.3rem;
     font: inherit;
     color: inherit;
-    background: var(--ds-calendar-day-bg, transparent);
+    background: var(--iui-calendar-day-bg, transparent);
     border: 1px solid transparent;
-    border-radius: var(--ds-calendar-day-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-radius: var(--iui-calendar-day-radius, var(--iui-metrics-radius-control, 0.5rem));
     cursor: pointer;
   }
   .calendar__day:hover {
     background: var(
-      --ds-calendar-day-hover,
-      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+      --iui-calendar-day-hover,
+      var(--iui-components-general-feedback-neutral-background-default, #f5f5f5)
     );
   }
   .calendar__day:focus-visible {
     outline: none;
-    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-    box-shadow: var(--ds-focus-ring-shadow);
+    border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   /* Days from the neighbouring months read as secondary text. The colour
      alone carries that, at 8.5:1 against 17.5:1 for a day in the month; an
      opacity on top used to take it to 3.0:1, under the 4.5:1 AA asks. */
   .calendar__day--outside {
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .calendar__day:global([data-today]) .calendar__daynum {
     font-weight: 700;
     color: var(
-      --ds-calendar-today,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-today,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
   }
   .calendar__day:global([data-selected]) {
     background: var(
-      --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-selected-bg,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     color: var(
-      --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      --iui-calendar-selected-text,
+      var(--iui-components-general-action-primary-foreground-default, #ffffff)
     );
   }
   .calendar__day:global([data-selected]) .calendar__daynum {
@@ -724,12 +724,12 @@
   .calendar__day[data-range-start],
   .calendar__day[data-range-end] {
     background: var(
-      --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-selected-bg,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     color: var(
-      --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      --iui-calendar-selected-text,
+      var(--iui-components-general-action-primary-foreground-default, #ffffff)
     );
   }
   .calendar__day[data-range-start] .calendar__daynum,
@@ -740,14 +740,14 @@
      1.4.11), so lines in the selection colour close it above and below. */
   .calendar__day[data-in-range] {
     background: var(
-      --ds-calendar-range-band,
+      --iui-calendar-range-band,
       color-mix(
         in srgb,
-        var(--ds-components-general-selection-background-default, #7a52cc) 12%,
+        var(--iui-components-general-selection-background-default, #7a52cc) 12%,
         transparent
       )
     );
-    border-block-color: var(--ds-components-general-selection-background-default, #7a52cc);
+    border-block-color: var(--iui-components-general-selection-background-default, #7a52cc);
     border-radius: 0;
   }
 
@@ -766,33 +766,33 @@
     block-size: 0.4rem;
     border-radius: 50%;
     background: var(
-      --ds-calendar-dot,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-dot,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     flex: none;
   }
   .calendar__dot[data-tone="success"] {
-    background: var(--ds-components-general-feedback-success-solid-background-default, #3e7523);
+    background: var(--iui-components-general-feedback-success-solid-background-default, #3e7523);
   }
   .calendar__dot[data-tone="warning"] {
-    background: var(--ds-components-general-feedback-warning-solid-background-default, #c96422);
+    background: var(--iui-components-general-feedback-warning-solid-background-default, #c96422);
   }
   .calendar__dot[data-tone="danger"] {
-    background: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    background: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
   }
   .calendar__dot[data-tone="neutral"] {
-    background: var(--ds-components-general-foreground-secondary, #515151);
+    background: var(--iui-components-general-foreground-secondary, #515151);
   }
   .calendar__more {
     font-size: 0.65rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .calendar__price {
     font-size: 0.7rem;
     font-weight: 600;
     color: var(
-      --ds-calendar-price,
-      var(--ds-components-general-feedback-success-body-foreground-default, #3e7523)
+      --iui-calendar-price,
+      var(--iui-components-general-feedback-success-body-foreground-default, #3e7523)
     );
   }
   .calendar__day:global([data-selected]) .calendar__price,
@@ -821,15 +821,15 @@
     color: inherit;
     background: none;
     border: 0;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .calendar__mini-title:hover {
-    color: var(--ds-components-general-action-primary-background-default, #7a52cc);
+    color: var(--iui-components-general-action-primary-background-default, #7a52cc);
   }
   .calendar__mini-title:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
   .calendar__mini-grid {
@@ -846,7 +846,7 @@
   .calendar__mini-weekday {
     text-align: center;
     font-size: 0.65rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .calendar__mini-day {
     inline-size: 100%;
@@ -865,37 +865,37 @@
   }
   .calendar__mini-day:hover {
     background: var(
-      --ds-calendar-day-hover,
-      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+      --iui-calendar-day-hover,
+      var(--iui-components-general-feedback-neutral-background-default, #f5f5f5)
     );
   }
   .calendar__mini-day:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: -1px;
   }
   .calendar__mini-day:global([data-today]) {
     color: var(
-      --ds-calendar-today,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-today,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     font-weight: 700;
   }
   .calendar__mini-day:global([data-selected]) {
     background: var(
-      --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-selected-bg,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     color: var(
-      --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      --iui-calendar-selected-text,
+      var(--iui-components-general-action-primary-foreground-default, #ffffff)
     );
   }
 
   /* ---- Agenda views (week / three-day / day) ---- */
   .calendar__agenda-row {
     grid-template-columns: repeat(var(--cols, 7), minmax(0, 1fr));
-    gap: var(--ds-calendar-gap, 0.25rem);
+    gap: var(--iui-calendar-gap, 0.25rem);
     align-items: stretch;
   }
   .calendar__agenda[data-cols="3"] .calendar__agenda-row {
@@ -906,8 +906,8 @@
   }
   .calendar__agenda-col {
     flex-direction: column;
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-metrics-radius-container, 0.75rem);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-metrics-radius-container, 0.75rem);
     overflow: hidden;
   }
   .calendar__agenda-head {
@@ -918,30 +918,30 @@
     padding: 0.4rem;
     font: inherit;
     color: inherit;
-    background: var(--ds-components-general-feedback-neutral-background-default, #f5f5f5);
+    background: var(--iui-components-general-feedback-neutral-background-default, #f5f5f5);
     border: 0;
-    border-block-end: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-block-end: 1px solid var(--iui-components-general-border-default, #bdbdbd);
     cursor: pointer;
   }
   .calendar__agenda-head:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: -2px;
   }
   .calendar__agenda-head:global([data-selected]) {
     background: var(
-      --ds-calendar-selected-bg,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-selected-bg,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     color: var(
-      --ds-calendar-selected-text,
-      var(--ds-components-general-action-primary-foreground-default, #ffffff)
+      --iui-calendar-selected-text,
+      var(--iui-components-general-action-primary-foreground-default, #ffffff)
     );
   }
   .calendar__agenda-head:global([data-today]) .calendar__agenda-num {
     color: var(
-      --ds-calendar-today,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-calendar-today,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
     font-weight: 700;
   }
@@ -951,7 +951,7 @@
   .calendar__agenda-weekday {
     font-size: 0.7rem;
     text-transform: uppercase;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .calendar__agenda-head:global([data-selected]) .calendar__agenda-weekday {
     color: inherit;
@@ -967,7 +967,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    min-block-size: var(--ds-calendar-agenda-min, 6rem);
+    min-block-size: var(--iui-calendar-agenda-min, 6rem);
   }
   .calendar__event {
     display: flex;
@@ -985,12 +985,12 @@
     font-size: 0.75rem;
     font-weight: 600;
     color: var(
-      --ds-calendar-price,
-      var(--ds-components-general-feedback-success-body-foreground-default, #3e7523)
+      --iui-calendar-price,
+      var(--iui-components-general-feedback-success-body-foreground-default, #3e7523)
     );
   }
   .calendar__agenda-empty {
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     text-align: center;
   }
 

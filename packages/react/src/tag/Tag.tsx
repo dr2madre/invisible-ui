@@ -47,7 +47,7 @@ const REMOVE_GLYPH = (
  * the status never rests on colour alone. The remove button is named by
  * `removeLabel` and its glyph is decorative.
  *
- * Colours are themeable (`--ds-tag-*`), falling back to the status tokens.
+ * Colours are themeable (`--iui-tag-*`), falling back to the status tokens.
  */
 export function Tag({
   status = "neutral",

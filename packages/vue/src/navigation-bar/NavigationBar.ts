@@ -44,7 +44,7 @@ export interface NavigationBarProps {
  * (ADR 0016).
  *
  * The component reads no screen size. Slot: `unavailableIcon` replaces the
- * lock glyph. Themeable via `--ds-navigation-bar-*`.
+ * lock glyph. Themeable via `--iui-navigation-bar-*`.
  */
 export const NavigationBar = defineComponent({
   name: "NavigationBar",

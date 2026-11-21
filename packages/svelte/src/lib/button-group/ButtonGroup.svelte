@@ -8,7 +8,7 @@
    *
    * Place styled `Button`s (or any `<button>`) in the default slot. The group
    * holds no selection — each button stays an independent action. Give it an
-   * accessible `label`. Spacing is themeable via `--ds-button-group-*`.
+   * accessible `label`. Spacing is themeable via `--iui-button-group-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createButtonGroup, type Orientation } from "./create-button-group";
@@ -77,7 +77,7 @@
 
   /* Spaced (non-attached): just a gap between buttons. */
   .button-group:not(.button-group--attached) {
-    gap: var(--ds-button-group-gap, 0.5rem);
+    gap: var(--iui-button-group-gap, 0.5rem);
   }
 
   /* Keep a focused button's ring above its neighbours. */
@@ -102,14 +102,14 @@
   .button-group--attached:not(.button-group--vertical) > :global(*:first-child),
   .button-group--attached:not(.button-group--vertical) > :global(*:first-child button),
   .button-group--attached:not(.button-group--vertical) > :global(*:first-child select) {
-    border-start-start-radius: var(--ds-metrics-radius-control, 0.5rem);
-    border-end-start-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-start-start-radius: var(--iui-metrics-radius-control, 0.5rem);
+    border-end-start-radius: var(--iui-metrics-radius-control, 0.5rem);
   }
   .button-group--attached:not(.button-group--vertical) > :global(*:last-child),
   .button-group--attached:not(.button-group--vertical) > :global(*:last-child button),
   .button-group--attached:not(.button-group--vertical) > :global(*:last-child select) {
-    border-start-end-radius: var(--ds-metrics-radius-control, 0.5rem);
-    border-end-end-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-start-end-radius: var(--iui-metrics-radius-control, 0.5rem);
+    border-end-end-radius: var(--iui-metrics-radius-control, 0.5rem);
   }
 
   /* Vertical: collapse the shared horizontal borders and round the ends. */
@@ -119,13 +119,13 @@
   .button-group--attached.button-group--vertical > :global(*:first-child),
   .button-group--attached.button-group--vertical > :global(*:first-child button),
   .button-group--attached.button-group--vertical > :global(*:first-child select) {
-    border-start-start-radius: var(--ds-metrics-radius-control, 0.5rem);
-    border-start-end-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-start-start-radius: var(--iui-metrics-radius-control, 0.5rem);
+    border-start-end-radius: var(--iui-metrics-radius-control, 0.5rem);
   }
   .button-group--attached.button-group--vertical > :global(*:last-child),
   .button-group--attached.button-group--vertical > :global(*:last-child button),
   .button-group--attached.button-group--vertical > :global(*:last-child select) {
-    border-end-start-radius: var(--ds-metrics-radius-control, 0.5rem);
-    border-end-end-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-end-start-radius: var(--iui-metrics-radius-control, 0.5rem);
+    border-end-end-radius: var(--iui-metrics-radius-control, 0.5rem);
   }
 </style>

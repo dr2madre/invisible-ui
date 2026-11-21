@@ -94,7 +94,7 @@ const glyphs: Record<FeedbackStatus, () => VNodeChild> = {
  * is an accessibility aid for notifications and similar messages.
  *
  * This is intentionally a *styled* component (it ships SVGs + CSS), unlike the
- * headless primitives. Colors are CSS custom properties (`--ds-feedback-*`)
+ * headless primitives. Colors are CSS custom properties (`--iui-feedback-*`)
  * with sensible defaults, so they remain themeable.
  *
  * A built-in icon is provided per status; pass your own via the default slot

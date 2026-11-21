@@ -43,7 +43,7 @@ export function modeTokens(tree, mode = "light") {
   );
 }
 
-export const cssName = (path) => `--ds-${path.replaceAll(".", "-")}`;
+export const cssName = (path) => `--iui-${path.replaceAll(".", "-")}`;
 
 export function resolveTokens(tree, { mode = "light", overrides = {} } = {}) {
   validateTokenModel(tree);

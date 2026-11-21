@@ -36,7 +36,7 @@
   }
   .filter-demo__status {
     margin: 0;
-    color: var(--ds-components-general-foreground-secondary);
+    color: var(--iui-components-general-foreground-secondary);
   }
   .filter-demo__list {
     margin: 0;

@@ -88,7 +88,7 @@ export interface InlineNotificationProps {
  * - Not dismissible by default — set `closable` to render the ghost close
  *   button (WCAG-sized hit area, accessible name).
  *
- * Colors come from the theme token layer (`--ds-color-*`), so the surface
+ * Colors come from the theme token layer (`--iui-color-*`), so the surface
  * adapts to light/dark. Set `inverted` for a high-contrast surface (the
  * opposite of the page) — useful for transient notices.
  */

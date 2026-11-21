@@ -28,7 +28,7 @@
    * Behaviour and accessibility come from the headless carousel in
    * `@nozcadesign/invisible-ui-core`: a labelled group of "N of M" slides, previous/next
    * buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The
-   * control needs an accessible name via `label`. Themed via `--ds-carousel-*`.
+   * control needs an accessible name via `label`. Themed via `--iui-carousel-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createCarousel, type CarouselContext } from "./create-carousel";
@@ -132,8 +132,8 @@
     // to the left and turns the other way.
     const across = $dir === "rtl" ? -offset : offset;
     const translate = vertical
-      ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-      : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+      ? `translateY(calc(var(--iui-carousel-coverflow-spacing, 9rem) * ${offset}))`
+      : `translateX(calc(var(--iui-carousel-coverflow-spacing, 11rem) * ${across}))`;
     const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
     const scale = Math.max(0, 1 - abs * 0.15);
     // Neighbours recede by scale and turn only: a fade would take their text
@@ -261,7 +261,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
     position: relative;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
 
   /* Positioning context for the arrows so they center on the slides only, not
@@ -271,12 +271,12 @@ keeps the scoped rule for the vertical coverflow layout. -->
   }
   .carousel__viewport {
     overflow: hidden;
-    border-radius: var(--ds-carousel-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border-radius: var(--iui-carousel-radius, var(--iui-metrics-radius-container, 0.75rem));
   }
 
   .carousel__track {
     display: flex;
-    transition: transform var(--ds-carousel-transition, 350ms ease);
+    transition: transform var(--iui-carousel-transition, 350ms ease);
   }
 
   /* ---- Slide mode: one full-bleed slide at a time ---- */
@@ -287,48 +287,48 @@ keeps the scoped rule for the vertical coverflow layout. -->
   .carousel__bg {
     display: flex;
     align-items: flex-end;
-    aspect-ratio: var(--ds-carousel-aspect, 16 / 9);
+    aspect-ratio: var(--iui-carousel-aspect, 16 / 9);
     background-color: var(
-      --ds-carousel-slide-bg,
-      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+      --iui-carousel-slide-bg,
+      var(--iui-components-general-feedback-neutral-background-default, #f5f5f5)
     );
     background-size: cover;
     background-position: center;
   }
   /* Image-less slides cycle through the pastel set (an image overrides the color). */
   .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 1) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-pink, #e5a1ac));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-pink, #e5a1ac));
   }
   .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 2) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-violet, #b8a1e6));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-violet, #b8a1e6));
   }
   .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 3) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-teal, #7abecc));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-teal, #7abecc));
   }
   .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 4) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-green, #8dcc7a));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-green, #8dcc7a));
   }
   .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 5) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-yellow, #e5cb44));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-yellow, #e5cb44));
   }
   .carousel__overlay {
     inline-size: 100%;
-    padding: var(--ds-carousel-overlay-padding, 1.5rem);
-    color: var(--ds-carousel-overlay-text, #fff);
+    padding: var(--iui-carousel-overlay-padding, 1.5rem);
+    color: var(--iui-carousel-overlay-text, #fff);
     background: var(
-      --ds-carousel-overlay-bg,
+      --iui-carousel-overlay-bg,
       linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55))
     );
   }
   .carousel__title {
     margin: 0;
-    font-size: var(--ds-carousel-title-size, 1.5rem);
+    font-size: var(--iui-carousel-title-size, 1.5rem);
     font-weight: 700;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
   }
   .carousel__desc {
     margin: 0.35rem 0 0;
-    line-height: var(--ds-typography-line-height-default, 1.4);
+    line-height: var(--iui-typography-line-height-default, 1.4);
   }
 
   /* ---- Gallery mode: scrolling row of items ---- */
@@ -339,27 +339,27 @@ keeps the scoped rule for the vertical coverflow layout. -->
   }
   .carousel__viewport:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .carousel[data-variant="gallery"] .carousel__viewport::-webkit-scrollbar {
     display: none;
   }
   .carousel[data-variant="gallery"] .carousel__track {
-    gap: var(--ds-carousel-gap, 1rem);
+    gap: var(--iui-carousel-gap, 1rem);
     transition: none;
   }
   .carousel[data-variant="gallery"] .carousel__slide {
     flex: 0 0 auto;
-    inline-size: var(--ds-carousel-item-size, 14rem);
+    inline-size: var(--iui-carousel-item-size, 14rem);
     scroll-snap-align: start;
   }
 
   /* ---- Coverflow ("jukebox"): a 3D flow with the active item centered ---- */
   .carousel[data-variant="coverflow"] .carousel__viewport {
     position: relative;
-    block-size: var(--ds-carousel-coverflow-height, 16rem);
+    block-size: var(--iui-carousel-coverflow-height, 16rem);
     /* The perspective makes the receding neighbors read as 3D. */
-    perspective: var(--ds-carousel-coverflow-perspective, 1200px);
+    perspective: var(--iui-carousel-coverflow-perspective, 1200px);
   }
   .carousel[data-variant="coverflow"] .carousel__track {
     display: block;
@@ -370,39 +370,39 @@ keeps the scoped rule for the vertical coverflow layout. -->
     position: absolute;
     inset-block-start: 50%;
     inset-inline-start: 50%;
-    inline-size: var(--ds-carousel-coverflow-size, 12rem);
+    inline-size: var(--iui-carousel-coverflow-size, 12rem);
     /* The per-slide transform/opacity/z-index are set inline from the active
        offset; this transition animates them as the active item changes. */
     transition:
-      transform var(--ds-carousel-transition, 350ms ease),
-      opacity var(--ds-carousel-transition, 350ms ease);
+      transform var(--iui-carousel-transition, 350ms ease),
+      opacity var(--iui-carousel-transition, 350ms ease);
     will-change: transform;
   }
   .carousel[data-variant="coverflow"] .carousel__bg {
     aspect-ratio: 1;
-    border-radius: var(--ds-carousel-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border-radius: var(--iui-carousel-radius, var(--iui-metrics-radius-container, 0.75rem));
     overflow: hidden;
     box-shadow: 0 8px 20px -6px rgb(0 0 0 / 0.35);
   }
   /* Pastel set for image-less coverflow cards (mirrors the slide variant). */
   .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 1) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-pink, #e5a1ac));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-pink, #e5a1ac));
   }
   .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 2) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-violet, #b8a1e6));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-violet, #b8a1e6));
   }
   .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 3) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-teal, #7abecc));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-teal, #7abecc));
   }
   .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 4) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-green, #8dcc7a));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-green, #8dcc7a));
   }
   .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 5) .carousel__bg {
-    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-yellow, #e5cb44));
+    background-color: var(--iui-carousel-slide-bg, var(--iui-pastel-yellow, #e5cb44));
   }
   /* Vertical jukebox: a taller viewport so stacked neighbors have room. */
   .carousel[data-variant="coverflow"][data-orientation="vertical"] .carousel__viewport {
-    block-size: var(--ds-carousel-coverflow-height, 22rem);
+    block-size: var(--iui-carousel-coverflow-height, 22rem);
   }
   @media (prefers-reduced-motion: reduce) {
     .carousel__track,
@@ -419,25 +419,28 @@ keeps the scoped rule for the vertical coverflow layout. -->
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    inline-size: var(--ds-carousel-arrow-size, 2.25rem);
-    block-size: var(--ds-carousel-arrow-size, 2.25rem);
+    inline-size: var(--iui-carousel-arrow-size, 2.25rem);
+    block-size: var(--iui-carousel-arrow-size, 2.25rem);
     font-size: 1.1rem;
-    color: var(--ds-carousel-arrow-text, var(--ds-components-general-foreground-default, #272727));
+    color: var(
+      --iui-carousel-arrow-text,
+      var(--iui-components-general-foreground-default, #272727)
+    );
     background: var(
-      --ds-carousel-arrow-bg,
-      var(--ds-components-carousel-background-default, #e0e0e0)
+      --iui-carousel-arrow-bg,
+      var(--iui-components-carousel-background-default, #e0e0e0)
     );
     border: 1px solid
-      var(--ds-carousel-arrow-border, var(--ds-components-general-border-control, #757575));
+      var(--iui-carousel-arrow-border, var(--iui-components-general-border-control, #757575));
     border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     cursor: pointer;
   }
   .carousel__arrow--prev {
-    inset-inline-start: var(--ds-carousel-arrow-offset, 0.5rem);
+    inset-inline-start: var(--iui-carousel-arrow-offset, 0.5rem);
   }
   .carousel__arrow--next {
-    inset-inline-end: var(--ds-carousel-arrow-offset, 0.5rem);
+    inset-inline-end: var(--iui-carousel-arrow-offset, 0.5rem);
   }
   /* The arrows sit at the inline start and end and point there: they mirror in
      right-to-left text. */
@@ -446,7 +449,7 @@ keeps the scoped rule for the vertical coverflow layout. -->
   }
   .carousel__arrow:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
   .carousel__arrow:disabled {
@@ -475,23 +478,26 @@ keeps the scoped rule for the vertical coverflow layout. -->
   }
   .carousel__dot::before {
     content: "";
-    inline-size: var(--ds-carousel-dot-size, 0.5rem);
-    block-size: var(--ds-carousel-dot-size, 0.5rem);
+    inline-size: var(--iui-carousel-dot-size, 0.5rem);
+    block-size: var(--iui-carousel-dot-size, 0.5rem);
     border-radius: 50%;
     /* Each dot is a real button whose whole visible form is this disc, so it
        takes the control boundary colour, not the divider colour. */
-    background: var(--ds-carousel-dot-color, var(--ds-components-general-border-control, #757575));
+    background: var(
+      --iui-carousel-dot-color,
+      var(--iui-components-general-border-control, #757575)
+    );
     transition: background-color 120ms ease;
   }
   .carousel__dot:global([data-selected]) {
     background: var(
-      --ds-carousel-dot-active,
-      var(--ds-components-general-action-primary-background-default, #7a52cc)
+      --iui-carousel-dot-active,
+      var(--iui-components-general-action-primary-background-default, #7a52cc)
     );
   }
   .carousel__dot:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
   /* Forced colors: the disc is a fill, and fills flatten away, so it takes a

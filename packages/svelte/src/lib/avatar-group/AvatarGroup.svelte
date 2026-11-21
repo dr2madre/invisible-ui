@@ -23,7 +23,7 @@
    *   exposes how many more there are ("N more").
    *
    * Overlap, ring, size and shape are themeable CSS custom properties
-   * (`--ds-avatar-group-*`), inheriting the `Avatar` tokens.
+   * (`--iui-avatar-group-*`), inheriting the `Avatar` tokens.
    */
   import Avatar from "../avatar/Avatar.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -56,7 +56,7 @@
   <!-- Items carry no id and two people may share a name, so the position is
        part of the key; the name remounts the avatar when the person changes. -->
   {#each visible as item, index (`${index}:${item.name}`)}
-    <span class="avatar-group__item" style:--ds-avatar-bg={colorOf(item)}>
+    <span class="avatar-group__item" style:--iui-avatar-bg={colorOf(item)}>
       <Avatar name={item.name} src={item.src} alt={item.alt} {size} {shape} />
     </span>
   {/each}
@@ -85,14 +85,14 @@
     display: inline-flex;
     border-radius: inherit;
     /* No separator ring by default — avatars overlap directly. Opt into one
-       (e.g. for photo avatars) by setting --ds-avatar-group-ring-width to a
+       (e.g. for photo avatars) by setting --iui-avatar-group-ring-width to a
        non-zero value; the ring color should match the background the group sits
        on so it only separates avatars and stays invisible at the outer edge. */
-    box-shadow: 0 0 0 var(--ds-avatar-group-ring-width, 0)
-      var(--ds-avatar-group-ring-color, var(--ds-components-general-background-default, #fff));
+    box-shadow: 0 0 0 var(--iui-avatar-group-ring-width, 0)
+      var(--iui-avatar-group-ring-color, var(--iui-components-general-background-default, #fff));
   }
   .avatar-group__item:not(:first-child) {
-    margin-inline-start: var(--ds-avatar-group-overlap, -0.625rem);
+    margin-inline-start: var(--iui-avatar-group-overlap, -0.625rem);
   }
 
   /* Stack order: earlier avatars sit above later ones so the overlap reads
@@ -107,35 +107,35 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    inline-size: var(--ds-avatar-size, 2.5rem);
-    block-size: var(--ds-avatar-size, 2.5rem);
+    inline-size: var(--iui-avatar-size, 2.5rem);
+    block-size: var(--iui-avatar-size, 2.5rem);
     font-size: 0.8125rem;
     font-weight: 600;
     line-height: 1;
     user-select: none;
     background: var(
-      --ds-avatar-group-overflow-bg,
-      var(--ds-components-general-feedback-neutral-background-default, #f5f5f5)
+      --iui-avatar-group-overflow-bg,
+      var(--iui-components-general-feedback-neutral-background-default, #f5f5f5)
     );
     color: var(
-      --ds-avatar-group-overflow-color,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-avatar-group-overflow-color,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
   }
   .avatar-group__overflow:global([data-size="sm"]) {
-    inline-size: var(--ds-avatar-size, 2rem);
-    block-size: var(--ds-avatar-size, 2rem);
+    inline-size: var(--iui-avatar-size, 2rem);
+    block-size: var(--iui-avatar-size, 2rem);
     font-size: 0.6875rem;
   }
   .avatar-group__overflow:global([data-size="lg"]) {
-    inline-size: var(--ds-avatar-size, 3.5rem);
-    block-size: var(--ds-avatar-size, 3.5rem);
+    inline-size: var(--iui-avatar-size, 3.5rem);
+    block-size: var(--iui-avatar-size, 3.5rem);
     font-size: 1rem;
   }
   .avatar-group__overflow:global([data-shape="circle"]) {
     border-radius: 50%;
   }
   .avatar-group__overflow:global([data-shape="square"]) {
-    border-radius: var(--ds-avatar-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-radius: var(--iui-avatar-radius, var(--iui-metrics-radius-control, 0.5rem));
   }
 </style>

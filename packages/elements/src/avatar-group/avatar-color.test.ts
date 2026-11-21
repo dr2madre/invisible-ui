@@ -5,14 +5,14 @@ import { describe, expect, it } from "vitest";
 
 const sheet = readFileSync(fileURLToPath(new URL("../styles/avatar.css", import.meta.url)), "utf8");
 
-// An item's `color` reaches the sheet through `--ds-avatar-bg`. In the
+// An item's `color` reaches the sheet through `--iui-avatar-bg`. In the
 // `background` shorthand a value like `url(…)` would load an image; in
 // `background-color` it is only ever a color, or nothing.
 describe("avatar color", () => {
-  it("feeds --ds-avatar-bg only to background-color", () => {
+  it("feeds --iui-avatar-bg only to background-color", () => {
     const uses = sheet
       .split(";")
-      .filter((declaration) => /var\(\s*--ds-avatar-bg\b/.test(declaration))
+      .filter((declaration) => /var\(\s*--iui-avatar-bg\b/.test(declaration))
       .map((declaration) =>
         declaration.slice(0, declaration.indexOf(":")).trim().split(/\s/).pop(),
       );

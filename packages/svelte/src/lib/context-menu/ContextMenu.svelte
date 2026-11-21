@@ -10,7 +10,7 @@
    *
    * Wrap the target area in `children`; pass `items`
    * ({ value, label?, disabled? }) and `onSelect(value)`. Colors, radius and
-   * elevation reuse the shared menu tokens (`--ds-menu-*`).
+   * elevation reuse the shared menu tokens (`--iui-menu-*`).
    */
   import { untrack, type Snippet } from "svelte";
   import { createContextMenu, type MenuItem } from "./create-context-menu";
@@ -84,37 +84,37 @@
 <style>
   .context-menu__trigger {
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .context-menu__trigger:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
   }
 
   .context-menu__popup {
     position: fixed;
     inset-block-start: 0;
     inset-inline-start: 0;
-    z-index: var(--ds-menu-z-index, 50);
-    min-inline-size: var(--ds-menu-min-width, 12rem);
+    z-index: var(--iui-menu-z-index, 50);
+    min-inline-size: var(--iui-menu-min-width, 12rem);
     margin: 0;
-    padding: var(--ds-menu-padding, 0.25rem);
+    padding: var(--iui-menu-padding, 0.25rem);
     display: flex;
     flex-direction: column;
     background: var(
-      --ds-components-menu-background-default,
-      var(--ds-components-general-background-default, #fff)
+      --iui-components-menu-background-default,
+      var(--iui-components-general-background-default, #fff)
     );
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-menu-popup-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-menu-popup-radius, var(--iui-metrics-radius-container, 0.75rem));
     box-shadow: var(
-      --ds-elevation-overlay,
+      --iui-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
     font: inherit;
   }
 
@@ -125,7 +125,7 @@
     inline-size: 100%;
     padding: 0.45rem 0.85rem;
     border: 0;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -135,18 +135,18 @@
   /* Hover (desktop) or keyboard focus only — no grey just for being the
      roving-active item on open (no grey on tap). */
   .context-menu__item:hover {
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
      marks the focused item. The menu clips, so the ring goes inside. */
   .context-menu__item:focus-visible {
     outline: none;
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
-    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
-      var(--ds-components-general-focus-ring-color, #8e6cd4);
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--iui-components-general-focus-ring-width, 2px)
+      var(--iui-components-general-focus-ring-color, #8e6cd4);
   }
   .context-menu__item:global([data-disabled]) {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
 
@@ -154,8 +154,8 @@
      44 by 44 at least, for every item. */
   @media (pointer: coarse) {
     .context-menu__item {
-      min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
-      min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+      min-block-size: var(--iui-metrics-density-touch-min-target-size, 44px);
+      min-inline-size: var(--iui-metrics-density-touch-min-target-size, 44px);
     }
   }
 </style>

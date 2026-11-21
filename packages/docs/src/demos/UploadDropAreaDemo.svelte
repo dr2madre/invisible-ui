@@ -13,7 +13,7 @@
   />
   {#if names.length}
     <p
-      style="margin: 0; font-size: 0.875rem; color: var(--ds-components-general-foreground-secondary);"
+      style="margin: 0; font-size: 0.875rem; color: var(--iui-components-general-foreground-secondary);"
     >
       Selected: {names.join(", ")}
     </p>

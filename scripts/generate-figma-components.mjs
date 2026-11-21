@@ -129,7 +129,7 @@ export function tokenPayload(source) {
   return payload;
 }
 
-/** Map each `--ds-*` property the Button reads back to its canonical token. */
+/** Map each `--iui-*` property the Button reads back to its canonical token. */
 export function extractButtonStyles(source, tokens) {
   const byProperty = new Map(tokenEntries(tokens).map(([path]) => [cssName(path), path]));
   const rules = parse(source).css.children;
@@ -143,7 +143,7 @@ export function extractButtonStyles(source, tokens) {
       (item) => item.type === "Declaration" && item.property === property,
     )?.value;
     if (!value) throw new Error(`Figma Button export: missing ${selector} ${property}`);
-    const path = byProperty.get(/^var\((--ds-[\w-]+)\)$/.exec(value)?.[1]);
+    const path = byProperty.get(/^var\((--iui-[\w-]+)\)$/.exec(value)?.[1]);
     if (!path) throw new Error(`Figma Button export: unsupported ${property} ${value}`);
     return path;
   };

@@ -50,7 +50,7 @@ export interface SegmentedControlProps {
  *
  * Items may carry an optional `label`; the `value` is used when omitted. The
  * control needs an accessible name via `label`. Colors are themeable via
- * `--ds-segment-*`.
+ * `--iui-segment-*`.
  */
 export function SegmentedControl({
   items,

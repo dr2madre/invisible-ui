@@ -131,7 +131,7 @@ const resolveViewId = (requested: string | undefined, views: TableViewDef[]): st
  * Without `views`, it renders a single view from `columns` and `rows`. Cells
  * render `row[column.key]` as text, or `renderCell`'s content. Filtering stays
  * the application's: the set takes the rows already filtered and the signals
- * that tell an empty dataset from no results. Themed via `--ds-table-*`.
+ * that tell an empty dataset from no results. Themed via `--iui-table-*`.
  */
 export function TableSet({
   columns = EMPTY,

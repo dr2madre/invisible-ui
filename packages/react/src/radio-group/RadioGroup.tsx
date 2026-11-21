@@ -29,7 +29,7 @@ export interface RadioGroupProps {
  *
  * Items may carry an optional `label`; the `value` is used when omitted. The
  * group needs an accessible name via `label`. Colors are themeable via
- * `--ds-radio-*`.
+ * `--iui-radio-*`.
  */
 export function RadioGroup({
   items,

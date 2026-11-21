@@ -27,7 +27,7 @@ export interface PaginationProps {
  * next at the bounds) come from the headless pagination
  * (`@nozcadesign/invisible-ui-core`). The control names come from the catalog.
  *
- * Colors, sizing and radius are themeable via `--ds-pagination-*`.
+ * Colors, sizing and radius are themeable via `--iui-pagination-*`.
  */
 export function Pagination({
   page = 1,

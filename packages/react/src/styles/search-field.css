@@ -1,10 +1,10 @@
 .search-field {
   display: grid;
-  gap: var(--ds-field-gap, 0.375rem);
-  inline-size: var(--ds-field-width, 18rem);
+  gap: var(--iui-field-gap, 0.375rem);
+  inline-size: var(--iui-field-width, 18rem);
   max-inline-size: 100%;
   font: inherit;
-  color: var(--ds-components-general-foreground-default, #272727);
+  color: var(--iui-components-general-foreground-default, #272727);
 }
 .search-field__label {
   font-size: 0.875rem;
@@ -22,7 +22,7 @@
   border: 0;
 }
 .search-field__required {
-  color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
+  color: var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50);
 }
 .search-field__control {
   display: grid;
@@ -30,22 +30,22 @@
   align-items: stretch;
   min-inline-size: 0;
   overflow: clip;
-  border: 1px solid var(--ds-components-general-border-control, #757575);
-  border-radius: var(--ds-field-radius, var(--ds-metrics-radius-control, 0.5rem));
-  background: var(--ds-components-general-background-default, #fff);
+  border: 1px solid var(--iui-components-general-border-control, #757575);
+  border-radius: var(--iui-field-radius, var(--iui-metrics-radius-control, 0.5rem));
+  background: var(--iui-components-general-background-default, #fff);
   transition:
     border-color 120ms ease,
     box-shadow 120ms ease;
 }
 .search-field__control:focus-within {
-  border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-  box-shadow: var(--ds-focus-ring-shadow);
+  border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+  box-shadow: var(--iui-focus-ring-shadow);
 }
 .search-field__input {
   min-inline-size: 0;
   inline-size: 100%;
   box-sizing: border-box;
-  padding: var(--ds-field-padding, 0.5rem 0.75rem);
+  padding: var(--iui-field-padding, 0.5rem 0.75rem);
   border: 0;
   outline: 0;
   background: transparent;
@@ -60,7 +60,7 @@
   display: inline-grid;
   place-items: center;
   padding-inline-start: 0.75rem;
-  color: var(--ds-components-general-foreground-secondary, #515151);
+  color: var(--iui-components-general-foreground-secondary, #515151);
 }
 .search-field__icon svg {
   inline-size: 1.15rem;
@@ -82,8 +82,8 @@
 .search-field__action {
   display: inline-grid;
   place-items: center;
-  min-inline-size: var(--ds-search-field-action-size, 2.5rem);
-  min-block-size: var(--ds-search-field-action-size, 2.5rem);
+  min-inline-size: var(--iui-search-field-action-size, 2.5rem);
+  min-block-size: var(--iui-search-field-action-size, 2.5rem);
   padding: 0.5rem 0.625rem;
   border: 0;
   background: transparent;
@@ -96,21 +96,21 @@
   block-size: 1.15rem;
 }
 .search-field__action:hover {
-  background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+  background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
 }
 .search-field__action:focus-visible {
-  outline: var(--ds-components-general-focus-ring-width, 2px) solid
-    var(--ds-components-general-focus-ring-color, #8e6cd4);
-  outline-offset: calc(-1 * var(--ds-components-general-focus-ring-width, 2px));
+  outline: var(--iui-components-general-focus-ring-width, 2px) solid
+    var(--iui-components-general-focus-ring-color, #8e6cd4);
+  outline-offset: calc(-1 * var(--iui-components-general-focus-ring-width, 2px));
 }
 .search-field__submit {
-  border-inline-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+  border-inline-start: 1px solid var(--iui-components-general-border-default, #bdbdbd);
 }
 .search-field--disabled {
-  color: var(--ds-components-general-foreground-disabled, #757575);
+  color: var(--iui-components-general-foreground-disabled, #757575);
 }
 .search-field--disabled .search-field__control {
-  background: var(--ds-components-general-background-disabled, #bdbdbd);
+  background: var(--iui-components-general-background-disabled, #bdbdbd);
 }
 .search-field__action:disabled {
   cursor: not-allowed;
@@ -118,6 +118,6 @@
 
 @media (forced-colors: active) {
   .search-field__input:focus-visible {
-    outline-offset: calc(-1 * var(--ds-components-general-focus-ring-width, 2px));
+    outline-offset: calc(-1 * var(--iui-components-general-focus-ring-width, 2px));
   }
 }

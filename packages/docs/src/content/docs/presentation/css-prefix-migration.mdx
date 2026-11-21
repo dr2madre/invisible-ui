@@ -1,0 +1,69 @@
+---
+title: "Migrate to --iui-"
+description: "The public CSS custom properties moved from the --ds- prefix to --iui-: what changed, how to update an override, and the full list of names."
+---
+
+import map from "../../../../../tokens/migration-iui.json";
+
+After 0.1.0-alpha.1, every public CSS custom property of Invisible UI
+starts with `--iui-` instead of `--ds-`. This is a breaking change:
+the `--ds-*` names are removed and no fallback reads them, so an override that
+still uses them has no effect.
+
+Only the prefix changes. The rest of each name, every value, every alias between
+tokens and both themes stay the same. Class names, `<ds-*>` element tags,
+package names and component behaviour do not change.
+
+## Update an override
+
+Replace `--ds-` with `--iui-` at the start of each custom property you set or
+read:
+
+```css
+/* 0.1.0-alpha.1 */
+:root {
+  --ds-components-button-radius: 0;
+}
+
+/* after the change */
+:root {
+  --iui-components-button-radius: 0;
+}
+```
+
+The same applies to custom properties set from code, for example
+`element.style.setProperty("--iui-avatar-bg", color)`.
+
+A search for `--ds-` in your stylesheets, templates and scripts finds every
+place to change. Custom properties that start with `--_` are internal to the
+components and are not part of this change.
+
+## All names
+
+The list is also in the repository as `packages/tokens/migration-iui.json`.
+Names of kind `token` are defined by `tokens.css`; names of kind `component` are the
+per-component knobs described in
+[Component tokens](/invisible-ui/presentation/component-tokens/).
+
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Name in 0.1.0-alpha.1</th>
+      <th scope="col">New name</th>
+      <th scope="col">Kind</th>
+    </tr>
+  </thead>
+  <tbody>
+    {map.entries.map((entry) => (
+      <tr>
+        <td>
+          <code>{entry.from}</code>
+        </td>
+        <td>
+          <code>{entry.to}</code>
+        </td>
+        <td>{entry.kind}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

@@ -42,7 +42,7 @@ export interface ErrorStateProps {
  * an optional `description`, and a recovery area: one `Button` from
  * `actionLabel` and `onAction` ("Try again"), or the `actions` group. An
  * error state replaces the content it covers, so it has no dismiss control.
- * Themeable via `--ds-error-state-*`.
+ * Themeable via `--iui-error-state-*`.
  *
  * Accessibility: the region is a `role="alert"`, announced when it appears.
  * The title and the glyph carry the meaning, never the colour alone.

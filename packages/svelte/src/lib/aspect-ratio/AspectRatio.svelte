@@ -5,7 +5,7 @@
    * an image, video, iframe or any block content as `children`, and it is
    * cropped to fill the box.
    *
-   * Radius is themeable via `--ds-aspect-ratio-radius`.
+   * Radius is themeable via `--iui-aspect-ratio-radius`.
    */
   import type { Snippet } from "svelte";
 
@@ -29,7 +29,7 @@
     aspect-ratio: var(--_aspect-ratio, 1);
     inline-size: 100%;
     overflow: hidden;
-    border-radius: var(--ds-aspect-ratio-radius, 0);
+    border-radius: var(--iui-aspect-ratio-radius, 0);
   }
   /* Common embedded media fills the box. */
   .aspect-ratio :global(img),

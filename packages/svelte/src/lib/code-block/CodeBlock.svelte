@@ -17,7 +17,7 @@
    * - The copy button has an accessible name and announces success via a polite
    *   live region; it is omitted entirely when `copyable` is false.
    *
-   * Colors are themeable CSS custom properties (`--ds-code-block-*`).
+   * Colors are themeable CSS custom properties (`--iui-code-block-*`).
    */
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
@@ -95,13 +95,13 @@
   .code-block {
     margin: 0;
     background: var(
-      --ds-components-code-block-background-default,
-      var(--ds-components-general-background-default, #e0e0e0)
+      --iui-components-code-block-background-default,
+      var(--iui-components-general-background-default, #e0e0e0)
     );
-    color: var(--ds-code-block-text, var(--ds-components-general-foreground-default, #272727));
+    color: var(--iui-code-block-text, var(--iui-components-general-foreground-default, #272727));
     border: 1px solid
-      var(--ds-code-block-border, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-code-block-radius, var(--ds-metrics-radius-container, 0.75rem));
+      var(--iui-code-block-border, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-code-block-radius, var(--iui-metrics-radius-container, 0.75rem));
     overflow: hidden;
   }
 
@@ -110,7 +110,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: var(--ds-code-block-header-padding, 0.4rem 0.75rem 0.4rem 1rem);
+    padding: var(--iui-code-block-header-padding, 0.4rem 0.75rem 0.4rem 1rem);
     font-size: 0.75rem;
   }
 
@@ -127,37 +127,37 @@
     font: inherit;
     font-size: 0.75rem;
     color: inherit;
-    background: var(--ds-code-block-copy-bg, color-mix(in srgb, currentColor 8%, transparent));
+    background: var(--iui-code-block-copy-bg, color-mix(in srgb, currentColor 8%, transparent));
     border: 1px solid transparent;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
     transition: background-color 120ms ease;
   }
   .code-block__copy:hover {
-    background: var(--ds-code-block-copy-hover, color-mix(in srgb, currentColor 16%, transparent));
+    background: var(--iui-code-block-copy-hover, color-mix(in srgb, currentColor 16%, transparent));
   }
   .code-block__copy:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
 
   .code-block__pre {
     margin: 0;
-    padding: var(--ds-code-block-padding, 1rem);
+    padding: var(--iui-code-block-padding, 1rem);
     overflow-x: auto;
   }
   /* The figure clips overflow, so an outer ring would be invisible here:
      the ring is drawn inside the scroller instead. */
   .code-block__pre:focus-visible {
     outline: none;
-    box-shadow: inset 0 0 0 var(--ds-components-general-focus-ring-width, 2px)
-      var(--ds-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: inset 0 0 0 var(--iui-components-general-focus-ring-width, 2px)
+      var(--iui-components-general-focus-ring-color, #8e6cd4);
   }
 
   .code-block__code {
     font-family: var(
-      --ds-font-mono,
+      --iui-font-mono,
       SFMono-Regular,
       Menlo,
       Monaco,
@@ -166,7 +166,7 @@
       "Courier New",
       monospace
     );
-    font-size: var(--ds-code-block-font-size, 0.875rem);
+    font-size: var(--iui-code-block-font-size, 0.875rem);
     line-height: 1.6;
     white-space: pre;
   }

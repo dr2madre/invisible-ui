@@ -37,7 +37,7 @@ Mirror the design system's own architecture (core + adapters):
 - **The shell is ours** and is where accessibility and identity live: an
   accessible container (name, description, a text/table alternative for
   screen readers — a chart is *content*, not decoration), plus a **theme
-  bridge** that feeds the `--ds-*` tokens to whatever engine sits below. We
+  bridge** that feeds the `--iui-*` tokens to whatever engine sits below. We
   already have the machinery: `tokens.json` (DTCG) + Style Dictionary can emit
   a JS theme object for canvas engines that can't read CSS custom properties.
 - **Engines are adapters** behind one interface (`data + spec in → rendered

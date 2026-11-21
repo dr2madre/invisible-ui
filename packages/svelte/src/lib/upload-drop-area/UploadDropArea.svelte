@@ -10,7 +10,7 @@
    * same `accept` filter; the files it leaves out are named in an alert under
    * the area and reported to `onRejected`.
    *
-   * Themeable via `--ds-upload-drop-area-*`. The default prompt comes from the i18n
+   * Themeable via `--iui-upload-drop-area-*`. The default prompt comes from the i18n
    * catalog (`uploadDropArea.prompt` + the styled `uploadDropArea.action` word); pass your
    * own content as the `children` snippet to replace it entirely.
    */
@@ -223,30 +223,30 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: var(--ds-upload-drop-area-padding, 2rem 1.5rem);
+    padding: var(--iui-upload-drop-area-padding, 2rem 1.5rem);
     text-align: center;
     color: var(
-      --ds-upload-drop-area-text,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-upload-drop-area-text,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
     background: var(
-      --ds-upload-drop-area-bg,
-      var(--ds-components-general-background-default, #fff)
+      --iui-upload-drop-area-bg,
+      var(--iui-components-general-background-default, #fff)
     );
-    border: var(--ds-upload-drop-area-border-width, 2px) dashed
-      var(--ds-upload-drop-area-border, var(--ds-components-general-border-control, #757575));
-    border-radius: var(--ds-upload-drop-area-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border: var(--iui-upload-drop-area-border-width, 2px) dashed
+      var(--iui-upload-drop-area-border, var(--iui-components-general-border-control, #757575));
+    border-radius: var(--iui-upload-drop-area-radius, var(--iui-metrics-radius-container, 0.75rem));
     cursor: pointer;
     transition:
       border-color 120ms ease,
       background-color 120ms ease;
   }
   .upload-drop-area:global([data-dragover]) {
-    border-color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    border-color: var(--iui-components-general-action-secondary-background-default, #7a52cc);
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 8%,
-      var(--ds-components-general-background-default, #fff)
+      var(--iui-components-general-action-secondary-background-default, #7a52cc) 8%,
+      var(--iui-components-general-background-default, #fff)
     );
   }
   .upload-drop-area--disabled {
@@ -256,15 +256,15 @@
   /* The opening spinner is a Loading overlay (veil off); tint it and scale it
      up a little via the font-size it keys off. */
   .upload-drop-area--opening :global(.loading--overlay) {
-    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    color: var(--iui-components-general-action-secondary-background-default, #7a52cc);
     font-size: 1.5rem;
   }
   .upload-drop-area__icon {
     /* Neutral (not the selection color) — the selection color is reserved for
        selected states; here a soft grey reads as a quiet affordance. */
     color: var(
-      --ds-upload-drop-area-icon,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-upload-drop-area-icon,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
   }
   .upload-drop-area__icon :global(svg) {
@@ -273,7 +273,7 @@
   }
   /* The action word ("browse") reads as the clickable action (link-like, underlined). */
   .upload-drop-area__action {
-    color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+    color: var(--iui-components-general-action-secondary-body-foreground-default, #7a52cc);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -285,8 +285,8 @@
     gap: 0.35rem;
     margin: 0.25rem 0 0;
     color: var(
-      --ds-field-error-color,
-      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+      --iui-field-error-color,
+      var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50)
     );
   }
   .field__msg-icon {
@@ -295,7 +295,7 @@
   }
   .upload-drop-area__caption {
     font-size: 0.8125rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   /* Visually hidden but focusable: focus lands on the input, ring on the label. */
   .upload-drop-area__input {
@@ -312,15 +312,15 @@
   .upload-drop-area:focus-within {
     border-style: solid;
     box-shadow: var(
-      --ds-focus-ring-shadow,
-      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+      --iui-focus-ring-shadow,
+      0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
     );
   }
   /* Forced colors: the focus sits on the hidden file input, and shadows
      are dropped, so the visible area carries the ring itself. */
   @media (forced-colors: active) {
     .upload-drop-area:focus-within {
-      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
+      outline: var(--iui-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

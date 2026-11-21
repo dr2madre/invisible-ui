@@ -40,13 +40,13 @@ for (const file of [
 ])
   test(`${file} reads Button tokens without legacy overrides`, () => {
     const source = readFileSync(new URL(`../${file}`, import.meta.url), "utf8");
-    assert.doesNotMatch(source, /--ds-button-|general-container/);
+    assert.doesNotMatch(source, /--iui-button-|general-container/);
     for (const variant of ["default", "primary", "secondary", "ghost", "danger"]) {
       const block = source.match(
         new RegExp(`\\[data-variant="${variant}"\\][^{]*:hover[^{}]*\\{([^}]+)\\}`),
       );
       assert.ok(block, variant);
       const suffix = variant === "default" ? "" : `${variant}-`;
-      assert.ok(block[1].includes(`var(--ds-components-button-background-${suffix}hover)`));
+      assert.ok(block[1].includes(`var(--iui-components-button-background-${suffix}hover)`));
     }
   });

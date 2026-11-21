@@ -28,7 +28,7 @@ export interface TooltipProps {
  * it. Inside an open dialog it renders in the dialog (ADR 0016).
  *
  * `children` is the trigger; `text` is the label. For `aria-describedby` on
- * your own element, use `useTooltip`. Themeable via `--ds-tooltip-*`.
+ * your own element, use `useTooltip`. Themeable via `--iui-tooltip-*`.
  */
 export function Tooltip({
   text,

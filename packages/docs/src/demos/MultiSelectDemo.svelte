@@ -41,14 +41,14 @@
   .multi-select-demo__submit {
     font: inherit;
     padding: 0.45rem 1rem;
-    color: var(--ds-components-general-foreground-default, #272727);
-    background: var(--ds-components-general-background-default, #e0e0e0);
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    color: var(--iui-components-general-foreground-default, #272727);
+    background: var(--iui-components-general-background-default, #e0e0e0);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .multi-select-demo__submit:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
 </style>

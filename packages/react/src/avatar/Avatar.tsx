@@ -27,7 +27,7 @@ export function initialsOf(name: string): string {
  * `name` is required: it gives both the accessible name and the initials. The
  * whole avatar is one image to assistive tech (`role="img"` and
  * `aria-label`), so it reads the same with the photo or the initials. Size,
- * shape and colours are themeable (`--ds-avatar-*`).
+ * shape and colours are themeable (`--iui-avatar-*`).
  */
 export function Avatar({ name, src, alt, size = "md", shape = "circle" }: AvatarProps) {
   // The source that failed: a new `src` no longer matches, so it is tried.

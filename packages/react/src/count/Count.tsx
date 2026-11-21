@@ -26,7 +26,7 @@ export interface CountProps {
  * the digits are hidden from assistive tech. A dot has no text: with a
  * `label` it is a status, without one it is decorative.
  *
- * Colours are themeable (`--ds-count-*`), defaulting to the danger tokens.
+ * Colours are themeable (`--iui-count-*`), defaulting to the danger tokens.
  */
 export function Count({
   count = 0,

@@ -14,7 +14,7 @@ export interface LabelProps {
  * the headless label (`@nozcadesign/invisible-ui-core`); this layer adds typographic
  * styling and an optional required marker.
  *
- * The label text is the default slot. Colors are themeable via `--ds-label-*`.
+ * The label text is the default slot. Colors are themeable via `--iui-label-*`.
  */
 export const Label = defineComponent({
   name: "Label",

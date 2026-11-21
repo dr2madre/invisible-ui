@@ -48,7 +48,7 @@ const MAX_TICKS = 20;
  * The value binds two ways: `v-model` or the `value` prop plus
  * `onValueChange`. Provide a `label` for the accessible name; the `icon` slot
  * adds a leading glyph. Colors, sizing and the thumb are themeable via
- * `--ds-slider-*`.
+ * `--iui-slider-*`.
  */
 export const Slider = defineComponent({
   name: "Slider",

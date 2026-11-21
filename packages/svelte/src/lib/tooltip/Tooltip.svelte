@@ -9,7 +9,7 @@
    * The `children` snippet is the trigger (wrap a focusable element); `text` is the
    * tooltip label. For precise control (e.g. putting `aria-describedby` on your
    * own element), use the headless `createTooltip` instead. Themeable via
-   * `--ds-tooltip-*`.
+   * `--iui-tooltip-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createTooltip, type TooltipContext } from "./create-tooltip";
@@ -66,22 +66,22 @@
     position: fixed;
     inset-block-start: 0;
     inset-inline-start: 0;
-    z-index: var(--ds-tooltip-z-index, 60);
-    max-inline-size: var(--ds-tooltip-max-width, 18rem);
-    padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
-    font-size: var(--ds-tooltip-font-size, 0.8125rem);
-    line-height: var(--ds-typography-line-height-default, 1.4);
+    z-index: var(--iui-tooltip-z-index, 60);
+    max-inline-size: var(--iui-tooltip-max-width, 18rem);
+    padding: var(--iui-tooltip-padding, 0.3rem 0.5rem);
+    font-size: var(--iui-tooltip-font-size, 0.8125rem);
+    line-height: var(--iui-typography-line-height-default, 1.4);
     background: var(
-      --ds-tooltip-bg,
-      var(--ds-components-general-emphasis-background-default, #323232)
+      --iui-tooltip-bg,
+      var(--iui-components-general-emphasis-background-default, #323232)
     );
     color: var(
-      --ds-tooltip-color,
-      var(--ds-components-general-emphasis-foreground-default, #f5f5f5)
+      --iui-tooltip-color,
+      var(--iui-components-general-emphasis-foreground-default, #f5f5f5)
     );
-    border-radius: var(--ds-tooltip-radius, var(--ds-metrics-radius-control, 0.5rem));
+    border-radius: var(--iui-tooltip-radius, var(--iui-metrics-radius-control, 0.5rem));
     box-shadow: var(
-      --ds-elevation-overlay,
+      --iui-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );

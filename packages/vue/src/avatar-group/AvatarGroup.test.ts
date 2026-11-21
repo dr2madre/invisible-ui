@@ -56,7 +56,7 @@ describe("Vue AvatarGroup colour", () => {
       }),
     );
     expect(html).not.toContain("background-image");
-    expect(html).not.toContain("--ds-avatar-bg");
+    expect(html).not.toContain("--iui-avatar-bg");
   });
 
   it("keeps a plain colour", async () => {
@@ -66,6 +66,6 @@ describe("Vue AvatarGroup colour", () => {
           h(AvatarGroup, { label: "Team", items: [{ name: "Ada Lovelace", color: "#7a52cc" }] }),
       }),
     );
-    expect(html).toContain("--ds-avatar-bg:#7a52cc");
+    expect(html).toContain("--iui-avatar-bg:#7a52cc");
   });
 });

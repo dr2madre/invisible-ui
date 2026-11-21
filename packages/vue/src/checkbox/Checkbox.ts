@@ -39,7 +39,7 @@ export interface CheckboxProps {
  * callbacks fire on every change.
  *
  * The input is wrapped in a `<label>`, so pressing the box or the text toggles
- * it with no extra wiring. Themeable via `--ds-checkbox-*`.
+ * it with no extra wiring. Themeable via `--iui-checkbox-*`.
  */
 export const Checkbox = defineComponent({
   name: "Checkbox",

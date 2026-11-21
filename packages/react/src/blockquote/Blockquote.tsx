@@ -17,7 +17,7 @@ export interface BlockquoteProps {
  * the quote without being read as part of it. `citeUrl` is not visible, so
  * give a visible attribution too.
  *
- * Themeable via `--ds-blockquote-*`.
+ * Themeable via `--iui-blockquote-*`.
  */
 export function Blockquote({ cite, citeUrl, children }: BlockquoteProps) {
   return (

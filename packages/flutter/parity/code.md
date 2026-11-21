@@ -37,5 +37,5 @@ that holds it.
 | Monospace at 0.875 em, padding 0.1 em by 0.35 em | matched | same test |
 | The neutral surface and border, the text colour, the control radius | matched | same test, with the text contrast |
 | Wraps (`white-space: break-spaces`) | matched | same test, at text scale 2.0 in a narrow parent |
-| The monospace stack (`--ds-font-mono`) | adapted | the stack is not in `tokens.json`; `InvisibleThemeData.monoFontFamily` sets the family and the web stack is the fallback |
+| The monospace stack (`--iui-font-mono`) | adapted | the stack is not in `tokens.json`; `InvisibleThemeData.monoFontFamily` sets the family and the web stack is the fallback |
 | Targets | out of scope | not interactive |

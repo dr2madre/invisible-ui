@@ -205,6 +205,7 @@ export default defineConfig({
             { label: "Figma tokens", link: "/presentation/figma/" },
             { label: "Token catalog", link: "/presentation/token-catalog/" },
             { label: "Component tokens", link: "/presentation/component-tokens/" },
+            { label: "Migrate to --iui-", link: "/presentation/css-prefix-migration/" },
             { label: "Layout", link: "/presentation/layout/" },
           ],
         },

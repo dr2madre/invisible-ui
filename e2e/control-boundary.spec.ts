@@ -168,7 +168,7 @@ for (const theme of ["light", "dark"] as const) {
       const ring = parseColor(
         await page.evaluate(() => {
           const probe = document.createElement("div");
-          probe.style.color = "var(--ds-components-general-focus-ring-color)";
+          probe.style.color = "var(--iui-components-general-focus-ring-color)";
           document.body.append(probe);
           const value = getComputedStyle(probe).color;
           probe.remove();

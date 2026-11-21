@@ -28,7 +28,7 @@ export interface PaginationProps {
  *
  * The current page binds two ways: `v-model` (the idiomatic Vue form) or the
  * `page` prop plus `onPageChange`, matching the other controlled components.
- * Colors, sizing and radius are themeable via `--ds-pagination-*`.
+ * Colors, sizing and radius are themeable via `--iui-pagination-*`.
  */
 export const Pagination = defineComponent({
   name: "Pagination",

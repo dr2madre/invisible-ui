@@ -56,7 +56,7 @@ function StatusGlyph({ status }: { status: FeedbackStatus }) {
  * is decorative by default (`aria-hidden`); pass `label` to expose it as an
  * image with an accessible name.
  *
- * Themeable via `--ds-feedback-icon-*` and the status colour tokens.
+ * Themeable via `--iui-feedback-icon-*` and the status colour tokens.
  */
 export function FeedbackIcon({
   status = "info",

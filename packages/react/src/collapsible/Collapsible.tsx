@@ -25,7 +25,7 @@ export interface CollapsibleProps {
  * come from the headless collapsible (`@nozcadesign/invisible-ui-core`); this layer adds
  * a trigger row with a rotating chevron and a content area.
  *
- * Colors, radius and spacing are themeable via `--ds-collapsible-*`.
+ * Colors, radius and spacing are themeable via `--iui-collapsible-*`.
  */
 export function Collapsible({
   open = false,
@@ -42,7 +42,7 @@ export function Collapsible({
       <button className="collapsible__trigger" {...api.triggerProps}>
         <span className="collapsible__label">{trigger ?? label ?? t("collapsible.toggle")}</span>
         <span className="collapsible__icon" aria-hidden="true">
-          <Icon size="var(--ds-collapsible-icon-size, 1.1em)">
+          <Icon size="var(--iui-collapsible-icon-size, 1.1em)">
             <ChevronGlyph />
           </Icon>
         </span>

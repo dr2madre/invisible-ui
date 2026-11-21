@@ -80,7 +80,7 @@ const ArrowGlyph = (d: string) =>
  * buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The
  * control needs an accessible name via `label`. The current slide binds two
  * ways: `v-model:index` or the `index` prop plus `onIndexChange`. Themed via
- * `--ds-carousel-*`.
+ * `--iui-carousel-*`.
  */
 export const Carousel = defineComponent({
   name: "Carousel",
@@ -143,8 +143,8 @@ export const Carousel = defineComponent({
       // to the left and turns the other way.
       const across = i18n.value.dir === "rtl" ? -offset : offset;
       const translate = vertical
-        ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-        : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+        ? `translateY(calc(var(--iui-carousel-coverflow-spacing, 9rem) * ${offset}))`
+        : `translateX(calc(var(--iui-carousel-coverflow-spacing, 11rem) * ${across}))`;
       const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
       const scale = Math.max(0, 1 - abs * 0.15);
       // Neighbours recede by scale and turn only: a fade would take their text

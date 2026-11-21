@@ -19,7 +19,7 @@
    * Pass `steps` (their labels). In linear mode (default) upcoming steps are not
    * clickable; set `linear={false}` to allow jumping to any step. Drive it as a
    * controlled component via `current` + `onStepChange`. Completed steps show a
-   * check; the current/upcoming steps show their number. Themed (`--ds-step-*`).
+   * check; the current/upcoming steps show their number. Themed (`--iui-step-*`).
    */
   import { untrack } from "svelte";
   import { createStepper, type StepperContext } from "./create-stepper";
@@ -130,14 +130,14 @@
     container-type: inline-size;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .stepper__list {
     display: flex;
     margin: 0;
     padding: 0;
     list-style: none;
-    gap: var(--ds-step-gap, 0.25rem);
+    gap: var(--iui-step-gap, 0.25rem);
   }
   .stepper__list:global([data-orientation="vertical"]) {
     flex-direction: column;
@@ -163,15 +163,15 @@
      bar. The dots are drawn with a repeating radial-gradient. */
   .stepper__connector {
     flex: none;
-    inline-size: var(--ds-step-connector-length, 1.5rem);
-    block-size: var(--ds-step-connector-thickness, 3px);
+    inline-size: var(--iui-step-connector-length, 1.5rem);
+    block-size: var(--iui-step-connector-thickness, 3px);
     margin-inline: 0.25rem;
     background-image: radial-gradient(
       circle,
-      var(--ds-step-connector-color, var(--ds-components-general-border-default, #bdbdbd)) 0 42%,
+      var(--iui-step-connector-color, var(--iui-components-general-border-default, #bdbdbd)) 0 42%,
       transparent 48%
     );
-    background-size: var(--ds-step-connector-dot-gap, 5px) 100%;
+    background-size: var(--iui-step-connector-dot-gap, 5px) 100%;
     background-repeat: repeat-x;
     background-position: center;
   }
@@ -180,20 +180,20 @@
     background-image: radial-gradient(
       circle,
       var(
-          --ds-step-connector-active,
-          var(--ds-components-general-action-secondary-background-default, #7a52cc)
+          --iui-step-connector-active,
+          var(--iui-components-general-action-secondary-background-default, #7a52cc)
         )
         0 42%,
       transparent 48%
     );
   }
   .stepper__list:global([data-orientation="vertical"]) .stepper__connector {
-    inline-size: var(--ds-step-connector-thickness, 3px);
+    inline-size: var(--iui-step-connector-thickness, 3px);
     block-size: auto;
     min-block-size: 1.25rem;
     margin-block: 0.25rem;
     margin-inline: 0;
-    background-size: 100% var(--ds-step-connector-dot-gap, 5px);
+    background-size: 100% var(--iui-step-connector-dot-gap, 5px);
     background-repeat: repeat-y;
   }
 
@@ -211,12 +211,12 @@
       align-items: flex-start;
     }
     .stepper__connector {
-      inline-size: var(--ds-step-connector-thickness, 3px);
+      inline-size: var(--iui-step-connector-thickness, 3px);
       block-size: auto;
       min-block-size: 1.25rem;
       margin-block: 0.25rem;
       margin-inline: 0;
-      background-size: 100% var(--ds-step-connector-dot-gap, 5px);
+      background-size: 100% var(--iui-step-connector-dot-gap, 5px);
       background-repeat: repeat-y;
     }
   }
@@ -224,14 +224,14 @@
   .stepper__trigger {
     display: inline-flex;
     align-items: center;
-    gap: var(--ds-step-label-gap, 0.5rem);
-    padding: var(--ds-step-padding, 0.25rem 0.4rem);
+    gap: var(--iui-step-label-gap, 0.5rem);
+    padding: var(--iui-step-padding, 0.25rem 0.4rem);
     font: inherit;
     color: inherit;
     text-align: start;
     background: none;
     border: 0;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .stepper__trigger:disabled {
@@ -239,7 +239,7 @@
   }
   .stepper__trigger:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
 
@@ -248,21 +248,21 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    inline-size: var(--ds-step-indicator-size, 1.75rem);
-    block-size: var(--ds-step-indicator-size, 1.75rem);
+    inline-size: var(--iui-step-indicator-size, 1.75rem);
+    block-size: var(--iui-step-indicator-size, 1.75rem);
     font-size: 0.8125rem;
     font-weight: 600;
     line-height: 1;
     border-radius: 50%;
     border: 2px solid
-      var(--ds-step-indicator-border, var(--ds-components-general-border-default, #bdbdbd));
+      var(--iui-step-indicator-border, var(--iui-components-general-border-default, #bdbdbd));
     color: var(
-      --ds-step-indicator-text,
-      var(--ds-components-general-foreground-secondary, #515151)
+      --iui-step-indicator-text,
+      var(--iui-components-general-foreground-secondary, #515151)
     );
     background: var(
-      --ds-step-indicator-bg,
-      var(--ds-components-stepper-background-default, #e0e0e0)
+      --iui-step-indicator-bg,
+      var(--iui-components-stepper-background-default, #e0e0e0)
     );
     transition:
       background-color 120ms ease,
@@ -272,35 +272,35 @@
   /* Completed: light gray filled circle with a dark check. */
   .stepper__step[data-status="complete"] .stepper__indicator {
     background: var(
-      --ds-step-complete-bg,
-      var(--ds-components-stepper-background-default, #e0e0e0)
+      --iui-step-complete-bg,
+      var(--iui-components-stepper-background-default, #e0e0e0)
     );
     border-color: var(
-      --ds-step-complete-border,
-      var(--ds-components-general-border-default, #bdbdbd)
+      --iui-step-complete-border,
+      var(--iui-components-general-border-default, #bdbdbd)
     );
-    color: var(--ds-step-complete-text, var(--ds-components-general-foreground-default, #272727));
+    color: var(--iui-step-complete-text, var(--iui-components-general-foreground-default, #272727));
   }
   /* Current: filled with the selection color. */
   /* Current step: the shared selected look — faint selection fill, selection
      border + number (coherent with checkbox/radio/etc.). */
   .stepper__step[data-status="current"] .stepper__indicator {
     background: var(
-      --ds-step-current-bg,
+      --iui-step-current-bg,
       color-mix(
         in srgb,
-        var(--ds-components-general-selection-background-default, #7a52cc) 10%,
+        var(--iui-components-general-selection-background-default, #7a52cc) 10%,
         transparent
       )
     );
     border-color: color-mix(
       in srgb,
-      var(--ds-components-general-selection-background-default, #7a52cc) 35%,
+      var(--iui-components-general-selection-background-default, #7a52cc) 35%,
       transparent
     );
     color: var(
-      --ds-step-current-text,
-      var(--ds-components-general-selection-background-default, #7a52cc)
+      --iui-step-current-text,
+      var(--iui-components-general-selection-background-default, #7a52cc)
     );
   }
   /* Upcoming: no fill, dashed near-black ring. */
@@ -308,10 +308,10 @@
     background: transparent;
     border-style: dashed;
     border-color: var(
-      --ds-step-upcoming-border,
-      var(--ds-components-general-foreground-default, #272727)
+      --iui-step-upcoming-border,
+      var(--iui-components-general-foreground-default, #272727)
     );
-    color: var(--ds-step-upcoming-text, var(--ds-components-general-foreground-default, #272727));
+    color: var(--iui-step-upcoming-text, var(--iui-components-general-foreground-default, #272727));
   }
 
   .stepper__text {
@@ -336,13 +336,13 @@
      and never pushes the page sideways. */
   .stepper__label {
     font-weight: 600;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
     overflow-wrap: anywhere;
   }
   .stepper__description {
     overflow-wrap: anywhere;
     font-size: 0.8125rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
-    line-height: var(--ds-typography-line-height-default, 1.4);
+    color: var(--iui-components-general-foreground-secondary, #515151);
+    line-height: var(--iui-typography-line-height-default, 1.4);
   }
 </style>

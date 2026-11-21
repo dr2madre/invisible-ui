@@ -53,7 +53,7 @@ export interface LoadingGenerationAreaProps {
  * percentage and detail stay visible and `aria-hidden`, so a fast-ticking
  * value is not read on every change. `decorative` hides it from assistive
  * technology. The drift stops under reduced motion. Themeable via
- * `--ds-loading-generation-area-*`.
+ * `--iui-loading-generation-area-*`.
  */
 export function LoadingGenerationArea({
   label,

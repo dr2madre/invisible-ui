@@ -59,7 +59,7 @@ scope**. Every matched line names the widget test in
 | --- | --- | --- |
 | 2.25rem surface, control border and radius; on: a tint and border of the selection colour and selection-coloured content | matched | `check shows a tick only while on, at the inline start; on takes the selection colour` |
 | `check`: a leading tick only while on, at the inline start in both directions | matched | same test |
-| Hover keeps the rest background | matched | no hover change, as the default `--ds-toggle-bg-hover` |
+| Hover keeps the rest background | matched | no hover change, as the default `--iui-toggle-bg-hover` |
 | Focus ring on keyboard focus | matched | `the ring shows on keyboard focus; 44 by 44 under touch; text scale 2.0 grows the surface` |
 | Reduced motion: no colour transition | matched | `reducedMotion` sets the 120ms transition to zero |
 

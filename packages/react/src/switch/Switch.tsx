@@ -35,7 +35,7 @@ export interface SwitchProps {
  * readers announce on/off, which is clearer than a checkbox for settings.
  *
  * Prefer this over a checkbox for instant on/off settings. Themeable via
- * `--ds-switch-*`.
+ * `--iui-switch-*`.
  */
 export function Switch({
   label,

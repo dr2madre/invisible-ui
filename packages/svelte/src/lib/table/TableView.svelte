@@ -592,8 +592,8 @@
     display: grid;
     justify-items: center;
     padding: 2rem 1rem;
-    border: 1px solid var(--ds-table-border, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-table-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border: 1px solid var(--iui-table-border, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-table-radius, var(--iui-metrics-radius-container, 0.75rem));
   }
   .table-view__header {
     display: flex;
@@ -604,7 +604,7 @@
   }
   .table-view__title {
     margin: 0;
-    font-size: var(--ds-table-title-size, 1.5rem);
+    font-size: var(--iui-table-title-size, 1.5rem);
     font-weight: 600;
   }
   .table-view__controls {
@@ -621,14 +621,14 @@
     justify-content: center;
     inline-size: 2.25rem;
     block-size: 2.25rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     border: 1px solid transparent;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     background: transparent;
   }
   .table-view__settings:hover {
-    color: var(--ds-components-general-foreground-default, #272727);
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    color: var(--iui-components-general-foreground-default, #272727);
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .table-view__sr {
     position: absolute;
@@ -650,8 +650,8 @@
   }
   /* The table body sits in a bordered card; the footer (pagination) is outside. */
   .table-view__card {
-    border: 1px solid var(--ds-table-border, var(--ds-components-general-border-default, #bdbdbd));
-    border-radius: var(--ds-table-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border: 1px solid var(--iui-table-border, var(--iui-components-general-border-default, #bdbdbd));
+    border-radius: var(--iui-table-radius, var(--iui-metrics-radius-container, 0.75rem));
     /* A wide table scrolls inside the card instead of being cut off or
        widening the page. The card is focusable only while it overflows. */
     overflow-x: auto;
@@ -659,7 +659,7 @@
   }
   .table-view__card:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .table-view__cards-select-all {
     display: grid;
@@ -682,7 +682,7 @@
   .table-view__cards {
     display: grid;
     gap: 0.75rem;
-    grid-template-columns: repeat(auto-fill, minmax(var(--ds-table-card-min, 16rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--iui-table-card-min, 16rem), 1fr));
   }
   .table-view__card-fields {
     margin: 0;
@@ -697,7 +697,7 @@
   }
   .table-view__card-label {
     margin: 0;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     font-size: 0.8125rem;
   }
   .table-view__card-value {
@@ -718,21 +718,21 @@
   .table-view__status {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     min-block-size: 1rem;
   }
   .table-view__load-more {
     font: inherit;
     padding: 0.45rem 1rem;
-    color: var(--ds-components-general-foreground-default, #272727);
-    background: var(--ds-components-table-background-default, #e0e0e0);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    color: var(--iui-components-general-foreground-default, #272727);
+    background: var(--iui-components-table-background-default, #e0e0e0);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   .table-view__load-more:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
   .table-view__load-more:disabled {

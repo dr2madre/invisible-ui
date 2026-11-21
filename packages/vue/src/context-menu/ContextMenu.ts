@@ -27,7 +27,7 @@ export interface ContextMenuProps {
  *
  * Wrap the target area in the default slot; pass `items`
  * ({ value, label?, disabled? }) and `onSelect(value)`. Colors, radius and
- * elevation reuse the shared menu tokens (`--ds-menu-*`).
+ * elevation reuse the shared menu tokens (`--iui-menu-*`).
  */
 export const ContextMenu = defineComponent({
   name: "ContextMenu",

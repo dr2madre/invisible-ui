@@ -13,7 +13,7 @@ const STATUSES: readonly FeedbackStatus[] = ["info", "success", "warning", "dang
  * A built-in glyph is drawn per status. Element children replace it: they are
  * captured once, on the first connection. The box is decorative by default
  * (`aria-hidden`); set `label` to expose it as an image with that name.
- * Colors are themeable CSS custom properties (`--ds-feedback-icon-*`).
+ * Colors are themeable CSS custom properties (`--iui-feedback-icon-*`).
  *
  * Attributes: `status` (info|success|warning|danger|neutral; "info" by default),
  * `label` (the accessible name), `box` (tint|transparent|solid; "tint" by

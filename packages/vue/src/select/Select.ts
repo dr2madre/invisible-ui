@@ -27,7 +27,7 @@ export interface SelectProps {
   disabled?: boolean;
   /**
    * Width behaviour: `wrap` fits the longest option (the native default),
-   * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`.
+   * `fill` takes 100% of the container, `fixed` uses `--iui-select-width`.
    */
   width?: "wrap" | "fill" | "fixed";
   /** Form field name; this is a real `<select>`, so it submits natively. */
@@ -56,7 +56,7 @@ export interface SelectProps {
  * supplies the behaviour the primitive would otherwise provide. The primitive
  * remains available for consumers building a fully custom select.
  *
- * Themeable via `--ds-select-*`.
+ * Themeable via `--iui-select-*`.
  */
 export const Select = defineComponent({
   name: "Select",

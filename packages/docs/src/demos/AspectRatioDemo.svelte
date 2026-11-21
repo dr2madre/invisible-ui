@@ -37,17 +37,17 @@
       135deg,
       color-mix(
         in srgb,
-        var(--ds-components-general-action-secondary-background-default, #7a52cc) 22%,
+        var(--iui-components-general-action-secondary-background-default, #7a52cc) 22%,
         transparent
       ),
       color-mix(
         in srgb,
-        var(--ds-components-general-action-primary-background-default, #7a52cc) 22%,
+        var(--iui-components-general-action-primary-background-default, #7a52cc) 22%,
         transparent
       )
     );
-    border-radius: var(--ds-metrics-radius-container, 0.75rem);
-    color: var(--ds-components-general-foreground-default, #272727);
+    border-radius: var(--iui-metrics-radius-container, 0.75rem);
+    color: var(--iui-components-general-foreground-default, #272727);
     font-weight: 600;
     font-size: 0.875rem;
   }

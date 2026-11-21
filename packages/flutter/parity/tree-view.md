@@ -154,4 +154,4 @@ runs through `connect()` too.
 | Multi-selection | out of scope | open design question; the reference is single-select |
 | The `labels` map | out of scope | labels are on the node (`TreeNode.label`) |
 | The `labelContent` and `icon` snippets | out of scope | the label is text on the node, and `TreeNode.icon` is a widget |
-| CSS custom properties (`--ds-tree-*`) | out of scope | Flutter themes through `InvisibleTheme` |
+| CSS custom properties (`--iui-tree-*`) | out of scope | Flutter themes through `InvisibleTheme` |

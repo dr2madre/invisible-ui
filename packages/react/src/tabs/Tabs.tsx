@@ -45,7 +45,7 @@ export interface TabsProps {
  * they are ordinary buttons in the Tab order after the selected tab, never
  * tabs, and the arrow keys never reach them. For a strip
  * placed apart from its panels, use `useTabs`. Colors are themeable CSS
- * custom properties (`--ds-tabs-*`).
+ * custom properties (`--iui-tabs-*`).
  */
 export function Tabs({
   items,

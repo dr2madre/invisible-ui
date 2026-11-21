@@ -29,7 +29,7 @@ const OVERFLOW: Record<ScrollOrientation, CSSProperties> = {
  * scrollbars are hidden, while keyboard and wheel scrolling stay native: the
  * viewport takes focus and scrolls with the arrow keys.
  *
- * Themeable via `--ds-scroll-area-*`.
+ * Themeable via `--iui-scroll-area-*`.
  */
 export function ScrollArea({
   orientation = "vertical",

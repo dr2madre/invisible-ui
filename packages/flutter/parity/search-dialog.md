@@ -58,9 +58,9 @@ scope**. Every matched line names the widget test in
 | Results meet 44 by 44 under touch; contrast light and dark | matched | the layout test; `text contrast, light and dark` |
 | Async results through `items` | adapted | a route's content does not rebuild with the page: the app rebuilds the dialog, for example with a `ValueListenableBuilder` in the builder, and hears the query through `onQueryChanged` |
 | A trigger button inside the component | adapted | Flutter opens dialogs as routes: the app's own button or shortcut calls `showInvisibleDialog` |
-| `--ds-search-dialog-*` variables | out of scope | the Flutter theme carries the shared roles |
+| `--iui-search-dialog-*` variables | out of scope | the Flutter theme carries the shared roles |
 | Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
 
 ## Background token
 
-The background reads the component token `--ds-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.
+The background reads the component token `--iui-components-dialog-background-default` on the web and `InvisibleColors.dialogBackground` in Flutter, both generated from `packages/tokens/tokens.json`; `tokens-parity.test.ts` and the Dart token tests hold the values.

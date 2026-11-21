@@ -16,7 +16,7 @@ export interface LabelProps {
  * headless label (`@nozcadesign/invisible-ui-core`); this layer adds the type styles and
  * an optional required marker.
  *
- * Themeable via `--ds-label-*`.
+ * Themeable via `--iui-label-*`.
  */
 export function Label({ htmlFor, required = false, children }: LabelProps) {
   const { rootProps } = useLabel({ htmlFor });

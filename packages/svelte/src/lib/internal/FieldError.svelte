@@ -37,8 +37,8 @@
     gap: 0.35rem;
     margin: 0.25rem 0 0;
     color: var(
-      --ds-field-error-color,
-      var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50)
+      --iui-field-error-color,
+      var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50)
     );
   }
   .field__msg-icon {

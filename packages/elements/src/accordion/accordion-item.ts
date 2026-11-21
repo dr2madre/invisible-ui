@@ -104,7 +104,7 @@ export class DsAccordionItem extends HTMLElementBase {
     const icon = document.createElement("span");
     icon.className = "accordion__icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.innerHTML = disclosureIcon("9 6 15 12 9 18", "var(--ds-accordion-icon-size, 1.1em)");
+    icon.innerHTML = disclosureIcon("9 6 15 12 9 18", "var(--iui-accordion-icon-size, 1.1em)");
     trigger.append(label, icon);
     heading.appendChild(trigger);
 

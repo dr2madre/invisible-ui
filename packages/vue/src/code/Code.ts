@@ -6,7 +6,7 @@ import { defineComponent, h } from "vue";
  * block use `CodeBlock`. Ported from the Svelte adapter.
  *
  * Presentational only: its content is the meaning. Colors and the surface tint
- * are themeable CSS custom properties (`--ds-code-*`).
+ * are themeable CSS custom properties (`--iui-code-*`).
  */
 export const Code = defineComponent({
   name: "Code",

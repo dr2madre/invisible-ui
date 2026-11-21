@@ -60,7 +60,7 @@ function Example() {
 ```
 
 Import `@nozcadesign/invisible-ui-react/tokens.css` alone if you style the components
-yourself — it defines the `--ds-*` custom properties everything reads from.
+yourself — it defines the `--iui-*` custom properties everything reads from.
 
 ## How it works
 

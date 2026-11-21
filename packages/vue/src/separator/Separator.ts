@@ -17,8 +17,8 @@ export interface SeparatorProps {
  * purely visual spacing inside a toolbar that already groups its items) so it
  * is hidden from assistive tech.
  *
- * Color and thickness are themeable CSS custom properties (`--ds-separator-*`,
- * falling back to `--ds-components-general-border-default`).
+ * Color and thickness are themeable CSS custom properties (`--iui-separator-*`,
+ * falling back to `--iui-components-general-border-default`).
  */
 export const Separator = defineComponent({
   name: "Separator",

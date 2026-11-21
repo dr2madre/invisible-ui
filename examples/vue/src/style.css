@@ -1,6 +1,6 @@
 :root {
   color-scheme: light dark;
-  background: var(--ds-components-general-background-default);
+  background: var(--iui-components-general-background-default);
 }
 
 * {
@@ -16,14 +16,14 @@ body {
       circle at 15% 0%,
       color-mix(
         in srgb,
-        var(--ds-components-general-action-primary-background-default) 12%,
+        var(--iui-components-general-action-primary-background-default) 12%,
         transparent
       ),
       transparent 32rem
     ),
-    var(--ds-components-general-background-default);
-  color: var(--ds-components-general-foreground-default);
-  font-family: var(--ds-font-sans);
+    var(--iui-components-general-background-default);
+  color: var(--iui-components-general-foreground-default);
+  font-family: var(--iui-font-sans);
 }
 
 button,
@@ -57,7 +57,7 @@ select {
 .eyebrow,
 .step {
   margin: 0 0 0.75rem;
-  color: var(--ds-components-general-action-primary-background-default);
+  color: var(--iui-components-general-action-primary-background-default);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -67,7 +67,7 @@ select {
 .lede {
   max-width: 42rem;
   margin: 1.5rem 0 0;
-  color: var(--ds-components-general-foreground-secondary);
+  color: var(--iui-components-general-foreground-secondary);
   font-size: 1.125rem;
   line-height: 1.65;
 }
@@ -82,15 +82,15 @@ select {
 .panel {
   min-width: 0;
   padding: clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid var(--ds-components-general-border-default);
-  border-radius: var(--ds-metrics-radius-container);
+  border: 1px solid var(--iui-components-general-border-default);
+  border-radius: var(--iui-metrics-radius-container);
   background: color-mix(
     in srgb,
-    var(--ds-components-general-background-default) 92%,
-    var(--ds-components-general-background-default)
+    var(--iui-components-general-background-default) 92%,
+    var(--iui-components-general-background-default)
   );
   box-shadow: 0 1rem 3rem
-    color-mix(in srgb, var(--ds-components-general-foreground-default) 7%, transparent);
+    color-mix(in srgb, var(--iui-components-general-foreground-default) 7%, transparent);
 }
 
 .panel__heading {
@@ -98,7 +98,7 @@ select {
   grid-template-columns: auto 1fr;
   gap: 1rem;
   padding-block-end: 1.5rem;
-  border-block-end: 1px solid var(--ds-components-general-border-default);
+  border-block-end: 1px solid var(--iui-components-general-border-default);
 }
 
 .panel__heading h2,
@@ -112,7 +112,7 @@ select {
 
 .panel__heading p:not(.step) {
   margin-block-start: 0.35rem;
-  color: var(--ds-components-general-foreground-secondary);
+  color: var(--iui-components-general-foreground-secondary);
   line-height: 1.5;
 }
 
@@ -140,14 +140,14 @@ select {
 .selection {
   margin: 1rem 0 0;
   padding: 0.75rem 1rem;
-  border-radius: var(--ds-metrics-radius-control);
-  background: var(--ds-components-general-background-default);
-  color: var(--ds-components-general-foreground-secondary);
+  border-radius: var(--iui-metrics-radius-control);
+  background: var(--iui-components-general-background-default);
+  color: var(--iui-components-general-foreground-secondary);
   font-size: 0.875rem;
 }
 
 code {
-  font-family: var(--ds-font-mono);
+  font-family: var(--iui-font-mono);
   font-size: 0.9em;
 }
 

@@ -32,7 +32,7 @@ export interface RadioGroupProps {
  * Items may carry an optional `label`; the `value` is used when omitted. The
  * group needs an accessible name via `label`. The selected value binds two
  * ways: `v-model` or the `value` prop plus `onValueChange`. Colors are
- * themeable CSS custom properties (`--ds-radio-*`).
+ * themeable CSS custom properties (`--iui-radio-*`).
  */
 export const RadioGroup = defineComponent({
   name: "RadioGroup",

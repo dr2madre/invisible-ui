@@ -10,7 +10,7 @@
    * name); pass `children` to override it with rich content. The native
    * input is wrapped in a `<label>`, so clicking the box or text toggles it with
    * no extra wiring. Colors and sizing are themeable CSS custom properties
-   * (`--ds-checkbox-*`).
+   * (`--iui-checkbox-*`).
    */
   import { untrack, type Snippet } from "svelte";
   import { createCheckbox, type CheckedState } from "./create-checkbox";
@@ -133,14 +133,14 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: var(--ds-checkbox-gap, 0.5rem);
+    gap: var(--iui-checkbox-gap, 0.5rem);
     cursor: pointer;
   }
   .field--disabled {
     cursor: not-allowed;
   }
   .field--disabled .field__label {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
   }
   /* Kept in the accessibility tree (names the control), removed from view. */
   .field__label--hidden {
@@ -174,17 +174,17 @@
 
   .checkbox {
     box-sizing: border-box;
-    inline-size: var(--ds-checkbox-size, 1.25rem);
-    block-size: var(--ds-checkbox-size, 1.25rem);
+    inline-size: var(--iui-checkbox-size, 1.25rem);
+    block-size: var(--iui-checkbox-size, 1.25rem);
     /* Inset so the glyph never touches the box edge. */
-    padding: var(--ds-checkbox-padding, 0.15rem);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-checkbox-radius, var(--ds-metrics-radius-control, 0.5rem));
-    background: var(--ds-components-general-background-default, #fff);
+    padding: var(--iui-checkbox-padding, 0.15rem);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-checkbox-radius, var(--iui-metrics-radius-control, 0.5rem));
+    background: var(--iui-components-general-background-default, #fff);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--ds-components-general-action-secondary-foreground-default, #fff);
+    color: var(--iui-components-general-action-secondary-foreground-default, #fff);
     flex: none;
   }
   /* Glyphs fill the padded content box; shown per checked state. The glyph
@@ -200,8 +200,8 @@
   }
   .checkbox__input:focus-visible + .checkbox {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
+    box-shadow: var(--iui-focus-ring-shadow);
+    outline-offset: var(--iui-components-general-focus-ring-offset, 2px);
   }
 
   /* Checked: a faint selection-color fill with the glyph in the full selection
@@ -210,14 +210,14 @@
   .checkbox__input:indeterminate + .checkbox {
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc) 10%,
       transparent
     );
     /* The glyph, not the edge, carries the state: the boundary keeps the
        control border, and the glyph takes the selection text form, which
        stays readable on the tint in both themes. */
-    border-color: var(--ds-components-general-border-control, #757575);
-    color: var(--ds-components-general-selection-contextual-foreground-default, #553f82);
+    border-color: var(--iui-components-general-border-control, #757575);
+    color: var(--iui-components-general-selection-contextual-foreground-default, #553f82);
   }
   .field--disabled .checkbox,
   .checkbox__input:disabled + .checkbox {
@@ -228,7 +228,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .checkbox__input:focus-visible + .checkbox {
-      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
+      outline: var(--iui-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

@@ -7,8 +7,8 @@
    * purely visual spacing inside a toolbar that already groups its items) so it
    * is hidden from assistive tech.
    *
-   * Color and thickness are themeable CSS custom properties (`--ds-separator-*`,
-   * falling back to `--ds-components-general-border-default`).
+   * Color and thickness are themeable CSS custom properties (`--iui-separator-*`,
+   * falling back to `--iui-components-general-border-default`).
    */
   interface Props {
     orientation?: "horizontal" | "vertical";
@@ -29,18 +29,18 @@
 <style>
   .separator {
     flex: none;
-    background: var(--ds-separator-color, var(--ds-components-general-border-default, #bdbdbd));
+    background: var(--iui-separator-color, var(--iui-components-general-border-default, #bdbdbd));
     border: 0;
   }
   .separator:global([data-orientation="horizontal"]) {
     inline-size: 100%;
-    block-size: var(--ds-separator-thickness, 1px);
-    margin-block: var(--ds-separator-gap, 0);
+    block-size: var(--iui-separator-thickness, 1px);
+    margin-block: var(--iui-separator-gap, 0);
   }
   .separator:global([data-orientation="vertical"]) {
     align-self: stretch;
-    inline-size: var(--ds-separator-thickness, 1px);
+    inline-size: var(--iui-separator-thickness, 1px);
     min-block-size: 1em;
-    margin-inline: var(--ds-separator-gap, 0);
+    margin-inline: var(--iui-separator-gap, 0);
   }
 </style>

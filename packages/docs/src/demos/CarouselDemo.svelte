@@ -4,11 +4,11 @@
 
   // Use the provided pastel tokens (soft), not strong custom colors.
   const items = [
-    { title: "Mountains", tag: "Trending", pastel: "var(--ds-pastel-teal, #7abecc)" },
-    { title: "Ocean", tag: "Popular", pastel: "var(--ds-pastel-violet, #b8a1e6)" },
-    { title: "Desert", tag: "New", pastel: "var(--ds-pastel-yellow, #e5cb44)" },
-    { title: "Forest", tag: "Eco", pastel: "var(--ds-pastel-green, #8dcc7a)" },
-    { title: "City", tag: "Hot", pastel: "var(--ds-pastel-pink, #e5a1ac)" },
+    { title: "Mountains", tag: "Trending", pastel: "var(--iui-pastel-teal, #7abecc)" },
+    { title: "Ocean", tag: "Popular", pastel: "var(--iui-pastel-violet, #b8a1e6)" },
+    { title: "Desert", tag: "New", pastel: "var(--iui-pastel-yellow, #e5cb44)" },
+    { title: "Forest", tag: "Eco", pastel: "var(--iui-pastel-green, #8dcc7a)" },
+    { title: "City", tag: "Hot", pastel: "var(--iui-pastel-pink, #e5a1ac)" },
   ];
 </script>
 
@@ -71,7 +71,7 @@
     border-radius: 0.75rem;
     /* The pastel background stays light in both themes, so the ink must
        stay dark too: the theme text role would flip to light in dark mode. */
-    color: var(--ds-colors-palette-grey-900, #272727);
+    color: var(--iui-colors-palette-grey-900, #272727);
   }
   .slide__title {
     font-weight: 700;
@@ -86,6 +86,6 @@
     padding: 0.75rem;
     border-radius: 0.75rem;
     /* Same fixed ink as the slides: the covers are always pastel. */
-    color: var(--ds-colors-palette-grey-900, #272727);
+    color: var(--iui-colors-palette-grey-900, #272727);
   }
 </style>

@@ -43,7 +43,7 @@ export interface PinInputProps {
  * The code binds two ways: `v-model` or the `value` prop plus `onValueChange`;
  * `onComplete` fires once every cell is filled. Provide a `label` for the
  * group's accessible name. Sizing, colors and radius are themeable via
- * `--ds-pin-input-*`.
+ * `--iui-pin-input-*`.
  */
 export const PinInput = defineComponent({
   name: "PinInput",

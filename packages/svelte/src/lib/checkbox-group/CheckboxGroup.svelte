@@ -8,7 +8,7 @@
    * A group `label` is required (rendered as the `<legend>`); each item carries
    * an optional `label` (falls back to `value`). Pass `name` to submit every
    * checked item's value under a shared field. Colors and sizing are themeable
-   * CSS custom properties (`--ds-checkbox-*`).
+   * CSS custom properties (`--iui-checkbox-*`).
    */
   import { untrack } from "svelte";
   import { createCheckboxGroup, type CheckboxGroupItem } from "./create-checkbox-group";
@@ -105,7 +105,7 @@
 <style>
   .checkbox-group {
     display: grid;
-    gap: var(--ds-checkbox-group-gap, 0.5rem);
+    gap: var(--iui-checkbox-group-gap, 0.5rem);
     /* Reset the native fieldset chrome. */
     margin: 0;
     padding: 0;
@@ -121,7 +121,7 @@
   /* Disabled group/item dims its label too. */
   .checkbox-group:disabled .checkbox-group__label,
   .field--disabled .field__label {
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    color: var(--iui-components-general-foreground-disabled, #757575);
   }
 
   .field {
@@ -130,7 +130,7 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: var(--ds-checkbox-gap, 0.5rem);
+    gap: var(--iui-checkbox-gap, 0.5rem);
     cursor: pointer;
   }
   .field--disabled {
@@ -155,37 +155,37 @@
 
   .checkbox {
     box-sizing: border-box;
-    inline-size: var(--ds-checkbox-size, 1.25rem);
-    block-size: var(--ds-checkbox-size, 1.25rem);
-    padding: var(--ds-checkbox-padding, 0.15rem);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-checkbox-radius, var(--ds-metrics-radius-control, 0.5rem));
-    background: var(--ds-components-general-background-default, #fff);
+    inline-size: var(--iui-checkbox-size, 1.25rem);
+    block-size: var(--iui-checkbox-size, 1.25rem);
+    padding: var(--iui-checkbox-padding, 0.15rem);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-checkbox-radius, var(--iui-metrics-radius-control, 0.5rem));
+    background: var(--iui-components-general-background-default, #fff);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--ds-components-general-action-secondary-foreground-default, #fff);
+    color: var(--iui-components-general-action-secondary-foreground-default, #fff);
     flex: none;
   }
   .checkbox__input:focus-visible + .checkbox {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-components-general-focus-ring-offset, 2px);
+    box-shadow: var(--iui-focus-ring-shadow);
+    outline-offset: var(--iui-components-general-focus-ring-offset, 2px);
   }
   /* Checked: faint selection-color fill + glyph in the full selection color
      (coherent with the standalone Checkbox), not a solid fill. */
   .checkbox__input:checked + .checkbox {
     background: color-mix(
       in srgb,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc) 10%,
       transparent
     );
     border-color: color-mix(
       in srgb,
-      var(--ds-components-general-selection-background-default, #7a52cc) 35%,
+      var(--iui-components-general-selection-background-default, #7a52cc) 35%,
       transparent
     );
-    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    color: var(--iui-components-general-action-secondary-background-default, #7a52cc);
   }
 
   /* The check fills the padded content box; shown only when checked. The glyph
@@ -201,7 +201,7 @@
      visible part instead. */
   @media (forced-colors: active) {
     .checkbox__input:focus-visible + .checkbox {
-      outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
+      outline: var(--iui-components-general-focus-ring-width, 2px) solid Highlight;
       outline-offset: 2px;
     }
   }

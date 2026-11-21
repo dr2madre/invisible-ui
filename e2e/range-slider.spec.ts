@@ -113,7 +113,7 @@ test("the thumb is a pointer target WCAG 2.2 accepts", async ({ page }) => {
   // own to read, and it is what a drag has to grab.
   const size = await lower(page).evaluate((el) => {
     const styles = getComputedStyle(el);
-    const declared = styles.getPropertyValue("--ds-range-slider-thumb-size").trim();
+    const declared = styles.getPropertyValue("--iui-range-slider-thumb-size").trim();
     const probe = document.createElement("div");
     probe.style.inlineSize = declared || "1.5rem";
     document.body.append(probe);

@@ -50,8 +50,8 @@ const INITIAL: BarState = { focusedValue: null, ...ALL_CLOSED };
  * anywhere else, mirrored in right-to-left text. Hovering another trigger
  * while a menu is open switches to it.
  *
- * Themeable via `--ds-menu-*` (shared with Dropdown Menu) and
- * `--ds-menubar-*`.
+ * Themeable via `--iui-menu-*` (shared with Dropdown Menu) and
+ * `--iui-menubar-*`.
  */
 export function Menubar({ label, menus, onSelect }: MenubarProps) {
   const { locale, dir: contextDir } = useI18n();

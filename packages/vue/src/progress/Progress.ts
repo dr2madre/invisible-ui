@@ -31,7 +31,7 @@ const R = 15.9155;
  * (which reuses this same anatomy and adds time/percentage feedback).
  *
  * Provide a `label` for the accessible name. Colors, height and radius are
- * themeable via `--ds-progress-*`.
+ * themeable via `--iui-progress-*`.
  */
 export const Progress = defineComponent({
   name: "Progress",

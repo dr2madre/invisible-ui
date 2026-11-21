@@ -34,7 +34,7 @@ export interface CountProps {
  * - In `dot` mode there is no text, so a `label` is the only accessible name;
  *   if omitted the dot is purely decorative (`aria-hidden`).
  *
- * Colors are themeable CSS custom properties (`--ds-count-*`), defaulting to
+ * Colors are themeable CSS custom properties (`--iui-count-*`), defaulting to
  * the danger status tokens (the conventional "unread" red).
  */
 export const Count = defineComponent({

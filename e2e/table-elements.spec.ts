@@ -19,7 +19,7 @@ test("Elements Table keeps native semantics and reports controlled sorting", asy
       { id: 1, name: "Ada", age: 36 },
       { id: 2, name: "Grace", age: 85 },
     ];
-    table.style.setProperty("--ds-table-header-background", "rgb(238, 233, 248)");
+    table.style.setProperty("--iui-table-header-background", "rgb(238, 233, 248)");
     table.addEventListener("sort-toggle", (event) => {
       const key = (event as CustomEvent<{ key: string }>).detail.key;
       table.dataset.requestedSort = key;

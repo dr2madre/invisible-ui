@@ -10,12 +10,12 @@
 
 nav.navigation-bar {
   color: var(
-    --ds-navigation-bar-item-text,
-    var(--ds-components-general-foreground-secondary, #515151)
+    --iui-navigation-bar-item-text,
+    var(--iui-components-general-foreground-secondary, #515151)
   );
   background: var(
-    --ds-navigation-bar-surface,
-    var(--ds-components-navigation-bar-background-default, #e0e0e0)
+    --iui-navigation-bar-surface,
+    var(--iui-components-navigation-bar-background-default, #e0e0e0)
   );
 }
 
@@ -25,7 +25,7 @@ nav.navigation-bar .navigation-bar__list {
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-flow: column;
-  gap: var(--ds-navigation-bar-gap, 0.25rem);
+  gap: var(--iui-navigation-bar-gap, 0.25rem);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -44,32 +44,32 @@ nav.navigation-bar .navigation-bar__destination {
   gap: 0.25rem;
   box-sizing: border-box;
   inline-size: 100%;
-  min-inline-size: var(--ds-metrics-density-regular-min-target-size, 24px);
-  min-block-size: var(--ds-metrics-density-regular-min-target-size, 24px);
-  padding: var(--ds-navigation-bar-item-padding, 0.5rem 0.25rem);
+  min-inline-size: var(--iui-metrics-density-regular-min-target-size, 24px);
+  min-block-size: var(--iui-metrics-density-regular-min-target-size, 24px);
+  padding: var(--iui-navigation-bar-item-padding, 0.5rem 0.25rem);
   font: inherit;
   font-size: 0.75rem;
-  line-height: var(--ds-typography-line-height-heading, 1.2);
+  line-height: var(--iui-typography-line-height-heading, 1.2);
   color: inherit;
   text-align: center;
   text-decoration: none;
   background: none;
   border: 0;
-  border-radius: var(--ds-metrics-radius-control, 0.5rem);
+  border-radius: var(--iui-metrics-radius-control, 0.5rem);
   cursor: pointer;
   -webkit-touch-callout: none;
 }
 
 @media (pointer: coarse) {
   nav.navigation-bar .navigation-bar__destination {
-    min-inline-size: var(--ds-metrics-density-touch-min-target-size, 44px);
-    min-block-size: var(--ds-metrics-density-touch-min-target-size, 44px);
+    min-inline-size: var(--iui-metrics-density-touch-min-target-size, 44px);
+    min-block-size: var(--iui-metrics-density-touch-min-target-size, 44px);
   }
 }
 
 @media (hover: hover) {
   nav.navigation-bar .navigation-bar__destination:hover {
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
 }
 
@@ -78,8 +78,8 @@ nav.navigation-bar .navigation-bar__destination {
 nav.navigation-bar .navigation-bar__destination:focus-visible {
   outline: none;
   box-shadow: var(
-    --ds-focus-ring-shadow,
-    0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+    --iui-focus-ring-shadow,
+    0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
   );
 }
 
@@ -95,7 +95,7 @@ nav.navigation-bar .navigation-bar__indicator {
   inline-size: 56px;
   max-inline-size: 100%;
   block-size: 32px;
-  border-radius: var(--ds-metrics-radius-pill, 999px);
+  border-radius: var(--iui-metrics-radius-pill, 999px);
 }
 
 nav.navigation-bar .navigation-bar__icon {
@@ -105,13 +105,13 @@ nav.navigation-bar .navigation-bar__icon {
 
 nav.navigation-bar .navigation-bar__destination[data-current] {
   color: var(
-    --ds-navigation-bar-item-current-text,
-    var(--ds-components-general-foreground-default, #272727)
+    --iui-navigation-bar-item-current-text,
+    var(--iui-components-general-foreground-default, #272727)
   );
 }
 
 nav.navigation-bar .navigation-bar__destination[data-current] .navigation-bar__indicator {
-  background: var(--ds-components-navigation-bar-current-indicator-background-default, #8763d1);
+  background: var(--iui-components-navigation-bar-current-indicator-background-default, #8763d1);
 }
 
 /* The label wraps and never truncates; the bar grows taller. A hidden copy at
@@ -153,15 +153,15 @@ nav.navigation-bar .navigation-bar__badge {
   justify-content: center;
   line-height: 1;
   color: var(
-    --ds-navigation-bar-badge-text,
-    var(--ds-components-general-feedback-solid-foreground-default, #fff)
+    --iui-navigation-bar-badge-text,
+    var(--iui-components-general-feedback-solid-foreground-default, #fff)
   );
   white-space: nowrap;
   background: var(
-    --ds-navigation-bar-badge-surface,
-    var(--ds-components-general-feedback-danger-solid-background-default, #be3b50)
+    --iui-navigation-bar-badge-surface,
+    var(--iui-components-general-feedback-danger-solid-background-default, #be3b50)
   );
-  border-radius: var(--ds-metrics-radius-pill, 999px);
+  border-radius: var(--iui-metrics-radius-pill, 999px);
 }
 
 nav.navigation-bar .navigation-bar__badge--dot {
@@ -174,7 +174,7 @@ nav.navigation-bar .navigation-bar__badge--dot {
 }
 
 nav.navigation-bar .navigation-bar__destination[data-unavailable] {
-  color: var(--ds-components-general-foreground-disabled, #757575);
+  color: var(--iui-components-general-foreground-disabled, #757575);
   cursor: default;
 }
 
@@ -193,20 +193,23 @@ nav.navigation-bar .navigation-bar__reason {
   position: absolute;
   inset-block-end: calc(100% + 0.25rem);
   inset-inline: 0;
-  z-index: var(--ds-tooltip-z-index, 60);
+  z-index: var(--iui-tooltip-z-index, 60);
   display: none;
   inline-size: max-content;
   max-inline-size: 12rem;
   margin-inline: auto;
-  padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
-  font-size: var(--ds-tooltip-font-size, 0.8125rem);
-  line-height: var(--ds-typography-line-height-default, 1.4);
-  color: var(--ds-tooltip-color, var(--ds-components-general-emphasis-foreground-default, #f5f5f5));
-  background: var(
-    --ds-tooltip-bg,
-    var(--ds-components-general-emphasis-background-default, #323232)
+  padding: var(--iui-tooltip-padding, 0.3rem 0.5rem);
+  font-size: var(--iui-tooltip-font-size, 0.8125rem);
+  line-height: var(--iui-typography-line-height-default, 1.4);
+  color: var(
+    --iui-tooltip-color,
+    var(--iui-components-general-emphasis-foreground-default, #f5f5f5)
   );
-  border-radius: var(--ds-tooltip-radius, var(--ds-metrics-radius-control, 0.5rem));
+  background: var(
+    --iui-tooltip-bg,
+    var(--iui-components-general-emphasis-background-default, #323232)
+  );
+  border-radius: var(--iui-tooltip-radius, var(--iui-metrics-radius-control, 0.5rem));
 }
 
 nav.navigation-bar .navigation-bar__destination:focus-visible + .navigation-bar__reason,

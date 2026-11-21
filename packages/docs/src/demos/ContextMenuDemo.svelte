@@ -12,7 +12,7 @@
   ]}
 >
   <div
-    style="display:grid; place-items:center; block-size:5rem; border:2px dashed var(--ds-components-general-border-default, #bdbdbd); border-radius:0.5rem; color:var(--ds-components-general-foreground-secondary, #515151);"
+    style="display:grid; place-items:center; block-size:5rem; border:2px dashed var(--iui-components-general-border-default, #bdbdbd); border-radius:0.5rem; color:var(--iui-components-general-foreground-secondary, #515151);"
   >
     Right-click here
   </div>

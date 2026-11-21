@@ -36,7 +36,7 @@ const ALIGN_ITEMS: Record<ButtonGroupAlign, string> = {
  * Place styled `Button`s (or any `<button>`) in the default slot. The group
  * holds no selection: each button stays an independent action and an
  * independent tab stop. Give it an accessible `label`. Spacing is themeable via
- * `--ds-button-group-*`.
+ * `--iui-button-group-*`.
  */
 export const ButtonGroup = defineComponent({
   name: "ButtonGroup",

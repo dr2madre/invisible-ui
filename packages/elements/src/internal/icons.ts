@@ -158,7 +158,7 @@ export const starIcon = () =>
   svg(
     `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />`,
     "",
-    { width: "var(--ds-rating-size, 1.5rem)", height: "var(--ds-rating-size, 1.5rem)" },
+    { width: "var(--iui-rating-size, 1.5rem)", height: "var(--iui-rating-size, 1.5rem)" },
   );
 
 /** A small mark on a 16-unit grid, stroked at text size: the list parts' glyphs. */

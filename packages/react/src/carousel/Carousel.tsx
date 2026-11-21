@@ -54,8 +54,8 @@ function coverflowStyle(offset: number, vertical: boolean, rtl: boolean): CSSPro
   // the left and turns the other way.
   const across = rtl ? -offset : offset;
   const translate = vertical
-    ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
-    : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${across}))`;
+    ? `translateY(calc(var(--iui-carousel-coverflow-spacing, 9rem) * ${offset}))`
+    : `translateX(calc(var(--iui-carousel-coverflow-spacing, 11rem) * ${across}))`;
   const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${across * -18}deg)`;
   const scale = Math.max(0, 1 - abs * 0.15);
   // Neighbours recede by scale and turn only: a fade would take their text
@@ -101,7 +101,7 @@ function ArrowGlyph({ d }: { d: string }) {
  * `@nozcadesign/invisible-ui-core`: a labelled group of "N of M" slides, previous and
  * next buttons, slide-picker dots, optional `loop`, and arrow-key
  * navigation. `index` is a controllable mirror (ADR 0011). Themed via
- * `--ds-carousel-*`.
+ * `--iui-carousel-*`.
  */
 export function Carousel({
   items,

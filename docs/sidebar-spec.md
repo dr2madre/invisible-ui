@@ -71,24 +71,24 @@ former name accepted are all unchanged.
 | `@nozcadesign/invisible-ui-svelte/Menu.svelte`; `Menu` from `@nozcadesign/invisible-ui-vue` | `Sidebar.svelte`; `Sidebar` |
 | `MenuItem` / `MenuEntry` and `MenuSection` (the sidebar aliases) | `SidebarItem` and `SidebarSection` |
 | an override of `menu.label` | an override of `sidebar.label` |
-| `--ds-menu-gap`, `-width`, `-bg`, `-border`, `-item-text` | the `--ds-sidebar-*` token of the same suffix |
+| `--ds-menu-gap`, `-width`, `-bg`, `-border`, `-item-text` | the `--iui-sidebar-*` token of the same suffix |
 
 ## Tokens, one by one
 
 | New | Fallback | Fallback token's own future |
 | --- | --- | --- |
-| `--ds-sidebar-gap` | none | `--ds-menu-gap` removed |
-| `--ds-sidebar-width` | none | `--ds-menu-width` removed |
-| `--ds-components-sidebar-background-default` | none | `--ds-menu-bg` removed |
-| `--ds-sidebar-border` | none | `--ds-menu-border` removed |
-| `--ds-sidebar-item-text` | none | `--ds-menu-item-text` removed |
-| `--ds-sidebar-padding` | `--ds-menu-padding` | **stays canonical** for Dropdown Menu, Context Menu, Menubar |
-| `--ds-sidebar-radius` | `--ds-menu-radius` | **stays canonical** for Dropdown Menu, Menubar |
-| `--ds-sidebar-rail-width` | none (new) | — |
-| `--ds-sidebar-item-radius` | none (new) | — |
+| `--iui-sidebar-gap` | none | `--ds-menu-gap` removed |
+| `--iui-sidebar-width` | none | `--ds-menu-width` removed |
+| `--iui-components-sidebar-background-default` | none | `--ds-menu-bg` removed |
+| `--iui-sidebar-border` | none | `--ds-menu-border` removed |
+| `--iui-sidebar-item-text` | none | `--ds-menu-item-text` removed |
+| `--iui-sidebar-padding` | `--iui-menu-padding` | **stays canonical** for Dropdown Menu, Context Menu, Menubar |
+| `--iui-sidebar-radius` | `--iui-menu-radius` | **stays canonical** for Dropdown Menu, Menubar |
+| `--iui-sidebar-rail-width` | none (new) | — |
+| `--iui-sidebar-item-radius` | none (new) | — |
 
-`--ds-menu-min-width`, `--ds-menu-popup-radius`, `--ds-menu-trigger-padding`
-and `--ds-menu-z-index` belong to the ARIA menus alone and are untouched.
+`--iui-menu-min-width`, `--iui-menu-popup-radius`, `--iui-menu-trigger-padding`
+and `--iui-menu-z-index` belong to the ARIA menus alone and are untouched.
 
 ## i18n precedence
 

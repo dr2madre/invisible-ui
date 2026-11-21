@@ -248,7 +248,7 @@ Wrapping across the top menus and Home and End on the bar stay as they are.
   scrolls inside; the focused item scrolls into view (`block: "nearest"`).
 - **Collision with the parent.** A submenu never covers its own parent item
   while it has room on either side.
-- **Stacking.** Every level uses the menu z-index (`--ds-menu-z-index`), and a
+- **Stacking.** Every level uses the menu z-index (`--iui-menu-z-index`), and a
   deeper level stacks above its parent. On the web a submenu popup stays a
   DOM descendant of the root menu's container, so keyboard events bubble to
   the Menubar and outside-press checks see one tree.

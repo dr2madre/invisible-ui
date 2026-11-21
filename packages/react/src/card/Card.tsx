@@ -56,7 +56,7 @@ export interface CardProps {
  *
  * Accessibility: an `<article>`; a string `title` is a heading at
  * `headingLevel` and names the card (`aria-labelledby`). Themeable via
- * `--ds-card-*`.
+ * `--iui-card-*`.
  */
 export function Card({
   variant = "media",

@@ -45,7 +45,7 @@ export interface TextareaProps {
  * text-field wiring with `TextField`: label association, `aria-describedby`
  * for the hint and the messages, `aria-invalid` and `aria-required`. A form
  * reset restores the current default without reporting it (ADR 0012).
- * Themeable via `--ds-field-*`.
+ * Themeable via `--iui-field-*`.
  */
 export function Textarea({
   label,

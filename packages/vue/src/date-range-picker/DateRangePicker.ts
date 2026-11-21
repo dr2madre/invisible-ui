@@ -52,7 +52,7 @@ export interface DateRangePickerProps {
  *
  * `min`/`max`, `events` and `prices` forward to the calendar; the view
  * defaults to two months, which suits ranges. Themeable via
- * `--ds-date-picker-*` and the calendar's `--ds-calendar-*`.
+ * `--iui-date-picker-*` and the calendar's `--iui-calendar-*`.
  */
 export const DateRangePicker = defineComponent({
   name: "DateRangePicker",

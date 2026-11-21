@@ -32,7 +32,7 @@ export interface CodeBlockProps {
  * - The copy button has an accessible name and announces success via a polite
  *   live region; it is omitted entirely when `copyable` is false.
  *
- * Colors are themeable CSS custom properties (`--ds-code-block-*`).
+ * Colors are themeable CSS custom properties (`--iui-code-block-*`).
  */
 export const CodeBlock = defineComponent({
   name: "CodeBlock",

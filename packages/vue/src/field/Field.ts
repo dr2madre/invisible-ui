@@ -32,7 +32,7 @@ export interface FieldProps {
  * </Field>
  * ```
  *
- * Colors and spacing are themeable via `--ds-field-*`.
+ * Colors and spacing are themeable via `--iui-field-*`.
  */
 export const Field = defineComponent({
   name: "Field",

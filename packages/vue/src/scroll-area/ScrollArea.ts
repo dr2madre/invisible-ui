@@ -30,7 +30,7 @@ const OVERFLOW: Record<ScrollOrientation, Record<string, string>> = {
  * viewport scrolls with the arrow keys).
  *
  * Put the scrolling content in the default slot. Themeable via
- * `--ds-scroll-area-*`.
+ * `--iui-scroll-area-*`.
  */
 export const ScrollArea = defineComponent({
   name: "ScrollArea",

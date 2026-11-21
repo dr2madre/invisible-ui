@@ -59,7 +59,7 @@ type ModeProps = Required<
  *   to `trigger="click"`.
  *
  * Inside an open dialog the card renders in the dialog (ADR 0016). `open` is
- * a controllable mirror (ADR 0011). Themeable via `--ds-popover-*`.
+ * a controllable mirror (ADR 0011). Themeable via `--iui-popover-*`.
  */
 export function Popover({
   trigger = "click",

@@ -11,7 +11,7 @@
    * "Loading…".
    *
    * Sizing is set via `width`/`height` (any CSS length); for `text` the height
-   * follows the line height. The shimmer is themeable via `--ds-skeleton-*` and
+   * follows the line height. The shimmer is themeable via `--iui-skeleton-*` and
    * respects `prefers-reduced-motion`.
    */
   interface Props {
@@ -76,24 +76,24 @@
   .skeleton {
     display: flex;
     flex-direction: column;
-    gap: var(--ds-skeleton-line-gap, 0.5rem);
+    gap: var(--iui-skeleton-line-gap, 0.5rem);
   }
 
   .skeleton__bar {
     display: block;
-    background: var(--ds-skeleton-color, var(--ds-colors-palette-grey-200, #bdbdbd));
-    border-radius: var(--ds-skeleton-radius, var(--ds-metrics-radius-control, 0.5rem));
+    background: var(--iui-skeleton-color, var(--iui-colors-palette-grey-200, #bdbdbd));
+    border-radius: var(--iui-skeleton-radius, var(--iui-metrics-radius-control, 0.5rem));
   }
 
   .skeleton__line {
     inline-size: 100%;
-    block-size: var(--ds-skeleton-line-height, 0.8em);
+    block-size: var(--iui-skeleton-line-height, 0.8em);
   }
 
   .skeleton__circle {
     border-radius: 50%;
-    inline-size: var(--ds-skeleton-circle-size, 2.5rem);
-    block-size: var(--ds-skeleton-circle-size, 2.5rem);
+    inline-size: var(--iui-skeleton-circle-size, 2.5rem);
+    block-size: var(--iui-skeleton-circle-size, 2.5rem);
   }
 
   /* Pulse: gently fade the placeholder in and out. */
@@ -123,7 +123,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      var(--ds-skeleton-highlight, rgba(255, 255, 255, 0.5)),
+      var(--iui-skeleton-highlight, rgba(255, 255, 255, 0.5)),
       transparent
     );
     animation: ds-skeleton-wave 1.6s linear infinite;

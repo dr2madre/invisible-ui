@@ -115,7 +115,7 @@ function SortGlyph({ direction }: { direction: SortState["direction"] | undefine
  *
  * Cells render `row[column.key]` as text by default; `renderCell` renders
  * custom content. Provide a `caption` to name the table for assistive tech.
- * Themed via `--ds-table-*`.
+ * Themed via `--iui-table-*`.
  */
 export function Table({
   columns,

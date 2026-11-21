@@ -56,7 +56,7 @@ const tickPositions = (ticks: boolean, min: number, max: number, step: number) =
  * thumb.
  *
  * Provide a `label` for the accessible name. Colors, sizing and the thumb are
- * themeable via `--ds-slider-*`.
+ * themeable via `--iui-slider-*`.
  */
 export function Slider({
   value = 0,

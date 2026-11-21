@@ -47,7 +47,7 @@ const EMPTY: never[] = [];
  * It is a real `<form>`: the fields are native inputs (through TextField), and
  * `onSubmit` receives `{ email, password }` read from the form itself, so a
  * form reset leaves nothing stale behind. Presentation is a centered card;
- * themeable via `--ds-login-*` and the underlying component tokens.
+ * themeable via `--iui-login-*` and the underlying component tokens.
  */
 export function LoginForm({
   heading,

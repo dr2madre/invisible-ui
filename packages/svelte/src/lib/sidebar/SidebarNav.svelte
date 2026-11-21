@@ -123,27 +123,28 @@
 </nav>
 
 <style>
-  /* Padding and radius fall back to `--ds-menu-padding` and `--ds-menu-radius`,
+  /* Padding and radius fall back to `--iui-menu-padding` and `--iui-menu-radius`,
      which the ARIA menus share (ADR 0013). */
   .sidebar {
     display: flex;
     flex-direction: column;
-    gap: var(--ds-sidebar-gap, 0.75rem);
-    inline-size: var(--ds-sidebar-width, 15rem);
+    gap: var(--iui-sidebar-gap, 0.75rem);
+    inline-size: var(--iui-sidebar-width, 15rem);
     max-inline-size: 100%;
-    padding: var(--ds-sidebar-padding, var(--ds-menu-padding, 0.75rem));
+    padding: var(--iui-sidebar-padding, var(--iui-menu-padding, 0.75rem));
     background: var(
-      --ds-components-sidebar-background-default,
-      var(--ds-components-general-background-default, #fff)
+      --iui-components-sidebar-background-default,
+      var(--iui-components-general-background-default, #fff)
     );
-    border: 1px solid var(--ds-sidebar-border, var(--ds-components-general-border-default, #bdbdbd));
+    border: 1px solid
+      var(--iui-sidebar-border, var(--iui-components-general-border-default, #bdbdbd));
     border-radius: var(
-      --ds-sidebar-radius,
-      var(--ds-menu-radius, var(--ds-metrics-radius-container, 0.75rem))
+      --iui-sidebar-radius,
+      var(--iui-menu-radius, var(--iui-metrics-radius-container, 0.75rem))
     );
   }
   .sidebar--collapsed {
-    inline-size: var(--ds-sidebar-rail-width, 3.5rem);
+    inline-size: var(--iui-sidebar-rail-width, 3.5rem);
     align-items: stretch;
   }
   .sidebar__logo {
@@ -154,10 +155,10 @@
     align-items: center;
     justify-content: center;
     padding: 0.375rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     background: none;
     border: 0;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
     cursor: pointer;
   }
   /* The toggle points along the inline axis: it mirrors in right-to-left text. */
@@ -165,13 +166,13 @@
     scale: -1 1;
   }
   .sidebar__rail-toggle:hover {
-    background: var(--ds-components-general-background-hover, rgb(0 0 0 / 0.06));
+    background: var(--iui-components-general-background-hover, rgb(0 0 0 / 0.06));
   }
   .sidebar__rail-toggle:focus-visible {
     outline: none;
     box-shadow: var(
-      --ds-focus-ring-shadow,
-      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+      --iui-focus-ring-shadow,
+      0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
     );
   }
   .sidebar__section-label {
@@ -181,7 +182,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .sidebar__label--hidden,
   .sidebar__live {
@@ -197,6 +198,6 @@
   .sidebar__footer {
     margin-block-start: auto;
     padding-block-start: 0.5rem;
-    border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-block-start: 1px solid var(--iui-components-general-border-default, #bdbdbd);
   }
 </style>

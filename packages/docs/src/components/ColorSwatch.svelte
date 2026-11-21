@@ -50,8 +50,8 @@
   }
   .swatch__chip {
     block-size: 4rem;
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
   }
   .swatch__meta {
     display: grid;
@@ -63,7 +63,7 @@
   }
   .swatch__val {
     font-size: 0.7rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .swatch__k {
     display: inline-block;

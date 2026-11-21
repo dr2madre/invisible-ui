@@ -77,7 +77,7 @@ interface Announcement {
  * (ADR 0014): expanding it calls `onLoadChildren`, and the row says it is
  * loading, or that it failed, until the application answers. Those messages
  * are announced through one visually hidden live region that stays in the
- * page. Colors are themeable (`--ds-tree-*`).
+ * page. Colors are themeable (`--iui-tree-*`).
  */
 export function TreeView({
   nodes,

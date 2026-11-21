@@ -8,7 +8,7 @@
    *
    * Snippets: `trigger` (the trigger's content, falling back to the `label`
    * prop) and `children` (the collapsible content). Colors, radius and spacing
-   * are themeable via `--ds-collapsible-*`.
+   * are themeable via `--iui-collapsible-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createCollapsible } from "./create-collapsible";
@@ -67,7 +67,7 @@
       >{#if trigger}{@render trigger()}{:else}{label ?? $t("collapsible.toggle")}{/if}</span
     >
     <span class="collapsible__icon" aria-hidden="true">
-      <Icon size="var(--ds-collapsible-icon-size, 1.1em)">
+      <Icon size="var(--iui-collapsible-icon-size, 1.1em)">
         <polyline points="6 9 12 15 18 9" />
       </Icon>
     </span>
@@ -79,7 +79,7 @@
 
 <style>
   .collapsible {
-    inline-size: var(--ds-collapsible-width, 18rem);
+    inline-size: var(--iui-collapsible-width, 18rem);
   }
   .collapsible__trigger {
     inline-size: 100%;
@@ -87,19 +87,19 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
-    padding: var(--ds-collapsible-trigger-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-collapsible-radius, var(--ds-metrics-radius-control, 0.5rem));
-    background: var(--ds-components-general-background-default, #fff);
+    padding: var(--iui-collapsible-trigger-padding, 0.5rem 0.75rem);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-collapsible-radius, var(--iui-metrics-radius-control, 0.5rem));
+    background: var(--iui-components-general-background-default, #fff);
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
     cursor: pointer;
     text-align: start;
   }
   .collapsible__icon {
     display: inline-flex;
     flex: none;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     transition: rotate 150ms ease;
   }
   .collapsible__trigger:global([data-state="open"]) .collapsible__icon {
@@ -107,7 +107,7 @@
   }
   .collapsible__trigger:global(:focus-visible) {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 2px;
   }
   .collapsible__trigger:global([data-disabled]) {
@@ -115,7 +115,7 @@
     cursor: not-allowed;
   }
   .collapsible__content {
-    padding: var(--ds-collapsible-content-padding, 0.625rem 0.75rem);
+    padding: var(--iui-collapsible-content-padding, 0.625rem 0.75rem);
   }
 
   /* Reduced motion: state changes apply at once. */

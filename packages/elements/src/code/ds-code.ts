@@ -8,7 +8,7 @@ import { HTMLElementBase } from "../internal/base";
  *
  * Presentational only: its content is the meaning. The children move into the
  * `<code>` element once, on the first connection. Colors and the surface tint
- * are themeable CSS custom properties (`--ds-code-*`).
+ * are themeable CSS custom properties (`--iui-code-*`).
  */
 export class DsCode extends HTMLElementBase {
   static observedAttributes: string[] = [];

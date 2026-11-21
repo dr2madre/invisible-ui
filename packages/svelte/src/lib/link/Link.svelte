@@ -11,7 +11,7 @@
    * Button. Every other anchor attribute, `onclick` included, reaches the `<a>`,
    * for the work that accompanies a navigation, such as analytics.
    *
-   * Presentational only — themeable via `--ds-link-*`.
+   * Presentational only — themeable via `--iui-link-*`.
    */
   import type { Snippet } from "svelte";
   import type { HTMLAnchorAttributes } from "svelte/elements";
@@ -64,11 +64,11 @@
 <style>
   .link {
     color: var(
-      --ds-link-color,
-      var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc)
+      --iui-link-color,
+      var(--iui-components-general-action-secondary-body-foreground-default, #7a52cc)
     );
     text-decoration: underline;
-    text-decoration-thickness: var(--ds-link-underline, 1px);
+    text-decoration-thickness: var(--iui-link-underline, 1px);
     text-underline-offset: 0.15em;
     border-radius: 0.15em;
     cursor: pointer;
@@ -78,20 +78,20 @@
   }
   .link[data-variant="subtle"] {
     color: inherit;
-    text-decoration-color: var(--ds-components-general-border-default, #bdbdbd);
+    text-decoration-color: var(--iui-components-general-border-default, #bdbdbd);
   }
   .link:hover {
     color: var(
-      --ds-link-hover,
-      var(--ds-components-general-action-secondary-background-hover, #6840b7)
+      --iui-link-hover,
+      var(--iui-components-general-action-secondary-background-hover, #6840b7)
     );
     text-decoration-color: currentColor;
   }
   .link:focus-visible {
     outline: none;
     box-shadow: var(
-      --ds-focus-ring-shadow,
-      0 0 0 2px var(--ds-components-general-focus-ring-color, #8e6cd4)
+      --iui-focus-ring-shadow,
+      0 0 0 2px var(--iui-components-general-focus-ring-color, #8e6cd4)
     );
   }
   .link__external {

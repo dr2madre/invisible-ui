@@ -10,7 +10,7 @@
    * popup, use the Combobox (optionally with the search hidden) — that is the
    * custom, advanced select.
    *
-   * Colors, radius and spacing are themeable via `--ds-select-*`.
+   * Colors, radius and spacing are themeable via `--iui-select-*`.
    */
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -35,7 +35,7 @@
     disabled?: boolean;
     /**
      * Width behaviour: `wrap` fits the longest option (the native default),
-     * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`
+     * `fill` takes 100% of the container, `fixed` uses `--iui-select-width`
      * (16rem by default).
      */
     width?: "wrap" | "fill" | "fixed";
@@ -137,17 +137,17 @@
 <style>
   .select {
     display: grid;
-    gap: var(--ds-select-gap, 0.375rem);
+    gap: var(--iui-select-gap, 0.375rem);
     /* wrap (default): the native select already fits its longest option. */
     inline-size: fit-content;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .select:global([data-width="fill"]) {
     inline-size: 100%;
   }
   .select:global([data-width="fixed"]) {
-    inline-size: var(--ds-select-width, 16rem);
+    inline-size: var(--iui-select-width, 16rem);
   }
 
   .select__label {
@@ -178,17 +178,19 @@
     box-sizing: border-box;
     /* Shared control metrics (same as Button) + room for the chevron. */
     padding: var(
-      --ds-select-padding,
-      var(--ds-metrics-density-regular-control-padding-y, 0.5rem)
-        var(--ds-metrics-density-regular-control-padding-x, 0.875rem)
+      --iui-select-padding,
+      var(--iui-metrics-density-regular-control-padding-y, 0.5rem)
+        var(--iui-metrics-density-regular-control-padding-x, 0.875rem)
     );
-    padding-inline-end: calc(var(--ds-metrics-density-regular-control-padding-x, 0.875rem) + 1.6em);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-select-radius, var(--ds-metrics-radius-control, 0.5rem));
-    background: var(--ds-components-general-background-default, #fff);
+    padding-inline-end: calc(
+      var(--iui-metrics-density-regular-control-padding-x, 0.875rem) + 1.6em
+    );
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-select-radius, var(--iui-metrics-radius-control, 0.5rem));
+    background: var(--iui-components-general-background-default, #fff);
     color: inherit;
     font: inherit;
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
     /* A set value reads as content (medium, like a Button label). */
     font-weight: 500;
     cursor: pointer;
@@ -198,36 +200,36 @@
   }
   .select__native--placeholder {
     font-weight: 400;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .select__native:focus-visible {
     outline: none;
-    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-    box-shadow: var(--ds-focus-ring-shadow);
+    border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .select__native:disabled {
-    background: var(--ds-components-general-background-disabled, #bdbdbd);
-    color: var(--ds-components-general-foreground-disabled, #757575);
+    background: var(--iui-components-general-background-disabled, #bdbdbd);
+    color: var(--iui-components-general-foreground-disabled, #757575);
     cursor: not-allowed;
   }
   /* Invalid: danger border on the control, message underneath. */
   .select__native:global([data-invalid]) {
-    border-color: var(--ds-components-general-feedback-danger-solid-background-default, #be3b50);
+    border-color: var(--iui-components-general-feedback-danger-solid-background-default, #be3b50);
   }
   .select__error {
     font-size: 0.8125rem;
-    color: var(--ds-components-general-feedback-danger-body-foreground-default, #be3b50);
+    color: var(--iui-components-general-feedback-danger-body-foreground-default, #be3b50);
   }
 
   .select__chevron {
     position: absolute;
     inset-block-start: 50%;
-    inset-inline-end: var(--ds-metrics-density-regular-control-padding-x, 0.875rem);
+    inset-inline-end: var(--iui-metrics-density-regular-control-padding-x, 0.875rem);
     translate: 0 -50%;
     display: inline-flex;
-    inline-size: var(--ds-select-icon-size, 1.1em);
-    block-size: var(--ds-select-icon-size, 1.1em);
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    inline-size: var(--iui-select-icon-size, 1.1em);
+    block-size: var(--iui-select-icon-size, 1.1em);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     pointer-events: none;
   }
 </style>

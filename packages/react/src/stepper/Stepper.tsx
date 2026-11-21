@@ -34,7 +34,7 @@ export interface StepperProps {
  * In linear mode (default) upcoming steps are not clickable; set
  * `linear={false}` to allow jumping to any step. A completed step shows a
  * decorative check and says "Completed" after its label, so its name reads
- * "label, status, description". Themed via `--ds-step-*`.
+ * "label, status, description". Themed via `--iui-step-*`.
  */
 export function Stepper({
   steps,

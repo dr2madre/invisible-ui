@@ -62,7 +62,7 @@ export interface SheetDialogProps {
  * a back affordance) and `headerActions` (after the title, just before the
  * close button). Pass a `title` (required) and an optional `description`,
  * shown as the subtitle under the title. Colors, radius and elevation are themeable via
- * `--ds-dialog-*`; the panel extent via `--ds-sheet-dialog-size`.
+ * `--iui-dialog-*`; the panel extent via `--iui-sheet-dialog-size`.
  *
  * A status area between the body and the footer holds messages about the
  * sheet's own task (ADR 0016), with the same contract as `Dialog`: the

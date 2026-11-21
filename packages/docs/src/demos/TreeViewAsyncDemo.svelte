@@ -62,7 +62,7 @@
 <style>
   .hint {
     margin-block: 0.75rem 0;
-    color: var(--ds-components-general-foreground-secondary);
-    font-size: var(--ds-tree-status-font-size, 0.875rem);
+    color: var(--iui-components-general-foreground-secondary);
+    font-size: var(--iui-tree-status-font-size, 0.875rem);
   }
 </style>

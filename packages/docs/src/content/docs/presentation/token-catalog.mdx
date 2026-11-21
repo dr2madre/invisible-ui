@@ -37,13 +37,13 @@ Set any token on a scope of your own; every component under it follows.
 ```css
 /* example */
 .my-app {
-  --ds-colors-brand-primary-default: #1f6feb;
-  --ds-metrics-radius-control: 0.25rem;
+  --iui-colors-brand-primary-default: #1f6feb;
+  --iui-metrics-radius-control: 0.25rem;
 }
 ```
 
 A role token is the widest lever, a component token the narrowest. Components
-read `var(--ds-components-button-radius, var(--ds-metrics-radius-control, …))`, so setting the role
+read `var(--iui-components-button-radius, var(--iui-metrics-radius-control, …))`, so setting the role
 restyles a whole class of controls and setting the component token changes one.
 
 <TokenCatalog />

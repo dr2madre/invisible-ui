@@ -47,14 +47,14 @@ do is remove the description on input.
   they are one object.
 - Between fields and between workflow sections, the spacing is larger. In a
   dialog use `bodyLayout="stack"`, which spaces the body's direct sections by
-  `--ds-dialog-body-gap`. Elsewhere use a grid with a gap on the container.
+  `--iui-dialog-body-gap`. Elsewhere use a grid with a gap on the container.
 - Controls that form a meaningful set take a `fieldset` with a `legend`: a
   radio group, an address block, a pair of date bounds. (WCAG 2.2, 1.3.1.)
 - Do not invent pixel values inside a component when a semantic token exists.
 
 There is no Stack component and no generic spacing scale in the library today.
 The convention is a container-level `display: grid` with a `gap`, and a
-component-level `--ds-<component>-gap` token where a component owns the
+component-level `--iui-<component>-gap` token where a component owns the
 spacing. That covered every case on this page, so nothing new was added.
 
 ## Exclusive choices: Tabs or a radio group

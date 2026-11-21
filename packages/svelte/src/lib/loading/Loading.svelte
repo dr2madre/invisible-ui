@@ -16,10 +16,10 @@
    * state itself (e.g. a button with `aria-busy`). All motion respects
    * `prefers-reduced-motion` (indicators stay visible, static).
    *
-   * Sizing follows the font (`1em`); themeable via `--ds-loading-size`,
-   * `--ds-loading-gap`, `--ds-loading-spinner-size`, `--ds-loading-bar-height`,
-   * `--ds-loading-label-size`, `--ds-loading-label-gap`,
-   * `--ds-loading-bar-label-gap` and `--ds-loading-duration` (animation speed).
+   * Sizing follows the font (`1em`); themeable via `--iui-loading-size`,
+   * `--iui-loading-gap`, `--iui-loading-spinner-size`, `--iui-loading-bar-height`,
+   * `--iui-loading-label-size`, `--iui-loading-label-gap`,
+   * `--iui-loading-bar-label-gap` and `--iui-loading-duration` (animation speed).
    */
   import { onDestroy, untrack } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -190,7 +190,7 @@
   .loading {
     display: inline-flex;
     align-items: center;
-    gap: var(--ds-loading-label-gap, 0.625em);
+    gap: var(--iui-loading-label-gap, 0.625em);
   }
   /* Overlay: fill the nearest positioned ancestor and center the indicator —
      the built-in busy-region layer. */
@@ -209,7 +209,7 @@
   .loading--veil {
     background: color-mix(
       in srgb,
-      var(--ds-components-general-background-default, #fff) 65%,
+      var(--iui-components-general-background-default, #fff) 65%,
       transparent
     );
   }
@@ -218,42 +218,42 @@
   .loading__indicator {
     display: inline-flex;
     align-items: center;
-    gap: var(--ds-loading-gap, 0.25em);
+    gap: var(--iui-loading-gap, 0.25em);
     block-size: 1em;
   }
   .loading__dot {
-    inline-size: var(--ds-loading-size, 0.3em);
-    block-size: var(--ds-loading-size, 0.3em);
-    border-radius: var(--ds-metrics-radius-pill, 999px);
+    inline-size: var(--iui-loading-size, 0.3em);
+    block-size: var(--iui-loading-size, 0.3em);
+    border-radius: var(--iui-metrics-radius-pill, 999px);
     background: currentColor;
-    animation: loading-pulse var(--ds-loading-duration, 1.2s) ease-in-out infinite;
+    animation: loading-pulse var(--iui-loading-duration, 1.2s) ease-in-out infinite;
   }
   .loading__dot:nth-child(2) {
-    animation-delay: calc(var(--ds-loading-duration, 1.2s) / 6);
+    animation-delay: calc(var(--iui-loading-duration, 1.2s) / 6);
   }
   .loading__dot:nth-child(3) {
-    animation-delay: calc(var(--ds-loading-duration, 1.2s) / 3);
+    animation-delay: calc(var(--iui-loading-duration, 1.2s) / 3);
   }
   .loading__spinner {
-    inline-size: var(--ds-loading-spinner-size, 1em);
-    block-size: var(--ds-loading-spinner-size, 1em);
-    animation: loading-spin var(--ds-loading-duration, 1.2s) linear infinite;
+    inline-size: var(--iui-loading-spinner-size, 1em);
+    block-size: var(--iui-loading-spinner-size, 1em);
+    animation: loading-spin var(--iui-loading-duration, 1.2s) linear infinite;
   }
   /* Bar: a full-width track (sliding segment when indeterminate, growing fill
      when determinate), with the optional text line underneath. */
   .loading[data-variant="bar"] {
     display: flex;
     flex-direction: column;
-    gap: var(--ds-loading-bar-label-gap, 0.375em);
+    gap: var(--iui-loading-bar-label-gap, 0.375em);
     inline-size: 100%;
     block-size: auto;
   }
   .loading__track {
     display: block;
     inline-size: 100%;
-    block-size: var(--ds-loading-bar-height, 3px);
+    block-size: var(--iui-loading-bar-height, 3px);
     background: color-mix(in srgb, currentColor 20%, transparent);
-    border-radius: var(--ds-metrics-radius-pill, 999px);
+    border-radius: var(--iui-metrics-radius-pill, 999px);
     overflow: hidden;
   }
   .loading__segment {
@@ -262,7 +262,7 @@
     block-size: 100%;
     border-radius: inherit;
     background: currentColor;
-    animation: loading-slide var(--ds-loading-duration, 1.4s) ease-in-out infinite;
+    animation: loading-slide var(--iui-loading-duration, 1.4s) ease-in-out infinite;
   }
   /* Determinate bar: a fill that grows start → end until done. */
   .loading__fill {
@@ -276,13 +276,13 @@
   .loading__label {
     display: inline-flex;
     gap: 0.75em;
-    font-size: var(--ds-loading-label-size, 0.8125em);
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    font-size: var(--iui-loading-label-size, 0.8125em);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
   }
   /* Live status message line (visible + announced). */
   .loading__status {
-    font-size: var(--ds-loading-label-size, 0.8125em);
-    line-height: var(--ds-typography-line-height-heading, 1.2);
+    font-size: var(--iui-loading-label-size, 0.8125em);
+    line-height: var(--iui-typography-line-height-heading, 1.2);
   }
   .loading[data-variant="bar"] .loading__label {
     inline-size: 100%;
@@ -299,10 +299,10 @@
   /* Morph: one shape blending square ⇄ circle while it swings half a turn
      forth and back. */
   .loading__shape {
-    inline-size: var(--ds-loading-spinner-size, 1em);
-    block-size: var(--ds-loading-spinner-size, 1em);
+    inline-size: var(--iui-loading-spinner-size, 1em);
+    block-size: var(--iui-loading-spinner-size, 1em);
     background: currentColor;
-    animation: loading-morph var(--ds-loading-duration, 2s) ease-in-out infinite;
+    animation: loading-morph var(--iui-loading-duration, 2s) ease-in-out infinite;
   }
   @keyframes loading-pulse {
     0%,

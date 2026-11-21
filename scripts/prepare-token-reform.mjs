@@ -83,7 +83,9 @@ export function prepareReform(source, paletteSource) {
       mode,
       type: token.$type,
       cssBefore: oldCssName(old),
-      cssAfter: cssName(path),
+      // migration-v2.json records the names of that release, which used the
+      // --ds- prefix; migration-iui.json maps them to --iui-.
+      cssAfter: cssName(path).replace(/^--iui-/, "--ds-"),
       before: token,
       after: mapped,
     });

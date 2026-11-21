@@ -234,7 +234,7 @@
     position: fixed;
     /* Sit above every overlay (dialog/popover/menu top out at ~100) and own a
        self-contained stacking context so notices never slip behind page content. */
-    z-index: var(--ds-notice-z, 1000);
+    z-index: var(--iui-notice-z, 1000);
     isolation: isolate;
     display: flex;
     gap: 0.5rem;
@@ -251,7 +251,7 @@
     overflow-block: clip;
     overflow-inline: visible;
     padding: 1rem;
-    inline-size: min(100% - 2rem, var(--ds-notice-width, 24rem));
+    inline-size: min(100% - 2rem, var(--iui-notice-width, 24rem));
     /* Let clicks pass through the gaps; notices stay interactive. */
     pointer-events: none;
   }
@@ -259,7 +259,7 @@
      exists for stacking + enter/leave motion, so it is the natural place to
      apply the floating elevation — no presentational wrapper is added. The
      shadow lands on the Alert itself (the slot's only child) so it follows the
-     alert's rounded corners; customize via --ds-elevation-overlay. */
+     alert's rounded corners; customize via --iui-elevation-overlay. */
   .notification-region > :global(*) {
     pointer-events: auto;
   }
@@ -277,7 +277,7 @@
   }
   .notice-slot > :global(*) {
     box-shadow: var(
-      --ds-elevation-overlay,
+      --iui-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );

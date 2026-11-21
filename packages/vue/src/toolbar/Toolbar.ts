@@ -29,7 +29,7 @@ const FOCUSABLE =
  * Tab moves into and out of the whole toolbar.
  *
  * A `label` is required (the toolbar needs an accessible name). Layout gap is
- * themeable via `--ds-toolbar-gap`.
+ * themeable via `--iui-toolbar-gap`.
  */
 export const Toolbar = defineComponent({
   name: "Toolbar",

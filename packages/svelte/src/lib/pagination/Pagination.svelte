@@ -5,7 +5,7 @@
    * current page, roving tabindex, arrow-key movement, disabled prev/next at
    * the bounds) come from the headless pagination (`@nozcadesign/invisible-ui-core`).
    *
-   * Colors, sizing and radius are themeable via `--ds-pagination-*`.
+   * Colors, sizing and radius are themeable via `--iui-pagination-*`.
    */
   import { untrack } from "svelte";
   import { createPagination } from "./create-pagination";
@@ -96,40 +96,40 @@
     flex-wrap: wrap;
     max-inline-size: 100%;
     align-items: center;
-    gap: var(--ds-pagination-gap, 0.25rem);
+    gap: var(--iui-pagination-gap, 0.25rem);
   }
   .pagination__control,
   .pagination__page {
     appearance: none;
-    min-inline-size: var(--ds-pagination-size, 2rem);
-    block-size: var(--ds-pagination-size, 2rem);
+    min-inline-size: var(--iui-pagination-size, 2rem);
+    block-size: var(--iui-pagination-size, 2rem);
     padding: 0 0.5rem;
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-pagination-radius, var(--ds-metrics-radius-control, 0.5rem));
-    background: var(--ds-components-general-background-default, #fff);
-    color: var(--ds-components-general-foreground-default, #272727);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-pagination-radius, var(--iui-metrics-radius-control, 0.5rem));
+    background: var(--iui-components-general-background-default, #fff);
+    color: var(--iui-components-general-foreground-default, #272727);
     font: inherit;
     cursor: pointer;
   }
   .pagination__page:global([data-selected]) {
     background: var(
-      --ds-pagination-active,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      --iui-pagination-active,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc)
     );
     border-color: var(
-      --ds-pagination-active,
-      var(--ds-components-general-action-secondary-background-default, #7a52cc)
+      --iui-pagination-active,
+      var(--iui-components-general-action-secondary-background-default, #7a52cc)
     );
     color: var(
-      --ds-pagination-active-text,
-      var(--ds-components-general-emphasis-foreground-default, #f5f5f5)
+      --iui-pagination-active-text,
+      var(--iui-components-general-emphasis-foreground-default, #f5f5f5)
     );
     font-weight: 600;
   }
   .pagination__control:focus-visible,
   .pagination__page:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 1px;
   }
   .pagination__control:global([data-disabled]) {
@@ -139,7 +139,7 @@
   .pagination__ellipsis {
     min-inline-size: 1.5rem;
     text-align: center;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
 
   /* Forced colors: the fill that marks the current page is flattened away, so

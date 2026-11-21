@@ -59,7 +59,7 @@ export interface SidebarProps {
  * current, and which viewport gets which presentation. This component reads no
  * media query; `mode` says what to render.
  *
- * Slots: `logo`, `footer` and `trigger`. Themeable via `--ds-sidebar-*`.
+ * Slots: `logo`, `footer` and `trigger`. Themeable via `--iui-sidebar-*`.
  */
 export const Sidebar = defineComponent({
   name: "Sidebar",

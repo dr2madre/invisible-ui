@@ -7,8 +7,8 @@
    * shows the range Intl-formatted; the value is two ISO `YYYY-MM-DD` strings.
    *
    * `min`/`max`, `events` and `prices` forward to the calendar; defaults to the
-   * two-month view (handy for ranges). Themeable via `--ds-date-picker-*` and
-   * the calendar's `--ds-calendar-*`.
+   * two-month view (handy for ranges). Themeable via `--iui-date-picker-*` and
+   * the calendar's `--iui-calendar-*`.
    */
   import { createPopover } from "../popover/create-popover";
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
@@ -208,31 +208,31 @@
     display: inline-flex;
     flex-direction: column;
     font: inherit;
-    color: var(--ds-components-general-foreground-default, #272727);
+    color: var(--iui-components-general-foreground-default, #272727);
   }
   .date-picker__field {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding-inline: 0.6rem;
-    background: var(--ds-components-general-background-default, #fff);
-    border: 1px solid var(--ds-components-general-border-control, #757575);
-    border-radius: var(--ds-metrics-radius-control, 0.5rem);
+    background: var(--iui-components-general-background-default, #fff);
+    border: 1px solid var(--iui-components-general-border-control, #757575);
+    border-radius: var(--iui-metrics-radius-control, 0.5rem);
   }
   .date-picker__field:focus-within {
-    border-color: var(--ds-components-general-focus-ring-color, #8e6cd4);
-    box-shadow: var(--ds-focus-ring-shadow);
+    border-color: var(--iui-components-general-focus-ring-color, #8e6cd4);
+    box-shadow: var(--iui-focus-ring-shadow);
   }
   .date-picker--disabled .date-picker__field {
     opacity: 0.55;
   }
   .date-picker__icon {
     display: inline-flex;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   /* Once a range is set, the icon adopts the selection color (like DatePicker). */
   .date-picker__icon--active {
-    color: var(--ds-components-general-action-secondary-background-default, #7a52cc);
+    color: var(--iui-components-general-action-secondary-background-default, #7a52cc);
   }
   .date-picker__input {
     flex: 1;
@@ -246,7 +246,7 @@
     cursor: pointer;
   }
   .date-picker__input::placeholder {
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
   }
   .date-picker__input:disabled {
     cursor: not-allowed;
@@ -260,18 +260,18 @@
     block-size: 1.5rem;
     flex: none;
     padding: 0.2rem;
-    color: var(--ds-components-general-foreground-secondary, #515151);
+    color: var(--iui-components-general-foreground-secondary, #515151);
     background: none;
     border: 0;
     border-radius: 50%;
     cursor: pointer;
   }
   .date-picker__clear:hover {
-    background: var(--ds-components-general-feedback-neutral-background-default, #f5f5f5);
+    background: var(--iui-components-general-feedback-neutral-background-default, #f5f5f5);
   }
   .date-picker__clear:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: 1px;
   }
 
@@ -279,19 +279,19 @@
     position: fixed;
     inset-block-start: 0;
     inset-inline-start: 0;
-    z-index: var(--ds-popover-z-index, 100);
+    z-index: var(--iui-popover-z-index, 100);
     box-sizing: border-box;
     inline-size: max-content;
     max-inline-size: min(94vw, 40rem);
-    padding: var(--ds-popover-padding, 0.875rem 1rem);
+    padding: var(--iui-popover-padding, 0.875rem 1rem);
     background: var(
-      --ds-components-popover-background-default,
-      var(--ds-components-general-background-default, #fff)
+      --iui-components-popover-background-default,
+      var(--iui-components-general-background-default, #fff)
     );
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
-    border-radius: var(--ds-popover-radius, var(--ds-metrics-radius-container, 0.75rem));
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
+    border-radius: var(--iui-popover-radius, var(--iui-metrics-radius-container, 0.75rem));
     box-shadow: var(
-      --ds-elevation-overlay,
+      --iui-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );

@@ -36,6 +36,6 @@ describe("Icon", () => {
     });
     const svg = container.querySelector<SVGElement>("svg.icon")!;
     expect(svg).toHaveAttribute("data-animation", "spin");
-    expect(svg.style.getPropertyValue("--ds-icon-animation-duration")).toBe("0.8s");
+    expect(svg.style.getPropertyValue("--iui-icon-animation-duration")).toBe("0.8s");
   });
 });

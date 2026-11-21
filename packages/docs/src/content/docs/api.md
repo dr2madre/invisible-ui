@@ -92,7 +92,7 @@ never internal classes. The recurring hooks:
 | `data-value` | an item's value, used to scope behaviour and focus |
 
 ```css
-.switch[data-state="checked"] { background: var(--ds-color-primary-500); }
+.switch[data-state="checked"] { background: var(--iui-color-primary-500); }
 .switch[data-disabled] { opacity: 0.5; }
 ```
 
@@ -132,6 +132,6 @@ back other frameworks by remapping keys.
 ## Theming
 
 Components ship **no opinionated visual styling**. The styled layer is themed
-entirely through `--ds-*` CSS custom properties, so everything follows the
+entirely through `--iui-*` CSS custom properties, so everything follows the
 light/dark theme and stays re-themeable. See **Foundations** for the token
 system (color scale, typography, contrast).

@@ -34,7 +34,7 @@ export interface AccordionProps {
  *
  * The expanded set binds two ways: `v-model` (the idiomatic Vue form) or the
  * `value` prop plus `onValueChange`, matching the other controlled components.
- * Colors are themeable CSS custom properties (`--ds-accordion-*`).
+ * Colors are themeable CSS custom properties (`--iui-accordion-*`).
  */
 export const Accordion = defineComponent({
   name: "Accordion",
@@ -81,7 +81,7 @@ export const Accordion = defineComponent({
                     h("span", { class: "accordion__icon", "aria-hidden": "true" }, [
                       h(
                         Icon,
-                        { size: "var(--ds-accordion-icon-size, 1.1em)" },
+                        { size: "var(--iui-accordion-icon-size, 1.1em)" },
                         { default: () => h("polyline", { points: "9 6 15 12 9 18" }) },
                       ),
                     ]),

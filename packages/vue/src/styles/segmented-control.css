@@ -2,9 +2,9 @@
 
 .segmented-field {
   display: inline-grid;
-  gap: var(--ds-segment-label-gap, 0.375rem);
+  gap: var(--iui-segment-label-gap, 0.375rem);
   font: inherit;
-  color: var(--ds-components-general-foreground-default, #272727);
+  color: var(--iui-components-general-foreground-default, #272727);
 }
 .segmented-field__label {
   font-size: 0.875rem;
@@ -25,8 +25,8 @@
 .segmented {
   display: inline-flex;
   justify-self: start;
-  border: 1px solid var(--ds-components-general-border-control, #757575);
-  border-radius: var(--ds-segment-radius, var(--ds-metrics-radius-control, 0.5rem));
+  border: 1px solid var(--iui-components-general-border-control, #757575);
+  border-radius: var(--iui-segment-radius, var(--iui-metrics-radius-control, 0.5rem));
   /* Segments that cannot fit scroll inside the control instead of
      widening the page; focusing a clipped segment scrolls it into view. */
   max-inline-size: 100%;
@@ -41,7 +41,7 @@
 .segmented--vertical .segment {
   justify-content: flex-start;
   border-inline-start: none;
-  border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+  border-block-start: 1px solid var(--iui-components-general-border-default, #bdbdbd);
 }
 .segmented--vertical .segment:first-child {
   border-block-start: none;
@@ -53,13 +53,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ds-segment-gap, 0.4rem);
+  gap: var(--iui-segment-gap, 0.4rem);
   padding: var(
-    --ds-segment-padding,
-    var(--ds-metrics-density-regular-control-padding-y, 0.5rem) 0.9rem
+    --iui-segment-padding,
+    var(--iui-metrics-density-regular-control-padding-y, 0.5rem) 0.9rem
   );
   cursor: pointer;
-  border-inline-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+  border-inline-start: 1px solid var(--iui-components-general-border-default, #bdbdbd);
   transition:
     background-color 120ms ease,
     color 120ms ease;
@@ -69,17 +69,17 @@
 }
 /* Icon-only: square the padding for an even, compact target. */
 .segment--icon-only {
-  padding: var(--ds-segment-icon-padding, 0.45rem);
+  padding: var(--iui-segment-icon-padding, 0.45rem);
 }
 /* Stacked: icon on top, label below (iOS-style tab). */
 .segment--stacked {
   flex-direction: column;
-  gap: var(--ds-segment-stacked-gap, 0.25rem);
-  padding: var(--ds-segment-stacked-padding, 0.5rem 0.9rem);
+  gap: var(--iui-segment-stacked-gap, 0.25rem);
+  padding: var(--iui-segment-stacked-padding, 0.5rem 0.9rem);
 }
 .segment--stacked .segment__label {
-  font-size: var(--ds-segment-stacked-label-size, 0.75rem);
-  line-height: var(--ds-typography-line-height-heading, 1.2);
+  font-size: var(--iui-segment-stacked-label-size, 0.75rem);
+  line-height: var(--iui-typography-line-height-heading, 1.2);
 }
 .segment--disabled {
   opacity: 0.5;
@@ -102,8 +102,8 @@
 }
 .segment__icon {
   display: inline-flex;
-  inline-size: var(--ds-segment-icon-size, 1.15em);
-  block-size: var(--ds-segment-icon-size, 1.15em);
+  inline-size: var(--iui-segment-icon-size, 1.15em);
+  block-size: var(--iui-segment-icon-size, 1.15em);
 }
 .segment__icon svg {
   inline-size: 100%;
@@ -112,14 +112,14 @@
 .segment:has(.segment__input:checked) {
   background: color-mix(
     in srgb,
-    var(--ds-components-general-action-secondary-background-default, #7a52cc) 10%,
+    var(--iui-components-general-action-secondary-background-default, #7a52cc) 10%,
     transparent
   );
-  color: var(--ds-components-general-action-secondary-body-foreground-default, #7a52cc);
+  color: var(--iui-components-general-action-secondary-body-foreground-default, #7a52cc);
 }
 .segment:has(.segment__input:focus-visible) {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow);
+  box-shadow: var(--iui-focus-ring-shadow);
   outline-offset: -2px;
 }
 
@@ -128,7 +128,7 @@
    visible part instead, inside it: the row around it clips. */
 @media (forced-colors: active) {
   .segment:has(.segment__input:focus-visible) {
-    outline: var(--ds-components-general-focus-ring-width, 2px) solid Highlight;
+    outline: var(--iui-components-general-focus-ring-width, 2px) solid Highlight;
     outline-offset: -2px;
   }
 }

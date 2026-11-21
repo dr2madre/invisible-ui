@@ -32,7 +32,7 @@ export interface CheckboxProps {
  * (`true` / `false` / `"indeterminate"`).
  *
  * The input is wrapped in a `<label>`, so pressing the box or the text toggles
- * it with no extra wiring. Themeable via `--ds-checkbox-*`.
+ * it with no extra wiring. Themeable via `--iui-checkbox-*`.
  */
 export function Checkbox({
   label,

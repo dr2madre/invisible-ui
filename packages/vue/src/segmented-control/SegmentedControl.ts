@@ -56,7 +56,7 @@ export interface SegmentedControlProps {
  * Items may carry an optional `label`; the `value` is used when omitted. The
  * control needs an accessible name via `label`. The selected value binds two
  * ways: `v-model` or the `value` prop plus `onValueChange`. Colors are
- * themeable CSS custom properties (`--ds-segment-*`).
+ * themeable CSS custom properties (`--iui-segment-*`).
  */
 export const SegmentedControl = defineComponent({
   name: "SegmentedControl",

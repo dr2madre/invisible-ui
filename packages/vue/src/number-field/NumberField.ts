@@ -45,7 +45,7 @@ export interface NumberFieldProps {
  * buttons, optional description and error message, the hidden form input, and
  * the field styling. The value binds two ways: `v-model` or the `value` prop
  * plus `onValueChange`, matching the Svelte adapter. Themeable via
- * `--ds-field-*`.
+ * `--iui-field-*`.
  */
 export const NumberField = defineComponent({
   name: "NumberField",

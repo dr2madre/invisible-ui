@@ -18,8 +18,8 @@
    * title, e.g. a back affordance) and `headerActions` (after the title, just
    * before the close button). Pass a `title` (required) and an optional
    * `description`, shown as the subtitle under the title. Colors, radius and elevation
-   * are themeable via `--ds-dialog-*`; the panel extent via
-   * `--ds-sheet-dialog-size`.
+   * are themeable via `--iui-dialog-*`; the panel extent via
+   * `--iui-sheet-dialog-size`.
    *
    * A status area between the body and the footer holds messages about the
    * sheet's own task (ADR 0016), with the same contract as `Dialog`:
@@ -205,7 +205,7 @@
 
 <style>
   .sheet-dialog__panel::backdrop {
-    background: var(--ds-components-dialog-overlay-default, rgb(27 27 27 / 0.5));
+    background: var(--iui-components-dialog-overlay-default, rgb(27 27 27 / 0.5));
   }
   .sheet-dialog__panel[open] {
     position: fixed;
@@ -214,22 +214,22 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
+    padding: var(--iui-dialog-padding, 1.25rem 1.5rem);
     background: var(
-      --ds-components-dialog-background-default,
-      var(--ds-components-general-background-default, #fff)
+      --iui-components-dialog-background-default,
+      var(--iui-components-general-background-default, #fff)
     );
-    color: var(--ds-components-general-foreground-default, #272727);
-    border: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    color: var(--iui-components-general-foreground-default, #272727);
+    border: 1px solid var(--iui-components-general-border-default, #bdbdbd);
     box-shadow: var(
-      --ds-elevation-overlay,
+      --iui-elevation-overlay,
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
     /* Snap-home transition after a released drag; disabled while dragging. The
        drag itself is the outward distance in --_sheet-drag, which the rules
        below turn into a move toward the anchored edge. */
-    transition: translate var(--ds-sheet-dialog-duration, 0.25s) ease;
+    transition: translate var(--iui-sheet-dialog-duration, 0.25s) ease;
   }
   .sheet-dialog__panel--dragging {
     transition: none;
@@ -237,7 +237,7 @@
   }
   .sheet-dialog__panel:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
+    box-shadow: var(--iui-focus-ring-shadow);
     outline-offset: -2px;
   }
 
@@ -247,7 +247,7 @@
     inset-block: 0;
     block-size: 100%;
     max-block-size: 100vh;
-    inline-size: var(--ds-sheet-dialog-size, 20rem);
+    inline-size: var(--iui-sheet-dialog-size, 20rem);
     max-inline-size: 100vw;
   }
   .sheet-dialog__panel[data-side="end"] {
@@ -255,14 +255,14 @@
     inset-inline-start: auto;
     border-inline-end: 0;
     translate: var(--_sheet-drag, 0px) 0;
-    animation: sheet-dialog-in-end var(--ds-sheet-dialog-duration, 0.25s) ease;
+    animation: sheet-dialog-in-end var(--iui-sheet-dialog-duration, 0.25s) ease;
   }
   .sheet-dialog__panel[data-side="start"] {
     inset-inline-start: 0;
     inset-inline-end: auto;
     border-inline-start: 0;
     translate: calc(-1 * var(--_sheet-drag, 0px)) 0;
-    animation: sheet-dialog-in-start var(--ds-sheet-dialog-duration, 0.25s) ease;
+    animation: sheet-dialog-in-start var(--iui-sheet-dialog-duration, 0.25s) ease;
   }
   /* Right to left: the end edge is the left one, so both the drag and the
      slide-in run the other way. */
@@ -281,21 +281,21 @@
     inset-inline: 0;
     inline-size: 100%;
     max-inline-size: 100vw;
-    block-size: var(--ds-sheet-dialog-size, 16rem);
+    block-size: var(--iui-sheet-dialog-size, 16rem);
     max-block-size: 100vh;
   }
   .sheet-dialog__panel[data-side="top"] {
     inset-block-start: 0;
     inset-block-end: auto;
     border-block-start: 0;
-    animation: sheet-dialog-in-top var(--ds-sheet-dialog-duration, 0.25s) ease;
+    animation: sheet-dialog-in-top var(--iui-sheet-dialog-duration, 0.25s) ease;
   }
   .sheet-dialog__panel[data-side="bottom"] {
     inset-block-end: 0;
     inset-block-start: auto;
     border-block-end: 0;
     translate: 0 var(--_sheet-drag, 0px);
-    animation: sheet-dialog-in-bottom var(--ds-sheet-dialog-duration, 0.25s) ease;
+    animation: sheet-dialog-in-bottom var(--iui-sheet-dialog-duration, 0.25s) ease;
   }
 
   /* A panel at the end edge slides in from the right in left-to-right text, and
@@ -332,7 +332,10 @@
      the inner edge of a lateral one. Pointer affordance only (aria-hidden). */
   .sheet-dialog__handle {
     border-radius: 999px;
-    background: var(--ds-sheet-dialog-handle, var(--ds-components-general-border-default, #bdbdbd));
+    background: var(
+      --iui-sheet-dialog-handle,
+      var(--iui-components-general-border-default, #bdbdbd)
+    );
     cursor: grab;
     touch-action: none;
   }
@@ -342,7 +345,7 @@
   .sheet-dialog__panel[data-side="bottom"] .sheet-dialog__handle {
     flex: none;
     align-self: center;
-    inline-size: var(--ds-sheet-dialog-handle-width, 2.5rem);
+    inline-size: var(--iui-sheet-dialog-handle-width, 2.5rem);
     block-size: 0.375rem;
     margin-block: 0 0.75rem;
   }
@@ -350,7 +353,7 @@
   .sheet-dialog__panel[data-side="start"] .sheet-dialog__handle {
     position: absolute;
     inset-block: 0;
-    block-size: var(--ds-sheet-dialog-handle-width, 2.5rem);
+    block-size: var(--iui-sheet-dialog-handle-width, 2.5rem);
     inline-size: 0.375rem;
     margin-block: auto;
   }
@@ -374,9 +377,9 @@
     gap: 0.5rem;
     margin-block-start: 1rem;
     padding-block-start: 1rem;
-    border-block-start: 1px solid var(--ds-components-general-border-default, #bdbdbd);
+    border-block-start: 1px solid var(--iui-components-general-border-default, #bdbdbd);
     /* Counteract the panel's padding so the border spans full width. */
-    margin-inline: calc(-1 * var(--ds-dialog-padding-x, 1.5rem));
-    padding-inline: var(--ds-dialog-padding-x, 1.5rem);
+    margin-inline: calc(-1 * var(--iui-dialog-padding-x, 1.5rem));
+    padding-inline: var(--iui-dialog-padding-x, 1.5rem);
   }
 </style>

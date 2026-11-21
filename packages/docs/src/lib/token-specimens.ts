@@ -45,8 +45,8 @@ const PROPERTY: Record<Exclude<SpecimenKind, "text">, string> = {
 /** Type tokens are drawn on real text, so each sets a different property. */
 function textProperty(token: TokenEntry): string {
   if (token.valueType === "fontFamily") return "font-family";
-  if (token.name.startsWith("--ds-font-size")) return "font-size";
-  if (token.name.startsWith("--ds-typography-line-height-default")) return "line-height";
+  if (token.name.startsWith("--iui-font-size")) return "font-size";
+  if (token.name.startsWith("--iui-typography-line-height-default")) return "line-height";
   return "font-weight";
 }
 
