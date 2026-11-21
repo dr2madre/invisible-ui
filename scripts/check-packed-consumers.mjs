@@ -39,6 +39,14 @@ const PACKAGES = [
   { name: "@nozcadesign/invisible-ui-elements", dir: "packages/elements" },
 ];
 
+/** The styled packages, and the file that holds each one's Button styles. */
+const STYLED = [
+  { name: "@nozcadesign/invisible-ui-svelte", button: "src/lib/button/Button.svelte" },
+  { name: "@nozcadesign/invisible-ui-vue", button: "src/styles/button.css" },
+  { name: "@nozcadesign/invisible-ui-react", button: "src/styles/button.css" },
+  { name: "@nozcadesign/invisible-ui-elements", button: "src/styles/button.css" },
+];
+
 /**
  * The peers a consumer installs alongside, pinned: a floating range would let
  * somebody else's release change what a required check does. `@types/react` is
@@ -183,6 +191,48 @@ try {
           fail(`${name} imports ${specifier} in ${where}, and declares no ${packageOf(specifier)}`);
         }
       }
+    }
+  }
+
+  // A README whose code blocks import no stylesheet that declares the custom
+  // properties a component reads still builds, type-checks and runs: the
+  // component only renders unstyled. So the stylesheets the code blocks
+  // import, followed through their `@import`s, are checked against the
+  // properties the Button styles read without a fallback.
+  for (const { name, button } of STYLED) {
+    const dir = join(consumer, "node_modules", name);
+    const { exports } = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
+    const declared = new Set();
+    const declare = (file, seen) => {
+      if (seen.has(file)) return;
+      seen.add(file);
+      const css = readFileSync(file, "utf8");
+      for (const [, property] of css.matchAll(/(--[\w-]+)\s*:/g)) declared.add(property);
+      for (const specifier of specifiersOf(css).specifiers) {
+        if (specifier.startsWith(".")) declare(resolve(dirname(file), specifier), seen);
+      }
+    };
+    const seen = new Set();
+    const readme = readFileSync(join(dir, "README.md"), "utf8");
+    for (const [, block] of readme.matchAll(/```[^\n]*\n([\s\S]*?)```/g)) {
+      for (const specifier of specifiersOf(block).specifiers.map(withoutQuery)) {
+        if (!specifier.startsWith(`${name}/`) || !specifier.endsWith(".css")) continue;
+        const target = exports[`./${specifier.slice(name.length + 1)}`];
+        if (typeof target === "string") declare(join(dir, target), seen);
+      }
+    }
+    const styles = readFileSync(join(dir, button), "utf8");
+    for (const [, property] of styles.matchAll(/(--[\w-]+)\s*:/g)) declared.add(property);
+    const read = [
+      ...new Set([...styles.matchAll(/var\(\s*(--[\w-]+)\s*\)/g)].map((m) => m[1])),
+    ].filter((property) => !property.startsWith("--_"));
+    if (read.length === 0) fail(`${name}: ${button} reads no custom property: nothing was checked`);
+    const missing = read.filter((property) => !declared.has(property));
+    if (missing.length > 0) {
+      fail(
+        `${name}: a Button set up as the README shows reads ${missing.length} custom ` +
+          `properties no stylesheet it imports declares, ${missing.slice(0, 3).join(", ")}`,
+      );
     }
   }
 

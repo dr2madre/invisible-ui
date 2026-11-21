@@ -19,6 +19,7 @@ are component-scoped and use the shared `--ds-*` theme tokens.
 
 ```svelte
 <script lang="ts">
+  import "@nozcadesign/invisible-ui-svelte/tokens.css";
   import Button from "@nozcadesign/invisible-ui-svelte/Button.svelte";
   import Checkbox from "@nozcadesign/invisible-ui-svelte/Checkbox.svelte";
   import Select from "@nozcadesign/invisible-ui-svelte/Select.svelte";
@@ -41,8 +42,10 @@ snippet props (`{#snippet trigger()}...{/snippet}`), forwarded DOM events are
 DOM-named callback props such as `onclick`, and `bind:` works on controllable
 values.
 
-Import `@nozcadesign/invisible-ui-svelte/tokens.css` when using the shared theme outside
-component-scoped styles.
+The component styles read their values from
+`@nozcadesign/invisible-ui-svelte/tokens.css`, and no component imports it. Import it
+once in the app, in a component as above or in the entry module. Without it a
+Button renders with no background, corner radius or font of its own.
 
 For a runnable integration, see [`examples/svelte`](../../examples/svelte).
 
