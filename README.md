@@ -148,7 +148,7 @@ pnpm add @nozcadesign/invisible-ui-core@alpha     # the headless core alone
 
 | Package | Stylesheet |
 | --- | --- |
-| `@nozcadesign/invisible-ui-svelte` | component-scoped styles; `@nozcadesign/invisible-ui-svelte/tokens.css` for the theme outside them |
+| `@nozcadesign/invisible-ui-svelte` | `@nozcadesign/invisible-ui-svelte/tokens.css`, imported once in the app; component styles read their values from it |
 | `@nozcadesign/invisible-ui-vue` | `@nozcadesign/invisible-ui-vue/styles.css` |
 | `@nozcadesign/invisible-ui-react` | `@nozcadesign/invisible-ui-react/styles.css` |
 | `@nozcadesign/invisible-ui-elements` | `@nozcadesign/invisible-ui-elements/styles.css`, plus `@nozcadesign/invisible-ui-elements/define` to register every element |

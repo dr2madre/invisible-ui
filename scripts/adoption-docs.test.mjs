@@ -68,3 +68,21 @@ test("no adoption page calls the packages private or unpublished", () => {
   );
   assert.deepEqual(found, []);
 });
+
+// No Svelte component imports tokens.css, so an app that follows a page saying
+// the file is needed only outside the components gets unstyled components.
+test("no adoption page says Svelte needs tokens.css only outside its components", () => {
+  const componentImports = readdirSync(join(root, "packages/svelte/src/lib"), {
+    recursive: true,
+  })
+    .filter((rel) => rel.endsWith(".svelte"))
+    .filter((rel) => read(`packages/svelte/src/lib/${rel}`).includes("tokens.css"));
+  assert.deepEqual(componentImports, [], "a Svelte component now imports tokens.css");
+  // packages/svelte/README.md is corrected and checked from the packed package
+  // by scripts/check-packed-consumers.mjs in its own change.
+  const stale = /outside\s+(them|component-scoped)/i;
+  const found = adoptionPages
+    .filter((page) => page !== "packages/svelte/README.md")
+    .filter((page) => stale.test(read(page)));
+  assert.deepEqual(found, []);
+});
