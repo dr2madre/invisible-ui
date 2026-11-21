@@ -98,6 +98,18 @@ test.describe("Elements <ds-multi-select> (harness)", () => {
     await expect(page.getByTestId("events-readout")).toHaveText("Events: none");
   });
 
+  test("an empty selection leaves no values list on screen or in the accessibility tree", async ({
+    page,
+  }) => {
+    const form = page.getByTestId("skills-form");
+    const values = form.getByRole("list", { name: "Selected values" });
+    await expect(values).toBeVisible();
+    await form.getByRole("button", { name: "Remove Vue" }).click();
+    await expect(page.getByTestId("events-readout")).toHaveText("Events: empty");
+    await expect(values).toHaveCount(0);
+    await expect(form.locator(".multi-select__values")).toBeHidden();
+  });
+
   test("submits repeated hidden inputs in selection order", async ({ page }) => {
     await input(page).click();
     await page.getByRole("option", { name: "Elements" }).click();
