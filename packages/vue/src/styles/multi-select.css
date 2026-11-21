@@ -42,6 +42,9 @@
   list-style: none;
   max-inline-size: 100%;
 }
+.multi-select__values[hidden] {
+  display: none;
+}
 .multi-select__value {
   display: inline-flex;
   max-inline-size: 100%;
