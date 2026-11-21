@@ -67,9 +67,9 @@ always close over current state — no listener bookkeeping.
 and Dialog (`packages/react`, 99 tests incl. axe, SSR and hydration). Part B: the same six as
 Reflex wrappers (`packages/reflex`, importable as `invisible_ui`; 8 render
 tests) — thin `rx.Component` subclasses over the React build, per ADR 0006.
-Until `@nozcadesign/invisible-ui-react` is published to npm, a consuming Reflex app must
-make the package resolvable itself (see the package README); the example app
-lives in `examples/reflex`.
+`@nozcadesign/invisible-ui-react` is published to npm as an alpha release; the
+package README describes how a Reflex app resolves it. The example app lives in
+`examples/reflex`.
 
 **What the pass proved:** the core needed **no change at all** to drive a second
 framework. That claim only became load-bearing with the **Combobox**: the first

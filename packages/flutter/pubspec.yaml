@@ -4,7 +4,7 @@ description: >-
   themed from the Invisible UI design tokens.
 version: 0.1.0-alpha.0
 repository: https://github.com/dr2madre/invisible-ui/tree/main/packages/flutter
-# The project publishes no packages: consumers depend on it by git.
+# This package is not published to pub.dev: consumers depend on it by git.
 publish_to: none
 
 environment:

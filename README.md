@@ -99,7 +99,8 @@ invisible-ui/
 │   ├── vue/               # @nozcadesign/invisible-ui-vue — the full Vue 3 adapter
 │   ├── react/             # @nozcadesign/invisible-ui-react — React adapter (full catalog)
 │   ├── elements/          # @nozcadesign/invisible-ui-elements — custom elements (full catalog)
-│   ├── reflex/            # invisible-ui (PyPI-style) — Reflex/Python wrappers over the React build
+│   ├── flutter/           # invisible_ui (Dart) — the Flutter adapter, by git, not on pub.dev
+│   ├── reflex/            # invisible-ui (Python, not on PyPI) — Reflex wrappers over the React build
 │   └── docs/              # the Astro + Starlight docs site
 ├── examples/
 │   ├── svelte/            # runnable Svelte example
@@ -132,7 +133,40 @@ once and shared. DOM-only properties with no HTML attribute (e.g. a checkbox's
 `indeterminate`) are declared by the core in a `rootDomProps` bag, so no adapter
 can silently forget them.
 
+## Install
+
+The five npm packages are published as alpha releases under the
+`alpha` dist-tag (`0.1.0-alpha.1` today):
+
+```bash
+pnpm add @nozcadesign/invisible-ui-svelte@alpha
+pnpm add @nozcadesign/invisible-ui-vue@alpha vue
+pnpm add @nozcadesign/invisible-ui-react@alpha react react-dom
+pnpm add @nozcadesign/invisible-ui-elements@alpha
+pnpm add @nozcadesign/invisible-ui-core@alpha     # the headless core alone
+```
+
+| Package | Stylesheet |
+| --- | --- |
+| `@nozcadesign/invisible-ui-svelte` | component-scoped styles; `@nozcadesign/invisible-ui-svelte/tokens.css` for the theme outside them |
+| `@nozcadesign/invisible-ui-vue` | `@nozcadesign/invisible-ui-vue/styles.css` |
+| `@nozcadesign/invisible-ui-react` | `@nozcadesign/invisible-ui-react/styles.css` |
+| `@nozcadesign/invisible-ui-elements` | `@nozcadesign/invisible-ui-elements/styles.css`, plus `@nozcadesign/invisible-ui-elements/define` to register every element |
+
+The Vue, React and Elements packages also export `tokens.css`, the design
+tokens without the component styles. A page without a build step can load the
+Elements stylesheet and its self-contained `define.js` from a CDN, pinned to
+an exact version: see
+[`packages/elements/README.md`](./packages/elements/README.md).
+
+The Flutter package (`invisible_ui`) is not published to pub.dev: depend on it
+by git, pinned to a commit, as
+[`packages/flutter/README.md`](./packages/flutter/README.md) shows. The Reflex
+package (`invisible-ui`) is not published to PyPI.
+
 ## Getting started
+
+These commands work on the repository itself:
 
 ```bash
 pnpm install     # install workspace dependencies

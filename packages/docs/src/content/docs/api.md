@@ -46,8 +46,7 @@ come from the package root (`@nozcadesign/invisible-ui-svelte`).
 
 ## React adapter: `use*` hooks
 
-The React adapter (`@nozcadesign/invisible-ui-react`) includes Button, Checkbox, Switch,
-Select, TextField, SearchField, Combobox, MultiSelect, Dialog and Icon. Its
+The React adapter (`@nozcadesign/invisible-ui-react`) carries the whole catalog. Its
 headless primitives
 are exposed as `use*` hooks. The connected API is recomputed each render and
 its prop bags are spread onto JSX; styled components and the hooks ship from

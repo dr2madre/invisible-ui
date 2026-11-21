@@ -50,18 +50,22 @@ A runnable app lives in [`examples/reflex`](../../examples/reflex).
 
 ## Resolving the npm package
 
-`@nozcadesign/invisible-ui-react` is currently **private/unpublished**, so the Reflex
-app's JS package manager must be able to resolve it before `reflex run`:
+`@nozcadesign/invisible-ui-react` is published on npm as an alpha release
+(`0.1.0-alpha.1`, under the `alpha` dist-tag). The wrappers name it without a
+version (`library = "@nozcadesign/invisible-ui-react"`), so the Reflex app's
+JavaScript package manager resolves whatever version the `latest` dist-tag
+points at. Today `latest` also points at `0.1.0-alpha.1`.
+
+To try a React build that is not published yet, pack it from this repository
+and make the Reflex project resolve the tarball (an npm override or
+resolution to its path):
 
 ```sh
-# Build a tarball from this repo…
 pnpm --filter @nozcadesign/invisible-ui-react build
-cd packages/react && npm pack        # → invisible-ui-react-0.1.0-alpha.0.tgz
+cd packages/react && pnpm pack
 ```
 
-…then make it resolvable in the Reflex project (an npm override / resolution to
-the tarball path, a local registry, or simply publishing the package). Once
-`@nozcadesign/invisible-ui-react` is on npm this section disappears.
+This Python package itself is not published to PyPI.
 
 ## Tests
 

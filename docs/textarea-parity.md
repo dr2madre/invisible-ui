@@ -89,10 +89,8 @@ the adapter suites cover form submission and accessibility wiring.
 
 ## Related: changesets
 
-The release workflow is dormant by design (`workflow_dispatch` only) and all
-five packages are `private: true`, so a changeset produces no release today.
-PRs #218–#234 carry none. Writing changesets for a subset now yields a
-changelog that looks complete and is not.
-
-When `private` comes off to publish, write one release changeset covering the
-range. `.github/workflows/release.yml` lists the four steps to go live.
+When this work was done, all five packages were `private: true` and a
+changeset produced no release; PRs #218–#234 carry none. The packages are now
+published on npm as alpha releases (`0.1.0-alpha.1`), and
+[`api-stability.md`](./api-stability.md) states when a change carries a
+changeset.
